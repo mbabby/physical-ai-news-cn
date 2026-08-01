@@ -1,0 +1,33 @@
+name: Daily physical AI digest
+
+on:
+  schedule:
+    # 00:30 UTC = 北京时间 08:30
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+      - run: pnpm test
+      - run: pnpm start
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+      - name: Commit updated digest
+        run: |
+          git add daily
+          git diff --cached --quiet || (git config user.name "physical-ai-news-bot" && git config user.email "actions@github.com" && git commit -m "chore: update daily physical AI digest" && git push)
