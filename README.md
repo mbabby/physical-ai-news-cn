@@ -84,17 +84,3 @@
 收录对象必须与机器人、具身智能、人形机器人、物理世界模型、机器人学习或其产业落地直接相关；优先采用官方公告、项目发布页和可信技术媒体。我们只保存链接、元数据与简短摘要，不转载原文。
 
 欢迎提交资讯源、资源条目和分类修正。请先阅读 [贡献指南](CONTRIBUTING.md)，再通过 Issue 或 PR 提交；每条内容需要原始链接、简短中文说明和所属分类。
-
-## 本地运行
-
-```bash
-corepack enable
-pnpm install --frozen-lockfile
-LLM_API_KEY=... LLM_BASE_URL=https://your-compatible-api/v1 LLM_MODEL=... pnpm start
-```
-
-未配置模型时仍可抓取和生成日报，但将显示原文标题并标记为未生成中文摘要。
-
-## 自动化配置
-
-在 GitHub 仓库的 Actions Secrets / Variables 中配置 `LLM_API_KEY`、`LLM_BASE_URL` 和 `LLM_MODEL`。工作流支持定时运行与手动触发。
