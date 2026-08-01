@@ -5,12 +5,20 @@ import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES } from "./config.js";
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
 import { filterAndRank } from "./filter.js";
-import { formatMarkdown } from "./formatter.js";
+import { formatHomepageDigest, formatMarkdown } from "./formatter.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import type { Article, DigestResult } from "./types.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const readmeStart = "<!-- DAILY_DIGEST_START -->";
+const readmeEnd = "<!-- DAILY_DIGEST_END -->";
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
+
+function updateReadme(readme: string, dailyMarkdown: string): string {
+  const expression = new RegExp(`${readmeStart}[\\s\\S]*?${readmeEnd}`);
+  if (!expression.test(readme)) throw new Error("README 缺少日报占位标记");
+  return readme.replace(expression, `${readmeStart}\n\n${formatHomepageDigest(dailyMarkdown)}\n\n${readmeEnd}`);
+}
 
 async function collect(windowHours: number): Promise<DigestResult> {
   const results = await Promise.allSettled(SOURCES.map((source) => source.type === "rss" ? fetchRssSource(source) : fetchAlgoliaSource(source, windowHours)));
@@ -28,7 +36,11 @@ async function main(): Promise<void> {
   const now = new Date(); const outputDir = join(root, "daily");
   await mkdir(outputDir, { recursive: true });
   const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
-  await writeFile(path, formatMarkdown(articles, windowHours, collected.failures, now), "utf8");
+  const markdown = formatMarkdown(articles, windowHours, collected.failures, now);
+  await writeFile(path, markdown, "utf8");
+  const { readFile } = await import("node:fs/promises");
+  const readmePath = join(root, "README.md");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), markdown), "utf8");
   console.log(`完成：收录 ${articles.length} 条资讯，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
