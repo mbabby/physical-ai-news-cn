@@ -27,7 +27,7 @@ export function discoverSourceCandidates(articles: Article[], configuredSources:
     if (!DISCOVERY_WORDS.some((word) => `${article.title} ${article.excerpt}`.toLowerCase().includes(word))) return [];
     const domain = host(article.link);
     const normalizedLink = article.link.replace(/\/$/, "");
-    if (!domain || domain === "news.ycombinator.com" || configuredFeeds.has(normalizedLink) || configuredNames.has(article.source) || seen.has(domain) || article.source.startsWith("自动发现")) return [];
+    if (!domain || domain === "news.ycombinator.com" || configuredFeeds.has(normalizedLink) || (configuredNames.has(article.source) && !article.source.startsWith("Hacker News")) || seen.has(domain) || article.source.startsWith("自动发现")) return [];
     seen.add(domain);
     return [{ domain, title: article.title, link: article.link }];
   });
