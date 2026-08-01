@@ -1,4 +1,4 @@
-export type ArticleKind = "产品发布" | "公司商业" | "部署案例" | "开源项目" | "研究与数据";
+export type ArticleKind = "投融资" | "产品发布" | "公司商业" | "部署案例" | "开源项目" | "研究与数据";
 
 export interface Article {
   id: string;

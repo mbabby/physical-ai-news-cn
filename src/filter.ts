@@ -1,8 +1,9 @@
 import type { Article, ArticleKind } from "./types.js";
 
 const RULES: Array<{ kind: ArticleKind; tags: string[]; words: string[] }> = [
+  { kind: "投融资", tags: ["投融资"], words: ["funding", "funded", "raises", "raised", "raise", "series a", "series b", "seed round", "valuation", "acquisition", "investment", "融资", "投资", "收购", "估值"] },
   { kind: "产品发布", tags: ["产品"], words: ["launch", "release", "introducing", "announce", "unveil", "发布", "推出"] },
-  { kind: "公司商业", tags: ["产业"], words: ["funding", "raise", "acquisition", "partnership", "investment", "融资", "合作"] },
+  { kind: "公司商业", tags: ["产业"], words: ["partnership", "contract", "revenue", "commercial", "customer", "合作", "订单", "商业化"] },
   { kind: "部署案例", tags: ["落地"], words: ["deploy", "deployment", "factory", "warehouse", "customer", "deployed", "部署"] },
   { kind: "开源项目", tags: ["开源"], words: ["github", "open source", "repository", "code", "release"] },
   { kind: "研究与数据", tags: ["研究"], words: ["paper", "dataset", "benchmark", "arxiv", "research", "数据集"] },
@@ -32,8 +33,8 @@ export function classify(article: Article): Article | undefined {
   const rule = RULES.find((candidate) => candidate.words.some((word) => text.includes(word)));
   const kind = rule?.kind ?? "公司商业";
   const tags = [...new Set([...(rule?.tags ?? ["产业"]), ...PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).slice(0, 3)])];
-  const industryBonus = kind === "产品发布" || kind === "公司商业" || kind === "部署案例" || kind === "开源项目" ? 8 : 2;
-  return { ...article, kind, tags, score: article.sourceWeight * 10 + relevance * 4 + industryBonus };
+  const priority: Record<ArticleKind, number> = { "投融资": 40, "产品发布": 28, "公司商业": 24, "部署案例": 20, "开源项目": 14, "研究与数据": 4 };
+  return { ...article, kind, tags, score: article.sourceWeight * 10 + relevance * 4 + priority[kind] };
 }
 
 export function filterAndRank(articles: Article[], windowHours: number, limit = 10): Article[] {

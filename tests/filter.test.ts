@@ -29,3 +29,11 @@ test("respects time window and daily limit", () => {
   const many = Array.from({ length: 12 }, (_, index) => item({ id: String(index), link: `https://example.com/${index}`, title: `Robot launch ${index}` }));
   assert.equal(filterAndRank([old, ...many], 24, 10).length, 10);
 });
+
+test("prioritizes funding over otherwise similar industry news", () => {
+  const result = filterAndRank([
+    item({ id: "commercial", link: "https://example.com/commercial", title: "Humanoid robot commercial partnership" }),
+    item({ id: "funding", link: "https://example.com/funding", title: "Humanoid robotics startup raises Series B funding" }),
+  ], 24);
+  assert.equal(result[0].kind, "投融资");
+});
