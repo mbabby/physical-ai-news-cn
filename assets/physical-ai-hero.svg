@@ -1,0 +1,57 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">物理 AI 情报终端</title>
+  <desc id="desc">抽象机械臂、世界模型节点与运动轨迹构成的物理 AI 横幅</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.55" stop-color="#0C1F35"/>
+      <stop offset="1" stop-color="#10283C"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="120" y1="95" x2="1040" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="0.52" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#5EEAD4"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="320" rx="18" fill="url(#background)"/>
+  <rect x="1" y="1" width="1198" height="318" rx="17" stroke="#31506A" stroke-opacity="0.65" stroke-width="2"/>
+  <g opacity="0.22" stroke="#7DD3FC" stroke-width="1">
+    <path d="M0 64H1200M0 128H1200M0 192H1200M0 256H1200"/>
+    <path d="M80 0V320M160 0V320M240 0V320M320 0V320M880 0V320M960 0V320M1040 0V320M1120 0V320"/>
+  </g>
+  <g opacity="0.65" stroke="url(#signal)" stroke-width="2" stroke-dasharray="7 8">
+    <path d="M72 235C190 195 217 271 337 222C462 171 440 91 590 118C727 143 770 249 913 203C1019 169 1041 87 1140 102"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="72" cy="235" r="6" fill="#38BDF8"/>
+    <circle cx="337" cy="222" r="6" fill="#38BDF8"/>
+    <circle cx="590" cy="118" r="7" fill="#5EEAD4"/>
+    <circle cx="913" cy="203" r="6" fill="#38BDF8"/>
+    <circle cx="1140" cy="102" r="7" fill="#5EEAD4"/>
+  </g>
+  <g transform="translate(874 46)" stroke="#A5F3FC" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 186L84 138L135 164L202 95" stroke-width="12" opacity="0.86"/>
+    <path d="M31 186L84 138L135 164L202 95" stroke="#07111F" stroke-width="4" opacity="0.75"/>
+    <circle cx="31" cy="186" r="18" fill="#0B2338" stroke-width="4"/>
+    <circle cx="84" cy="138" r="17" fill="#0B2338" stroke-width="4"/>
+    <circle cx="135" cy="164" r="17" fill="#0B2338" stroke-width="4"/>
+    <path d="M202 95L225 73M202 95L230 106M202 95L197 61" stroke-width="5"/>
+    <path d="M8 218H117" stroke-width="5" opacity="0.72"/>
+    <path d="M30 186L8 218M84 138L117 218" stroke-width="4" opacity="0.72"/>
+  </g>
+  <g fill="#67E8F9" opacity="0.9">
+    <circle cx="823" cy="68" r="3"/><circle cx="842" cy="49" r="2"/><circle cx="789" cy="100" r="2"/>
+  </g>
+  <g fill="#E0F2FE">
+    <text x="78" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="46" font-weight="700" letter-spacing="1">物理 AI 情报终端</text>
+    <text x="81" y="158" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="17" letter-spacing="3" fill="#7DD3FC">PHYSICAL AI INTELLIGENCE BRIEFING</text>
+  </g>
+  <g fill="#BAE6FD" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16">
+    <text x="81" y="230">追踪融资、产品、部署、开源与研究</text>
+    <text x="81" y="262" fill="#5EEAD4">WORLD MODELS  ·  VLA  ·  ROBOT LEARNING  ·  DEPLOYMENT</text>
+  </g>
+</svg>
