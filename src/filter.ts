@@ -1,7 +1,7 @@
 import type { Article, ArticleKind } from "./types.js";
 
 const RULES: Array<{ kind: ArticleKind; tags: string[]; words: string[] }> = [
-  { kind: "投融资", tags: ["投融资"], words: ["funding", "funded", "raises", "raised", "raise", "series a", "series b", "seed round", "valuation", "acquisition", "investment", "融资", "投资", "收购", "估值"] },
+  { kind: "投融资", tags: ["投融资"], words: ["funding", "funded", "raises", "raised", "raise", "series a", "series b", "seed round", "venture round", "valuation", "acquisition", "investment", "investor", "backed", "融资", "投资", "收购", "估值", "融资轮", "战略投资"] },
   { kind: "产品发布", tags: ["产品"], words: ["launch", "release", "introducing", "announce", "unveil", "发布", "推出"] },
   { kind: "公司商业", tags: ["产业"], words: ["partnership", "contract", "revenue", "commercial", "customer", "合作", "订单", "商业化"] },
   { kind: "部署案例", tags: ["落地"], words: ["deploy", "deployment", "factory", "warehouse", "customer", "deployed", "部署"] },
