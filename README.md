@@ -15,12 +15,12 @@
 暂无原文摘要，请阅读原文。
 *公司商业 · Hacker News · Robotics · 07-31 · #产业 · #humanoid*
 
-#### [美国人担心机器人抢走工作，但不担心自己的饭碗](https://www.semafor.com/article/07/31/2026/americans-worry-robots-will-take-jobs-but-not-theirs-survey-shows)
+#### [美国人担心机器人抢工作，但不担心自己的饭碗](https://www.semafor.com/article/07/31/2026/americans-worry-robots-will-take-jobs-but-not-theirs-survey-shows)
 
 暂无原文摘要，请阅读原文。
 *公司商业 · Hacker News · Robotics · 07-31 · #产业 · #robot*
 
-#### [因与性爱娃娃存在关联，一高中取消部署AI机器人"Sally"计划](https://www.dailymail.com/news/article-16017467/humanoid-robot-teacher-new-york-axes-plan.html)
+#### [因与性爱娃娃存在关联，一高中取消部署AI机器人Sally的计划](https://www.dailymail.com/news/article-16017467/humanoid-robot-teacher-new-york-axes-plan.html)
 
 暂无原文摘要，请阅读原文。
 *部署案例 · Hacker News · Humanoid · 07-31 · #落地 · #robot*
@@ -37,7 +37,35 @@
 
 <!-- WEEKLY_DIGEST_START -->
 
-本周精选将在首次日报生成后自动更新。
+### 本周精选 · 2026-W31
+
+过去 7 天 · 3 条高影响事件 · 投融资与产业动态优先
+
+#### [因与性爱娃娃存在关联，一高中取消部署AI机器人Sally的计划](https://www.dailymail.com/news/article-16017467/humanoid-robot-teacher-new-york-axes-plan.html)
+
+暂无原文摘要，请阅读原文。
+
+**入选原因：**展示了明确的真实场景部署；来源具备较高行业可信度。
+
+*部署案例 · Hacker News · Humanoid · 07-31 · #落地 · #robot*
+
+#### [远程操控人形机器人清洁服务](https://www.tau-robotics.com)
+
+暂无原文摘要，请阅读原文。
+
+**入选原因：**反映公司合作或商业化进展；来源具备较高行业可信度。
+
+*公司商业 · Hacker News · Robotics · 07-31 · #产业 · #humanoid*
+
+#### [美国人担心机器人抢工作，但不担心自己的饭碗](https://www.semafor.com/article/07/31/2026/americans-worry-robots-will-take-jobs-but-not-theirs-survey-shows)
+
+暂无原文摘要，请阅读原文。
+
+**入选原因：**反映公司合作或商业化进展；来源具备较高行业可信度。
+
+*公司商业 · Hacker News · Robotics · 07-31 · #产业 · #robot*
+
+
 
 <!-- WEEKLY_DIGEST_END -->
 
