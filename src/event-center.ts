@@ -128,7 +128,6 @@ function headlineFor(event: EventRecord, omitCompany = false): string {
 }
 function summaryFor(event: EventRecord): string { const fact = eventFact(event); return fact && hasChinese(fact) ? fact : "已纳入可追溯信源，中文事实简介将在更新后补齐。"; }
 function eventTags(event: EventRecord): string { return [`<kbd>${event.type}</kbd>`, ...event.routes.slice(0, 2).map((route) => `<kbd>${route}</kbd>`), `<sub>${event.lastUpdatedAt.slice(5, 10)}</sub>`].join(" "); }
-function articleTags(article: Article): string { return [`<kbd>论文</kbd>`, ...article.tags.slice(0, 2).map((tag) => `<kbd>${tag}</kbd>`), `<sub>${article.publishedAt.toISOString().slice(5, 10)}</sub>`].join(" "); }
 function articleTitle(article: Article): string { return hasChinese(article.titleZh ?? "") ? cleanTitle(article.titleZh!) : "物理 AI 研究论文"; }
 function articleSummary(article: Article): string { return meaningful(article.summaryZh) && hasChinese(article.summaryZh!) ? article.summaryZh! : "已收录论文原文，中文事实简介将在更新后补齐。"; }
 function displayable(event: EventRecord): boolean {
@@ -153,7 +152,7 @@ export function formatRecentEvents(events: EventRecord[]): string {
 
 export function formatResearchUpdates(articles: Article[]): string {
   if (!articles.length) return "近期暂无满足相关性门槛的论文。";
-  return articles.slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link}) ${articleTags(article)}<br>${articleSummary(article)}`).join("\n\n");
+  return articles.slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
 }
 
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }
