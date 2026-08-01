@@ -18,14 +18,16 @@
 
 <!-- DAILY_DIGEST_START -->
 
-### 最新日报 · 2026-08-01
+##### 最新日报 · 2026-08-01
 
-> 过去 24 小时 · 1 条精选 · 投融资与产业动态优先
+> 过去 24 小时 · 0 条精选 · 投融资与产业动态优先
 
-#### [谷歌DeepMind推出Gemini Robotics 2，驱动新一代自适应机器人](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
+今日暂无高可信产业动态。已持续监测官方、开源与行业信源。
+---
 
-谷歌DeepMind发布Gemini Robotics 2，作为新一代真正自适应机器人的智能层，可实现智能全身控制、先进灵巧操作与多机器人协作。本期视频精选还涵盖灵巧手影戏、四足运动迁移等多项机器人演示。
-*产品发布 · IEEE Spectrum · Robotics · 07-31 · #产品 · #robot*
+#### 抓取状态
+
+- X · 产业领军者观察：失败（HTTP 402 Payment Required）
 
 
 
@@ -41,16 +43,9 @@
 
 > 自动周榜 · 2026-W31
 
-**过去 7 天 · 1 条高影响事件 · 投融资与产业动态优先**
+**过去 7 天 · 0 条高影响事件 · 投融资与产业动态优先**
 
-#### [谷歌DeepMind推出Gemini Robotics 2，驱动新一代自适应机器人](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
-
-谷歌DeepMind发布Gemini Robotics 2，作为新一代真正自适应机器人的智能层，可实现智能全身控制、先进灵巧操作与多机器人协作。本期视频精选还涵盖灵巧手影戏、四足运动迁移等多项机器人演示。
-
-> 入选原因：代表产品或能力的重要发布；来源具备较高行业可信度。
-
-*产品发布 · IEEE Spectrum · Robotics · 07-31 · #产品 · #robot*
-
+本周暂无达到首页展示阈值的高影响事件。日报仍会持续更新。
 
 
 <!-- WEEKLY_DIGEST_END -->
