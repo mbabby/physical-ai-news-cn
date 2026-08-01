@@ -124,6 +124,7 @@ export interface EventStore {
 export interface CompanyProfile {
   name: string;
   region: string;
+  stage?: "平台公司" | "成长公司" | "创业公司";
   routes: TechnicalRoute[];
   thesis: string;
   officialUrl: string;

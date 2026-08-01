@@ -5,6 +5,11 @@ on:
     # 00:30 UTC = 北京时间 08:30
     - cron: "30 0 * * *"
   workflow_dispatch:
+    inputs:
+      hours:
+        description: "回填窗口（首次初始化填 720；日更留空）"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -26,12 +31,13 @@ jobs:
       - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
       - run: pnpm run check
       - run: pnpm test
-      - run: pnpm start
+      - run: pnpm start -- --hours "${DIGEST_HOURS:-24}"
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
           LLM_MODEL: ${{ vars.LLM_MODEL }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          DIGEST_HOURS: ${{ inputs.hours }}
       - name: Commit updated digest
         run: |
           git add daily weekly sources review resources events FACTS_POLICY.md README.md

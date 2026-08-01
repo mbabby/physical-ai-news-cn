@@ -6,7 +6,7 @@ import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
 import { fetchXSource } from "./fetchers/x.js";
 import { filterAndRank } from "./filter.js";
-import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatRecentConfirmed, formatWeeklyMarkdown } from "./formatter.js";
+import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
@@ -16,12 +16,6 @@ import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, Di
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const readmeStart = "<!-- DAILY_DIGEST_START -->";
-const readmeEnd = "<!-- DAILY_DIGEST_END -->";
-const weeklyStart = "<!-- WEEKLY_DIGEST_START -->";
-const weeklyEnd = "<!-- WEEKLY_DIGEST_END -->";
-const recentStart = "<!-- RECENT_CONFIRMED_START -->";
-const recentEnd = "<!-- RECENT_CONFIRMED_END -->";
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
@@ -33,8 +27,8 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, dailyMarkdown: string, weeklyMarkdown: string, recentConfirmed: Article[], events: EventStore, companies: CompanyProfile[]): string {
-  return replaceSection(replaceSection(replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), readmeStart, readmeEnd, formatHomepageDigest(dailyMarkdown)), weeklyStart, weeklyEnd, formatHomepageWeekly(weeklyMarkdown)), recentStart, recentEnd, formatRecentConfirmed(recentConfirmed));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[]): string {
+  return replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -94,7 +88,7 @@ async function main(): Promise<void> {
   const activeSources = applyRegistryWeights(configuredSources, await readRegistry(join(sourcesDir, "registry.json")));
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
-  const selected = filterAndRank(collected.articles, windowHours, MAX_DAILY_ARTICLES);
+  const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
@@ -126,8 +120,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  const recentConfirmed = (await readRecentDailyArticles(outputDir, now, 30)).filter((article) => article.sourceWeight >= 6).sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 3);
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), markdown, weeklyMarkdown, recentConfirmed, eventStore, companies), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies), "utf8");
   console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

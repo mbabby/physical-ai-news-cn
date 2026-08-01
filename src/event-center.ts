@@ -49,7 +49,8 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
 }
 
 export function formatRecentEvents(events: EventRecord[]): string {
-  const active = events.filter((event) => event.status !== "已归档").slice(0, 6);
+  const cutoff = Date.now() - 30 * 24 * 3_600_000;
+  const active = events.filter((event) => event.status !== "已归档" && new Date(event.lastUpdatedAt).getTime() >= cutoff).slice(0, 8);
   if (!active.length) return "> 暂无已确证事件；系统仍在持续核验候选信号。";
   const lines = ["> 展示近 30 天仍在演进的高可信事件；新证据会追加到同一事件，而非重复造新闻。", ""];
   for (const event of active) {
@@ -60,11 +61,13 @@ export function formatRecentEvents(events: EventRecord[]): string {
 }
 
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
-  const lines = ["> 公司档案记录“押注什么、已证明什么、仍待验证什么”，不是新闻列表。", ""];
+  const lines = ["> 覆盖平台公司、成长公司与创业公司；融资、产品和部署均须有对应事件证据才会显示为“已确证”。", "", "| 公司 | 地域 / 阶段 | 技术位置 | 最近可核验进展 |", "| --- | --- | --- | --- |"];
   for (const company of companies) {
     const latest = events.find((event) => event.entities.includes(company.name));
-    lines.push(`### [${company.name}](${company.officialUrl}) · ${company.region}`, "", `**核心押注：** ${company.thesis}`, "", `**路线：** ${company.routes.join(" / ")}`, "", latest ? `**最近确证：** ${latest.title}（${latest.status}，${latest.lastUpdatedAt.slice(0, 10)}）` : "**最近确证：** 正在建立事件档案。", "");
+    const progress = latest ? `${latest.title}（${latest.status}）` : "等待可核验事件";
+    lines.push(`| [${company.name}](${company.officialUrl}) | ${company.region} / ${company.stage ?? "观察"} | ${company.routes.join("、")} | ${progress} |`);
   }
+  lines.push("", "各公司“核心押注、融资与部署证据、待验证问题”会在事件中心累计后进入独立档案页。");
   return lines.join("\n");
 }
 
