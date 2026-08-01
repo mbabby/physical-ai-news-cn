@@ -32,11 +32,11 @@ export function formatMarkdown(articles: Article[], windowHours: number, _failur
 /** Convert a complete daily archive page into a subsection suitable for README. */
 export function formatHomepageDigest(dailyMarkdown: string): string {
   return dailyMarkdown
-    .replace(/^# 物理 AI 每日资讯 — (.+)$/m, "### 最新日报 · $1")
-    .replace(/^(过去 \d+ 小时 · .+)$/m, "> $1")
     .replace(/^#### /gm, "###### ")
     .replace(/^### /gm, "##### ")
     .replace(/^## /gm, "#### ")
+    .replace(/^# 物理 AI 每日资讯 — (.+)$/m, "### 最新日报 · $1")
+    .replace(/^(过去 \d+ 小时 · .+)$/m, "> $1")
     .replace(/^---\n\n\*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。\*$/m, "");
 }
 
