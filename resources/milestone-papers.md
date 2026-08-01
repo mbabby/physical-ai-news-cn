@@ -14,12 +14,12 @@
 
 | 顺序 | 论文 | 读完应获得的能力 |
 | --- | --- | --- |
-| 1 | [World Models](#world-models) | 理解“预测世界，再选择动作”的基本范式。 |
-| 2 | [RT-1](#rt-1-robotics-transformer-for-real-world-control-at-scale) | 理解真实机器人多任务数据如何被统一策略消费。 |
-| 3 | [PaLM-E](#palm-e-an-embodied-multimodal-language-model) | 理解语言模型怎样接入视觉、状态与机器人推理。 |
-| 4 | [Open X-Embodiment](#open-x-embodiment-robotic-learning-datasets-and-rt-x-models) | 理解跨本体数据、开放数据与策略迁移。 |
-| 5 | [Diffusion Policy](#diffusion-policy-visuomotor-policy-learning-via-action-diffusion) | 理解连续、多峰机器人动作为何适合生成式建模。 |
-| 6 | [$\pi_0$](#pi_0-a-vision-language-action-flow-model-for-general-robot-control) | 看清具身基础模型的当代产业实现路径。 |
+| 1 | [World Models](https://arxiv.org/abs/1803.10122) | 理解“预测世界，再选择动作”的基本范式。 |
+| 2 | [RT-1](https://arxiv.org/abs/2212.06817) | 理解真实机器人多任务数据如何被统一策略消费。 |
+| 3 | [PaLM-E](https://arxiv.org/abs/2303.03378) | 理解语言模型怎样接入视觉、状态与机器人推理。 |
+| 4 | [Open X-Embodiment](https://arxiv.org/abs/2310.08864) | 理解跨本体数据、开放数据与策略迁移。 |
+| 5 | [Diffusion Policy](https://arxiv.org/abs/2303.04137) | 理解连续、多峰机器人动作为何适合生成式建模。 |
+| 6 | [π0](https://arxiv.org/abs/2410.24164) | 看清具身基础模型的当代产业实现路径。 |
 
 ## 路线一：世界模型与规划
 
@@ -74,7 +74,7 @@
 - **里程碑原因：** 首次以开放协作方式将跨机器人数据与通用策略模型绑定，形成后续 VLA 的共同语言。
 - **阅读前置：** RT-1。
 
-### [$\pi_0$: A Vision-Language-Action Flow Model for General Robot Control](https://arxiv.org/abs/2410.24164) · 2024 · **核心**
+### [π0: A Vision-Language-Action Flow Model for General Robot Control](https://arxiv.org/abs/2410.24164) · 2024 · **核心**
 
 - **定位：** 具身基础模型的连续动作路线。
 - **作者：** Kevin Black 等（Physical Intelligence）
@@ -145,7 +145,7 @@
 
 **仍未解决的事。** 动作 token 化会损失连续控制细节，数据分布仍局限于采集本体和场景；后续工作转向跨本体数据、VLM 预训练与生成式连续动作。
 
-### $\pi_0$：具身基础模型如何走向连续控制
+### π0：具身基础模型如何走向连续控制
 
 **核心方法。** 它复用视觉语言预训练的语义能力，同时以 flow matching 生成连续动作，并在不同机器人本体、不同任务上学习同一个策略家族。
 
@@ -156,8 +156,8 @@
 ## 按角色阅读
 
 1. **刚入门：** 先读六篇；再从 World Models 或 Diffusion Policy 选一篇深度精读。
-2. **做 VLA / 策略：** RT-1 → PaLM-E → Open X-Embodiment → Diffusion Policy → $\pi_0$。
-3. **做数据与硬件闭环：** Mobile ALOHA → RT-1 → Open X-Embodiment → $\pi_0$。
+2. **做 VLA / 策略：** RT-1 → PaLM-E → Open X-Embodiment → Diffusion Policy → π0。
+3. **做数据与硬件闭环：** Mobile ALOHA → RT-1 → Open X-Embodiment → π0。
 4. **做仿真与评测：** RoboCasa → ManiSkill3，再回看 Open X-Embodiment 的跨平台数据问题。
 
 ## 维护规则
