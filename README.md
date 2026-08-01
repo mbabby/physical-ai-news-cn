@@ -15,13 +15,13 @@
 
 <!-- EVENT_CENTER_START -->
 
-- [李飞飞World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-01</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
+- [World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-01</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 
-- [中科院系农业机器人公司融资数亿元，奇瑞参投](https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>一家中科院系农业机器人公司完成数亿元融资，奇瑞也参与投资，成为该公司投资方之一。
+- [中科院系农业机器人公司完成数亿元融资，奇瑞参投](https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>一家中科院系农业机器人公司完成数亿元融资，奇瑞也参与投资，成为该公司投资方之一。
+
+- [真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人](https://news.google.com/rss/articles/CBMiZkFVX3lxTFBMX0JIWFhWVVVJeU5UcHNBbEFDX3lnWi1TeGdPRFZBbGxqTGtZQmhDaWl2Q2ozWW1lTDZDYWlKQVVUMkI5RTRWWVNfY1hpdEtpcGg1T05Kd3pMblZGTkM1b0ZlUkl5QQ?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>真兰仪表拟以1.98亿元收购芜湖藦卡66%股权，跨界进入工业机器人领域，相关整合风险值得关注。
 
 - [机器人：融资净买入85.18万元，融资余额10.55亿元](https://news.google.com/rss/articles/CBMiYEFVX3lxTFAxWHRyblBZZkM3WnU3R3Z2c3pwaml6aUc1aUFuMlFJUjV5U3ZvMDh2RUJiaGJjbmhKWlBtTjVSN1BySnBGdHFWT2tQSmJiR3laRUF5SWlhamVkU0dvZ0tUdg?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>数据显示，机器人融资净买入85.18万元，融资余额为10.55亿元，反映了该股票近期的融资交易情况。
-
-- [真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人领域](https://news.google.com/rss/articles/CBMiZkFVX3lxTFBMX0JIWFhWVVVJeU5UcHNBbEFDX3lnWi1TeGdPRFZBbGxqTGtZQmhDaWl2Q2ozWW1lTDZDYWlKQVVUMkI5RTRWWVNfY1hpdEtpcGg1T05Kd3pMblZGTkM1b0ZlUkl5QQ?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>真兰仪表拟以1.98亿元收购芜湖藦卡66%股权，跨界进入工业机器人领域，相关整合风险值得关注。
 
 - [Enigma融资7100万美元，让控制机器人像调节音量一样简单](https://techcrunch.com/2026/07/27/enigma-raises-70m-to-make-controlling-a-robot-as-easy-as-adjusting-the-volume/) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>Enigma完成7100万美元种子轮融资，由Index Ventures和Ribbit Capital领投，Sarah Guo的Conviction Partners参投，以简化机器人控制。
 
@@ -40,15 +40,15 @@
 
 ### 融资与并购
 
-- **World Labs** · [李飞飞World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-01
-- **行业公司** · [中科院系农业机器人公司融资数亿元，奇瑞参投](https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5) · 2026-08-01
+- **World Labs** · [收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-01
+- **中科院系农业机器人公司** · [中科院系农业机器人公司完成数亿元融资，奇瑞参投](https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5) · 2026-08-01
+- **行业公司** · [真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人](https://news.google.com/rss/articles/CBMiZkFVX3lxTFBMX0JIWFhWVVVJeU5UcHNBbEFDX3lnWi1TeGdPRFZBbGxqTGtZQmhDaWl2Q2ozWW1lTDZDYWlKQVVUMkI5RTRWWVNfY1hpdEtpcGg1T05Kd3pMblZGTkM1b0ZlUkl5QQ?oc=5) · 2026-08-01
 - **行业公司** · [机器人：融资净买入85.18万元，融资余额10.55亿元](https://news.google.com/rss/articles/CBMiYEFVX3lxTFAxWHRyblBZZkM3WnU3R3Z2c3pwaml6aUc1aUFuMlFJUjV5U3ZvMDh2RUJiaGJjbmhKWlBtTjVSN1BySnBGdHFWT2tQSmJiR3laRUF5SWlhamVkU0dvZ0tUdg?oc=5) · 2026-08-01
-- **行业公司** · [真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人领域](https://news.google.com/rss/articles/CBMiZkFVX3lxTFBMX0JIWFhWVVVJeU5UcHNBbEFDX3lnWi1TeGdPRFZBbGxqTGtZQmhDaWl2Q2ozWW1lTDZDYWlKQVVUMkI5RTRWWVNfY1hpdEtpcGg1T05Kd3pMblZGTkM1b0ZlUkl5QQ?oc=5) · 2026-08-01
 - **Enigma** · [完成7100万美元融资](https://news.google.com/rss/articles/CBMihAFBVV95cUxONnQ3bkxfckoxd096Q1pEV3BQT3FIYktzRmYzS3E0VGVRS3JTWkZxVUNwbmZObVdGdHJrLXBwY09BN2hJb3AybFJiUVJ0djhHbENPY01jS3BSN01zU3JlOGU1ZE04eTBvNFV3MW1UaGRENGdUeElPeFNpRUM5clhMN2RveGXSAYQBQVVfeXFMTjZ0N25MX3JKMXdPekNaRFdwUE9xSGJLc0ZmM0txNFRlUUtyU1pGcVVDcG5mTm1XRnRyay1wcGNPQTdoSW9wMmxSYlFSdHY4R2xDT2NNY0twUjdNc1NyZThlNWRNOHkwbzRVdzFtVGhkRDRnVHhJT3hTaUVDOXJYTDdkb3hl?oc=5) · 2026-08-01
 
 ### 公司最新进展
 
-- **World Labs** · [李飞飞World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5)：李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
+- **World Labs** · [收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5)：李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)：Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
 - **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)：英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
 - **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)：Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
@@ -70,17 +70,17 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-- [让机器感知自身老化：硬件感知的自主智能框架](https://arxiv.org/abs/2607.28451v1)<br>研究者提出老化感知自主智能框架，将硬件健康融入推理与规划，通过自感知、自适应推理和生存导向智能，延长自主系统寿命并提升安全性。
+- [知晓自身老化的机器：硬件感知自主智能框架](https://arxiv.org/abs/2607.28451v1)<br>自主系统会老化，但人工智能常假设硬件完好，易导致任务失败。AAAI框架将硬件健康融入推理、规划与执行，提升韧性、延长寿命。
 
-- [RoboBRIDGE：将策略转化为稳健真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>该框架通过监测、感知、规划等五个协同模块将预训练VLA组建为稳健机器人智能体，具备故障检测恢复与动态重规划能力，在多个基准和真实平台上优于独立策略。
+- [RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>RoboBRIDGE 以监控、感知、规划、控制与机器人接口五模块的协调层，将预训练 VLA 组装为可故障恢复、异步重规划的机器人智能体，在多个基准和真实平台上优于基线。
 
-- [RedFlow：将失败重定向为动作级修正的流匹配VLA策略](https://arxiv.org/abs/2607.27782v1)<br>RedFlow通过离线RL将失败经验转化为动作级修正监督，改进流匹配VLA策略，真实成功率由56.7%升至74.7%。
+- [RedFlow：将失败经验转化为动作级修正的流匹配 VLA 策略框架](https://arxiv.org/abs/2607.27782v1)<br>RedFlow 是将失败经验转化为动作级纠正监督的细粒度离线强化学习框架，用于流匹配 VLA 策略；在 LIBERO 及真实任务中成功率由 56.7% 升至 74.7%。
 
-- [DexDirect：直接动觉手臂引导实现高效灵巧操作演示采集](https://arxiv.org/abs/2607.27784v1)<br>DexDirect通过直接拖动重力补偿机械臂结合视觉手部重定向采集灵巧演示，成功率较基线提升17.2倍，并降低认知负担。
+- [DexDirect：直接动觉手臂引导高效采集灵巧操作演示](https://arxiv.org/abs/2607.27784v1)<br>DexDirect 让操作者直接拖动重力补偿机械臂，并以单摄像头将另一只手重定向到13自由度灵巧手；成功演示数为 AnyTeleop、TeleDex 的17.2倍和3.2倍，扩散策略抓放成功率90%。
 
-- [Arm2Air：面向3D中继部署的跨形态骨架迁移](https://arxiv.org/abs/2607.27627v1)<br>Arm2Air将机械臂避障骨架跨形态迁移至无人机中继部署，结合低秩适配，规划耗时降低64.9%，瓶颈容量提升32.6%。
+- [Arm2Air：跨具身骨架迁移用于无人机三维中继组网](https://arxiv.org/abs/2607.27627v1)<br>Arm2Air 将机械臂避障骨架跨具身迁移至无人机中继布设，在高障碍城市地图中将规划耗时降低 64.9%，并提升瓶颈容量。
 
-- [FoMo-FD：基于流匹配世界模型的手术机器人模仿策略故障检测](https://arxiv.org/abs/2607.27511v1)<br>FoMo-FD以流匹配世界模型学习正常视觉动态，无需失败样本即可检测手术机器人模仿策略故障，实测检测率达96.6%。
+- [FoMo-FD：基于流匹配世界模型的手术机器人模仿策略故障检测](https://arxiv.org/abs/2607.27511v1)<br>FoMo-FD 以动作条件流匹配世界模型学习正常视觉动态，无需失败演示即可检出视觉动作不一致；dVRK 实验中腕部相机视角故障检出率 96.6%、误报率 1.3%。
 
 <!-- RESEARCH_UPDATES_END -->
 
