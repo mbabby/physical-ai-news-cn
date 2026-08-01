@@ -4,8 +4,18 @@ interface CompletionResponse { choices?: Array<{ message?: { content?: string } 
 interface SummaryPayload { titleZh?: string; summaryZh?: string }
 
 function parseSummary(content: string): SummaryPayload {
-  const json = content.match(/\{[\s\S]*\}/)?.[0] ?? content;
-  return JSON.parse(json) as SummaryPayload;
+  // JSON mode is not consistently implemented by every OpenAI-compatible
+  // provider. Accept it when available, then fall back to the deliberately
+  // simple two-line response format used in the prompt below.
+  try {
+    const json = content.match(/\{[\s\S]*\}/)?.[0] ?? content;
+    const parsed = JSON.parse(json) as SummaryPayload;
+    if (parsed.titleZh) return parsed;
+  } catch {}
+
+  const titleZh = content.match(/^标题[：:]\s*(.+)$/m)?.[1]?.trim();
+  const summaryZh = content.match(/^摘要[：:]\s*(.+)$/m)?.[1]?.trim();
+  return { titleZh, summaryZh };
 }
 
 export class CompatibleSummarizer {
@@ -13,14 +23,14 @@ export class CompatibleSummarizer {
 
   async summarize(article: Article): Promise<Article> {
     if (!this.settings.apiKey || !this.settings.baseUrl || !this.settings.model) {
-      return { ...article, titleZh: article.title, summaryZh: article.excerpt.trim() ? "未配置摘要服务；请阅读原文。" : undefined };
+      return { ...article, titleZh: article.title, summaryZh: "未配置摘要服务；请阅读原文。" };
     }
     try {
       const response = await fetch(`${this.settings.baseUrl.replace(/\/$/, "")}/chat/completions`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${this.settings.apiKey}` },
-        body: JSON.stringify({ model: this.settings.model, temperature: 0.1, messages: [
-          { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出一行合法 JSON，禁止 Markdown 或任何其他文字。JSON 字段为 titleZh（简洁、自然的中文标题）和 summaryZh。若给有来源摘要，summaryZh 写成一段 40 至 90 字的中文事实摘要，不得补充未给出的事实；若来源摘要为空，summaryZh 必须为空字符串，只翻译标题。" },
+        body: JSON.stringify({ model: this.settings.model, messages: [
+          { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出两行纯文本，不要 Markdown、JSON 或解释。第一行固定为“标题：”加简洁自然的中文标题；第二行固定为“摘要：”。有来源摘要时，摘要写 40 至 90 字的中文事实摘要，不得补充未给出的事实；来源摘要为空时，摘要写“暂无原文摘要，请阅读原文。”。" },
           { role: "user", content: `标题：${article.title}\n来源摘要：${article.excerpt.slice(0, 4000) || "（无）"}` },
         ] }),
       });
@@ -29,9 +39,9 @@ export class CompatibleSummarizer {
       const content = data.choices?.[0]?.message?.content ?? "";
       const parsed = parseSummary(content);
       if (!parsed.titleZh) throw new Error("模型响应缺少中文标题");
-      return { ...article, titleZh: parsed.titleZh.trim(), summaryZh: parsed.summaryZh?.trim() || undefined };
+      return { ...article, titleZh: parsed.titleZh.trim(), summaryZh: parsed.summaryZh?.trim() || "暂无原文摘要，请阅读原文。" };
     } catch (error) {
-      return { ...article, titleZh: article.title, summaryZh: article.excerpt.trim() ? "暂未生成摘要，请阅读原文。" : undefined };
+      return { ...article, titleZh: article.title, summaryZh: "暂未生成中文摘要，请阅读原文。" };
     }
   }
 }
