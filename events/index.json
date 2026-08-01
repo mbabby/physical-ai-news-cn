@@ -1,18 +1,26 @@
 {
-  "updatedAt": "2026-08-01T00:00:00.000Z",
+  "updatedAt": "2026-08-01T15:25:09.571Z",
   "events": [
     {
       "id": "evt-gemini-robotics-2",
       "title": "谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力",
       "type": "产品发布",
-      "entities": ["Google DeepMind"],
-      "routes": ["VLA 与具身模型"],
-      "status": "持续跟踪",
+      "entities": [
+        "Google DeepMind"
+      ],
+      "routes": [
+        "VLA 与具身模型"
+      ],
+      "status": "已确证",
       "firstSeenAt": "2026-07-31T00:00:00.000Z",
-      "lastUpdatedAt": "2026-07-31T00:00:00.000Z",
-      "lastVerifiedAt": "2026-07-31T00:00:00.000Z",
-      "facts": ["行业媒体报道了 Gemini Robotics 2 的自适应机器人、全身控制、灵巧操作与多机器人协作演示。"],
-      "openQuestions": ["尚需官方技术文档、真实部署与独立评测来确认泛化和工程可靠性。"],
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "行业媒体报道了 Gemini Robotics 2 的自适应机器人、全身控制、灵巧操作与多机器人协作演示。"
+      ],
+      "openQuestions": [
+        "尚需官方技术文档、真实部署与独立评测来确认泛化和工程可靠性。"
+      ],
       "evidence": [
         {
           "link": "https://spectrum.ieee.org/video-robot-gemini2-ai-robot",
@@ -20,13 +28,895 @@
           "grade": "B",
           "publishedAt": "2026-07-31T00:00:00.000Z",
           "supports": "报道 Gemini Robotics 2 的公开展示与定位。"
+        },
+        {
+          "link": "https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/",
+          "source": "Google DeepMind Blog",
+          "grade": "A",
+          "publishedAt": "2026-07-30T15:00:59.000Z",
+          "supports": "Gemini Robotics ER 2：以视频理解、任务编排与多机器人协作赋能机器人"
+        },
+        {
+          "link": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+          "source": "Google DeepMind Blog",
+          "grade": "A",
+          "publishedAt": "2026-07-28T13:21:37.000Z",
+          "supports": "Gemini Robotics 2 赋予机器人全身智能"
         }
       ],
       "timeline": [
         {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "暂无原文摘要，请阅读原文。",
+          "evidenceLinks": [
+            "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/"
+          ]
+        },
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。",
+          "evidenceLinks": [
+            "https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/"
+          ]
+        },
+        {
           "date": "2026-07-31T00:00:00.000Z",
           "summary": "该事件进入持续跟踪：当前可确认公开展示与媒体报道，不能据此推断规模化部署。",
-          "evidenceLinks": ["https://spectrum.ieee.org/video-robot-gemini2-ai-robot"]
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/video-robot-gemini2-ai-robot"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-2566138e1e58",
+      "title": "LeRobot v0.6.0 发布，默认依赖与强化学习接口调整",
+      "type": "产品发布",
+      "entities": [
+        "Physical Intelligence"
+      ],
+      "routes": [
+        "世界模型与空间智能",
+        "VLA 与具身模型",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "已确证",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "LeRobot v0.6.0 精简默认安装，数据集与训练依赖需按 extras 安装；导入路径调整，GR00T 升至 N1.7，PyTorch 至少 2.7，强化学习栈重建。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
+          "source": "LeRobot Releases",
+          "grade": "A",
+          "publishedAt": "2026-07-08T15:39:00.000Z",
+          "supports": "LeRobot v0.6.0 发布，默认依赖与强化学习接口调整"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "LeRobot v0.6.0 精简默认安装，数据集与训练依赖需按 extras 安装；导入路径调整，GR00T 升至 N1.7，PyTorch 至少 2.7，强化学习栈重建。",
+          "evidenceLinks": [
+            "https://github.com/huggingface/lerobot/releases/tag/v0.6.0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-9da8fb3e629b",
+      "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
+      "type": "产品发布",
+      "entities": [],
+      "routes": [
+        "世界模型与空间智能",
+        "部署与商业化"
+      ],
+      "status": "已确证",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier",
+          "source": "NVIDIA Newsroom",
+          "grade": "A",
+          "publishedAt": "2026-07-16T03:40:00.000Z",
+          "supports": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。",
+          "evidenceLinks": [
+            "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-13f77bbb5cb9",
+      "title": "谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者",
+      "type": "产品发布",
+      "entities": [],
+      "routes": [
+        "部署与商业化"
+      ],
+      "status": "已确证",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/",
+          "source": "Google DeepMind Blog",
+          "grade": "A",
+          "publishedAt": "2026-07-13T12:37:28.000Z",
+          "supports": "谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。",
+          "evidenceLinks": [
+            "https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-d56ace988ec4",
+      "title": "X Square Robot 为通用机器人打造一体化基础技术栈",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "世界模型与空间智能",
+        "VLA 与具身模型",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "具身智能公司X Square Robot提出覆盖交互数据、世界模型与动作模型的一体化机器人技术栈，通过真实机器人回放质检保障数据有效性，以低成本无机器人数据预训练，并主张以开放方式构建和发布。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/x-square-robot-embodied-ai-stack",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-13T10:19:51.000Z",
+          "supports": "X Square Robot 为通用机器人打造一体化基础技术栈"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "具身智能公司X Square Robot提出覆盖交互数据、世界模型与动作模型的一体化机器人技术栈，通过真实机器人回放质检保障数据有效性，以低成本无机器人数据预训练，并主张以开放方式构建和发布。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/x-square-robot-embodied-ai-stack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-fde324d0837c",
+      "title": "Video Friday：火星车测试平台或将变身核动力月球车",
+      "type": "投融资",
+      "entities": [
+        "Figure"
+      ],
+      "routes": [
+        "世界模型与空间智能",
+        "本体与硬件",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "IEEE Spectrum本周机器人视频精选：NASA提出PROMISE概念，拟将好奇号与毅力号火星车的地面测试车改造为核动力月球车，部署月球南极支持月球基地建设。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/video-friday-nasa-lunar-rover",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-03T15:00:01.000Z",
+          "supports": "Video Friday：火星车测试平台或将变身核动力月球车"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "IEEE Spectrum本周机器人视频精选：NASA提出PROMISE概念，拟将好奇号与毅力号火星车的地面测试车改造为核动力月球车，部署月球南极支持月球基地建设。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/video-friday-nasa-lunar-rover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-cf44ed14513e",
+      "title": "视频星期五：人形机器人外科医生即将为你看诊",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "加州大学圣迭戈分校团队系统评估了人形机器人执行腹腔镜手术的能力，通过台架测试、用户研究与猪体内实验验证其远程操作框架的可行性与临床准备度，指出前景可期但临床部署前仍有关键技术挑战。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/video-friday-robotic-surgery",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-17T16:00:01.000Z",
+          "supports": "视频星期五：人形机器人外科医生即将为你看诊"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "加州大学圣迭戈分校团队系统评估了人形机器人执行腹腔镜手术的能力，通过台架测试、用户研究与猪体内实验验证其远程操作框架的可行性与临床准备度，指出前景可期但临床部署前仍有关键技术挑战。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/video-friday-robotic-surgery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-c21b23b6ab59",
+      "title": "这位研究生让NASA机器人掌握卫星装配技能",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "研究生Sarah Downs与NASA及美国空军合作，开发算法助机器人在太空组装卫星时将天线准确插入孔位，解决经典“插孔”难题。她现为德州农工大学电气工程博士生，继续研究卫星装配与操控。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/graduate-student-nasas-robots-assembly",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-17T18:00:01.000Z",
+          "supports": "这位研究生让NASA机器人掌握卫星装配技能"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "研究生Sarah Downs与NASA及美国空军合作，开发算法助机器人在太空组装卫星时将天线准确插入孔位，解决经典“插孔”难题。她现为德州农工大学电气工程博士生，继续研究卫星装配与操控。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/graduate-student-nasas-robots-assembly"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-2ab25d9fb188",
+      "title": "日本曾引领人形机器人，如今能否追赶中国？",
+      "type": "产品发布",
+      "entities": [
+        "宇树科技"
+      ],
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/humanoid-robots-japan",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-04T11:00:01.000Z",
+          "supports": "日本曾引领人形机器人，如今能否追赶中国？"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/humanoid-robots-japan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-f2fee9e003ef",
+      "title": "彩色机器人指尖用光色感知触感",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "世界模型与空间智能",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "欧洲多校团队用机械变色布拉格反射膜制作机器人指尖皮肤，受压拉伸使反射光由红转绿再转蓝，内置相机读取颜色，实时生成拓扑、应变和接触压力图，已测绘人指尖、硬币与叶片，分辨率达100微米且无计算延迟。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/robot-finger",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-28T15:00:03.000Z",
+          "supports": "彩色机器人指尖用光色感知触感"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "欧洲多校团队用机械变色布拉格反射膜制作机器人指尖皮肤，受压拉伸使反射光由红转绿再转蓝，内置相机读取颜色，实时生成拓扑、应变和接触压力图，已测绘人指尖、硬币与叶片，分辨率达100微米且无计算延迟。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/robot-finger"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-d1b9b52ee354",
+      "title": "IEEE表彰机器人先驱福田敏男",
+      "type": "投融资",
+      "entities": [
+        "Figure"
+      ],
+      "routes": [
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "机器人学者福田敏男获IEEE理查德·M·安伯森奖，表彰其推动IEEE技术目标、尤其在机器人领域的杰出服务。他发表论文逾2000篇，创办IROS会议，2020年成为首位亚裔IEEE主席，4月24日在纽约领奖。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/ieee-honors-toshio-fukuda",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-07T19:02:42.000Z",
+          "supports": "IEEE表彰机器人先驱福田敏男"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "机器人学者福田敏男获IEEE理查德·M·安伯森奖，表彰其推动IEEE技术目标、尤其在机器人领域的杰出服务。他发表论文逾2000篇，创办IROS会议，2020年成为首位亚裔IEEE主席，4月24日在纽约领奖。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/ieee-honors-toshio-fukuda"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-e518ff452ab0",
+      "title": "视频星期五：机器人的世界杯",
+      "type": "产品发布",
+      "entities": [
+        "宇树科技",
+        "Figure"
+      ],
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/video-friday-robot-world-cup",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-10T16:00:01.000Z",
+          "supports": "视频星期五：机器人的世界杯"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/video-friday-robot-world-cup"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-f9bcda2f30b3",
+      "title": "人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "本体与硬件"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-06T06:05:29.000Z",
+          "supports": "人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-a6449c8d98ee",
+      "title": "意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤",
+      "type": "部署案例",
+      "entities": [],
+      "routes": [
+        "世界模型与空间智能",
+        "本体与硬件",
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "意大利Generative Bionics发布人形机器人GENE.01：团队六个月建成，机器人可行走、感知与交互，全身多模态皮肤能感知触觉、接近、力和温度，助力安全自然的人机协作。"
+      ],
+      "openQuestions": [
+        "公开信息是否能证明持续、规模化运行？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/video-friday-physical-ai-robotics",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-24T15:30:01.000Z",
+          "supports": "意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "意大利Generative Bionics发布人形机器人GENE.01：团队六个月建成，机器人可行走、感知与交互，全身多模态皮肤能感知触觉、接近、力和温度，助力安全自然的人机协作。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/video-friday-physical-ai-robotics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-f186ea1cf0fd",
+      "title": "西北大学研发高速旋转“隐形”无人机Phantom Twist",
+      "type": "产品发布",
+      "entities": [],
+      "routes": [
+        "部署与商业化"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "西北大学团队研发出Phantom Twist无人机，以每秒15至25次高速自旋，利用人眼视觉暂留效应实现近乎隐形，可见度比四旋翼无人机低一个数量级，仅靠单电机脉冲即可控制飞行。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/invisible-spinning-drone",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-16T16:09:21.000Z",
+          "supports": "西北大学研发高速旋转“隐形”无人机Phantom Twist"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "西北大学团队研发出Phantom Twist无人机，以每秒15至25次高速自旋，利用人眼视觉暂留效应实现近乎隐形，可见度比四旋翼无人机低一个数量级，仅靠单电机脉冲即可控制飞行。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/invisible-spinning-drone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-0000577f446a",
+      "title": "Enigma融资7100万美元，让控制机器人像调节音量一样简单",
+      "type": "投融资",
+      "entities": [],
+      "routes": [
+        "部署与商业化"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "Enigma完成7100万美元种子轮融资，由Index Ventures和Ribbit Capital领投，Sarah Guo的Conviction Partners参投，以简化机器人控制。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/27/enigma-raises-70m-to-make-controlling-a-robot-as-easy-as-adjusting-the-volume/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-27T13:00:00.000Z",
+          "supports": "Enigma融资7100万美元，让控制机器人像调节音量一样简单"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "Enigma完成7100万美元种子轮融资，由Index Ventures和Ribbit Capital领投，Sarah Guo的Conviction Partners参投，以简化机器人控制。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/27/enigma-raises-70m-to-make-controlling-a-robot-as-easy-as-adjusting-the-volume/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-b987fd5fb3fd",
+      "title": "光学技术可为机器人AI实时更新模型参数",
+      "type": "公司商业",
+      "entities": [],
+      "routes": [
+        "部署与商业化",
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "康奈尔理工团队开发出新型光接收器，用类似二维码的光束矩阵直接改写芯片内存，无需高耗能模拟电路即可更新AI模型参数，有望降低数据中心、自动驾驶与机器人系统的能耗。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/ai-in-robotics",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-26T13:00:01.000Z",
+          "supports": "光学技术可为机器人AI实时更新模型参数"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "康奈尔理工团队开发出新型光接收器，用类似二维码的光束矩阵直接改写芯片内存，无需高耗能模拟电路即可更新AI模型参数，有望降低数据中心、自动驾驶与机器人系统的能耗。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/ai-in-robotics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-cdc1596d521c",
+      "title": "地面机器人接管乌克兰前线“杀伤区”",
+      "type": "产品发布",
+      "entities": [],
+      "routes": [
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "乌克兰RoverTech公司研制的Zmiy无人地面车可执行排雷、运输、火力打击等任务，平均完成57次任务才被摧毁，远超同类约7次的水平；乌方计划2026年底前采购5万辆。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://spectrum.ieee.org/ukraine-ground-drones",
+          "source": "IEEE Spectrum · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-10T11:00:01.000Z",
+          "supports": "地面机器人接管乌克兰前线“杀伤区”"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "乌克兰RoverTech公司研制的Zmiy无人地面车可执行排雷、运输、火力打击等任务，平均完成57次任务才被摧毁，远超同类约7次的水平；乌方计划2026年底前采购5万辆。",
+          "evidenceLinks": [
+            "https://spectrum.ieee.org/ukraine-ground-drones"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-87e79a974906",
+      "title": "这家初创公司认为机器人即将迎来“ChatGPT时刻”",
+      "type": "公司商业",
+      "entities": [],
+      "routes": [
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "General Intuition押注数百万小时的电子游戏数据可用于训练物理AI的基础模型，从而以更少的真实世界数据打造更智能的机器人。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/08/this-startup-thinks-robotics-is-about-to-have-its-chatgpt-moment/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-08T19:19:15.000Z",
+          "supports": "这家初创公司认为机器人即将迎来“ChatGPT时刻”"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "General Intuition押注数百万小时的电子游戏数据可用于训练物理AI的基础模型，从而以更少的真实世界数据打造更智能的机器人。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/08/this-startup-thinks-robotics-is-about-to-have-its-chatgpt-moment/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-67c80c19917c",
+      "title": "美国以国家安全风险为由，禁止新型外国人形机器人、机器狗及太阳能逆变器",
+      "type": "公司商业",
+      "entities": [],
+      "routes": [
+        "本体与硬件"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "该禁令主要影响来自中国的进口产品，目前中国在全球人形机器人和太阳能逆变器制造市场占据主导地位。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/29/us-government-bans-new-foreign-made-humanoids-robot-dogs-and-solar-inverters-citing-risks-to-national-security/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-29T17:41:09.000Z",
+          "supports": "美国以国家安全风险为由，禁止新型外国人形机器人、机器狗及太阳能逆变器"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "该禁令主要影响来自中国的进口产品，目前中国在全球人形机器人和太阳能逆变器制造市场占据主导地位。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/29/us-government-bans-new-foreign-made-humanoids-robot-dogs-and-solar-inverters-citing-risks-to-national-security/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-46afdafa077d",
+      "title": "Agility Robotics 在特斯拉“后院”插上旗帜",
+      "type": "公司商业",
+      "entities": [
+        "Tesla"
+      ],
+      "routes": [
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-17T20:19:49.000Z",
+          "supports": "Agility Robotics 在特斯拉“后院”插上旗帜"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-27666e7fb9fc",
+      "title": "脑电波会是物理AI的下一个突破口吗？",
+      "type": "公司商业",
+      "entities": [],
+      "routes": [
+        "数据与训练"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "前沿物理AI模型仅靠YouTube视频已不够，还需要多角度摄像头画面、密集标注，并可能很快引入脑电波数据用于训练。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/26/are-brain-waves-the-next-unlock-for-physical-ai/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-27T00:19:14.000Z",
+          "supports": "脑电波会是物理AI的下一个突破口吗？"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "前沿物理AI模型仅靠YouTube视频已不够，还需要多角度摄像头画面、密集标注，并可能很快引入脑电波数据用于训练。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/26/are-brain-waves-the-next-unlock-for-physical-ai/"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evt-267ee18d9a84",
+      "title": "Gritt 走出隐身模式，用机器人建太阳能电站并拓展更多场景",
+      "type": "公司商业",
+      "entities": [],
+      "routes": [
+        "部署与商业化"
+      ],
+      "status": "持续跟踪",
+      "firstSeenAt": "2026-08-01T15:25:09.571Z",
+      "lastUpdatedAt": "2026-08-01T15:25:09.571Z",
+      "lastVerifiedAt": "2026-08-01T15:25:09.571Z",
+      "facts": [
+        "Gritt 结束隐身状态，获得 3400 万美元融资，计划将建筑工地上最艰难的任务自动化，从太阳能电站建设逐步扩展到更多场景。"
+      ],
+      "openQuestions": [
+        "后续是否有一手技术细节、客户或复现证据？"
+      ],
+      "evidence": [
+        {
+          "link": "https://techcrunch.com/2026/07/21/gritt-exits-stealth-with-34-million-for-robots-to-build-solar-plants-then-everything-else/",
+          "source": "TechCrunch · Robotics",
+          "grade": "B",
+          "publishedAt": "2026-07-21T10:00:00.000Z",
+          "supports": "Gritt 走出隐身模式，用机器人建太阳能电站并拓展更多场景"
+        }
+      ],
+      "timeline": [
+        {
+          "date": "2026-08-01T15:25:09.571Z",
+          "summary": "Gritt 结束隐身状态，获得 3400 万美元融资，计划将建筑工地上最艰难的任务自动化，从太阳能电站建设逐步扩展到更多场景。",
+          "evidenceLinks": [
+            "https://techcrunch.com/2026/07/21/gritt-exits-stealth-with-34-million-for-robots-to-build-solar-plants-then-everything-else/"
+          ]
         }
       ]
     }
