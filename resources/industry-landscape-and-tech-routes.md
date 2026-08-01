@@ -4,38 +4,38 @@
 
 ## 数据与训练
 
-- [World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 - [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
-- [X Square Robot 为通用机器人打造一体化基础技术栈](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [Video Friday：火星车测试平台或将变身核动力月球车](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [视频星期五：机器人的世界杯](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [日本曾引领人形机器人，如今能否追赶中国？](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 
 ## VLA 与具身模型
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](../events/index.json) · 已确证 · 更新 2026-08-01
 - [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
-- [X Square Robot 为通用机器人打造一体化基础技术栈](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [视频星期五：机器人的世界杯](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 - [日本曾引领人形机器人，如今能否追赶中国？](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 
 ## 世界模型与空间智能
 
-- [World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
 - [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](../events/index.json) · 已确证 · 更新 2026-08-01
-- [X Square Robot 为通用机器人打造一体化基础技术栈](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
+- [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [World Labs 收购 SceniX，物理 AI 训练从“采数据”走向“造世界”](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 
 ## 本体与硬件
 
-- [Video Friday：火星车测试平台或将变身核动力月球车](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [日本曾引领人形机器人，如今能否追赶中国？](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 - [视频星期五：机器人的世界杯](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [视频星期五：人形机器人外科医生即将为你看诊](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [日本曾引领人形机器人，如今能否追赶中国？](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 
 ## 部署与商业化
 
-- [中科院系农业机器人公司完成数亿元融资，奇瑞参投](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [2026年7月机器人领域十大新闻](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [具身智能榜单生意链：刷榜狂欢背后的繁荣与泡沫](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](../events/index.json) · 已确证 · 更新 2026-08-01
+- [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
+- [谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者](../events/index.json) · 已确证 · 更新 2026-08-01
+- [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](../events/index.json) · 持续跟踪 · 更新 2026-08-01
 
 ## 证据规则
 
