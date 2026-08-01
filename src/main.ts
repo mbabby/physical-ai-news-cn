@@ -11,7 +11,7 @@ import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, upsertEvents } from "./event-center.js";
+import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "./event-center.js";
 import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -20,6 +20,8 @@ const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
 const companyEnd = "<!-- COMPANY_RADAR_END -->";
+const researchStart = "<!-- RESEARCH_UPDATES_START -->";
+const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
@@ -27,8 +29,8 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[]): string {
-  return replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[]): string {
+  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -89,10 +91,14 @@ async function main(): Promise<void> {
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
   const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
+  // arXiv's submission calendar has gaps on weekends. A three-day research
+  // window keeps the homepage fresh without treating a quiet day as no news.
+  const researchSelected = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), Math.max(windowHours, 72), 6);
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
   const articles = await Promise.all(selected.map((article) => summarizer.summarize(article)));
+  const researchArticles = await Promise.all(researchSelected.map((article) => summarizer.summarize(article)));
   const eventPath = join(eventsDir, "index.json");
   const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
@@ -106,7 +112,8 @@ async function main(): Promise<void> {
   const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, articles.length, sourceNetworkSummary(candidateRegistry));
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], discoveredSources };
+  const archiveArticles = [...articles, ...researchArticles.filter((article) => !articles.some((selectedArticle) => selectedArticle.id === article.id))];
+  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], discoveredSources };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
@@ -120,7 +127,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, researchArticles), "utf8");
   console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

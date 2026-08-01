@@ -35,6 +35,7 @@ function statusFor(article: Article): EventStatus { return grade(article) === "A
 function isFundingTitle(value: string): boolean { return FUNDING_WORDS.some((word) => value.toLowerCase().includes(word)); }
 function meaningful(value: string | undefined): boolean { return Boolean(value?.trim()) && !/暂无原文摘要|请阅读原文|自动摘要失败|未配置模型|未配置摘要服务|暂未生成中文摘要/.test(value ?? ""); }
 function hasChinese(value: string): boolean { return /[\u3400-\u9fff]/.test(value); }
+function cleanTitle(value: string): string { return value.replace(/\s*[-—|｜]\s*(?:Business Wire|Ventureburn|AI Insider|The Robot Report|Arctic Today|TechCrunch|IEEE Spectrum).*$/i, "").trim(); }
 function fundingSubject(event: EventRecord): string | undefined {
   const title = event.title.replace(/\s+-\s+[^-]+$/, "").trim();
   const english = title.match(/^(.{2,50}?)\s+(?:raises?|raised|completes?|secured|lands?)\b/i)?.[1];
@@ -108,14 +109,28 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
   return { updatedAt: now.toISOString(), events: mergeRepeatedFunding(events).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)) };
 }
 
-function eventFact(event: EventRecord): string | undefined { return [...event.timeline.map((item) => item.summary), ...event.facts].find(meaningful); }
-function whyItMatters(event: EventRecord): string {
-  if (event.type === "投融资") return "资金会把这家公司从技术验证推向产品和客户，后续应关注资金用途与交付进度。";
-  if (event.type === "部署案例") return "这把能力从演示推进到真实场景；是否持续运行、能否复制比单次展示更关键。";
-  if (event.type === "产品发布") return `这是 ${event.routes[0]} 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。`;
-  if (event.type === "开源项目") return "开放代码或模型会降低复现与应用门槛，值得关注社区采用和实际性能。";
-  return "它反映了产业参与者的实际动作；后续需用一手材料或独立报道确认影响范围。";
+function eventFact(event: EventRecord): string | undefined {
+  const candidates = [...event.timeline.map((item) => item.summary), ...event.facts].filter(meaningful);
+  return candidates.find(hasChinese) ?? candidates[0];
 }
+function fundingAmount(value: string): string | undefined {
+  const match = value.match(/\$\s*(\d+(?:\.\d+)?)\s*(m|b|million|billion)\b/i);
+  if (!match) return undefined;
+  const millions = Number(match[1]) * (/b|billion/i.test(match[2]) ? 1000 : 1);
+  if (millions >= 100) return `${Number((millions / 100).toFixed(2))}亿美元`;
+  return `${Number((millions * 100).toFixed(2))}万美元`;
+}
+function headlineFor(event: EventRecord, omitCompany = false): string {
+  const title = cleanTitle(event.title);
+  if (hasChinese(title)) return omitCompany && event.primaryEntity ? title.replace(new RegExp(`^${event.primaryEntity}[：:，,\s]*`, "i"), "") : title;
+  if (event.type === "投融资") return `${omitCompany ? "" : `${fundingSubject(event) ?? "行业公司"}`}${omitCompany ? "" : " "}完成${fundingAmount(title) ?? "新一轮"}融资`;
+  return `${event.routes[0]}相关进展`;
+}
+function summaryFor(event: EventRecord): string { const fact = eventFact(event); return fact && hasChinese(fact) ? fact : "已纳入可追溯信源，中文事实简介将在更新后补齐。"; }
+function eventTags(event: EventRecord): string { return [`<kbd>${event.type}</kbd>`, ...event.routes.slice(0, 2).map((route) => `<kbd>${route}</kbd>`), `<sub>${event.lastUpdatedAt.slice(5, 10)}</sub>`].join(" "); }
+function articleTags(article: Article): string { return [`<kbd>论文</kbd>`, ...article.tags.slice(0, 2).map((tag) => `<kbd>${tag}</kbd>`), `<sub>${article.publishedAt.toISOString().slice(5, 10)}</sub>`].join(" "); }
+function articleTitle(article: Article): string { return hasChinese(article.titleZh ?? "") ? cleanTitle(article.titleZh!) : "物理 AI 研究论文"; }
+function articleSummary(article: Article): string { return meaningful(article.summaryZh) && hasChinese(article.summaryZh!) ? article.summaryZh! : "已收录论文原文，中文事实简介将在更新后补齐。"; }
 function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
   // A headline alone is a useful lead for the capital tracker but not enough
@@ -131,13 +146,17 @@ export function formatRecentEvents(events: EventRecord[]): string {
   const lines: string[] = [];
   for (const event of active) {
     const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-    lines.push(`### [${event.title}](${evidence.link})`, "", `${eventFact(event)}`, "", `*${event.type} · ${event.routes.join(" / ")} · ${event.lastUpdatedAt.slice(0, 10)}*`, "");
+    lines.push(`- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`, "");
   }
   return lines.join("\n");
 }
 
+export function formatResearchUpdates(articles: Article[]): string {
+  if (!articles.length) return "近期暂无满足相关性门槛的论文。";
+  return articles.slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link}) ${articleTags(article)}<br>${articleSummary(article)}`).join("\n\n");
+}
+
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }
-function groupCompanies(companies: CompanyProfile[], predicate: (company: CompanyProfile) => boolean): string { return companies.filter(predicate).map(companyLink).join(" · "); }
 
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
   const recent = events.filter(displayable).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
@@ -146,18 +165,20 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
   const lines: string[] = [];
   if (funding.length) {
     lines.push("### 融资与并购", "");
-    for (const event of funding) { const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0]; lines.push(`- **${event.primaryEntity ?? fundingSubject(event) ?? "行业公司"}** · [${event.title}](${evidence.link}) · ${event.lastUpdatedAt.slice(0, 10)}`); }
+    for (const event of funding) { const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0]; lines.push(`- **${event.primaryEntity ?? fundingSubject(event) ?? "行业公司"}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.lastUpdatedAt.slice(0, 10)}`); }
     lines.push("");
   }
   if (companyEvents.length) {
     lines.push("### 公司最新进展", "");
     for (const event of companyEvents) {
       const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-      lines.push(`- **${event.primaryEntity}** · [${event.title}](${evidence.link})：${eventFact(event)}`);
+      lines.push(`- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link})：${summaryFor(event)}`);
     }
     lines.push("");
   }
-  lines.push("### 覆盖版图", "", `- **平台与大厂：** ${groupCompanies(companies, (company) => company.stage === "平台公司")}`, `- **北美与欧洲：** ${groupCompanies(companies, (company) => !company.region.includes("中国") && company.stage !== "平台公司")}`, `- **中国与新加坡：** ${groupCompanies(companies, (company) => company.region.includes("中国"))}`);
+  const routes: TechnicalRoute[] = ["VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "数据与训练", "部署与商业化"];
+  lines.push("### 技术路线地图", "", "| 路线 | 代表公司 |", "| --- | --- |");
+  for (const route of routes) lines.push(`| ${route} | ${companies.filter((company) => company.routes.includes(route)).slice(0, 8).map(companyLink).join(" · ")} |`);
   return lines.join("\n");
 }
 

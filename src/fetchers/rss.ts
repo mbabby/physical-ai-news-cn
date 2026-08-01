@@ -19,7 +19,7 @@ export async function parseRssText(xml: string, source: RssSourceConfig): Promis
     return [{
       id: articleId(item.link), title: item.title, link: item.link, publishedAt, fetchedAt,
       source: source.name, sourceWeight: source.weight,
-      excerpt: item.contentSnippet ?? item.content ?? "", tags: [],
+      excerpt: item.contentSnippet ?? item.content ?? item.summary ?? "", tags: [],
     }];
   });
 }

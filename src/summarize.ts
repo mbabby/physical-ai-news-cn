@@ -30,7 +30,7 @@ export class CompatibleSummarizer {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${this.settings.apiKey}` },
         body: JSON.stringify({ model: this.settings.model, messages: [
-          { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出两行纯文本，不要 Markdown、JSON 或解释。第一行固定为“标题：”加简洁自然的中文标题（公司名、产品名可保留英文）；第二行固定为“摘要：”。有来源摘要时，摘要写 35 至 60 字的中文事实简介，不得补充未给出的事实；来源摘要为空时，摘要写“暂无原文摘要，请阅读原文。”。" },
+          { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出两行纯文本，不要 Markdown、JSON 或解释。第一行固定为“标题：”加简洁自然的中文标题（公司名、产品名可保留英文），不要保留媒体名、站点名或英文原标题尾缀；第二行固定为“摘要：”。有来源摘要时，摘要写 35 至 60 字的中文事实简介，不得补充未给出的事实；来源摘要为空时，摘要写“暂无原文摘要，请阅读原文。”。" },
           { role: "user", content: `标题：${article.title}\n来源摘要：${article.excerpt.slice(0, 4000) || "（无）"}` },
         ] }),
       });

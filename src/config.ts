@@ -8,6 +8,15 @@ export const MAX_DAILY_ARTICLES = 10;
 export const SOURCES: SourceConfig[] = [
   {
     type: "rss",
+    name: "arXiv · Robotics",
+    // The category RSS feed is empty on arXiv non-publication days. The Atom
+    // API keeps the latest submissions available for the rolling research view.
+    url: "https://export.arxiv.org/api/query?search_query=cat:cs.RO&start=0&max_results=60&sortBy=submittedDate&sortOrder=descending",
+    weight: 9,
+    keywords: ["robot", "robotics", "humanoid", "embodied", "manipulation", "vision-language-action", "world model"],
+  },
+  {
+    type: "rss",
     name: "NVIDIA Newsroom",
     url: "https://nvidianews.nvidia.com/cats/robotics.xml",
     weight: 10,

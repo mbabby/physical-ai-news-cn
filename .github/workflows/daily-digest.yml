@@ -1,6 +1,12 @@
 name: Daily physical AI digest
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "events/companies.json"
+      - ".github/workflows/daily-digest.yml"
   schedule:
     # 00:30 UTC = 北京时间 08:30
     - cron: "30 0 * * *"
