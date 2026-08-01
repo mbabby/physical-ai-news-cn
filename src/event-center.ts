@@ -97,7 +97,8 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link))) existing.evidence.push(evidence);
       if (!existing.timeline.some((item) => item.evidenceLinks.includes(article.link))) existing.timeline.unshift(update);
       existing.lastUpdatedAt = now.toISOString();
-      if (article.titleZh && hasChinese(article.titleZh) && !hasChinese(existing.title)) existing.title = article.titleZh;
+      // The model may refine a previously stored fallback title on a later run.
+      if (article.titleZh && hasChinese(article.titleZh)) existing.title = article.titleZh;
       if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
       continue;
     }
