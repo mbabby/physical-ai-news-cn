@@ -45,6 +45,7 @@
 - [仿真与工具](resources/simulation-and-tools.md)
 - [数据集与基准](resources/datasets-and-benchmarks.md)
 - [学习资料与社区](resources/learning-and-community.md)
+- [业界里程碑论文与精读](resources/milestone-papers.md)
 
 ## 收录标准与投稿方式
 
