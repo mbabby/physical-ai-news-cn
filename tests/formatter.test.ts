@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatWeeklyMarkdown } from "../src/formatter.js";
-import type { Article, WeeklyArticle } from "../src/types.js";
+import type { Article, IndustryPulse, WeeklyArticle } from "../src/types.js";
 
 test("renders a complete daily Markdown entry and failures", () => {
   const now = new Date("2026-08-01T00:00:00.000Z");
@@ -18,6 +18,18 @@ test("adapts a daily archive for the README homepage", () => {
   assert.match(homepage, /### 最新日报 · 2026-08-01/);
   assert.match(homepage, /#### 机器人发布/);
   assert.match(homepage, /^> 过去 24 小时/m);
+});
+
+test("renders an industry pulse before remaining daily news", () => {
+  const now = new Date("2026-08-01T00:00:00.000Z");
+  const viewpoint: Article = { id: "view", title: "Leader says robots need world models", titleZh: "领军人物谈世界模型", summaryZh: "公开观点摘要。", link: "https://x.com/example/status/1", publishedAt: now, fetchedAt: now, source: "X · 领军人物", sourceWeight: 7, excerpt: "robot world model", tags: ["world model"], pulseKind: "人物观点", speaker: "领军人物" };
+  const event: Article = { ...viewpoint, id: "event", title: "Robot product launch", titleZh: "机器人产品发布", link: "https://example.com/launch", pulseKind: "关键事件", kind: "产品发布", source: "Official" };
+  const pulse: IndustryPulse = { viewpoints: [viewpoint], events: [event] };
+  const markdown = formatMarkdown([], 24, [], now, pulse, 1);
+  assert.match(markdown, /## 行业脉搏/);
+  assert.match(markdown, /### 人物观点/);
+  assert.match(markdown, /### 关键事件/);
+  assert.match(formatHomepageDigest(markdown), /#### 行业脉搏/);
 });
 
 test("renders and adapts an automatic weekly selection", () => {

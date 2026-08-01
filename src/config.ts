@@ -91,3 +91,21 @@ export const SOURCES: SourceConfig[] = [
     keywords: ["embodied", "robot", "vla", "physical ai"],
   },
 ];
+
+// X 仅作为「行业脉搏」的发现层：只追踪身份明确的公开账号，且不以单条帖文
+// 改写长期产业判断。需要 X_BEARER_TOKEN 才会启用；未配置时日报照常生成。
+export const X_SOURCES: SourceConfig[] = [
+  {
+    type: "x",
+    name: "X · 产业领军者观察",
+    weight: 7,
+    keywords: ["robot", "robotics", "humanoid", "embodied", "physical ai", "vla", "world model"],
+    accounts: [
+      { handle: "drfeifei", label: "李飞飞", type: "人物" },
+      { handle: "demishassabis", label: "Demis Hassabis", type: "人物" },
+      { handle: "GoogleDeepMind", label: "Google DeepMind", type: "机构" },
+      { handle: "Figure_robot", label: "Figure", type: "机构" },
+      { handle: "UnitreeRobotics", label: "宇树科技", type: "机构" },
+    ],
+  },
+];

@@ -1,4 +1,5 @@
 export type ArticleKind = "投融资" | "产品发布" | "公司商业" | "部署案例" | "开源项目" | "研究与数据";
+export type PulseKind = "人物观点" | "关键事件";
 
 export interface Article {
   id: string;
@@ -14,6 +15,8 @@ export interface Article {
   titleZh?: string;
   summaryZh?: string;
   score?: number;
+  pulseKind?: PulseKind;
+  speaker?: string;
 }
 
 interface BaseSourceConfig {
@@ -32,7 +35,18 @@ export interface AlgoliaSourceConfig extends BaseSourceConfig {
   query: string;
 }
 
-export type SourceConfig = RssSourceConfig | AlgoliaSourceConfig;
+export interface XAccountConfig {
+  handle: string;
+  label: string;
+  type: "人物" | "机构";
+}
+
+export interface XSourceConfig extends BaseSourceConfig {
+  type: "x";
+  accounts: XAccountConfig[];
+}
+
+export type SourceConfig = RssSourceConfig | AlgoliaSourceConfig | XSourceConfig;
 
 export interface FetchFailure {
   source: string;
@@ -60,8 +74,14 @@ export interface DigestResult {
 export interface DailyArchive {
   date: string;
   articles: Article[];
+  industryPulse?: IndustryPulse;
   sourceOutcomes?: SourceOutcome[];
   discoveredSources?: DiscoveredSource[];
+}
+
+export interface IndustryPulse {
+  viewpoints: Article[];
+  events: Article[];
 }
 
 export interface WeeklyArticle extends Article {
