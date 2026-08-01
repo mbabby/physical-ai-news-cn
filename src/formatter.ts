@@ -9,7 +9,7 @@ function renderArticle(lines: string[], article: Article, heading = "##"): void 
   lines.push(`${heading} [${title}](${article.link})`, "", article.summaryZh ?? "暂无原文摘要，请阅读原文。", `*${meta}*`, "");
 }
 
-export function formatMarkdown(articles: Article[], windowHours: number, failures: FetchFailure[] = [], now = new Date(), pulse: IndustryPulse = { viewpoints: [], events: [] }, totalArticles = articles.length): string {
+export function formatMarkdown(articles: Article[], windowHours: number, _failures: FetchFailure[] = [], now = new Date(), pulse: IndustryPulse = { viewpoints: [], events: [] }, totalArticles = articles.length, sourceNetwork = ""): string {
   const lines = [`# 物理 AI 每日资讯 — ${date(now)}`, "", `过去 ${windowHours} 小时 · ${totalArticles} 条精选 · 投融资与产业动态优先`, ""];
   if (pulse.viewpoints.length || pulse.events.length) {
     lines.push("## 行业脉搏", "", "> 领军人物公开观点与已核验的关键产业事件；观点不等同于事实结论。", "");
@@ -23,13 +23,8 @@ export function formatMarkdown(articles: Article[], windowHours: number, failure
     }
   }
   if (articles.length) lines.push("## 今日其它资讯", "");
-  if (!articles.length && !pulse.viewpoints.length && !pulse.events.length) lines.push("今日暂无高可信产业动态。已持续监测官方、开源与行业信源。");
-  for (const article of articles) renderArticle(lines, article, articles.length && (pulse.viewpoints.length || pulse.events.length) ? "###" : "##");
-  if (failures.length) {
-    lines.push("---", "", "## 抓取状态", "");
-    for (const failure of failures) lines.push(`- ${failure.source}：失败（${failure.reason}）`);
-    lines.push("");
-  }
+  if (!articles.length && !pulse.viewpoints.length && !pulse.events.length) lines.push("> 今日暂无达到发布阈值的高优先级事件。严格筛选不等于停止跟踪。", "", "**仍在跟踪**：官方发布、开源项目、行业部署与重点公司动态。", sourceNetwork ? `\n*${sourceNetwork}*` : "");
+  for (const article of articles) renderArticle(lines, article, articles.length ? "###" : "##");
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
   return lines.join("\n");
 }
@@ -58,9 +53,17 @@ export function formatWeeklyMarkdown(articles: WeeklyArticle[], week: string): s
 }
 
 export function formatHomepageWeekly(weeklyMarkdown: string): string {
+  if (/过去 7 天 · 0 条高影响事件/.test(weeklyMarkdown)) return "> 本周尚未形成满足阈值的重大事件；可查看上方“最近确证”。";
   return weeklyMarkdown
     .replace(/^# 物理 AI 本周精选 — (.+)$/m, "> 自动周榜 · $1")
     .replace(/^(过去 7 天 · .+)$/m, "**$1**")
     .replace(/^## /gm, "#### ")
     .replace(/^---\n\n\*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。\*$/m, "");
+}
+
+export function formatRecentConfirmed(articles: Article[]): string {
+  if (!articles.length) return "> 近期暂无可回溯的确证事件。";
+  const lines = ["> 当日没有新事件时，这里展示过去 30 天最近确证的高可信进展。", ""];
+  for (const article of articles.slice(0, 3)) lines.push(`- **${shortDate(article.publishedAt)}** · [${article.titleZh ?? article.title}](${article.link})`);
+  return lines.join("\n");
 }

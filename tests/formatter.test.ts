@@ -1,15 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatWeeklyMarkdown } from "../src/formatter.js";
+import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatRecentConfirmed, formatWeeklyMarkdown } from "../src/formatter.js";
 import type { Article, IndustryPulse, WeeklyArticle } from "../src/types.js";
 
-test("renders a complete daily Markdown entry and failures", () => {
+test("renders a complete daily Markdown entry without exposing fetch failures", () => {
   const now = new Date("2026-08-01T00:00:00.000Z");
   const article: Article = { id: "1", title: "Robot launch", titleZh: "机器人发布", summaryZh: "要点一\n要点二", link: "https://example.com", publishedAt: now, fetchedAt: now, source: "Official", sourceWeight: 9, excerpt: "text", kind: "产品发布", tags: ["产品", "robot"] };
   const markdown = formatMarkdown([article], 24, [{ source: "HN", reason: "timeout" }], now);
   assert.match(markdown, /机器人发布/);
   assert.match(markdown, /产品发布 · Official · 08-01 · #产品 · #robot/);
-  assert.match(markdown, /HN：失败/);
+  assert.doesNotMatch(markdown, /HN：失败/);
 });
 
 test("adapts a daily archive for the README homepage", () => {
@@ -30,6 +30,20 @@ test("renders an industry pulse before remaining daily news", () => {
   assert.match(markdown, /### 人物观点/);
   assert.match(markdown, /### 关键事件/);
   assert.match(formatHomepageDigest(markdown), /#### 行业脉搏/);
+});
+
+test("uses a compact empty state and keeps failures out of public Markdown", () => {
+  const markdown = formatMarkdown([], 24, [{ source: "X", reason: "HTTP 402" }], new Date("2026-08-01T00:00:00.000Z"), undefined, 0, "信源网络：1 个自动启用 · 2 个影子观察");
+  assert.match(markdown, /今日暂无达到发布阈值/);
+  assert.match(markdown, /信源网络：1 个自动启用/);
+  assert.doesNotMatch(markdown, /HTTP 402|抓取状态/);
+});
+
+test("renders recent confirmed events as a compact fallback", () => {
+  const now = new Date("2026-08-01T00:00:00.000Z");
+  const article: Article = { id: "recent", title: "Recent robot launch", titleZh: "近期机器人发布", link: "https://example.com/recent", publishedAt: now, fetchedAt: now, source: "Official", sourceWeight: 10, excerpt: "robot", tags: [] };
+  assert.match(formatRecentConfirmed([article]), /近期机器人发布/);
+  assert.match(formatHomepageWeekly("# 物理 AI 本周精选 — 2026-W31\n\n过去 7 天 · 0 条高影响事件"), /尚未形成/);
 });
 
 test("renders and adapts an automatic weekly selection", () => {

@@ -20,12 +20,13 @@ export function applyRegistryWeights(sources: SourceConfig[], registry?: SourceR
 }
 
 export function discoverSourceCandidates(articles: Article[], configuredSources: SourceConfig[]): DiscoveredSource[] {
-  const configuredDomains = new Set(configuredSources.flatMap((source) => source.type === "rss" ? [host(source.url)] : []).filter(Boolean));
+  const configuredFeeds = new Set(configuredSources.filter((source) => source.type === "rss").map((source) => source.url.replace(/\/$/, "")));
   const seen = new Set<string>();
   return articles.flatMap((article) => {
-    if (!article.source.startsWith("Hacker News") || !DISCOVERY_WORDS.some((word) => article.title.toLowerCase().includes(word))) return [];
+    if (!DISCOVERY_WORDS.some((word) => `${article.title} ${article.excerpt}`.toLowerCase().includes(word))) return [];
     const domain = host(article.link);
-    if (!domain || domain === "news.ycombinator.com" || configuredDomains.has(domain) || seen.has(domain)) return [];
+    const normalizedLink = article.link.replace(/\/$/, "");
+    if (!domain || domain === "news.ycombinator.com" || configuredFeeds.has(normalizedLink) || seen.has(domain) || article.source.startsWith("自动发现")) return [];
     seen.add(domain);
     return [{ domain, title: article.title, link: article.link }];
   });

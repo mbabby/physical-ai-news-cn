@@ -6,11 +6,12 @@ import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
 import { fetchXSource } from "./fetchers/x.js";
 import { filterAndRank } from "./filter.js";
-import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
+import { formatHomepageDigest, formatHomepageWeekly, formatMarkdown, formatRecentConfirmed, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
-import type { Article, DailyArchive, DigestResult, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
+import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
+import type { Article, CandidateSourceRegistry, DailyArchive, DigestResult, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -18,6 +19,8 @@ const readmeStart = "<!-- DAILY_DIGEST_START -->";
 const readmeEnd = "<!-- DAILY_DIGEST_END -->";
 const weeklyStart = "<!-- WEEKLY_DIGEST_START -->";
 const weeklyEnd = "<!-- WEEKLY_DIGEST_END -->";
+const recentStart = "<!-- RECENT_CONFIRMED_START -->";
+const recentEnd = "<!-- RECENT_CONFIRMED_END -->";
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
@@ -25,12 +28,15 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, dailyMarkdown: string, weeklyMarkdown: string): string {
-  return replaceSection(replaceSection(readme, readmeStart, readmeEnd, formatHomepageDigest(dailyMarkdown)), weeklyStart, weeklyEnd, formatHomepageWeekly(weeklyMarkdown));
+function updateReadme(readme: string, dailyMarkdown: string, weeklyMarkdown: string, recentConfirmed: Article[]): string {
+  return replaceSection(replaceSection(replaceSection(readme, readmeStart, readmeEnd, formatHomepageDigest(dailyMarkdown)), weeklyStart, weeklyEnd, formatHomepageWeekly(weeklyMarkdown)), recentStart, recentEnd, formatRecentConfirmed(recentConfirmed));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
   try { return JSON.parse(await readFile(path, "utf8")) as SourceRegistry; } catch { return undefined; }
+}
+async function readCandidateRegistry(path: string): Promise<CandidateSourceRegistry | undefined> {
+  try { return JSON.parse(await readFile(path, "utf8")) as CandidateSourceRegistry; } catch { return undefined; }
 }
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
@@ -76,7 +82,10 @@ async function main(): Promise<void> {
   const windowHours = parseWindow(process.argv.slice(2));
   const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true })]);
-  const activeSources = applyRegistryWeights(SOURCES, await readRegistry(join(sourcesDir, "registry.json")));
+  const candidatePath = join(sourcesDir, "candidates.json");
+  const candidateRegistry = await readCandidateRegistry(candidatePath);
+  const configuredSources = [...SOURCES, ...dynamicSources(candidateRegistry)];
+  const activeSources = applyRegistryWeights(configuredSources, await readRegistry(join(sourcesDir, "registry.json")));
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
   const selected = filterAndRank(collected.articles, windowHours, MAX_DAILY_ARTICLES);
@@ -88,21 +97,25 @@ async function main(): Promise<void> {
   const pulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const visibleArticles = articles.filter((article) => !pulseArticleIds(pulse).has(article.id));
   const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
-  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, articles.length);
+  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, articles.length, sourceNetworkSummary(candidateRegistry));
   await writeFile(path, markdown, "utf8");
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], discoveredSources: discoverSourceCandidates(collected.articles, SOURCES) };
+  const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
+  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], discoveredSources };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   const archives = await readRecentDailyArchives(outputDir, now, 30);
-  const registry = buildSourceRegistry(archives, SOURCES, activeSources, now);
+  const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
+  const registry = buildSourceRegistry(archives, configuredSources, activeSources, now);
   const watchlist = selectWatchlistCandidates(weekly);
   await writeFile(join(sourcesDir, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
+  await writeFile(candidatePath, JSON.stringify(nextCandidateRegistry, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), markdown, weeklyMarkdown), "utf8");
-  console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条，写入 ${path}；更新本周精选 ${weekly.length} 条、观察名单 ${watchlist.length} 条与信源档案`);
+  const recentConfirmed = (await readRecentDailyArticles(outputDir, now, 30)).filter((article) => article.sourceWeight >= 6).sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 3);
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), markdown, weeklyMarkdown, recentConfirmed), "utf8");
+  console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

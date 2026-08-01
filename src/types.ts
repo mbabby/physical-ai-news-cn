@@ -63,6 +63,23 @@ export interface DiscoveredSource {
   domain: string;
   title: string;
   link: string;
+  feedUrl?: string;
+}
+
+export type CandidateStatus = "候选" | "影子观察" | "已启用" | "已暂停";
+
+export interface CandidateSource extends DiscoveredSource {
+  status: CandidateStatus;
+  firstSeenAt: string;
+  lastSeenAt: string;
+  successfulRuns: number;
+  failedRuns: number;
+  selectedArticles: number;
+}
+
+export interface CandidateSourceRegistry {
+  updatedAt: string;
+  sources: CandidateSource[];
 }
 
 export interface DigestResult {
