@@ -12,17 +12,17 @@
 
 #### [Remotely controlled humanoid cleaning service](https://www.tau-robotics.com)
 
-自动摘要失败：HTTP 400。请阅读原文。
+
 *公司商业 · Hacker News · Robotics · 07-31 · #产业 · #humanoid*
 
 #### [Americans worry robots will take jobs, but not theirs](https://www.semafor.com/article/07/31/2026/americans-worry-robots-will-take-jobs-but-not-theirs-survey-shows)
 
-自动摘要失败：HTTP 400。请阅读原文。
+
 *公司商业 · Hacker News · Robotics · 07-31 · #产业 · #robot*
 
 #### [High school axes plans to deploy AI robot called Sally after ties to sex dolls](https://www.dailymail.com/news/article-16017467/humanoid-robot-teacher-new-york-axes-plan.html)
 
-自动摘要失败：HTTP 400。请阅读原文。
+
 *部署案例 · Hacker News · Humanoid · 07-31 · #落地 · #robot*
 
 
