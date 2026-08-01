@@ -13,7 +13,27 @@ test("creates an evidence-backed canonical event from a qualified article", () =
   assert.equal(store.events.length, 1);
   assert.equal(store.events[0].status, "已确证");
   assert.deepEqual(store.events[0].entities, ["Google DeepMind"]);
-  assert.match(formatRecentEvents(store.events), /待验证/);
+  assert.match(formatRecentEvents(store.events), /发生了什么/);
+  assert.match(formatRecentEvents(store.events), /为什么值得看/);
+});
+
+test("does not assign a company merely mentioned in article body", () => {
+  const store = upsertEvents(undefined, [article({
+    title: "Agility Robotics expands its deployment",
+    titleZh: "Agility Robotics 扩大部署",
+    excerpt: "The work takes place near Tesla and is unrelated to Optimus.",
+  })]);
+  assert.equal(store.events[0].primaryEntity, "Agility Robotics");
+  assert.deepEqual(store.events[0].entities, ["Agility Robotics"]);
+  assert.ok(store.events[0].mentionedEntities?.includes("Tesla"));
+});
+
+test("merges multilingual coverage of the same financing event", () => {
+  const now = new Date("2026-08-01T01:00:00.000Z");
+  const first = upsertEvents(undefined, [article({ title: "Humanoid Raises $152 Million at $1.35 Billion Valuation", titleZh: undefined, kind: "投融资" })], now);
+  const second = upsertEvents(first, [article({ id: "humanoid-zh", title: "Humanoid完成1.52亿美元融资，投后估值13.5亿美元", titleZh: undefined, link: "https://example.com/humanoid-zh", kind: "投融资" })], now);
+  assert.equal(second.events.length, 1);
+  assert.equal(second.events[0].evidence.length, 2);
 });
 
 test("appends new evidence to an existing event instead of duplicating it", () => {

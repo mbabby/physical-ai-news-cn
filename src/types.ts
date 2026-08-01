@@ -105,6 +105,10 @@ export interface EventRecord {
   title: string;
   type: ArticleKind;
   entities: string[];
+  /** The company this event is actually about. Mentions never update a company card. */
+  primaryEntity?: string;
+  /** Other tracked companies named in the supporting material. */
+  mentionedEntities?: string[];
   routes: TechnicalRoute[];
   status: EventStatus;
   firstSeenAt: string;

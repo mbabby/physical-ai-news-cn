@@ -15,87 +15,69 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 展示近 30 天仍在演进的高可信事件；新证据会追加到同一事件，而非重复造新闻。
+### Enigma融资7100万美元，让控制机器人像调节音量一样简单
+
+**发生了什么：** Enigma完成7100万美元种子轮融资，由Index Ventures和Ribbit Capital领投，Sarah Guo的Conviction Partners参投，以简化机器人控制。
+
+**为什么值得看：** 资金会把这家公司从技术验证推向产品和客户，后续应关注资金用途与交付进度。
+
+*投融资 · 部署与商业化 · 持续跟踪 · 更新 2026-08-01 · [查看证据](https://techcrunch.com/2026/07/27/enigma-raises-70m-to-make-controlling-a-robot-as-easy-as-adjusting-the-volume/)*
 
 ### 谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力
 
-**已确证** · 产品发布 · VLA 与具身模型
+**发生了什么：** Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
 
-暂无原文摘要，请阅读原文。
+**为什么值得看：** 这是 VLA 与具身模型 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [IEEE Spectrum](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · B 级
-- **待验证：** 尚需官方技术文档、真实部署与独立评测来确认泛化和工程可靠性。
+*产品发布 · VLA 与具身模型 · 已确证 · 更新 2026-08-01 · [查看证据](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)*
 
 ### LeRobot v0.6.0 发布，默认依赖与强化学习接口调整
 
-**已确证** · 产品发布 · 世界模型与空间智能 / VLA 与具身模型 / 部署与商业化 / 数据与训练
+**发生了什么：** LeRobot v0.6.0 精简默认安装，数据集与训练依赖需按 extras 安装；导入路径调整，GR00T 升至 N1.7，PyTorch 至少 2.7，强化学习栈重建。
 
-LeRobot v0.6.0 精简默认安装，数据集与训练依赖需按 extras 安装；导入路径调整，GR00T 升至 N1.7，PyTorch 至少 2.7，强化学习栈重建。
+**为什么值得看：** 这是 世界模型与空间智能 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [LeRobot Releases](https://github.com/huggingface/lerobot/releases/tag/v0.6.0) · A 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*产品发布 · 世界模型与空间智能 / VLA 与具身模型 / 部署与商业化 / 数据与训练 · 已确证 · 更新 2026-08-01 · [查看证据](https://github.com/huggingface/lerobot/releases/tag/v0.6.0)*
 
 ### 日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿
 
-**已确证** · 产品发布 · 世界模型与空间智能 / 部署与商业化
+**发生了什么：** 英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
 
-英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
+**为什么值得看：** 这是 世界模型与空间智能 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [NVIDIA Newsroom](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · A 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*产品发布 · 世界模型与空间智能 / 部署与商业化 · 已确证 · 更新 2026-08-01 · [查看证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)*
 
 ### 谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者
 
-**已确证** · 产品发布 · 部署与商业化
+**发生了什么：** 谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。
 
-谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。
+**为什么值得看：** 这是 部署与商业化 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [Google DeepMind Blog](https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/) · A 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*产品发布 · 部署与商业化 · 已确证 · 更新 2026-08-01 · [查看证据](https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/)*
 
-### X Square Robot 为通用机器人打造一体化基础技术栈
+### 意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤
 
-**持续跟踪** · 投融资 · 世界模型与空间智能 / VLA 与具身模型 / 部署与商业化 / 数据与训练
+**发生了什么：** 意大利Generative Bionics发布人形机器人GENE.01：团队六个月建成，机器人可行走、感知与交互，全身多模态皮肤能感知触觉、接近、力和温度，助力安全自然的人机协作。
 
-具身智能公司X Square Robot提出覆盖交互数据、世界模型与动作模型的一体化机器人技术栈，通过真实机器人回放质检保障数据有效性，以低成本无机器人数据预训练，并主张以开放方式构建和发布。
+**为什么值得看：** 这把能力从演示推进到真实场景；是否持续运行、能否复制比单次展示更关键。
 
-- **最近更新：** 2026-08-01
-- **证据：** [IEEE Spectrum · Robotics](https://spectrum.ieee.org/x-square-robot-embodied-ai-stack) · B 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*部署案例 · 世界模型与空间智能 / 本体与硬件 / 部署与商业化 / 数据与训练 · 持续跟踪 · 更新 2026-08-01 · [查看证据](https://spectrum.ieee.org/video-friday-physical-ai-robotics)*
 
-### Video Friday：火星车测试平台或将变身核动力月球车
+### 日本曾引领人形机器人，如今能否追赶中国？
 
-**持续跟踪** · 投融资 · 世界模型与空间智能 / 本体与硬件 / 部署与商业化 / 数据与训练
+**发生了什么：** 东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。
 
-IEEE Spectrum本周机器人视频精选：NASA提出PROMISE概念，拟将好奇号与毅力号火星车的地面测试车改造为核动力月球车，部署月球南极支持月球基地建设。
+**为什么值得看：** 这是 VLA 与具身模型 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [IEEE Spectrum · Robotics](https://spectrum.ieee.org/video-friday-nasa-lunar-rover) · B 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*产品发布 · VLA 与具身模型 / 本体与硬件 / 部署与商业化 / 数据与训练 · 持续跟踪 · 更新 2026-08-01 · [查看证据](https://spectrum.ieee.org/humanoid-robots-japan)*
 
-### 视频星期五：人形机器人外科医生即将为你看诊
+### 视频星期五：机器人的世界杯
 
-**持续跟踪** · 投融资 · VLA 与具身模型 / 本体与硬件 / 部署与商业化 / 数据与训练
+**发生了什么：** 本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。
 
-加州大学圣迭戈分校团队系统评估了人形机器人执行腹腔镜手术的能力，通过台架测试、用户研究与猪体内实验验证其远程操作框架的可行性与临床准备度，指出前景可期但临床部署前仍有关键技术挑战。
+**为什么值得看：** 这是 VLA 与具身模型 的产品化信号，下一步看技术细节、开发者采用和真实场景表现。
 
-- **最近更新：** 2026-08-01
-- **证据：** [IEEE Spectrum · Robotics](https://spectrum.ieee.org/video-friday-robotic-surgery) · B 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
-
-### 这位研究生让NASA机器人掌握卫星装配技能
-
-**持续跟踪** · 投融资 · 部署与商业化 / 数据与训练
-
-研究生Sarah Downs与NASA及美国空军合作，开发算法助机器人在太空组装卫星时将天线准确插入孔位，解决经典“插孔”难题。她现为德州农工大学电气工程博士生，继续研究卫星装配与操控。
-
-- **最近更新：** 2026-08-01
-- **证据：** [IEEE Spectrum · Robotics](https://spectrum.ieee.org/graduate-student-nasas-robots-assembly) · B 级
-- **待验证：** 后续是否有一手技术细节、客户或复现证据？
+*产品发布 · VLA 与具身模型 / 本体与硬件 / 部署与商业化 / 数据与训练 · 持续跟踪 · 更新 2026-08-01 · [查看证据](https://spectrum.ieee.org/video-friday-robot-world-cup)*
 
 
 <!-- EVENT_CENTER_END -->
@@ -104,38 +86,34 @@ IEEE Spectrum本周机器人视频精选：NASA提出PROMISE概念，拟将好�
 
 <!-- COMPANY_RADAR_START -->
 
-> 覆盖平台公司、成长公司与创业公司；融资、产品和部署均须有对应事件证据才会显示为“已确证”。
+这里把资本、公司行动和技术路线放在同一个视角：只显示有可追溯证据的事件；公司名称本身不是推荐或背书。
 
-| 公司 | 地域 / 阶段 | 技术位置 | 最近可核验进展 |
-| --- | --- | --- | --- |
-| [Tesla](https://www.tesla.com/AI) | 北美 / 平台公司 | 数据与训练、本体与硬件、部署与商业化 | Agility Robotics 在特斯拉“后院”插上旗帜（持续跟踪） |
-| [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) | 北美 / 平台公司 | 数据与训练、世界模型与空间智能、VLA 与具身模型 | 等待可核验事件 |
-| [Google DeepMind](https://deepmind.google/) | 北美/英国 / 平台公司 | VLA 与具身模型、数据与训练 | 谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力（已确证） |
-| [Meta](https://ai.meta.com/) | 北美 / 平台公司 | VLA 与具身模型、数据与训练 | 等待可核验事件 |
-| [Figure](https://www.figure.ai/) | 北美 / 成长公司 | VLA 与具身模型、本体与硬件、部署与商业化 | Video Friday：火星车测试平台或将变身核动力月球车（持续跟踪） |
-| [Physical Intelligence](https://www.physicalintelligence.company/) | 北美 / 创业公司 | VLA 与具身模型、数据与训练 | LeRobot v0.6.0 发布，默认依赖与强化学习接口调整（已确证） |
-| [World Labs](https://www.worldlabs.ai/) | 北美 / 创业公司 | 世界模型与空间智能 | 等待可核验事件 |
-| [1X](https://www.1x.tech/) | 欧洲/北美 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [Apptronik](https://apptronik.com/) | 北美 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [Agility Robotics](https://agilityrobotics.com/) | 北美 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [Sanctuary AI](https://www.sanctuary.ai/) | 北美 / 成长公司 | VLA 与具身模型、本体与硬件 | 等待可核验事件 |
-| [Skild AI](https://www.skild.ai/) | 北美 / 创业公司 | VLA 与具身模型、数据与训练 | 等待可核验事件 |
-| [Dexterity](https://www.dexterity.ai/) | 北美 / 成长公司 | VLA 与具身模型、部署与商业化 | 等待可核验事件 |
-| [Boston Dynamics](https://bostondynamics.com/) | 北美 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [宇树科技](https://www.unitree.com/) | 中国 / 成长公司 | 本体与硬件、数据与训练 | 日本曾引领人形机器人，如今能否追赶中国？（持续跟踪） |
-| [优必选](https://www.ubtrobot.com/) | 中国 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [智元机器人](https://www.zhiyuan-robot.com/) | 中国 / 创业公司 | 本体与硬件、VLA 与具身模型、部署与商业化 | 等待可核验事件 |
-| [银河通用](https://galbot.com/) | 中国 / 创业公司 | VLA 与具身模型、部署与商业化 | 等待可核验事件 |
-| [众擎机器人](https://www.engineai.com.cn/) | 中国 / 创业公司 | 本体与硬件 | 等待可核验事件 |
-| [傅利叶智能](https://www.fftai.com/) | 中国/新加坡 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [逐际动力](https://www.limxdynamics.com/) | 中国 / 创业公司 | 本体与硬件、VLA 与具身模型 | 等待可核验事件 |
-| [松延动力](https://www.noetixrobotics.com/) | 中国 / 创业公司 | 本体与硬件 | 等待可核验事件 |
-| [魔法原子](https://www.magicrobot.com/) | 中国 / 创业公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [乐聚机器人](https://www.lejurobot.com/) | 中国 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
-| [NEURA Robotics](https://neura-robotics.com/) | 欧洲 / 成长公司 | 本体与硬件、VLA 与具身模型 | 等待可核验事件 |
-| [ANYbotics](https://www.anybotics.com/) | 欧洲 / 成长公司 | 本体与硬件、部署与商业化 | 等待可核验事件 |
+### 融资与并购
 
-各公司“核心押注、融资与部署证据、待验证问题”会在事件中心累计后进入独立档案页。
+- **Enigma** · [Enigma Raises $71M to Advance Physical AI for Robotics - Ventureburn](https://news.google.com/rss/articles/CBMihAFBVV95cUxONnQ3bkxfckoxd096Q1pEV3BQT3FIYktzRmYzS3E0VGVRS3JTWkZxVUNwbmZObVdGdHJrLXBwY09BN2hJb3AybFJiUVJ0djhHbENPY01jS3BSN01zU3JlOGU1ZE04eTBvNFV3MW1UaGRENGdUeElPeFNpRUM5clhMN2RveGXSAYQBQVVfeXFMTjZ0N25MX3JKMXdPekNaRFdwUE9xSGJLc0ZmM0txNFRlUUtyU1pGcVVDcG5mTm1XRnRyay1wcGNPQTdoSW9wMmxSYlFSdHY4R2xDT2NNY0twUjdNc1NyZThlNWRNOHkwbzRVdzFtVGhkRDRnVHhJT3hTaUVDOXJYTDdkb3hl?oc=5) · 2026-08-01
+- **Axis Robotics** · [Axis Robotics Raises $12M in Seed Funding to Develop Physical AI Data Engine - AI Insider](https://news.google.com/rss/articles/CBMiswFBVV95cUxNelg3cFFFUlpaZXJtTzhPNTNUMHdsYlRZN2VWcG5PNXRhT0xaZmh0cnRqZzNhTE4yRlZFWW11Nm1KT2ZiMWllWm9aQnU5X2tDTG84NVM2djZfanZCdFlZUV9VOUQ0VE8yZW5WWmZBVl9WYlRWVVN1TTd4b1o3cFJrQ0RCSjZTclNPVzUtbkQ0RndZSDVFdUh2MnhuaUdyd1ZZdTRhc3hfanZtM2t2SmVLNDg4cw?oc=5) · 2026-08-01
+- **Holiday Robotics** · [Holiday Robotics raises $105M for its FRIDAY wheeled humanoid - The Robot Report](https://news.google.com/rss/articles/CBMijAFBVV95cUxOVEh1SkFzV0JZeUNfUXd4N3dTd1pJTU9FcVdaampQSTI5ZVF5dWliYm5BdEhQVFI1RmZoRk9wVXFfUzBkUU9ONHd6LWFoTnhoQklfbWZXdHUxMTlpZ2pTOFNjbVBYZFlKX2UwRl9PUGlqMWlaUTVWOW44MjQ2V0c5cVlUbk9aa1FjLWlObA?oc=5) · 2026-08-01
+- **Humanoid** · [Humanoid Raises $152 Million at $1.35 Billion Post-Money Valuation, Becoming Europe's First Pure-Play Humanoid Robotics Unicorn - Business Wire](https://news.google.com/rss/articles/CBMilAJBVV95cUxNRXRPSWU4b3JVZm1fRFFhc3VqWmw1SFV4SGVqSXZ2ODRaaE5pUk1qb2FkaVp2c0RUU0pCaGZBbEt1aVM5d1VKUmNMSzd4VUFhanJya3BFMmVMZ3ZpN29lS3JzejJzZEh0aGVCS2pVVk1BTHJhTUtiaUNyWjVxY21YdlZuV1VPWjJ5X1A3dXEydEhuc0NWNlBNT2lIeFFmVnc0cDJMOUozQkFxalZvel9Tcy1rV3JjellIT19hTmVwNmlPWGFQa2ZCcjQ1TjQ1c2RBcHotRXpmdkVLUS1KRWFmalFWenFmcHdoRklhbEZCbmotTC1nclB3YUE2cWRBR2ZiTnhZbGdIWXZ0SjV3UmhzdFk2RE0?oc=5) · 2026-08-01
+- **Hyperion Robotics** · [Hyperion Robotics raises $7.4 million to scale physical AI and deliver faster, cheaper and better European infrastructure - Arctic Today](https://news.google.com/rss/articles/CBMi4gFBVV95cUxOTmZXVEZEOTc5ZEQ3WnV0TFNmWDFtb2V1c05VUEk1TnFRUHFwTEpTbUEtTi1IQnRSRUpOci1Gdko4QVlvYURHeThXbXY4d0Z4b0FvNXNZcE8tQzFjeFlKeVpXaUlRYnJFZHJVcTJsMDBBamlYVzVxZ25mckYwUUJhM0VIc2tPTFVIdEdmV25sbXFEd0NxeDFKcklhWVUtU3FiNXZLZTdheDdpNmZnZ05INF8zOXBZamR4TXpkNDdCMTQtM1ZsNzY3Skp5ZGhkSFF2RWhnYWwyZy1GcENsNFpZbWpn?oc=5) · 2026-08-01
+
+### 公司最新进展
+
+- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)
+  Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
+- **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
+  英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
+- **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)
+  Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
+- **Agility Robotics** · [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/)
+  机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
+
+### 覆盖版图
+
+- **平台与大厂：** [Tesla](https://www.tesla.com/AI) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Google DeepMind](https://deepmind.google/) · [Meta](https://ai.meta.com/)
+- **北美与欧洲：** [Figure](https://www.figure.ai/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [World Labs](https://www.worldlabs.ai/) · [1X](https://www.1x.tech/) · [Apptronik](https://apptronik.com/) · [Agility Robotics](https://agilityrobotics.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Skild AI](https://www.skild.ai/) · [Dexterity](https://www.dexterity.ai/) · [Boston Dynamics](https://bostondynamics.com/) · [NEURA Robotics](https://neura-robotics.com/) · [ANYbotics](https://www.anybotics.com/)
+- **中国与新加坡：** [宇树科技](https://www.unitree.com/) · [优必选](https://www.ubtrobot.com/) · [智元机器人](https://www.zhiyuan-robot.com/) · [银河通用](https://galbot.com/) · [众擎机器人](https://www.engineai.com.cn/) · [傅利叶智能](https://www.fftai.com/) · [逐际动力](https://www.limxdynamics.com/) · [松延动力](https://www.noetixrobotics.com/) · [魔法原子](https://www.magicrobot.com/) · [乐聚机器人](https://www.lejurobot.com/)
+
+公司档案会随着日报中的产品、部署和融资证据自动更新。
 
 <!-- COMPANY_RADAR_END -->
 

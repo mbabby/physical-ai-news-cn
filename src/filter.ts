@@ -10,6 +10,7 @@ const RULES: Array<{ kind: ArticleKind; tags: string[]; words: string[] }> = [
 ];
 
 const PHYSICAL_AI_WORDS = ["robot", "robotics", "humanoid", "embodied", "physical ai", "vla", "vision-language-action", "isaac", "groot", "lerobot", "manipulation", "autonomous driving", "world model", "具身", "人形机器人", "机器人"];
+const FUNDING_TITLE_WORDS = ["funding", "funded", "raises", "raised", "series a", "series b", "series c", "seed round", "venture round", "valuation", "acquisition", "investment round", "融资", "投资", "收购", "估值", "融资轮", "战略投资"];
 
 function normalizedTitle(title: string): string { return title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim(); }
 export function normalizeUrl(value: string): string {
@@ -33,7 +34,12 @@ export function classify(article: Article): Article | undefined {
   const text = `${article.title} ${article.excerpt}`.toLowerCase();
   const relevance = PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).length;
   if (relevance === 0) return undefined;
-  const rule = RULES.find((candidate) => candidate.words.some((word) => text.includes(word)));
+  // “investment” buried in a long article is not a financing event. Require the
+  // financing language to be in the headline, otherwise let product/deployment
+  // classification win.
+  const titleText = article.title.toLowerCase();
+  const funding = FUNDING_TITLE_WORDS.some((word) => titleText.includes(word)) && !/top funding|funding roundup|weekly funding|funding news/.test(titleText);
+  const rule = funding ? RULES[0] : RULES.slice(1).find((candidate) => candidate.words.some((word) => text.includes(word)));
   const kind = rule?.kind ?? "公司商业";
   const tags = [...new Set([...(rule?.tags ?? ["产业"]), ...PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).slice(0, 3)])];
   const priority: Record<ArticleKind, number> = { "投融资": 40, "产品发布": 28, "公司商业": 24, "部署案例": 20, "开源项目": 14, "研究与数据": 4 };

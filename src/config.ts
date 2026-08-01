@@ -57,6 +57,20 @@ export const SOURCES: SourceConfig[] = [
   },
   {
     type: "rss",
+    name: "Google News · Robotics Capital",
+    url: "https://news.google.com/rss/search?q=%28robotics%20OR%20humanoid%20OR%20%22physical%20AI%22%20OR%20embodied%29%20%28funding%20OR%20raises%20OR%20%22Series%20A%22%20OR%20%22Series%20B%22%20OR%20acquisition%29&hl=en-US&gl=US&ceid=US:en",
+    weight: 6,
+    keywords: ["robotics", "robot", "humanoid", "physical ai", "embodied", "funding", "raises", "series"],
+  },
+  {
+    type: "rss",
+    name: "Google News · 中国具身融资",
+    url: "https://news.google.com/rss/search?q=%28%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%20OR%20%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%20OR%20%E6%9C%BA%E5%99%A8%E4%BA%BA%29%20%28%E8%9E%8D%E8%B5%84%20OR%20%E6%8A%95%E8%B5%84%20OR%20%E6%94%B6%E8%B4%AD%29&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
+    weight: 6,
+    keywords: ["机器人", "人形机器人", "具身智能", "融资", "投资", "收购"],
+  },
+  {
+    type: "rss",
     name: "OpenPI Releases",
     url: "https://github.com/Physical-Intelligence/openpi/releases.atom",
     weight: 9,
