@@ -82,6 +82,53 @@ export interface CandidateSourceRegistry {
   sources: CandidateSource[];
 }
 
+export type EvidenceGrade = "A" | "B" | "C" | "D";
+export type EventStatus = "核验中" | "已确证" | "持续跟踪" | "已归档" | "待复核";
+export type TechnicalRoute = "数据与训练" | "VLA 与具身模型" | "世界模型与空间智能" | "本体与硬件" | "部署与商业化";
+
+export interface EventEvidence {
+  link: string;
+  source: string;
+  grade: EvidenceGrade;
+  publishedAt: string;
+  supports: string;
+}
+
+export interface EventUpdate {
+  date: string;
+  summary: string;
+  evidenceLinks: string[];
+}
+
+export interface EventRecord {
+  id: string;
+  title: string;
+  type: ArticleKind;
+  entities: string[];
+  routes: TechnicalRoute[];
+  status: EventStatus;
+  firstSeenAt: string;
+  lastUpdatedAt: string;
+  lastVerifiedAt: string;
+  facts: string[];
+  openQuestions: string[];
+  evidence: EventEvidence[];
+  timeline: EventUpdate[];
+}
+
+export interface EventStore {
+  updatedAt: string;
+  events: EventRecord[];
+}
+
+export interface CompanyProfile {
+  name: string;
+  region: string;
+  routes: TechnicalRoute[];
+  thesis: string;
+  officialUrl: string;
+}
+
 export interface DigestResult {
   articles: Article[];
   failures: FetchFailure[];

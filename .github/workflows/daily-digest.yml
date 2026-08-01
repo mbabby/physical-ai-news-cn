@@ -34,7 +34,7 @@ jobs:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
       - name: Commit updated digest
         run: |
-          git add daily weekly sources review resources/watchlist.md README.md
+          git add daily weekly sources review resources events FACTS_POLICY.md README.md
           if ! git diff --cached --quiet; then
             git config user.name "physical-ai-news-bot"
             git config user.email "actions@github.com"
