@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatMarkdown } from "../src/formatter.js";
+import { formatHomepageDigest, formatMarkdown } from "../src/formatter.js";
 import type { Article } from "../src/types.js";
 
 test("renders a complete daily Markdown entry and failures", () => {
@@ -10,4 +10,11 @@ test("renders a complete daily Markdown entry and failures", () => {
   assert.match(markdown, /机器人发布/);
   assert.match(markdown, /`产品`/);
   assert.match(markdown, /HN：失败/);
+});
+
+test("adapts a daily archive for the README homepage", () => {
+  const markdown = "# 物理 AI 每日资讯 — 2026-08-01\n\n## 机器人发布\n\n内容";
+  const homepage = formatHomepageDigest(markdown);
+  assert.match(homepage, /### 最新日报 · 2026-08-01/);
+  assert.match(homepage, /#### 机器人发布/);
 });
