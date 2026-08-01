@@ -17,3 +17,10 @@ export function formatMarkdown(articles: Article[], windowHours: number, failure
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
   return lines.join("\n");
 }
+
+/** Convert a complete daily archive page into a subsection suitable for README. */
+export function formatHomepageDigest(dailyMarkdown: string): string {
+  return dailyMarkdown
+    .replace(/^# 物理 AI 每日资讯 — (.+)$/m, "### 最新日报 · $1")
+    .replace(/^## /gm, "#### ");
+}
