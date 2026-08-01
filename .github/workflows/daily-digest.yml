@@ -29,5 +29,5 @@ jobs:
           LLM_MODEL: ${{ vars.LLM_MODEL }}
       - name: Commit updated digest
         run: |
-          git add daily
+          git add daily README.md
           git diff --cached --quiet || (git config user.name "physical-ai-news-bot" && git config user.email "actions@github.com" && git commit -m "chore: update daily physical AI digest" && git push)
