@@ -33,7 +33,7 @@
 
 ## 本周精选
 
-自动扫描过去 7 天日报：跨日去重后，按事件类型、来源可信度、产业影响信号与多源佐证排序。投融资、量产部署与重大产品发布优先；同一类别最多保留 2 条。
+过去 7 天自动去重排序；投融资、量产部署与重大产品发布优先。仅展示达到可信度阈值的事件。
 
 <!-- WEEKLY_DIGEST_START -->
 
@@ -71,16 +71,16 @@
 
 ## 常青资源
 
-- [公司与团队](resources/companies.md)
-- [模型与开源项目](resources/models-and-open-source.md)
-- [机器人与硬件](resources/robots-and-hardware.md)
-- [仿真与工具](resources/simulation-and-tools.md)
-- [数据集与基准](resources/datasets-and-benchmarks.md)
-- [学习资料与社区](resources/learning-and-community.md)
-- [业界里程碑论文与精读](resources/milestone-papers.md)
+| 你想了解什么 | 从这里开始 |
+| --- | --- |
+| 产业格局与团队 | [公司与团队](resources/companies.md) |
+| VLA、模型与代码 | [模型与开源项目](resources/models-and-open-source.md) |
+| 机器人本体与硬件 | [机器人与硬件](resources/robots-and-hardware.md) |
+| 仿真、训练与工具链 | [仿真与工具](resources/simulation-and-tools.md) |
+| 数据集与评测基准 | [数据集与基准](resources/datasets-and-benchmarks.md) |
+| 系统学习与社区 | [学习资料与社区](resources/learning-and-community.md) |
+| 建立技术脉络 | [业界里程碑论文与精读](resources/milestone-papers.md) · 6 篇最小必读集，4 条技术路线 |
 
 ## 收录标准与投稿方式
 
-收录对象必须与机器人、具身智能、人形机器人、物理世界模型、机器人学习或其产业落地直接相关；优先采用官方公告、项目发布页和可信技术媒体。我们只保存链接、元数据与简短摘要，不转载原文。
-
-欢迎提交资讯源、资源条目和分类修正。请先阅读 [贡献指南](CONTRIBUTING.md)，再通过 Issue 或 PR 提交；每条内容需要原始链接、简短中文说明和所属分类。
+发现值得收录的公司、项目、论文或资讯源？请阅读 [贡献指南](CONTRIBUTING.md)，通过 Issue 或 PR 提交建议。

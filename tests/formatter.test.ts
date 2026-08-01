@@ -13,10 +13,11 @@ test("renders a complete daily Markdown entry and failures", () => {
 });
 
 test("adapts a daily archive for the README homepage", () => {
-  const markdown = "# 物理 AI 每日资讯 — 2026-08-01\n\n## 机器人发布\n\n内容";
+  const markdown = "# 物理 AI 每日资讯 — 2026-08-01\n\n过去 24 小时 · 1 条精选\n\n## 机器人发布\n\n内容";
   const homepage = formatHomepageDigest(markdown);
   assert.match(homepage, /### 最新日报 · 2026-08-01/);
   assert.match(homepage, /#### 机器人发布/);
+  assert.match(homepage, /^> 过去 24 小时/m);
 });
 
 test("renders and adapts an automatic weekly selection", () => {
@@ -24,5 +25,5 @@ test("renders and adapts an automatic weekly selection", () => {
   const article: WeeklyArticle = { id: "1", title: "Robot funding", titleZh: "机器人融资", summaryZh: "获得新一轮融资。", link: "https://example.com", publishedAt: now, fetchedAt: now, source: "Official", sourceWeight: 10, excerpt: "funding", kind: "投融资", tags: ["投融资"], weeklyScore: 120, selectionReason: "披露投融资、并购或估值等资本信号；来源为一手官方发布。" };
   const markdown = formatWeeklyMarkdown([article], "2026-W31");
   assert.match(markdown, /入选原因：/);
-  assert.match(formatHomepageWeekly(markdown), /### 本周精选 · 2026-W31/);
+  assert.match(formatHomepageWeekly(markdown), /> 自动周榜 · 2026-W31/);
 });

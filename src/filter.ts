@@ -27,6 +27,9 @@ function titleSimilarity(a: string, b: string): number {
 }
 
 export function classify(article: Article): Article | undefined {
+  // HN is intentionally a discovery channel, not a homepage source. Without
+  // an original excerpt we cannot verify enough context to publish it as news.
+  if (article.source.startsWith("Hacker News") && !article.excerpt.trim()) return undefined;
   const text = `${article.title} ${article.excerpt}`.toLowerCase();
   const relevance = PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).length;
   if (relevance === 0) return undefined;

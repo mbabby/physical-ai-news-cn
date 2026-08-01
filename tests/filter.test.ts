@@ -37,3 +37,8 @@ test("prioritizes funding over otherwise similar industry news", () => {
   ], 24);
   assert.equal(result[0].kind, "投融资");
 });
+
+test("keeps context-free Hacker News hits out of the published digest", () => {
+  const result = filterAndRank([item({ source: "Hacker News · Robotics", sourceWeight: 2, excerpt: "" })], 24);
+  assert.equal(result.length, 0);
+});
