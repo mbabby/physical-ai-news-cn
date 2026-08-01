@@ -14,7 +14,13 @@ test("creates an evidence-backed canonical event from a qualified article", () =
   assert.equal(store.events[0].status, "已确证");
   assert.deepEqual(store.events[0].entities, ["Google DeepMind"]);
   assert.match(formatRecentEvents(store.events), /\[Google DeepMind 发布 Gemini Robotics\]/);
+  assert.match(formatRecentEvents(store.events), /本期关键进展/);
   assert.doesNotMatch(formatRecentEvents(store.events), /为什么值得看/);
+});
+
+test("keeps generic funding labels out of the public industry feed", () => {
+  const store = upsertEvents(undefined, [article({ title: "机器人公司完成新一轮融资", titleZh: "机器人公司完成新一轮融资", kind: "投融资" })]);
+  assert.doesNotMatch(formatRecentEvents(store.events), /机器人公司完成新一轮融资/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {

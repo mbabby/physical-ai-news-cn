@@ -137,31 +137,91 @@ function displayable(event: EventRecord): boolean {
   // context for the public industry feed.
   return event.status !== "已归档" && event.evidence.some((item) => item.grade === "A" || item.grade === "B") && Boolean(fact) && fact !== event.title;
 }
-function eventPriority(event: EventRecord): number { return ({ "投融资": 50, "部署案例": 40, "产品发布": 35, "公司商业": 28, "开源项目": 20, "研究与数据": 5 } as Record<ArticleKind, number>)[event.type] + (event.status === "已确证" ? 10 : 0); }
+function ageInDays(value: string): number { return Math.max(0, (Date.now() - new Date(value).getTime()) / 86_400_000); }
+function freshnessScore(value: string): number {
+  const days = ageInDays(value);
+  if (days <= 1) return 20;
+  if (days <= 3) return 16;
+  if (days <= 7) return 12;
+  if (days <= 14) return 7;
+  return 3;
+}
+function authorityScore(event: EventRecord): number {
+  const grades = event.evidence.map((item) => item.grade);
+  if (grades.includes("A")) return 30;
+  if (grades.filter((grade) => grade === "B").length >= 2) return 25;
+  return grades.includes("B") ? 18 : 0;
+}
+function impactScore(event: EventRecord): number {
+  const base: Record<ArticleKind, number> = { "投融资": 28, "部署案例": 36, "产品发布": 34, "公司商业": 24, "开源项目": 18, "研究与数据": 12 };
+  const value = `${event.title} ${eventFact(event) ?? ""}`.toLowerCase();
+  let score = base[event.type] + (primaryForEvent(event) ? 4 : 0);
+  if (/量产|客户|订单|工厂|真实世界|规模化|deploy|factory|customer|production/.test(value)) score += 6;
+  if (/发布|推出|首个|首次|launch|release|unveil|announc/.test(value)) score += 3;
+  if (event.type === "投融资") {
+    const amount = fundingAmount(event.title);
+    if (amount?.includes("亿美元")) score += 6;
+    else if (amount) score += 3;
+  }
+  return Math.min(score, 40);
+}
+function corroborationScore(event: EventRecord): number { return Math.min(10, Math.max(0, event.evidence.length - 1) * 4 + (event.status === "已确证" ? 2 : 0)); }
+/** Homepage order: impact 40, authority 30, freshness 20, corroboration 10. */
+function eventPriority(event: EventRecord): number { return impactScore(event) + authorityScore(event) + freshnessScore(event.lastUpdatedAt) + corroborationScore(event); }
+function isSpecificFunding(event: EventRecord): boolean {
+  if (event.type !== "投融资") return true;
+  const subject = event.primaryEntity ?? fundingSubject(event);
+  return Boolean(subject && !/^(行业公司|机器人公司|农业机器人公司|公司)$/i.test(subject) && !/融资净买入|融资余额|股票|股价|证券|跨界.*机器人/i.test(event.title));
+}
+function homepageEligible(event: EventRecord): boolean { return displayable(event) && isSpecificFunding(event); }
+function dedupeByCompany(events: EventRecord[], limit: number): EventRecord[] {
+  const seen = new Set<string>();
+  return events.filter((event) => {
+    const key = primaryForEvent(event) ?? event.id;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, limit);
+}
 
 export function formatRecentEvents(events: EventRecord[]): string {
   const cutoff = Date.now() - 30 * 24 * 3_600_000;
-  const active = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= cutoff && displayable(event)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)).slice(0, 8);
+  const active = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= cutoff && homepageEligible(event));
   if (!active.length) return "近期没有满足首页发布门槛的产业事件。";
-  const lines: string[] = [];
-  for (const event of active) {
+  const key = dedupeByCompany([...active].sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
+  const keyIds = new Set(key.map((event) => event.id));
+  const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => freshnessScore(b.lastUpdatedAt) - freshnessScore(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a)), 6);
+  const format = (event: EventRecord): string => {
     const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-    lines.push(`- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`, "");
-  }
+    return `- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`;
+  };
+  const lines: string[] = [];
+  if (key.length) lines.push("### 本期关键进展", "", ...key.map(format), "");
+  if (latest.length) lines.push("### 最新动态", "", ...latest.map(format), "");
   return lines.join("\n");
 }
 
+function researchPriority(article: Article): number {
+  const value = `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase();
+  let impact = /vla|vision-language-action|world model|world model|humanoid|manipulation|具身|人形机器人/.test(value) ? 20 : 10;
+  if (/真实机器人|real[- ]world|physical robot|benchmark|基准|sota|state.of.the.art/.test(value)) impact += 8;
+  const reproducibility = /github|code|开源|dataset|数据集|benchmark|基准/.test(value) ? 20 : 6;
+  const authority = Math.min(25, article.sourceWeight * 2.5);
+  const days = Math.max(0, (Date.now() - article.publishedAt.getTime()) / 86_400_000);
+  const freshness = days <= 1 ? 20 : days <= 3 ? 16 : days <= 7 ? 12 : 6;
+  return impact + reproducibility + authority + freshness;
+}
 export function formatResearchUpdates(articles: Article[]): string {
   if (!articles.length) return "近期暂无满足相关性门槛的论文。";
-  return articles.slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
+  return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
 }
 
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }
 
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
-  const recent = events.filter(displayable).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
-  const funding = events.filter((event) => event.type === "投融资" && event.evidence.some((item) => item.grade === "A" || item.grade === "B")).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)).slice(0, 5);
-  const companyEvents = recent.filter((event) => primaryForEvent(event)).slice(0, 8);
+  const recent = events.filter(homepageEligible).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+  const funding = dedupeByCompany(events.filter((event) => event.type === "投融资" && homepageEligible(event)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 5);
+  const companyEvents = dedupeByCompany(recent.filter((event) => primaryForEvent(event)), 8);
   const lines: string[] = [];
   if (funding.length) {
     lines.push("### 融资与并购", "");
@@ -186,7 +246,7 @@ export function formatIndustryMap(events: EventRecord[]): string {
   const routes: TechnicalRoute[] = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
   const lines = ["# 产业地图与技术路线", "", "从数据、智能、本体到部署，查看公司、事件与研究如何指向同一套物理 AI 瓶颈。", ""];
   for (const route of routes) {
-    const related = events.filter((event) => event.routes.includes(route) && displayable(event)).slice(0, 4);
+    const related = events.filter((event) => event.routes.includes(route) && homepageEligible(event)).sort((a, b) => eventPriority(b) - eventPriority(a)).slice(0, 4);
     lines.push(`## ${route}`, "");
     if (!related.length) lines.push("正在积累可核验事件。");
     for (const event of related) lines.push(`- [${event.title}](../events/index.json) · ${event.status} · 更新 ${event.lastUpdatedAt.slice(0, 10)}`);

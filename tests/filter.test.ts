@@ -42,3 +42,8 @@ test("keeps context-free Hacker News hits out of the published digest", () => {
   const result = filterAndRank([item({ source: "Hacker News · Robotics", sourceWeight: 2, excerpt: "" })], 24);
   assert.equal(result.length, 0);
 });
+
+test("filters secondary-market financing noise even when robotics is mentioned", () => {
+  const result = filterAndRank([item({ title: "机器人：融资净买入85.18万元，融资余额10.55亿元", excerpt: "Robotics market activity" })], 24);
+  assert.equal(result.length, 0);
+});
