@@ -33,7 +33,8 @@ function routeFor(article: Article): TechnicalRoute[] {
 function grade(article: Article): EventEvidence["grade"] { return article.sourceWeight >= 9 ? "A" : article.sourceWeight >= 6 ? "B" : article.source.startsWith("X ·") ? "C" : "D"; }
 function statusFor(article: Article): EventStatus { return grade(article) === "A" ? "已确证" : grade(article) === "B" ? "持续跟踪" : "核验中"; }
 function isFundingTitle(value: string): boolean { return FUNDING_WORDS.some((word) => value.toLowerCase().includes(word)); }
-function meaningful(value: string | undefined): boolean { return Boolean(value?.trim()) && !/暂无原文摘要|请阅读原文|自动摘要失败|未配置模型/.test(value ?? ""); }
+function meaningful(value: string | undefined): boolean { return Boolean(value?.trim()) && !/暂无原文摘要|请阅读原文|自动摘要失败|未配置模型|未配置摘要服务|暂未生成中文摘要/.test(value ?? ""); }
+function hasChinese(value: string): boolean { return /[\u3400-\u9fff]/.test(value); }
 function fundingSubject(event: EventRecord): string | undefined {
   const title = event.title.replace(/\s+-\s+[^-]+$/, "").trim();
   const english = title.match(/^(.{2,50}?)\s+(?:raises?|raised|completes?|secured|lands?)\b/i)?.[1];
@@ -65,6 +66,9 @@ function mergeRepeatedFunding(events: EventRecord[]): EventRecord[] {
       return Boolean(candidateSubject && (candidateSubject === subject || candidateSubject.includes(subject) || subject.includes(candidateSubject)));
     }) : undefined;
     if (!existing) { kept.push(event); continue; }
+    if (hasChinese(event.title) && !hasChinese(existing.title)) existing.title = event.title;
+    const eventFactValue = eventFact(event);
+    if (eventFactValue && hasChinese(eventFactValue) && !hasChinese(eventFact(existing) ?? "")) existing.facts.unshift(eventFactValue);
     for (const evidence of event.evidence) if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(evidence.link))) existing.evidence.push(evidence);
     for (const update of event.timeline) if (!existing.timeline.some((item) => item.evidenceLinks.some((link) => update.evidenceLinks.includes(link)))) existing.timeline.push(update);
     existing.timeline.sort((a, b) => b.date.localeCompare(a.date));
@@ -92,6 +96,7 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link))) existing.evidence.push(evidence);
       if (!existing.timeline.some((item) => item.evidenceLinks.includes(article.link))) existing.timeline.unshift(update);
       existing.lastUpdatedAt = now.toISOString();
+      if (article.titleZh && hasChinese(article.titleZh) && !hasChinese(existing.title)) existing.title = article.titleZh;
       if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
       continue;
     }
@@ -126,7 +131,7 @@ export function formatRecentEvents(events: EventRecord[]): string {
   const lines: string[] = [];
   for (const event of active) {
     const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-    lines.push(`### ${event.title}`, "", `**发生了什么：** ${eventFact(event)}`, "", `**为什么值得看：** ${whyItMatters(event)}`, "", `*${event.type} · ${event.routes.join(" / ")} · ${event.status} · 更新 ${event.lastUpdatedAt.slice(0, 10)} · [查看证据](${evidence.link})*`, "");
+    lines.push(`### [${event.title}](${evidence.link})`, "", `${eventFact(event)}`, "", `*${event.type} · ${event.routes.join(" / ")} · ${event.lastUpdatedAt.slice(0, 10)}*`, "");
   }
   return lines.join("\n");
 }
@@ -138,7 +143,7 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
   const recent = events.filter(displayable).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
   const funding = events.filter((event) => event.type === "投融资" && event.evidence.some((item) => item.grade === "A" || item.grade === "B")).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)).slice(0, 5);
   const companyEvents = recent.filter((event) => primaryForEvent(event)).slice(0, 8);
-  const lines: string[] = ["这里把资本、公司行动和技术路线放在同一个视角：只显示有可追溯证据的事件；公司名称本身不是推荐或背书。", ""];
+  const lines: string[] = [];
   if (funding.length) {
     lines.push("### 融资与并购", "");
     for (const event of funding) { const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0]; lines.push(`- **${event.primaryEntity ?? fundingSubject(event) ?? "行业公司"}** · [${event.title}](${evidence.link}) · ${event.lastUpdatedAt.slice(0, 10)}`); }
@@ -148,11 +153,11 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
     lines.push("### 公司最新进展", "");
     for (const event of companyEvents) {
       const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-      lines.push(`- **${event.primaryEntity}** · [${event.title}](${evidence.link})`, `  ${eventFact(event)}`);
+      lines.push(`- **${event.primaryEntity}** · [${event.title}](${evidence.link})：${eventFact(event)}`);
     }
     lines.push("");
   }
-  lines.push("### 覆盖版图", "", `- **平台与大厂：** ${groupCompanies(companies, (company) => company.stage === "平台公司")}`, `- **北美与欧洲：** ${groupCompanies(companies, (company) => !company.region.includes("中国") && company.stage !== "平台公司")}`, `- **中国与新加坡：** ${groupCompanies(companies, (company) => company.region.includes("中国"))}`, "", "公司档案会随着日报中的产品、部署和融资证据自动更新。");
+  lines.push("### 覆盖版图", "", `- **平台与大厂：** ${groupCompanies(companies, (company) => company.stage === "平台公司")}`, `- **北美与欧洲：** ${groupCompanies(companies, (company) => !company.region.includes("中国") && company.stage !== "平台公司")}`, `- **中国与新加坡：** ${groupCompanies(companies, (company) => company.region.includes("中国"))}`);
   return lines.join("\n");
 }
 

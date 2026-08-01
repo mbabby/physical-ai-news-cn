@@ -13,8 +13,8 @@ test("creates an evidence-backed canonical event from a qualified article", () =
   assert.equal(store.events.length, 1);
   assert.equal(store.events[0].status, "已确证");
   assert.deepEqual(store.events[0].entities, ["Google DeepMind"]);
-  assert.match(formatRecentEvents(store.events), /发生了什么/);
-  assert.match(formatRecentEvents(store.events), /为什么值得看/);
+  assert.match(formatRecentEvents(store.events), /\[Google DeepMind 发布 Gemini Robotics\]/);
+  assert.doesNotMatch(formatRecentEvents(store.events), /为什么值得看/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {
