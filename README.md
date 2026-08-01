@@ -81,6 +81,7 @@
 | 系统学习与社区 | [学习资料与社区](resources/learning-and-community.md) |
 | 建立技术脉络 | [业界里程碑论文与精读](resources/milestone-papers.md) · 6 篇最小必读集，4 条技术路线 |
 | 观看奠基内容 | [奠基视频、演讲与博客](resources/foundational-talks-and-blogs.md) · 世界模型、VLA、通用策略与物理智能 |
+| 跟踪待验证进展 | [常青资源观察名单](resources/watchlist.md) · 自动发现，达到条件后再进入主资源目录 |
 
 ## 收录标准与投稿方式
 

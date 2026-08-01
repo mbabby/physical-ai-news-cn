@@ -18,10 +18,16 @@ function parseArticle(raw: Article): Article {
   return { ...raw, publishedAt: new Date(raw.publishedAt), fetchedAt: new Date(raw.fetchedAt) };
 }
 
-export async function readRecentDailyArticles(directory: string, now = new Date(), days = 7): Promise<Article[]> {
+export async function readRecentDailyArchives(directory: string, now = new Date(), days = 7): Promise<DailyArchive[]> {
   const cutoff = now.getTime() - days * 24 * 3_600_000;
   const files = (await readdir(directory)).filter((file) => /^\d{4}-\d{2}-\d{2}\.json$/.test(file));
   const archives = await Promise.all(files.map(async (file) => JSON.parse(await readFile(join(directory, file), "utf8")) as DailyArchive));
+  return archives.filter((archive) => new Date(`${archive.date}T23:59:59.999Z`).getTime() >= cutoff);
+}
+
+export async function readRecentDailyArticles(directory: string, now = new Date(), days = 7): Promise<Article[]> {
+  const archives = await readRecentDailyArchives(directory, now, days);
+  const cutoff = now.getTime() - days * 24 * 3_600_000;
   return archives.flatMap((archive) => archive.articles.map(parseArticle)).filter((article) => article.publishedAt.getTime() >= cutoff);
 }
 

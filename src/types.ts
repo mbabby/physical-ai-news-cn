@@ -39,19 +39,52 @@ export interface FetchFailure {
   reason: string;
 }
 
+export interface SourceOutcome {
+  source: string;
+  status: "success" | "failure";
+  reason?: string;
+}
+
+export interface DiscoveredSource {
+  domain: string;
+  title: string;
+  link: string;
+}
+
 export interface DigestResult {
   articles: Article[];
   failures: FetchFailure[];
+  sourceOutcomes: SourceOutcome[];
 }
 
 export interface DailyArchive {
   date: string;
   articles: Article[];
+  sourceOutcomes?: SourceOutcome[];
+  discoveredSources?: DiscoveredSource[];
 }
 
 export interface WeeklyArticle extends Article {
   weeklyScore: number;
   selectionReason: string;
+}
+
+export interface SourceRegistryEntry {
+  name: string;
+  type: SourceConfig["type"];
+  configuredWeight: number;
+  effectiveWeight: number;
+  successfulRuns: number;
+  failedRuns: number;
+  selectedArticles: number;
+  reliability?: number;
+  recommendation: "保留" | "观察" | "排查";
+}
+
+export interface SourceRegistry {
+  updatedAt: string;
+  windowDays: number;
+  sources: SourceRegistryEntry[];
 }
 
 export interface LlmSettings {
