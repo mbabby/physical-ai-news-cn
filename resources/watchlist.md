@@ -4,26 +4,33 @@
 
 这里的内容已通过基础可信度与相关性筛选，但尚未进入常青资源主目录。它们需要在后续日报、源码活跃度或行业采用中继续获得证据。
 
-## [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1)
+## [RedFlow：将失败经验重定向为动作级纠正的流匹配VLA策略](https://arxiv.org/abs/2607.27782v1)
 
-未配置摘要服务；请阅读原文。
+RedFlow是面向流匹配VLA策略的细粒度离线强化学习框架，将失败数据转化为动作级纠正监督，真实任务成功率由56.7%提升至74.7%，样本效率优于在策略方法。
 
 - 候选原因：展示了明确的真实场景部署；来源为一手官方发布。
 - 来源：arXiv · Robotics · 部署案例
 
-## [Gemini Robotics ER 2: powering robotics with video understanding, task orchestration, and multi-robot collaboration](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)
+## [RoboBRIDGE：将策略桥接为真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)
 
-未配置摘要服务；请阅读原文。
+RoboBRIDGE以五模块协同将预训练VLA编排为稳健机器人智能体，支持故障恢复与重规划，多平台实验优于独立策略。
+
+- 候选原因：展示了明确的真实场景部署；来源为一手官方发布。
+- 来源：arXiv · Robotics · 部署案例
+
+## [能感知自身老化的机器：硬件感知自主智能框架](https://arxiv.org/abs/2607.28451v1)
+
+自主系统的电池、传感器等会老化，但人工智能常假设硬件完好，易导致任务失败。AAAI框架将硬件健康融入推理与规划，延长寿命并提升安全性。
+
+- 候选原因：代表产品或能力的重要发布；来源为一手官方发布。
+- 来源：arXiv · Robotics · 产品发布
+
+## [Arm2Air：跨形态骨架迁移实现无人机三维中继部署](https://arxiv.org/abs/2607.27627v1)
+
+Arm2Air将机械臂避障骨架跨形态迁移至无人机中继部署，少量数据微调后规划耗时降64.9%、瓶颈容量升32.6%。
 
 - 候选原因：反映公司合作或商业化进展；来源为一手官方发布。
-- 来源：Google DeepMind Blog · 公司商业
-
-## [RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents](https://arxiv.org/abs/2607.27881v1)
-
-未配置摘要服务；请阅读原文。
-
-- 候选原因：展示了明确的真实场景部署；来源为一手官方发布。
-- 来源：arXiv · Robotics · 部署案例
+- 来源：arXiv · Robotics · 公司商业
 
 ---
 

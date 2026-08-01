@@ -2,108 +2,120 @@
   "date": "2026-08-01",
   "articles": [
     {
-      "id": "2566138e1e58aef8",
-      "title": "Release v0.6.0",
-      "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
-      "publishedAt": "2026-07-08T15:39:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:58.782Z",
-      "source": "LeRobot Releases",
-      "sourceWeight": 9,
-      "excerpt": "Release Blog\nhttps://huggingface.co/blog/lerobot-release-v060\n⚠️ Breaking changes (v0.5.1 -> v0.6.0)\nv0.6.0 cleans house, and a few changes need your attention when upgrading:\npip install lerobot no longer includes dataset or training dependencies; add the extra you need (e.g. lerobot[training]).\nSome import paths have changed. Please use the canonical public entry points rather than internal submodule paths.\nGR00T N1.5 is replaced by N1.7 (pin lerobot==0.5.1 if you need N1.5).\nThe minimum PyTorch version is now 2.7.\neval_freq was renamed to env_eval_freq in the train config.\nThe RL stack was rebuilt: the sac policy type is now gaussian_actor under the new modular RL API.\nLegacy per-frame subtask_index annotations are superseded by the new language columns.\n--dataset.vcodec was renamed to --dataset.rgb_encoder.vcodec, such that RGB and depth cameras video codecs may be set separately.\n\n\n    output.mp4\n    \n  \n\n  \n\n  \n\n\nWhat's Changed\nchore(dependencies): Bump lerobot to 0.5.2 by @imstevenpmwork in #3307\nrefactor(envs): move benchmark dispatch into EnvConfig subclasses by @pkooij in #3272\nfeat(envs): lazy env init + AsyncVectorEnv as default for n_envs > 1 by @pkooij in #3274\nfeat(ci): add agent assitance workflow by @imstevenpmwork in #3332\nchore(security): update claude.yml by @hf-security-analysis[bot] in #3333\nfix(ci): pin claude-code-action to v1.0.88 by @imstevenpmwork in #3336\nchore(ci): proper claude args workflow by @imstevenpmwork in #3338\nfix(dataset): adding metadata loading when reading from a dataset after writing by @CarolinePascal in #3305\nchore(dependencies): update uv.lock by @imstevenpmwork in #3308\nchore(dependencies): update uv.lock by @imstevenpmwork in #3361\nrefactor(deps): minimal default install with facade pattern and dependency isolation by @imstevenpmwork in #3362\nfix(rl): ensure queue and process cleanup on abnormal exit by @jashshah999 in #3063\nfeat(ci): benchmark smoke tests with isolated Docker images (LIBERO + MetaWorld) by @pkooij in #3319\nfix(feetech): motor position readings overflow by @Maximellerbach in #3373\nUpdate reward classifier training config by @EPronovost in #3147\nfix(test): add missing device placement in multi-task DiT tests by @s1lent4gnt in #3349\nfix(groot):  compatibility fixes for gr00t in v0.5 by @mtiezzi in #3182\nAdd thread synchronization to ReplayBuffer to prevent race condition between add() and sample() by @s1lent4gnt in #3372\nfix(rl): preserve teleop intervention flag in step_env_and_process_transition by @remete618 in #3273\nfix: catch KeyboardInterrupt in safe_stop_image_writer to prevent corrupted frames by @s1lent4gnt in #3381\nrefactor(imports): enforce guard pattern by @imstevenpmwork in #3382\nchore(docs): update contributing by @imstevenpmwork in #3387\nchore: bump doc-builder SHA for PR upload workflow by @rtrompier in #3386\nchore(docs): adding a jupyter notebook that gives you ready-to-paste commands by @Maximellerbach in #3395\nfeat(ci): send slack notification if latest dependency test is broken by @imstevenpmwork in #3398\nfix(ci): not fail when skipped by @imstevenpmwork in #3399\nfix(record): pass rename_map to make_policy in lerobot-record by @wadeKeith in #3240\nImprove loading performance in _absolute_to_relative_idx when remapping indices by @hello3x3 in #3279\nchore(dependencies): update uv.lock by @imstevenpmwork in #3365\nfeat(dataset): 2x faster dataloader via parallel decode, uint8 transport, and persistent workers by @imstevenpmwork in #3406\nfix(dataset): cleanup_interrupted_episode wipes image temp dirs by @whats2000 in #3405\nepisods→episodes by @k1000dai in #3410\nfix(policies): replace deprecated torch.cuda.amp.autocast with torch.… by @Defalt-Meh in #3167\nci: skip Docker Hub login step on fork PRs by @pkooij in #3417\nfix(envs): preserve AsyncVectorEnv metadata/unwrapped in lazy eval envs by @HaomingSong in #3416\nfeat(envs): add RoboCasa365 benchmark integration by @pkooij in #3375\nfeat(envs): add RoboTwin 2.0 benchmark by @pkooij in #3315\nfeat(envs): add RoboCerebra long-horizon manipulation benchmark by @pkooij in #3314\nfeat(envs): add RoboMME benchmark by @pkooij in #3311\nfeat(envs): add LIBERO-plus robustness benchmark by @pkooij in #3313\nfeat(sim): VLABench benchmark integration by @pkooij in #3396\nfix(robotwin): pin compatible curobo in benchmark image by @pkooij in #3427\ndocs(agents): add AGENT_GUIDE.md for user facing agent by @pkooij in #3430\nchore(dependencies): update uv.lock by @imstevenpmwork in #3408\nfix(smolvla): correct loss normalization for padded actions by @whats2000 in #3434\ndocs(xvla): fix broken local file links in documentation by @kuafou in #3291\nfix(policy): loss normalization for padded actions in ACT, Diffusion, and MultiTaskDiT by @imstevenpmwork in #3442\nfix(sarm): handle BaseModelOutputWithPooling from transformers 5.x in… by @masato-ka in #3419\nfix(policies): remove @DataClass from GR00TN15Config to fix import crash on transformers ≥ 5.5 by @ChuyaoShen in #3414\nfix(imports): realsense import name is platform dependent by @imstevenpmwork in #3451\nfix(dataset): no default overwrite in lerobot tool recompute stats by @imstevenpmwork in #3452\nfix(pi): avoid peak RAM in PiGemma construction by freeing replaced submodules by @imstevenpmwork in #3454\nchore(dependencies): update uv.lock by @imstevenpmwork in #3437\nfeat(rollout): decouple policy deployment from data recording with new lerobot-rollout CLI by @imstevenpmwork in #3413\nchore(ci): bump docs workflows by @imstevenpmwork in #3476\nReward models refactor by @s1lent4gnt in #3142\nrefactor(datasets): replace untyped dict with typed DatasetInfo dataclass by @Maximellerbach in #3472\nfix(rollout): propagate policy-specific CLI config paramaters by @imstevenpmwork in #3483\nMigrate legacy RA-BC fields in train config loading by @s1lent4gnt in #3480\nExpose sarm package API and ship reward model card template by @s1lent4gnt in #3477\nfix(pi0&pi05): keep training sampling outside compiled forwards by @HaomingSong in #3487\nfix(peft): fix LoRA resume from Hub (PosixPath + double wrap) by @jashshah999 in #3485\nchore(ci): upgrade docker internal by @imstevenpmwork in #3505\nchore(ci): increase time stale by @imstevenpmwork in #3507\nchore(dep): bump transformers to 5.4.0 by @imstevenpmwork in #3374\nfeat(dagger): adding smooth handover by @Maximellerbach in #3506\nfix(robots): openarm features compatibility with openarm_mini by @imstevenpmwork in #3524\nfeat(policies): add EO-1 model by @HaomingSong in #3403\nfix(ci): bump robotwin benchmark image to CUDA 12.6 by @pkooij in #3525\nfeat(policy): use pretrained vision encoder weights by default for diffusion and vqbet by @villekuosmanen in #3202\nfix(ci): speed up multi-task benchmark evals (parallelize + cap VLABench steps) by @pkooij in #3529\nfix(robots): allign lekiwi default with so100 use_degrees by @imstevenpmwork in #3531\nfix(train): restrict legacy RA-BC migration to JSON checkpoints only by @masato-ka in #3490\nchore(ci): disable auto-stale by @imstevenpmwork in #3550\nchore(dependencies): update uv.lock by @imstevenpmwork in #3475\nchore(deps): allow torch 2.11/2.12 and fix autocast deprecation by @shoumikhin in #3435\nfix(datasets): close file handle on VideoDecoder init failure in cache by @jashshah999 in #3542\ndocs: add policy & compute guide by @imstevenpmwork in #3534\ndocs(omx): adding some examples and scripts by @Maximellerbach in #3566\nchore(deps): cap torch ceiling at <2.12, pin Linux wheels to cu128 by @imstevenpmwork in #3570\nRL stack refactoring by @s1lent4gnt in #3075\nfix(datasets): expand torchcodec platform coverage + rewrite pyav fallback for torchvision >0.26 by @imstevenpmwork in #3588\nfeat(episodes): adding support for metadata based episodes filtering by @CarolinePascal in #3530\nchore(dependencies): update uv.lock by @imstevenpmwork in #3561\nFix policy.path not working in YAML config files by @jashshah999 in #3145\nfix(config): add lora_alpha to PeftConfig by @wadeKeith in #3573\ndocs(quickstart): adding rollout  by @NikodemBartnik in #3598\nadd comprehensive CLI cheat sheet for quick reference by @NikodemBartnik in #3602\nfeat(encoding parameters): adding support for user provided video encoding parameters  by @CarolinePascal in #3455\nfix(pi05): update pi05 with transformers v5.4.0 scaled PaliGemma embeddings by @HaomingSong in #3603\nAllow zero-shot reward configs without optimizer presets by @s1lent4gnt in #3625\nMention the new Lance LeRobotDataset implementation in the docs by @lhoestq in #3609\nfeat(robots): natively integrate Seeed Studio reBot B601-DM arm by @pkooij in #3624\nSet OpenCV fourcc after size and fps by @von-Neumann101 in #3620\nAdd extensive language support by @pkooij in #3467\nfeat(video re-encoding): Adding utility and dataset edition tool for video re-encoding by @CarolinePascal in #3611\nfix(datasets): normalize shape=(1,) numeric values before HF encoding by @SevenFo in #3344\nfix(datasets): bound VideoDecoderCache to prevent OOM on large datasets by @rzninvo in #3614\nFeat/clean can bus by @Virgileboat in #3526\nrefactor(rewards) : support custom progress parquet overlays by @s1lent4gnt in #3640\nfix api examples by @NikodemBartnik in #3623\nfix(pi0, pi05): stabilize torch.compile and expand test coverage by @HaomingSong in #3610\nfix(groot): align GR00TN15Config with transformers config dataclasses by @HaomingSong in #3606\nfix(deps): cap placo below 0.9.16 and harden kinematics import by @pkooij in #3647\nfix(configs): make policy.path in YAML work without a type discriminator by @reeceomahoney in #3597\nfix(groot): support Transformers 5.4+ Eagle Flash Attention initialization by @HaomingSong in #3652\nfeat(rewards): add TOPReward reward model by @s1lent4gnt in #3629\nAdd MolmoAct2 policy by @hq-fang in #3604\nfeat(rewards): add ROBOMETER reward model by @s1lent4gnt in #3627\nfix(datasets): default private to None in push_to_hub by @s1lent4gnt in #3713\nfix(train): enable relative action overrides for pretrained processors by @HaomingSong in #3711\nDocs/add lelab by @NikodemBartnik in #3707\ndocs: fix broken dataset script paths (datasets/v30 -> scripts) by @jpatel3 in #3695\nfeat(policies): add VLA-JEPA by @Maximellerbach in #3568\nfeat(rollout): adding episodic strategy by @Maximellerbach in #3717\nfeat(processor): Add in-memory processor pipeline serialization by @AdilZouitine in #3732\nfix(pyproject): adding ceiling bound on mujoco (<3.9.0) by @CarolinePascal in #3751\nRevert \"fix(pyproject): adding ceiling bound on mujoco (<3.9.0)\" by @imstevenpmwork in #3754\nchore(dependecies): update mujoco transitives by @imstevenpmwork in #3756\nfix(train): synchronize EpisodeAwareSampler shuffling across ranks and gate dataset download per node by @pkooij in #3768\nchore: update readme by @imstevenpmwork in #3774\nfeat(training): bump accelerate + use reduction types for tracked metrics in a multi rank setup by @imstevenpmwork in #3773\nchore(deps): relax grpcio / protobuf / wandb bounds by @imstevenpmwork in #3777\nfeat(trim): adding optional trimming option in reencode_video by @CarolinePascal in #3779\nfeat(datasets): deterministic, resumable shuffling for EpisodeAwareSampler  by @pkooij in #3769\nDocs/model card improvements by @NikodemBartnik in #3634\nfeat: language annotation pipeline by @pkooij in #3471\nfeat(edit-dataset): add concatenate_videos opt-out to merge by @Ace3Z in #3663\nfix(datasets): avoid uint8 overflow in image stats by @Altman-conquer in #3697\nrefactor(robots): homogenize bi-manual setups implementations by @imstevenpmwork in #3772\nchore(dependencies): update uv.lock by @imstevenpmwork in #3595\nfix(images/videos): fixing aggregate_pipeline_dataset_features to avoid unwanted images features deletion by @CarolinePascal in #3783\nfix(datasets): enforce one parquet row group per episode in v3 data writes by @pkooij in #3807\nfix(features copy): adding deepcopy on LeRobot dataset features to avoid shallow copy leaks by @CarolinePascal in #3826\nfix(cameras): snapshot stop_event in read loops to avoid None deref by @CarolinePascal in #3812\nfix(image transforms): cleaning up image_transforms implementation by @CarolinePascal in #3829\ndocs: add LeLab web interface to README by @nicolas-rabault in #3831\nAdd third-party env plugin discovery by @s1lent4gnt in #3823\nFix batch wandb logging metrics and handle scalar stats by @s1lent4gnt in #3821\nAdd pretrained_revision to pin Hub model versions by @s1lent4gnt in #3820\nfix(policies): support offline batch inference for ACT and Diffusion by @s1lent4gnt in #3822\nfeat(train): FSDP checkpoint saving by @Maximellerbach in #3810\nRecord eval rollouts as LeRobot datasets by @s1lent4gnt in #3825\nfix(deps): pin cmeel-urdfdom <5 and cmeel-tinyxml2 <11 in placo-dep by @jiwenc-nv in #3873\nFix pi0fast model id in docs by @AlexandreEDMOND in #3855\ndocs: fix ACT policy type examples by @someone114514 in #3792\nfeat(utils): display-independent keyboard controls for recording (Wayland / headless / macOS) by @imstevenpmwork in #3875\nUpdate follower arm description in documentation by @hazzelnut in #3780\nrefactor(policies): clean MolmoAct2 by @s1lent4gnt in #3724\nAdd inline offline validation with train/eval split by @s1lent4gnt in #3824\nfeat(depth maps): adding support for depth in LeRobot by @CarolinePascal in #3644\nfeat(dependencies): bump rerun-sdk to <0.34.0 by @CarolinePascal in #3763\nfeat(train): run training remotely on HF Jobs via --job.target by @nicolas-rabault in #3856\nrefactor(vla-jepa): removing gpu roundtrip by @Maximellerbach in #3750\nEnable MolmoAct2 rollout on SO-100/101 with calibration correction by @s1lent4gnt in #3879\nFeat(robot): add MIT control mode to ReBot by @s1lent4gnt in #3778\nfix(datasets dependency): removing datasets dependency in pretrained.py by @CarolinePascal in #3897\nfeat(policies): Add FastWAM Policy by @Maximellerbach in #3834\nperf(tests): cache draccus docstring extraction to fix Fast Tests regression by @nicolas-rabault in #3903\nfeat(visualization): add foxglove support by @imstevenpmwork in #3902\nfeat(libaom-av1): adding support for libaom-av1 codec library by @CarolinePascal in #3898\nfix(depth unit): adding input depth unit storage in the dataset metadata by @CarolinePascal in #3899\nfix(save codec options): making sure codec options are always set via set_if by @CarolinePascal in #3910\nfix(train): drive Accelerate mixed precision from policy.dtype by @pkooij in #3912\nDocs/improve HF jobs documentation by @NikodemBartnik in #3909\nLingBot-VA: video-action world model  by @pkooij in #3731\nfeat(policies): add Gr00t N1.7 policy by @imstevenpmwork in #3922\nfeat(policies): add EVO1 policy by @imstevenpmwork in #3908\nchore(infra): remove requirements files by @imstevenpmwork in #3925\nchore(dependencies): update uv.lock by @imstevenpmwork in #3816\nchore(docs): update readme + gr00t libero results by @imstevenpmwork in #3941\nfeat(examples): add Isaac Teleop → SO-101 teleoperation and dataset recording example by @CarolinePascal in #3927\ndocs(prettier): making video encoding parameters docs prettier by @CarolinePascal in #3911\nchore(dependencies): update uv.lock by @imstevenpmwork in #3928\nchore(dependencies): Bump lerobot to 0.6.0 by @imstevenpmwork in #3956\nNew Contributors\n@hf-security-analysis[bot] made their first contribution in #3333\n@EPronovost made their first contribution in #3147\n@mtiezzi made their first contribution in #3182\n@remete618 made their first contribution in #3273\n@rtrompier made their first contribution in #3386\n@wadeKeith made their first contribution in #3240\n@hello3x3 made their first contribution in #3279\n@Defalt-Meh made their first contribution in #3167\n@kuafou made their first contribution in #3291\n@ChuyaoShen made their first contribution in #3414\n@shoumikhin made their first contribution in #3435\n@NikodemBartnik made their first contribution in #3598\n@von-Neumann101 made their first contribution in #3620\n@rzninvo made their first contribution in #3614\n@Virgileboat made their first contribution in #3526\n@hq-fang made their first contribution in #3604\n@jpatel3 made their first contribution in #3695\n@Ace3Z made their first contribution in #3663\n@jiwenc-nv made their first contribution in #3873\n@AlexandreEDMOND made their first contribution in #3855\n@someone114514 made their first contribution in #3792\n@hazzelnut made their first contribution in #3780\nFull Changelog: v0.5.1...v0.6.0",
+      "id": "82d8aae81c2aea40",
+      "title": "李飞飞World Labs收购SceniX，物理AI训练正从“采数据”走向“造世界”|机器人|模型|仿真|评测|物体_手机新浪网 - 新浪财经",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5",
+      "publishedAt": "2026-08-01T06:12:25.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.125Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "李飞飞World Labs收购SceniX，物理AI训练正从“采数据”走向“造世界”|机器人|模型|仿真|评测|物体_手机新浪网  新浪财经",
       "tags": [
-        "产品",
-        "robot",
-        "vla",
-        "isaac"
+        "投融资",
+        "机器人"
       ],
-      "kind": "产品发布",
-      "score": 146,
-      "titleZh": "Release v0.6.0",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "kind": "投融资",
+      "score": 104,
+      "titleZh": "李飞飞World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”",
+      "summaryZh": "李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。"
     },
     {
-      "id": "9da8fb3e629b8216",
-      "title": "Japan’s Robotics and Manufacturing Leaders Build on NVIDIA Cosmos to Advance Physical AI Frontier",
-      "link": "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier",
-      "publishedAt": "2026-07-16T03:40:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.932Z",
-      "source": "NVIDIA Newsroom",
-      "sourceWeight": 10,
-      "excerpt": "NVIDIA today announced that Japan’s physical AI leaders are building on the NVIDIA Cosmos™, NVIDIA Isaac™, NVIDIA Metropolis and NVIDIA Jetson™ platforms to accelerate the deployment of intelligent machines across manufacturing, mobility, infrastructure and robotics.",
+      "id": "d8decbada0d884d3",
+      "title": "中科院系农业机器人公司，融资数亿，奇瑞也投了 - 手机新浪网",
+      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5",
+      "publishedAt": "2026-08-01T05:40:00.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.125Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "中科院系农业机器人公司，融资数亿，奇瑞也投了  手机新浪网",
       "tags": [
-        "产品",
-        "robot",
-        "robotics",
-        "physical ai"
+        "投融资",
+        "机器人"
       ],
-      "kind": "产品发布",
-      "score": 144,
-      "titleZh": "Japan’s Robotics and Manufacturing Leaders Build on NVIDIA Cosmos to Advance Physical AI Frontier",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "kind": "投融资",
+      "score": 104,
+      "titleZh": "中科院系农业机器人公司融资数亿元，奇瑞参投",
+      "summaryZh": "一家中科院系农业机器人公司完成数亿元融资，奇瑞也参与投资，成为该公司投资方之一。"
     },
     {
-      "id": "13f77bbb5cb94408",
-      "title": "Empowering India’s next generation of innovators with ATL Saathi",
-      "link": "https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/",
-      "publishedAt": "2026-07-13T12:37:28.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.974Z",
-      "source": "Google DeepMind Blog",
-      "sourceWeight": 10,
-      "excerpt": "Google and AIM launched ATL Saathi, a Gemini-powered AI tool empowering Indian educators in robotics labs.",
+      "id": "3b692572e410ec45",
+      "title": "机器人：融资净买入85.18万元，融资余额10.55亿元 - 东方财富",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAxWHRyblBZZkM3WnU3R3Z2c3pwaml6aUc1aUFuMlFJUjV5U3ZvMDh2RUJiaGJjbmhKWlBtTjVSN1BySnBGdHFWT2tQSmJiR3laRUF5SWlhamVkU0dvZ0tUdg?oc=5",
+      "publishedAt": "2026-07-31T20:32:51.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.125Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "机器人：融资净买入85.18万元，融资余额10.55亿元  东方财富",
       "tags": [
-        "产品",
-        "robot",
-        "robotics"
+        "投融资",
+        "机器人"
       ],
-      "kind": "产品发布",
-      "score": 136,
-      "titleZh": "Empowering India’s next generation of innovators with ATL Saathi",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "kind": "投融资",
+      "score": 104,
+      "titleZh": "机器人：融资净买入85.18万元，融资余额10.55亿元",
+      "summaryZh": "数据显示，机器人融资净买入85.18万元，融资余额为10.55亿元，反映了该股票近期的融资交易情况。"
     },
     {
-      "id": "614d79e4a866af7d",
-      "title": "Gemini Robotics ER 2: powering robotics with video understanding, task orchestration, and multi-robot collaboration",
-      "link": "https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/",
-      "publishedAt": "2026-07-30T15:00:59.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.974Z",
-      "source": "Google DeepMind Blog",
-      "sourceWeight": 10,
-      "excerpt": "Gemini Robotics ER 2 helps robots reason, collaborate, and solve real-world tasks. It represents a step change in video understanding, tool orchestration, and multi-robot collaboration for robotic applications.",
+      "id": "967a0c16689b61ed",
+      "title": "真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人领域！整合风险值得关注 - finance.eastmoney.com",
+      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBMX0JIWFhWVVVJeU5UcHNBbEFDX3lnWi1TeGdPRFZBbGxqTGtZQmhDaWl2Q2ozWW1lTDZDYWlKQVVUMkI5RTRWWVNfY1hpdEtpcGg1T05Kd3pMblZGTkM1b0ZlUkl5QQ?oc=5",
+      "publishedAt": "2026-07-31T19:50:20.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.125Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人领域！整合风险值得关注  finance.eastmoney.com",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "kind": "投融资",
+      "score": 104,
+      "titleZh": "真兰仪表拟1.98亿元收购芜湖藦卡66%股权，跨界工业机器人领域",
+      "summaryZh": "真兰仪表拟以1.98亿元收购芜湖藦卡66%股权，跨界进入工业机器人领域，相关整合风险值得关注。"
+    },
+    {
+      "id": "c34956f8e05e0ee2",
+      "title": "Top 10 robotics stories of July 2026 - The Robot Report",
+      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB0d1o2a2JMcWpaN25ER2c4dVA3VVFHd0RqdWR1UjhIT05XYmh2Y3lBbXhtSVFheGgxTXdILTEtLTBUV2M5Rjl6TWphMk1hVloyeVFia1RRR3VjX0Jxb2N1R3R0MkNQaldJUktFNkZIU3BnSzA?oc=5",
+      "publishedAt": "2026-08-01T12:03:18.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.086Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "Top 10 robotics stories of July 2026  The Robot Report",
       "tags": [
         "产业",
         "robot",
         "robotics"
       ],
       "kind": "公司商业",
-      "score": 132,
-      "titleZh": "Gemini Robotics ER 2: powering robotics with video understanding, task orchestration, and multi-robot collaboration",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "score": 92,
+      "titleZh": "2026年7月机器人领域十大热门报道",
+      "summaryZh": "暂无原文摘要，请阅读原文。"
     },
     {
-      "id": "42a1992e4b242ffc",
-      "title": "Gemini Robotics 2 brings whole body intelligence to robots",
-      "link": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
-      "publishedAt": "2026-07-28T13:21:37.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.974Z",
-      "source": "Google DeepMind Blog",
-      "sourceWeight": 10,
-      "excerpt": "",
+      "id": "37fb9bf7f33a9ac0",
+      "title": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经",
+      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5",
+      "publishedAt": "2026-08-01T09:05:45.000Z",
+      "fetchedAt": "2026-08-01T16:03:52.125Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫  新浪财经",
       "tags": [
         "产业",
-        "robot",
-        "robotics"
+        "具身"
       ],
       "kind": "公司商业",
-      "score": 132,
-      "titleZh": "Gemini Robotics 2 brings whole body intelligence to robots",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "score": 88,
+      "titleZh": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫",
+      "summaryZh": "文章揭秘具身智能领域的榜单生意链，聚焦刷榜狂欢现象，呈现其背后的行业繁荣与泡沫，反映围绕榜单排名产生的刷榜生意。"
     },
     {
       "id": "01e22e1118a9b07d",
       "title": "Machines that know they are aging: a framework for hardware-aware autonomous intelligence",
       "link": "https://arxiv.org/abs/2607.28451v1",
       "publishedAt": "2026-07-30T16:17:31.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Autonomous systems inevitably age, yet their artificial intelligence typically assumes hardware remains in its original condition. Batteries degrade, sensors drift, processors accumulate timing errors, and memory reliability declines, creating a growing mismatch between assumed and actual capability. This can lead to agnostic collapse, where mission failure arises from accumulated hardware degradation rather than a single component fault. We propose Aging-Aware Autonomous Intelligence (AAAI), a framework that integrates hardware health directly into reasoning, planning, and mission execution. AAAI is built on three pillars: hardware self-awareness, which continuously estimates the health of power, sensing, memory, and computation subsystems using physics-of-failure models; self-adaptive reasoning, which adjusts inference complexity, planning horizon, and task priorities according to remaining hardware capability; and survival-centric intelligence, which allocates remaining operational life across mission objectives through performance optimization, resource conservation, and graceful degradation. Rather than introducing new hardware, AAAI unifies prognostics, lifecycle management, and hardware-aware computing into a closed-loop cognitive architecture. We argue that such integration is essential for autonomous systems operating in inaccessible or safety-critical environments, including space missions, marine robotics, and implantable medical devices. By enabling machines to recognize and respond to their own aging, AAAI improves resilience, extends operational lifetime, and supports safer, more graceful mission completion.",
@@ -114,15 +126,15 @@
       ],
       "kind": "产品发布",
       "score": 126,
-      "titleZh": "Machines that know they are aging: a framework for hardware-aware autonomous intelligence",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "能感知自身老化的机器：硬件感知自主智能框架",
+      "summaryZh": "自主系统的电池、传感器等会老化，但人工智能常假设硬件完好，易导致任务失败。AAAI框架将硬件健康融入推理与规划，延长寿命并提升安全性。"
     },
     {
       "id": "91c5db09e5cb563f",
       "title": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
       "link": "https://arxiv.org/abs/2607.27881v1",
       "publishedAt": "2026-07-30T08:55:45.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical gaps: no mechanism for failure recovery, inconsistent execution over long horizons, and limited robustness to shifts in observations, tasks, or embodiments. Existing solutions address these limitations individually through model retraining or environment-specific modules, yet what is needed is a general framework that systematically transforms a pretrained VLA into a robotic agent. We present RoboBRIDGE, a modular framework that provides an orchestration layer over five coordinated modules, namely Monitor, Perceptor, Planner, Controller, and Robot Interface, to compose robust robotic agents from off-the-shelf components, including pretrained VLAs. The Monitor pairs rapid failure detection with hierarchical recovery to correct errors before they cascade. When the environment diverges from the current plan, the Planner triggers replanning while the Perceptor updates scene understanding asynchronously, avoiding execution stalls. Within the Controller, primitive skill fine-tuning factors manipulation into domain-invariant primitives with dedicated LoRA adapters, reducing sensitivity to domain shifts when a VLA is used. Across LIBERO, RoboCasa, and real-world case studies spanning multiple robot platforms and VLA backbones, RoboBRIDGE consistently outperforms both standalone policies and prior augmented VLA deployments. These results suggest that reliable robotic agency does not arise from scaling action predictors alone, but from structured orchestration around them.",
@@ -134,15 +146,15 @@
       ],
       "kind": "部署案例",
       "score": 126,
-      "titleZh": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "RoboBRIDGE：将策略桥接为真实世界机器人智能体的模块化框架",
+      "summaryZh": "RoboBRIDGE以五模块协同将预训练VLA编排为稳健机器人智能体，支持故障恢复与重规划，多平台实验优于独立策略。"
     },
     {
       "id": "d296eb9c0886d703",
       "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
       "link": "https://arxiv.org/abs/2607.27782v1",
       "publishedAt": "2026-07-30T07:14:39.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
@@ -154,75 +166,15 @@
       ],
       "kind": "部署案例",
       "score": 126,
-      "titleZh": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "031a3e849db28d75",
-      "title": "Practice Makes Policies: Bootstrapping and Consolidating Robotic Capabilities from Zero Human Demonstrations",
-      "link": "https://arxiv.org/abs/2607.26809v1",
-      "publishedAt": "2026-07-29T11:51:41.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "General-purpose robotic manipulation requires robots to perform diverse tasks in open-world environments while improving their skills over time. Despite recent progress in robotic manipulation, existing systems still primarily acquire manipulation skills in a static manner, where capabilities are learned for specific tasks or settings rather than adaptively evolving through physical interaction. Resembling how repeated practice enables humans to develop muscle memory, advanced manipulation proficiency requires an autonomous capability evolution mechanism that allows robots to progressively transform interaction experiences into increasingly effective manipulation abilities. To this end, we propose HERO, a self-improving hierarchical embodied agent that enables autonomous capability evolution from zero human demonstrations. HERO organizes heuristic reasoning, exemplar reuse, and reflexive execution into a unified orchestration framework, allowing robots to autonomously bootstrap manipulation experience, rapidly accumulate reusable behaviors through experience transfer, and progressively consolidate recurring interactions into efficient closed-loop visuomotor policies. By tightly coupling autonomous data collection with task execution, HERO continuously expands and dynamically schedules manipulation capabilities according to different stages of experience accumulation and execution requirements. Extensive experiments demonstrate that HERO substantially reduces human intervention during robotic data collection while achieving robust manipulation across diverse tasks, providing a promising path toward self-improving robotic systems.",
-      "tags": [
-        "产业",
-        "robot",
-        "embodied",
-        "manipulation"
-      ],
-      "kind": "公司商业",
-      "score": 126,
-      "titleZh": "Practice Makes Policies: Bootstrapping and Consolidating Robotic Capabilities from Zero Human Demonstrations",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "f6da9ceeedbccd7f",
-      "title": "CheckVLA: Execution-Time Verification with Action-Conditioned World Model for Long-Horizon Mobile Manipulation",
-      "link": "https://arxiv.org/abs/2607.26789v1",
-      "publishedAt": "2026-07-29T11:31:33.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-language-action (VLA) policies commonly execute long-horizon mobile manipulation through open-loop action chunks, issuing multiple actions without receiving new high-level visual input. A committed chunk therefore implies how observations should evolve, but accidental deviations can violate this expectation while the remaining actions continue to propagate the error: commit-time policy confidence cannot react to a deviation that occurs after dispatch, and observation-only anomaly scores lack an action-conditioned reference for separating expected effects from unexplained changes. We propose CheckVLA, which verifies execution with a separately trained, frozen action-conditioned world model. A conformally calibrated risk threshold bounds the episode-level probability of an unnecessary first intervention and determines when to intervene, its exceedance controls how strongly the rewritten suffix retains the superseded chunk, latency-aware hard prefixing restricts replacement to actions that remain deployable, and an event-driven keyframe bank preserves evidence of prior progress across repairs. On RoboCasa365, under a common training recipe and a matched invocation budget, CheckVLA attains a 36.1% average success rate against 27.6% for periodic replanning (+8.5 points). At a matched 5% episode-level false-alarm target, action conditioning raises timely recall to 77.9%, against 48.6% for an observation-only control and 37.9% for an action-shuffled control. These simulation results support action-conditioned verification as a way to restore feedback during chunked execution while keeping the repair consistent with inference latency.",
-      "tags": [
-        "落地",
-        "vla",
-        "vision-language-action",
-        "manipulation"
-      ],
-      "kind": "部署案例",
-      "score": 126,
-      "titleZh": "CheckVLA: Execution-Time Verification with Action-Conditioned World Model for Long-Horizon Mobile Manipulation",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "2637bdad96cce5a6",
-      "title": "Explicit Kinematic Guidance from Analytic Concepts for Vision-Language-Action Models",
-      "link": "https://arxiv.org/abs/2607.26513v1",
-      "publishedAt": "2026-07-29T06:24:25.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Current Vision-Language-Action (VLA) models rely mainly on 2D inputs, neglecting the rich object structural information and commonsense knowledge inherent in the 3D physical world. This deficiency restricts their spatial awareness and adaptability for complex, high-precision manipulation. To bridge this crucial gap, we construct a Concept Expert module for VLA to build executable Analytic Concepts that represent objects as explicit, programmatic blueprints. Our mechanism operates in two synergistic phases: First, prior to VLA inference, the Concept Expert leverages 3D information from Vision Foundation Models (VFMs) to estimate the initial kinematic and structural parameters. Second, throughout the manipulation process, the VLA model utilizes its inherent capability to dynamically track the dynamic concept parameters, continuously aligning them with observational changes to ensure persistent accuracy. Once established, the Analytic Concepts provide explicit, high-quality guidance for VLA fine-tuning through (1) dense, programmatic manipulation rewards and (2) precise spatial guidance.\n  This formulation allows VLA models to learn physically grounded interaction behaviors while maintaining end-to-end learning flexibility.\n  Our experimental results show consistent improvements in success rate and learning efficiency across supervised and reinforcement learning settings, demonstrating the effectiveness of structured, concept-based guidance for VLA post-training.",
-      "tags": [
-        "产业",
-        "vla",
-        "vision-language-action",
-        "manipulation"
-      ],
-      "kind": "公司商业",
-      "score": 126,
-      "titleZh": "Explicit Kinematic Guidance from Analytic Concepts for Vision-Language-Action Models",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配VLA策略",
+      "summaryZh": "RedFlow是面向流匹配VLA策略的细粒度离线强化学习框架，将失败数据转化为动作级纠正监督，真实任务成功率由56.7%提升至74.7%，样本效率优于在策略方法。"
     },
     {
       "id": "713891c7314a8c8b",
       "title": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
       "link": "https://arxiv.org/abs/2607.27784v1",
       "publishedAt": "2026-07-30T07:17:28.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternatives tend to provide less precise control and impose greater cognitive workload on operators. We present DexDirect, a direct kinesthetic arm guidance for efficient dexterous demonstration collection. The operator drags a 6-DoF gravity-compensated robot arm directly by a handle, while a single webcam retargets operator's other hand onto a 16 joints 13-DoF dexterous robot hand. User studies suggest DexDirect collects 17.2x and 3.2x more successful demonstrations compared to purely vision (AnyTeleop) and pose-tracking (TeleDex) baselines. An adapted NASA-TLX shows DexDirect greatly reduces mental demand, effort, and frustration, despite raising physical demand. A diffusion policy trained on DexDirect demonstrations reaches a 90% success rate on a cube pick-and-place task. These results suggest that direct kinesthetic arm guidance combined with vision-based hand retargeting provides an efficient low-setup and scalable interface for collecting dexterous manipulation demonstrations",
@@ -233,15 +185,15 @@
       ],
       "kind": "公司商业",
       "score": 122,
-      "titleZh": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "DexDirect：面向高效灵巧演示采集的直接动觉手臂引导",
+      "summaryZh": "DexDirect 拖动手柄引导重力补偿机械臂，单摄像头将另一只手重定向到16关节灵巧手；成功演示数高于视觉和位姿跟踪基线，扩散策略抓取放置成功率达90%。"
     },
     {
       "id": "60a3a5fc00c37557",
       "title": "Arm2Air: Cross-Embodiment Skeleton Transfer for 3D Relay Formation",
       "link": "https://arxiv.org/abs/2607.27627v1",
       "publishedAt": "2026-07-30T03:32:19.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Unmanned aerial vehicle (UAV) relay networks can restore connectivity after communication infrastructure is damaged. Urban relay placement is difficult because line-of-sight blockage, communication range, altitude, and three-dimensional obstacles must be considered jointly. Arm2Air transfers obstacle-avoidance skeletons from robot arms to UAV relay placement through cross-embodiment transfer. Source-domain robot-arm motions from a pretrained Neural MP model are converted into ordered skeletons that pretrain a transformer-based transfer platform, which is then adapted to the UAV domain using limited target data and Low-Rank Adaptation. The transferred skeleton initializes a relay chain that is refined for connectivity, bottleneck capacity, delay, and movement cost. On nine held-out high-clutter 3D urban maps, Arm2Air reduced median end-to-end planning runtime by 64.9 percent relative to the fastest conventional planner. On the high-obstruction group of a separate 30-map dense urban holdout, it increased bottleneck capacity by 32.6 percent, reduced capacity variance by 74.7 percent, reduced maximum hop distance by 13.2 percent, reduced hop-distance variance by 75.2 percent, and reduced relay displacement by 16.9 percent relative to IMPC-MD. With only three target-domain training maps, Arm2Air reduced relay-position root mean square error by 53.6 percent relative to training from scratch while updating 0.134 million parameters, compared with 1.383 million for Scratch and Full Fine-tuning. These results demonstrate computationally and data-efficient UAV relay placement and suggest a broader principle for transferring ordered structural priors across heterogeneous embodied tasks.",
@@ -252,15 +204,15 @@
       ],
       "kind": "公司商业",
       "score": 122,
-      "titleZh": "Arm2Air: Cross-Embodiment Skeleton Transfer for 3D Relay Formation",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "Arm2Air：跨形态骨架迁移实现无人机三维中继部署",
+      "summaryZh": "Arm2Air将机械臂避障骨架跨形态迁移至无人机中继部署，少量数据微调后规划耗时降64.9%、瓶颈容量升32.6%。"
     },
     {
       "id": "646cf52ca94293f1",
       "title": "Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling",
       "link": "https://arxiv.org/abs/2607.27511v1",
       "publishedAt": "2026-07-29T22:55:54.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
+      "fetchedAt": "2026-08-01T16:03:51.441Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Imitation learning has shown increasing promise for autonomous robotic surgery, yet safe deployment remains challenging due to the safety-critical nature of surgical tasks and the complexity and variability of surgical environments. Failure detection is therefore an essential safeguard, but its development remains difficult due to the challenges of scarce failure data, highly variable manipulation dynamics, and the need to balance missed detections against disruptive false alarms. To address these challenges, we introduce FoMo-FD (Flow-Matching World Model for Failure Detection), a failure detection method that learns nominal short-horizon visual dynamics with an action-conditioned flow-matching world model. FoMo-FD scores the inverse-transport nonconformity of observed endpoint latents, enabling window-level detection of visual-action inconsistencies without requiring failure demonstrations. Detection thresholds are obtained by conformal calibration on successful executions, yielding task-specific alarms without assuming future failure types. We evaluate FoMo-FD on four surgically relevant manipulation tasks with twenty failure modes across simulation and real-world experiments using the da Vinci Research Kit (dVRK). Results show that FoMo-FD outperforms observation-level anomaly baselines and a prediction-error variant of the same world model, with the wrist-camera view achieving the strongest performance, including a 96.6% failure detection rate (FDR) at a 1.3% false alarm rate (FAR).",
@@ -272,959 +224,66 @@
       ],
       "kind": "部署案例",
       "score": 122,
-      "titleZh": "Failure Detection for Surgical Robot Imitation Policies via Flow-Matching World Modeling",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "a27f9a8a4f2efead",
-      "title": "What Can Latent World Models Know? Physical Parameter Identifiability in Multimodal Predictive Representations",
-      "link": "https://arxiv.org/abs/2607.27017v2",
-      "publishedAt": "2026-07-29T15:15:30.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "A central premise of latent world models is that predicting the future forces a representation to internalize the physics of its environment. Which physical quantities does a trained latent actually contain, and what decides this? We answer with controlled interventions in POKEWORLD, an interactive environment whose visually identical objects hide mass, drag, and contact stiffness. A certificate-gated protocol first certifies each parameter as recoverable from raw observations, then measures whether it enters the latent, so a null result can be attributed to the objective rather than to the environment. The resulting identifiability map has two organizing mechanisms and one frontier. Inputs limit what can be known, while prediction targets decide what is retained. Stiffness enters the latent only when touch is forecast ($R^2=0.50$, compared with $-0.02$ when the same signal is merely fused into the input), and under single-step prediction a vision-only latent discards even perfectly visible object state. Drag marks the frontier. It carries a recoverability certificate of 0.89 yet plateaus near 0.13 under every deterministic prediction objective we test, while a supervised head on the same trunk reaches 0.45. Parameters whose readout is slow and ratio-type under the sensed coordinates fall outside what these objectives acquire. On RH20T, an input-target factorial across scaling curves reproduces both mechanisms across two robots and 4,258 episodes. Every arm missing information or prediction pressure stays flat over a fivefold data range, and only the full multimodal objective forecasts force beyond a persistence baseline, with held-out gains that grow with scale. Objective structure determines which physical parameters a latent acquires, and additional data improves only the parameters it already acquires.",
-      "tags": [
-        "产业",
-        "robot",
-        "world model"
-      ],
-      "kind": "公司商业",
-      "score": 122,
-      "titleZh": "What Can Latent World Models Know? Physical Parameter Identifiability in Multimodal Predictive Representations",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "8b6bd0465efd63f9",
-      "title": "BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories",
-      "link": "https://arxiv.org/abs/2607.26914v1",
-      "publishedAt": "2026-07-29T13:44:46.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Biomedical laboratory robots must navigate to instruments before performing experimental procedures. Existing embodied navigation platforms are designed for household environments and treat a target as an object center or an arbitrary nearby position. This representation is inadequate for laboratory instruments, which must be approached from their operating side while maintaining safe clearance from surrounding equipment. We introduce BioVLN, a simulation platform for developing and evaluating visual-language navigation agents in biomedical laboratories. BioVLN represents each instrument with three regions: its physical body, a surrounding clearance region, and an operation area in front of the usable side. This model is applied consistently to scene generation, target placement, navigation evaluation, and safety analysis, so success depends on reaching a position from which the instrument can be accessed. BioVLN supports procedural scene generation and manually designed environments, producing 47 scenes and 1667 episodes. Standardized navigation and reinforcement-learning interfaces enable trajectory collection and policy training. Experiments show that geometric exploration reaches 74.4--87.5% success, while sampling multiple valid positions in the operation area improves success to 83.3--92.5% and reduces unsafe proximity.",
-      "tags": [
-        "产业",
-        "robot",
-        "embodied"
-      ],
-      "kind": "公司商业",
-      "score": 122,
-      "titleZh": "BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "6857422c638d81e6",
-      "title": "It's Not Just More Demos: Counterfactual Action Sensitivity Coverage for Data-Efficient Robust Robot Imitation",
-      "link": "https://arxiv.org/abs/2607.27261v1",
-      "publishedAt": "2026-07-29T05:55:57.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Visuomotor imitation learning has demonstrated success for manipulation tasks. However, the trained policies remain brittle to visual `nuisances', with even minor task-preserving variations such as lighting, distractions or changes in colour result in heavy degradation of the trained policy's performance. While increasing data diversity can improve robustness, it is unclear which additional demonstrations are informative for a particular trained policy. We propose Counterfactual Nuisance Behaviour Cloning (CFNBC), an offline data-selection framework for targeted robustness repair. Starting from a nominal policy trained on `clean' demonstrations, CFNBC generates paired clean and nuisance observations that preserve the expert action, then measures \\emph{action drift}: the change in the policy's predicted action under a nuisance that should not alter the desired behaviour. This provides a policy-specific sensitivity signal for selecting a compact, response-diverse repair set from a larger candidate pool, without requiring rollout success labels or online policy execution. We show in MuJoCo bimanual cube transfer and SimplerEnv cube stacking that action drift correlates with nuisance-induced failure, and that response-guided repair with only $20$--$30$ selected candidates substantially outperforms matched-budget random selection while approaching the performance of much larger random repair budgets. These results support a data-centric view of robustness repair: the most useful data are not necessarily the most numerous, visually diverse, or obviously difficult, but the examples that cover fragile response modes of the current policy.",
-      "tags": [
-        "产业",
-        "robot",
-        "manipulation"
-      ],
-      "kind": "公司商业",
-      "score": 122,
-      "titleZh": "It's Not Just More Demos: Counterfactual Action Sensitivity Coverage for Data-Efficient Robust Robot Imitation",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "d56ace988ec4655c",
-      "title": "Building a Foundation Stack for General-Purpose Robots",
-      "link": "https://spectrum.ieee.org/x-square-robot-embodied-ai-stack",
-      "publishedAt": "2026-07-13T10:19:51.000Z",
-      "fetchedAt": "2026-08-01T16:02:58.057Z",
-      "source": "IEEE Spectrum · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "This article is brought to you by X Square Robot.\nLarge language models gave artificial intelligence a working recipe. Pretrain a large model on broad data, and general capability follows. Robotics has no such recipe. Robotics systems have long been assembled from separate perception, planning, and control parts that rarely add up to intelligence a robot can carry from one task to another, or one machine to another. The central problem in embodied AI is to find the equivalent recipe, and the field does not yet agree on what it is.\nX Square Robot, a Chinese embodied-AI company, has made an unusually explicit bet. It argues that the recipe is an integrated stack, spanning the data a robot learns from, a world model for predicting changes in the physical world, and an action model that brings together perception, planning, reasoning, and decision-making to generate executable robot behavior. The company also believes that the stack should be built and released in the open.\n  X Square Robot shares its vision of bringing robots into real homes.X Square Robot\nX Square Robot’s embodied AI stack\nWhat holds the stack together is a small set of principles rather than a single overarching model.\n\nThe first is that the basic unit of robot data is an interaction, not a trajectory; a demonstration is successful only if it changes the world as intended, not simply because the joints moved. \nThe second is that pretraining should yield usable capability, not just an initialization for later fine-tuning. \nThe third is that behavior should be modeled around physical events rather than fixed slices of time. \n\nThese principles make the layers interdependent, since the same robot-free data that trains the action model is also structured to feed the world model. It is worth being precise, though. The company describes the world model and the action model as complementary but independent model families that share a code base. Both sit within its broader World Unified Model, which it has presented as an architecture for training vision, language, action, and physical prediction together.\nRobot learning data: Engineering for quality and cost, not scale\nFor the X Square Robot team, one of the biggest constraints on general-purpose robots is the cost and quality of interaction data, not the number of parameters. To address that, the company built its Universal Manipulation Interface (UMI) data collection system, QUANXTA Zero Series. It works by collecting demonstrations from people wearing a rig with dual grippers rather than teleoperating a robot. This approach is not itself new, and builds on established methods for robot-free data capture. What sets it apart are two engineering choices.\n\n  X Square Robot emphasizes data quality control, recording trajectories and replaying them on a real robot, with only those that actually complete the task counted as valid.X Square Robot\n\nThe first is quality control, and it is the most distinctive part. Rather than accepting recorded trajectories as they are, the system runs a closed inspection loop, and its notable step is physical playback. A sample of trajectories is replayed on the real robot, and only those that actually complete the task count as valid. That makes the validity rate a measured quantity rather than an assumption. For example, a gripper that closes a fraction of a second too early still looks like a grasp in the data, yet it has pushed the object away, so it shouldn’t be classified as valid. A smaller clean dataset can be worth more than a larger noisy one.\nThe second choice is how lower-cost human data and scarce robot data are combined. The company pretrains on a large volume of robot-free demonstrations to build general representations, then adds a small amount of real-robot data as an anchor to the specific machine’s dynamics. It reports that this reaches performance comparable to an all-robot dataset at roughly a 20-fold lower cost of collection, driven mainly by how much cheaper the wearable rig is than a teleoperation setup. \nThe resulting dataset is deliberately model-agnostic, formatted to feed both action models and world models. The caveat is that the strongest results are measured on the company’s own robots and data-collection pipelines. Broader independent testing will help confirm and extend these promising results across a wider range of settings.\nA world model organized around events\nIn developing its world model, called WALL-WM, X Square Robot took a differentiated approach. Most action models predict a fixed-length chunk of motion from the current image and instruction. That is convenient, but it segments behavior into fixed-duration windows, so the boundaries fall where elapsed time dictates rather than where one action ends and the next begins. WALL-WM instead treats an action-grounded semantic event as its unit: a coherent piece of behavior such as reaching, grasping, or placing, something that can be named in language, seen in video, and executed as motion.\n\n  X Square Robot’s world model, called WALL-WM, treats an action-grounded semantic event as its unit: a coherent piece of behavior such as reaching, grasping, or placing, something that can be named in language, seen in video, and executed as motion.X Square Robot\n\nWALL-WM’s design reflects a specific concern about not discarding what large video models already know. To achieve that, a text-to-video model is coupled to a freshly initialized action network that reads from the video features without overwriting them, which preserves the visual prior. From that one process, it offers two modes. An event mode runs in variable-length segments and suits reasoning over long horizons, while a fixed-length mode produces the steady, real-time output a controller needs. That places WALL-WM between mainstream chunk-based action models and pure video world models, keeping the predictive character of a world model while still yielding executable control.\nIn a series of experiments, the company relied on a generalization test that is more specific than most. A model trained on a limited dataset was evaluated on long-horizon tasks in unseen settings and, on the company’s real-robot benchmark, reportedly outscored baselines that had been fine-tuned on related data. That is a meaningful result if it holds. For now, it is measured on the company’s own benchmark. With the code now being released, the broader community will have the opportunity to test, reproduce, and build on them across more settings.\nA policy that runs before fine-tuning, and action tokens with meaning\nThe action layer carries two connected ideas. The first is a requirement the company sets for itself with Wall-OSS-0.5, its vision-language-action model: The pretrained model should run on a real robot before any task-specific fine-tuning. \nThe interest is less in the scores than in the design behind them. The model trains three objectives together, namely discrete action tokens, language grounding, and continuous action generation. And it keeps gradients flowing through all of them rather than freezing parts of the network as some rival designs do. It’s also a more strict method, since it reports untuned behavior such as approaching, grasping, and recovering, including on a deformable task held out of training.\n\n  As part of X Square Robot’s Wall-OSS-0.5 vision-language-action model design, the pretrained model should run on a real robot before any task-specific fine-tuning. X Square Robot\n\nThe second idea is the action interface itself, called X-Tokenizer. Most systems that turn continuous motion into discrete tokens produce codes that the language model cannot interpret. X-Tokenizer reframes tokenization as learning a semantic interface, so that the top-level code stands for the intent of a motion while lower-level codes carry finer detail, all aligned with the language model’s own features. \nA useful consequence is stability. Adding noise to an action barely moves the intent code, which is what lets one tokenizer to be reused across robots without re-tuning. The tokenizer inside the production action model is a related variant of this approach. Together, the two ideas give the action layer something rather powerful: capability that transfers.\nThe future of embodied AI stacks\nX Square Robot is betting that its unique approach combining three layers, each specialized in solving a key part of the problem, will stand out from other embodied AI stacks. The physical-playback step that grounds data quality is uncommon and sensible. The reframing of world modeling around events, with one backbone serving both reasoning and control, is a genuinely distinct approach. And the pairing of a deployable pretraining standard with a tokenizer designed as a semantic interface gives the action layer unusual coherence. \nX Square Robot’s valuation has climbed above 20 billion yuan (about US $2.9 billion), suggesting that investors increasingly view data infrastructure, foundation models, and scalable training systems as long-term differentiators in embodied AI.\nThe next phase will bring broader validation. Much of the current evidence comes from X Square’s own robots and benchmarks. With the world model code now being made public, and as the community begins to test, reproduce, and build on the work, the reported capabilities will be tested across more robots, tasks, and settings.\nX Square Robot’s recent funding rounds reflect similar confidence. The company’s valuation has climbed above 20 billion yuan (about US $2.9 billion), suggesting that investors increasingly view data infrastructure, foundation models, and scalable training systems as long-term differentiators in embodied AI.\nWhat’s next for X Square Robot\nTo learn more about its future plans, the following Q&A with the X Square Robot team further explores the company’s technology, strategy, and vision.\nWhat made now the right moment, technically, to commit to this stack? What recently became possible that wasn’t possible a couple of years ago?\nIt is not one breakthrough but several trends maturing together. Foundation models gave us a shared representation across vision, language, and action, so we can model what a robot sees, what it is asked to do, and how its actions change the world in one framework, rather than as separate perception, planning, and control modules. \nCompute and infrastructure are finally sufficient for large-scale pretraining over long-horizon, multi-embodiment data. Just as importantly, we realized that data, not model size, is the real bottleneck for general robots—what is scarce is diverse, high-quality, reproducible interaction data. And world modeling has become practical. The useful question is no longer how to predict a few seconds of video, but how to understand the ways actions change objects, contacts, and task states. Two years ago these ingredients existed separately. Today they are mature enough to work as one system.\n“We realized that data, not model size, is the real bottleneck for general robots—what is scarce is diverse, high-quality, reproducible interaction data. And world modeling has become practical.”\nYour data system captures demonstrations with a wearable VR rig and custom grippers rather than teleoperating robots. What was wrong with standard teleoperation?\nTeleoperation is built around controlling the robot. It forces the operator to work within the machine’s kinematics, latency, and viewpoint, and the resulting demonstrations are slower, stiffer, and less diverse. We built our system around capturing human skill instead. Manipulation is really about contact, timing, finger coordination, and recovery, not just the path the hand takes, and a wearable rig records those before the behavior is compressed onto one particular robot. It also breaks teleoperation’s expensive scaling law, in which every demonstration needs a robot. \nPeople can generate rich data independently of any robot, and the crucial property is that those demonstrations can still be replayed and executed on a physical robot through the model. Mobility is convenient, but that replay is the real point, because it is what lets the same data be reused across different platforms.\n  In X Square Robot’s approach, demonstrations can be replayed and executed on a physical robot through the AI model, allowing the same data to be reused across different platforms.X Square Robot\nX Square Robot reports that its pipeline has roughly an 85 percent data-validity rate. Why is quality control such an underrated bottleneck?\nBecause errors in robot data are far more expensive than in language data. A small timing or contact error can change what a demonstration means. If a gripper closes a fraction of a second too early, the motion still looks like a grasp, but physically it has pushed the object away. A dataset that mixes failures and accidental successes teaches ambiguity, not skill, because the real unit is the interaction, not the trajectory. \nSo we run automated inspection, kinematic checks, and physical replay, where we play a sample of trajectories back on the real robot and count only the ones that actually complete the task. Data quality sets the ceiling on how good a policy can be. In our experience a smaller, cleaner dataset often beats a much larger, noisier one, which is why we treat quality control as part of the model, not a preprocessing afterthought.\nThe model runs in both “event mode” and “chunk mode.” When does each matter?\nBoth matter, for different reasons. The physical world changes through events—when contact occurs, a grasp forms, or an object slips—not in fixed-frame windows. Event mode concentrates the model’s attention on those moments, and it matters most for long-horizon tasks, like clearing a table, where progress is a sequence of semantic events rather than a smooth stream. It runs in variable-length segments that follow the task rather than a clock. Chunk mode matters for deployment. Real controllers need a stable, real-time interface, and fixed-length chunks integrate cleanly with existing control systems. \nWe organize learning around events in the first place because a fixed window can split one motion in half or merge two together, which turns training into short-horizon pattern matching and weakens the model on long tasks. So the world model’s job is to connect event-level understanding, which is where the reasoning happens, with a fixed-length output a real robot can actually run.\nWhy make “deployable before fine-tuning” the criterion?\nPretraining should produce capability, not just a good starting point. If a model is only useful after heavy fine-tuning, then most of the intelligence still lives in the downstream supervision, not in the foundation model. Deployable before fine-tuning is a more honest test of what pretraining actually learned. A well-pretrained robot should already know how to approach, grasp, move, avoid obstacles, and correct itself. Fine-tuning should adapt it to a specific task or robot, not create the ability from nothing. It is also a practical requirement. A robot in a home or a workplace shouldn’t need a brand-new dataset and a new policy every time the task changes, so a foundation model that already carries general skill, and some ability to recover, is the minimum bar for something genuinely useful in the real world.\nWhat is the most challenging part of cross-embodiment learning?\nRobots differ in control frequency, delay, compliance, sensing precision, and contact dynamics, so the same instruction can require different action decompositions and recovery strategies, and a behavior that works on one arm cannot simply be copied to another. Cross-embodiment learning needs an intermediate abstraction, lower than language but higher than joint angles: how you approach an object, how you make contact, how you apply force, and how you recover from a mistake. \nWhen we say cross-embodiment, the main capability we mean is multi-embodiment generalization: transferring across robots, training on many embodiments at once, and adapting to different kinematics. Human-to-robot transfer and other techniques are specific approaches to that goal.\n“A robot in a home or workplace shouldn’t need a new dataset and policy every time the task changes. A useful foundation model should already carry general skills and the ability to recover.”\nWhat would you most like to see other researchers attempt to reproduce or stress-test?\nThree things, above all. Whether event-level representations really generalize beyond our own datasets, across more tasks, scenes, objects, embodiments, and failure conditions. Whether pretraining stays effective on robots the model never saw during training, or whether its capability is still too tightly coupled to what it has already seen. And whether real-robot evaluation can become a shared language for the field, so that we compare not just success rates but the reasons systems fail, where an instruction was misread, where perception broke down, or where recovery fell short. Robotics has been driven too often by impressive demonstrations, and real progress comes from results that are reproducible and diagnosable.\nWhat capability is still missing before robots become dependable in homes?\nBenchmarks measure competence, like whether a model can finish a task. Homes demand reliability, safe and consistent operation over time in a place that changes every day, with objects moving, instructions that are vague, and people interrupting. The missing piece is not a higher one-time success rate: it is robust recovery. A dependable home robot has to know when it is uncertain, when to slow down, when to ask for help, and how to bring the world back to a safe state after it drops something or misunderstands a request. \nIn a real home, failure recovery matters more than raw success, because the home does not reset itself. Homes also demand careful personalization, learning a household’s routines and preferences over time, with safety and trust as first principles. That combination, not any single skill, separates a capable demonstration from a robot people can live with.\n  X Square Robot’s approach is that, in a real home, failure recovery matters more than raw success, because the home does not reset itself and it demands careful personalization, with safety and trust as first principles. X Square Robot\nHow do the open-source components fit into X Square Robot’s World Unified Model direction?\nWe see these releases as layers of the World Unified Model direction rather than isolated projects. Wall-OSS-0.5, the action model, asks whether an open vision-language-action model can gain directly measurable capability from large-scale pretraining, so it is the capability layer. WALL-WM, the world model, asks how a robot should understand change in the world, shifting from fixed windows to event-level modeling, so it is the representation layer. The data system supplies the interaction data that both of them learn from. \nTogether they form a loop in which models produce capability, world models organize understanding, and the open-source community drives reproduction and improvement. World Unified Model is the broader architecture those layers support, bringing vision, language, action, and physical prediction together. \nWe are releasing these pieces openly because embodied intelligence cannot be solved by one organization; it needs many embodiments, many real tasks, and broad feedback, and the long-term goal is a stack that keeps learning and ultimately moves robots from laboratory demonstrations toward reliable everyday use.",
-      "tags": [
-        "产品",
-        "robot",
-        "robotics",
-        "embodied"
-      ],
-      "kind": "产品发布",
-      "score": 122,
-      "titleZh": "Building a Foundation Stack for General-Purpose Robots",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "2ab25d9fb18886f7",
-      "title": "Japan Pioneered Humanoid Robots—Can It Now Catch China?",
-      "link": "https://spectrum.ieee.org/humanoid-robots-japan",
-      "publishedAt": "2026-07-04T11:00:01.000Z",
-      "fetchedAt": "2026-08-01T16:02:58.057Z",
-      "source": "IEEE Spectrum · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "“In the future, the relationship between humans and robots will deepen, and the distinction between them will probably disappear.” This prediction, from one of the attendees at the recent Humanoids Summit in Tokyo, might have been unremarkable had it not come directly from an android that was first introduced to the world 20 years ago. \nGeminoid HI-6 is the sixth-generation of a robot originally designed in 2006. The mechanical twin of Osaka University professor Hiroshi Ishiguro, Geminoid HI-6 is now equipped with a large language model trained on Ishiguro’s own writings and interviews. It has advanced conversational skills and can even have a chat with its creator, an eerie spectacle. But at the Humanoids Summit, Geminoid was one of the few humanoid robots from Japan, the country that pioneered the form factor.\nWhile the event in Tokyo had only about 40 robots on display, Chinese systems outnumbered Japanese by roughly three to one. Some Japanese robotics firms were even using Chinese robots in their own technology demonstrations, something that would have been unthinkable in the recent past—one Japanese engineer described the situation as “sad.” The conference was a stark reminder of how Japan has ceded its early lead in humanoid robot development to overseas competitors, and the challenge it now faces to secure a place in an ecosystem increasingly dominated by general-purpose robots powered by AI. \nTwenty-five years ago, Japan was turning out groundbreaking humanoids that were showstopping in their abilities, but they were not commercialized as practical machines in any meaningful way. Heavily influenced by science fiction and lacking practical applications, they were mostly expensive technology demonstrations that were eventually mothballed. What Japan retains, however, is robotics design and know-how, which it must leverage to be a key player in the rapidly evolving humanoid ecosystem. \nLearning to Walk—Then Standing Still\nTo anyone who has seen recent videos of Chinese humanoids doing kung-fu and synchronized acrobatics, as well as half-marathon races, China’s remarkable progress in the field is nothing new. At the Humanoids Summit, Toyota showed a video of its latest basketball-playing robot, and Honda exhibited its latest robot hand, but the full-scale humanoids on the floor were mostly Chinese–the kid-size K1 machines from Booster Robotics of Beijing were dancing to Michael Jackson tunes. The full-scale G1 humanoid from Unitree Robotics of Hangzhou was also doing demos. \n“You cannot sell these bipedal systems in Japan for safety and compliance reasons,” says Shuichi Nagao, a frequent visitor to China as CTO of Omakase Robotics, a division of Zeals, a Japanese humanoid robot developer. Omakase was exhibiting a G1 modified with an external PC controller, a dextrous hand, a suction-cup manipulator and a sensor “hat” with an extra speaker, mic, and camera. \n“In China, the government is pushing humanoid development. They didn’t have an industry 20 years ago. The people pushing it are young, in their 20s and 30s. It’s a really different mentality out there,” says Nagao. “Big players in Japan are still looking for use cases for humanoids. In China, they’re already doing mass production and reducing the cost, so other countries can’t compete with them anymore.”\nAnother Japanese company showing off G1 bots was summit sponsor GMO AI & Robotics, a subsidiary of Japanese internet company GMO. It’s using the robots in partnership with Japan Airlines to load and unload cargo containers at Tokyo’s Haneda airport. The cargo project is a trial—like many other humanoid experiments—but the fact that Chinese machines have penetrated so far into Japan’s ecosystem upends a long history. \nIn 1973, scientists at Waseda University in Tokyo built WABOT-1, considered the first full-scale humanoid robot, which was capable of slow bipedal locomotion, grasping objects, and simple communication. It inspired Honda’s groundbreaking Asimo humanoid, but Asimo was never commercialized. It was eventually retired in 2022, the year ChatGPT was released. Two years later, Unitree’s G1 went on sale for US $16,000.\n  China’s High Torque Technology Co. showed off its Mini Pi biped, customized with an anime-inspired head, at Humanoids Summit in Tokyo. The regular version is priced at $3,500. Tim Hornyak\nSupply and Demand\nJapan’s development of humanoids happened before practical applications or widespread demand were in place, but bad timing is only part of the story—Japan also has a history of developing technologies that might appeal to domestic consumers but not necessarily those overseas. For example, decades after its highly engineered multifunction toilets first appeared, they have only recently found a following abroad. \nJapan’s humanoid prowess was partly built on the back of its legendary industrial automation, yet even that stronghold has eroded. Ani Kelkar, a partner from McKinsey & Company in Boston who produces analytical reports about the robotics industry, told the summit audience that while Japan occupied the top spot in the world in manufacturing robot density (the number of multipurpose industrial robots in operation per 10,000 employees) from at least 1994 to 2009, it then slipped to second in 2014, third in 2019, and fifth in 2024. In that year, South Korea was at the top of the leaderboard with a robot density of 1,220 compared to Japan’s 446. \nThe International Federation of Robotics estimates China now has the most operational industrial robots in the world, with around 2 million total units, approximately 4.5 times more than Japan. “The annual installation numbers are impressive too: 54 percent of all robots installed worldwide in 2024 were deployed in China,” the IFR said in a release in April 2026. \n“I think the loss of Japanese leadership is more to do with the rise of China as a manufacturing powerhouse including for sectors that Japan had high export levels,” Kelkar said in an email interview. “The recovery has not yet happened as Japan “missed” the rapid acceleration in AI for robotics and is now playing catch-up.”\nHow Japan Can Adapt \nKelkar believes Japan has a $100 billion opportunity in general-purpose robotics, which are machines that can perform a wide variety of tasks, and it cannot rely on the slower-growing industrial robot market, which is centered on factory machines that do one simple and predictable task like welding car parts. He points to a McKinsey white paper suggesting that while Japan has much of the hardware and technology experience needed to support general-purpose robot development, it must change its strategy to capture a larger share in AI, software, data collection, and robotics platforms.\nTetsuya Ogata is a professor of engineering and director of the Institute for AI and Robotics at Waseda University, the birthplace of humanoids in Japan. He briefed the summit on how a nonprofit he chairs, the AI Robot Association (AIRoA), is working with Toyota and other members to develop foundational technologies for collaborative use. \nFor instance, AIRoA has collected some 80,000 hours of data on remote operation of mobile manipulators, which Ogata believes is the largest dataset of its kind. Using the data, it built and verified vision-language-action (VLA) models, and it has also started data collection for dual-arm mobile manipulation. In an interview, Ogata acknowledged Japan’s struggle to find its place in the changing landscape. \n“The world of AI is inherently a game of scale,” says Ogata. “Therefore, Japan’s absolute prerequisite is to secure a competitive baseline of scale—in data, computing resources, and talent. Beyond that, what I consider most critical is a mind-set shift: Rather than trying to hoard scale within a single nation or company, we must grow stronger by collaborating with a diverse ecosystem of domestic and international players.” \nSpecifically, this means creating a “collaborative domain” to address data—the single biggest bottleneck—through industry-wide cooperation rather than data siloing. By collectively nurturing a precompetitive, shared data infrastructure and foundation model, individual companies can then compete on top of it with their own applications. “By offering this open ‘data ecosystem’ to the world, we can engage global players and establish a ‘third pole’ alongside the U.S. and China,” says Ogata. “I believe this is how Japan can reclaim its global presence.”\nIn 1999, Japan introduced the world’s first mobile internet services platform. But being first didn’t turn Japan into a smartphone manufacturing or design center—it’s now merely a supplier of parts to other countries that are leading the smartphone industry. If Japan can avoid a repeat of that experience and successfully deregulate, diversity, and commercialize its original humanoid dreams, it stands a better chance of influencing the direction of the industry and reaping billions in value. As automobiles and electronics were pillars of Japan’s industrial strategy in the last century, Japan could make humanoid robots one of its key value generators in the 21st century, an approach that would not only deliver economic benefits but give Japan greater clout in how the industry will evolve. Just like Japanese cars, electronics, and even toilets, Japanese humanoids could stand for craftsmanship and reliability. It’s a legacy that Japan can’t afford to give up.",
-      "tags": [
-        "产品",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "产品发布",
-      "score": 122,
-      "titleZh": "Japan Pioneered Humanoid Robots—Can It Now Catch China?",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "fde324d0837cfacd",
-      "title": "Video Friday: An Earthbound Mars Rover for the Moon",
-      "link": "https://spectrum.ieee.org/video-friday-nasa-lunar-rover",
-      "publishedAt": "2026-07-03T15:00:01.000Z",
-      "fetchedAt": "2026-08-01T16:02:58.057Z",
-      "source": "IEEE Spectrum · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "Video Friday is your weekly selection of awesome robotics videos, collected by your friends at IEEE Spectrum robotics. We also post a weekly calendar of upcoming robotics events for the next few months. Please send us your events for inclusion.\nRSS 2026: 13–17 July 2026, SYDNEY\nSummer School on Multi-Robot Systems: 29 July–4 August 2026, PRAGUE\nActuate 2026: 18–19 August 2026, SAN FRANCISCO\nIROS 2026: 27 September–1 October 2026, PITTSBURGH\nEnjoy today’s videos!\n\n \nNASA is considering a mission concept for an advanced, nuclear-powered rover to be deployed to the Moon’s South Pole as part of the agency’s Moon Base plans. The PROMISE (Polar Rover for Observation, Mapping, and In-Situ Exploration) mission concept relies on the Curiosity Mars rover mission’s testbed rover. Some elements of the Perseverance Mars testbed rover shown in this video could be used as well. As exact duplicates of Curiosity and Perseverance, the testbed rovers are equipped with flight-proven engineering systems capable of carrying technology as well as science instruments that would advance Moon Base efforts.\n\nA Mars rover for the Moon? That’s some OPTIMISM right there.\n[ JPL ]\n\nThis is the absolute best thing since Festo’s AirPenguin.\n\nThe project explores soft, lightweight robots that can gently float around people in indoor environments and invite playful, affectionate, and everyday interactions. Unlike conventional drones, our robot is designed to be quiet, soft, touch-safe, and socially approachable. Through this work, we ask what future indoor companion robots might feel like if they were not rigid machines, but gentle floating beings that share space with us.\n[ Paper ]\nThanks, Mingyang!\n\nToday, we’re launching our home robot, Isaac 1. Deliveries will begin this fall.\n\nUS $500 per month, with some basic task autonomy, plus teleoperation.\n[ Weave Robotics ]\n\nA couple of things from this new Figure video: Thing one is that the cart-pulling is a good illustration of how clumsy humanoid robots still are at basic tasks relative to humans. Thing two is that there are absolutely no humans anywhere near these robots. You can see one guy at 0:19, which I can only assume is an accident, because these robots are not safe to be around from an industrial safety perspective.\n\n[ Figure ]\n\nOur very own Kohava Mendelsohn met some robots at ICRA in Vienna, and only one of them was murderous.\n\n[ ICRA 2026 ]\n\nWelcome to Robot Park, where we’re building the future with Apollo 2. Robot Park is where Apollo learns today, getting the experience needed to make a difference tomorrow. Today we’re announcing Robot Park, our nearly 90,000-square-foot facility where Apollo 2 is collecting real-world training data needed to advance autonomous humanoid robots. \n\n[ Apptronik ]\n\nUBTech Robotics, the world’s first publicly traded humanoid robot-maker, has launched a humanlike robot that features lifelike silicone skin and “emotional AI,” as Chinese tech firms increasingly transition robots from the factory floor to the family living room.\n\n[ SCMP ]\n\nSpherephones are redefining how we experience sound. Created at Georgia Tech, this wearable uses spatial audio to alert users to movement from every direction—including behind and below. Built for safer human-robot collaboration, the technology is expanding into gaming and accessibility applications. See how music is becoming a new language for awareness and interaction.\n\n[ Georgia Tech ]\n\nHumanoid robots are meant to carry out long-horizon autonomous missions in a world built for humans. This is hard. These missions consist of many steps, each of which requires them to perceive, navigate, and interact with the environment. This is exactly Flexion’s goal: building the general-purpose intelligence that turns any robot into a useful helper.\n\n[ Flexion ]\n\nWe’re introducing KinetIQ Ascend—our reinforcement-learning approach designed to reach 99.9 percent manipulation reliability at human speed and beyond.\n\n[ Humanoid ]\n\nDr. Sebastian “Basti” Scherer has worked in field robotics since the first DARPA Grand Challenge in 2004. He runs the AirLab at Carnegie Mellon’s Robotics Institute and is the director of safe embodied AI at FieldAI. While much of the industry is focused on local skills like tabletop manipulation, Dr. Scherer sees the greatest value in solving dirty, dull, and dangerous tasks that require operating in uncertain environments where the robot needs to “just work.” When robots “just work,” they become less like robots and more like tools. “That’s the big challenge that we have to overcome,” he says. “And that’s the challenge that FieldAI is really primed to solve.”\n\n[ FieldAI ]\n\nLook, I really appreciate how valuable robots like ElliQ can be, and robots that do good work and offer a financial benefit are incredibly important, especially in the context of family care. But in my opinion, you really shouldn’t suggest that a robot with FaceTime or whatever is an equal replacement for in-person human companionship, nor should you suggest that AI can replace a human wellness coach. If you can’t afford those things, then sure, ElliQ can offer some of those capabilities in a very limited way, but that’s all.\n\n[ ElliQ ]\n\nVery cool moves! Now get a job!\n\n[ DEEP Robotics ]\n\nDrawing inspiration from restaurant waiters in Morocco and Turkey, among other places, we equip a robot with a hanging tray to transport objects from one location to another without dropping them or spilling their contents. We incorporate this approach into an interactive robot waiter demonstration, which uses computer vision and visual servoing to steer toward a person with a raised hand to serve them.\n\n[ Paper ]\n\nIf you’re going to make robots wear skirts or shorts or pants, you have to give them butts, or it’s just not going to work. That is all.\n\n[ TechShare ] via [ Kazumichi Moriyama ]\n\nIt’s Los Alamos, so of course we have robots. Some work inside gloveboxes, while others probe unexploded ordnance in the field and aid with repetitive lifting, Doc Ock–style. Legend has it there’s a fro-yo robot in the cafeteria.\n\n[ LANL ]\n\nHere are a couple of talks from the recent Humanoids Summit in Japan, from Ali Agha of FieldAI as well as Hiroshi Ishiguro.\n\n  \n[ Humanoids Summit ]",
-      "tags": [
-        "产品",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "产品发布",
-      "score": 122,
-      "titleZh": "Video Friday: An Earthbound Mars Rover for the Moon",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "c9d98fbe6cad3a59",
-      "title": "When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics",
-      "link": "https://arxiv.org/abs/2607.28256v1",
-      "publishedAt": "2026-07-30T14:16:23.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery alone. This demo paper presents a robot-edge semantic communication (SemCom) testbed integrating robot-side visual compression, edge-side semantic mapping, and dashboard-based mission interaction. A mobile robot equipped with RGB-D sensing and LiDAR runs ROS 2, while a Jetson Orin edge node performs reconstruction, RTAB-Map mapping, semantic object handling, and browserbased visualization. As an initial proof of concept, RGB frames are encoded on the robot into VQ-VAE tokens using an ONNX Runtime encoder and reconstructed on the edge using a PyTorch decoder. A 320 X 240 image is represented by an 80 X 60 token grid with a packed payload of 5400 bytes, corresponding to a 42.67X reduction relative to model-input RGB bytes. The reconstructed visual stream is further associated with depth, pose, and 3D mapping information to generate a semantic map for downstream robotic applications. The demo exposes the full path from semantic visual transport to object-level map interaction, and provides a practical platform for future task-aware 6G networking studies at the intersection of SemCom, embodied AI, and physical AI-enabled robotics. A video of the demo is available at https://tinyurl.com/Tos09",
-      "tags": [
-        "开源",
-        "robot",
-        "robotics",
-        "embodied"
-      ],
-      "kind": "开源项目",
-      "score": 120,
-      "titleZh": "When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "956fb57f1b8270de",
-      "title": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
-      "link": "https://arxiv.org/abs/2607.27205v1",
-      "publishedAt": "2026-07-29T17:59:58.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memory overhead at every policy invocation. In this work, we introduce TurboVLA, a new VLA paradigm that reformulates the conventional $V \\to L \\to A$ pathway as a direct $V + L \\to A$ mapping. Instead of using a large language model as the central interface between perception and action, TurboVLA independently encodes visual observations and language instructions, directly exchanges information between them through lightweight bidirectional vision-language interaction, and predicts continuous action chunks with a compact decoder. This simple design constructs task-conditioned representations directly from visual and linguistic features, significantly reducing the computational and memory costs of VLA inference. On LIBERO, TurboVLA achieves 97.7% average success with only 0.2B parameters, 31.2 ms inference latency, and 0.9 GB inference VRAM on a consumer-grade RTX 4090, matching or outperforming substantially larger VLA policies. These results establish TurboVLA as a simple and effective alternative to the prevailing LLM-centric VLA paradigm, offering a new perspective on how vision, language, and action can be connected for efficient robotic manipulation. Code is available at https://github.com/H-EmbodVis/TurboVLA.",
-      "tags": [
-        "开源",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "kind": "开源项目",
-      "score": 120,
-      "titleZh": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "144b15d6dbd30e78",
-      "title": "DLAM: Distributional Latent Actions with Temporal Constraints",
-      "link": "https://arxiv.org/abs/2607.27138v1",
-      "publishedAt": "2026-07-29T17:09:48.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-language-action (VLA) models remain constrained by scarce action-labeled robot data, whereas action-free videos offer abundant observations of physical change. Latent action models can extract such priors, but reconstruction-trained codes may predict future observations without the structure required for joint generation with robot actions. Existing structured methods add temporal constraints but retain deterministic transition points, so residual errors in locally inferred transitions may propagate and compound under recursive composition. We introduce DLAM, a distributional latent-action model that represents each transition as a diagonal Gaussian. Reconstruction conditioned on the reference frame grounds the mean in observed visual change, while normalized composition and reversal over equal-gap triplets constrain both the mean and dimension-wise variance. Variance composition uses a lightweight shared-correlation coefficient to account for dependence between adjacent transitions that share an intermediate frame, whereas reversal negates the mean and preserves the variance. For downstream policy learning, we freeze the encoder and train a flow-matching policy to jointly generate mean transition sequences and robot actions. On held-out transitions, DLAM learns more temporally consistent latent dynamics than existing latent-action baselines and achieves stronger direct and cumulative reconstruction on held-out videos. Under the same controlled $π_0$ transfer protocol, it also improves policy performance on MetaWorld MT50, LIBERO, and real-world manipulation tasks. Controlled ablations show that normalized mean constraints account for most of the reconstruction gain, while learned variance and correlation-aware composition provide complementary improvements in downstream control.",
-      "tags": [
-        "开源",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "kind": "开源项目",
-      "score": 120,
-      "titleZh": "DLAM: Distributional Latent Actions with Temporal Constraints",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "5d41827fa30a6d06",
-      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "publishedAt": "2026-07-30T17:59:35.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
-      "tags": [
-        "落地",
-        "robot",
-        "humanoid"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "8096a493259a669c",
-      "title": "QQWorld: Quantile-Quantile Matching for World Model Regularization",
-      "link": "https://arxiv.org/abs/2607.28415v1",
-      "publishedAt": "2026-07-30T16:00:39.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Latent world models enable efficient planning by predicting future states in a compact representation space, but their performance depends critically on the quality of the learned latent distribution. LeWorldModel (LeWM) regularizes its latents toward an isotropic Gaussian using the Epps-Pulley (EP) objective. We show that the corrective gradients of EP rapidly vanish for isolated tail samples, leaving heavy-tailed deviations insufficiently controlled. To address this limitation, we propose QQWorld, which replaces EP with a quantile-quantile matching objective that directly aligns projected latent samples with rank-matched Gaussian quantiles, thereby maintaining effective corrective gradients in the tails. We further develop cross-batch QQ, which enlarges the effective ranking pool using detached samples from previous batches, and characterize its bias-variance trade-off. Across four control environments, QQWorld effectively improves the average planning success rate of LeWM, while consistently yielding better Gaussian alignment and thinner latent tails.",
-      "tags": [
-        "产业",
-        "world model"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "QQWorld: Quantile-Quantile Matching for World Model Regularization",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "6ad4479a560ca851",
-      "title": "TacWAM: Anchor-Guided World Action Model with Mechanics-Aware Tactile Prediction",
-      "link": "https://arxiv.org/abs/2607.28391v1",
-      "publishedAt": "2026-07-30T15:47:01.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "World Action Models (WAMs) combine future-state prediction with robot action generation, but existing approaches largely rely on visual futures. Visual prediction captures scene structure and object motion, yet provides limited supervision for force, deformation, shear, and slip during contact-rich manipulation. This creates two design requirements: tactile futures should carry meaningful physical information, and they should not become privileged cues for action generation. We present TacWAM, a mechanics-aware tactile WAM that addresses this challenge in three steps. First, a Spatially Aligned Fusion (SAF) Tactile Encoder maps tactile appearance, dense force fields, and deformation flow into a shared latent prediction space, with bilateral force and torque reconstruction preserving global contact information. Second, a tactile history encoder provides temporal context so future tactile prediction reflects how force and deformation change beyond the current tactile observation. Third, Anchor-Guided Tri-Modal (AGT) Attention separates current visual and tactile anchors, future prediction tokens, and action tokens, allowing future tactile states to supervise training without being directly read by the action branch. We evaluate TacWAM on four real-world contact-rich manipulation tasks covering fragile grasping, sustained surface contact, and dynamic in-hand manipulation. TacWAM achieves an average success rate of 75.0%, exceeding the strongest evaluated baseline by 37.5 percentage points. Staged ablations show consistent degradation when tactile history is removed and access to future prediction targets is relaxed. These results indicate that future tactile supervision can improve contact-aware action learning when combined with informative tactile representations and deployment-consistent information constraints.",
-      "tags": [
-        "落地",
-        "robot",
-        "manipulation"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "TacWAM: Anchor-Guided World Action Model with Mechanics-Aware Tactile Prediction",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "dd7185f326dc6001",
-      "title": "UniCross: Unified Cross-Skill Dexterous Manipulation Synthesis",
-      "link": "https://arxiv.org/abs/2607.28198v1",
-      "publishedAt": "2026-07-30T13:35:45.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Many dexterous manipulation tasks require the object to remain securely held throughout the interaction. From the perspective of hand-object relational motion, such manipulation comprises four canonical skills: grasping, relocation, in-hand rotation, and in-hand translation. Human hands flexibly compose these skills to accomplish complex tasks. Existing approaches, however, model these skills separately with skill-specific action constraints, objectives, or even dedicated hand morphologies, which breaks the compatibility and continuity required for long-horizon composition. In this work, we present a unified framework that models all four skills in a single formulation that shares the same state and action spaces and a common objective structure. This formulation enables straightforward distillation of a single cross-skill policy that performs strongly on every skill, generalizes to unseen objects, stays robust to disturbances, and chains skills seamlessly into long-horizon manipulation. The framework also transfers effectively across different hand morphologies. Overall, our results suggest that different dexterous manipulation skills can be viewed as instantiations of a shared task formulation, revealing the intrinsic consistency across different behaviors.",
-      "tags": [
-        "产业",
-        "manipulation"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "UniCross: Unified Cross-Skill Dexterous Manipulation Synthesis",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "20d21e9c84e57a92",
-      "title": "Write-Safe Flow Field Mapping under Ambiguous Onboard Sensing and Localization Drift",
-      "link": "https://arxiv.org/abs/2607.27713v1",
-      "publishedAt": "2026-07-30T05:48:03.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Mobile robots can infer local flow structure from onboard sensing, but a locally plausible estimate is not always safe to write into a global map. Similar flow structures may produce ambiguous observations, while localization drift causes predicted patches to be written at incorrect locations. Repeated misregistered updates then accumulate into persistent ghost structures. We address this failure mode with a map-reference-aware conservative fusion framework. The model predicts a local velocity patch and a learned write-safety score that continuously attenuates uncertain map updates while permitting initialization when no reliable map reference is available. Across synthetic jet and crossflow environments, the proposed method reduces average ghost contamination by 42% relative to ungated fusion. A zero-shot hardware replay using real pressure and optical-flow measurements from a thruster wake further reduces ghost contamination by 39% while retaining 81% map coverage. These results show that safe map writing is critical for flow mapping under ambiguous sensing and localization drift.",
-      "tags": [
-        "产业",
-        "robot"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "Write-Safe Flow Field Mapping under Ambiguous Onboard Sensing and Localization Drift",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "8ce870c51bc13146",
-      "title": "A Systems Engineering Framework for Vision-Language-Enabled UAV Triage and Disaster Response",
-      "link": "https://arxiv.org/abs/2607.27597v1",
-      "publishedAt": "2026-07-30T02:35:39.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Recent advances in Vision Language Models (VLMs) have created new opportunities for disaster response, where responders must interpret large volumes of sensor data under time pressure. Current VLM applications include social media monitoring for situational awareness, generation of draft action plans, and translation of technical alerts into public-facing messages. While these efforts can accelerate information flow, they remain largely limited to decision-support roles. Such approaches can increase operator burden because humans must still translate outputs into coordinated actions across teams and robotic assets. This study explores the viability of embedding VLMs as coordination agents within the human-UAV loop. The proposed architecture integrates natural language interaction, mission-level task coordination, software-in-the-loop implementation, and communication aligned with the Incident Command System (ICS). Rather than functioning solely as advisory tools, VLMs facilitate communication between human operators, mission control logic, and UAV task execution. The framework was developed using a Model-Based Systems Engineering (MBSE) approach, with use case and block definition diagrams representing system roles, internal structure, and component interactions. Three key elements, the VLM Coordinator Agent, UAV Mission Control, and Task Allocator, were implemented within an integrated simulation and control environment. A preliminary human-factors evaluation with seven participants showed reduced perceived workload across mental demand, effort, and frustration, along with high ratings for AI trust and communication clarity. By integrating MBSE, software-in-the-loop testing, and human-factors evaluation, this work advances scalable human-autonomy teaming for high-stakes disaster response, with broader implications for aerospace autonomy and civil safety.",
-      "tags": [
-        "产业",
-        "robot"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "A Systems Engineering Framework for Vision-Language-Enabled UAV Triage and Disaster Response",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "3c10f1f76ed2c13d",
-      "title": "Corrigible Assistance in One Round: Pragmatic-Pedagogic Best Response",
-      "link": "https://arxiv.org/abs/2607.27508v1",
-      "publishedAt": "2026-07-29T22:49:28.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Assistance games formalize human-robot collaboration under asymmetric information: the human knows the goal, while the robot must infer it from observation and interaction in order to assist effectively. In general, computing optimal assistance game strategies online is intractable, since exact solutions require planning in a POMDP. We identify a class of assistance games in which pragmatic-pedagogic reasoning resolves goal uncertainty in a single time step, rendering the full-horizon game exactly solvable by a tractable best-response procedure. Within this class, we show that mainstream inverse optimal control exhibits an inference ceiling that hinders alignment, while pragmatic-pedagogic reasoning overcomes this barrier by immediately disambiguating goals through actions that look equivalent under task execution alone. Finally, we validate our theoretical results and proposed method on a simple collaborative block-building example.",
-      "tags": [
-        "产业",
-        "robot"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "Corrigible Assistance in One Round: Pragmatic-Pedagogic Best Response",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "6e1d527b84a92ac3",
-      "title": "RL$^2$-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models",
-      "link": "https://arxiv.org/abs/2607.26991v2",
-      "publishedAt": "2026-07-29T14:49:56.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Despite the impressive visuomotor capabilities enabled by Vision-Language-Action (VLA) models, their performance often degrades on challenging and out-of-domain tasks. Recent test-time steering and scaling methods improve performance without extensive data collection and retraining, but action samples often remain concentrated around similar behaviors and therefore inherit correlated failure modes. Moreover, existing methods apply the same intervention strategy at every timestep, regardless of whether the base policy is already likely to succeed. To address these limitations, we introduce $RL^2$, an adaptive inference-time steering framework that leverages Reinforcement Learning on VLA Latents. First, we train a lightweight offline RL policy conditioned on expressive latents extracted from the VLA action expert and compose its flow velocity with that of the frozen VLA during inference. This compositional steering strategy combines the behavioral priors of large-scale imitation learning with the action diversity induced by offline RL beyond dominant demonstration modes. We further discover that inference-time steering follows fundamentally different scaling laws under success and failure states, revealing that action diversity is most beneficial when the base VLA is likely to fail, but can unnecessarily perturb already-accurate actions when success is likely. Building on this insight, $RL^2$ activates compositional steering only when failure is predicted. Across the SIMPLER and PolaRiS benchmarks, $RL^2$ improves success rates by up to +17.3% in out-of-domain settings, while ablations and scaling studies demonstrate the importance of latent representations and RL training. Finally, real-world experiments demonstrate that these gains transfer beyond simulation, establishing $RL^2$ as a practical and modular steering framework for VLA deployment.",
-      "tags": [
-        "落地",
-        "vla",
-        "vision-language-action"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "RL$^2$-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "6dd2011a07d7f459",
-      "title": "NeoRacer: An Open, Standardized 1:12 Scale Autonomous Race Car for Benchmarking and Education",
-      "link": "https://arxiv.org/abs/2607.26855v1",
-      "publishedAt": "2026-07-29T12:39:39.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Many scientific fields rely on standard benchmarks and shared platforms to improve review and reproducibility, but autonomous systems research still lacks widely accepted open hardware. Where standardization has emerged, progress has accelerated. This is especially evident in autonomous racing, where teams often build custom systems or buy niche, expensive vehicles, making control and robotics research and education hard to compare and reproduce. High costs also limit access outside well-funded labs, while affordable educational robots are often underpowered.\n  To address this gap, we present NeoRacer, an open-source 1:12 scale autonomous racing platform. It is built around an NVIDIA Jetson Orin Nano (67 TOPS), a 270° LiDAR, a 120 fps global-shutter camera, and a 9-axis IMU. NeoRacer ships pre-assembled for USD 2,699, offering over 3x the compute of comparable platforms at less than half the cost of the nearest pre-assembled alternative. Co-developed by the Neobotics Foundation and Seeed Studio, and manufactured by Seeed Studio, NeoRacer combines open hardware and software design with scalable, repeatable production. The modular, extensible platform provides a standardized benchmarking environment for autonomous racing algorithms across institutions. We describe the hardware/software architecture, design decisions from two pilot deployments (MIT IAP, 15 students; BU CPS Lab, 10 students), and key cost-performance tradeoffs. Hardware is licensed under CERN-OHL-S v2 and software under GPLv3, with all design files, firmware, and ROS2 packages publicly accessible.",
-      "tags": [
-        "落地",
-        "robot",
-        "robotics"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "NeoRacer: An Open, Standardized 1:12 Scale Autonomous Race Car for Benchmarking and Education",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "dc3c44833fe321f4",
-      "title": "ActSWM: Action-Sensitive World Models for Long-Horizon Planning in Open-World Games",
-      "link": "https://arxiv.org/abs/2607.26712v1",
-      "publishedAt": "2026-07-29T09:55:54.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Latent world models support efficient model-predictive control by optimizing future control sequences in latent space and replanning in a receding-horizon manner. However, existing latent predictors often lack stable long-horizon rollout ability, and prediction accuracy alone does not ensure that rollouts remain responsive to the actions being planned. We identify Context Collapse, a failure mode in which autoregressive latent predictors maintain high similarity to future states while producing nearly indistinguishable futures under different action sequences. To address this issue, we propose ActSWM, an action-sensitive latent world model grounded in a transition-separation principle: a planning-useful latent dynamics model should keep alternative-action futures distinguishable and make the action associated with each local transition recoverable. Under this principle, action sensitivity is enforced as a constraint on latent rollouts rather than treated only as an auxiliary prediction target, encouraging predicted futures to preserve action-dependent differences over long horizons. Across step-drift analysis, closed-loop Minecraft planning, and cross-game local action recovery, ActSWM preserves larger action-dependent rollout gaps than existing baselines, improves task success in long-horizon interactive settings, and enables world-model-based action recovery from offline gameplay videos.",
-      "tags": [
-        "产业",
-        "world model"
-      ],
-      "kind": "公司商业",
-      "score": 118,
-      "titleZh": "ActSWM: Action-Sensitive World Models for Long-Horizon Planning in Open-World Games",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "76b0cf9e3de4108a",
-      "title": "Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control",
-      "link": "https://arxiv.org/abs/2607.26657v1",
-      "publishedAt": "2026-07-29T09:17:33.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "World generative models are typically used through what they produce: a rendered future, a video-conditioned action, or latent context computed by a costly generative branch. We argue that their more reusable asset is the computation that constructs a future. As a generator transforms a corrupted future into a coherent trajectory, its intermediate states organize appearance, spatial layout, and interaction across levels of abstraction. Can this future-generative computation be internalized in a representation inferred from the present alone? We present Enfold, which transfers this computation into a representation predicted from the current visual context and language instruction. During training, multi-level states exposed as the generator processes the observed future supervise a current-only encoder. The learned representation is fed back to condition future generation and is read by task heads without allowing task gradients to reshape the encoder. At deployment, action prediction no longer executes the generator. Across LIBERO, RoboTwin2.0, and real-robot tasks, Enfold supports strong control while reducing action latency by $3.7\\times$ relative to Fast--WAM, Enfold-Flash reaches $10.1\\times$. Representation analyses show that it suppresses nuisance variation and preferentially captures changes that emerge over longer horizons. When the current scene is altered by human intervention, both the generated continuation and the executed actions adapt, which is inconsistent with fixed trajectory replay. These results recast a world generator as a source of predictive control representations: its future need not be materialized at every step if its internal structure can be enfolded into the present.",
-      "tags": [
-        "落地",
-        "robot",
-        "embodied"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "7429d919e8c66a7c",
-      "title": "World Action Planner: Generalizable Decision-Making with Action-Conditioned World Models",
-      "link": "https://arxiv.org/abs/2607.27599v1",
-      "publishedAt": "2026-07-30T02:41:52.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Building generalizable agents for diverse applications remains a fundamental challenge. While imitation learning-based policies succeed in specific training environments, they often fail to generalize to novel scenes and tasks. In this work, we propose World Action Planner, a robot planning system that leverages the reasoning capabilities of Vision-Language Models (VLMs) and the physical grounding of a multi-task pose-image conditioned world model. Our system enables an agent to propose initial action plans and iteratively refine them via optimization and search, reasoning over imagined world model rollouts. We demonstrate that our approach achieves superior performance across compositional tasks, new layouts, and zero-shot generalization scenarios, significantly outperforming state-of-the-art end-to-end policy models such as VLAs and WAMs. Project website at worldactionplanner.github.io",
-      "tags": [
-        "开源",
-        "robot",
-        "vla",
-        "world model"
-      ],
-      "kind": "开源项目",
-      "score": 116,
-      "titleZh": "World Action Planner: Generalizable Decision-Making with Action-Conditioned World Models",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "993a840aa1c163fc",
-      "title": "SymmGrid: Super-Scaling On-Robot Learning with Parallelized Symmetries and Egocentric-Exocentric Visual Perception",
-      "link": "https://arxiv.org/abs/2607.26985v1",
-      "publishedAt": "2026-07-29T14:41:02.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Deep reinforcement policy learning directly in physical robots (on-robot learning) remains bottlenecked by slow wall-clock training times. We present SymmGrid, a trajectory level augmentation framework inspired by parallelized symmetries that super-scales group transformations to significantly accelerate on-robot learning in both egocentric and exocentric visual setups. We model a Markov Decision Process (MDP) under a symmetry tree, in which state-action pairs have admissible parallelized invariant transformations that yield a geometric grid structure. The state is modelled with ego- or exocentric images and proprioception information. The latter require special treatment, in the form of homographies, to warp visual scenes in line with their corresponding spatial transformations. These parallelized transformations produce a large set of unique symmetric equivalences that populate the replay buffer with diverse and consistent experiences that speed up learning and improve performance. We present extensive training and evaluations performed directly on real robot manipulation contact tasks including peg-insertions, cable routing, and object relocations. Relative to SOTA, SymmGrid achieved wall-clock training convergence speed-ups of 1.37-2.17x, evaluation success rate improvements of 1.09x-1.27x, fastest training convergence times of 16.6, 10.9, and 79.3 minutes respectively. For trajectory wide assessments, we used normalized area under the curve (nAUC) ratios. SymmGrid achieved improvements of up to 2.59x. These results confirm that simple branch symmetries can have an outsized result due to super-scaling and bring us closer to sub-10 minute on-robot learning training in manipulation tasks suitable for arms and humanoids. The project page is available at symmgrid-robot.github.io",
-      "tags": [
-        "开源",
-        "robot",
-        "humanoid",
-        "manipulation"
-      ],
-      "kind": "开源项目",
-      "score": 116,
-      "titleZh": "SymmGrid: Super-Scaling On-Robot Learning with Parallelized Symmetries and Egocentric-Exocentric Visual Perception",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "57fd087838800b60",
-      "title": "Route by Kinematics, Act by Observation: Kinematics-Supervised Expert Routing in MoE-Augmented VLA",
-      "link": "https://arxiv.org/abs/2607.26807v1",
-      "publishedAt": "2026-07-29T11:48:45.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "While MoE augments VLA via expert specialization, router suffers from ineffective expert routing owing to the kinematic heterogeneity of actions across manipulation tasks and, even worse, the unavailability of the kinematic signals at inference time. In this work, we first observe that most semantically distinct manipulation tasks reduce to multiple kinematic archetypes. Motivated by this finding, we propose Kinematics-supervised explicit routing (KinRT), a new paradigm that shifts from implicit, observation-driven expert routing to explicit, kinematics-guided expert dispatching. Specifically, we perform kinematic clustering on action trajectories into multiple kinematically coherent groups, whose IDs serve as ground truth to supervise the training of the router; at inference time, the router dispatches experts only using visual-language observations, without any reliance on action kinematics. KinRT actually introduces an asymmetric bridging mechanism that distills the task kinematics from the action space in training into the observation space at inference. In addition, to assess KinRT's cross-platform generalization, we build an economical, Do-It-Yourself robot (DIYRobot) platform from scratch using 3D-print technology ($<$ 2,000USD). Extensive experiments demonstrate KinRT's superiority over both dense and MoE-featured VLAs by more than 23.26% on RoboTwin benchmark and 20.27% on our introduced DIYRobot platform. Our code and DIYRobot platform will be open-sourced.",
-      "tags": [
-        "开源",
-        "robot",
-        "vla",
-        "manipulation"
-      ],
-      "kind": "开源项目",
-      "score": 116,
-      "titleZh": "Route by Kinematics, Act by Observation: Kinematics-Supervised Expert Routing in MoE-Augmented VLA",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "8eccc3be015cd81f",
-      "title": "ContactFlow: A video action conditioning that transfers across embodiments",
-      "link": "https://arxiv.org/abs/2607.26579v1",
-      "publishedAt": "2026-07-29T07:59:47.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "World models offer a promising route toward robot planning by enabling agents to imagine and verify the consequences of actions before execution. However, current video-based world models often struggle to capture the physical constraints that govern manipulation, particularly contact. Further, their action conditioning is often constrained to specific embodiments such as parallel grippers. We propose \\emph{Contact Flow}, an embodiment-agnostic action representation that encodes manipulation through the trajectory of 3D contact points between an actor and a target object. By discarding actor-specific appearance and kinematics, Contact Flow provides a shared conditioning signal for both human demonstrations and robotic execution. Therefore, we can train a large-scale video generative model on both human and robotic object interaction videos conditioned on Contact Flow, yielding a world model that predicts physically plausible manipulation outcomes. We integrate this model into a propose-imagine-verify-act pipeline, where generated rollouts are assessed by a vision-language model before execution. Experiments on the DROID dataset and real-world tabletop manipulation tasks demonstrate that Contact Flow enables transfer between human demonstrations and different robotic embodiments.",
-      "tags": [
-        "开源",
-        "robot",
-        "manipulation",
-        "world model"
-      ],
-      "kind": "开源项目",
-      "score": 116,
-      "titleZh": "ContactFlow: A video action conditioning that transfers across embodiments",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "245f4f35c82e3df1",
-      "title": "One Future, Every Robot: Label-Efficient Collective-State Prediction with Decentralized JEPA",
-      "link": "https://arxiv.org/abs/2607.28443v1",
-      "publishedAt": "2026-07-30T16:16:08.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Can every robot in a swarm predict the same future collective state from only local observations and bandwidth-limited messages? We formulate this as decentralized shared-state prediction and introduce Collective-State JEPA (CS-JEPA), a recurrent joint-embedding predictive architecture whose output at every robot represents one common future token field. At deployment, each robot uses a 16-frame local history and one 64-float recurrent message per directed edge; there is no global pooling, target encoder, episode clock, or recorded future action. After pretraining without downstream collective labels, frozen representations are evaluated with ridge probes fitted on 6, 12, or 24 globally labeled episodes. Against raw-future reconstruction with the same receiver anchor and deployment capacity but 9,607 additional training-only parameters, a prospectively registered five-seed follow-up improves prediction-error and inter-robot-agreement label-budget AUC on in-distribution, ring, mutual-kNN, and unseen-size families up to 108 robots. Every effect favors CS-JEPA in 5/5 outer seeds. In a separate sealed eight-seed follow-up, matched action-conditioned predictors receive each candidate four-step plan before producing receiver-local predictive representations. CS-JEPA reduces branch-value MSE by 45.5% and improves within-context candidate-score Pearson correlation by 0.1291, with both effects favorable in 8/8 seeds, including at unseen N=32. These results support common-future JEPA targets as a label-efficient primitive for decentralized swarm prediction under topology and size shift, with additional evidence of planning-relevant value estimation.",
-      "tags": [
-        "落地",
-        "robot"
-      ],
-      "kind": "部署案例",
-      "score": 114,
-      "titleZh": "One Future, Every Robot: Label-Efficient Collective-State Prediction with Decentralized JEPA",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "2478920aea3f0b17",
-      "title": "FasTac: A Curved Multispectral Vision-Based Tactile Sensor for High-Speed High-Precision 3D Shape and Force Perception",
-      "link": "https://arxiv.org/abs/2607.28416v1",
-      "publishedAt": "2026-07-30T16:00:51.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Curved tactile fingertips for dexterous manipulation must resolve fine contact geometry, distinguish normal and tangential loads, and capture transient signals. Existing curved vision-based tactile sensors struggle to combine accurate 3D reconstruction, three-axis force estimation, and high-speed processing in a compact form. This article presents FasTac, a curved vision-based tactile sensor integrating multispectral photometric stereo, dynamic-convolution force estimation, and hardware acceleration on a field-programmable gate array (FPGA). Single-image-sensor simultaneous multispectral imaging provides spatially aligned observations for robust surface normal estimation, followed by boundary-prior fast Poisson depth reconstruction. HyperForce uses position-aware dynamic convolution to model the spatially nonuniform mechanical response of curved elastomers and estimate three-axis forces. The complete image-to-normal-force pipeline is deployed on an FPGA. Experiments show that near-infrared (NIR) illumination and the boundary prior decrease depth mean absolute error (MAE) from 0.2730 mm to 0.0415 mm; HyperForce achieves normalized mean absolute error (NMAE) values of 2.74% and 2.39% for normal and shear forces, respectively; and FPGA deployment shortens processing latency from 3.26 ms on the GPU to 1.09 ms. Multi-object reconstruction, feedback grasping, and vibration measurement validate fine geometric perception, stable force feedback, and dynamic contact sensing.",
-      "tags": [
-        "落地",
-        "manipulation"
-      ],
-      "kind": "部署案例",
-      "score": 114,
-      "titleZh": "FasTac: A Curved Multispectral Vision-Based Tactile Sensor for High-Speed High-Precision 3D Shape and Force Perception",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "a8e16b4f72fccf03",
-      "title": "Learning Social Robot Navigation By Sensing Human Legs",
-      "link": "https://arxiv.org/abs/2607.27922v1",
-      "publishedAt": "2026-07-30T09:35:03.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Robots navigating among pedestrians typically sense their surroundings with a 2D LiDAR mounted close to the ground. At that height, the sensor mostly sees moving legs rather than whole people, yet most learning-based navigation methods still treat pedestrians as simple shapes like circles. This paper addresses that gap with CALF (Convolutional Attention for Leg Features), an end-to-end neural architecture that combines convolutional layers, attention, and MLP to interpret leg motion directly from LiDAR scans and produce safe navigation commands. The CALF policy is trained using deep reinforcement learning algorithms within LegNav, a custom lightweight 2D simulator that combines 2D LiDAR ray tracing with a novel pedestrian gait model. The resulting policy is compared against classical and learning-based baselines in terms of navigation performance and social compliance. The approach is validated through real-world experiments via zero-shot deployment on a TurtleBot 4, yielding smooth and socially compliant trajectories. Written in JAX, the LegNav simulator enables the training of a deployment-ready CALF policy in under an hour on a single consumer GPU.",
-      "tags": [
-        "落地",
-        "robot"
-      ],
-      "kind": "部署案例",
-      "score": 114,
-      "titleZh": "Learning Social Robot Navigation By Sensing Human Legs",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "e7580be227b4c32f",
-      "title": "Static In, Dynamic Out: Counterfactual Action Augmentation for Moving Object Manipulation",
-      "link": "https://arxiv.org/abs/2607.27890v1",
-      "publishedAt": "2026-07-30T09:05:04.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Visuomotor policies have advanced on manipulation tasks where the target object stays static during execution, but real deployments break this assumption: parts drift on conveyors and fruits sway in the wind. We introduce Static In, Dynamic Out (SIDO), a counterfactual action augmentation that enables a policy trained only on static object demonstrations to adapt to unseen object motion at test time. Our key idea is to factorize moving object manipulation into two sub-problems: predicting where the object will be, and reaching that predicted pose. SIDO displaces the object to a counterfactual future position and morphs the demonstrated action chunk to preserve the hand-object relative pose, yielding a goal-conditioned policy. At deployment an object pose predictor supplies the future position. Across three simulated tasks (Mug, Square, Stack) under five object motion patterns and two real-world tasks (Gantry, Peachtree), SIDO improves moving object success over the baselines while preserving static object performance. Project website: https://sido-staticindynamicout.github.io/.",
-      "tags": [
-        "落地",
-        "manipulation"
-      ],
-      "kind": "部署案例",
-      "score": 114,
-      "titleZh": "Static In, Dynamic Out: Counterfactual Action Augmentation for Moving Object Manipulation",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "e518ff452ab0def4",
-      "title": "Video Friday: A World Cup for Robots",
-      "link": "https://spectrum.ieee.org/video-friday-robot-world-cup",
-      "publishedAt": "2026-07-10T16:00:01.000Z",
-      "fetchedAt": "2026-08-01T16:02:58.057Z",
-      "source": "IEEE Spectrum · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "Video Friday is your weekly selection of awesome robotics videos, collected by your friends at IEEE Spectrum robotics. We also post a weekly calendar of upcoming robotics events for the next few months. Please send us your events for inclusion.\nRSS 2026: 13–17 July 2026, SYDNEY\nSummer School on Multi-Robot Systems: 29 July–4 August 2026, PRAGUE\nActuate 2026: 18–19 August 2026, SAN FRANCISCO\nIROS 2026: 27 September–1 October 2026, PITTSBURGH\nHumanoids Summit Seoul: 22–23 September 2026, SEOUL\nEnjoy today’s videos!\n\n \nFor the first time, two full teams of humanoid robots played an 11-vs-11 soccer match on hardware, bringing one of robotics’ most ambitious long-term visions closer to reality. Never before have two full-sized humanoid robot teams played a soccer game against each other.\n\n[ RoboCup ]\n\nEngineers at MIT and EPFL in Lausanne, Switzerland, have designed a robot that can swim underwater and flap out of the water to continue flying through the air, much like a diving bird. The robot can help scientists study the mechanics that enable these actions in aquatic aviators and may help launch a new class of aerial-aquatic drones and vehicles.\n\n[ MIT ]\n\nWe’re excited to announce our breakthrough robotic hands for the NEO platform: hands that match or exceed human-level dexterity, strength, safety, and reliability. Designed from the ground up, these 25-DoF hands combine 25 fully actuated degrees of freedom with a tendon-driven system, rich tactile sensing, and built-in compliance. The result is a hand capable of true in-hand manipulation, precision tool use, and delicate interaction.\n\n[ 1X ]\n\nThis match, Tech United played against IRIS at the midsize league at RoboCup 2026 in Incheon, South Korea.\n\n[ Tech United ]\n\nAtlas arrived pitchside at NYNJ Stadium in front of 80,000 people gathered to see Brazil vs. Norway. After performing some of the sport’s most memorable player celebrations, Atlas helped kick off the second half by delivering the match ball!\n\n[ Boston Dynamics ]\n\nNavigating discrete terrain such as stepping stones remains a major challenge for legged robots. Conventional approaches often rely on dense environment reconstruction from cameras or lidar, which can be affected by latency, occlusions, and significant computational overhead. We show that proximity sensors integrated into the bottom of a quadruped’s feet enable safe, terrain-seeking autonomous locomotion.\n\n[ Paper ]\n\nOn this holiday, Digit is on grill duty. It turns out precise force control is good for more than payload handling. Happy 4th of July from all of us at Agility.\n\n[ Agility ]\n\nWe’ve created GEN-1, our latest milestone in scaling robot learning. We believe it to be the first general-purpose AI model that crosses a new performance threshold: mastery of simple physical tasks. It improves average success rates to 99 percent on tasks where previous models achieve 64 percent, completes tasks roughly 3x faster than state-of-the-art, and requires only one hour of robot data for each of these results. GEN-1 unlocks commercial viability across a broad range of applications—and while it cannot solve all tasks today, it is a significant step toward our mission of creating generalist intelligence for the physical world.\n\n[ Generalist ]\n\nFour years at Figure.\n\n[ Figure ]\n\nReachy Mini is becoming your real AI companion. The Conversation App makes it able to talk fluently with you, help you with your to-do list, remind you of important tasks, and even chat about music. Long-term memory, voice interaction, always ready to help.\n\n[ Reachy Mini ]\n\nIs this sort of thing now a real job for humanoid robots, then?\n\n[ Unitree ]\n\nQuite a story, but is it a real job?\n\n[ EngineAI ]\n\nIf you have a cute animal logo for your research, I will always share it.\n\n[ BIEVR-LIO ]\n\nThis is very delicate work, although the real challenge would be picking those nuts out of a jumbled bin full of randomly sized nuts, which is how most of us live our lives.\n\n[ Sanctuary ]\n\nNot for me, thank you, although I’m not saying that most of the other humanoid robots out there are any better looking, fundamentally.\n\n[ UBTECH ]\n\nRobotics professor Dr. Christian Hubicki judges robot soccer skills while knowing very little about soccer himself.\n\n[ ORL ]\n\nIn this presentation, Brendan Schulman, vice president of policy at Boston Dynamics, outlines the critical role of government engagement in driving the success of the humanoid robotics industry. He demonstrates how legged robots like the Spot quadruped and Atlas humanoid are moving beyond factory settings to deliver real-world value in infrastructure inspection, industrial manufacturing, and public safety. Schulman highlights the intersection of AI and robotics, showcasing how large behavioral models and reinforcement learning enable robots to navigate slippery floors and autonomously avoid workplace hazards. Ultimately, he calls for a proactive national robotics strategy focused on workforce training, safety standards, and ethical frameworks to support supply chain resilience and global competitiveness.\n\n[ Humanoids Summit ]",
-      "tags": [
-        "产品",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "产品发布",
-      "score": 114,
-      "titleZh": "Video Friday: A World Cup for Robots",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "d9946f4a0225a728",
-      "title": "FA-RDP: A Frequency-Adaptive Reactive Diffusion Policy for Contact-Rich Manipulation",
-      "link": "https://arxiv.org/abs/2607.28596v1",
-      "publishedAt": "2026-07-30T17:47:49.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "In contact-rich manipulation, action multimodality and reactivity dominate different stages of a single episode. Before contact, multiple trajectories might be equally valid, making it important to preserve diverse action modes. After contact, geometric constraints and force limits narrow the solution space, while successful execution demands rapid responses to force feedback. However, standard diffusion policies use a fixed inference frequency and sampling steps throughout the episode, forcing a fundamental compromise: low-frequency, multi-step sampling better preserves pre-contact multimodality but responds slowly to force feedback, whereas high-frequency sampling improves reactivity but tends to collapse distinct pre-contact modes. To resolve this tradeoff, we present FA-RDP, a frequency-adaptive reactive diffusion policy. A shared multi-frequency visual-force Transformer predicts action chunks at both low and high frequencies, while a learned multimodality indicator dynamically selects multi-step low-frequency sampling before contact and one-step high-frequency sampling as action ambiguity decreases. We further introduce Manifold Consistency Distillation (MCD), which reparameterizes the diffusion network to predict actions on the robot action manifold while retaining DDPM-based residual supervision. Experiments on three contact-rich manipulation tasks show that FA-RDP achieves the highest success rate while preserving diverse pre-contact trajectory modes. Code and videos are available at https://fa-rdp.github.io.",
-      "tags": [
-        "开源",
-        "robot",
-        "manipulation"
-      ],
-      "kind": "开源项目",
-      "score": 112,
-      "titleZh": "FA-RDP: A Frequency-Adaptive Reactive Diffusion Policy for Contact-Rich Manipulation",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "eab2215cf6d41320",
-      "title": "SemAnCorr: Semantic Anchored Correspondence for Zero-Shot Manipulation Skill Transfer",
-      "link": "https://arxiv.org/abs/2607.28382v1",
-      "publishedAt": "2026-07-30T15:41:39.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Transferring manipulation skills across object instances that share functionality but differ in geometry remains a fundamental challenge in robot learning. While recent correspondence methods leverage dense visual descriptors and 3D feature fields, nearest-neighbor feature matching often produces spatially incoherent correspondences that fail to recover the local geometric frames required for reliable skill transfer. We introduce SemAnCorr, a training-free framework that establishes dense correspondence by selecting semantically consistent anchor regions through joint pose-correspondence optimization and propagating these constraints over the object surface using functional maps. The resulting correspondences preserve both semantic consistency and geometric coherence, enabling object-centric manipulation skills to transfer across geometrically diverse instances. We evaluate SemAnCorr on a dense correspondence benchmark built on PartNet-Mobility, achieving 90.8% semantic accuracy in our benchmark evaluation while improving geometric coherence over recent state-of-the-art baselines. Finally, we show that these improvements translate directly into real-world manipulation performance: using a single demonstration, SemAnCorr enables substantially more reliable zero-shot manipulation skill transfer to previously unseen objects than existing correspondence methods. Videos and additional visualizations are available at [https://semancorr.github.io](https://semancorr.github.io) .",
-      "tags": [
-        "开源",
-        "robot",
-        "manipulation"
-      ],
-      "kind": "开源项目",
-      "score": 112,
-      "titleZh": "SemAnCorr: Semantic Anchored Correspondence for Zero-Shot Manipulation Skill Transfer",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "ec4be8cfd719fba3",
-      "title": "RaDiVe: Robust 4D Radar Odometry with Distance-Bounded NDT and Velocity-Discrepancy Point Uncertainty",
-      "link": "https://arxiv.org/abs/2607.28045v1",
-      "publishedAt": "2026-07-30T11:26:41.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Recent advances in 4D radar enable robust perception in adverse weather; however, the inherent sparsity, noise, and limited positional precision of radar point clouds pose significant challenges for registration-based odometry. In this letter, we propose RaDiVe, a 4D radar odometry framework designed to improve the accuracy and robustness of radar point-cloud registration. We introduce a distance-bounded Normal Distributions Transform (NDT), which improves optimization stability and computational efficiency by restricting the correspondence search to near-distance voxel pairs. To mitigate measurement ambiguity, we propose a velocity-discrepancy point uncertainty model that weights each input 4D radar point according to the discrepancy between its measured Doppler radial velocity and the radial velocity predicted from the estimated ego-velocity. Furthermore, we incorporate Signed Distance Function (SDF)-based surface point extraction via implicit neural mapping to construct a geometrically consistent and noise-filtered local submap. Evaluations across multiple public datasets demonstrate that RaDiVe outperforms existing 4D radar odometry baselines by 44.4% in translational Absolute Trajectory Error (ATE) and 21.3% in rotational ATE on average, while maintaining real-time performance. The source code will be made publicly available to the robotics community: https://github.com/to-be-open-sourced.",
-      "tags": [
-        "开源",
-        "robot",
-        "robotics"
-      ],
-      "kind": "开源项目",
-      "score": 112,
-      "titleZh": "RaDiVe: Robust 4D Radar Odometry with Distance-Bounded NDT and Velocity-Discrepancy Point Uncertainty",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "b2cb731f78ba2d62",
-      "title": "ODEWorld: A Continuous Predictive Architecture via Physical-Time Flow",
-      "link": "https://arxiv.org/abs/2607.27924v1",
-      "publishedAt": "2026-07-30T09:37:30.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.524Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "In the physical world we inhabit, space and time are fundamentally continuous. However, existing machine learning paradigms for world modeling are largely confined to discrete-time prediction, thereby exhibiting significant inefficiency in capturing the dynamics of physical world. We introduce Physical-Time Flow (\\textbf{PT-Flow}), a novel approach that learns a continuous latent velocity field operating in physical time. Crucially, the underlying dynamics of sequential data are parameterized by an ordinary differential equation (ODE) embedded in a well-structured representation space. Under this paradigm, the prediction of future can be recast as temporal integration via an ODE solver in the compressed latent space. Building upon PT-Flow, we construct \\textbf{ODEWorld}, a continuous-time latent world model that is both efficient and versatile. By extracting time-variant features and enforcing ODE properties on both the dynamical representation space and the latent velocity field, ODEWorld effectively addresses the long-standing representation collapse issue in latent world model literature. This also enables high-quality image reconstruction even after long-horizon prediction. Moreover, its continuous nature allows for arbitrary temporal resolution and even backward prediction, which is impossible for most discrete-time models. Lastly, ODEWorld can provide rich planning-oriented information to facilitate downstream policy learning. Comprehensive experiments demonstrate that ODEWorld successfully reconciles planning-conducive dynamics abstraction with visual realism, excelling in both video generation and robotic control. \\href{https://dstate.github.io/odeworld_website/}{Project Website}.",
-      "tags": [
-        "开源",
-        "robot",
-        "world model"
-      ],
-      "kind": "开源项目",
-      "score": 112,
-      "titleZh": "ODEWorld: A Continuous Predictive Architecture via Physical-Time Flow",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "d7e5002e5e91e022",
-      "title": "Enigma Raises $71M to Advance Physical AI for Robotics - Ventureburn",
-      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxONnQ3bkxfckoxd096Q1pEV3BQT3FIYktzRmYzS3E0VGVRS3JTWkZxVUNwbmZObVdGdHJrLXBwY09BN2hJb3AybFJiUVJ0djhHbENPY01jS3BSN01zU3JlOGU1ZE04eTBvNFV3MW1UaGRENGdUeElPeFNpRUM5clhMN2RveGXSAYQBQVVfeXFMTjZ0N25MX3JKMXdPekNaRFdwUE9xSGJLc0ZmM0txNFRlUUtyU1pGcVVDcG5mTm1XRnRyay1wcGNPQTdoSW9wMmxSYlFSdHY4R2xDT2NNY0twUjdNc1NyZThlNWRNOHkwbzRVdzFtVGhkRDRnVHhJT3hTaUVDOXJYTDdkb3hl?oc=5",
-      "publishedAt": "2026-07-27T17:58:02.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Enigma Raises $71M to Advance Physical AI for Robotics  Ventureburn",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "physical ai"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Enigma Raises $71M to Advance Physical AI for Robotics - Ventureburn",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "845d59b6a0c9fdb4",
-      "title": "Axis Robotics Raises $12M in Seed Funding to Develop Physical AI Data Engine - AI Insider",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNelg3cFFFUlpaZXJtTzhPNTNUMHdsYlRZN2VWcG5PNXRhT0xaZmh0cnRqZzNhTE4yRlZFWW11Nm1KT2ZiMWllWm9aQnU5X2tDTG84NVM2djZfanZCdFlZUV9VOUQ0VE8yZW5WWmZBVl9WYlRWVVN1TTd4b1o3cFJrQ0RCSjZTclNPVzUtbkQ0RndZSDVFdUh2MnhuaUdyd1ZZdTRhc3hfanZtM2t2SmVLNDg4cw?oc=5",
-      "publishedAt": "2026-07-27T15:39:48.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Axis Robotics Raises $12M in Seed Funding to Develop Physical AI Data Engine  AI Insider",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "physical ai"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Axis Robotics Raises $12M in Seed Funding to Develop Physical AI Data Engine - AI Insider",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "19074cb5b5db14cb",
-      "title": "Physical AI data platform Axis Robotics raises $12 million seed led by Hack VC - CryptoRank",
-      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBlVk42eXZ1SkpCdnBGem4wMGxkRlJTY2NuV0U4SGkzRkpPUzBQOHpsWE14V3Y3UFJ2NERKSU9BUTkwSmhHTUc2eHZXdjh0MkJzam9xUm9vMVlSRExIR3RyS2xkWjVYZw?oc=5",
-      "publishedAt": "2026-07-27T14:50:46.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Physical AI data platform Axis Robotics raises $12 million seed led by Hack VC  CryptoRank",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "physical ai"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Physical AI data platform Axis Robotics raises $12 million seed led by Hack VC - CryptoRank",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "3a6f8236e1f5985f",
-      "title": "Axis Robotics raised $12M Funding to Build the compounding data engine accelerating physical AI - The Block",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQWjRJdWJZT1ItSm54NXBJNm91eC1vdWNOZ2VFUEFhakZrSUlCVl9fdGZMcE5IRXh2akFhU1paMXNTSG95bG03YmFZTk1uSGo0R3lPOHpieG5JVm5OVlc3cFo0VG9zcm1QbWtnZDRhWm8zellvaklUaUc5Wkx4SElVY0Vab09HLUpkR2ZRbWFzQWlwekwzQzV4bnRpdnh6dHR2aDZ0eWVrSFY5c3lNMkdBeXA1WEpZMUhEdDNlcElLZUQ1am0yN19Fc0lB?oc=5",
-      "publishedAt": "2026-07-27T12:17:15.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Axis Robotics raised $12M Funding to Build the compounding data engine accelerating physical AI  The Block",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "physical ai"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Axis Robotics raised $12M Funding to Build the compounding data engine accelerating physical AI - The Block",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "09ffa72665cbd96a",
-      "title": "Holiday Robotics raises $105M for its FRIDAY wheeled humanoid - The Robot Report",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOVEh1SkFzV0JZeUNfUXd4N3dTd1pJTU9FcVdaampQSTI5ZVF5dWliYm5BdEhQVFI1RmZoRk9wVXFfUzBkUU9ONHd6LWFoTnhoQklfbWZXdHUxMTlpZ2pTOFNjbVBYZFlKX2UwRl9PUGlqMWlaUTVWOW44MjQ2V0c5cVlUbk9aa1FjLWlObA?oc=5",
-      "publishedAt": "2026-07-23T20:48:06.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Holiday Robotics raises $105M for its FRIDAY wheeled humanoid  The Robot Report",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Holiday Robotics raises $105M for its FRIDAY wheeled humanoid - The Robot Report",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "d93fab201850a201",
-      "title": "Humanoid Raises $152 Million at $1.35 Billion Post-Money Valuation, Becoming Europe's First Pure-Play Humanoid Robotics Unicorn - Business Wire",
-      "link": "https://news.google.com/rss/articles/CBMilAJBVV95cUxNRXRPSWU4b3JVZm1fRFFhc3VqWmw1SFV4SGVqSXZ2ODRaaE5pUk1qb2FkaVp2c0RUU0pCaGZBbEt1aVM5d1VKUmNMSzd4VUFhanJya3BFMmVMZ3ZpN29lS3JzejJzZEh0aGVCS2pVVk1BTHJhTUtiaUNyWjVxY21YdlZuV1VPWjJ5X1A3dXEydEhuc0NWNlBNT2lIeFFmVnc0cDJMOUozQkFxalZvel9Tcy1rV3JjellIT19hTmVwNmlPWGFQa2ZCcjQ1TjQ1c2RBcHotRXpmdkVLUS1KRWFmalFWenFmcHdoRklhbEZCbmotTC1nclB3YUE2cWRBR2ZiTnhZbGdIWXZ0SjV3UmhzdFk2RE0?oc=5",
-      "publishedAt": "2026-07-23T13:00:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Humanoid Raises $152 Million at $1.35 Billion Post-Money Valuation, Becoming Europe's First Pure-Play Humanoid Robotics Unicorn  Business Wire",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Humanoid Raises $152 Million at $1.35 Billion Post-Money Valuation, Becoming Europe's First Pure-Play Humanoid Robotics Unicorn - Business Wire",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "8e92a52f3cbf0a2c",
-      "title": "Humanoid完成1.52亿美元融资，投后估值达13.5亿美元，成为欧洲首家专注人形机器人领域的独角兽企业 - Business Wire",
-      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1DXzYtb1UtRllNMUo3VjJSMDd5enB6d0k5MWUybjJxQ25MYXlDQzVjN0FXSFg4MzU1cGRQTm9VY3JpYnc1MWcwREM3M3pVYjZ3azB1X1F4Z3JJYjRtazhOTVE3RjI2Yk5wb0N3?oc=5",
-      "publishedAt": "2026-07-23T13:00:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.486Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 6,
-      "excerpt": "Humanoid完成1.52亿美元融资，投后估值达13.5亿美元，成为欧洲首家专注人形机器人领域的独角兽企业  Business Wire",
-      "tags": [
-        "投融资",
-        "humanoid",
-        "人形机器人",
-        "机器人"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Humanoid完成1.52亿美元融资，投后估值达13.5亿美元，成为欧洲首家专注人形机器人领域的独角兽企业 - Business Wire",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "3106f5f35380191e",
-      "title": "New Unicorn: UK Robotics Startup Humanoid Raises €133 Million at €1.1 Billion Valuation - trendingtopics.eu",
-      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOLXJrRlB4WUJFc2hEaV8tV1d1Zkx3SmlZUkMzT0d6YUdfQWtzbzZtbFgtcXJMQkV4UlpWenNMQTZhc1kycjRQaWQzNnNFZnJuMGE5eUpzb3pLa2NvRHNqbWUxSXozQzAtM1p6QThRdTBDR2NKZmtBSnYweGZneDhnNFY4aTY3dlljaWtSYmRQVFFKajhHN1NRdlhRa1Q5MFhsMWxyQklHeFNNX2tGMzJLaXltVHdHSldj?oc=5",
-      "publishedAt": "2026-07-22T12:48:24.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "New Unicorn: UK Robotics Startup Humanoid Raises €133 Million at €1.1 Billion Valuation  trendingtopics.eu",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "New Unicorn: UK Robotics Startup Humanoid Raises €133 Million at €1.1 Billion Valuation - trendingtopics.eu",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "0eab682e89684249",
-      "title": "Humanoid raises $152 million at $1.35 billion valuation, becoming ‘Europe’s first pure-play humanoid robotics unicorn’ - Robotics & Automation News",
-      "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOMnJkLVZ4UGdnTFhCckNjLWxaVEZkVFpoM25SMTlmUkxOaDhxa2MyVHFvMEREdnBCdnZVbVVnZmVUSDBmdmFfLXF2c0JSMjNJbmVyUXlzUWpxRDk2eUgwOTFtQlBuVWdGMVZXdlRfM2g5QTRjdEV2bG9GcnhaY3hOSTdYTERlcThqdEJIQ2NuN2VDUzlOX2JXamVoX1JkcVE0cTRxOFlYSURBLVRFdDZhT2NrbG1hbTBsVTR4SUtBZFFOM2o2VXJSTVZmTkFLNWt5YW9KX3hlZnY0N2NSNjNRVEVQaTVOQ0JrZmJjejU0Z2RrTXRhVTE4YnFLSW5iUQ?oc=5",
-      "publishedAt": "2026-07-22T05:29:55.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Humanoid raises $152 million at $1.35 billion valuation, becoming ‘Europe’s first pure-play humanoid robotics unicorn’  Robotics & Automation News",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Humanoid raises $152 million at $1.35 billion valuation, becoming ‘Europe’s first pure-play humanoid robotics unicorn’ - Robotics & Automation News",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "ac2c7031749e11d0",
-      "title": "Robotics firm Humanoid lands $152 million funding at blockbuster $1.35 billion post-money valuation - Retail Technology Innovation Hub",
-      "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOSFdubDB2MzNGRkEyNmRtSXFUYV9pUk5PUEtOQ1RXRm9ySW9ybHpPZFMybFA4S2JMSFR3UXkxNjBrZ1NIdzdmUjNORXRXS00zSEJFMXhQb1FmbEtNazFuRlVTZXhsdzZLY3VJVGtIeGNzb2F5SlZBSHMzWkM5dGtVOTY5bXlja0NsMUhSYXFFRlJBZ1JEdmNkcTFJaWVybkJqc3JhM3FCTEQ1cnRjcmxvT1FBOHIySUJhZUdVNF9fbFBGUzJaQ3hZR2RGY1E0UV9Eb2FoUmQ4NA?oc=5",
-      "publishedAt": "2026-07-22T04:50:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Robotics firm Humanoid lands $152 million funding at blockbuster $1.35 billion post-money valuation  Retail Technology Innovation Hub",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Robotics firm Humanoid lands $152 million funding at blockbuster $1.35 billion post-money valuation - Retail Technology Innovation Hub",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "3d5d1675ed18cecb",
-      "title": "英国Humanoid获1.52亿美元A轮融资，估值13.5亿美元，舍弗勒与博世联手押注欧洲人形机器人新贵 - 机器人大讲堂",
-      "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1vOGp2am9aSlpIaDQzX2Z0ZE1VM2hVUkVEQzhKWGRaNzNfTi1BcFpabUdkZ0JYTENvM1gtTEFQeTVwZGpEOEV1SFF5MjI?oc=5",
-      "publishedAt": "2026-07-22T03:27:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.486Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 6,
-      "excerpt": "英国Humanoid获1.52亿美元A轮融资，估值13.5亿美元，舍弗勒与博世联手押注欧洲人形机器人新贵  机器人大讲堂",
-      "tags": [
-        "投融资",
-        "humanoid",
-        "人形机器人",
-        "机器人"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "英国Humanoid获1.52亿美元A轮融资，估值13.5亿美元，舍弗勒与博世联手押注欧洲人形机器人新贵 - 机器人大讲堂",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "b4acd51315beb293",
-      "title": "Humanoid Raises $152 Million to Expand Robotics Company - PYMNTS.com",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOU0xzNFVVUmRnTXFBeEZmR2s3Zl9hQ2lMb3Z6cFpnd0JPMlhmYVlfYVJnd016NGRyc2ttNU1fVnZaM2dhV0dwenZjTWo1Nm44T20xWHVrYm9Rck5TblVmanExTlRWdG9tNGI4WkxPNTlyT1F4SGd0NzljOVBnUTNGT2d2bk5tQWZTODZEbU93aUhPaFB5SlJyNEpIQmxRVEwycktuemZFOUt5blk?oc=5",
-      "publishedAt": "2026-07-21T18:51:19.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Humanoid Raises $152 Million to Expand Robotics Company  PYMNTS.com",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Humanoid Raises $152 Million to Expand Robotics Company - PYMNTS.com",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
-    },
-    {
-      "id": "fbf5a2b880d4e3ea",
-      "title": "Robotics startup Humanoid raises $152 million Series A round at $1.35 billion valuation - Reuters",
-      "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxONHl0NDlsZVVjSk5iZGFHc3N6NEtqSG9JSExWVzg1Unkzb3RNRHpqWHpVR21NMVRQU2M5VDRPZjlrcGlUN21SalU2czZONVNBcGFLcUhXa0p6QjRVbGNrZ01hWDNNdnR2RGMwVXVLZklaZktqdkdqY01RTjJUcnN3QWhVTzJrX3M3MUE2NDR6R3JIeEFYMXZ5MU84Nk9vNm5EbnpfRWFzVVJGb0Y1Z1hYXzgySzVfVGlxaG5xWjFxa1V3Zw?oc=5",
-      "publishedAt": "2026-07-21T07:00:00.000Z",
-      "fetchedAt": "2026-08-01T16:02:57.491Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 6,
-      "excerpt": "Robotics startup Humanoid raises $152 million Series A round at $1.35 billion valuation  Reuters",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "humanoid"
-      ],
-      "kind": "投融资",
-      "score": 112,
-      "titleZh": "Robotics startup Humanoid raises $152 million Series A round at $1.35 billion valuation - Reuters",
-      "summaryZh": "未配置摘要服务；请阅读原文。"
+      "titleZh": "基于流匹配世界模型的手术机器人模仿策略故障检测",
+      "summaryZh": "FoMo-FD以流匹配世界模型学习正常视觉动态，无需失败样本即可检测手术机器人故障，检出率96.6%、误报率1.3%。"
     }
   ],
   "industryPulse": {
     "viewpoints": [],
     "events": [
       {
-        "id": "2566138e1e58aef8",
-        "title": "Release v0.6.0",
-        "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
-        "publishedAt": "2026-07-08T15:39:00.000Z",
-        "fetchedAt": "2026-08-01T16:02:58.782Z",
-        "source": "LeRobot Releases",
-        "sourceWeight": 9,
-        "excerpt": "Release Blog\nhttps://huggingface.co/blog/lerobot-release-v060\n⚠️ Breaking changes (v0.5.1 -> v0.6.0)\nv0.6.0 cleans house, and a few changes need your attention when upgrading:\npip install lerobot no longer includes dataset or training dependencies; add the extra you need (e.g. lerobot[training]).\nSome import paths have changed. Please use the canonical public entry points rather than internal submodule paths.\nGR00T N1.5 is replaced by N1.7 (pin lerobot==0.5.1 if you need N1.5).\nThe minimum PyTorch version is now 2.7.\neval_freq was renamed to env_eval_freq in the train config.\nThe RL stack was rebuilt: the sac policy type is now gaussian_actor under the new modular RL API.\nLegacy per-frame subtask_index annotations are superseded by the new language columns.\n--dataset.vcodec was renamed to --dataset.rgb_encoder.vcodec, such that RGB and depth cameras video codecs may be set separately.\n\n\n    output.mp4\n    \n  \n\n  \n\n  \n\n\nWhat's Changed\nchore(dependencies): Bump lerobot to 0.5.2 by @imstevenpmwork in #3307\nrefactor(envs): move benchmark dispatch into EnvConfig subclasses by @pkooij in #3272\nfeat(envs): lazy env init + AsyncVectorEnv as default for n_envs > 1 by @pkooij in #3274\nfeat(ci): add agent assitance workflow by @imstevenpmwork in #3332\nchore(security): update claude.yml by @hf-security-analysis[bot] in #3333\nfix(ci): pin claude-code-action to v1.0.88 by @imstevenpmwork in #3336\nchore(ci): proper claude args workflow by @imstevenpmwork in #3338\nfix(dataset): adding metadata loading when reading from a dataset after writing by @CarolinePascal in #3305\nchore(dependencies): update uv.lock by @imstevenpmwork in #3308\nchore(dependencies): update uv.lock by @imstevenpmwork in #3361\nrefactor(deps): minimal default install with facade pattern and dependency isolation by @imstevenpmwork in #3362\nfix(rl): ensure queue and process cleanup on abnormal exit by @jashshah999 in #3063\nfeat(ci): benchmark smoke tests with isolated Docker images (LIBERO + MetaWorld) by @pkooij in #3319\nfix(feetech): motor position readings overflow by @Maximellerbach in #3373\nUpdate reward classifier training config by @EPronovost in #3147\nfix(test): add missing device placement in multi-task DiT tests by @s1lent4gnt in #3349\nfix(groot):  compatibility fixes for gr00t in v0.5 by @mtiezzi in #3182\nAdd thread synchronization to ReplayBuffer to prevent race condition between add() and sample() by @s1lent4gnt in #3372\nfix(rl): preserve teleop intervention flag in step_env_and_process_transition by @remete618 in #3273\nfix: catch KeyboardInterrupt in safe_stop_image_writer to prevent corrupted frames by @s1lent4gnt in #3381\nrefactor(imports): enforce guard pattern by @imstevenpmwork in #3382\nchore(docs): update contributing by @imstevenpmwork in #3387\nchore: bump doc-builder SHA for PR upload workflow by @rtrompier in #3386\nchore(docs): adding a jupyter notebook that gives you ready-to-paste commands by @Maximellerbach in #3395\nfeat(ci): send slack notification if latest dependency test is broken by @imstevenpmwork in #3398\nfix(ci): not fail when skipped by @imstevenpmwork in #3399\nfix(record): pass rename_map to make_policy in lerobot-record by @wadeKeith in #3240\nImprove loading performance in _absolute_to_relative_idx when remapping indices by @hello3x3 in #3279\nchore(dependencies): update uv.lock by @imstevenpmwork in #3365\nfeat(dataset): 2x faster dataloader via parallel decode, uint8 transport, and persistent workers by @imstevenpmwork in #3406\nfix(dataset): cleanup_interrupted_episode wipes image temp dirs by @whats2000 in #3405\nepisods→episodes by @k1000dai in #3410\nfix(policies): replace deprecated torch.cuda.amp.autocast with torch.… by @Defalt-Meh in #3167\nci: skip Docker Hub login step on fork PRs by @pkooij in #3417\nfix(envs): preserve AsyncVectorEnv metadata/unwrapped in lazy eval envs by @HaomingSong in #3416\nfeat(envs): add RoboCasa365 benchmark integration by @pkooij in #3375\nfeat(envs): add RoboTwin 2.0 benchmark by @pkooij in #3315\nfeat(envs): add RoboCerebra long-horizon manipulation benchmark by @pkooij in #3314\nfeat(envs): add RoboMME benchmark by @pkooij in #3311\nfeat(envs): add LIBERO-plus robustness benchmark by @pkooij in #3313\nfeat(sim): VLABench benchmark integration by @pkooij in #3396\nfix(robotwin): pin compatible curobo in benchmark image by @pkooij in #3427\ndocs(agents): add AGENT_GUIDE.md for user facing agent by @pkooij in #3430\nchore(dependencies): update uv.lock by @imstevenpmwork in #3408\nfix(smolvla): correct loss normalization for padded actions by @whats2000 in #3434\ndocs(xvla): fix broken local file links in documentation by @kuafou in #3291\nfix(policy): loss normalization for padded actions in ACT, Diffusion, and MultiTaskDiT by @imstevenpmwork in #3442\nfix(sarm): handle BaseModelOutputWithPooling from transformers 5.x in… by @masato-ka in #3419\nfix(policies): remove @DataClass from GR00TN15Config to fix import crash on transformers ≥ 5.5 by @ChuyaoShen in #3414\nfix(imports): realsense import name is platform dependent by @imstevenpmwork in #3451\nfix(dataset): no default overwrite in lerobot tool recompute stats by @imstevenpmwork in #3452\nfix(pi): avoid peak RAM in PiGemma construction by freeing replaced submodules by @imstevenpmwork in #3454\nchore(dependencies): update uv.lock by @imstevenpmwork in #3437\nfeat(rollout): decouple policy deployment from data recording with new lerobot-rollout CLI by @imstevenpmwork in #3413\nchore(ci): bump docs workflows by @imstevenpmwork in #3476\nReward models refactor by @s1lent4gnt in #3142\nrefactor(datasets): replace untyped dict with typed DatasetInfo dataclass by @Maximellerbach in #3472\nfix(rollout): propagate policy-specific CLI config paramaters by @imstevenpmwork in #3483\nMigrate legacy RA-BC fields in train config loading by @s1lent4gnt in #3480\nExpose sarm package API and ship reward model card template by @s1lent4gnt in #3477\nfix(pi0&pi05): keep training sampling outside compiled forwards by @HaomingSong in #3487\nfix(peft): fix LoRA resume from Hub (PosixPath + double wrap) by @jashshah999 in #3485\nchore(ci): upgrade docker internal by @imstevenpmwork in #3505\nchore(ci): increase time stale by @imstevenpmwork in #3507\nchore(dep): bump transformers to 5.4.0 by @imstevenpmwork in #3374\nfeat(dagger): adding smooth handover by @Maximellerbach in #3506\nfix(robots): openarm features compatibility with openarm_mini by @imstevenpmwork in #3524\nfeat(policies): add EO-1 model by @HaomingSong in #3403\nfix(ci): bump robotwin benchmark image to CUDA 12.6 by @pkooij in #3525\nfeat(policy): use pretrained vision encoder weights by default for diffusion and vqbet by @villekuosmanen in #3202\nfix(ci): speed up multi-task benchmark evals (parallelize + cap VLABench steps) by @pkooij in #3529\nfix(robots): allign lekiwi default with so100 use_degrees by @imstevenpmwork in #3531\nfix(train): restrict legacy RA-BC migration to JSON checkpoints only by @masato-ka in #3490\nchore(ci): disable auto-stale by @imstevenpmwork in #3550\nchore(dependencies): update uv.lock by @imstevenpmwork in #3475\nchore(deps): allow torch 2.11/2.12 and fix autocast deprecation by @shoumikhin in #3435\nfix(datasets): close file handle on VideoDecoder init failure in cache by @jashshah999 in #3542\ndocs: add policy & compute guide by @imstevenpmwork in #3534\ndocs(omx): adding some examples and scripts by @Maximellerbach in #3566\nchore(deps): cap torch ceiling at <2.12, pin Linux wheels to cu128 by @imstevenpmwork in #3570\nRL stack refactoring by @s1lent4gnt in #3075\nfix(datasets): expand torchcodec platform coverage + rewrite pyav fallback for torchvision >0.26 by @imstevenpmwork in #3588\nfeat(episodes): adding support for metadata based episodes filtering by @CarolinePascal in #3530\nchore(dependencies): update uv.lock by @imstevenpmwork in #3561\nFix policy.path not working in YAML config files by @jashshah999 in #3145\nfix(config): add lora_alpha to PeftConfig by @wadeKeith in #3573\ndocs(quickstart): adding rollout  by @NikodemBartnik in #3598\nadd comprehensive CLI cheat sheet for quick reference by @NikodemBartnik in #3602\nfeat(encoding parameters): adding support for user provided video encoding parameters  by @CarolinePascal in #3455\nfix(pi05): update pi05 with transformers v5.4.0 scaled PaliGemma embeddings by @HaomingSong in #3603\nAllow zero-shot reward configs without optimizer presets by @s1lent4gnt in #3625\nMention the new Lance LeRobotDataset implementation in the docs by @lhoestq in #3609\nfeat(robots): natively integrate Seeed Studio reBot B601-DM arm by @pkooij in #3624\nSet OpenCV fourcc after size and fps by @von-Neumann101 in #3620\nAdd extensive language support by @pkooij in #3467\nfeat(video re-encoding): Adding utility and dataset edition tool for video re-encoding by @CarolinePascal in #3611\nfix(datasets): normalize shape=(1,) numeric values before HF encoding by @SevenFo in #3344\nfix(datasets): bound VideoDecoderCache to prevent OOM on large datasets by @rzninvo in #3614\nFeat/clean can bus by @Virgileboat in #3526\nrefactor(rewards) : support custom progress parquet overlays by @s1lent4gnt in #3640\nfix api examples by @NikodemBartnik in #3623\nfix(pi0, pi05): stabilize torch.compile and expand test coverage by @HaomingSong in #3610\nfix(groot): align GR00TN15Config with transformers config dataclasses by @HaomingSong in #3606\nfix(deps): cap placo below 0.9.16 and harden kinematics import by @pkooij in #3647\nfix(configs): make policy.path in YAML work without a type discriminator by @reeceomahoney in #3597\nfix(groot): support Transformers 5.4+ Eagle Flash Attention initialization by @HaomingSong in #3652\nfeat(rewards): add TOPReward reward model by @s1lent4gnt in #3629\nAdd MolmoAct2 policy by @hq-fang in #3604\nfeat(rewards): add ROBOMETER reward model by @s1lent4gnt in #3627\nfix(datasets): default private to None in push_to_hub by @s1lent4gnt in #3713\nfix(train): enable relative action overrides for pretrained processors by @HaomingSong in #3711\nDocs/add lelab by @NikodemBartnik in #3707\ndocs: fix broken dataset script paths (datasets/v30 -> scripts) by @jpatel3 in #3695\nfeat(policies): add VLA-JEPA by @Maximellerbach in #3568\nfeat(rollout): adding episodic strategy by @Maximellerbach in #3717\nfeat(processor): Add in-memory processor pipeline serialization by @AdilZouitine in #3732\nfix(pyproject): adding ceiling bound on mujoco (<3.9.0) by @CarolinePascal in #3751\nRevert \"fix(pyproject): adding ceiling bound on mujoco (<3.9.0)\" by @imstevenpmwork in #3754\nchore(dependecies): update mujoco transitives by @imstevenpmwork in #3756\nfix(train): synchronize EpisodeAwareSampler shuffling across ranks and gate dataset download per node by @pkooij in #3768\nchore: update readme by @imstevenpmwork in #3774\nfeat(training): bump accelerate + use reduction types for tracked metrics in a multi rank setup by @imstevenpmwork in #3773\nchore(deps): relax grpcio / protobuf / wandb bounds by @imstevenpmwork in #3777\nfeat(trim): adding optional trimming option in reencode_video by @CarolinePascal in #3779\nfeat(datasets): deterministic, resumable shuffling for EpisodeAwareSampler  by @pkooij in #3769\nDocs/model card improvements by @NikodemBartnik in #3634\nfeat: language annotation pipeline by @pkooij in #3471\nfeat(edit-dataset): add concatenate_videos opt-out to merge by @Ace3Z in #3663\nfix(datasets): avoid uint8 overflow in image stats by @Altman-conquer in #3697\nrefactor(robots): homogenize bi-manual setups implementations by @imstevenpmwork in #3772\nchore(dependencies): update uv.lock by @imstevenpmwork in #3595\nfix(images/videos): fixing aggregate_pipeline_dataset_features to avoid unwanted images features deletion by @CarolinePascal in #3783\nfix(datasets): enforce one parquet row group per episode in v3 data writes by @pkooij in #3807\nfix(features copy): adding deepcopy on LeRobot dataset features to avoid shallow copy leaks by @CarolinePascal in #3826\nfix(cameras): snapshot stop_event in read loops to avoid None deref by @CarolinePascal in #3812\nfix(image transforms): cleaning up image_transforms implementation by @CarolinePascal in #3829\ndocs: add LeLab web interface to README by @nicolas-rabault in #3831\nAdd third-party env plugin discovery by @s1lent4gnt in #3823\nFix batch wandb logging metrics and handle scalar stats by @s1lent4gnt in #3821\nAdd pretrained_revision to pin Hub model versions by @s1lent4gnt in #3820\nfix(policies): support offline batch inference for ACT and Diffusion by @s1lent4gnt in #3822\nfeat(train): FSDP checkpoint saving by @Maximellerbach in #3810\nRecord eval rollouts as LeRobot datasets by @s1lent4gnt in #3825\nfix(deps): pin cmeel-urdfdom <5 and cmeel-tinyxml2 <11 in placo-dep by @jiwenc-nv in #3873\nFix pi0fast model id in docs by @AlexandreEDMOND in #3855\ndocs: fix ACT policy type examples by @someone114514 in #3792\nfeat(utils): display-independent keyboard controls for recording (Wayland / headless / macOS) by @imstevenpmwork in #3875\nUpdate follower arm description in documentation by @hazzelnut in #3780\nrefactor(policies): clean MolmoAct2 by @s1lent4gnt in #3724\nAdd inline offline validation with train/eval split by @s1lent4gnt in #3824\nfeat(depth maps): adding support for depth in LeRobot by @CarolinePascal in #3644\nfeat(dependencies): bump rerun-sdk to <0.34.0 by @CarolinePascal in #3763\nfeat(train): run training remotely on HF Jobs via --job.target by @nicolas-rabault in #3856\nrefactor(vla-jepa): removing gpu roundtrip by @Maximellerbach in #3750\nEnable MolmoAct2 rollout on SO-100/101 with calibration correction by @s1lent4gnt in #3879\nFeat(robot): add MIT control mode to ReBot by @s1lent4gnt in #3778\nfix(datasets dependency): removing datasets dependency in pretrained.py by @CarolinePascal in #3897\nfeat(policies): Add FastWAM Policy by @Maximellerbach in #3834\nperf(tests): cache draccus docstring extraction to fix Fast Tests regression by @nicolas-rabault in #3903\nfeat(visualization): add foxglove support by @imstevenpmwork in #3902\nfeat(libaom-av1): adding support for libaom-av1 codec library by @CarolinePascal in #3898\nfix(depth unit): adding input depth unit storage in the dataset metadata by @CarolinePascal in #3899\nfix(save codec options): making sure codec options are always set via set_if by @CarolinePascal in #3910\nfix(train): drive Accelerate mixed precision from policy.dtype by @pkooij in #3912\nDocs/improve HF jobs documentation by @NikodemBartnik in #3909\nLingBot-VA: video-action world model  by @pkooij in #3731\nfeat(policies): add Gr00t N1.7 policy by @imstevenpmwork in #3922\nfeat(policies): add EVO1 policy by @imstevenpmwork in #3908\nchore(infra): remove requirements files by @imstevenpmwork in #3925\nchore(dependencies): update uv.lock by @imstevenpmwork in #3816\nchore(docs): update readme + gr00t libero results by @imstevenpmwork in #3941\nfeat(examples): add Isaac Teleop → SO-101 teleoperation and dataset recording example by @CarolinePascal in #3927\ndocs(prettier): making video encoding parameters docs prettier by @CarolinePascal in #3911\nchore(dependencies): update uv.lock by @imstevenpmwork in #3928\nchore(dependencies): Bump lerobot to 0.6.0 by @imstevenpmwork in #3956\nNew Contributors\n@hf-security-analysis[bot] made their first contribution in #3333\n@EPronovost made their first contribution in #3147\n@mtiezzi made their first contribution in #3182\n@remete618 made their first contribution in #3273\n@rtrompier made their first contribution in #3386\n@wadeKeith made their first contribution in #3240\n@hello3x3 made their first contribution in #3279\n@Defalt-Meh made their first contribution in #3167\n@kuafou made their first contribution in #3291\n@ChuyaoShen made their first contribution in #3414\n@shoumikhin made their first contribution in #3435\n@NikodemBartnik made their first contribution in #3598\n@von-Neumann101 made their first contribution in #3620\n@rzninvo made their first contribution in #3614\n@Virgileboat made their first contribution in #3526\n@hq-fang made their first contribution in #3604\n@jpatel3 made their first contribution in #3695\n@Ace3Z made their first contribution in #3663\n@jiwenc-nv made their first contribution in #3873\n@AlexandreEDMOND made their first contribution in #3855\n@someone114514 made their first contribution in #3792\n@hazzelnut made their first contribution in #3780\nFull Changelog: v0.5.1...v0.6.0",
+        "id": "82d8aae81c2aea40",
+        "title": "李飞飞World Labs收购SceniX，物理AI训练正从“采数据”走向“造世界”|机器人|模型|仿真|评测|物体_手机新浪网 - 新浪财经",
+        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5",
+        "publishedAt": "2026-08-01T06:12:25.000Z",
+        "fetchedAt": "2026-08-01T16:03:52.125Z",
+        "source": "Google News · 中国具身融资",
+        "sourceWeight": 6,
+        "excerpt": "李飞飞World Labs收购SceniX，物理AI训练正从“采数据”走向“造世界”|机器人|模型|仿真|评测|物体_手机新浪网  新浪财经",
         "tags": [
-          "产品",
-          "robot",
-          "vla",
-          "isaac"
+          "投融资",
+          "机器人"
         ],
-        "kind": "产品发布",
-        "score": 146,
-        "titleZh": "Release v0.6.0",
-        "summaryZh": "未配置摘要服务；请阅读原文。"
+        "kind": "投融资",
+        "score": 104,
+        "titleZh": "李飞飞World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”",
+        "summaryZh": "李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。"
       },
       {
-        "id": "9da8fb3e629b8216",
-        "title": "Japan’s Robotics and Manufacturing Leaders Build on NVIDIA Cosmos to Advance Physical AI Frontier",
-        "link": "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier",
-        "publishedAt": "2026-07-16T03:40:00.000Z",
-        "fetchedAt": "2026-08-01T16:02:57.932Z",
-        "source": "NVIDIA Newsroom",
-        "sourceWeight": 10,
-        "excerpt": "NVIDIA today announced that Japan’s physical AI leaders are building on the NVIDIA Cosmos™, NVIDIA Isaac™, NVIDIA Metropolis and NVIDIA Jetson™ platforms to accelerate the deployment of intelligent machines across manufacturing, mobility, infrastructure and robotics.",
+        "id": "d8decbada0d884d3",
+        "title": "中科院系农业机器人公司，融资数亿，奇瑞也投了 - 手机新浪网",
+        "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5",
+        "publishedAt": "2026-08-01T05:40:00.000Z",
+        "fetchedAt": "2026-08-01T16:03:52.125Z",
+        "source": "Google News · 中国具身融资",
+        "sourceWeight": 6,
+        "excerpt": "中科院系农业机器人公司，融资数亿，奇瑞也投了  手机新浪网",
         "tags": [
-          "产品",
-          "robot",
-          "robotics",
-          "physical ai"
+          "投融资",
+          "机器人"
         ],
-        "kind": "产品发布",
-        "score": 144,
-        "titleZh": "Japan’s Robotics and Manufacturing Leaders Build on NVIDIA Cosmos to Advance Physical AI Frontier",
-        "summaryZh": "未配置摘要服务；请阅读原文。"
+        "kind": "投融资",
+        "score": 104,
+        "titleZh": "中科院系农业机器人公司融资数亿元，奇瑞参投",
+        "summaryZh": "一家中科院系农业机器人公司完成数亿元融资，奇瑞也参与投资，成为该公司投资方之一。"
       },
       {
-        "id": "13f77bbb5cb94408",
-        "title": "Empowering India’s next generation of innovators with ATL Saathi",
-        "link": "https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/",
-        "publishedAt": "2026-07-13T12:37:28.000Z",
-        "fetchedAt": "2026-08-01T16:02:57.974Z",
-        "source": "Google DeepMind Blog",
-        "sourceWeight": 10,
-        "excerpt": "Google and AIM launched ATL Saathi, a Gemini-powered AI tool empowering Indian educators in robotics labs.",
+        "id": "3b692572e410ec45",
+        "title": "机器人：融资净买入85.18万元，融资余额10.55亿元 - 东方财富",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAxWHRyblBZZkM3WnU3R3Z2c3pwaml6aUc1aUFuMlFJUjV5U3ZvMDh2RUJiaGJjbmhKWlBtTjVSN1BySnBGdHFWT2tQSmJiR3laRUF5SWlhamVkU0dvZ0tUdg?oc=5",
+        "publishedAt": "2026-07-31T20:32:51.000Z",
+        "fetchedAt": "2026-08-01T16:03:52.125Z",
+        "source": "Google News · 中国具身融资",
+        "sourceWeight": 6,
+        "excerpt": "机器人：融资净买入85.18万元，融资余额10.55亿元  东方财富",
         "tags": [
-          "产品",
-          "robot",
-          "robotics"
+          "投融资",
+          "机器人"
         ],
-        "kind": "产品发布",
-        "score": 136,
-        "titleZh": "Empowering India’s next generation of innovators with ATL Saathi",
-        "summaryZh": "未配置摘要服务；请阅读原文。"
+        "kind": "投融资",
+        "score": 104,
+        "titleZh": "机器人：融资净买入85.18万元，融资余额10.55亿元",
+        "summaryZh": "数据显示，机器人融资净买入85.18万元，融资余额为10.55亿元，反映了该股票近期的融资交易情况。"
       }
     ]
   },
@@ -1288,6 +347,11 @@
     {
       "source": "Hacker News · Embodied AI",
       "status": "success"
+    },
+    {
+      "source": "X · 产业领军者观察",
+      "status": "failure",
+      "reason": "HTTP 402 Payment Required"
     }
   ],
   "discoveredSources": [
@@ -1300,26 +364,6 @@
       "domain": "semafor.com",
       "title": "Americans worry robots will take jobs, but not theirs",
       "link": "https://www.semafor.com/article/07/31/2026/americans-worry-robots-will-take-jobs-but-not-theirs-survey-shows"
-    },
-    {
-      "domain": "deepmind.google",
-      "title": "Gemini Robotics",
-      "link": "https://deepmind.google/models/gemini-robotics/"
-    },
-    {
-      "domain": "dl.acm.org",
-      "title": "Exploring Design Space for Soft Floating Robots in Indoor Environments",
-      "link": "https://dl.acm.org/doi/10.1145/3800645.3813051"
-    },
-    {
-      "domain": "arstechnica.com",
-      "title": "Google reveals Gemini Robotics 2.0, promising improved dexterity and safety",
-      "link": "https://arstechnica.com/ai/2026/07/google-reveals-gemini-robotics-2-0-promising-improved-dexterity-and-safety/"
-    },
-    {
-      "domain": "blog.google",
-      "title": "Gemini Robotics ER 2",
-      "link": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/"
     }
   ]
 }
