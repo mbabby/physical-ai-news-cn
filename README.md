@@ -80,6 +80,7 @@
 | 数据集与评测基准 | [数据集与基准](resources/datasets-and-benchmarks.md) |
 | 系统学习与社区 | [学习资料与社区](resources/learning-and-community.md) |
 | 建立技术脉络 | [业界里程碑论文与精读](resources/milestone-papers.md) · 6 篇最小必读集，4 条技术路线 |
+| 观看奠基内容 | [奠基视频、演讲与博客](resources/foundational-talks-and-blogs.md) · 世界模型、VLA、通用策略与物理智能 |
 
 ## 收录标准与投稿方式
 
