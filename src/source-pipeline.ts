@@ -70,6 +70,7 @@ export function dynamicSources(registry?: CandidateSourceRegistry): RssSourceCon
 
 export function sourceNetworkSummary(registry?: CandidateSourceRegistry): string {
   const sources = registry?.sources ?? [];
+  if (!sources.length) return "";
   const active = sources.filter((source) => source.status === "已启用").length;
   const shadow = sources.filter((source) => source.status === "影子观察").length;
   return `信源网络：${active} 个自动启用 · ${shadow} 个影子观察`;
