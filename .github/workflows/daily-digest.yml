@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# 同一时间只允许一轮日报写入 main；避免手动触发与定时任务彼此抢占提交。
+concurrency:
+  group: daily-physical-ai-digest
+  cancel-in-progress: false
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -30,4 +35,10 @@ jobs:
       - name: Commit updated digest
         run: |
           git add daily weekly sources review resources/watchlist.md README.md
-          git diff --cached --quiet || (git config user.name "physical-ai-news-bot" && git config user.email "actions@github.com" && git commit -m "chore: update daily physical AI digest" && git push)
+          if ! git diff --cached --quiet; then
+            git config user.name "physical-ai-news-bot"
+            git config user.email "actions@github.com"
+            git commit -m "chore: update daily physical AI digest"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
