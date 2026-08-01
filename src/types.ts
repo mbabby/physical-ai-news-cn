@@ -44,6 +44,16 @@ export interface DigestResult {
   failures: FetchFailure[];
 }
 
+export interface DailyArchive {
+  date: string;
+  articles: Article[];
+}
+
+export interface WeeklyArticle extends Article {
+  weeklyScore: number;
+  selectionReason: string;
+}
+
 export interface LlmSettings {
   apiKey?: string;
   baseUrl?: string;

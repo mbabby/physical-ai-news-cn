@@ -1,4 +1,4 @@
-import type { Article, FetchFailure } from "./types.js";
+import type { Article, FetchFailure, WeeklyArticle } from "./types.js";
 
 function date(value: Date): string { return value.toISOString().slice(0, 10); }
 function shortDate(value: Date): string { return value.toISOString().slice(5, 10); }
@@ -24,6 +24,25 @@ export function formatMarkdown(articles: Article[], windowHours: number, failure
 export function formatHomepageDigest(dailyMarkdown: string): string {
   return dailyMarkdown
     .replace(/^# 物理 AI 每日资讯 — (.+)$/m, "### 最新日报 · $1")
+    .replace(/^## /gm, "#### ")
+    .replace(/^---\n\n\*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。\*$/m, "");
+}
+
+export function formatWeeklyMarkdown(articles: WeeklyArticle[], week: string): string {
+  const lines = [`# 物理 AI 本周精选 — ${week}`, "", `过去 7 天 · ${articles.length} 条高影响事件 · 投融资与产业动态优先`, ""];
+  if (!articles.length) lines.push("本周暂无符合收录标准的资讯。");
+  for (const article of articles) {
+    const title = article.titleZh ?? article.title;
+    const meta = [`${article.kind ?? "未分类"}`, article.source, shortDate(article.publishedAt), ...article.tags.slice(0, 2).map((tag) => `#${tag}`)].join(" · ");
+    lines.push(`## [${title}](${article.link})`, "", article.summaryZh ?? "暂无原文摘要，请阅读原文。", "", `**入选原因：**${article.selectionReason}`, "", `*${meta}*`, "");
+  }
+  lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
+  return lines.join("\n");
+}
+
+export function formatHomepageWeekly(weeklyMarkdown: string): string {
+  return weeklyMarkdown
+    .replace(/^# 物理 AI 本周精选 — (.+)$/m, "### 本周精选 · $1")
     .replace(/^## /gm, "#### ")
     .replace(/^---\n\n\*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。\*$/m, "");
 }
