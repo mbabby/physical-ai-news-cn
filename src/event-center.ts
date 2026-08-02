@@ -135,6 +135,25 @@ function articleSummary(article: Article): string {
   const excerpt = article.excerpt.replace(/\s+/g, " ").trim();
   return excerpt ? `中文简介暂未生成；原文摘要：${excerpt.slice(0, 220)}${excerpt.length > 220 ? "…" : ""}` : "原文未提供摘要，请阅读论文。";
 }
+const RESEARCH_AUTHORITY: Array<{ label: string; points: number; patterns: RegExp }> = [
+  { label: "Google DeepMind", points: 14, patterns: /google deepmind|demis hassabis|danijar hafner|karol hausman|ted xiao/i },
+  { label: "Physical Intelligence", points: 14, patterns: /physical intelligence|sergey levine|chelsea finn/i },
+  { label: "NVIDIA Research", points: 12, patterns: /nvidia research|jim fan/i },
+  { label: "Meta AI", points: 12, patterns: /meta ai|yann lecun|kaiming he/i },
+  { label: "Stanford", points: 10, patterns: /stanford|fei-?fei li|dieter fox|jeannette bohg|shuran song/i },
+  { label: "UC Berkeley", points: 10, patterns: /uc berkeley|berkeley|pieter abbeel|sergey levine|chelsea finn/i },
+  { label: "MIT", points: 9, patterns: /mit csail|massachusetts institute of technology|russ tedrake|pulkit agrawal/i },
+  { label: "CMU", points: 9, patterns: /carnegie mellon|cmu robotics/i },
+  { label: "Princeton / World Labs", points: 10, patterns: /world labs|fei-?fei li|jiajun wu/i },
+  { label: "ETH Zurich", points: 8, patterns: /eth zurich|marco hutter/i },
+  { label: "上海人工智能实验室", points: 8, patterns: /shanghai ai lab|上海人工智能实验室/i },
+  { label: "清华大学", points: 8, patterns: /tsinghua|清华大学/i },
+];
+function researchAuthority(article: Article): { score: number; labels: string[] } {
+  const value = `${article.authors?.join(" ") ?? ""} ${article.title} ${article.excerpt}`;
+  const matches = RESEARCH_AUTHORITY.filter((item) => item.patterns.test(value));
+  return { score: Math.min(22, matches.reduce((total, item) => total + item.points, 0)), labels: matches.map((item) => item.label).slice(0, 2) };
+}
 function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
   // A headline alone is a useful lead for the capital tracker but not enough
@@ -218,10 +237,11 @@ function researchPriority(article: Article): number {
   if (/long[- ]horizon|长程|泛化|generalization|dexterous|灵巧/.test(value)) relevance = Math.min(30, relevance + 4);
   const realWorld = /真实机器人|real[- ]world|physical robot|on[- ]robot|部署|hardware|unitree|franka|benchmark|基准|sota|state.of.the.art/.test(value) ? 20 : 5;
   const reproducibility = /github|code|开源|dataset|数据集|benchmark|基准|release/.test(value) ? 18 : 4;
-  const authority = Math.min(17, Math.round(article.sourceWeight * 1.7));
+  const institutionalAuthority = researchAuthority(article).score;
+  const sourceAuthority = Math.min(10, Math.round(article.sourceWeight));
   const days = Math.max(0, (Date.now() - article.publishedAt.getTime()) / 86_400_000);
   const freshness = days <= 1 ? 15 : days <= 3 ? 12 : days <= 7 ? 8 : 3;
-  return relevance + realWorld + reproducibility + authority + freshness;
+  return relevance + realWorld + reproducibility + institutionalAuthority + sourceAuthority + freshness;
 }
 export function isPublishableResearch(article: Article): boolean {
   return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务/.test(article.summaryZh));
@@ -229,9 +249,13 @@ export function isPublishableResearch(article: Article): boolean {
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);
   if (!publishable.length) return "> 本轮论文已抓取，正在完成中文解读与事实校验；仅在标题和摘要均完成后展示。";
-  const ordering = "> 排序：物理 AI 相关性 → 真实机器人/基准证据 → 代码与数据可复现性 → 来源可信度 → 发布时间。";
+  const ordering = "> 排序：物理 AI 相关性 → 真实机器人/基准证据 → 作者与实验室权威性 → 代码与数据可复现性 → 来源可信度 → 发布时间。";
   const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的论文。\n\n${ordering}\n\n` : `${ordering}\n\n`;
-  return notice + [...publishable].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
+  return notice + [...publishable].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => {
+    const authority = researchAuthority(article);
+    const byline = authority.labels.length ? `<br><sub>重点关注：${authority.labels.join(" · ")}</sub>` : "";
+    return `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}${byline}`;
+  }).join("\n\n");
 }
 
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }

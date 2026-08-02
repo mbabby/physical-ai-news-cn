@@ -54,6 +54,14 @@ test("keeps a complete Chinese research card readable", () => {
   assert.doesNotMatch(output, /物理 AI 研究论文/);
 });
 
+test("prioritizes a paper from a recognized physical AI lab when other signals tie", () => {
+  const newer = article({ title: "Generic VLA manipulation", titleZh: "通用 VLA 操作策略", summaryZh: "提出机器人操作策略。", publishedAt: new Date("2026-08-02"), authors: ["Unknown Author"] });
+  const deepmind = article({ id: "deepmind-paper", title: "Robotics world model", titleZh: "机器人世界模型", summaryZh: "提出面向真实机器人推理的世界模型。", publishedAt: new Date("2026-08-01"), authors: ["Danijar Hafner"] });
+  const output = formatResearchUpdates([newer, deepmind]);
+  assert.ok(output.indexOf("机器人世界模型") < output.indexOf("通用 VLA 操作策略"));
+  assert.match(output, /重点关注：Google DeepMind/);
+});
+
 test("does not publish half-translated research cards", () => {
   const output = formatResearchUpdates([article({ titleZh: "Only English", summaryZh: "暂未生成中文摘要，请阅读原文。" })]);
   assert.match(output, /正在完成中文解读/);

@@ -12,6 +12,8 @@ export interface Article {
   excerpt: string;
   kind?: ArticleKind;
   tags: string[];
+  /** arXiv/Atom author metadata, retained for research authority ranking. */
+  authors?: string[];
   titleZh?: string;
   summaryZh?: string;
   score?: number;
