@@ -14,11 +14,30 @@ export interface Article {
   tags: string[];
   /** arXiv/Atom author metadata, retained for research authority ranking. */
   authors?: string[];
+  scholar?: ScholarlyMetadata;
   titleZh?: string;
   summaryZh?: string;
   score?: number;
   pulseKind?: PulseKind;
   speaker?: string;
+}
+
+export interface ScholarlyAuthor {
+  name: string;
+  totalCitations?: number;
+  hIndex?: number;
+  institutions: string[];
+}
+
+/** Enriched from a scholarly graph only after a conservative work match. */
+export interface ScholarlyMetadata {
+  provider: "OpenAlex";
+  workId: string;
+  citedByCount: number;
+  isRetracted: boolean;
+  institutions: string[];
+  authors: ScholarlyAuthor[];
+  checkedAt: string;
 }
 
 interface BaseSourceConfig {

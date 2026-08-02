@@ -64,6 +64,7 @@ jobs:
           LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
           LLM_MODEL: ${{ vars.LLM_MODEL }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           DIGEST_HOURS: ${{ inputs.hours }}
       - name: Commit updated digest
         if: steps.fallback.outputs.run == 'true'

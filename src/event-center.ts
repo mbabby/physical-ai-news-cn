@@ -150,9 +150,21 @@ const RESEARCH_AUTHORITY: Array<{ label: string; points: number; patterns: RegEx
   { label: "清华大学", points: 8, patterns: /tsinghua|清华大学/i },
 ];
 function researchAuthority(article: Article): { score: number; labels: string[] } {
-  const value = `${article.authors?.join(" ") ?? ""} ${article.title} ${article.excerpt}`;
+  const scholarlyPeople = article.scholar?.authors.map((author) => author.name).join(" ") ?? "";
+  const scholarlyInstitutions = article.scholar?.institutions.join(" ") ?? "";
+  const value = `${article.authors?.join(" ") ?? ""} ${scholarlyPeople} ${scholarlyInstitutions} ${article.title} ${article.excerpt}`;
   const matches = RESEARCH_AUTHORITY.filter((item) => item.patterns.test(value));
-  return { score: Math.min(22, matches.reduce((total, item) => total + item.points, 0)), labels: matches.map((item) => item.label).slice(0, 2) };
+  const authorCitations = Math.max(0, ...(article.scholar?.authors.map((author) => author.totalCitations ?? 0) ?? []));
+  const authorSignal = authorCitations >= 50_000 ? 10 : authorCitations >= 10_000 ? 7 : authorCitations >= 2_000 ? 4 : 0;
+  return { score: Math.min(22, matches.reduce((total, item) => total + item.points, 0) + authorSignal), labels: matches.map((item) => item.label).slice(0, 2) };
+}
+function paperCitationSignal(article: Article): number {
+  // New preprints should never be punished for having had no time to accrue
+  // citations. Citation count starts influencing the feed only after 120 days.
+  const age = Math.max(0, (Date.now() - article.publishedAt.getTime()) / 86_400_000);
+  if (age < 120) return 0;
+  const citations = article.scholar?.citedByCount ?? 0;
+  return citations >= 200 ? 5 : citations >= 50 ? 3 : citations >= 10 ? 1 : 0;
 }
 function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
@@ -241,17 +253,20 @@ function researchPriority(article: Article): number {
   const sourceAuthority = Math.min(10, Math.round(article.sourceWeight));
   const days = Math.max(0, (Date.now() - article.publishedAt.getTime()) / 86_400_000);
   const freshness = days <= 1 ? 15 : days <= 3 ? 12 : days <= 7 ? 8 : 3;
-  return relevance + realWorld + reproducibility + institutionalAuthority + sourceAuthority + freshness;
+  return relevance + realWorld + reproducibility + institutionalAuthority + sourceAuthority + freshness + paperCitationSignal(article);
+}
+export function rankResearchArticles(articles: Article[]): Article[] {
+  return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime());
 }
 export function isPublishableResearch(article: Article): boolean {
-  return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务/.test(article.summaryZh));
+  return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务/.test(article.summaryZh) && !article.scholar?.isRetracted);
 }
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);
   if (!publishable.length) return "> 本轮论文已抓取，正在完成中文解读与事实校验；仅在标题和摘要均完成后展示。";
-  const ordering = "> 排序：物理 AI 相关性 → 真实机器人/基准证据 → 作者与实验室权威性 → 代码与数据可复现性 → 来源可信度 → 发布时间。";
+  const ordering = "> 候选池：近 30 天滚动更新，每日重新排序。排序：物理 AI 相关性 → 真实机器人/基准证据 → 作者与实验室权威性 → 代码与数据可复现性 → 来源可信度 → 发布时间；成熟论文的引用表现只作小幅加分。";
   const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的论文。\n\n${ordering}\n\n` : `${ordering}\n\n`;
-  return notice + [...publishable].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => {
+  return notice + rankResearchArticles(publishable).slice(0, 6).map((article) => {
     const authority = researchAuthority(article);
     const byline = authority.labels.length ? `<br><sub>重点关注：${authority.labels.join(" · ")}</sub>` : "";
     return `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}${byline}`;

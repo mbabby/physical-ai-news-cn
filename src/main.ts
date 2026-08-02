@@ -11,9 +11,10 @@ import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, upsertEvents } from "./event-center.js";
+import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, rankResearchArticles, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
+import { enrichResearchWithOpenAlex } from "./openalex.js";
 import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -109,24 +110,28 @@ async function main(): Promise<void> {
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
   const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
-  // arXiv's submission calendar has gaps on weekends. A three-day research
-  // window keeps the homepage fresh without treating a quiet day as no news.
-  const liveResearch = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), Math.max(windowHours, 72), 6);
+  // arXiv's submission calendar has gaps and one day's papers are too noisy
+  // to represent a field. Keep a 30-day pool, refresh its scholarly metadata
+  // daily, then only summarize the six highest-ranked candidates.
+  const researchWindowHours = 30 * 24;
+  const liveResearch = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), researchWindowHours, 24);
   const recentArchives = await readRecentDailyArchives(outputDir, now, 7);
   const cachedResearch = (await readRecentDailyArticles(outputDir, now)).filter((article) => article.source.startsWith("arXiv · Robotics"));
   const latestCachedResearchDate = recentArchives.filter((archive) => archive.articles.some((article) => article.source.startsWith("arXiv · Robotics"))).sort((a, b) => b.date.localeCompare(a.date))[0]?.date;
-  const researchSelected = liveResearch.length ? liveResearch : filterAndRank(cachedResearch, 7 * 24, 6);
+  const researchCandidates = liveResearch.length ? liveResearch : filterAndRank(cachedResearch, researchWindowHours, 24);
   const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
   const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
   const articles = await summarizeInSmallBatches(summarizer, selected);
+  const enrichedResearch = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
+  const researchSelected = rankResearchArticles(enrichedResearch).slice(0, 6);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. Keep unfinished translations in
   // the archive, while the homepage falls back to the latest complete cards.
-  const publicResearch = uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch)).slice(0, 6);
+  const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
   const eventPath = join(eventsDir, "index.json");
   const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];

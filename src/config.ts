@@ -11,9 +11,9 @@ export const SOURCES: SourceConfig[] = [
     name: "arXiv · Robotics",
     // The category RSS feed is empty on arXiv non-publication days. The Atom
     // API keeps the latest submissions available for the rolling research view.
-    // 30 entries are sufficient for the 6-card homepage view and make the
-    // API materially less likely to time out on busy publication days.
-    url: "https://export.arxiv.org/api/query?search_query=cat:cs.RO&start=0&max_results=30&sortBy=submittedDate&sortOrder=descending",
+    // Keep a sufficiently deep rolling pool. The homepage selects only six
+    // papers, but needs more than one day's submissions to rank responsibly.
+    url: "https://export.arxiv.org/api/query?search_query=cat:cs.RO&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending",
     weight: 9,
     keywords: ["robot", "robotics", "humanoid", "embodied", "manipulation", "vision-language-action", "world model"],
   },
