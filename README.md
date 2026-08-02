@@ -66,17 +66,17 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-- [PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball](https://arxiv.org/abs/2607.28623v1)<br>中文简介暂未生成；原文摘要：We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentat…
+- [PAC-MAN：感知感知的 CBF-RL 框架实现人形机器人全身闪避](https://arxiv.org/abs/2607.28623v1)<br>PAC-MAN 将控制障碍函数安全约束与机载感知结合，仅以头部相机分割深度观测球体；策略零样本部署于 Unitree G1，真实世界闪避成功率达 95%。
 
 - [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1)<br>中文简介暂未生成；原文摘要：Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforceme…
 
 - [RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents](https://arxiv.org/abs/2607.27881v1)<br>中文简介暂未生成；原文摘要：Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical ga…
 
-- [When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics](https://arxiv.org/abs/2607.28256v1)<br>中文简介暂未生成；原文摘要：Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery…
+- [面向协作机器人的目标导向语义通信演示](https://arxiv.org/abs/2607.28256v1)<br>论文展示机器人与边缘端语义通信测试平台：机器人端用VQ-VAE令牌压缩图像，边缘端重建并结合深度、位姿生成语义地图，实现42.67倍压缩。
 
 - [DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection](https://arxiv.org/abs/2607.27784v1)<br>中文简介暂未生成；原文摘要：Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternativ…
 
-- [让机器感知自身老化：硬件感知自主智能框架](https://arxiv.org/abs/2607.28451v1)<br>研究提出老化感知自主智能框架 AAAI，以硬件自感知、自适应推理与生存导向智能，将硬件健康纳入推理规划，防止老化累积导致任务失效。
+- [知道自己正在衰老的机器：硬件感知自主智能框架 AAAI](https://arxiv.org/abs/2607.28451v1)<br>研究者提出自主智能框架 AAAI，将硬件健康融入推理、规划与任务执行，使机器感知并应对自身衰老，延长运行寿命，提升任务安全性。
 
 <!-- RESEARCH_UPDATES_END -->
 
