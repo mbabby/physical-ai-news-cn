@@ -21,7 +21,7 @@
 - [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](../events/index.json) · 已确证 · 更新 2026-08-01
 - [LeRobot v0.6.0 发布，默认依赖与强化学习接口调整](../events/index.json) · 已确证 · 更新 2026-08-01
 - [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](../events/index.json) · 持续跟踪 · 更新 2026-08-01
-- [World Labs 收购 SceniX，物理 AI 训练从“采数据”走向“造世界”](../events/index.json) · 持续跟踪 · 更新 2026-08-01
+- [World Labs收购SceniX，物理AI训练正从“采数据”走向“造世界”](../events/index.json) · 持续跟踪 · 更新 2026-08-02
 
 ## 本体与硬件
 
