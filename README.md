@@ -66,17 +66,17 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.28623v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball](https://arxiv.org/abs/2607.28623v1)<br>中文简介暂未生成；原文摘要：We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentat…
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.27782v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1)<br>中文简介暂未生成；原文摘要：Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforceme…
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.27881v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents](https://arxiv.org/abs/2607.27881v1)<br>中文简介暂未生成；原文摘要：Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical ga…
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.28256v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics](https://arxiv.org/abs/2607.28256v1)<br>中文简介暂未生成；原文摘要：Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery…
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.27784v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection](https://arxiv.org/abs/2607.27784v1)<br>中文简介暂未生成；原文摘要：Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternativ…
 
-- [物理 AI 研究论文](https://arxiv.org/abs/2607.28451v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
+- [Machines that know they are aging: a framework for hardware-aware autonomous intelligence](https://arxiv.org/abs/2607.28451v1)<br>中文简介暂未生成；原文摘要：Autonomous systems inevitably age, yet their artificial intelligence typically assumes hardware remains in its original condition. Batteries degrade, sensors drift, processors accumulate timing errors, and memory reliabi…
 
 <!-- RESEARCH_UPDATES_END -->
 

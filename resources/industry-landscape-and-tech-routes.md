@@ -36,4 +36,3 @@
 **主流解法**：场景闭环、客户验证、工厂/仓储部署、量产  
 **成熟度判断**：是否已有重复运行、客户复购和可衡量的单位经济性。  
 **代表参与者**：[Tesla](https://www.tesla.com/AI) · [Figure](https://www.figure.ai/) · [1X](https://www.1x.tech/) · [Apptronik](https://apptronik.com/) · [Agility Robotics](https://agilityrobotics.com/)
-
