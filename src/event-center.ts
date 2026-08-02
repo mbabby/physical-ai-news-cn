@@ -129,8 +129,12 @@ function headlineFor(event: EventRecord, omitCompany = false): string {
 }
 function summaryFor(event: EventRecord): string { const fact = eventFact(event); return fact && hasChinese(fact) ? fact : "已纳入可追溯信源，中文事实简介将在更新后补齐。"; }
 function eventTags(event: EventRecord): string { return [`<kbd>${event.type}</kbd>`, ...event.routes.slice(0, 2).map((route) => `<kbd>${route}</kbd>`), `<sub>${event.lastUpdatedAt.slice(5, 10)}</sub>`].join(" "); }
-function articleTitle(article: Article): string { return hasChinese(article.titleZh ?? "") ? cleanTitle(article.titleZh!) : "物理 AI 研究论文"; }
-function articleSummary(article: Article): string { return meaningful(article.summaryZh) && hasChinese(article.summaryZh!) ? article.summaryZh! : "已收录论文原文，中文事实简介将在更新后补齐。"; }
+function articleTitle(article: Article): string { return cleanTitle(article.titleZh || article.title); }
+function articleSummary(article: Article): string {
+  if (meaningful(article.summaryZh) && hasChinese(article.summaryZh!)) return article.summaryZh!;
+  const excerpt = article.excerpt.replace(/\s+/g, " ").trim();
+  return excerpt ? `中文简介暂未生成；原文摘要：${excerpt.slice(0, 220)}${excerpt.length > 220 ? "…" : ""}` : "原文未提供摘要，请阅读论文。";
+}
 function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
   // A headline alone is a useful lead for the capital tracker but not enough
@@ -265,30 +269,23 @@ function primaryRoute(event: EventRecord): TechnicalRoute {
   return event.routes[0] ?? "部署与商业化";
 }
 
-export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
-  const qualified = events.filter(homepageEligible);
-  const updatedAt = qualified.sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))[0]?.lastUpdatedAt.slice(0, 10) ?? "等待首条证据";
+export function formatIndustryMap(_events: EventRecord[], companies: CompanyProfile[] = []): string {
   const lines = [
-    "# 路线竞争地图",
+    "# 物理 AI 技术路线图",
     "",
-    `> 自动更新至 ${updatedAt} · 每条事件只归入一个主路线，避免把日报重复铺在地图上。`,
-    "",
-    "```text",
-    "数据与训练  →  VLA 与具身模型  →  世界模型与空间智能  →  本体与硬件  →  部署与商业化",
-    "```",
+    "> 这不是日报索引：它用来判断每条路线要解决什么瓶颈、主流解法是什么、谁在投入，以及从研究走向规模化还缺什么。实时事件请回到首页“产业进展”和“学术与研究前沿”。",
     "",
   ];
   for (const [index, meta] of ROUTE_MAP.entries()) {
-    const related = qualified.filter((event) => primaryRoute(event) === meta.route).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)).slice(0, 2);
     const participants = companies.filter((company) => company.routes.includes(meta.route)).slice(0, 5).map((company) => companyLink(company)).join(" · ") || "持续扩充中";
-    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**竞争焦点**：${meta.focus}  `, `**主流解法**：${meta.approaches}  `, `**代表参与者**：${participants}`, "", "### 最新可验证信号", "");
-    if (!related.length) lines.push("正在积累可核验事件。");
-    for (const event of related) {
-      const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-      lines.push(`- [${headlineFor(event)}](${evidence.link}) · ${event.status} · 更新 ${event.lastUpdatedAt.slice(0, 10)}`);
-    }
-    lines.push("");
+    const maturity: Record<TechnicalRoute, string> = {
+      "数据与训练": "是否能持续获得低成本、多样且可复用的真实任务数据。",
+      "VLA 与具身模型": "是否能在未见任务、长程任务和异常条件下保持可靠成功率。",
+      "世界模型与空间智能": "预测与仿真是否足以降低真实试错成本，并改善 sim-to-real。",
+      "本体与硬件": "灵巧性、续航、可靠性与成本能否同时达到可部署门槛。",
+      "部署与商业化": "是否已有重复运行、客户复购和可衡量的单位经济性。",
+    };
+    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**要解决的问题**：${meta.focus}  `, `**主流解法**：${meta.approaches}  `, `**成熟度判断**：${maturity[meta.route]}  `, `**代表参与者**：${participants}`, "");
   }
-  lines.push("## 证据规则", "", "- A 级：官方发布、论文原文、GitHub Release、产品页等一手证据。", "- B 级：可追溯的可靠行业报道，用于补充部署或投融资。", "- C 级：本人公开观点，不作为产品、融资或能力事实。", "- D 级：仅作候选线索，不进入本页。", "");
   return lines.join("\n");
 }

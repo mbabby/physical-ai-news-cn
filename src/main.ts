@@ -72,6 +72,14 @@ async function collectX(windowHours: number, bearerToken?: string): Promise<Dige
   return { articles, failures, sourceOutcomes };
 }
 
+async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 2): Promise<Article[]> {
+  const output: Article[] = [];
+  for (let index = 0; index < articles.length; index += batchSize) {
+    output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
+  }
+  return output;
+}
+
 function mergePulseSummaries(pulse: IndustryPulse, summaries: Article[]): IndustryPulse {
   const byId = new Map(summaries.map((article) => [article.id, article]));
   return {
@@ -103,8 +111,8 @@ async function main(): Promise<void> {
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
-  const articles = await Promise.all(selected.map((article) => summarizer.summarize(article)));
-  const researchArticles = await Promise.all(researchSelected.map((article) => summarizer.summarize(article)));
+  const articles = await summarizeInSmallBatches(summarizer, selected);
+  const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
   const eventPath = join(eventsDir, "index.json");
   const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];

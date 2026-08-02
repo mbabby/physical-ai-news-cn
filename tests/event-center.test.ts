@@ -30,7 +30,7 @@ test("keeps the latest successful research cards visible when arXiv is temporari
   assert.match(output, /最近一次成功抓取（2026-08-01）/);
 });
 
-test("assigns a cross-cutting event to one primary route in the competition map", () => {
+test("keeps the technology map focused on bottlenecks rather than recycled news", () => {
   const store = upsertEvents(undefined, [article({
     title: "LeRobot v0.6 release",
     titleZh: "LeRobot v0.6.0 发布",
@@ -39,9 +39,17 @@ test("assigns a cross-cutting event to one primary route in the competition map"
     link: "https://example.com/lerobot-v06",
   })]);
   const map = formatIndustryMap(store.events);
-  assert.match(map, /路线竞争地图/);
-  assert.equal((map.match(/LeRobot v0\.6\.0 发布/g) ?? []).length, 1);
-  assert.match(map, /https:\/\/example\.com\/lerobot-v06/);
+  assert.match(map, /物理 AI 技术路线图/);
+  assert.match(map, /成熟度判断/);
+  assert.doesNotMatch(map, /最新可验证信号/);
+  assert.doesNotMatch(map, /LeRobot v0\.6\.0 发布/);
+});
+
+test("keeps distinct paper titles and abstracts when a Chinese summary is unavailable", () => {
+  const output = formatResearchUpdates([article({ title: "RoboBRIDGE: Modular robot agents", titleZh: undefined, summaryZh: undefined, excerpt: "A modular framework improves robust real-world robot agents." })]);
+  assert.match(output, /RoboBRIDGE: Modular robot agents/);
+  assert.match(output, /原文摘要：A modular framework/);
+  assert.doesNotMatch(output, /物理 AI 研究论文/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {
