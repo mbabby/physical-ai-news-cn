@@ -69,7 +69,11 @@ jobs:
       - name: Commit updated digest
         if: steps.fallback.outputs.run == 'true'
         run: |
-          git add daily weekly sources review resources events FACTS_POLICY.md README.md
+          # Dashboard data and Markdown are generated from the same digest.
+          # Stage both before rebasing, otherwise Git refuses to rebase with
+          # the dashboard JSON left unstaged and none of the refreshed pages
+          # reach main.
+          git add daily weekly sources review resources events site/data/dashboard.json FACTS_POLICY.md README.md
           if ! git diff --cached --quiet; then
             git config user.name "physical-ai-news-bot"
             git config user.email "actions@github.com"
