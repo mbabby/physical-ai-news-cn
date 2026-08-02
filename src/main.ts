@@ -12,6 +12,7 @@ import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
 import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "./event-center.js";
+import { formatResourcePage } from "./resource-radar.js";
 import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -119,6 +120,15 @@ async function main(): Promise<void> {
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), `# 公司与团队\n\n${formatCompanyRadar(companies, eventStore.events)}\n`, "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
+  const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));
+  if (resourceCatalog) {
+    const radarArticles = [...articles, ...researchArticles, ...cachedResearch];
+    await Promise.all([
+      writeFile(join(resourcesDir, "models-and-open-source.md"), formatResourcePage("models", resourceCatalog, radarArticles, now), "utf8"),
+      writeFile(join(resourcesDir, "datasets-and-benchmarks.md"), formatResourcePage("datasets", resourceCatalog, radarArticles, now), "utf8"),
+      writeFile(join(resourcesDir, "simulation-and-tools.md"), formatResourcePage("tools", resourceCatalog, radarArticles, now), "utf8"),
+    ]);
+  }
   const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !selected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
   const pulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const visibleArticles = articles.filter((article) => !pulseArticleIds(pulse).has(article.id));
