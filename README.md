@@ -25,9 +25,9 @@
 
 ### 最新动态
 
-- [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-02</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 - [2026年7月机器人领域十大热门报道盘点](https://news.google.com/rss/articles/CBMic0FVX3lxTFB0d1o2a2JMcWpaN25ER2c4dVA3VVFHd0RqdWR1UjhIT05XYmh2Y3lBbXhtSVFheGgxTXdILTEtLTBUV2M5Rjl6TWphMk1hVloyeVFia1RRR3VjX0Jxb2N1R3R0MkNQaldJUktFNkZIU3BnSzA?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>2026年7月机器人领域十大热门报道
-- [揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫](https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>文章揭秘具身智能领域的榜单生意链，聚焦刷榜狂欢现象，呈现其背后的行业繁荣与泡沫，反映围绕榜单排名产生的刷榜生意。
+- [揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经](https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>文章揭秘具身智能领域的榜单生意链，聚焦刷榜狂欢现象，呈现其背后的行业繁荣与泡沫，反映围绕榜单排名产生的刷榜生意。
+- [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-02</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 - [谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者](https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。
 - [视频星期五：机器人的世界杯](https://spectrum.ieee.org/video-friday-robot-world-cup) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。
 - [日本曾引领人形机器人，如今能否追赶中国？](https://spectrum.ieee.org/humanoid-robots-japan) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。
@@ -66,17 +66,17 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-- [PAC-MAN：感知驱动的 CBF-RL 人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1)<br>该框架结合控制障碍函数与强化学习，仅凭头部相机感知实现人形机器人全身闪避，并在 Unitree G1 上零样本部署，躲避成功率达 95%。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.28623v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
-- [RoboBRIDGE：桥接策略与鲁棒真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>该框架以监控、感知、规划、控制与机器人接口五个模块编排预训练 VLA，实现故障检测、分级恢复与重规划，在多项基准及真实平台测试中优于独立策略。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.27782v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
-- [RedFlow：将失败重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1)<br>RedFlow 是细粒度离线强化学习框架，将失败经验转为动作级纠正监督，成功率从 56.7% 提升至 74.7%。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.27881v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
-- [面向协作机器人的目标导向语义通信演示](https://arxiv.org/abs/2607.28256v1)<br>演示机器人—边缘语义通信测试平台：机器人用 ONNX Runtime 把 RGB 帧编成 VQ-VAE tokens，负载较模型输入 RGB 字节降 42.67 倍；Jetson Orin 以 PyTorch 重建，并结合深度、位姿与 RTAB-Map 建图生成语义地图。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.28256v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
-- [DexDirect：直接动觉手臂引导的高效灵巧示教采集](https://arxiv.org/abs/2607.27784v1)<br>DexDirect结合直接拖动机械臂与视觉手部重定向，高效采集灵巧操作示教，成功示教数较基线最高提升17.2倍，心理负担更低。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.27784v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
-- [让机器知晓自身老化：硬件感知的自主智能框架](https://arxiv.org/abs/2607.28451v1)<br>研究者提出 AAAI 框架，将硬件健康状态融入推理、规划与任务执行，让机器感知并应对自身老化，以提升韧性、延长运行寿命。
+- [物理 AI 研究论文](https://arxiv.org/abs/2607.28451v1)<br>已收录论文原文，中文事实简介将在更新后补齐。
 
 <!-- RESEARCH_UPDATES_END -->
 
