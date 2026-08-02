@@ -18,7 +18,9 @@
 
 ## 近期已验证更新（自动）
 
-- [DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection](https://arxiv.org/abs/2607.27784v1) · arXiv · Robotics · 2026-07-30<br>暂未生成中文摘要，请阅读原文。
+- [DexDirect：直接动觉引导机械臂，高效采集灵巧操作演示](https://arxiv.org/abs/2607.27784v1) · arXiv · Robotics · 2026-07-30<br>DexDirect 让操作者直接拖动机械臂，并用单摄像头将另一只手重定向至灵巧手，高效采集演示，成功演示数量远超基线。
+
+- [DLAM：带时序约束的分布式潜在动作模型](https://arxiv.org/abs/2607.27138v1) · arXiv · Robotics · 2026-07-29<br>DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。
 
 ## 排序与收录
 

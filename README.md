@@ -66,17 +66,19 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-- [PAC-MAN：感知感知的 CBF-RL 框架实现人形机器人全身闪避](https://arxiv.org/abs/2607.28623v1)<br>PAC-MAN 将控制障碍函数安全约束与机载感知结合，仅以头部相机分割深度观测球体；策略零样本部署于 Unitree G1，真实世界闪避成功率达 95%。
+> 候选池：近 30 天滚动更新，每日重新排序。排序：物理 AI 相关性 → 真实机器人/基准证据 → 作者与实验室权威性 → 代码与数据可复现性 → 来源可信度 → 发布时间；成熟论文的引用表现只作小幅加分。
 
-- [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1)<br>中文简介暂未生成；原文摘要：Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforceme…
+- [PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架](https://arxiv.org/abs/2607.28623v1)<br>该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。
 
-- [RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents](https://arxiv.org/abs/2607.27881v1)<br>中文简介暂未生成；原文摘要：Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical ga…
+- [RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>RoboBRIDGE 以五个协同模块将预训练 VLA 编排为稳健机器人智能体，实现故障恢复与异步重规划，在多基准及真实平台表现更优。
 
-- [面向协作机器人的目标导向语义通信演示](https://arxiv.org/abs/2607.28256v1)<br>论文展示机器人与边缘端语义通信测试平台：机器人端用VQ-VAE令牌压缩图像，边缘端重建并结合深度、位姿生成语义地图，实现42.67倍压缩。
+- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略离线学习框架](https://arxiv.org/abs/2607.27782v1)<br>RedFlow将失败经验转化为动作级纠正监督，改进流匹配VLA机器人策略，真实任务成功率从56.7%提升至74.7%。
 
-- [DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection](https://arxiv.org/abs/2607.27784v1)<br>中文简介暂未生成；原文摘要：Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternativ…
+- [DLAM：带时序约束的分布式潜在动作模型](https://arxiv.org/abs/2607.27138v1)<br>DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。
 
-- [知道自己正在衰老的机器：硬件感知自主智能框架 AAAI](https://arxiv.org/abs/2607.28451v1)<br>研究者提出自主智能框架 AAAI，将硬件健康融入推理、规划与任务执行，使机器感知并应对自身衰老，延长运行寿命，提升任务安全性。
+- [利用缝线操控实现自主缝合中的缝针拾取](https://arxiv.org/abs/2607.26337v1)<br>该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。
+
+- [DexDirect：直接动觉引导机械臂，高效采集灵巧操作演示](https://arxiv.org/abs/2607.27784v1)<br>DexDirect 让操作者直接拖动机械臂，并用单摄像头将另一只手重定向至灵巧手，高效采集演示，成功演示数量远超基线。
 
 <!-- RESEARCH_UPDATES_END -->
 

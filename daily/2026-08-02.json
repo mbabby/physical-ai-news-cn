@@ -6,7 +6,7 @@
       "title": "Top 10 robotics stories of July 2026 - The Robot Report",
       "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB0d1o2a2JMcWpaN25ER2c4dVA3VVFHd0RqdWR1UjhIT05XYmh2Y3lBbXhtSVFheGgxTXdILTEtLTBUV2M5Rjl6TWphMk1hVloyeVFia1RRR3VjX0Jxb2N1R3R0MkNQaldJUktFNkZIU3BnSzA?oc=5",
       "publishedAt": "2026-08-01T12:03:18.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.333Z",
+      "fetchedAt": "2026-08-02T07:29:40.520Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 6,
       "excerpt": "Top 10 robotics stories of July 2026  The Robot Report",
@@ -15,6 +15,7 @@
         "robot",
         "robotics"
       ],
+      "authors": [],
       "kind": "公司商业",
       "score": 92,
       "titleZh": "Top 10 robotics stories of July 2026 - The Robot Report",
@@ -25,7 +26,7 @@
       "title": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经",
       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5",
       "publishedAt": "2026-08-01T09:05:45.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.276Z",
+      "fetchedAt": "2026-08-02T07:29:40.487Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫  新浪财经",
@@ -33,56 +34,62 @@
         "产业",
         "具身"
       ],
+      "authors": [],
       "kind": "公司商业",
       "score": 88,
       "titleZh": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经",
       "summaryZh": "暂未生成中文摘要，请阅读原文。"
     },
     {
-      "id": "01e22e1118a9b07d",
-      "title": "Machines that know they are aging: a framework for hardware-aware autonomous intelligence",
-      "link": "https://arxiv.org/abs/2607.28451v1",
-      "publishedAt": "2026-07-30T16:17:31.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
+      "id": "5d41827fa30a6d06",
+      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
+      "link": "https://arxiv.org/abs/2607.28623v1",
+      "publishedAt": "2026-07-30T17:59:35.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
-      "excerpt": "Autonomous systems inevitably age, yet their artificial intelligence typically assumes hardware remains in its original condition. Batteries degrade, sensors drift, processors accumulate timing errors, and memory reliability declines, creating a growing mismatch between assumed and actual capability. This can lead to agnostic collapse, where mission failure arises from accumulated hardware degradation rather than a single component fault. We propose Aging-Aware Autonomous Intelligence (AAAI), a framework that integrates hardware health directly into reasoning, planning, and mission execution. AAAI is built on three pillars: hardware self-awareness, which continuously estimates the health of power, sensing, memory, and computation subsystems using physics-of-failure models; self-adaptive reasoning, which adjusts inference complexity, planning horizon, and task priorities according to remaining hardware capability; and survival-centric intelligence, which allocates remaining operational life across mission objectives through performance optimization, resource conservation, and graceful degradation. Rather than introducing new hardware, AAAI unifies prognostics, lifecycle management, and hardware-aware computing into a closed-loop cognitive architecture. We argue that such integration is essential for autonomous systems operating in inaccessible or safety-critical environments, including space missions, marine robotics, and implantable medical devices. By enabling machines to recognize and respond to their own aging, AAAI improves resilience, extends operational lifetime, and supports safer, more graceful mission completion.",
-      "tags": [
-        "产品",
-        "robot",
-        "robotics"
-      ],
-      "kind": "产品发布",
-      "score": 126,
-      "titleZh": "知道自己正在衰老的机器：硬件感知自主智能框架 AAAI",
-      "summaryZh": "研究者提出自主智能框架 AAAI，将硬件健康融入推理、规划与任务执行，使机器感知并应对自身衰老，延长运行寿命，提升任务安全性。"
-    },
-    {
-      "id": "91c5db09e5cb563f",
-      "title": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
-      "link": "https://arxiv.org/abs/2607.27881v1",
-      "publishedAt": "2026-07-30T08:55:45.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical gaps: no mechanism for failure recovery, inconsistent execution over long horizons, and limited robustness to shifts in observations, tasks, or embodiments. Existing solutions address these limitations individually through model retraining or environment-specific modules, yet what is needed is a general framework that systematically transforms a pretrained VLA into a robotic agent. We present RoboBRIDGE, a modular framework that provides an orchestration layer over five coordinated modules, namely Monitor, Perceptor, Planner, Controller, and Robot Interface, to compose robust robotic agents from off-the-shelf components, including pretrained VLAs. The Monitor pairs rapid failure detection with hierarchical recovery to correct errors before they cascade. When the environment diverges from the current plan, the Planner triggers replanning while the Perceptor updates scene understanding asynchronously, avoiding execution stalls. Within the Controller, primitive skill fine-tuning factors manipulation into domain-invariant primitives with dedicated LoRA adapters, reducing sensitivity to domain shifts when a VLA is used. Across LIBERO, RoboCasa, and real-world case studies spanning multiple robot platforms and VLA backbones, RoboBRIDGE consistently outperforms both standalone policies and prior augmented VLA deployments. These results suggest that reliable robotic agency does not arise from scaling action predictors alone, but from structured orchestration around them.",
+      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
       "tags": [
         "落地",
         "robot",
-        "vla",
-        "vision-language-action"
+        "humanoid"
+      ],
+      "authors": [
+        "Lizhi Yang"
       ],
       "kind": "部署案例",
-      "score": 126,
-      "titleZh": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "score": 118,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171928651",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "California Institute of Technology",
+          "Dynamic Systems (United States)"
+        ],
+        "authors": [
+          {
+            "name": "Aaron D. Ames",
+            "totalCitations": 15564,
+            "hIndex": 58,
+            "institutions": [
+              "California Institute of Technology",
+              "Dynamic Systems (United States)"
+            ]
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:05.320Z"
+      },
+      "titleZh": "PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架",
+      "summaryZh": "该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。"
     },
     {
       "id": "d296eb9c0886d703",
       "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
       "link": "https://arxiv.org/abs/2607.27782v1",
       "publishedAt": "2026-07-30T07:14:39.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
@@ -92,17 +99,180 @@
         "vla",
         "vision-language-action"
       ],
+      "authors": [
+        "Zhengyang Yan"
+      ],
       "kind": "部署案例",
       "score": 126,
-      "titleZh": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171994966",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Zehong Yan",
+            "totalCitations": 3029,
+            "hIndex": 27,
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:04.861Z"
+      },
+      "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略离线学习框架",
+      "summaryZh": "RedFlow将失败经验转化为动作级纠正监督，改进流匹配VLA机器人策略，真实任务成功率从56.7%提升至74.7%。"
+    },
+    {
+      "id": "144b15d6dbd30e78",
+      "title": "DLAM: Distributional Latent Actions with Temporal Constraints",
+      "link": "https://arxiv.org/abs/2607.27138v1",
+      "publishedAt": "2026-07-29T17:09:48.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-language-action (VLA) models remain constrained by scarce action-labeled robot data, whereas action-free videos offer abundant observations of physical change. Latent action models can extract such priors, but reconstruction-trained codes may predict future observations without the structure required for joint generation with robot actions. Existing structured methods add temporal constraints but retain deterministic transition points, so residual errors in locally inferred transitions may propagate and compound under recursive composition. We introduce DLAM, a distributional latent-action model that represents each transition as a diagonal Gaussian. Reconstruction conditioned on the reference frame grounds the mean in observed visual change, while normalized composition and reversal over equal-gap triplets constrain both the mean and dimension-wise variance. Variance composition uses a lightweight shared-correlation coefficient to account for dependence between adjacent transitions that share an intermediate frame, whereas reversal negates the mean and preserves the variance. For downstream policy learning, we freeze the encoder and train a flow-matching policy to jointly generate mean transition sequences and robot actions. On held-out transitions, DLAM learns more temporally consistent latent dynamics than existing latent-action baselines and achieves stronger direct and cumulative reconstruction on held-out videos. Under the same controlled $π_0$ transfer protocol, it also improves policy performance on MetaWorld MT50, LIBERO, and real-world manipulation tasks. Controlled ablations show that normalized mean constraints account for most of the reconstruction gain, while learned variance and correlation-aware composition provide complementary improvements in downstream control.",
+      "tags": [
+        "开源",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Zuojin Tang"
+      ],
+      "kind": "开源项目",
+      "score": 120,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7172067784",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Zhejiang University"
+        ],
+        "authors": [
+          {
+            "name": "Zuojin Tang",
+            "totalCitations": 2,
+            "hIndex": 1,
+            "institutions": []
+          },
+          {
+            "name": "Feifan Luo",
+            "totalCitations": 47,
+            "hIndex": 5,
+            "institutions": [
+              "Zhejiang University"
+            ]
+          },
+          {
+            "name": "Haoyun Liu",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:05.063Z"
+      },
+      "titleZh": "DLAM：带时序约束的分布式潜在动作模型",
+      "summaryZh": "DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。"
+    },
+    {
+      "id": "01ceff838e07f605",
+      "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+      "link": "https://arxiv.org/abs/2607.26337v1",
+      "publishedAt": "2026-07-28T23:20:51.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+      "tags": [
+        "产品",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Emma Huang"
+      ],
+      "kind": "产品发布",
+      "score": 126,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171804857",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Emma Huang",
+            "institutions": []
+          },
+          {
+            "name": "Zih-Yun Chiu",
+            "institutions": []
+          },
+          {
+            "name": "Neelay Joglekar",
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:05.002Z"
+      },
+      "titleZh": "利用缝线操控实现自主缝合中的缝针拾取",
+      "summaryZh": "该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。"
+    },
+    {
+      "id": "91c5db09e5cb563f",
+      "title": "RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents",
+      "link": "https://arxiv.org/abs/2607.27881v1",
+      "publishedAt": "2026-07-30T08:55:45.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-Language-Action (VLA) models have attracted growing interest as a scalable approach to robotic manipulation. While these models are effective action predictors, deploying them as robotic agents exposes critical gaps: no mechanism for failure recovery, inconsistent execution over long horizons, and limited robustness to shifts in observations, tasks, or embodiments. Existing solutions address these limitations individually through model retraining or environment-specific modules, yet what is needed is a general framework that systematically transforms a pretrained VLA into a robotic agent. We present RoboBRIDGE, a modular framework that provides an orchestration layer over five coordinated modules, namely Monitor, Perceptor, Planner, Controller, and Robot Interface, to compose robust robotic agents from off-the-shelf components, including pretrained VLAs. The Monitor pairs rapid failure detection with hierarchical recovery to correct errors before they cascade. When the environment diverges from the current plan, the Planner triggers replanning while the Perceptor updates scene understanding asynchronously, avoiding execution stalls. Within the Controller, primitive skill fine-tuning factors manipulation into domain-invariant primitives with dedicated LoRA adapters, reducing sensitivity to domain shifts when a VLA is used. Across LIBERO, RoboCasa, and real-world case studies spanning multiple robot platforms and VLA backbones, RoboBRIDGE consistently outperforms both standalone policies and prior augmented VLA deployments. These results suggest that reliable robotic agency does not arise from scaling action predictors alone, but from structured orchestration around them.",
+      "tags": [
+        "落地",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Sihyung Yoon"
+      ],
+      "kind": "部署案例",
+      "score": 126,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171933911",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Sihyung Yoon",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Minjong Yoo",
+            "totalCitations": 29,
+            "hIndex": 3,
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:05.107Z"
+      },
+      "titleZh": "RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架",
+      "summaryZh": "RoboBRIDGE 以五个协同模块将预训练 VLA 编排为稳健机器人智能体，实现故障恢复与异步重规划，在多基准及真实平台表现更优。"
     },
     {
       "id": "713891c7314a8c8b",
       "title": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
       "link": "https://arxiv.org/abs/2607.27784v1",
       "publishedAt": "2026-07-30T07:17:28.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternatives tend to provide less precise control and impose greater cognitive workload on operators. We present DexDirect, a direct kinesthetic arm guidance for efficient dexterous demonstration collection. The operator drags a 6-DoF gravity-compensated robot arm directly by a handle, while a single webcam retargets operator's other hand onto a 16 joints 13-DoF dexterous robot hand. User studies suggest DexDirect collects 17.2x and 3.2x more successful demonstrations compared to purely vision (AnyTeleop) and pose-tracking (TeleDex) baselines. An adapted NASA-TLX shows DexDirect greatly reduces mental demand, effort, and frustration, despite raising physical demand. A diffusion policy trained on DexDirect demonstrations reaches a 90% success rate on a cube pick-and-place task. These results suggest that direct kinesthetic arm guidance combined with vision-based hand retargeting provides an efficient low-setup and scalable interface for collecting dexterous manipulation demonstrations",
@@ -111,49 +281,35 @@
         "robot",
         "manipulation"
       ],
+      "authors": [
+        "Beom Jun Kim"
+      ],
       "kind": "公司商业",
       "score": 122,
-      "titleZh": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
-    },
-    {
-      "id": "c9d98fbe6cad3a59",
-      "title": "When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics",
-      "link": "https://arxiv.org/abs/2607.28256v1",
-      "publishedAt": "2026-07-30T14:16:23.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery alone. This demo paper presents a robot-edge semantic communication (SemCom) testbed integrating robot-side visual compression, edge-side semantic mapping, and dashboard-based mission interaction. A mobile robot equipped with RGB-D sensing and LiDAR runs ROS 2, while a Jetson Orin edge node performs reconstruction, RTAB-Map mapping, semantic object handling, and browserbased visualization. As an initial proof of concept, RGB frames are encoded on the robot into VQ-VAE tokens using an ONNX Runtime encoder and reconstructed on the edge using a PyTorch decoder. A 320 X 240 image is represented by an 80 X 60 token grid with a packed payload of 5400 bytes, corresponding to a 42.67X reduction relative to model-input RGB bytes. The reconstructed visual stream is further associated with depth, pose, and 3D mapping information to generate a semantic map for downstream robotic applications. The demo exposes the full path from semantic visual transport to object-level map interaction, and provides a practical platform for future task-aware 6G networking studies at the intersection of SemCom, embodied AI, and physical AI-enabled robotics. A video of the demo is available at https://tinyurl.com/Tos09",
-      "tags": [
-        "开源",
-        "robot",
-        "robotics",
-        "embodied"
-      ],
-      "kind": "开源项目",
-      "score": 120,
-      "titleZh": "面向协作机器人的目标导向语义通信演示",
-      "summaryZh": "论文展示机器人与边缘端语义通信测试平台：机器人端用VQ-VAE令牌压缩图像，边缘端重建并结合深度、位姿生成语义地图，实现42.67倍压缩。"
-    },
-    {
-      "id": "5d41827fa30a6d06",
-      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "publishedAt": "2026-07-30T17:59:35.000Z",
-      "fetchedAt": "2026-08-02T06:28:20.161Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
-      "tags": [
-        "落地",
-        "robot",
-        "humanoid"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "titleZh": "PAC-MAN：感知感知的 CBF-RL 框架实现人形机器人全身闪避",
-      "summaryZh": "PAC-MAN 将控制障碍函数安全约束与机载感知结合，仅以头部相机分割深度观测球体；策略零样本部署于 Unitree G1，真实世界闪避成功率达 95%。"
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171980777",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Beom Jun Kim",
+            "institutions": []
+          },
+          {
+            "name": "Shiu-Jen Wang",
+            "institutions": []
+          },
+          {
+            "name": "Jonathan Liu",
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-02T07:30:05.065Z"
+      },
+      "titleZh": "DexDirect：直接动觉引导机械臂，高效采集灵巧操作演示",
+      "summaryZh": "DexDirect 让操作者直接拖动机械臂，并用单摄像头将另一只手重定向至灵巧手，高效采集演示，成功演示数量远超基线。"
     }
   ],
   "industryPulse": {
@@ -164,7 +320,7 @@
         "title": "Top 10 robotics stories of July 2026 - The Robot Report",
         "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFB0d1o2a2JMcWpaN25ER2c4dVA3VVFHd0RqdWR1UjhIT05XYmh2Y3lBbXhtSVFheGgxTXdILTEtLTBUV2M5Rjl6TWphMk1hVloyeVFia1RRR3VjX0Jxb2N1R3R0MkNQaldJUktFNkZIU3BnSzA?oc=5",
         "publishedAt": "2026-08-01T12:03:18.000Z",
-        "fetchedAt": "2026-08-02T06:28:20.333Z",
+        "fetchedAt": "2026-08-02T07:29:40.520Z",
         "source": "Google News · Robotics Capital",
         "sourceWeight": 6,
         "excerpt": "Top 10 robotics stories of July 2026  The Robot Report",
@@ -173,6 +329,7 @@
           "robot",
           "robotics"
         ],
+        "authors": [],
         "kind": "公司商业",
         "score": 92,
         "titleZh": "Top 10 robotics stories of July 2026 - The Robot Report",
@@ -183,7 +340,7 @@
         "title": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经",
         "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5",
         "publishedAt": "2026-08-01T09:05:45.000Z",
-        "fetchedAt": "2026-08-02T06:28:20.276Z",
+        "fetchedAt": "2026-08-02T07:29:40.487Z",
         "source": "Google News · 中国具身融资",
         "sourceWeight": 6,
         "excerpt": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫  新浪财经",
@@ -191,6 +348,7 @@
           "产业",
           "具身"
         ],
+        "authors": [],
         "kind": "公司商业",
         "score": 88,
         "titleZh": "揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经",

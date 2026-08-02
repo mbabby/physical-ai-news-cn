@@ -16,9 +16,9 @@
 
 ## 近期已验证更新（自动）
 
-- [PAC-MAN：感知感知的 CBF-RL 框架实现人形机器人全身闪避](https://arxiv.org/abs/2607.28623v1) · arXiv · Robotics · 2026-07-30<br>PAC-MAN 将控制障碍函数安全约束与机载感知结合，仅以头部相机分割深度观测球体；策略零样本部署于 Unitree G1，真实世界闪避成功率达 95%。
+- [PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架](https://arxiv.org/abs/2607.28623v1) · arXiv · Robotics · 2026-07-30<br>该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。
 
-- [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1) · arXiv · Robotics · 2026-07-30<br>暂未生成中文摘要，请阅读原文。
+- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略离线学习框架](https://arxiv.org/abs/2607.27782v1) · arXiv · Robotics · 2026-07-30<br>RedFlow将失败经验转化为动作级纠正监督，改进流匹配VLA机器人策略，真实任务成功率从56.7%提升至74.7%。
 
 ## 排序与收录
 
