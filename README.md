@@ -4,8 +4,6 @@
 
 > 面向物理 AI 从业者：用可追溯事实理解公司、资本、技术路线与研究进展。
 
-> [进入 Physical AI Intelligence 情报终端](https://mbabby.github.io/physical-ai-news-cn/)：面向高密度浏览的产业、资本与研究信号面板。
-
 <p align="center">
   <a href="#产业进展">产业进展</a> ·
   <a href="#公司与资本地图">公司与资本地图</a> ·
