@@ -188,14 +188,18 @@ export function formatRecentEvents(events: EventRecord[]): string {
   const cutoff = Date.now() - 30 * 24 * 3_600_000;
   const active = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= cutoff && homepageEligible(event));
   if (!active.length) return "近期没有满足首页发布门槛的产业事件。";
+  const updatedAt = [...active].sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))[0].lastUpdatedAt.slice(0, 10);
   const key = dedupeByCompany([...active].sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
   const keyIds = new Set(key.map((event) => event.id));
-  const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => freshnessScore(b.lastUpdatedAt) - freshnessScore(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a)), 6);
+  // This lane is a changelog, not another "most important" list. Use the
+  // exact update timestamp so that today's confirmed additions are never
+  // hidden behind yesterday's stronger stories in the same freshness bucket.
+  const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a)), 6);
   const format = (event: EventRecord): string => {
     const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
     return `- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`;
   };
-  const lines: string[] = [];
+  const lines: string[] = [`> 更新至 ${updatedAt} · 关键进展按影响力排序，最新动态按更新时间排序。`, ""];
   if (key.length) lines.push("### 本期关键进展", "", ...key.map(format), "");
   if (latest.length) lines.push("### 最新动态", "", ...latest.map(format), "");
   return lines.join("\n");
