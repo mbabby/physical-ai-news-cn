@@ -8,8 +8,10 @@ on:
       - "events/companies.json"
       - ".github/workflows/daily-digest.yml"
   schedule:
-    # 00:30 UTC = 北京时间 08:30
+    # 主任务：00:30 UTC = 北京时间 08:30
     - cron: "30 0 * * *"
+    # 兜底任务：01:15 UTC = 北京时间 09:15。仅当主任务没有产出当天日报时运行。
+    - cron: "15 1 * * *"
   workflow_dispatch:
     inputs:
       hours:
@@ -30,14 +32,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Decide whether the fallback run is needed
+        id: fallback
+        shell: bash
+        run: |
+          echo "run=true" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event.schedule }}" != "15 1 * * *" ]]; then
+            exit 0
+          fi
+          digest_date="$(TZ=Asia/Shanghai date +%F)"
+          if git log --format='%an' --since="${digest_date} 00:00:00 +0800" -- "daily/${digest_date}.md" | grep -qx "physical-ai-news-bot"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Primary digest already committed for ${digest_date}; fallback skipped."
+          fi
       - uses: actions/setup-node@v4
+        if: steps.fallback.outputs.run == 'true'
         with:
           node-version: 24
       - run: corepack enable
+        if: steps.fallback.outputs.run == 'true'
       - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+        if: steps.fallback.outputs.run == 'true'
       - run: pnpm run check
+        if: steps.fallback.outputs.run == 'true'
       - run: pnpm test
+        if: steps.fallback.outputs.run == 'true'
       - run: pnpm start -- --hours "${DIGEST_HOURS:-24}"
+        if: steps.fallback.outputs.run == 'true'
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
@@ -45,6 +66,7 @@ jobs:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           DIGEST_HOURS: ${{ inputs.hours }}
       - name: Commit updated digest
+        if: steps.fallback.outputs.run == 'true'
         run: |
           git add daily weekly sources review resources events FACTS_POLICY.md README.md
           if ! git diff --cached --quiet; then
