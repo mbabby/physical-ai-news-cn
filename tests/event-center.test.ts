@@ -45,11 +45,17 @@ test("keeps the technology map focused on bottlenecks rather than recycled news"
   assert.doesNotMatch(map, /LeRobot v0\.6\.0 发布/);
 });
 
-test("keeps distinct paper titles and abstracts when a Chinese summary is unavailable", () => {
-  const output = formatResearchUpdates([article({ title: "RoboBRIDGE: Modular robot agents", titleZh: undefined, summaryZh: undefined, excerpt: "A modular framework improves robust real-world robot agents." })]);
-  assert.match(output, /RoboBRIDGE: Modular robot agents/);
-  assert.match(output, /原文摘要：A modular framework/);
+test("keeps a complete Chinese research card readable", () => {
+  const output = formatResearchUpdates([article({ title: "RoboBRIDGE: Modular robot agents", titleZh: "RoboBRIDGE：稳健机器人智能体框架", summaryZh: "模块化框架将策略组织为具备故障恢复能力的真实机器人智能体。" })]);
+  assert.match(output, /RoboBRIDGE：稳健机器人智能体框架/);
+  assert.match(output, /模块化框架/);
   assert.doesNotMatch(output, /物理 AI 研究论文/);
+});
+
+test("does not publish half-translated research cards", () => {
+  const output = formatResearchUpdates([article({ titleZh: "Only English", summaryZh: "暂未生成中文摘要，请阅读原文。" })]);
+  assert.match(output, /正在完成中文解读/);
+  assert.doesNotMatch(output, /Only English/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {

@@ -11,7 +11,7 @@ import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "./event-center.js";
+import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
@@ -89,6 +89,14 @@ function mergePulseSummaries(pulse: IndustryPulse, summaries: Article[]): Indust
     events: pulse.events.map((article) => byId.get(article.id) ?? article),
   };
 }
+function uniqueArticles(articles: Article[]): Article[] {
+  const seen = new Set<string>();
+  return articles.filter((article) => {
+    if (seen.has(article.id)) return false;
+    seen.add(article.id);
+    return true;
+  });
+}
 
 async function main(): Promise<void> {
   const windowHours = parseWindow(process.argv.slice(2));
@@ -115,12 +123,16 @@ async function main(): Promise<void> {
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
   const articles = await summarizeInSmallBatches(summarizer, selected);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
+  // A public intelligence product must not oscillate between polished Chinese
+  // cards and half-translated raw abstracts. Keep unfinished translations in
+  // the archive, while the homepage falls back to the latest complete cards.
+  const publicResearch = uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch)).slice(0, 6);
   const eventPath = join(eventsDir, "index.json");
   const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
-  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, researchArticles, now), null, 2) + "\n", "utf8");
+  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now), null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), `# 公司与团队\n\n${formatCompanyRadar(companies, eventStore.events)}\n`, "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));
@@ -154,7 +166,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, researchArticles, researchFallbackDate), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearch, researchFallbackDate), "utf8");
   console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
