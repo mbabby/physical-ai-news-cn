@@ -29,6 +29,7 @@ export class CompatibleSummarizer {
     // The provider can briefly throttle a parallel batch. Retry transient
     // failures so that a later research batch does not quietly become six
     // identical placeholder cards on the homepage.
+    let lastError = "unknown error";
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
         const response = await fetch(`${this.settings.baseUrl.replace(/\/$/, "")}/chat/completions`, {
@@ -45,10 +46,14 @@ export class CompatibleSummarizer {
         const parsed = parseSummary(content);
         if (!parsed.titleZh) throw new Error("模型响应缺少中文标题");
         return { ...article, titleZh: parsed.titleZh.trim(), summaryZh: parsed.summaryZh?.trim() || "暂无原文摘要，请阅读原文。" };
-      } catch {
+      } catch (error) {
+        lastError = error instanceof Error ? error.message : String(error);
         if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 800));
       }
     }
+    // Deliberately exclude URL, key and article payload: workflow logs should
+    // reveal only the actionable provider status, never credentials or source text.
+    console.warn(`[summary] unavailable after retry (${lastError})`);
     return { ...article, titleZh: article.title, summaryZh: "暂未生成中文摘要，请阅读原文。" };
   }
 }
