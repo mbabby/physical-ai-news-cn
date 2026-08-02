@@ -247,14 +247,46 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
   return lines.join("\n");
 }
 
-export function formatIndustryMap(events: EventRecord[]): string {
-  const routes: TechnicalRoute[] = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
-  const lines = ["# 产业地图与技术路线", "", "从数据、智能、本体到部署，查看公司、事件与研究如何指向同一套物理 AI 瓶颈。", ""];
-  for (const route of routes) {
-    const related = events.filter((event) => event.routes.includes(route) && homepageEligible(event)).sort((a, b) => eventPriority(b) - eventPriority(a)).slice(0, 4);
-    lines.push(`## ${route}`, "");
+const ROUTE_MAP: Array<{ route: TechnicalRoute; focus: string; approaches: string }> = [
+  { route: "数据与训练", focus: "高质量真实数据与训练效率", approaches: "遥操作、数据引擎、合成数据、强化学习" },
+  { route: "VLA 与具身模型", focus: "泛化、长程任务与行动推理", approaches: "VLA、策略模型、测试时扩展、多机器人协作" },
+  { route: "世界模型与空间智能", focus: "可预测、可生成的物理环境表征", approaches: "世界模型、空间表征、物理仿真、生成式环境" },
+  { route: "本体与硬件", focus: "灵巧性、可靠性与成本", approaches: "执行器、触觉、灵巧手、整机设计" },
+  { route: "部署与商业化", focus: "可持续运行与可验证 ROI", approaches: "场景闭环、客户验证、工厂/仓储部署、量产" },
+];
+
+function primaryRoute(event: EventRecord): TechnicalRoute {
+  const value = `${event.title} ${eventFact(event) ?? ""}`.toLowerCase();
+  if (/dataset|lerobot|training|teleoperation|数据集|训练|遥操作/.test(value)) return "数据与训练";
+  if (/vla|vision-language-action|gemini robotics|openpi|pi0|policy/.test(value)) return "VLA 与具身模型";
+  if (/world model|world labs|spatial|cosmos|marble/.test(value)) return "世界模型与空间智能";
+  if (/humanoid|unitree|optimus|actuator|robot hardware|触觉|灵巧手/.test(value)) return "本体与硬件";
+  if (/deploy|deployment|customer|factory|commercial|funding|investment|融资|部署|客户|工厂|订单/.test(value)) return "部署与商业化";
+  return event.routes[0] ?? "部署与商业化";
+}
+
+export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
+  const qualified = events.filter(homepageEligible);
+  const updatedAt = qualified.sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))[0]?.lastUpdatedAt.slice(0, 10) ?? "等待首条证据";
+  const lines = [
+    "# 路线竞争地图",
+    "",
+    `> 自动更新至 ${updatedAt} · 每条事件只归入一个主路线，避免把日报重复铺在地图上。`,
+    "",
+    "```text",
+    "数据与训练  →  VLA 与具身模型  →  世界模型与空间智能  →  本体与硬件  →  部署与商业化",
+    "```",
+    "",
+  ];
+  for (const [index, meta] of ROUTE_MAP.entries()) {
+    const related = qualified.filter((event) => primaryRoute(event) === meta.route).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)).slice(0, 2);
+    const participants = companies.filter((company) => company.routes.includes(meta.route)).slice(0, 5).map((company) => companyLink(company)).join(" · ") || "持续扩充中";
+    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**竞争焦点**：${meta.focus}  `, `**主流解法**：${meta.approaches}  `, `**代表参与者**：${participants}`, "", "### 最新可验证信号", "");
     if (!related.length) lines.push("正在积累可核验事件。");
-    for (const event of related) lines.push(`- [${event.title}](../events/index.json) · ${event.status} · 更新 ${event.lastUpdatedAt.slice(0, 10)}`);
+    for (const event of related) {
+      const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+      lines.push(`- [${headlineFor(event)}](${evidence.link}) · ${event.status} · 更新 ${event.lastUpdatedAt.slice(0, 10)}`);
+    }
     lines.push("");
   }
   lines.push("## 证据规则", "", "- A 级：官方发布、论文原文、GitHub Release、产品页等一手证据。", "- B 级：可追溯的可靠行业报道，用于补充部署或投融资。", "- C 级：本人公开观点，不作为产品、融资或能力事实。", "- D 级：仅作候选线索，不进入本页。", "");

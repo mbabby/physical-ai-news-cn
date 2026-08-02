@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
+import { formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
 import type { Article } from "../src/types.js";
 
 function article(overrides: Partial<Article> = {}): Article {
@@ -28,6 +28,20 @@ test("keeps the latest successful research cards visible when arXiv is temporari
   const output = formatResearchUpdates([article({ title: "RoboBRIDGE", titleZh: "RoboBRIDGE：面向真实机器人的稳健策略框架" })], "2026-08-01");
   assert.match(output, /arXiv 暂未刷新/);
   assert.match(output, /最近一次成功抓取（2026-08-01）/);
+});
+
+test("assigns a cross-cutting event to one primary route in the competition map", () => {
+  const store = upsertEvents(undefined, [article({
+    title: "LeRobot v0.6 release",
+    titleZh: "LeRobot v0.6.0 发布",
+    excerpt: "LeRobot dataset training and VLA policy release",
+    kind: "产品发布",
+    link: "https://example.com/lerobot-v06",
+  })]);
+  const map = formatIndustryMap(store.events);
+  assert.match(map, /路线竞争地图/);
+  assert.equal((map.match(/LeRobot v0\.6\.0 发布/g) ?? []).length, 1);
+  assert.match(map, /https:\/\/example\.com\/lerobot-v06/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {

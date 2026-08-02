@@ -110,7 +110,7 @@ async function main(): Promise<void> {
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), `# 公司与团队\n\n${formatCompanyRadar(companies, eventStore.events)}\n`, "utf8");
-  await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events), "utf8");
+  await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !selected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
   const pulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const visibleArticles = articles.filter((article) => !pulseArticleIds(pulse).has(article.id));
