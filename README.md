@@ -80,11 +80,11 @@
 
 <!-- RESEARCH_UPDATES_END -->
 
-## 技术竞争与研究
+## 公司、技术与研究
 
 | 你要判断什么 | 从这里进入 |
 | --- | --- |
-| 哪条技术路线正在获得公司与资本支持 | [产业地图与技术路线](resources/industry-landscape-and-tech-routes.md) |
+| 哪些公司押注哪条技术路线、资本支持是否已公开披露 | [公司 × 技术路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md) |
 | 里程碑论文、技术脉络与精读 | [业界里程碑论文与精读](resources/milestone-papers.md) |
 | 模型、代码、数据与基准 | [模型与开源项目](resources/models-and-open-source.md) · [数据集与基准](resources/datasets-and-benchmarks.md) |
 | 仿真、训练与部署工具 | [仿真与工具](resources/simulation-and-tools.md) |

@@ -263,33 +263,49 @@ const ROUTE_MAP: Array<{ route: TechnicalRoute; focus: string; approaches: strin
   { route: "部署与商业化", focus: "可持续运行与可验证 ROI", approaches: "场景闭环、客户验证、工厂/仓储部署、量产" },
 ];
 
-function primaryRoute(event: EventRecord): TechnicalRoute {
-  const value = `${event.title} ${eventFact(event) ?? ""}`.toLowerCase();
-  if (/dataset|lerobot|training|teleoperation|数据集|训练|遥操作/.test(value)) return "数据与训练";
-  if (/vla|vision-language-action|gemini robotics|openpi|pi0|policy/.test(value)) return "VLA 与具身模型";
-  if (/world model|world labs|spatial|cosmos|marble/.test(value)) return "世界模型与空间智能";
-  if (/humanoid|unitree|optimus|actuator|robot hardware|触觉|灵巧手/.test(value)) return "本体与硬件";
-  if (/deploy|deployment|customer|factory|commercial|funding|investment|融资|部署|客户|工厂|订单/.test(value)) return "部署与商业化";
-  return event.routes[0] ?? "部署与商业化";
+function routeEvidence(events: EventRecord[], company: CompanyProfile, route: TechnicalRoute): EventRecord[] {
+  return events.filter((event) => event.primaryEntity === company.name && event.routes.includes(route) && event.evidence.some((item) => item.grade === "A" || item.grade === "B"));
+}
+function evidenceLink(event: EventRecord): string { return (event.evidence.find((item) => item.grade === "A") ?? event.evidence[0])?.link ?? "#"; }
+function compactEvent(event: EventRecord): string { return `[${headlineFor(event, true)}](${evidenceLink(event)})`; }
+function capitalLabel(events: EventRecord[]): string {
+  const capital = events.filter((event) => event.type === "投融资");
+  return capital.length ? compactEvent(capital[0]) : "尚无可归属的公开融资/并购披露";
+}
+function tractionLabel(events: EventRecord[], company: CompanyProfile): string {
+  const traction = events.find((event) => event.type === "部署案例" || event.type === "产品发布" || event.type === "公司商业");
+  return traction ? compactEvent(traction) : company.thesis;
+}
+function routeMomentum(events: EventRecord[], companies: CompanyProfile[], route: TechnicalRoute): { capital: number; traction: number; score: number } {
+  const routeCompanies = companies.filter((company) => company.routes.includes(route));
+  const linked = routeCompanies.flatMap((company) => routeEvidence(events, company, route));
+  const capital = linked.filter((event) => event.type === "投融资").length;
+  const traction = linked.filter((event) => event.type === "产品发布" || event.type === "部署案例" || event.type === "公司商业").length;
+  return { capital, traction, score: routeCompanies.length * 4 + capital * 18 + traction * 9 };
 }
 
-export function formatIndustryMap(_events: EventRecord[], companies: CompanyProfile[] = []): string {
+export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
+  const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route) })).sort((a, b) => b.score - a.score || b.capital - a.capital);
   const lines = [
-    "# 物理 AI 技术路线图",
+    "# 公司 × 技术路线 × 资本图谱",
     "",
-    "> 这不是日报索引：它用来判断每条路线要解决什么瓶颈、主流解法是什么、谁在投入，以及从研究走向规模化还缺什么。实时事件请回到首页“产业进展”和“学术与研究前沿”。",
+    "> 这里回答的不是“技术是什么”，而是“哪些公司押注哪条路线、资本支持是否已公开披露、是否已有产品或部署证据”。只统计可归属到公司的 A/B 级证据；没有公开信息不会用推测补齐。",
+    "",
+    "## 路线热度",
+    "",
+    "| 路线 | 覆盖公司 | 已披露资本事件 | 产品/部署事件 |", "| --- | ---: | ---: | ---: |",
+    ...momentum.map((item) => `| ${item.route} | ${companies.filter((company) => company.routes.includes(item.route)).length} | ${item.capital} | ${item.traction} |`),
     "",
   ];
-  for (const [index, meta] of ROUTE_MAP.entries()) {
-    const participants = companies.filter((company) => company.routes.includes(meta.route)).slice(0, 5).map((company) => companyLink(company)).join(" · ") || "持续扩充中";
-    const maturity: Record<TechnicalRoute, string> = {
-      "数据与训练": "是否能持续获得低成本、多样且可复用的真实任务数据。",
-      "VLA 与具身模型": "是否能在未见任务、长程任务和异常条件下保持可靠成功率。",
-      "世界模型与空间智能": "预测与仿真是否足以降低真实试错成本，并改善 sim-to-real。",
-      "本体与硬件": "灵巧性、续航、可靠性与成本能否同时达到可部署门槛。",
-      "部署与商业化": "是否已有重复运行、客户复购和可衡量的单位经济性。",
-    };
-    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**要解决的问题**：${meta.focus}  `, `**主流解法**：${meta.approaches}  `, `**成熟度判断**：${maturity[meta.route]}  `, `**代表参与者**：${participants}`, "");
+  for (const [index, meta] of momentum.entries()) {
+    const routeCompanies = companies.filter((company) => company.routes.includes(meta.route));
+    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**技术命题**：${meta.focus}  `, `**主流押注**：${meta.approaches}  `, "", "| 公司 | 技术押注 | 资本支持（已披露） | 产品 / 落地信号 |", "| --- | --- | --- | --- |");
+    for (const company of routeCompanies) {
+      const linked = routeEvidence(events, company, meta.route);
+      lines.push(`| [${company.name}](${company.officialUrl})<br><sub>${company.region} · ${company.stage ?? "公司"}</sub> | ${company.thesis} | ${capitalLabel(linked)} | ${tractionLabel(linked, company)} |`);
+    }
+    lines.push("");
   }
+  lines.push("## 口径", "", "- 资本支持：仅计融资、并购或其他可明确归属到公司的公开资本事件；不把股票交易或传闻当作融资。", "- 产品/落地：仅计公司主体明确的产品发布、部署案例或商业进展。", "- 资本事件为 0 不代表未融资，只表示当前信源尚无可核验、且可归属到该路线的公开披露。", "");
   return lines.join("\n");
 }

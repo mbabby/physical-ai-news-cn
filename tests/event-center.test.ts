@@ -30,19 +30,21 @@ test("keeps the latest successful research cards visible when arXiv is temporari
   assert.match(output, /最近一次成功抓取（2026-08-01）/);
 });
 
-test("keeps the technology map focused on bottlenecks rather than recycled news", () => {
+test("connects companies, routes and only attributable capital evidence", () => {
   const store = upsertEvents(undefined, [article({
     title: "LeRobot v0.6 release",
-    titleZh: "LeRobot v0.6.0 发布",
+    titleZh: "Google DeepMind 完成新一轮融资",
     excerpt: "LeRobot dataset training and VLA policy release",
-    kind: "产品发布",
+    kind: "投融资",
     link: "https://example.com/lerobot-v06",
   })]);
-  const map = formatIndustryMap(store.events);
-  assert.match(map, /物理 AI 技术路线图/);
-  assert.match(map, /成熟度判断/);
+  const companies = [{ name: "Google DeepMind", region: "北美", stage: "平台公司" as const, routes: ["VLA 与具身模型" as const], thesis: "VLA 模型", officialUrl: "https://example.com/deepmind" }];
+  const map = formatIndustryMap(store.events, companies);
+  assert.match(map, /公司 × 技术路线 × 资本图谱/);
+  assert.match(map, /路线热度/);
+  assert.match(map, /Google DeepMind/);
+  assert.match(map, /完成新一轮融资/);
   assert.doesNotMatch(map, /最新可验证信号/);
-  assert.doesNotMatch(map, /LeRobot v0\.6\.0 发布/);
 });
 
 test("keeps a complete Chinese research card readable", () => {
