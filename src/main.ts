@@ -13,6 +13,7 @@ import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, d
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
 import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
+import { buildDashboard } from "./site-data.js";
 import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -118,6 +119,8 @@ async function main(): Promise<void> {
   const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
+  await mkdir(join(root, "site", "data"), { recursive: true });
+  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, researchArticles, now), null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), `# 公司与团队\n\n${formatCompanyRadar(companies, eventStore.events)}\n`, "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));

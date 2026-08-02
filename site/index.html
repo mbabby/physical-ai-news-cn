@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="面向物理 AI 从业者的中文产业情报终端。" />
+    <title>Physical AI Intelligence</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grid-glow"></div>
+    <header class="shell hero">
+      <a class="brand" href="#top"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
+      <nav><a href="#signals">情报流</a><a href="#routes">技术路线</a><a href="#resources">资源雷达</a><a href="https://github.com/mbabby/physical-ai-news-cn">GitHub ↗</a></nav>
+      <div class="hero-copy" id="top">
+        <p class="eyebrow">CHINA · OPEN INTELLIGENCE BRIEFING</p>
+        <h1>看见物理 AI<br><em>正在发生的变化。</em></h1>
+        <p class="lede">面向物理 AI 从业者：跟踪可追溯的产品突破、资本动向、研究前沿与技术路线。</p>
+      </div>
+      <div class="terminal" aria-label="系统状态"><span class="pulse"></span><span>LIVE SIGNALS</span><b id="updated">同步中</b></div>
+    </header>
+
+    <main class="shell">
+      <section class="metrics" aria-label="情报覆盖">
+        <div><strong id="event-count">—</strong><span>可追溯事件</span></div><div><strong id="company-count">—</strong><span>覆盖公司</span></div><div><strong id="research-count">—</strong><span>研究条目</span></div><div><strong>30D</strong><span>信号窗口</span></div>
+      </section>
+
+      <section id="signals" class="section">
+        <div class="section-head"><div><p class="eyebrow">PRIORITY QUEUE</p><h2>本期关键进展</h2></div><a href="../README.md">查看完整日报 ↗</a></div>
+        <div id="key-events" class="key-grid"></div>
+      </section>
+
+      <section class="section signal-section">
+        <div class="section-head"><div><p class="eyebrow">MULTI-LANE MONITORING</p><h2>三路信号流</h2></div></div>
+        <div class="signal-grid">
+          <article class="lane"><div class="lane-title"><span class="lane-icon capital-icon">$</span><h3>资本与并购</h3></div><div id="capital"></div></article>
+          <article class="lane"><div class="lane-title"><span class="lane-icon industry-icon">↗</span><h3>产业进展</h3></div><div id="industry"></div></article>
+          <article class="lane"><div class="lane-title"><span class="lane-icon research-icon">∿</span><h3>学术前沿</h3></div><div id="research"></div></article>
+        </div>
+      </section>
+
+      <section id="routes" class="section route-section">
+        <div class="section-head"><div><p class="eyebrow">COMPETITION MAP</p><h2>技术路线状态</h2></div><a href="../resources/industry-landscape-and-tech-routes.md">路线详情 ↗</a></div>
+        <div id="routes-grid" class="routes-grid"></div>
+      </section>
+
+      <section id="resources" class="section resource-strip">
+        <p class="eyebrow">BUILD WITH THE STACK</p><h2>资源雷达</h2><p>核心资源沉淀 + 每日验证更新。按模型、数据集与工具链进入。</p>
+        <div class="resource-links"><a href="../resources/models-and-open-source.md">模型与开源项目 <span>→</span></a><a href="../resources/datasets-and-benchmarks.md">数据集与基准 <span>→</span></a><a href="../resources/simulation-and-tools.md">仿真与工具 <span>→</span></a></div>
+      </section>
+    </main>
+    <footer class="shell"><span>PHYSICAL AI INTELLIGENCE / OPEN REPOSITORY</span><span>所有事实请以原始来源为准</span></footer>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
