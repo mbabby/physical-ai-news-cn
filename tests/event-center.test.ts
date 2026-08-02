@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatRecentEvents, upsertEvents } from "../src/event-center.js";
+import { formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
 import type { Article } from "../src/types.js";
 
 function article(overrides: Partial<Article> = {}): Article {
@@ -22,6 +22,12 @@ test("creates an evidence-backed canonical event from a qualified article", () =
 test("keeps generic funding labels out of the public industry feed", () => {
   const store = upsertEvents(undefined, [article({ title: "机器人公司完成新一轮融资", titleZh: "机器人公司完成新一轮融资", kind: "投融资" })]);
   assert.doesNotMatch(formatRecentEvents(store.events), /机器人公司完成新一轮融资/);
+});
+
+test("keeps the latest successful research cards visible when arXiv is temporarily unavailable", () => {
+  const output = formatResearchUpdates([article({ title: "RoboBRIDGE", titleZh: "RoboBRIDGE：面向真实机器人的稳健策略框架" })], "2026-08-01");
+  assert.match(output, /arXiv 暂未刷新/);
+  assert.match(output, /最近一次成功抓取（2026-08-01）/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {

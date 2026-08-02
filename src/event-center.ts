@@ -215,9 +215,10 @@ function researchPriority(article: Article): number {
   const freshness = days <= 1 ? 20 : days <= 3 ? 16 : days <= 7 ? 12 : 6;
   return impact + reproducibility + authority + freshness;
 }
-export function formatResearchUpdates(articles: Article[]): string {
+export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   if (!articles.length) return "近期暂无满足相关性门槛的论文。";
-  return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
+  const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的论文。\n\n` : "";
+  return notice + [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
 }
 
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }

@@ -25,10 +25,21 @@ export async function parseRssText(xml: string, source: RssSourceConfig): Promis
 }
 
 export async function fetchRssSource(source: RssSourceConfig): Promise<Article[]> {
-  const response = await fetch(source.url, {
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-    headers: { "User-Agent": "physical-ai-news-cn/1.0" },
-  });
-  if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
-  return parseRssText(await response.text(), source);
+  const isArxiv = source.name.startsWith("arXiv ·");
+  const attempts = isArxiv ? 2 : 1;
+  const timeout = isArxiv ? 30_000 : FETCH_TIMEOUT_MS;
+  let lastError: unknown;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      const response = await fetch(source.url, {
+        signal: AbortSignal.timeout(timeout),
+        headers: { "User-Agent": "physical-ai-news-cn/1.0" },
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      return parseRssText(await response.text(), source);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
 }

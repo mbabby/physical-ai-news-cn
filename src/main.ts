@@ -29,8 +29,8 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[]): string {
-  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[], researchFallbackDate?: string): string {
+  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -93,7 +93,13 @@ async function main(): Promise<void> {
   const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
   // arXiv's submission calendar has gaps on weekends. A three-day research
   // window keeps the homepage fresh without treating a quiet day as no news.
-  const researchSelected = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), Math.max(windowHours, 72), 6);
+  const liveResearch = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), Math.max(windowHours, 72), 6);
+  const recentArchives = await readRecentDailyArchives(outputDir, now, 7);
+  const cachedResearch = (await readRecentDailyArticles(outputDir, now)).filter((article) => article.source.startsWith("arXiv · Robotics"));
+  const latestCachedResearchDate = recentArchives.filter((archive) => archive.articles.some((article) => article.source.startsWith("arXiv · Robotics"))).sort((a, b) => b.date.localeCompare(a.date))[0]?.date;
+  const researchSelected = liveResearch.length ? liveResearch : filterAndRank(cachedResearch, 7 * 24, 6);
+  const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
+  const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
@@ -127,7 +133,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, researchArticles), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, researchArticles, researchFallbackDate), "utf8");
   console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
