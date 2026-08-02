@@ -15,6 +15,8 @@
 
 <!-- EVENT_CENTER_START -->
 
+> 更新至 2026-08-02 · 关键进展按影响力排序，最新动态按更新时间排序。
+
 ### 本期关键进展
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
@@ -23,12 +25,12 @@
 
 ### 最新动态
 
+- [World Labs收购SceniX：物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-02</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
+- [揭秘具身智能榜单生意链：刷榜狂欢背后的繁荣与泡沫](https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>文章揭秘具身智能领域的榜单生意链，聚焦刷榜狂欢现象，呈现其背后的行业繁荣与泡沫，反映围绕榜单排名产生的刷榜生意。
 - [谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者](https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。
-- [意大利人形机器人GENE.01问世：六个月建成，全身覆盖多模态皮肤](https://spectrum.ieee.org/video-friday-physical-ai-robotics) <kbd>部署案例</kbd> <kbd>世界模型与空间智能</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>意大利Generative Bionics发布人形机器人GENE.01：团队六个月建成，机器人可行走、感知与交互，全身多模态皮肤能感知触觉、接近、力和温度，助力安全自然的人机协作。
 - [视频星期五：机器人的世界杯](https://spectrum.ieee.org/video-friday-robot-world-cup) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。
 - [日本曾引领人形机器人，如今能否追赶中国？](https://spectrum.ieee.org/humanoid-robots-japan) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。
-- [西北大学研发高速旋转“隐形”无人机Phantom Twist](https://spectrum.ieee.org/invisible-spinning-drone) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>西北大学团队研发出Phantom Twist无人机，以每秒15至25次高速自旋，利用人眼视觉暂留效应实现近乎隐形，可见度比四旋翼无人机低一个数量级，仅靠单电机脉冲即可控制飞行。
-- [地面机器人接管乌克兰前线“杀伤区”](https://spectrum.ieee.org/ukraine-ground-drones) <kbd>产品发布</kbd> <kbd>数据与训练</kbd> <sub>08-01</sub><br>乌克兰RoverTech公司研制的Zmiy无人地面车可执行排雷、运输、火力打击等任务，平均完成57次任务才被摧毁，远超同类约7次的水平；乌方计划2026年底前采购5万辆。
+- [X Square Robot 为通用机器人打造一体化基础技术栈](https://spectrum.ieee.org/x-square-robot-embodied-ai-stack) <kbd>公司商业</kbd> <kbd>世界模型与空间智能</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>具身智能公司X Square Robot提出覆盖交互数据、世界模型与动作模型的一体化机器人技术栈，通过真实机器人回放质检保障数据有效性，以低成本无机器人数据预训练，并主张以开放方式构建和发布。
 
 
 <!-- EVENT_CENTER_END -->
@@ -39,14 +41,13 @@
 
 ### 融资与并购
 
-- **World Labs** · [收购SceniX，物理AI训练正从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-02
-- **中科院系农业机器人公司** · [中科院系农业机器人公司获数亿元融资，奇瑞参投](https://news.google.com/rss/articles/CBMif0FVX3lxTE9zeWFPUTlBQ3lrV0htZHh1UExGUUg2al9GT3EyS2FONWlNNFhPWjVZeHl2VU03dFVVMzREVDBibVBOZUNLVTRYQ0hlVXlYbTdIRVpUcGhKYWpvcFRNWlBLOXBUcC1zV2Nvd1Rjd2NkdkV6QmxEOHRqQkNkcXpPNWs?oc=5) · 2026-08-02
+- **World Labs** · [收购SceniX：物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-02
 
 ### 公司最新进展
 
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)：Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
 - **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)：英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
-- **World Labs** · [收购SceniX，物理AI训练正从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5)：李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
+- **World Labs** · [收购SceniX：物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5)：李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 - **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)：Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
 
 ### 技术路线地图
