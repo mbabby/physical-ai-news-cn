@@ -76,7 +76,7 @@
 
 - [DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection](https://arxiv.org/abs/2607.27784v1)<br>中文简介暂未生成；原文摘要：Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternativ…
 
-- [Machines that know they are aging: a framework for hardware-aware autonomous intelligence](https://arxiv.org/abs/2607.28451v1)<br>中文简介暂未生成；原文摘要：Autonomous systems inevitably age, yet their artificial intelligence typically assumes hardware remains in its original condition. Batteries degrade, sensors drift, processors accumulate timing errors, and memory reliabi…
+- [让机器感知自身老化：硬件感知自主智能框架](https://arxiv.org/abs/2607.28451v1)<br>研究提出老化感知自主智能框架 AAAI，以硬件自感知、自适应推理与生存导向智能，将硬件健康纳入推理规划，防止老化累积导致任务失效。
 
 <!-- RESEARCH_UPDATES_END -->
 
