@@ -211,13 +211,17 @@ export function formatRecentEvents(events: EventRecord[]): string {
 
 function researchPriority(article: Article): number {
   const value = `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase();
-  let impact = /vla|vision-language-action|world model|world model|humanoid|manipulation|具身|人形机器人/.test(value) ? 20 : 10;
-  if (/真实机器人|real[- ]world|physical robot|benchmark|基准|sota|state.of.the.art/.test(value)) impact += 8;
-  const reproducibility = /github|code|开源|dataset|数据集|benchmark|基准/.test(value) ? 20 : 6;
-  const authority = Math.min(25, article.sourceWeight * 2.5);
+  // Research is not a chronological arXiv dump. Prioritize work that can
+  // change a practitioner's technical decision, while keeping the criteria
+  // deterministic and inspectable.
+  let relevance = /vla|vision-language-action|world model|spatial|humanoid|manipulation|具身|人形机器人|机器人学习/.test(value) ? 30 : 12;
+  if (/long[- ]horizon|长程|泛化|generalization|dexterous|灵巧/.test(value)) relevance = Math.min(30, relevance + 4);
+  const realWorld = /真实机器人|real[- ]world|physical robot|on[- ]robot|部署|hardware|unitree|franka|benchmark|基准|sota|state.of.the.art/.test(value) ? 20 : 5;
+  const reproducibility = /github|code|开源|dataset|数据集|benchmark|基准|release/.test(value) ? 18 : 4;
+  const authority = Math.min(17, Math.round(article.sourceWeight * 1.7));
   const days = Math.max(0, (Date.now() - article.publishedAt.getTime()) / 86_400_000);
-  const freshness = days <= 1 ? 20 : days <= 3 ? 16 : days <= 7 ? 12 : 6;
-  return impact + reproducibility + authority + freshness;
+  const freshness = days <= 1 ? 15 : days <= 3 ? 12 : days <= 7 ? 8 : 3;
+  return relevance + realWorld + reproducibility + authority + freshness;
 }
 export function isPublishableResearch(article: Article): boolean {
   return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务/.test(article.summaryZh));
@@ -225,7 +229,8 @@ export function isPublishableResearch(article: Article): boolean {
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);
   if (!publishable.length) return "> 本轮论文已抓取，正在完成中文解读与事实校验；仅在标题和摘要均完成后展示。";
-  const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的论文。\n\n` : "";
+  const ordering = "> 排序：物理 AI 相关性 → 真实机器人/基准证据 → 代码与数据可复现性 → 来源可信度 → 发布时间。";
+  const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的论文。\n\n${ordering}\n\n` : `${ordering}\n\n`;
   return notice + [...publishable].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 6).map((article) => `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}`).join("\n\n");
 }
 
@@ -276,16 +281,37 @@ function tractionLabel(events: EventRecord[], company: CompanyProfile): string {
   const traction = events.find((event) => event.type === "部署案例" || event.type === "产品发布" || event.type === "公司商业");
   return traction ? compactEvent(traction) : company.thesis;
 }
-function routeMomentum(events: EventRecord[], companies: CompanyProfile[], route: TechnicalRoute): { capital: number; traction: number; score: number } {
+function routeEventScore(event: EventRecord): number {
+  const evidence = authorityScore(event) / 30;
+  const freshness = freshnessScore(event.lastUpdatedAt) / 20;
+  return 0.7 + evidence * 0.2 + freshness * 0.1;
+}
+function routeMomentum(events: EventRecord[], companies: CompanyProfile[], route: TechnicalRoute): { capital: number; traction: number; open: number; companyBreadth: number; score: number } {
   const routeCompanies = companies.filter((company) => company.routes.includes(route));
   const linked = routeCompanies.flatMap((company) => routeEvidence(events, company, route));
   const capital = linked.filter((event) => event.type === "投融资").length;
   const traction = linked.filter((event) => event.type === "产品发布" || event.type === "部署案例" || event.type === "公司商业").length;
-  return { capital, traction, score: routeCompanies.length * 4 + capital * 18 + traction * 9 };
+  const open = linked.filter((event) => event.type === "开源项目" || /开源|github|代码|数据集|dataset/i.test(`${event.title} ${eventFact(event) ?? ""}`)).length;
+  // Four capped components: public capital (40), product/deployment proof
+  // (30), breadth of company participation (20), and reusable/open assets
+  // (10). Evidence quality and freshness act as a small multiplier, instead
+  // of allowing a burst of low-quality mentions to dominate the map.
+  const capitalScore = Math.min(40, linked.filter((event) => event.type === "投融资").reduce((total, event) => total + 18 * routeEventScore(event), 0));
+  const tractionScore = Math.min(30, linked.filter((event) => event.type === "部署案例" || event.type === "产品发布" || event.type === "公司商业").reduce((total, event) => total + (event.type === "部署案例" ? 13 : 10) * routeEventScore(event), 0));
+  const breadthScore = Math.min(20, routeCompanies.length * 3);
+  const opennessScore = Math.min(10, linked.filter((event) => event.type === "开源项目" || /开源|github|代码|数据集|dataset/i.test(`${event.title} ${eventFact(event) ?? ""}`)).reduce((total, event) => total + 5 * routeEventScore(event), 0));
+  return { capital, traction, open, companyBreadth: routeCompanies.length, score: capitalScore + tractionScore + breadthScore + opennessScore };
+}
+
+function companyRoutePriority(events: EventRecord[]): number {
+  const capital = events.filter((event) => event.type === "投融资").reduce((total, event) => total + 40 * routeEventScore(event), 0);
+  const traction = events.filter((event) => event.type === "部署案例" || event.type === "产品发布" || event.type === "公司商业").reduce((total, event) => total + (event.type === "部署案例" ? 30 : 22) * routeEventScore(event), 0);
+  const openness = events.filter((event) => event.type === "开源项目").reduce((total, event) => total + 10 * routeEventScore(event), 0);
+  return capital + traction + openness;
 }
 
 export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
-  const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route) })).sort((a, b) => b.score - a.score || b.capital - a.capital);
+  const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route) })).sort((a, b) => b.score - a.score || b.capital - a.capital || b.traction - a.traction || a.route.localeCompare(b.route));
   const lines = [
     "# 公司 × 技术路线 × 资本图谱",
     "",
@@ -293,12 +319,12 @@ export function formatIndustryMap(events: EventRecord[], companies: CompanyProfi
     "",
     "## 路线热度",
     "",
-    "| 路线 | 覆盖公司 | 已披露资本事件 | 产品/部署事件 |", "| --- | ---: | ---: | ---: |",
-    ...momentum.map((item) => `| ${item.route} | ${companies.filter((company) => company.routes.includes(item.route)).length} | ${item.capital} | ${item.traction} |`),
+    "| 路线 | 覆盖公司 | 已披露资本事件 | 产品/部署事件 | 开放/数据事件 |", "| --- | ---: | ---: | ---: | ---: |",
+    ...momentum.map((item) => `| ${item.route} | ${item.companyBreadth} | ${item.capital} | ${item.traction} | ${item.open} |`),
     "",
   ];
   for (const [index, meta] of momentum.entries()) {
-    const routeCompanies = companies.filter((company) => company.routes.includes(meta.route));
+    const routeCompanies = companies.filter((company) => company.routes.includes(meta.route)).sort((a, b) => companyRoutePriority(routeEvidence(events, b, meta.route)) - companyRoutePriority(routeEvidence(events, a, meta.route)) || a.name.localeCompare(b.name));
     lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**技术命题**：${meta.focus}  `, `**主流押注**：${meta.approaches}  `, "", "| 公司 | 技术押注 | 资本支持（已披露） | 产品 / 落地信号 |", "| --- | --- | --- | --- |");
     for (const company of routeCompanies) {
       const linked = routeEvidence(events, company, meta.route);
@@ -306,6 +332,6 @@ export function formatIndustryMap(events: EventRecord[], companies: CompanyProfi
     }
     lines.push("");
   }
-  lines.push("## 口径", "", "- 资本支持：仅计融资、并购或其他可明确归属到公司的公开资本事件；不把股票交易或传闻当作融资。", "- 产品/落地：仅计公司主体明确的产品发布、部署案例或商业进展。", "- 资本事件为 0 不代表未融资，只表示当前信源尚无可核验、且可归属到该路线的公开披露。", "");
+  lines.push("## 排序与口径", "", "- 路线排序：资本支持 40% → 产品/部署验证 30% → 参与公司广度 20% → 开源、代码或数据资产 10%；证据等级和新近程度只作小幅加权。", "- 公司排序：先看已披露资本支持，再看部署/产品验证，随后看开源项目；同分按公司名稳定排序。", "- 资本支持：仅计融资、并购或其他可明确归属到公司的公开资本事件；不把股票交易或传闻当作融资。", "- 产品/落地：仅计公司主体明确的产品发布、部署案例或商业进展。", "- 资本事件为 0 不代表未融资，只表示当前信源尚无可核验、且可归属到该路线的公开披露。", "");
   return lines.join("\n");
 }
