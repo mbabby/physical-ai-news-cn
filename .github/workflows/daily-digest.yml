@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 # 同一时间只允许一轮日报写入 main；避免手动触发与定时任务彼此抢占提交。
 concurrency:
@@ -111,4 +112,23 @@ jobs:
           echo "### 页面更新与提交" >> "$GITHUB_STEP_SUMMARY"
           echo "- 生成步骤：${{ steps.generator_status.outcome }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- 提交步骤：${{ steps.commit_digest.outcome }} · ${{ steps.commit_digest.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- 说明：提交成功后，GitHub Pages 会由 main 的同一次提交自动部署。" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 说明：日报由机器人提交时会显式派发 GitHub Pages 部署，避免 Actions 提交无法触发 push 工作流。" >> "$GITHUB_STEP_SUMMARY"
+      - name: Dispatch Pages deployment after bot commit
+        id: pages_dispatch
+        if: steps.fallback.outputs.run == 'true' && steps.commit_digest.outputs.status == '已提交并推送'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          curl --fail-with-body --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/deploy-pages.yml/dispatches" \
+            --data '{"ref":"main"}'
+          echo "status=已派发" >> "$GITHUB_OUTPUT"
+      - name: Report Pages dispatch status
+        if: always() && steps.fallback.outputs.run == 'true'
+        shell: bash
+        run: |
+          echo "- Pages 部署派发：${{ steps.pages_dispatch.outcome }} · ${{ steps.pages_dispatch.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"
