@@ -166,7 +166,25 @@ export interface DailyArchive {
   articles: Article[];
   industryPulse?: IndustryPulse;
   sourceOutcomes?: SourceOutcome[];
+  /** Items collected successfully but held back from public surfaces. */
+  candidates?: CandidateArticle[];
+  /** Safe, credential-free health signals for this generation run. */
+  runtimeStatus?: RuntimeStatus[];
   discoveredSources?: DiscoveredSource[];
+}
+
+export interface CandidateArticle extends Article {
+  stage: "待中文事实简介" | "待公司主体确认" | "不适合公开资讯";
+  holdReasons: string[];
+}
+
+export interface RuntimeStatus {
+  component: "LLM" | "OpenAlex";
+  status: "成功" | "部分降级" | "未配置";
+  attempted: number;
+  succeeded: number;
+  failed: number;
+  detail: string;
 }
 
 export interface IndustryPulse {

@@ -1,4 +1,4 @@
-import type { Article, ScholarlyAuthor } from "./types.js";
+import type { Article, RuntimeStatus, ScholarlyAuthor } from "./types.js";
 
 interface OpenAlexInstitution { display_name?: string }
 interface OpenAlexAuthorship { author?: { id?: string; display_name?: string }; institutions?: OpenAlexInstitution[] }
@@ -34,9 +34,12 @@ async function authorProfile(id: string, apiKey: string): Promise<ScholarlyAutho
  * a match when title similarity and date agree, so a search miss can never
  * silently attach another paper's citation record.
  */
-export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: string): Promise<Article[]> {
-  if (!apiKey) return articles;
-  return Promise.all(articles.map(async (article) => {
+export interface OpenAlexEnrichmentResult { articles: Article[]; status: RuntimeStatus }
+
+export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: string): Promise<OpenAlexEnrichmentResult> {
+  if (!apiKey) return { articles, status: { component: "OpenAlex", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "未配置 OpenAlex；论文仍按来源元数据排序。" } };
+  let succeeded = 0; let failed = 0;
+  const enriched = await Promise.all(articles.map(async (article) => {
     try {
       const url = new URL("https://api.openalex.org/works");
       url.searchParams.set("search", article.title);
@@ -47,17 +50,20 @@ export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: s
       const candidate = (response.results ?? []).map((work) => ({ work, score: similarity(article.title, work.display_name ?? "") }))
         .filter(({ work, score }) => arxivDateCompatible(article, work) && score >= 0.78)
         .sort((a, b) => b.score - a.score)[0]?.work;
-      if (!candidate?.id) return article;
+      if (!candidate?.id) { succeeded += 1; return article; }
       const matchedAuthors = (candidate.authorships ?? []).slice(0, 3);
       const profiles = await Promise.all(matchedAuthors.flatMap((item) => item.author?.id ? [authorProfile(item.author.id, apiKey).catch(() => undefined)] : []));
       const fallbackAuthors: ScholarlyAuthor[] = matchedAuthors.flatMap((item) => item.author?.display_name ? [{ name: item.author.display_name, institutions: (item.institutions ?? []).flatMap((institution) => institution.display_name ? [institution.display_name] : []) }] : []);
       const authors = profiles.filter((item): item is ScholarlyAuthor => Boolean(item));
       const institutions = [...new Set([...(candidate.authorships ?? []).flatMap((item) => item.institutions ?? []).flatMap((item) => item.display_name ? [item.display_name] : []), ...authors.flatMap((author) => author.institutions)])];
-      return { ...article, authors: article.authors?.length ? article.authors : fallbackAuthors.map((author) => author.name), scholar: { provider: "OpenAlex", workId: candidate.id, citedByCount: candidate.cited_by_count ?? 0, isRetracted: Boolean(candidate.is_retracted), institutions, authors: authors.length ? authors : fallbackAuthors, checkedAt: new Date().toISOString() } };
+      succeeded += 1;
+      return { ...article, authors: article.authors?.length ? article.authors : fallbackAuthors.map((author) => author.name), scholar: { provider: "OpenAlex" as const, workId: candidate.id, citedByCount: candidate.cited_by_count ?? 0, isRetracted: Boolean(candidate.is_retracted), institutions, authors: authors.length ? authors : fallbackAuthors, checkedAt: new Date().toISOString() } };
     } catch (error) {
       // Enrichment is optional: citation APIs must never block the daily feed.
       console.warn(`[openalex] enrichment skipped (${error instanceof Error ? error.message : String(error)})`);
+      failed += 1;
       return article;
     }
   }));
+  return { articles: enriched, status: { component: "OpenAlex", status: failed ? "部分降级" : "成功", attempted: articles.length, succeeded, failed, detail: failed ? "部分论文元数据未能刷新，已保留原始来源数据。" : "论文引用与作者机构元数据已刷新。" } };
 }

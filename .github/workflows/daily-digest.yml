@@ -66,8 +66,22 @@ jobs:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           DIGEST_HOURS: ${{ inputs.hours }}
-      - name: Commit updated digest
+      - name: Report generator status
+        id: generator_status
         if: steps.fallback.outputs.run == 'true'
+        shell: bash
+        run: |
+          digest_date="$(TZ=Asia/Shanghai date +%F)"
+          echo "digest_date=${digest_date}" >> "$GITHUB_OUTPUT"
+          echo "## 日报生成状态 · ${digest_date}" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 信源" >> "$GITHUB_STEP_SUMMARY"
+          jq -r '(.sourceOutcomes // []) | if map(select(.status == "failure")) | length == 0 then "- 成功：本轮已启用信源均完成抓取。" else map(select(.status == "failure") | "- 失败：\(.source)（\(.reason // "未知原因")）")[] end' "daily/${digest_date}.json" >> "$GITHUB_STEP_SUMMARY"
+          echo "### LLM 与 OpenAlex" >> "$GITHUB_STEP_SUMMARY"
+          jq -r '.runtimeStatus[] | "- \(.component)：\(.status)；请求 \(.attempted)，成功 \(.succeeded)，失败 \(.failed)。\(.detail)"' "daily/${digest_date}.json" >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit updated digest
+        id: commit_digest
+        if: steps.fallback.outputs.run == 'true'
+        shell: bash
         run: |
           # Dashboard data and Markdown are generated from the same digest.
           # Stage both before rebasing, otherwise Git refuses to rebase with
@@ -80,4 +94,15 @@ jobs:
             git commit -m "chore: update daily physical AI digest"
             git pull --rebase origin main
             git push origin HEAD:main
+            echo "status=已提交并推送" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=无内容变化，无需提交" >> "$GITHUB_OUTPUT"
           fi
+      - name: Report commit status
+        if: always() && steps.fallback.outputs.run == 'true'
+        shell: bash
+        run: |
+          echo "### 页面更新与提交" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 生成步骤：${{ steps.generator_status.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 提交步骤：${{ steps.commit_digest.outcome }} · ${{ steps.commit_digest.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 说明：提交成功后，GitHub Pages 会由 main 的同一次提交自动部署。" >> "$GITHUB_STEP_SUMMARY"

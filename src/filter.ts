@@ -16,6 +16,10 @@ const FUNDING_TITLE_WORDS = ["funding", "funded", "raises", "raised", "series a"
 // financing / M&A event. They add noise without helping an operator track the
 // companies building the field.
 const FINANCIAL_MARKET_NOISE = /融资净买入|融资余额|资金流向|股票|股价|证券|仪表.*收购|跨界.*机器人/i;
+const PUBLIC_FALLBACK = /暂无原文摘要|请阅读原文|自动摘要失败|未配置|暂未生成中文摘要|中文简介暂未生成|原文未提供摘要/i;
+// A feed may be useful for discovery without being a factual event. Keep
+// rankings, weekly roundups and commentary in the review layer instead.
+const AGGREGATE_OR_COMMENTARY = /\btop\s*\d+\b|roundup|weekly\s+(?:robotics|funding|news)|best\s+of|commentary|opinion|analysis|十大|盘点|汇总|合集|榜单|评论|观点|解读|综述|报告/i;
 
 function normalizedTitle(title: string): string { return title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim(); }
 export function normalizeUrl(value: string): string {
@@ -63,4 +67,14 @@ export function filterAndRank(articles: Article[], windowHours: number, limit = 
     if (!duplicate) unique.push(article);
   }
   return unique.slice(0, limit);
+}
+
+export function publicHoldReasons(article: Article, hasTrackedCompany: boolean, requireCompany = true): string[] {
+  const reasons: string[] = [];
+  const title = article.titleZh?.trim() ?? "";
+  const summary = article.summaryZh?.trim() ?? "";
+  if (!title || !summary || !/[\u3400-\u9fff]/.test(title) || !/[\u3400-\u9fff]/.test(summary) || PUBLIC_FALLBACK.test(summary)) reasons.push("缺少完整中文事实简介");
+  if (AGGREGATE_OR_COMMENTARY.test(`${article.title} ${article.titleZh ?? ""} ${article.excerpt}`)) reasons.push("聚合盘点或评论性质内容");
+  if (requireCompany && !hasTrackedCompany) reasons.push("公司主体未确认");
+  return reasons;
 }

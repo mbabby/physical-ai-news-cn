@@ -5,17 +5,17 @@ import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
 import { fetchXSource } from "./fetchers/x.js";
-import { filterAndRank } from "./filter.js";
+import { filterAndRank, publicHoldReasons } from "./filter.js";
 import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, rankResearchArticles, upsertEvents } from "./event-center.js";
+import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
-import type { Article, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, SourceConfig, SourceRegistry } from "./types.js";
+import type { Article, CandidateArticle, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -99,12 +99,28 @@ function uniqueArticles(articles: Article[]): Article[] {
   });
 }
 
+function candidateArticle(article: Article, reasons: string[]): CandidateArticle {
+  const stage = reasons.includes("缺少完整中文事实简介") ? "待中文事实简介" : reasons.includes("公司主体未确认") ? "待公司主体确认" : "不适合公开资讯";
+  return { ...article, stage, holdReasons: reasons };
+}
+function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["sourceOutcomes"], date: string): string {
+  const sourceFailures = outcomes.filter((outcome) => outcome.status === "failure");
+  const lines = [`# 运行状态 · ${date}`, "", "本文件用于排错，不是公开资讯内容。不会记录密钥、请求正文或模型供应商凭据。", "", "## 信源", ""];
+  if (sourceFailures.length) lines.push(...sourceFailures.map((item) => `- 失败 · ${item.source}：${item.reason ?? "未知原因"}`));
+  else lines.push("- 成功 · 本轮已启用信源均完成抓取。");
+  lines.push("", "## 服务", "", ...statuses.map((item) => `- ${item.component} · **${item.status}** · 请求 ${item.attempted}，成功 ${item.succeeded}，失败 ${item.failed}。${item.detail}`));
+  lines.push("", "## 提交", "", "- 提交状态由 GitHub Actions 的“Commit updated digest”步骤报告；该步骤会同时提交日报、事件、页面数据与首页。");
+  return lines.join("\n");
+}
+
 async function main(): Promise<void> {
   const windowHours = parseWindow(process.argv.slice(2));
   const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
+  const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
+  const trackedCompanies = new Set(companies.map((company) => company.name));
   const configuredSources = [...SOURCES, ...dynamicSources(candidateRegistry)];
   const activeSources = applyRegistryWeights(configuredSources, await readRegistry(join(sourcesDir, "registry.json")));
   const collected = await collect(activeSources, windowHours);
@@ -125,16 +141,18 @@ async function main(): Promise<void> {
   const rawPulse = selectIndustryPulse(xSelected, selected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
   const articles = await summarizeInSmallBatches(summarizer, selected);
-  const enrichedResearch = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
-  const researchSelected = rankResearchArticles(enrichedResearch).slice(0, 6);
+  const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
+  const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 6);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. Keep unfinished translations in
   // the archive, while the homepage falls back to the latest complete cards.
   const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
+  const holdReasonsForCompanyArticle = (article: Article) => publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article) ?? ""));
+  const publicArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length === 0);
+  const heldArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)));
   const eventPath = join(eventsDir, "index.json");
-  const eventStore = upsertEvents(await readJson<EventStore>(eventPath), articles, now);
-  const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
+  const eventStore = upsertEvents(await readJson<EventStore>(eventPath), publicArticles, now);
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now), null, 2) + "\n", "utf8");
@@ -142,7 +160,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));
   if (resourceCatalog) {
-    const radarArticles = [...articles, ...researchArticles, ...cachedResearch];
+    const radarArticles = [...publicArticles, ...researchArticles, ...cachedResearch];
     await Promise.all([
       writeFile(join(resourcesDir, "models-and-open-source.md"), formatResourcePage("models", resourceCatalog, radarArticles, now), "utf8"),
       writeFile(join(resourcesDir, "datasets-and-benchmarks.md"), formatResourcePage("datasets", resourceCatalog, radarArticles, now), "utf8"),
@@ -150,15 +168,23 @@ async function main(): Promise<void> {
     ]);
   }
   const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !selected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
-  const pulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
-  const visibleArticles = articles.filter((article) => !pulseArticleIds(pulse).has(article.id));
+  const summarizedPulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
+  const pulse: IndustryPulse = {
+    viewpoints: summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length === 0),
+    events: summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length === 0),
+  };
+  const heldPulse = [...summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length > 0).map((article) => candidateArticle(article, publicHoldReasons(article, true, false))), ...summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)))];
+  const visibleArticles = publicArticles.filter((article) => !pulseArticleIds(pulse).has(article.id));
   const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
-  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, articles.length, sourceNetworkSummary(candidateRegistry));
+  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry));
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
-  const archiveArticles = [...articles, ...researchArticles.filter((article) => !articles.some((selectedArticle) => selectedArticle.id === article.id))];
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], discoveredSources };
+  const archiveArticles = [...publicArticles, ...researchArticles.filter((article) => !publicArticles.some((selectedArticle) => selectedArticle.id === article.id))];
+  const candidates = uniqueArticles([...heldArticles, ...heldPulse]).map((article) => article as CandidateArticle);
+  const statuses = [summarizer.status(), openAlex.status];
+  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
@@ -172,6 +198,6 @@ async function main(): Promise<void> {
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
   await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearch, researchFallbackDate), "utf8");
-  console.log(`完成：收录 ${articles.length} 条资讯、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
+  console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

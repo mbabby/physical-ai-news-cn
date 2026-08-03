@@ -16,7 +16,7 @@ function id(value: string): string { return `evt-${createHash("sha256").update(v
 function text(article: Article): string { return `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase(); }
 function titleText(article: Pick<Article, "title" | "titleZh">): string { return `${article.title} ${article.titleZh ?? ""}`.toLowerCase(); }
 function aliasesIn(value: string): string[] { return Object.entries(COMPANY_ALIASES).filter(([, aliases]) => aliases.some((alias) => value.includes(alias))).map(([name]) => name); }
-function primaryEntityFor(article: Article): string | undefined {
+export function primaryEntityForArticle(article: Article): string | undefined {
   const value = titleText(article);
   const matches = Object.entries(COMPANY_ALIASES).flatMap(([name, aliases]) => aliases.filter((alias) => value.includes(alias)).map((alias) => ({ name, index: value.indexOf(alias) })));
   return matches.sort((a, b) => a.index - b.index)[0]?.name;
@@ -82,7 +82,7 @@ function similar(a: EventRecord, article: Article): boolean {
   const eventWords = new Set(a.title.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
   const articleWords = new Set((article.titleZh ?? article.title).toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
   const shared = [...eventWords].filter((word) => articleWords.has(word)).length;
-  const primary = primaryEntityFor(article);
+  const primary = primaryEntityForArticle(article);
   return shared >= 3 && Boolean(primary && primaryForEvent(a) === primary);
 }
 
@@ -102,7 +102,7 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
       continue;
     }
-    const primaryEntity = primaryEntityFor(article);
+    const primaryEntity = primaryEntityForArticle(article);
     const mentionedEntities = aliasesIn(text(article)).filter((name) => name !== primaryEntity);
     const title = article.titleZh ?? article.title;
     events.push({ id: id(article.link), title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update] });
@@ -170,7 +170,7 @@ function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
   // A headline alone is a useful lead for the capital tracker but not enough
   // context for the public industry feed.
-  return event.status !== "已归档" && event.evidence.some((item) => item.grade === "A" || item.grade === "B") && Boolean(fact) && fact !== event.title;
+  return event.status !== "已归档" && event.evidence.some((item) => item.grade === "A" || item.grade === "B") && Boolean(fact) && hasChinese(fact!) && meaningful(fact) && fact !== event.title;
 }
 function ageInDays(value: string): number { return Math.max(0, (Date.now() - new Date(value).getTime()) / 86_400_000); }
 function freshnessScore(value: string): number {
@@ -205,10 +205,13 @@ function corroborationScore(event: EventRecord): number { return Math.min(10, Ma
 function eventPriority(event: EventRecord): number { return impactScore(event) + authorityScore(event) + freshnessScore(event.lastUpdatedAt) + corroborationScore(event); }
 function isSpecificFunding(event: EventRecord): boolean {
   if (event.type !== "投融资") return true;
-  const subject = event.primaryEntity ?? fundingSubject(event);
+  // Unknown startups remain useful candidates, but only tracked companies are
+  // allowed to enter the public capital map. This avoids presenting a headline
+  // parser's guess as a verified company identity.
+  const subject = event.primaryEntity;
   return Boolean(subject && !/^(行业公司|机器人公司|农业机器人公司|公司)$/i.test(subject) && !/融资净买入|融资余额|股票|股价|证券|跨界.*机器人/i.test(event.title));
 }
-function homepageEligible(event: EventRecord): boolean { return displayable(event) && isSpecificFunding(event); }
+function homepageEligible(event: EventRecord): boolean { return displayable(event) && Boolean(event.primaryEntity) && isSpecificFunding(event); }
 function dedupeByCompany(events: EventRecord[], limit: number): EventRecord[] {
   const seen = new Set<string>();
   return events.filter((event) => {
@@ -259,7 +262,7 @@ export function rankResearchArticles(articles: Article[]): Article[] {
   return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime());
 }
 export function isPublishableResearch(article: Article): boolean {
-  return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务/.test(article.summaryZh) && !article.scholar?.isRetracted);
+  return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务|暂无原文摘要|请阅读原文|中文简介暂未生成|原文未提供摘要/.test(article.summaryZh) && !article.scholar?.isRetracted);
 }
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);

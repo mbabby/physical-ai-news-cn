@@ -1,4 +1,4 @@
-import type { Article, LlmSettings } from "./types.js";
+import type { Article, LlmSettings, RuntimeStatus } from "./types.js";
 
 interface CompletionResponse { choices?: Array<{ message?: { content?: string } }> }
 interface SummaryPayload { titleZh?: string; summaryZh?: string }
@@ -20,9 +20,19 @@ function parseSummary(content: string): SummaryPayload {
 }
 
 export class CompatibleSummarizer {
+  private attempted = 0;
+  private succeeded = 0;
+  private failed = 0;
   constructor(private readonly settings: LlmSettings) {}
 
+  status(): RuntimeStatus {
+    const configured = Boolean(this.settings.apiKey && this.settings.baseUrl && this.settings.model);
+    if (!configured) return { component: "LLM", status: "未配置", attempted: this.attempted, succeeded: 0, failed: 0, detail: "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。" };
+    return { component: "LLM", status: this.failed ? "部分降级" : "成功", attempted: this.attempted, succeeded: this.succeeded, failed: this.failed, detail: this.failed ? "部分摘要调用失败，相关内容已留在候选层。" : "中文事实简介已完成。" };
+  }
+
   async summarize(article: Article): Promise<Article> {
+    this.attempted += 1;
     if (!this.settings.apiKey || !this.settings.baseUrl || !this.settings.model) {
       return { ...article, titleZh: article.title, summaryZh: "未配置摘要服务；请阅读原文。" };
     }
@@ -45,6 +55,7 @@ export class CompatibleSummarizer {
         const content = data.choices?.[0]?.message?.content ?? "";
         const parsed = parseSummary(content);
         if (!parsed.titleZh) throw new Error("模型响应缺少中文标题");
+        this.succeeded += 1;
         return { ...article, titleZh: parsed.titleZh.trim(), summaryZh: parsed.summaryZh?.trim() || "暂无原文摘要，请阅读原文。" };
       } catch (error) {
         lastError = error instanceof Error ? error.message : String(error);
@@ -54,6 +65,7 @@ export class CompatibleSummarizer {
     // Deliberately exclude URL, key and article payload: workflow logs should
     // reveal only the actionable provider status, never credentials or source text.
     console.warn(`[summary] unavailable after retry (${lastError})`);
+    this.failed += 1;
     return { ...article, titleZh: article.title, summaryZh: "暂未生成中文摘要，请阅读原文。" };
   }
 }
