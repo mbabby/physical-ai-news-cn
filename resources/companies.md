@@ -2,6 +2,7 @@
 
 ### 融资与并购
 
+- **方石机器人** · [方石机器人获数千万A+轮融资](https://news.google.com/rss/articles/CBMiXkFVX3lxTE01RllGeElhQ3ppYURfZTkydGVXalVtcEhGWGd6cVI0aVRUSEkzQk11ZzZWTTlsdS1TcEhDZ3QtY0drVXRzT29hUUpQZVBnendkVm9FZVFFemFVRVZIdVE?oc=5) · 2026-08-03
 - **World Labs** · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-02
 
 ### 公司最新进展

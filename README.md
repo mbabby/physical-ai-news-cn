@@ -15,7 +15,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 更新至 2026-08-02 · 关键进展按影响力排序，最新动态按更新时间排序。
+> 更新至 2026-08-03 · 关键进展按影响力排序，最新动态按更新时间排序。
 
 ### 本期关键进展
 
@@ -25,12 +25,12 @@
 
 ### 最新动态
 
+- [方石机器人获数千万A+轮融资](https://news.google.com/rss/articles/CBMiXkFVX3lxTE01RllGeElhQ3ppYURfZTkydGVXalVtcEhGWGd6cVI0aVRUSEkzQk11ZzZWTTlsdS1TcEhDZ3QtY0drVXRzT29hUUpQZVBnendkVm9FZVFFemFVRVZIdVE?oc=5) <kbd>投融资</kbd> <kbd>部署与商业化</kbd> <sub>08-03</sub><br>方石机器人宣布完成A+轮融资，融资金额达数千万级别，投资方及资金用途等更多细节目前尚未披露。
 - [2026年7月机器人领域十大热门报道盘点](https://news.google.com/rss/articles/CBMic0FVX3lxTFB0d1o2a2JMcWpaN25ER2c4dVA3VVFHd0RqdWR1UjhIT05XYmh2Y3lBbXhtSVFheGgxTXdILTEtLTBUV2M5Rjl6TWphMk1hVloyeVFia1RRR3VjX0Jxb2N1R3R0MkNQaldJUktFNkZIU3BnSzA?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>2026年7月机器人领域十大热门报道
 - [揭秘具身智能的榜单生意链：刷榜狂欢背后的繁荣与泡沫 - 新浪财经](https://news.google.com/rss/articles/CBMisgFBVV95cUxOSmM5Yy1KRVQ1bVFEakJyTXZIXzRUNXhnQzUtd1RUbnpKOVdyWldZNFBZandwamNmRENMYXhuaWxNdld0MTgwb1l1SDlaRzNkNHplTGtUUGZPa0lUbENHVG03TDVteC1nTUNieHV3VXB3S2dtQmpMVDJRNTN3b2JyT3hKZ2RaZ1VkTWdpTjZJWkpydVk0RHdIV2dLVGtaMG5TMDIyeFBKT1RlOTJsWTFFNGVB?oc=5) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>08-02</sub><br>文章揭秘具身智能领域的榜单生意链，聚焦刷榜狂欢现象，呈现其背后的行业繁荣与泡沫，反映围绕榜单排名产生的刷榜生意。
 - [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-02</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 - [谷歌与AIM推出AI工具ATL Saathi，赋能印度新一代创新者](https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>谷歌与AIM联合推出由Gemini驱动的人工智能工具ATL Saathi，为印度机器人实验室中的教育工作者提供支持，助力培养该国下一代创新者。
 - [视频星期五：机器人的世界杯](https://spectrum.ieee.org/video-friday-robot-world-cup) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>本期汇集多项机器人进展：首次两支全尺寸人形机器人队进行11对11足球赛；MIT与EPFL研制可潜水再出水飞行的机器人；1X推出25自由度灵巧手；GEN-1模型将简单任务成功率提升至99%。
-- [日本曾引领人形机器人，如今能否追赶中国？](https://spectrum.ieee.org/humanoid-robots-japan) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>东京人形机器人峰会上，中国机器人数量约为日本三倍，日本企业甚至以宇树G1做演示。日本虽曾造出首台人形机器人WABOT-1，却未将其商业化，如今须凭技术积淀追赶中国。
 
 
 <!-- EVENT_CENTER_END -->
@@ -41,6 +41,7 @@
 
 ### 融资与并购
 
+- **方石机器人** · [方石机器人获数千万A+轮融资](https://news.google.com/rss/articles/CBMiXkFVX3lxTE01RllGeElhQ3ppYURfZTkydGVXalVtcEhGWGd6cVI0aVRUSEkzQk11ZzZWTTlsdS1TcEhDZ3QtY0drVXRzT29hUUpQZVBnendkVm9FZVFFemFVRVZIdVE?oc=5) · 2026-08-03
 - **World Labs** · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-02
 
 ### 公司最新进展
@@ -70,15 +71,15 @@
 
 - [PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架](https://arxiv.org/abs/2607.28623v1)<br>该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。
 
-- [RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>RoboBRIDGE 以五个协同模块将预训练 VLA 编排为稳健机器人智能体，实现故障恢复与异步重规划，在多基准及真实平台表现更优。
+- [WCM：用于视觉-语言-动作强化学习的世界评论家模型](https://arxiv.org/abs/2607.29613v1)<br>WCM 基于轻量级 LeJEPA 架构，联合预测未来潜在状态与价值，让评论家显式学习时序动态，在四个基准 149 项任务上达到最优。
 
-- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略离线学习框架](https://arxiv.org/abs/2607.27782v1)<br>RedFlow将失败经验转化为动作级纠正监督，改进流匹配VLA机器人策略，真实任务成功率从56.7%提升至74.7%。
+- [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1)<br>BWM是开源低成本高保真世界模拟器，以动作条件模型自回归预测未来观测，兼具数据引擎与策略评估功能，并经实机实验验证。
+
+- [RedFlow：将失败重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1)<br>RedFlow 是流匹配 VLA 策略的离线强化学习框架，将失败转化为动作级纠正监督，真实任务成功率由 56.7% 升至 74.7%。
+
+- [RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架](https://arxiv.org/abs/2607.27881v1)<br>RoboBRIDGE以监控、感知、规划、控制与机器人接口五模块协同，为预训练VLA提供故障恢复与异步重规划，在多项基准和真实平台上优于独立策略及现有部署。
 
 - [DLAM：带时序约束的分布式潜在动作模型](https://arxiv.org/abs/2607.27138v1)<br>DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。
-
-- [利用缝线操控实现自主缝合中的缝针拾取](https://arxiv.org/abs/2607.26337v1)<br>该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。
-
-- [DexDirect：直接动觉引导机械臂，高效采集灵巧操作演示](https://arxiv.org/abs/2607.27784v1)<br>DexDirect 让操作者直接拖动机械臂，并用单摄像头将另一只手重定向至灵巧手，高效采集演示，成功演示数量远超基线。
 
 <!-- RESEARCH_UPDATES_END -->
 
