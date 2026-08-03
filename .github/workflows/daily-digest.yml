@@ -32,6 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Sync latest main before generation
+        # A queued manual/push run can start just after the preceding digest
+        # commits the same daily file. Generate from that newest commit, not
+        # from the older triggering SHA, so the later rebase cannot conflict
+        # on daily/YYYY-MM-DD.{md,json}.
+        run: git pull --ff-only origin main
       - name: Decide whether the fallback run is needed
         id: fallback
         shell: bash
