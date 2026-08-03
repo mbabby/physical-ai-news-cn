@@ -19,7 +19,7 @@ const FINANCIAL_MARKET_NOISE = /融资净买入|融资余额|资金流向|股票
 const PUBLIC_FALLBACK = /暂无原文摘要|请阅读原文|自动摘要失败|未配置|暂未生成中文摘要|中文简介暂未生成|原文未提供摘要/i;
 // A feed may be useful for discovery without being a factual event. Keep
 // rankings, weekly roundups and commentary in the review layer instead.
-const AGGREGATE_OR_COMMENTARY = /\btop\s*\d+\b|roundup|weekly\s+(?:robotics|funding|news)|best\s+of|commentary|opinion|analysis|十大|盘点|汇总|合集|榜单|评论|观点|解读|综述|报告/i;
+const AGGREGATE_OR_COMMENTARY = /\btop\s*\d+\b|roundup|weekly\s+(?:robotics|funding|news)|best\s+of|commentary|opinion|analysis|十大|盘点|汇总|合集|榜单|评论|观点|解读|综述|报告|周报|月报/i;
 
 function normalizedTitle(title: string): string { return title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim(); }
 export function normalizeUrl(value: string): string {
