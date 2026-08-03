@@ -16,7 +16,7 @@
 
 ## 近期已验证更新（自动）
 
-- [考虑物体质量的人形机器人平衡：权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>该研究构建平衡状态域，分析物体质量对人形机器人平衡的影响，界定临界质量与转变质量，并用于全身轨迹优化实现稳定搬举。
+- [Balancing of Humanoid with Object Mass: Trade-off Analyses and Lifting Control](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
 - [利用缝线操控实现自主缝合中的缝针拾取](https://arxiv.org/abs/2607.26337v1) · arXiv · Robotics · 2026-07-28<br>该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。
 

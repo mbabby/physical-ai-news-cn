@@ -11,16 +11,16 @@ RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将�
 - 候选原因：展示了明确的真实场景部署；来源为一手官方发布，并获得多条日报交叉佐证。
 - 来源：arXiv · Robotics · 部署案例
 
-## [考虑物体质量的人形机器人平衡：权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1)
+## [Balancing of Humanoid with Object Mass: Trade-off Analyses and Lifting Control](https://arxiv.org/abs/2607.29625v1)
 
-该研究构建平衡状态域，分析物体质量对人形机器人平衡的影响，界定临界质量与转变质量，并用于全身轨迹优化实现稳定搬举。
+暂未生成中文摘要，请阅读原文。
 
 - 候选原因：代表产品或能力的重要发布；来源为一手官方发布。
 - 来源：arXiv · Robotics · 产品发布
 
-## [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1)
+## [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1)
 
-BWM是开源的低成本高保真世界模拟器，以机器人动作为条件自回归预测未来观测，可用作数据引擎与闭环策略评估器，在WorldArena挑战赛多条赛道排名第一。
+暂未生成中文摘要，请阅读原文。
 
 - 候选原因：代表产品或能力的重要发布；来源为一手官方发布。
 - 来源：arXiv · Robotics · 产品发布
