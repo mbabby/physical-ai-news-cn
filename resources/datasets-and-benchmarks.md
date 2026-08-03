@@ -16,13 +16,13 @@
 
 ## 近期已验证更新（自动）
 
-- [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
+- [BWM：低成本高保真的机器人学习世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源低成本高保真世界模拟器，结合动作条件自回归预测未来观测，可用作数据引擎与策略评估器，在 WorldArena 挑战赛总排名第一，模型与代码已开源。
 
 - [WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning](https://arxiv.org/abs/2607.29613v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
 - [PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架](https://arxiv.org/abs/2607.28623v1) · arXiv · Robotics · 2026-07-30<br>该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。
 
-- [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](https://arxiv.org/abs/2607.27782v1) · arXiv · Robotics · 2026-07-30<br>暂未生成中文摘要，请阅读原文。
+- [RedFlow：将失败重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) · arXiv · Robotics · 2026-07-30<br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，把失败经验转为动作级纠正监督，在 LIBERO 及真实任务上优于基线，真实成功率由 56.7% 提升至 74.7%。
 
 ## 排序与收录
 

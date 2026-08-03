@@ -6,7 +6,7 @@
       "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
       "link": "https://arxiv.org/abs/2607.29613v1",
       "publishedAt": "2026-07-31T16:48:45.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
@@ -29,7 +29,7 @@
       "title": "BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning",
       "link": "https://arxiv.org/abs/2607.29302v1",
       "publishedAt": "2026-07-31T11:18:17.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Reliable robot learning requires a world simulator that can predict action consequences before execution on physical hardware, including risky and failure-prone outcomes. Existing physics simulators require substantial asset construction and calibration and still face a sim-to-real gap, while video generators often lack precise control over their responses to fine-grained robot actions. In this paper, we present the Boundless World Model (BWM), an open-source, low-cost, high-fidelity world simulator for robot manipulation. BWM is an action-conditioned world model that combines initial-environment guidance, dynamic visual history, and temporally aligned robot-action conditioning for stateful autoregressive prediction of future observations. We construct action-aligned training clips through trajectory replay, overlapping clip sampling, and initial-observation enhancement. BWM serves as a data engine that augments imitation-learning data with action-aligned rollouts, and as a policy evaluator for closed-loop assessment, risk anticipation, and policy ranking. Experiments on the WorldArena benchmark and physical robots demonstrate improved simulator fidelity and functional utility across the data-engine and policy-evaluator settings. BWM ranks first overall in the WorldArena Challenge across Track 1 and its two Track 2 applications. We release the BWM open-source ecosystem, including model checkpoints, training and inference code, and interfaces for data generation and policy evaluation.",
@@ -44,15 +44,15 @@
       ],
       "kind": "产品发布",
       "score": 130,
-      "titleZh": "BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "titleZh": "BWM：低成本高保真的机器人学习世界模拟器",
+      "summaryZh": "BWM 是开源低成本高保真世界模拟器，结合动作条件自回归预测未来观测，可用作数据引擎与策略评估器，在 WorldArena 挑战赛总排名第一，模型与代码已开源。"
     },
     {
       "id": "d296eb9c0886d703",
       "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
       "link": "https://arxiv.org/abs/2607.27782v1",
       "publishedAt": "2026-07-30T07:14:39.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
@@ -81,17 +81,17 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-03T10:44:48.819Z"
+        "checkedAt": "2026-08-03T10:52:17.373Z"
       },
-      "titleZh": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "titleZh": "RedFlow：将失败重定向为动作级纠正的流匹配 VLA 策略",
+      "summaryZh": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，把失败经验转为动作级纠正监督，在 LIBERO 及真实任务上优于基线，真实成功率由 56.7% 提升至 74.7%。"
     },
     {
       "id": "7514484769050fb5",
       "title": "Balancing of Humanoid with Object Mass: Trade-off Analyses and Lifting Control",
       "link": "https://arxiv.org/abs/2607.29625v1",
       "publishedAt": "2026-07-31T16:57:51.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "The demand for humanoid loco-manipulation tasks with an object has recently increased, and most existing control approaches for stability in such tasks rely on heuristics or machine-learning techniques. This study rigorously analyzes and exploits the dynamic effects of the object mass on balance stability. By formulating the object mass parameters in the whole-body dynamics with distributed contact wrenches and centers of pressure at the stance contacts, their nonlinear effects on the system momenta and constraints are quantified. The dynamic models and constraints are incorporated into the construction of the balanced state basin/boundary (BSB), a partition of the center-of-mass state space for a biped system to maintain balance in its desired contacts. The implications of the BSB for prediction and control are highlighted using a humanoid robot and an analytically tractable reduced-order mechanism. The BSBs under different conditions of base of support, actuation capacity, and pose provide systematic analyses of the effects of object mass on the balancing capability of a system. In particular, the trade-off relationships between momentum regulation and limiting factors in balancing are characterized, introducing two key quantities of the object: the critical mass, at which the system's balancing capability is maximum, and the transition mass, which activates different limiting factors. In addition, sufficient conditions for imposing balanced states on a trajectory are established and implemented with BSBs as explicit threshold constraints in the whole-body trajectory optimization for stable object-lifting control of the humanoid, demonstrating the lift-and-hold and lift-and-release tasks with distinct mass properties in simulations and experiments.",
@@ -106,15 +106,15 @@
       ],
       "kind": "产品发布",
       "score": 130,
-      "titleZh": "Balancing of Humanoid with Object Mass: Trade-off Analyses and Lifting Control",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "titleZh": "人形机器人携带物体时的平衡：权衡分析与抬升控制",
+      "summaryZh": "该研究量化物体质量对人形机器人平衡的非线性影响，构建平衡状态域，提出临界质量与转变质量概念，实现稳定的物体抬升控制。"
     },
     {
       "id": "61b5624a84ebba5f",
       "title": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
       "link": "https://arxiv.org/abs/2607.28993v1",
       "publishedAt": "2026-07-31T03:44:56.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "World Action Models (WAMs) have emerged as a promising paradigm by jointly modeling robot actions and future visual dynamics. However, their reliance on pixel-generative future supervision can entangle action-relevant state transitions with task-irrelevant visual content, limiting robustness under visual distribution shifts. We identify Training-Distribution Hallucination, a recurring phenomenon in which futures conditioned on visually shifted observations hallucinate training-domain content rather than remain faithful to the current scene. A controlled frame-triplet diagnosis further shows that DINOv3 features remain more stable across visual shifts while better preserving task-state distinctions than Wan-VAE latents. Rather than correcting the predicted futures, we propose Semantic-Temporal WAM (ST-WAM) to improve action robustness by using DINOv3 as a shared semantic representation for future prediction and history retrieval while retaining fine-grained VAE dynamics. Its Dual-Space Future Experts (DSFE) jointly predict future VAE latents and DINO features, while Current-Anchored Intent Retrieval (CAIR) retrieves task-relevant evidence from recent DINO history under the current visual-language context. ST-WAM is trained end-to-end without additional embodied pretraining or task-specific annotations, and requires no explicit future generation at inference. It achieves 98.7% on LIBERO and 92.8% on RoboTwin 2.0; more importantly, compared with Fast-WAM, it improves zero-shot LIBERO-Plus performance by 21.3 percentage points and more than doubles real-world success under visual shifts from 25.8% to 61.5%. These results demonstrate that semantic-temporal modeling effectively complements pixel-generative dynamics for robust manipulation.",
@@ -129,15 +129,15 @@
       ],
       "kind": "公司商业",
       "score": 126,
-      "titleZh": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "titleZh": "ST-WAM：面向视觉分布偏移下稳健操作的语义-时序世界动作模型",
+      "summaryZh": "ST-WAM以DINOv3为共享语义表征进行未来预测与历史检索，并保留VAE细粒度动态，在视觉分布偏移下将真实世界操作成功率从25.8%提升至61.5%。"
     },
     {
       "id": "c7591cc122a4b394",
       "title": "Advances, challenges, and opportunities for legged robots",
       "link": "https://arxiv.org/abs/2607.28952v1",
       "publishedAt": "2026-07-31T02:16:54.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.211Z",
+      "fetchedAt": "2026-08-03T10:48:59.686Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
       "excerpt": "Humanoid and quadrupedal robots have the potential to revolutionize the way we work, interact, and coexist with intelligent machines. To understand their effects on society and how they can enable scientific discovery, we assess the current capabilities of these systems along hardware, locomotion, autonomy, data, and applications. We identify recent advances and key open challenges that must be overcome to enable widespread adoption and new use cases for legged robots. Last, we provide an outlook on the future of legged robots, exploring their ethical considerations, economic potential, policy implications, and broader societal effects.",
@@ -151,8 +151,8 @@
       ],
       "kind": "公司商业",
       "score": 122,
-      "titleZh": "Advances, challenges, and opportunities for legged robots",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      "titleZh": "足式机器人的进展、挑战与机遇",
+      "summaryZh": "文章评估人形与四足机器人在硬件、运动、自主、数据及应用方面的现状，梳理关键进展与开放挑战，并展望其伦理、经济与政策影响。"
     }
   ],
   "industryPulse": {
@@ -248,7 +248,7 @@
       "title": "具身智能蚂蚁灵波确认启动首轮融资，聚焦通用机器人大脑 - 搜狐网",
       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQRHJLelk1Q0ltV0JjQ0NEMjZtY3VRWS1UWlRDeU9nd25RbW51cmgwT3JlVFZkdXFOS0xRaVJadC1TUWx5LVJINFdfOFVFNVFSMlZjS3pxVjhvOFl4MzJYd0ZhM2dBcTJYVFRkb0pTT0xjY2cxWkhIZDJwN3FmOWRVRGVodU9hVkMz?oc=5",
       "publishedAt": "2026-08-03T09:56:33.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "具身智能蚂蚁灵波确认启动首轮融资，聚焦通用机器人大脑  搜狐网",
@@ -260,11 +260,34 @@
       "authors": [],
       "kind": "投融资",
       "score": 108,
-      "titleZh": "具身智能蚂蚁灵波确认启动首轮融资，聚焦通用机器人大脑 - 搜狐网",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "具身智能公司蚂蚁灵波确认启动首轮融资，聚焦通用机器人大脑",
+      "summaryZh": "具身智能公司蚂蚁灵波已确认启动首轮融资，公司聚焦于通用机器人大脑技术方向。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "d0c2462a54c98a75",
+      "title": "蚂蚁灵波确认融资传闻：将持续聚焦通用机器人大脑，加大对具身原生技术路线投入 - 新浪财经",
+      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9fcndTLUNvRGdoUmJlSEtJalpFZTFxWjFyQW0wcEIzSm50SHlqQWVuaUlLdzUzUlBfTEJhZ1dMal9VQnZOLUNCZG82Yw?oc=5",
+      "publishedAt": "2026-08-03T07:40:00.000Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "蚂蚁灵波确认融资传闻：将持续聚焦通用机器人大脑，加大对具身原生技术路线投入  新浪财经",
+      "tags": [
+        "投融资",
+        "具身",
+        "机器人"
+      ],
+      "authors": [],
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "蚂蚁灵波确认融资传闻，将持续聚焦通用机器人大脑",
+      "summaryZh": "蚂蚁灵波确认融资传闻，表示将持续聚焦通用机器人大脑，并加大对具身原生技术路线的投入。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
         "公司主体未确认"
       ]
     },
@@ -273,7 +296,7 @@
       "title": "Funding Weekly | Amazon has invested $50 billion in OpenAI; Axis Robotics completes $12 million seed round financing - PANews",
       "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE02eVBTVUhUTy0wcEhuN3lBMWx4VWxfRllKSGpJazlURElHWlppZDVWNzNYNDNRbmxZaWVyaEk2WTFHM1JEWXdLQmJMLVFpbXJGR2pyVHpxdXFlaWFacEo5T0kxanNLNThqYnZ6aVpnM3N1VFpxQXctb3JLMjdORUU?oc=5",
       "publishedAt": "2026-08-03T03:01:00.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.755Z",
+      "fetchedAt": "2026-08-03T10:49:00.239Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 6,
       "excerpt": "Funding Weekly | Amazon has invested $50 billion in OpenAI; Axis Robotics completes $12 million seed round financing  PANews",
@@ -285,11 +308,10 @@
       "authors": [],
       "kind": "投融资",
       "score": 108,
-      "titleZh": "Funding Weekly | Amazon has invested $50 billion in OpenAI; Axis Robotics completes $12 million seed round financing - PANews",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "Amazon 向 OpenAI 投资 500 亿美元；Axis Robotics 完成 1200 万美元种子轮融资",
+      "summaryZh": "Amazon 已向 OpenAI 投资 500 亿美元；Axis Robotics 完成 1200 万美元种子轮融资，本周另有多起投融资动态。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -298,7 +320,7 @@
       "title": "万机易租新一轮融资估值10亿元，加速人形机器人商业化落地 - 搜狐网",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPVFFrbV9YZlNuSS1EM1p5RDZMMFh6ZmpMMlc5MTdvdlpvZlJkc2dmbFJRd0lTMFBsRWs1am50REpDYjNNQ0pmVFFnTkRPWnE4WDZhalFzUnkzdk03R0Rtc19uYWZyVnQ2aEY4ZjFoQXhQVVVvYjNnTVZuNWFnMWxxdk9uX1Q0UHZTY1draA?oc=5",
       "publishedAt": "2026-08-03T02:09:09.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "万机易租新一轮融资估值10亿元，加速人形机器人商业化落地  搜狐网",
@@ -310,8 +332,8 @@
       "authors": [],
       "kind": "投融资",
       "score": 108,
-      "titleZh": "万机易租完成新一轮融资，估值10亿元加速人形机器人商业化落地",
-      "summaryZh": "万机易租近日完成新一轮融资，估值达到10亿元，公司计划借此加速人形机器人的商业化落地进程。",
+      "titleZh": "万机易租完成新一轮融资，估值达10亿元",
+      "summaryZh": "万机易租完成新一轮融资，公司估值达10亿元，本轮融资将助力其加速人形机器人的商业化落地进程。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "公司主体未确认"
@@ -319,13 +341,13 @@
     },
     {
       "id": "bfef7f3dfb571dc1",
-      "title": "Wonder raises $650M at a $9B valuation as robotics and rapid expansion reshape food-tech operations - MarketScale",
+      "title": "Wonder raises $650M at a $9B valuation as robotics and rapid expansion reshape food-tech operations - marketscale.com",
       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxONWJJbmNZSFdoVVk5RlRKYWpxeTlCaWF3ZS15ZDNKekd5LWVoZ1BpM3JuR3BwTDd4bHZ1b0lKQ3F5VURCZmRPWUJoOGUzcjA1eF9uLXI4NVd1Rjl6TlhQaDA1SzZBZEtXRktGam9KMlpBYlYzNDRWSGdmdzN4YlM5ejl2ay1abmtuZjBNamk1LUZ0QkdGODFjSXpKVXhWMWdEemJTUXZHVnZjbzVTbVI0T2Q3eDFjcE95T2pndGp1ajhiWVQ2U29IRXNLQ2dOTHpzcTNuY3pJTGFKNFd2UzJnOWxHYVU?oc=5",
       "publishedAt": "2026-08-03T00:03:05.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.755Z",
+      "fetchedAt": "2026-08-03T10:49:00.239Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 6,
-      "excerpt": "Wonder raises $650M at a $9B valuation as robotics and rapid expansion reshape food-tech operations  MarketScale",
+      "excerpt": "Wonder raises $650M at a $9B valuation as robotics and rapid expansion reshape food-tech operations  marketscale.com",
       "tags": [
         "投融资",
         "robot",
@@ -334,8 +356,8 @@
       "authors": [],
       "kind": "投融资",
       "score": 108,
-      "titleZh": "Wonder获6.5亿美元融资，估值达90亿美元",
-      "summaryZh": "食品科技公司Wonder完成6.5亿美元融资，估值达90亿美元，机器人技术与快速扩张正重塑其食品科技运营模式。",
+      "titleZh": "Wonder 获 6.5 亿美元融资估值达 90 亿美元，机器人与快速扩张重塑食品科技运营",
+      "summaryZh": "食品科技公司 Wonder 完成 6.5 亿美元融资，估值达 90 亿美元，机器人技术与快速扩张正重塑其食品科技运营模式。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "公司主体未确认"
@@ -346,7 +368,7 @@
       "title": "方石机器人完成数千万元A+轮融资，进一步夯实商业化交付能力 - 投资界",
       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBZbGtNcXI2dHJxYWU1S0x0WF94Q29fVUZnME1OeERpcHMtQjl6X200dUZ5aHVicm9BTXoxWEFoM1BnZDdNQUE1ZlUzaE9mb2dBc0NTRmdn?oc=5",
       "publishedAt": "2026-08-03T09:04:00.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "方石机器人完成数千万元A+轮融资，进一步夯实商业化交付能力  投资界",
@@ -357,11 +379,10 @@
       "authors": [],
       "kind": "投融资",
       "score": 104,
-      "titleZh": "方石机器人完成数千万元A+轮融资，进一步夯实商业化交付能力 - 投资界",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "方石机器人完成数千万元A+轮融资，进一步夯实商业化交付能力",
+      "summaryZh": "方石机器人宣布完成数千万元A+轮融资，本轮融资将用于进一步夯实公司的商业化交付能力。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -370,7 +391,7 @@
       "title": "Ant Group's embodied AI unit Robbyant raises 1.5 bln yuan in first funding round - The Standard (HK)",
       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQSElPVHA4Wlp2eTZlZ25QT2xsMVNWdF95dW5sTnBuRm9rUmcwdnI1Qm84a1ZDenIyMG5PSzZLNE9PTlh1QlhoQWNmVDh0MkRGTllBMl9uSHRTLUNUNlIxcUszQXdwcUFuS1VnN0FKZWdEV0hMSEJqNmRQTTJrbGdya2pESlJXaEowaEpQV1BHNy1TMTQxSXZPUl82YjNjeVJzTlphUDZGMUMxQkxFVUVuUUhUWUZ0WE5KYjJLM1BGdVNrZ21jUGVXU2NXbGU?oc=5",
       "publishedAt": "2026-08-03T08:49:47.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.755Z",
+      "fetchedAt": "2026-08-03T10:49:00.239Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 6,
       "excerpt": "Ant Group's embodied AI unit Robbyant raises 1.5 bln yuan in first funding round  The Standard (HK)",
@@ -381,11 +402,10 @@
       "authors": [],
       "kind": "投融资",
       "score": 104,
-      "titleZh": "Ant Group's embodied AI unit Robbyant raises 1.5 bln yuan in first funding round - The Standard (HK)",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "Ant Group 旗下具身智能部门 Robbyant 完成 15 亿元首轮融资",
+      "summaryZh": "Ant Group 旗下具身智能业务部门 Robbyant 完成首轮融资，金额达 15 亿元人民币，为该部门首次融资。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -394,7 +414,7 @@
       "title": "蚂蚁灵波确认融资传闻，首度认定为“蚂蚁在具身领域的核心布局” - 21财经",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNNzFWdklBYURvUGVUdVRRbzJlZzAtSU5LRU9FNGQyTjBJQ1F0bllVZXNQck81Q3hwS3F1SnJkLV90TVhIZlhoWWZrZlRYd1pTem91WllNay15bmdUNVBhNk1HaG04NTlhTGFSMldpVFBUTjEwSnZFT0c1SlJsZktqLXJHSDJnNGZ3TjFvVw?oc=5",
       "publishedAt": "2026-08-03T08:39:00.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "蚂蚁灵波确认融资传闻，首度认定为“蚂蚁在具身领域的核心布局”  21财经",
@@ -405,11 +425,10 @@
       "authors": [],
       "kind": "投融资",
       "score": 104,
-      "titleZh": "蚂蚁灵波确认融资传闻，首度认定为“蚂蚁在具身领域的核心布局” - 21财经",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "蚂蚁灵波确认融资传闻，首度被认定为“蚂蚁在具身领域的核心布局”",
+      "summaryZh": "蚂蚁灵波方面对外确认了融资传闻，并首度被认定为蚂蚁在具身领域的核心布局。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -418,7 +437,7 @@
       "title": "小米投的北京家庭机器人公司，完成亿美元级融资 - 智东西",
       "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9FSHQxV3lJRDJhcWx6REVVMXJ4SGVUNUNvcHJhdlhRbVRjenBEVUViUEpYX282a29UcTNBS1RfQkNST3doa3c?oc=5",
       "publishedAt": "2026-08-03T08:18:54.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "小米投的北京家庭机器人公司，完成亿美元级融资  智东西",
@@ -429,11 +448,10 @@
       "authors": [],
       "kind": "投融资",
       "score": 104,
-      "titleZh": "小米投的北京家庭机器人公司，完成亿美元级融资 - 智东西",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "小米投的北京家庭机器人公司完成亿美元级融资",
+      "summaryZh": "小米投资的北京家庭机器人公司完成亿美元级融资，目前公司名称、具体金额、融资轮次及投资方等细节尚未披露。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -442,7 +460,7 @@
       "title": "破壳机器人完成亿美元级Pre-A轮融资 - 投资界",
       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE90RU93NHlhaUhSTXJRb0pRNmV1YXI3R1lsWmFYNkliZzQ1cmpfSG43VmdKcjNfUzQ4SWh3UzVYbzU3T1I5cVlrbWlob0xwN195djhLaEh3?oc=5",
       "publishedAt": "2026-08-03T07:22:00.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
+      "fetchedAt": "2026-08-03T10:49:00.289Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 6,
       "excerpt": "破壳机器人完成亿美元级Pre-A轮融资  投资界",
@@ -453,32 +471,8 @@
       "authors": [],
       "kind": "投融资",
       "score": 104,
-      "titleZh": "破壳机器人完成亿美元级Pre-A轮融资 - 投资界",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "ad78be9a63ef2a20",
-      "title": "蚂蚁灵波确认融资传闻：将聚焦通用机器人大脑，加速产业落地 - 电脑之家",
-      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE50OVk5X2NDZmlvYzFqS2ROSVFabW5aaGlzODdUaXJFTmNnU01WcC10TUdzUnJGckdRNk9iVkNEaVlDekg1ZDNSV3QyNUpPaEgyNFdpVw?oc=5",
-      "publishedAt": "2026-08-03T07:18:34.000Z",
-      "fetchedAt": "2026-08-03T10:42:13.730Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 6,
-      "excerpt": "蚂蚁灵波确认融资传闻：将聚焦通用机器人大脑，加速产业落地  电脑之家",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 104,
-      "titleZh": "蚂蚁灵波确认融资传闻：将聚焦通用机器人大脑，加速产业落地 - 电脑之家",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "titleZh": "破壳机器人完成亿美元级Pre-A轮融资",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介",
@@ -491,8 +485,8 @@
       "component": "LLM",
       "status": "部分降级",
       "attempted": 16,
-      "succeeded": 2,
-      "failed": 14,
+      "succeeded": 15,
+      "failed": 1,
       "detail": "部分摘要调用失败，相关内容已留在候选层。"
     },
     {
@@ -516,12 +510,6 @@
       "title": "NF humanoid disarm protocol: Fire-alarm protocol to stop humanoid robots",
       "link": "https://github.com/humblelistener/NF_HDP",
       "feedUrl": "https://github.com/humblelistener/NF_HDP/releases.atom"
-    },
-    {
-      "domain": "hmans.dev",
-      "title": "Chatto Is Robots",
-      "link": "https://www.hmans.dev/blog/chatto-is-robots",
-      "feedUrl": "https://www.hmans.dev/rss.xml"
     }
   ]
 }
