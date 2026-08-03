@@ -18,8 +18,6 @@
 
 ## 近期已验证更新（自动）
 
-- [ST-WAM：提升视觉分布偏移下操作鲁棒性的语义时序世界动作模型](https://arxiv.org/abs/2607.28993v1) · arXiv · Robotics · 2026-07-31<br>ST-WAM 以 DINOv3 语义特征做未来预测与历史检索，兼顾 VAE 动态，推理时无需生成未来，LIBERO 达 98.7%，视觉偏移下真机成功率由 25.8% 升至 61.5%。
-
 - [Advances, challenges, and opportunities for legged robots](https://arxiv.org/abs/2607.28952v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
 - [DexDirect：直接动觉引导机械臂的高效灵巧演示采集](https://arxiv.org/abs/2607.27784v1) · arXiv · Robotics · 2026-07-30<br>DexDirect 让操作者直接拖动重力补偿机械臂，并用单摄像头将另一只手重定向至灵巧机械手，演示采集量大幅超越基线，训练的扩散策略成功率达90%。
