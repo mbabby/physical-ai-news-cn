@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T14:30:58.423Z",
+  "generatedAt": "2026-08-04T03:44:48.084Z",
   "stats": {
     "events": 107,
     "companies": 26,
@@ -121,6 +121,24 @@
   ],
   "research": [
     {
+      "title": "聚焦关键之处：视觉-语言-动作模型的自适应视觉细化",
+      "summary": "AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。",
+      "link": "https://arxiv.org/abs/2608.02197v1",
+      "type": "研究论文",
+      "route": "落地",
+      "date": "2026-08-03",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "ReTouch：在线精调触觉预测赋能接触型灵巧操作",
+      "summary": "ReTouch 将在线精调的触觉预测融入视觉语言动作模型，通过执行时反馈闭环修正动作，在真实机器人接触型操作任务中成功率较最强基线提升18.4至23.8个百分点。",
+      "link": "https://arxiv.org/abs/2608.01824v1",
+      "type": "研究论文",
+      "route": "开源",
+      "date": "2026-08-03",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架",
       "summary": "该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。",
       "link": "https://arxiv.org/abs/2607.28623v1",
@@ -130,12 +148,12 @@
       "source": "arXiv · Robotics"
     },
     {
-      "title": "RedFlow：将失败经验转化为动作级纠错的流匹配 VLA 策略",
-      "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠错监督，真实任务成功率从 56.7% 提升至 74.7%。",
-      "link": "https://arxiv.org/abs/2607.27782v1",
+      "title": "WAM-Diff2：以分层自回归到扩散蒸馏实现高效自动驾驶VLA模型",
+      "summary": "WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。",
+      "link": "https://arxiv.org/abs/2608.01035v1",
       "type": "研究论文",
       "route": "落地",
-      "date": "2026-07-30",
+      "date": "2026-08-02",
       "source": "arXiv · Robotics"
     },
     {
@@ -145,24 +163,6 @@
       "type": "研究论文",
       "route": "产品",
       "date": "2026-07-31",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "RoboBRIDGE：将策略桥接为稳健真实世界机器人智能体的模块化框架",
-      "summary": "RoboBRIDGE以监控、感知、规划、控制与机器人接口五模块协同，为预训练VLA提供故障恢复与异步重规划，在多项基准和真实平台上优于独立策略及现有部署。",
-      "link": "https://arxiv.org/abs/2607.27881v1",
-      "type": "研究论文",
-      "route": "落地",
-      "date": "2026-07-30",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "DLAM：带时序约束的分布式潜在动作模型",
-      "summary": "DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。",
-      "link": "https://arxiv.org/abs/2607.27138v1",
-      "type": "研究论文",
-      "route": "开源",
-      "date": "2026-07-29",
       "source": "arXiv · Robotics"
     }
   ],

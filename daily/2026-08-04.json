@@ -1,0 +1,554 @@
+{
+  "date": "2026-08-04",
+  "articles": [
+    {
+      "id": "eb18b0cf94089ec3",
+      "title": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
+      "link": "https://arxiv.org/abs/2608.02197v1",
+      "publishedAt": "2026-08-03T13:18:36.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Visual representations of VLA models remain unreliable for spatially precise robotic manipulation. We uncover that vision encoders in VLAs also exhibit attention artifacts previously documented in generic Vision Transformers, and further show that, in embodied policies, these artifacts are closely associated with spatial perception capabilities acquired during post-training. As the encoder learns task-relevant information such as object location, depth ordering, and local geometry, limited global-token capacity causes part of this information to spill into low-information patch tokens. We introduce AtVLA, a framework that inserts learnable register tokens into the visual encoder. Trained end-to-end using only embodied data and the original action objective, these registers emerge as dedicated carriers of embodied spatial information, while the remaining patch tokens recover clean and spatially faithful attention distributions crucial for precise target localization and fine-grained contact. Clean attention restores reliable localization, but cannot recover geometric details lost in low-resolution observations. AtVLA therefore couples attention rectification with uncertainty-gated local refinement. The action expert samples multiple action chunks and estimates uncertainty from their disagreement; only for uncertain predictions, action-conditioned attention rollout identifies the task-relevant region, which is cropped, re-encoded at high resolution, and appended to the cached prefix for refined action generation. Across LIBERO, SimplerEnv, and a challenging single-view real-world benchmark, AtVLA improves the average LIBERO success rate from 94.2% to 98.4% and real-world success from 46.5% to 69.0%. The cropping is triggered on approximately 30% of replanning steps, resulting in only 1.4-1.6x the total computation of the base model under the representative deployment setting.",
+      "tags": [
+        "落地",
+        "robot",
+        "embodied",
+        "vla"
+      ],
+      "authors": [
+        "Jin Cui"
+      ],
+      "kind": "部署案例",
+      "score": 130,
+      "titleZh": "聚焦关键之处：视觉-语言-动作模型的自适应视觉细化",
+      "summaryZh": "AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。"
+    },
+    {
+      "id": "13e275b638d24c46",
+      "title": "ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction",
+      "link": "https://arxiv.org/abs/2608.01824v1",
+      "publishedAt": "2026-08-03T07:31:10.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Fusing tactile signals has proven effective for contact-rich manipulation, enabling robots to perceive contact states and adapt to rapidly changing physical interactions. Yet effectively integrating tactile feedback into dexterous manipulation remains underexplored. In this work, we introduce ReTouch, a vision-language-action model (VLA) that supports contact-rich dexterous manipulation through tactile predictions continually refined online using execution-time feedback. ReTouch builds on two main innovations for tactile representation and closed-loop action generation. First, its Tactile-Patch Encoder represents tactile observations as structured tactile patch features that preserve finger identity and local contact structure, providing contact cues for fine-grained dexterous control. Second, its high-frequency action module jointly predicts future tactile states and action chunks and refines both using incoming tactile feedback during execution. This closed-loop refinement keeps tactile predictions aligned with evolving physical interactions, enabling responsive action correction and improving robustness to contact changes and execution errors. We further introduce XHT-Dataset, comprising 900 real-world demonstrations across seven contact-rich tasks collected on an XHand--UR7e platform, and evaluate ReTouch through closed-loop real-robot experiments. ReTouch surpasses the strongest baseline by 18.4 and 23.8 percentage points in average success rate under standard and challenging conditions, respectively, demonstrating its effectiveness and robustness.",
+      "tags": [
+        "开源",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Shiqi Zhang"
+      ],
+      "kind": "开源项目",
+      "score": 120,
+      "titleZh": "ReTouch：在线精调触觉预测赋能接触型灵巧操作",
+      "summaryZh": "ReTouch 将在线精调的触觉预测融入视觉语言动作模型，通过执行时反馈闭环修正动作，在真实机器人接触型操作任务中成功率较最强基线提升18.4至23.8个百分点。"
+    },
+    {
+      "id": "27057a129f8e30b6",
+      "title": "WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA",
+      "link": "https://arxiv.org/abs/2608.01035v1",
+      "publishedAt": "2026-08-02T06:45:16.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-Language-Action (VLA) models have emerged as a prominent paradigm for end-to-end autonomous driving; however, their efficient deployment is severely constrained by high computational latency and exposure bias arising from sequential autoregressive decoding. Conversely, while specialized diffusion policies enable low-latency, parallel execution, training them from scratch typically yields narrow, single-task architectures that lack holistic visual-linguistic reasoning. Successfully transforming pre-trained autoregressive generalists into parallel diffusion models could combine multi-task cognitive intelligence with execution efficiency, yet this transition presents a formidable architectural challenge due to mismatched attention patterns (causal versus bidirectional) and divergent optimization objectives. To bridge this divide, we introduce WAM-Diff2, a multi-task discrete diffusion VLA framework powered by a three-stage hierarchical distillation strategy. By structuring the architectural shift through progressive block-wise adaptation, block-wise distillation, and model-wise cross-scale distillation, WAM-Diff2 preserves the underlying semantic foundations of the base model while accelerating inference. Extensive evaluations across driving understanding, perception, and planning benchmarks demonstrate that WAM-Diff2 effectively mitigates exposure bias and achieves performance parity with autoregressive baselines. Crucially, the autoregressive-to-diffusion transition yields a 2.8x decoding speedup, which scales to an ultimate 15.1x acceleration when combined with system-level optimizations including FlashInfer and CUDA Graphs.",
+      "tags": [
+        "落地",
+        "vla",
+        "vision-language-action",
+        "autonomous driving"
+      ],
+      "authors": [
+        "Zhihao Zhu"
+      ],
+      "kind": "部署案例",
+      "score": 122,
+      "titleZh": "WAM-Diff2：以分层自回归到扩散蒸馏实现高效自动驾驶VLA模型",
+      "summaryZh": "WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。"
+    },
+    {
+      "id": "77bab2e309ed1d5c",
+      "title": "Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies",
+      "link": "https://arxiv.org/abs/2608.01826v1",
+      "publishedAt": "2026-08-03T07:36:09.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-Language-Action (VLA) models have shown strong generalization in robotic manipulation, yet complex contact-rich tasks often benefit from multi-camera observations that jointly capture the end effector, objects, and targets under occlusion. Existing multi-camera VLAs usually concatenate view tokens, leaving action representations weak in metric depth and inconsistent across cameras. We introduce Multi-View Unified Camera Fields (MVUCF), a training-only framework that forms a shared action-facing latent field across views. A coordinate-query depth objective makes metric depth recoverable, while a preprocessing-aware correspondence objective aligns tokens observing the same physical point from different cameras. Both directly shape the hidden states consumed by the action module. After geometry injection, depth, camera calibration, and auxiliary heads are removed, so deployment uses the original RGB-only graph with no extra inference FLOPs. Held-out probes confirm stronger depth recovery and cross-view matching. Under matched GR00T-N1.6 settings, MVUCF reaches 98.9% on LIBERO, improves LIBERO-Plus by 22.4 points, and raises success by 23.3 points across six RoboTwin tasks spanning three action families: touch, move-and-place, and contact interaction. Real-world humanoid experiments further provide evidence of its practical effectiveness under RGB-only deployment.",
+      "tags": [
+        "落地",
+        "robot",
+        "humanoid",
+        "vla"
+      ],
+      "authors": [
+        "Jiarui Yang"
+      ],
+      "kind": "部署案例",
+      "score": 130,
+      "titleZh": "Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+    },
+    {
+      "id": "4bc76fbae5abf0f2",
+      "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+      "link": "https://arxiv.org/abs/2608.02580v1",
+      "publishedAt": "2026-08-03T17:52:26.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present \\textbf{Ego2Robot}, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
+      "tags": [
+        "落地",
+        "robot",
+        "vision-language-action",
+        "manipulation"
+      ],
+      "authors": [
+        "Ye Wang"
+      ],
+      "kind": "部署案例",
+      "score": 122,
+      "titleZh": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。"
+    },
+    {
+      "id": "20c5339e3ae459eb",
+      "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+      "link": "https://arxiv.org/abs/2608.01851v1",
+      "publishedAt": "2026-08-03T07:58:35.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
+      "tags": [
+        "产业",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Gaytri Jena"
+      ],
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "权重还是技能？机器人学习技术综述：从动作预测权重到自主编写技能的机器人",
+      "summaryZh": "综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。"
+    }
+  ],
+  "industryPulse": {
+    "viewpoints": [],
+    "events": []
+  },
+  "sourceOutcomes": [
+    {
+      "source": "arXiv · Robotics",
+      "status": "success"
+    },
+    {
+      "source": "NVIDIA Newsroom",
+      "status": "success"
+    },
+    {
+      "source": "LeRobot Releases",
+      "status": "success"
+    },
+    {
+      "source": "Isaac Lab Releases",
+      "status": "success"
+    },
+    {
+      "source": "Google DeepMind Blog",
+      "status": "success"
+    },
+    {
+      "source": "Google AI Blog",
+      "status": "success"
+    },
+    {
+      "source": "IEEE Spectrum · Robotics",
+      "status": "success"
+    },
+    {
+      "source": "TechCrunch · Robotics",
+      "status": "success"
+    },
+    {
+      "source": "Google News · Robotics Capital",
+      "status": "success"
+    },
+    {
+      "source": "Google News · 中国具身融资",
+      "status": "success"
+    },
+    {
+      "source": "OpenPI Releases",
+      "status": "success"
+    },
+    {
+      "source": "OpenVLA Releases",
+      "status": "success"
+    },
+    {
+      "source": "Hacker News · Robotics",
+      "status": "success"
+    },
+    {
+      "source": "Hacker News · Humanoid",
+      "status": "success"
+    },
+    {
+      "source": "Hacker News · Embodied AI",
+      "status": "success"
+    },
+    {
+      "source": "自动发现 · github.com",
+      "status": "success"
+    },
+    {
+      "source": "自动发现 · huggingface.co",
+      "status": "success"
+    },
+    {
+      "source": "自动发现 · hmans.dev",
+      "status": "success"
+    },
+    {
+      "source": "自动发现 · servethehome.com",
+      "status": "success"
+    },
+    {
+      "source": "X · 产业领军者观察",
+      "status": "failure",
+      "reason": "HTTP 402 Payment Required"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "9290c9749967e2cb",
+      "title": "Release v0.6.1",
+      "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+      "publishedAt": "2026-08-03T14:24:49.000Z",
+      "fetchedAt": "2026-08-04T03:44:49.866Z",
+      "source": "LeRobot Releases",
+      "sourceWeight": 9,
+      "excerpt": "⚠️ Breaking changes (v0.6.0 -> v0.6.1)\nlerobot.types module was renamed to lerobot.lerobot_types: #4232\nWhat's Changed\nchore(dependencies): Bump lerobot to 0.6.1 by @imstevenpmwork in #3957\nMake doc builds faster by @mishig25 in #3958\ndocs(GR00T): Update GR00T 1.7 LIBERO checkpoints by @liorbenhorin in #3961\nfeat(annotate): improve VLM subtask annotation (legible contact sheets, seeded relabeling, self-hosted vLLM recipe) by @pkooij in #3896\nFix readme when using annotations by @NikodemBartnik in #4029\nrefactor(evo1): use transformers flash attention probe by @imstevenpmwork in #4013\nrefactor(hub): load safetensors directly on target device by @imstevenpmwork in #4012\nAggregate policy sub-losses through MetricsTracker by @Maximellerbach in #4024\nFix annotation example by @NikodemBartnik in #4041\nMove annotation dependencies to module scope by @pkooij in #4040\nfix(safetensors): expand bare \"cuda\" to current device for safetensors loads by @Maximellerbach in #4042\nrefactor(policies): resolve policy components by convention by @imstevenpmwork in #4015\nrefactor(processors): share policy pipeline builders by @imstevenpmwork in #4016\nrefactor(policies): extract shared model components by @imstevenpmwork in #4054\nrefactor(wall-x): subclass native Transformers Qwen2.5-VL instead of vendoring it by @imstevenpmwork in #4035\nrefactor(pi05): use shared VLA components by @imstevenpmwork in #4063\nrefactor(pi0): use shared VLA components by @imstevenpmwork in #4062\nrefactor(eo1): reuse shared VLA components by @imstevenpmwork in #4061\nrefactor(pi0_fast): reuse shared VLA components by @imstevenpmwork in #4055\nrefactor(xvla):  subclass native Transformers Florence2 instead of vendoring it by @imstevenpmwork in #4089\nchore(ci): upgrade claude workflow by @imstevenpmwork in #4096\nchore(docs): update security policy to adopt HF standards by @imstevenpmwork in #4098\nrefactor(smolvla): reuse shared VLA components by @imstevenpmwork in #4064\nfeat(annotate): run lerobot-annotate on HF Jobs via --job.target by @pkooij in #4095\nrefactor(pi05): remove unused variables in embed_suffix method by @dudududukim in #3263\nFeature omx docs by @Eunsung-kespion in #3421\ndocs(readme): fix missing periods at end of sentences by @ykdojo in #3473\nfix(scripts): register third-party plugins in lerobot_setup_motors by @imstevenpmwork in #4123\nfix(gamepad): Gamepad on macos often does not need fallback by @imstevenpmwork in #4125\nfeat(diffusion): add gradient checkpointing for memory optimization by @imstevenpmwork in #4127\nfix(openarms): stop set_zero_position()ing on connect by @nepyope in #4058\nfix(robots): add retries while recording motor ranges by @imstevenpmwork in #4126\nfix(envs): set LiberoEnvConfig.fps default to 20 to match robosuite by @imstevenpmwork in #4124\nfeat(dataset): add slice support to LeRobotDataset.getitem by @imstevenpmwork in #4129\nchore(agents): adding additional infos to AGENTS.md and bring-your-own-policies.mdx by @Maximellerbach in #3904\nfeat(robot): Make SO follower P coefficient configurable by @imstevenpmwork in #4142\nchore(dependencies): update uv.lock by @imstevenpmwork in #3963\nchore(deps): bump diffusers to >=0.38.0,<0.40.0 by @imstevenpmwork in #4145\n(depth image processing): excluding depth frames from the RGB to BGR image processing by @CarolinePascal in #4135\nfeat(dataset): accept token argument for private HF Hub datasets by @imstevenpmwork in #4136\nfix conversion error when tag is not exists. by @k1000dai in #3656\nchore: enable Dependabot weekly GitHub Actions bumps by @hf-dependantbot-rollout[bot] in #3677\nfix(datasets): clear video frame staging on episode reset by @MihaiAnca13 in #3683\nfix(scripts): restore policy training mode after eval_policy() in lerobot-eval by @imstevenpmwork in #4162\nfix(record): connect teleoperator before robot to avoid watchdog jump by @imstevenpmwork in #4166\nfix(processor): avoid Hub fallback for missing local processor state by @WOLIKIMCHENG in #3715\nfix(rollout): account for policy revision loading by @imstevenpmwork in #4161\nfix(envs): make MetaWorld evaluation reproducible with seeded object positions by @landegt in #3727\n(fix) Add LeKiwi support to lerobot-replay CLI by @zuoxingdong in #3739\nfeat(config): add multiprocessing option to DataLoader context and sets spawn as default by @imstevenpmwork in #4139\nfix(processors): wrong feature key dropped in delta-action transform_features by @imstevenpmwork in #4165\nfeat(rl): add multiprocessing option to training pipeline and sets spawn as default + guard by @imstevenpmwork in #4140\nfeat(lekiwi): support LeKiwi in the rollout/eval CLI by @zuoxingdong in #3742\nfix(cameras): release device handle when connect() setup fails by @imstevenpmwork in #4187\nfeat(camera): add manual exposure, gain, and white balance options for RealSense cameras by @imstevenpmwork in #4130\nfeat(record): add --dataset.no_stamp to opt out of repo_id timestamping by @imstevenpmwork in #4190\nfeat(motors): add XH540-W150, XC330-T288, XC330-T181 to Dynamixel tables by @charlie8612 in #3815\nrefactor(logging): standardize logging with getLogger(name) in scripts by @imstevenpmwork in #4192\nfix(dependencies): protect peft import by @imstevenpmwork in #4188\nfix(policy): honor revisions when loading PEFT checkpoints by @s1lent4gnt in #4189\nHandle resuming empty local datasets by @AlexandreEDMOND in #3859\nchore(mypy): cover annotations and transforms by @AlexandreEDMOND in #3860\nfix(utils): handle missing/unresponsive TTS on Linux by @imstevenpmwork in #4199\nfix(env): eval env lifecycle by @imstevenpmwork in #4194\nfix peft factory test mocking by @s1lent4gnt in #4201\nfix(eval): prevent eval_policy crash when start_seed is None and num_envs>1 by @imstevenpmwork in #4203\nfix(datasets): bound memory of augment_dataset_quantile_stats by sampling frames by @pepa99 in #3749\nperf(docker): split dependency install from source copy for CI layer caching by @imstevenpmwork in #4208\nfix(robots): retry SO follower/leader bus reads on transient Feetech errors by @imstevenpmwork in #4207\ndocs: fix dataset split fraction example by @saime428 in #3936\ndocs: fix wording in backward compatibility guide by @Old-Ding in #3938\ndocs: fix wording in guides by @Old-Ding in #3939\nchore(datasets): add typing to aggregate helpers by @imstevenpmwork in #4211\nfix(evo1): re-pad normalizer stats when loading from checkpoint by @nepyope in #3945\nfix(robot): type FK-to-EE action features as ACTION not STATE by @imstevenpmwork in #4213\ndocs(agent-guide): prioritize uv over pip in §4.1 install block by @Kunal-Somani in #3799\nfix(find-cameras): enforce sequential lifecycle and add configurable warmup by @AnesBenmerzoug in #3593\nfix(utils): reject zero-norm / invalid quaternions in Rotation by @Bartok9 in #3988\nfix(utils): raise ValueError from get_safe_torch_device by @Bartok9 in #3992\nfix(utils): preserve exc_info/stack_info in init_logging formatter by @imstevenpmwork in #4215\nfix(utils): mark Transition.complementary_info NotRequired by @imstevenpmwork in #4216\nfix(utils): allow any JSON payload in write_json - #3993 by @imstevenpmwork in #4217\nfix(utils): validate precise_sleep spin/margin args by @imstevenpmwork in #4218\ndocs: fix env processor code fences and minor doc errors by @tc-huang in #3953\nfix assembly instructions typo - SO-ARM101 by @NikodemBartnik in #4008\nfix(utils): add MPS branch to torch RNG state serialization by @sunnydave234 in #4014\nfix(smolvla): freeze the intended VLM layers when train_expert_only=False by @zuoxingdong in #4019\nfix(rollout): reject incompatible RTC policies by @imstevenpmwork in #4228\nfeat(teleoperators): add DAgger/HIL smooth handover support for BiSOLeader by @Mr-C4T in #4028\nchore(deps): bump draccus by @ntjohnson1 in #4033\nfix(train): keep checkpoint processor stats on resume by @jashshah999 in #4022\nfix(config): accept pretrained_model dir for --config_path on resume by @jashshah999 in #4023\nfix(envs): use RoboCasa task horizons by @anasm266 in #4037\n(fix) typo in xvla soft_prompt param key lookup by @nepyope in #4048\nrefactor(types): change module name by @imstevenpmwork in #4232\nFix Backtrackable.can_peek_back off-by-one contract violation by @Osamaali313 in #4065\nfix(datasets): stop frame errors being treated as shard exhaustion in StreamingLeRobotDataset by @imstevenpmwork in #4237\nfeat(robot): mirror new configs from SO10X to its Bi manual counterpart by @imstevenpmwork in #4238\nfix(lekiwi): pin MJPG capture in the default camera config by @zuoxingdong in #4083\nfix(RGB only): remove the stereo module fallback when setting colors parameters on RealSense cameras by @CarolinePascal in #4225\nfeat(lekiwi): stream observations as ZMQ multipart (-25% bandwidth) by @zuoxingdong in #4088\ntest(datasets): guard batched-encoding video staging from post-save cleanup by @nevertmr in #4110\nfix(train): guard checkpoint saving against save_freq=0 by @ahmet-f-gumustas in #4112\nfeat(dataset): Support streaming from HF Storage Buckets + Bump HF hub & datasets by @imstevenpmwork in #4236\ndocs: fix broken and placeholder links by @youdie006 in #4097\nfix(policies): VLA-JEPA prepare model input to take state from index 0 by @Maximellerbach in #4243\nfix: Fix a spelling typo in the RTC evaluation docstring. by @nathon-lee in #4253\nfix(datasets): Fix metadata when parquet files columns have different orders by @brunomachado37 in #3964\ndocs: fix RoboMME Docker build command by @cupkk in #4157\nfeat(dataset tools): support task replacement mappings in modify_tasks by @CarolinePascal in #4244\nfix(datasets): support multi-dimensional per-frame features in add_features by @CarolinePascal in #4246\nchore(dependencies): update uv.lock by @imstevenpmwork in #4151\nfix(config): catch draccus DecodingError in CLI parsing - #4106 by @imstevenpmwork in #4260\nfeat(transforms): add 8 robotics-relevant image augmentations by @imstevenpmwork in #4210\nfix(processor): diagnose legacy Hub checkpoints by @imstevenpmwork in #4261\nfix(datasets): improve get_safe_version raise by @imstevenpmwork in #4263\nfix(config): scope draccus --help output to already-resolved choices by @imstevenpmwork in #4265\nchore(deps): bump the actions group with 15 updates by @dependabot[bot] in #4164\ndocs(libero): recommend lerobot/libero dataset, add reproducibility tips by @zuoxingdong in #4185\nfix(vla_jepa): use device-safe autocast instead of hardcoded bfloat16 by @Maximellerbach in #4158\nfeat(rollout): add smooth_handover flag to episodic strategy config by @Maximellerbach in #4159\nfeat(rollout): add smooth_handover flag to DAgger strategy config by @Maximellerbach in #4160\ndocs(pi05): LIBERO quickstart with v3 dataset, update guidance by @zuoxingdong in #4186\nImproved main docs page by @NikodemBartnik in #4197\nfix(rollout): apply torch compile mode correctly by @imstevenpmwork in #4268\nchore(dependecies): bump setuptools + pytest + uv version in CI by @imstevenpmwork in #4270\nfix(edit-dataset): redirect dataset.root via backup_path from get_output_path by @CarolinePascal in #4271\nfix(so_follower): check the observation for None before copying it by @noron12234 in #4255\nfeat(env): config to skip the discarded scene rebuild on reset Libero by @imstevenpmwork in #4272\nfix(libero): don't reset inside step() on termination by @imstevenpmwork in #4273\nfix(train): honor policy.use_amp when the policy has no dtype field by @imstevenpmwork in #4274\nfeat(cameras): prefer MJPG when fourcc unspecified in ZMQ by @imstevenpmwork in #4277\ndocs(evo1): add LIBERO reproduction recipe by @imstevenpmwork in #4278\nfeat(ci): re-enable stale issues countdown by @imstevenpmwork in #4279\nperf(eval): stop simulating environments whose episode has ended by @dvdimitrov13 in #4247\nfix(lekiwi): retry LeKiwi bus reads on transient Feetech errors by @zuoxingdong in #4283\nfix(cameras): D405 RealSense connection timeout on startup by @Liyux3 in #3894\nfix broken link by @NikodemBartnik in #4304\ndocs(third party): adding docs for noticeable third party packages by @CarolinePascal in #4026\nfix(video): only default to torchcodec when it can actually be loaded by @CarolinePascal in #4307\nfix(warmup): adding back the no-warmup path in the connect() method of the RealSense camera. by @CarolinePascal in #4301\nfix(aggregate stats): fix episode statistics aggregation by @CarolinePascal in #4276\nperf(pi0fast): stop FAST decoding at the end-of-action marker by @imstevenpmwork in #4275\nfix(sarm): fail fast on unusable episode annotations by @s1lent4gnt in #4306\nfeat(train): enable buckets with streaming dataset by @imstevenpmwork in #4312\nchore(dependencies): update uv.lock by @imstevenpmwork in #4284\nNew Contributors\n@dudududukim made their first contribution in #3263\n@Eunsung-kespion made their first contribution in #3421\n@ykdojo made their first contribution in #3473\n@hf-dependantbot-rollout[bot] made their first contribution in #3677\n@MihaiAnca13 made their first contribution in #3683\n@WOLIKIMCHENG made their first contribution in #3715\n@landegt made their first contribution in #3727\n@charlie8612 made their first contribution in #3815\n@pepa99 made their first contribution in #3749\n@saime428 made their first contribution in #3936\n@Old-Ding made their first contribution in #3938\n@Kunal-Somani made their first contribution in #3799\n@AnesBenmerzoug made their first contribution in #3593\n@Bartok9 made their first contribution in #3988\n@sunnydave234 made their first contribution in #4014\n@Mr-C4T made their first contribution in #4028\n@ntjohnson1 made their first contribution in #4033\n@anasm266 made their first contribution in #4037\n@Osamaali313 made their first contribution in #4065\n@nevertmr made their first contribution in #4110\n@ahmet-f-gumustas made their first contribution in #4112\n@youdie006 made their first contribution in #4097\n@nathon-lee made their first contribution in #4253\n@cupkk made their first contribution in #4157\n@noron12234 made their first contribution in #4255\n@dvdimitrov13 made their first contribution in #4247\n@Liyux3 made their first contribution in #3894\nFull Changelog: v0.6.0...v0.6.1",
+      "tags": [
+        "产品",
+        "robot",
+        "robotics",
+        "vla"
+      ],
+      "authors": [
+        "github-actions[bot]"
+      ],
+      "kind": "产品发布",
+      "score": 134,
+      "titleZh": "lerobot v0.6.1 发布，含模块重命名破坏性变更",
+      "summaryZh": "lerobot v0.6.1 发布，lerobot.types 模块更名为 lerobot.lerobot_types，并带来 VLM 标注改进、扩散策略内存优化、数据集切片支持及多项修复。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "eb18b0cf94089ec3",
+      "title": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
+      "link": "https://arxiv.org/abs/2608.02197v1",
+      "publishedAt": "2026-08-03T13:18:36.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Visual representations of VLA models remain unreliable for spatially precise robotic manipulation. We uncover that vision encoders in VLAs also exhibit attention artifacts previously documented in generic Vision Transformers, and further show that, in embodied policies, these artifacts are closely associated with spatial perception capabilities acquired during post-training. As the encoder learns task-relevant information such as object location, depth ordering, and local geometry, limited global-token capacity causes part of this information to spill into low-information patch tokens. We introduce AtVLA, a framework that inserts learnable register tokens into the visual encoder. Trained end-to-end using only embodied data and the original action objective, these registers emerge as dedicated carriers of embodied spatial information, while the remaining patch tokens recover clean and spatially faithful attention distributions crucial for precise target localization and fine-grained contact. Clean attention restores reliable localization, but cannot recover geometric details lost in low-resolution observations. AtVLA therefore couples attention rectification with uncertainty-gated local refinement. The action expert samples multiple action chunks and estimates uncertainty from their disagreement; only for uncertain predictions, action-conditioned attention rollout identifies the task-relevant region, which is cropped, re-encoded at high resolution, and appended to the cached prefix for refined action generation. Across LIBERO, SimplerEnv, and a challenging single-view real-world benchmark, AtVLA improves the average LIBERO success rate from 94.2% to 98.4% and real-world success from 46.5% to 69.0%. The cropping is triggered on approximately 30% of replanning steps, resulting in only 1.4-1.6x the total computation of the base model under the representative deployment setting.",
+      "tags": [
+        "落地",
+        "robot",
+        "embodied",
+        "vla"
+      ],
+      "authors": [
+        "Jin Cui"
+      ],
+      "kind": "部署案例",
+      "score": 130,
+      "titleZh": "AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架",
+      "summaryZh": "AtVLA 在视觉编码器中插入可学习寄存器令牌，修复注意力伪影并按不确定度门控局部细化，将 LIBERO 成功率从94.2%提至98.4%，真实场景从46.5%提至69.0%。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "77bab2e309ed1d5c",
+      "title": "Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies",
+      "link": "https://arxiv.org/abs/2608.01826v1",
+      "publishedAt": "2026-08-03T07:36:09.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-Language-Action (VLA) models have shown strong generalization in robotic manipulation, yet complex contact-rich tasks often benefit from multi-camera observations that jointly capture the end effector, objects, and targets under occlusion. Existing multi-camera VLAs usually concatenate view tokens, leaving action representations weak in metric depth and inconsistent across cameras. We introduce Multi-View Unified Camera Fields (MVUCF), a training-only framework that forms a shared action-facing latent field across views. A coordinate-query depth objective makes metric depth recoverable, while a preprocessing-aware correspondence objective aligns tokens observing the same physical point from different cameras. Both directly shape the hidden states consumed by the action module. After geometry injection, depth, camera calibration, and auxiliary heads are removed, so deployment uses the original RGB-only graph with no extra inference FLOPs. Held-out probes confirm stronger depth recovery and cross-view matching. Under matched GR00T-N1.6 settings, MVUCF reaches 98.9% on LIBERO, improves LIBERO-Plus by 22.4 points, and raises success by 23.3 points across six RoboTwin tasks spanning three action families: touch, move-and-place, and contact interaction. Real-world humanoid experiments further provide evidence of its practical effectiveness under RGB-only deployment.",
+      "tags": [
+        "落地",
+        "robot",
+        "humanoid",
+        "vla"
+      ],
+      "authors": [
+        "Jiarui Yang"
+      ],
+      "kind": "部署案例",
+      "score": 130,
+      "titleZh": "MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示",
+      "summaryZh": "MVUCF 仅在训练阶段构建跨视角共享潜在场，注入度量深度与跨相机对应约束，部署时保持原始纯 RGB 流程；在 LIBERO 达 98.9%，并显著提升 LIBERO-Plus、RoboTwin 及真机任务成功率。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "28a8193656de3817",
+      "title": "Faster-WAM: Do World Action Models Need Deep Action Modules?",
+      "link": "https://arxiv.org/abs/2608.02365v1",
+      "publishedAt": "2026-08-03T15:11:21.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "World Action Models (WAMs) couple robot action prediction with video world models. Existing WAMs with shared-backbone and Mixture-of-Transformers designs generally tie the depth of the action module to that of the video backbone, resulting in substantial computational overhead and high inference latency. To address this limitation, we introduce Dock of Transformer (DoT), a video-centric design principle that treats a pretrained video Transformer as a representation hub and connects lightweight output-heads through docking interfaces. This enables flexible output-head design while providing direct access to representations from all layers of the backbone. We then introduce \\textbf{Faster-WAM}, an instantiation of DoT for WAMs, which docks a single-layer action head onto a 30-layer video backbone. The docking interface fuses keys and values from all video layers and applies RoPE realignment. Without additional embodied pretraining, Faster-WAM achieves competitive performance on LIBERO and RoboTwin 2.0 while demonstrating strong out-of-distribution generalization on LIBERO-Plus. Faster-WAM also achieves the lowest end-to-end latency in our controlled comparison, requiring only 66.5 ms per inference --- a \\(3.2\\times\\) speedup over Fast-WAM. Overall, these results demonstrate that the video-centric DoT architecture supports flexible task-specific head design while delivering low inference latency, strong action-prediction performance, and robust generalization.",
+      "tags": [
+        "产业",
+        "robot",
+        "embodied",
+        "world model"
+      ],
+      "authors": [
+        "Liheng Ma"
+      ],
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "Faster-WAM: Do World Action Models Need Deep Action Modules?",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "20c5339e3ae459eb",
+      "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+      "link": "https://arxiv.org/abs/2608.01851v1",
+      "publishedAt": "2026-08-03T07:58:35.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
+      "tags": [
+        "产业",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Gaytri Jena"
+      ],
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "4bc76fbae5abf0f2",
+      "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+      "link": "https://arxiv.org/abs/2608.02580v1",
+      "publishedAt": "2026-08-03T17:52:26.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present \\textbf{Ego2Robot}, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
+      "tags": [
+        "落地",
+        "robot",
+        "vision-language-action",
+        "manipulation"
+      ],
+      "authors": [
+        "Ye Wang"
+      ],
+      "kind": "部署案例",
+      "score": 122,
+      "titleZh": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "62363216b260f028",
+      "title": "Teleopit: A Full-Embodiment Humanoid Teleoperation System",
+      "link": "https://arxiv.org/abs/2608.01834v1",
+      "publishedAt": "2026-08-03T07:45:13.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Humanoid teleoperation for demonstration collection requires coordinated whole-body motion, continuous dexterous hand control, and viewpoint control. Existing systems either simplify hand commands or depend on dedicated wearable sensors for fine-grained hand motion. We introduce Teleopit, a full-embodiment teleoperation system that maps body, hand, and head signals from VR to a humanoid body, configurable dexterous hands, and a 2-DoF active vision module. A history encoder and failure-aware rewind sampling improve the motion tracker on both motion-capture and live VR references. An optimization-based hand retargeter combines normalized finger directions, fingertip closure, and thumb-frame alignment to map human hand motion to different dexterous hands without tuning hand-specific objective or solver hyperparameters. Component experiments evaluate tracking success rate and retargeting behavior, while real-robot teleoperation demonstrates coordinated locomotion, manipulation, and viewpoint control. ACT and GR00T N1.7 policies trained on 96 successful demonstrations collected with Teleopit achieve task success rates of 90.0% and 95.0%, respectively, when deployed on the humanoid. The project page is available at https://botrunner64.github.io/teleopit-page.",
+      "tags": [
+        "落地",
+        "robot",
+        "humanoid",
+        "manipulation"
+      ],
+      "authors": [
+        "Bingqian Wu"
+      ],
+      "kind": "部署案例",
+      "score": 122,
+      "titleZh": "Teleopit: A Full-Embodiment Humanoid Teleoperation System",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "7bb34dde54b22adf",
+      "title": "Hybrid Impedance-Admittance Control with Multi-Link Aerial Robot for Contact-Rich Surface Sliding Task",
+      "link": "https://arxiv.org/abs/2608.01800v1",
+      "publishedAt": "2026-08-03T07:09:18.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Multi-link aerial robots can actively deform their articulated structures during flight, giving them strong potential for aerial manipulation. However, they still face substantial challenges in contact-rich aerial manipulation tasks such as surface sliding, which requires both disturbance robustness and compliance to uncertain surface geometry. Force-control strategies such as impedance and admittance control are commonly employed to address these requirements. Although impedance control can provide disturbance-resistant interaction and admittance control can offer compliant adaptation, their opposite force--motion causalities prevent their simultaneous implementation when applied through the same actuation source, such as the rotor thrusts used by conventional aerial robots. To overcome this limitation, we propose a hybrid impedance--admittance control strategy for a multi-link aerial robot. The articulated morphology enables a functional separation of force and motion regulation across joint and rotor actuation sources. In this framework, admittance behavior is generated through joint angle regulation to enhance adaptive interaction, while impedance behavior is achieved by modulating rotor thrust to regulate the sliding motion. This structural coordination allows the robot to leverage the complementary strengths of both control paradigms. As a result, the multi-link aerial robot achieves resilient and adaptive surface sliding. Experimental results demonstrate robust and compliant sliding performance on unknown surfaces.",
+      "tags": [
+        "产业",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Zicheng Luo"
+      ],
+      "kind": "公司商业",
+      "score": 122,
+      "titleZh": "Hybrid Impedance-Admittance Control with Multi-Link Aerial Robot for Contact-Rich Surface Sliding Task",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "13e275b638d24c46",
+      "title": "ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction",
+      "link": "https://arxiv.org/abs/2608.01824v1",
+      "publishedAt": "2026-08-03T07:31:10.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Fusing tactile signals has proven effective for contact-rich manipulation, enabling robots to perceive contact states and adapt to rapidly changing physical interactions. Yet effectively integrating tactile feedback into dexterous manipulation remains underexplored. In this work, we introduce ReTouch, a vision-language-action model (VLA) that supports contact-rich dexterous manipulation through tactile predictions continually refined online using execution-time feedback. ReTouch builds on two main innovations for tactile representation and closed-loop action generation. First, its Tactile-Patch Encoder represents tactile observations as structured tactile patch features that preserve finger identity and local contact structure, providing contact cues for fine-grained dexterous control. Second, its high-frequency action module jointly predicts future tactile states and action chunks and refines both using incoming tactile feedback during execution. This closed-loop refinement keeps tactile predictions aligned with evolving physical interactions, enabling responsive action correction and improving robustness to contact changes and execution errors. We further introduce XHT-Dataset, comprising 900 real-world demonstrations across seven contact-rich tasks collected on an XHand--UR7e platform, and evaluate ReTouch through closed-loop real-robot experiments. ReTouch surpasses the strongest baseline by 18.4 and 23.8 percentage points in average success rate under standard and challenging conditions, respectively, demonstrating its effectiveness and robustness.",
+      "tags": [
+        "开源",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Shiqi Zhang"
+      ],
+      "kind": "开源项目",
+      "score": 120,
+      "titleZh": "ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "4bfb3b50171cf905",
+      "title": "CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs",
+      "link": "https://arxiv.org/abs/2608.02578v1",
+      "publishedAt": "2026-08-03T17:51:58.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "World Action Models (WAMs) augment robot policies with action-conditioned predicted futures, but a plausible future alone does not justify changing the action that a bimanual policy would execute. We present CoWAM, a selective intervention layer that expresses synchronization, role compatibility, and collision convergence as coordination contracts. Each contract combines typed admissibility checks with event-conditioned verification and calibrated intervention gates. CoWAM preserves the nominal action unless an alternative satisfies every active obligation and provides a clear, low-risk improvement; when the nominal action is also inadmissible, it invokes a predefined abstention fallback. To separate selector quality from proposal quality, all methods operate on identical candidate pools and commit their decisions before shared oracle labeling. Across eight simulated bimanual tasks, CoWAM improves coordination-valid selection by 16.7 percentage points over the contract-only variant and raises closed-loop success by 9.6 percentage points over the strongest selective baseline, while keeping harmful interventions below 1%. Together, these results establish coordination contracts as an effective interface for conservative policy intervention with predicted world-action evidence across coordination-rich bimanual tasks.",
+      "tags": [
+        "产业",
+        "robot"
+      ],
+      "authors": [
+        "Shuaijun Liu"
+      ],
+      "kind": "公司商业",
+      "score": 118,
+      "titleZh": "CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    }
+  ],
+  "runtimeStatus": [
+    {
+      "component": "LLM",
+      "status": "部分降级",
+      "attempted": 16,
+      "succeeded": 7,
+      "failed": 9,
+      "detail": "部分摘要调用失败，相关内容已留在候选层。"
+    },
+    {
+      "component": "OpenAlex",
+      "status": "部分降级",
+      "attempted": 24,
+      "succeeded": 22,
+      "failed": 2,
+      "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
+    }
+  ],
+  "discoveredSources": [
+    {
+      "domain": "satyress.com",
+      "title": "Satyress – Robots That Work",
+      "link": "https://www.satyress.com/"
+    },
+    {
+      "domain": "covingtonblogs.com",
+      "title": "FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices",
+      "link": "https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/",
+      "feedUrl": "https://www.covingtonblogs.com/feed/"
+    },
+    {
+      "domain": "theconversation.com",
+      "title": "When expressive humanoid robots are awkward, people become wary – brain study",
+      "link": "https://theconversation.com/when-expressive-humanoid-robots-are-awkward-people-become-wary-new-brain-study-288696"
+    },
+    {
+      "domain": "github.com",
+      "title": "Valetudo Camera Streaming (FOSS for Vacuum Robots)",
+      "link": "https://github.com/Hypfer/Valetudo/discussions/2547",
+      "feedUrl": "https://github.com/Hypfer/Valetudo/releases.atom"
+    },
+    {
+      "domain": "huggingface.co",
+      "title": "Nvidia releases Cosmos 3 Edge for robotics",
+      "link": "https://huggingface.co/blog/nvidia/cosmos3edge",
+      "feedUrl": "https://huggingface.co/blog/feed.xml"
+    }
+  ]
+}
