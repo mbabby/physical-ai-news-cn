@@ -172,6 +172,8 @@ export interface ProductDeploymentFact {
 export interface EventRecord {
   id: string;
   title: string;
+  /** Original source-language headline. Public Chinese surfaces use `title`; English sharing uses this only when it is actually English. */
+  sourceTitle?: string;
   type: ArticleKind;
   entities: string[];
   /** The company this event is actually about. Mentions never update a company card. */

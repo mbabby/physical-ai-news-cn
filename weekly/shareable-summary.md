@@ -21,8 +21,8 @@
 
 Physical AI Intelligence Brief · 2026-W32
 
-- [Google DeepMind: 谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
-- [NVIDIA: 日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
-- [Agility Robotics: 人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)
+- [Google DeepMind Launches Gemini Robotics 2 for Adaptive Robotics](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
+- [NVIDIA Cosmos Advances Physical AI Across Japan's Robotics and Manufacturing Leaders](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
+- [Agility Robotics Plans SPAC Listing; CEO Cautious About Home Robots](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)
 
 Source-traceable Chinese intelligence for Physical AI practitioners: companies, capital, product deployment, technical competition, and research.

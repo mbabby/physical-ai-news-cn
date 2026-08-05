@@ -16,6 +16,14 @@ test("builds a copy-ready brief from public facts only", () => {
   assert.match(output, /公司与资本地图/);
 });
 
+test("English short version uses the source headline or an English fallback", () => {
+  const englishSource = { ...eventStore, events: [{ ...eventStore.events[0]!, sourceTitle: "Nova Robotics Raises a Seed Round" }] };
+  assert.match(formatShareableSummary(englishSource, [], "2026-W32"), /Nova Robotics Raises a Seed Round/);
+  const fallback = formatShareableSummary(eventStore, [], "2026-W32");
+  assert.match(fallback, /Nova Robotics reports a verified capital event/);
+  assert.doesNotMatch(fallback, /Nova Robotics: Nova Robotics 完成融资/);
+});
+
 test("does not publish unverified or unidentified leads in a shareable brief", () => {
   const hidden: EventStore = { ...eventStore, events: [{ ...eventStore.events[0]!, primaryEntity: undefined, status: "核验中" }] };
   const output = formatShareableSummary(hidden, [], "2026-W32");

@@ -128,6 +128,7 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       existing.lastUpdatedAt = now.toISOString();
       // The model may refine a previously stored fallback title on a later run.
       if (article.titleZh && hasChinese(article.titleZh)) existing.title = article.titleZh;
+      if (!existing.sourceTitle) existing.sourceTitle = article.title;
       if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
       existing.funding ??= fundingDetails(article, existing.primaryEntity);
       existing.productDeployment ??= productDeploymentDetails(article);
@@ -136,7 +137,7 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
     const primaryEntity = primaryEntityForArticle(article, companies);
     const mentionedEntities = aliasesIn(text(article), companies).filter((name) => name !== primaryEntity);
     const title = article.titleZh ?? article.title;
-    events.push({ id: id(article.link), title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
+    events.push({ id: id(article.link), title, sourceTitle: article.title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
   }
   return { updatedAt: now.toISOString(), events: mergeRepeatedFunding(events).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)) };
 }

@@ -14,6 +14,13 @@ function eventRank(event: EventRecord): number {
   return kind + grade + new Date(event.lastUpdatedAt).getTime() / 1e14;
 }
 function isPublic(event: EventRecord): boolean { return event.status !== "核验中" && Boolean(event.primaryEntity) && Boolean(evidence(event)) && Boolean(fact(event)); }
+function hasChinese(value: string | undefined): boolean { return /[\u3400-\u9fff]/.test(value ?? ""); }
+function englishFallback(event: EventRecord): string {
+  const subject = event.primaryEntity ?? "Physical AI company";
+  const action = { "投融资": "reports a verified capital event", "产品发布": "announces a product update", "部署案例": "reports a deployment update", "公司商业": "reports a business update", "开源项目": "releases an open-source update", "研究与数据": "shares a research update" }[event.type];
+  return `${subject} ${action}`;
+}
+function englishHeadline(event: EventRecord): string { return event.sourceTitle && !hasChinese(event.sourceTitle) ? event.sourceTitle : englishFallback(event); }
 
 /** Copy-ready social summary. It deliberately consumes public facts only. */
 export function formatShareableSummary(store: EventStore, research: Article[], week: string): string {
@@ -28,7 +35,7 @@ export function formatShareableSummary(store: EventStore, research: Article[], w
   const productLine = product ? `产品与部署：[${product.primaryEntity}](${evidence(product)}) 出现产品、部署或商业进展。` : "产品与部署：本周暂无满足公开门槛的产品或部署事件。";
   const researchLine = paper ? `研究：[${paper.titleZh}](${paper.link})。${paper.summaryZh}` : "研究：本周暂无完整中文研究卡。";
   lines.push("", capitalLine, productLine, researchLine, "", "完整情报：", "- [公司与资本地图](../resources/companies.md)", "- [物理 AI 竞争路线图](../resources/industry-landscape-and-tech-routes.md)", "- [里程碑论文与精读](../resources/milestone-papers.md)", "", "## English short version", "", `Physical AI Intelligence Brief · ${week}`, "");
-  lines.push(...(events.length ? events.map((event) => `- [${event.primaryEntity}: ${event.title}](${evidence(event)})`) : ["- No public event met the repository's evidence threshold this week."]));
+  lines.push(...(events.length ? events.map((event) => `- [${englishHeadline(event)}](${evidence(event)})`) : ["- No public event met the repository's evidence threshold this week."]));
   lines.push("", "Source-traceable Chinese intelligence for Physical AI practitioners: companies, capital, product deployment, technical competition, and research.", "");
   return lines.join("\n");
 }
