@@ -16,11 +16,11 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [PhyAI：统一边缘与云端部署的实时物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 以单一运行时统一视觉语言动作模型与世界动作模型的推理，覆盖板端、边缘与云端部署，较官方实现提速1.4至4.65倍。
 
 - [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。
 
-- [面向时变力操作任务的分层模仿学习方法](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>DPA-FTG将低频扩散规划与高频力调节解耦，由扩散模型选取任务原语，力条件策略充当神经阻抗控制器实时调节，在双臂电池拆解任务中优于RDP。
+- [A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 

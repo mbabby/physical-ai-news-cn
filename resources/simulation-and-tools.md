@@ -18,11 +18,11 @@
 
 - [人形机器人持物平衡的质量权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。
 
-- [Track4Action：将世界中心 3D 跟踪器蒸馏进视觉语言动作策略](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>Track4Action 将冻结的世界中心 3D 跟踪器特征作为对齐监督蒸馏入 VLA 策略，部署时无需跟踪器；零样本 LIBERO-Plus 达 82.3%，RoboTwin 2.0 与真实双臂任务成功率均显著提升。
+- [Track4Action：将世界中心3D追踪器蒸馏入视觉语言动作策略](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>Track4Action将冻结的世界中心3D追踪器特征蒸馏进VLA策略，追踪特征仅作训练对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，四项真机双臂任务平均成功率67.5%。
 
-- [Bernoulli-Continuation Policy：让 VLA 自适应决定继续执行还是重新规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>该研究提出 BCP，将执行时域选择分解为继续或重规划的决策序列，在冻结基础 VLA 的情况下提升 RoboTwin 2.0 与真实机器人的操作成功率，且开销可忽略。
+- [BCP：让 VLA 模型自适应决定继续执行还是重新规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>BCP 是轻量即插即用框架，将执行时长分解为继续或重规划决策，以强化学习训练且冻结基础 VLA，在 RoboTwin 2.0 与真机上显著提升成功率。
 
-- [RoboReact：从生成的第一视角视频蒸馏技能，实现可泛化全身操控](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>RoboReact 仅凭单张第一视角 RGB-D 图像即可合成全身操控技能，结合深度 3D 重建与视觉语言模型闭环精调，无需遥操作即可跨物体泛化并抗扰恢复。
+- [RoboReact：从生成的第一视角视频蒸馏可泛化的全身操作技能](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>RoboReact 从单张第一视角 RGB-D 观测生成操作视频并重定向至人形机器人，经视觉语言模型闭环修正，无需示范即可泛化执行全身操作。
 
 - [Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies](https://arxiv.org/abs/2608.01826v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
