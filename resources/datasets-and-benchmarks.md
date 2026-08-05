@@ -16,13 +16,13 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [PhyAI：统一物理 AI 推理引擎，覆盖边缘到云端部署](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 以单一运行时统一物理 AI 推理，支持 VLA 与 WAM 模型在板端、边缘及云端多 GPU 部署，对 pi0.5、GR00T N1.7 等官方实现实现 1.40 至 4.65 倍加速。
 
 - [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。
 
-- [A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [面向时变力操作任务的层次化模仿学习方法](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>论文提出DPA-FTG，解耦低频扩散规划与高频力调节，5赫兹模型选择任务基元，60赫兹力条件策略实时维持接触稳定，在电池拆解任务中优于RDP等基线。
 
-- [AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>AtVLA在视觉编码器中加入可学习寄存器token纠正注意力伪影，并对不确定预测局部裁剪重编码细化，将LIBERO成功率由94.2%提至98.4%，真机由46.5%提至69.0%。
+- [AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>AtVLA 向视觉编码器注入可学习寄存器 token 以修复注意力伪影，并按不确定度门控对关键区域高分辨率重编码，LIBERO 成功率升至 98.4%，真实任务升至 69.0%。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 

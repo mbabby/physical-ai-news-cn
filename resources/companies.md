@@ -1,22 +1,212 @@
 # 公司与团队
 
-### 融资与并购
+> 档案覆盖平台公司、成长公司与创业公司。融资、产品和部署均只展示可追溯证据；空白表示尚未有满足门槛的公开事件。
 
-- **World Labs** · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 2026-08-02
+## [Tesla](https://www.tesla.com/AI)
 
-### 公司最新进展
+- 地域 / 阶段：北美 / 平台公司
+- 技术路线：数据与训练 · 本体与硬件 · 部署与商业化
+- 核心押注：视觉、端到端智能、本体工程与制造闭环。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
-- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/)：Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
-- **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)：英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
-- **World Labs** · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5)：李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
-- **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)：Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
+## [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/)
 
-### 技术路线地图
+- 地域 / 阶段：北美 / 平台公司
+- 技术路线：数据与训练 · 世界模型与空间智能 · VLA 与具身模型
+- 核心押注：机器人训练、仿真、计算与基础模型平台。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-08-01）
 
-| 路线 | 代表公司 |
-| --- | --- |
-| VLA 与具身模型 | [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Google DeepMind](https://deepmind.google/) · [Meta](https://ai.meta.com/) · [Figure](https://www.figure.ai/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Skild AI](https://www.skild.ai/) · [Dexterity](https://www.dexterity.ai/) |
-| 世界模型与空间智能 | [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [World Labs](https://www.worldlabs.ai/) |
-| 本体与硬件 | [Tesla](https://www.tesla.com/AI) · [Figure](https://www.figure.ai/) · [1X](https://www.1x.tech/) · [Apptronik](https://apptronik.com/) · [Agility Robotics](https://agilityrobotics.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Boston Dynamics](https://bostondynamics.com/) · [宇树科技](https://www.unitree.com/) |
-| 数据与训练 | [Tesla](https://www.tesla.com/AI) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Google DeepMind](https://deepmind.google/) · [Meta](https://ai.meta.com/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Skild AI](https://www.skild.ai/) · [宇树科技](https://www.unitree.com/) |
-| 部署与商业化 | [Tesla](https://www.tesla.com/AI) · [Figure](https://www.figure.ai/) · [1X](https://www.1x.tech/) · [Apptronik](https://apptronik.com/) · [Agility Robotics](https://agilityrobotics.com/) · [Dexterity](https://www.dexterity.ai/) · [Boston Dynamics](https://bostondynamics.com/) · [优必选](https://www.ubtrobot.com/) |
+## [Google DeepMind](https://deepmind.google/)
+
+- 地域 / 阶段：北美/英国 / 平台公司
+- 技术路线：VLA 与具身模型 · 数据与训练
+- 核心押注：通用多模态推理与机器人泛化。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：产品发布（[证据](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)，2026-08-01）
+
+## [Meta](https://ai.meta.com/)
+
+- 地域 / 阶段：北美 / 平台公司
+- 技术路线：VLA 与具身模型 · 数据与训练
+- 核心押注：开放模型、感知与具身研究生态。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Figure](https://www.figure.ai/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：VLA 与具身模型 · 本体与硬件 · 部署与商业化
+- 核心押注：人形本体、端到端机器人智能与工作场景。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Physical Intelligence](https://www.physicalintelligence.company/)
+
+- 地域 / 阶段：北美 / 创业公司
+- 技术路线：VLA 与具身模型 · 数据与训练
+- 核心押注：多平台真实数据与生成式动作策略。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [World Labs](https://www.worldlabs.ai/)
+
+- 地域 / 阶段：北美 / 创业公司
+- 技术路线：世界模型与空间智能
+- 核心押注：可生成、理解与交互三维世界的空间智能。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [1X](https://www.1x.tech/)
+
+- 地域 / 阶段：欧洲/北美 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：通用人形机器人与真实环境学习。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Apptronik](https://apptronik.com/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：通用人形机器人本体与产业应用。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Agility Robotics](https://agilityrobotics.com/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：面向物流和工业场景的双足机器人。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：公司商业（[证据](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)，2026-08-01）；公司商业（[证据](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/)，2026-08-01）
+
+## [Sanctuary AI](https://www.sanctuary.ai/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：VLA 与具身模型 · 本体与硬件
+- 核心押注：通用机器人智能与灵巧操作。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Skild AI](https://www.skild.ai/)
+
+- 地域 / 阶段：北美 / 创业公司
+- 技术路线：VLA 与具身模型 · 数据与训练
+- 核心押注：面向不同机器人本体的通用智能。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Dexterity](https://www.dexterity.ai/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：VLA 与具身模型 · 部署与商业化
+- 核心押注：仓储与物流机器人智能。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [Boston Dynamics](https://bostondynamics.com/)
+
+- 地域 / 阶段：北美 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：高机动机器人本体与商业场景。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [宇树科技](https://www.unitree.com/)
+
+- 地域 / 阶段：中国 / 成长公司
+- 技术路线：本体与硬件 · 数据与训练
+- 核心押注：高性能机器人本体与开发者生态。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [优必选](https://www.ubtrobot.com/)
+
+- 地域 / 阶段：中国 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：人形机器人产品与行业应用。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [智元机器人](https://www.zhiyuan-robot.com/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：本体与硬件 · VLA 与具身模型 · 部署与商业化
+- 核心押注：通用人形机器人与产业化。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [银河通用](https://galbot.com/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：VLA 与具身模型 · 部署与商业化
+- 核心押注：具身智能模型与通用操作。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [众擎机器人](https://www.engineai.com.cn/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：本体与硬件
+- 核心押注：人形机器人运动控制与本体。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [傅利叶智能](https://www.fftai.com/)
+
+- 地域 / 阶段：中国/新加坡 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：人形机器人与康复机器人本体。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [逐际动力](https://www.limxdynamics.com/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：本体与硬件 · VLA 与具身模型
+- 核心押注：具身智能机器人本体与运动能力。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [松延动力](https://www.noetixrobotics.com/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：本体与硬件
+- 核心押注：人形机器人本体与运动控制。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [魔法原子](https://www.magicrobot.com/)
+
+- 地域 / 阶段：中国 / 创业公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：通用机器人本体与场景应用。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [乐聚机器人](https://www.lejurobot.com/)
+
+- 地域 / 阶段：中国 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：人形机器人与教育、行业应用。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [NEURA Robotics](https://neura-robotics.com/)
+
+- 地域 / 阶段：欧洲 / 成长公司
+- 技术路线：本体与硬件 · VLA 与具身模型
+- 核心押注：认知机器人与工业服务场景。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+
+## [ANYbotics](https://www.anybotics.com/)
+
+- 地域 / 阶段：欧洲 / 成长公司
+- 技术路线：本体与硬件 · 部署与商业化
+- 核心押注：四足机器人与工业巡检。
+- 融资：尚未收录可归属的公开融资证据。
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+

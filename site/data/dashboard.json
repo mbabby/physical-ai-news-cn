@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T04:09:35.323Z",
+  "generatedAt": "2026-08-05T04:27:46.644Z",
   "stats": {
     "events": 107,
     "companies": 26,
@@ -121,8 +121,8 @@
   ],
   "research": [
     {
-      "title": "Track4Action：将世界中心3D追踪器蒸馏进视觉-语言-动作策略",
-      "summary": "Track4Action将冻结的世界中心3D追踪器的转移信息蒸馏进VLA策略，仅训练时作对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，真机双臂任务提升25个百分点。",
+      "title": "Track4Action：将世界中心3D跟踪器蒸馏进视觉语言动作策略",
+      "summary": "Track4Action 将冻结的世界中心3D跟踪器特征蒸馏进视觉语言动作策略，部署时无需跟踪器，零样本 LIBERO-Plus 达82.3%，并提升 RoboTwin 2.0 与真实双臂任务成功率。",
       "link": "https://arxiv.org/abs/2608.03727v1",
       "type": "研究论文",
       "route": "落地",
@@ -130,8 +130,8 @@
       "source": "arXiv · Robotics"
     },
     {
-      "title": "PhyAI：统一边缘与云端的实时物理 AI 推理引擎",
-      "summary": "PhyAI 以单一运行时统一 VLA 模型与世界动作模型在端侧、边缘及云端的推理，较 pi0、pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。",
+      "title": "PhyAI：统一物理 AI 推理引擎，覆盖边缘到云端部署",
+      "summary": "PhyAI 以单一运行时统一物理 AI 推理，支持 VLA 与 WAM 模型在板端、边缘及云端多 GPU 部署，对 pi0.5、GR00T N1.7 等官方实现实现 1.40 至 4.65 倍加速。",
       "link": "https://arxiv.org/abs/2608.03682v1",
       "type": "研究论文",
       "route": "产品",
@@ -149,7 +149,7 @@
     },
     {
       "title": "AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架",
-      "summary": "AtVLA在视觉编码器中加入可学习寄存器token纠正注意力伪影，并对不确定预测局部裁剪重编码细化，将LIBERO成功率由94.2%提至98.4%，真机由46.5%提至69.0%。",
+      "summary": "AtVLA 向视觉编码器注入可学习寄存器 token 以修复注意力伪影，并按不确定度门控对关键区域高分辨率重编码，LIBERO 成功率升至 98.4%，真实任务升至 69.0%。",
       "link": "https://arxiv.org/abs/2608.02197v1",
       "type": "研究论文",
       "route": "落地",
