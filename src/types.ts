@@ -1,5 +1,8 @@
 export type ArticleKind = "投融资" | "产品发布" | "公司商业" | "部署案例" | "开源项目" | "研究与数据";
 export type PulseKind = "人物观点" | "关键事件";
+export type SourceTier = "官方公司与实验室" | "开源发布" | "权威产业媒体" | "线索发现层";
+export type SourceStatus = "已启用" | "观察" | "已暂停";
+export type SourcePublicationPolicy = "可作为一手证据" | "可作为独立报道" | "仅作线索发现";
 
 export interface Article {
   id: string;
@@ -20,6 +23,8 @@ export interface Article {
   score?: number;
   pulseKind?: PulseKind;
   speaker?: string;
+  /** Source tier is attached at collection time; it prevents discovery leads from leaking to public pages. */
+  sourceTier?: SourceTier;
 }
 
 export interface ScholarlyAuthor {
@@ -44,6 +49,10 @@ interface BaseSourceConfig {
   name: string;
   weight: number;
   keywords: string[];
+  /** Defaults preserve compatibility for local/test-only sources. */
+  tier?: SourceTier;
+  status?: SourceStatus;
+  publicationPolicy?: SourcePublicationPolicy;
 }
 
 export interface RssSourceConfig extends BaseSourceConfig {
@@ -78,6 +87,7 @@ export interface SourceOutcome {
   source: string;
   status: "success" | "failure";
   reason?: string;
+  fetchedArticles?: number;
 }
 
 export interface DiscoveredSource {
@@ -227,6 +237,8 @@ export interface DailyArchive {
   /** Safe, credential-free health signals for this generation run. */
   runtimeStatus?: RuntimeStatus[];
   discoveredSources?: DiscoveredSource[];
+  /** Corrections are retained for source-health scoring; absence means no correction was recorded. */
+  sourceCorrections?: Array<{ source: string; reason: string; date: string }>;
 }
 
 export interface CandidateArticle extends Article {
@@ -256,12 +268,26 @@ export interface WeeklyArticle extends Article {
 export interface SourceRegistryEntry {
   name: string;
   type: SourceConfig["type"];
+  tier: SourceTier;
+  status: SourceStatus;
+  publicationPolicy: SourcePublicationPolicy;
   configuredWeight: number;
   effectiveWeight: number;
   successfulRuns: number;
   failedRuns: number;
   selectedArticles: number;
   reliability?: number;
+  fetchedArticles: number;
+  relatedHits: number;
+  correctionCount: number;
+  health: {
+    successRate: number | undefined;
+    hitRate: number | undefined;
+    inclusionRate: number | undefined;
+    correctionRate: number;
+    score: number | undefined;
+  };
+  statusReason?: string;
   recommendation: "保留" | "观察" | "排查";
 }
 

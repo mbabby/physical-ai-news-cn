@@ -80,6 +80,7 @@ export function publicHoldReasons(article: Article, hasTrackedCompany: boolean, 
   const summary = article.summaryZh?.trim() ?? "";
   if (!title || !summary || !/[\u3400-\u9fff]/.test(title) || !/[\u3400-\u9fff]/.test(summary) || PUBLIC_FALLBACK.test(summary)) reasons.push("缺少完整中文事实简介");
   if (AGGREGATE_OR_COMMENTARY.test(`${article.title} ${article.titleZh ?? ""} ${article.excerpt}`)) reasons.push("聚合盘点或评论性质内容");
+  if (article.sourceTier === "线索发现层") reasons.push("线索来源尚未完成二次核验");
   if (requireCompany && !hasTrackedCompany) reasons.push("公司主体未确认");
   return reasons;
 }

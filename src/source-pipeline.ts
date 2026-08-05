@@ -65,6 +65,7 @@ export function dynamicSources(registry?: CandidateSourceRegistry): RssSourceCon
   return (registry?.sources ?? []).filter((source) => (source.status === "影子观察" || source.status === "已启用") && Boolean(source.feedUrl)).slice(0, MAX_DYNAMIC_SOURCES).map((source) => ({
     type: "rss", name: sourceName(source.domain), url: source.feedUrl!, weight: source.status === "已启用" ? 6 : 3,
     keywords: ["robot", "robotics", "humanoid", "embodied", "physical ai", "vla", "world model"],
+    tier: "线索发现层", status: "观察", publicationPolicy: "仅作线索发现",
   }));
 }
 

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { aggregateSourceCandidates, applyRegistryWeights, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown } from "../src/content-flywheel.js";
+import { formatSourceNetwork } from "../src/source-network.js";
 import type { Article, DailyArchive, SourceConfig, SourceRegistry } from "../src/types.js";
 
 const sources: SourceConfig[] = [
@@ -13,10 +14,24 @@ function article(overrides: Partial<Article>): Article {
   return { id: "id", title: "Humanoid robot launch", link: "https://official.example/news", publishedAt: now, fetchedAt: now, source: "Official", sourceWeight: 8, excerpt: "robot launch", tags: [], ...overrides };
 }
 
-test("low-reliability sources are automatically down-weighted only after enough runs", () => {
-  const registry: SourceRegistry = { updatedAt: "2026-08-01T00:00:00Z", windowDays: 30, sources: [{ name: "Official", type: "rss", configuredWeight: 8, effectiveWeight: 8, successfulRuns: 2, failedRuns: 3, selectedArticles: 0, reliability: 0.4, recommendation: "排查" }] };
+test("low-health sources are automatically down-weighted only after enough runs", () => {
+  const registry: SourceRegistry = { updatedAt: "2026-08-01T00:00:00Z", windowDays: 30, sources: [{ name: "Official", type: "rss", tier: "官方公司与实验室", status: "观察", publicationPolicy: "可作为一手证据", configuredWeight: 8, effectiveWeight: 8, successfulRuns: 2, failedRuns: 3, selectedArticles: 0, reliability: 0.4, fetchedArticles: 10, relatedHits: 1, correctionCount: 0, health: { successRate: 0.4, hitRate: 0.1, inclusionRate: 0, correctionRate: 0, score: 55 }, recommendation: "排查" }] };
   assert.equal(applyRegistryWeights(sources, registry)[0].weight, 6);
   assert.equal(applyRegistryWeights(sources)[0].weight, 8);
+});
+
+test("source registry exposes tiers, health and a pause for access-restricted sources", () => {
+  const archives: DailyArchive[] = Array.from({ length: 5 }, (_, index) => ({
+    date: `2026-07-${String(27 + index).padStart(2, "0")}`,
+    articles: [],
+    sourceOutcomes: [{ source: "Official", status: "failure", reason: "HTTP 402", fetchedArticles: 0 }],
+  }));
+  const registry = buildSourceRegistry(archives, sources, sources, new Date("2026-08-01T00:00:00Z"));
+  const official = registry.sources[0];
+  assert.equal(official.status, "已暂停");
+  assert.equal(official.health.score, 15);
+  assert.match(formatSourceNetwork(registry), /官方公司与实验室/);
+  assert.match(formatSourceNetwork(registry), /访问受限/);
 });
 
 test("registry, discovery and review keep raw HN leads separate from published news", () => {

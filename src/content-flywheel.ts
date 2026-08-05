@@ -1,4 +1,4 @@
-import type { Article, DailyArchive, DiscoveredSource, SourceConfig, SourceRegistry, SourceRegistryEntry, WeeklyArticle } from "./types.js";
+import type { Article, DailyArchive, DiscoveredSource, SourceConfig, SourceRegistry, SourceRegistryEntry, SourceStatus, SourceTier, WeeklyArticle } from "./types.js";
 
 const DISCOVERY_WORDS = ["robot", "robotics", "humanoid", "embodied", "physical ai", "vla", "world model"];
 const REGISTRY_WINDOW_DAYS = 30;
@@ -6,16 +6,32 @@ const REGISTRY_WINDOW_DAYS = 30;
 function clamp(value: number, minimum: number, maximum: number): number { return Math.min(maximum, Math.max(minimum, value)); }
 function host(value: string): string | undefined { try { return new URL(value).hostname.replace(/^www\./, ""); } catch { return undefined; } }
 
+function sourceTier(source: SourceConfig): SourceTier { return source.tier ?? "官方公司与实验室"; }
+function sourcePolicy(source: SourceConfig): SourceRegistryEntry["publicationPolicy"] {
+  if (source.publicationPolicy) return source.publicationPolicy;
+  return sourceTier(source) === "线索发现层" ? "仅作线索发现" : sourceTier(source) === "权威产业媒体" ? "可作为独立报道" : "可作为一手证据";
+}
+function rounded(value: number): number { return Number(value.toFixed(2)); }
+
+function sourceStatus(source: SourceConfig, totalRuns: number, healthScore: number | undefined, latestFailure?: string): { status: SourceStatus; reason?: string } {
+  if (/\b(?:401|402|403)\b/.test(latestFailure ?? "")) return { status: "已暂停", reason: "访问受限，等待凭据或配额恢复" };
+  if (totalRuns >= 7 && healthScore !== undefined && healthScore < 45) return { status: "已暂停", reason: "健康分持续低于 45，已停止自动抓取" };
+  if (totalRuns >= 5 && healthScore !== undefined && healthScore < 65) return { status: "观察", reason: "健康分低于 65，已降权观察" };
+  return { status: source.status ?? "已启用" };
+}
+
 export function applyRegistryWeights(sources: SourceConfig[], registry?: SourceRegistry): SourceConfig[] {
   const byName = new Map(registry?.sources.map((entry) => [entry.name, entry]) ?? []);
   return sources.map((source) => {
     const entry = byName.get(source.name);
     const totalRuns = (entry?.successfulRuns ?? 0) + (entry?.failedRuns ?? 0);
     let adjustment = 0;
-    if (totalRuns >= 5 && (entry?.reliability ?? 1) < 0.6) adjustment = -2;
-    else if (totalRuns >= 5 && (entry?.reliability ?? 1) < 0.8) adjustment = -1;
-    else if (totalRuns >= 5 && (entry?.reliability ?? 0) >= 0.9 && (entry?.selectedArticles ?? 0) >= 3) adjustment = 1;
-    return { ...source, weight: clamp(source.weight + adjustment, 1, 10) };
+    if (entry?.status === "已暂停") return { ...source, status: "已暂停", weight: 0 };
+    if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 45) adjustment = -3;
+    else if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 65) adjustment = -2;
+    else if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 80) adjustment = -1;
+    else if (totalRuns >= 5 && (entry?.health?.score ?? 0) >= 90 && (entry?.selectedArticles ?? 0) >= 3) adjustment = 1;
+    return { ...source, status: entry?.status ?? source.status, weight: clamp(source.weight + adjustment, 1, 10) };
   });
 }
 
@@ -41,10 +57,27 @@ export function buildSourceRegistry(archives: DailyArchive[], configuredSources:
     const outcomes = recent.flatMap((archive) => archive.sourceOutcomes ?? []).filter((outcome) => outcome.source === source.name);
     const successfulRuns = outcomes.filter((outcome) => outcome.status === "success").length;
     const failedRuns = outcomes.filter((outcome) => outcome.status === "failure").length;
-    const selectedArticles = recent.flatMap((archive) => archive.articles).filter((article) => article.source === source.name).length;
+    const fetchedArticles = outcomes.reduce((total, outcome) => total + (outcome.fetchedArticles ?? 0), 0);
+    const relatedHits = recent.flatMap((archive) => [...archive.articles, ...(archive.candidates ?? [])]).filter((article) => article.source === source.name).length;
+    const selectedArticles = recent.flatMap((archive) => archive.articles).filter((article) => article.source === source.name && !article.source.startsWith("arXiv ·")).length;
+    const correctionCount = recent.flatMap((archive) => archive.sourceCorrections ?? []).filter((correction) => correction.source === source.name).length;
     const reliability = outcomes.length ? Number((successfulRuns / outcomes.length).toFixed(2)) : undefined;
-    const recommendation = outcomes.length >= 5 && (reliability ?? 1) < 0.8 ? "排查" : selectedArticles === 0 && recent.length >= 14 ? "观察" : "保留";
-    return { name: source.name, type: source.type, configuredWeight: source.weight, effectiveWeight, successfulRuns, failedRuns, selectedArticles, reliability, recommendation };
+    const successRate = outcomes.length ? rounded(successfulRuns / outcomes.length) : undefined;
+    const hitRate = fetchedArticles ? rounded(relatedHits / fetchedArticles) : undefined;
+    const inclusionRate = relatedHits ? rounded(selectedArticles / relatedHits) : undefined;
+    const correctionRate = selectedArticles ? rounded(correctionCount / selectedArticles) : 0;
+    // Reliability avoids treating a high-volume, never-useful source as healthy:
+    // success 30% + relevance 25% + public inclusion 30% + correction quality 15%.
+    const score = successRate === undefined ? undefined : rounded(100 * (0.3 * successRate + 0.25 * (hitRate ?? 0) + 0.3 * (inclusionRate ?? 0) + 0.15 * (1 - correctionRate)));
+    const latestFailure = outcomes.filter((outcome) => outcome.status === "failure").at(-1)?.reason;
+    const state = sourceStatus(source, outcomes.length, score, latestFailure);
+    const recommendation = state.status === "已暂停" ? "排查" : state.status === "观察" ? "观察" : "保留";
+    return {
+      name: source.name, type: source.type, tier: sourceTier(source), status: state.status, publicationPolicy: sourcePolicy(source),
+      configuredWeight: source.weight, effectiveWeight, successfulRuns, failedRuns, selectedArticles, reliability,
+      fetchedArticles, relatedHits, correctionCount, health: { successRate, hitRate, inclusionRate, correctionRate, score },
+      statusReason: state.reason, recommendation,
+    };
   });
   return { updatedAt: now.toISOString(), windowDays: REGISTRY_WINDOW_DAYS, sources };
 }

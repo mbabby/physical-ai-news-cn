@@ -84,3 +84,4 @@
 | 模型、代码、数据与基准 | [模型与开源项目](resources/models-and-open-source.md) · [数据集与基准](resources/datasets-and-benchmarks.md) |
 | 仿真、训练与部署工具 | [仿真与工具](resources/simulation-and-tools.md) |
 | 奠基视频、演讲与博客 | [奠基视频、演讲与博客](resources/foundational-talks-and-blogs.md) |
+| 哪些信源正在运行、何时会降权或暂停 | [信源网络与健康分](resources/source-network.md) |

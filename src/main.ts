@@ -16,6 +16,7 @@ import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
+import { formatSourceNetwork } from "./source-network.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -53,25 +54,29 @@ async function collect(sources: SourceConfig[], windowHours: number): Promise<Di
   }));
   const articles: Article[] = []; const failures: DigestResult["failures"] = []; const sourceOutcomes: DigestResult["sourceOutcomes"] = [];
   results.forEach((result, index) => {
-    if (result.status === "fulfilled") { articles.push(...result.value); sourceOutcomes.push({ source: sources[index].name, status: "success" }); return; }
+    if (result.status === "fulfilled") {
+      const source = sources[index];
+      articles.push(...result.value.map((article) => ({ ...article, sourceTier: source.tier })));
+      sourceOutcomes.push({ source: source.name, status: "success", fetchedArticles: result.value.length }); return;
+    }
     const reason = result.reason instanceof Error ? result.reason.message : String(result.reason);
-    failures.push({ source: sources[index].name, reason }); sourceOutcomes.push({ source: sources[index].name, status: "failure", reason });
+    failures.push({ source: sources[index].name, reason }); sourceOutcomes.push({ source: sources[index].name, status: "failure", reason, fetchedArticles: 0 });
   });
   return { articles, failures, sourceOutcomes };
 }
 
-async function collectX(windowHours: number, bearerToken?: string): Promise<DigestResult> {
+async function collectX(sources: SourceConfig[], windowHours: number, bearerToken?: string): Promise<DigestResult> {
   if (!bearerToken) return { articles: [], failures: [], sourceOutcomes: [] };
-  const results = await Promise.allSettled(X_SOURCES.map((source) => {
+  const results = await Promise.allSettled(sources.map((source) => {
     if (source.type !== "x") throw new Error("行业脉搏只接受 X 信源");
     return fetchXSource(source, bearerToken);
   }));
   const articles: Article[] = []; const failures: DigestResult["failures"] = []; const sourceOutcomes: DigestResult["sourceOutcomes"] = [];
   results.forEach((result, index) => {
-    const source = X_SOURCES[index];
-    if (result.status === "fulfilled") { articles.push(...result.value); sourceOutcomes.push({ source: source.name, status: "success" }); return; }
+    const source = sources[index];
+    if (result.status === "fulfilled") { articles.push(...result.value.map((article) => ({ ...article, sourceTier: source.tier }))); sourceOutcomes.push({ source: source.name, status: "success", fetchedArticles: result.value.length }); return; }
     const reason = result.reason instanceof Error ? result.reason.message : String(result.reason);
-    failures.push({ source: source.name, reason }); sourceOutcomes.push({ source: source.name, status: "failure", reason });
+    failures.push({ source: source.name, reason }); sourceOutcomes.push({ source: source.name, status: "failure", reason, fetchedArticles: 0 });
   });
   return { articles, failures, sourceOutcomes };
 }
@@ -123,10 +128,13 @@ async function main(): Promise<void> {
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   const trackedCompanies = new Set(companies.map((company) => company.name));
+  const priorRegistry = await readRegistry(join(sourcesDir, "registry.json"));
   const configuredSources = [...SOURCES, ...dynamicSources(candidateRegistry)];
-  const activeSources = applyRegistryWeights(configuredSources, await readRegistry(join(sourcesDir, "registry.json")));
+  const registrySources = [...SOURCES, ...X_SOURCES, ...dynamicSources(candidateRegistry)];
+  const activeSources = applyRegistryWeights(configuredSources, priorRegistry).filter((source) => source.status !== "已暂停");
+  const activeXSources = applyRegistryWeights(X_SOURCES, priorRegistry).filter((source) => source.status !== "已暂停");
   const collected = await collect(activeSources, windowHours);
-  const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
+  const xCollected = await collectX(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
   // Research has its own public gate: it needs a complete Chinese factual
   // brief, not a company identity. Corporate facts remain strict because the
   // homepage must never invent a company behind a funding headline.
@@ -155,7 +163,22 @@ async function main(): Promise<void> {
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
   const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
-  const holdReasonsForCompanyArticle = (article: Article) => publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article, companies) ?? ""));
+  const hasFundingCrossEvidence = (article: Article): boolean => {
+    if (article.kind !== "投融资" || article.sourceTier === "官方公司与实验室") return true;
+    const entity = primaryEntityForArticle(article, companies);
+    if (!entity) return false;
+    const articleHost = (() => { try { return new URL(article.link).hostname; } catch { return article.link; } })();
+    return articles.some((other) => {
+      if (other.id === article.id || other.kind !== "投融资" || other.sourceTier === "线索发现层") return false;
+      const otherHost = (() => { try { return new URL(other.link).hostname; } catch { return other.link; } })();
+      return otherHost !== articleHost && primaryEntityForArticle(other, companies) === entity;
+    });
+  };
+  const holdReasonsForCompanyArticle = (article: Article) => {
+    const reasons = publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article, companies) ?? ""));
+    if (article.kind === "投融资" && article.sourceTier === "权威产业媒体" && !hasFundingCrossEvidence(article)) reasons.push("融资缺少一手或独立媒体交叉证据");
+    return reasons;
+  };
   const publicArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length === 0);
   const heldArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)));
   const eventPath = join(eventsDir, "index.json");
@@ -186,7 +209,7 @@ async function main(): Promise<void> {
   const heldPulse = [...summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length > 0).map((article) => candidateArticle(article, publicHoldReasons(article, true, false))), ...summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)))];
   const visibleArticles = publicArticles.filter((article) => !pulseArticleIds(pulse).has(article.id));
   const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
-  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry, SOURCES.length), publicResearch);
+  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry, registrySources.length), publicResearch);
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
   const heldResearch = researchArticles
@@ -206,9 +229,10 @@ async function main(): Promise<void> {
   const archives = await readRecentDailyArchives(outputDir, now, 30);
   const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
-  const registry = buildSourceRegistry(archives, configuredSources, activeSources, now);
+  const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
   const watchlist = selectWatchlistCandidates(weekly);
   await writeFile(join(sourcesDir, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
+  await writeFile(join(resourcesDir, "source-network.md"), formatSourceNetwork(registry), "utf8");
   await writeFile(candidatePath, JSON.stringify(nextCandidateRegistry, null, 2) + "\n", "utf8");
   await writeFile(companyCandidatePath, JSON.stringify(companyCandidates, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "company-candidates.md"), formatCandidateCompanyReview(companyCandidates), "utf8");
