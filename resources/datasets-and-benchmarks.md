@@ -16,15 +16,15 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [PhyAI：统一边缘与云端的实时物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 用单一运行时统一 VLA 与世界动作模型的推理，覆盖端侧、边缘与云端部署，较 pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。
 
 - [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。
 
-- [面向时变力操作任务的层次化模仿学习方法](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>论文提出层次化模仿学习框架DPA-FTG，高层扩散模型以5赫兹规划任务基元，低层力条件策略以60赫兹实时调节接触，在双臂电池拆解任务中优于RDP等基线。
-
-- [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
+- [DPA-FTG：面向时变力操作任务的分层模仿学习方法](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>DPA-FTG将低频规划与高频力调节解耦，5Hz扩散模型选取任务基元，60Hz力条件策略实时调节接触，双臂电池拆解验证优于RDP。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
+
+- [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
 - [ReTouch：在线精调触觉预测赋能接触型灵巧操作](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>ReTouch 将在线精调的触觉预测融入视觉语言动作模型，通过执行时反馈闭环修正动作，在真实机器人接触型操作任务中成功率较最强基线提升18.4至23.8个百分点。
 

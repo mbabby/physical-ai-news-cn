@@ -25,3 +25,9 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 瑞士初创公司 Exclaim Robotics 走出隐身模式， · 候选 · 28/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi2wFBVV95cUxPNGNPcER4NW85WU1JUERkSUMxZzcwMWlwc3c1Q2lKWnFpTUNXQ1BRVkRzdVdLRFFUSVUzd1kySXQzZU1URlllRVlocGhpd0VucmxkOElKdkMtaVZUelRNU1hqNERPU0NhOGNrREg1bFVad2F3eHZYSTNLeVhUci1zUHBuS0VlaUt3NkxlMjZDLVdySXlYTjNrdUI4MHpuOG9pTGVGX1hoQm9RanRBeXhubDhBUWktQkdiUnRlZDJ4bXhNSDI3VTlleTZROWNrbllyV0drOG5UMmUwdVk?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。

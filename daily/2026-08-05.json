@@ -29,9 +29,9 @@
       "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
       "link": "https://arxiv.org/abs/2608.03682v1",
       "publishedAt": "2026-08-04T13:53:48.000Z",
-      "fetchedAt": "2026-08-05T05:02:27.178Z",
+      "fetchedAt": "2026-08-05T09:01:37.360Z",
       "source": "arXiv · Robotics",
-      "sourceWeight": 10,
+      "sourceWeight": 9,
       "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
       "tags": [
         "产品",
@@ -42,10 +42,11 @@
       "authors": [
         "Chenghua Wang"
       ],
+      "sourceTier": "官方公司与实验室",
       "kind": "产品发布",
-      "score": 144,
-      "titleZh": "PhyAI：统一边缘与云端的实时物理 AI 推理引擎",
-      "summaryZh": "PhyAI 用单一运行时统一 VLA 与世界动作模型的推理，覆盖端侧、边缘与云端部署，较 pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。"
+      "score": 134,
+      "titleZh": "PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎",
+      "summaryZh": "PhyAI 以单一运行时统一物理 AI 推理，支持 VLA 与 WAM 模型在车载、边缘及云端多 GPU 部署，对 pi0.5、GR00T N1.7 等模型实现 1.40 至 4.65 倍加速。"
     },
     {
       "id": "5d41827fa30a6d06",
@@ -168,99 +169,228 @@
   "sourceOutcomes": [
     {
       "source": "arXiv · Robotics",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 100
     },
     {
       "source": "NVIDIA Newsroom",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 19
     },
     {
       "source": "LeRobot Releases",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 10
     },
     {
       "source": "Isaac Lab Releases",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 10
     },
     {
       "source": "Google DeepMind Blog",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 100
     },
     {
       "source": "Google AI Blog",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 20
     },
     {
       "source": "IEEE Spectrum · Robotics",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 30
     },
     {
       "source": "TechCrunch · Robotics",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 20
     },
     {
       "source": "Google News · Robotics Capital",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 100
     },
     {
       "source": "Google News · 中国具身融资",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 100
     },
     {
       "source": "OpenPI Releases",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 0
     },
     {
       "source": "OpenVLA Releases",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 0
     },
     {
       "source": "Hacker News · Robotics",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 1
     },
     {
       "source": "Hacker News · Humanoid",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 0
     },
     {
       "source": "Hacker News · Embodied AI",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 0
     },
     {
       "source": "自动发现 · github.com",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 10
     },
     {
       "source": "自动发现 · huggingface.co",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 834
     },
     {
       "source": "自动发现 · covingtonblogs.com",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 10
     },
     {
       "source": "自动发现 · hmans.dev",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 7
     },
     {
       "source": "自动发现 · servethehome.com",
-      "status": "success"
+      "status": "success",
+      "fetchedArticles": 6
     },
     {
       "source": "X · 产业领军者观察",
       "status": "failure",
-      "reason": "HTTP 402 Payment Required"
+      "reason": "HTTP 402 Payment Required",
+      "fetchedArticles": 0
     }
   ],
   "candidates": [
+    {
+      "id": "8ef75b2b45dee359",
+      "title": "DISCOVER Robotics, PokeBot lock in at least $100m each amid China's embodied AI funding surge - dealstreetasia.com",
+      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOdm1GQ1B4dng5Qm81SW1BYmwzZ1hDcXVVd25nSmU3cVk5YlVCWkVWTWJ3d3VFajh3cWRqNjFtMndvcDFRTUNDYkczSHRnRVZrNWMyaGJjTjhZdUsxbUhZczhXRUh2N1cyaGVZS19sdXp0cHhsQkUwbnV2VkRySjJyNzN4aXFZUQ?oc=5",
+      "publishedAt": "2026-08-05T05:16:46.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "DISCOVER Robotics, PokeBot lock in at least $100m each amid China's embodied AI funding surge  dealstreetasia.com",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics",
+        "embodied"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 112,
+      "titleZh": "DISCOVER Robotics与PokeBot各锁定至少1亿美元融资，中国具身智能融资升温",
+      "summaryZh": "中国具身智能领域融资热潮涌动，DISCOVER Robotics与PokeBot各自锁定至少1亿美元融资。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "d7edbb568cdf990f",
+      "title": "What Robotics Companies Think About the U.S. Foreign Robot Ban",
+      "link": "https://spectrum.ieee.org/fcc-covered-list-mobile-robots",
+      "publishedAt": "2026-08-04T11:00:01.000Z",
+      "fetchedAt": "2026-08-05T09:01:38.312Z",
+      "source": "IEEE Spectrum · Robotics",
+      "sourceWeight": 7,
+      "excerpt": "The U.S. Federal Communications Commission (FCC) “Covered List,” originally published in 2021, identifies communications equipment and services that it says pose a threat to national security. On 28 July, the FCC added mobile, communicating robots weighing more than 2 kilograms and power inverters commonly used in solar panels to the list, meaning that new products from any foreign country in these categories are no longer eligible for import.\nThe move is a Department of Defense (DOD)-driven expansion of scattered federal efforts to further limit U.S. exposure to potentially sensitive Chinese technology, but it may impose major changes on the robotics industry in allied countries, too. \nThe FCC’s announcement says that: \nAll foreign-produced advanced robotic devices pose an unacceptable risk to the national security of the United States and to the safety and security of U.S. persons… unless the [Department of Defense determines that] a given foreign-produced advanced robotic device, or a class of such devices, does not pose such risks.\nThere are two important definitions here. The first is what an “advanced robotic device” is, and the second is what “unacceptable risk” means. Drones already went through their own round of this sort of regulation, so they’re exempt from this particular restriction, as are connected vehicles and medical devices. As far as the FCC is concerned, “advanced robotic devices” are mobile systems that incorporate on-board sensing and communications and have some amount of autonomy. There are a couple of loopholes, including systems weighing under 2 kg and any system that communicates at less than 200 kilobits per second, which opens up some creative possibilities. It’s important to note that this applies to new devices; those already certified are not restricted for sale or use.\nAs to the risks, the U.S. government says that foreign advanced robotic devices represent: “a cybersecurity risk that threatens the security of critical infrastructure and thus the safety and security of U.S. persons.” There seem to be two main points to the justification, found in Appendix C. The first is that mobile robots are important to both the economy and the military, so the United States needs its own supply chain and industrial base rather than relying on foreign manufacturers. And second, mobile robots monitor critical infrastructure in sensitive locations, making them a security risk.\nThe Country That Must Not Be Named\nAs part of its justification for why foreign robots are a security risk, DOD cites IEEE Spectrum’s article on a critical vulnerability in robots from Unitree, based in Hangzhou, China, along with several other news articles and reports about Chinese robotics. And despite the FCC swearing up and down that this action is “country neutral” and “not targeted at any country or countries,” U.S. national security sources told Spectrum that the perceived threat is obviously China. That’s how China feels about it, too, per a Chinese Ministry of Commerce 29 July press conference (translation of the first quote here):\nOn the surface, the FCC’s measures fly the banner of “non-discrimination,” but in substance they discriminate against and suppress Chinese enterprises and products…\nChina firmly opposes the U.S. overstretching the concept of national security and going after Chinese companies. Protectionism does not make the U.S. more competitive and will only hurt the interests of U.S. companies and consumers. China will continue to do what is necessary to firmly defend the legitimate and lawful rights and interests of Chinese companies.\nIt’s unclear what China is going to do about this—but how about the rest of the world? How can foreign companies that make advanced robotic devices get them cleared for FCC authorization? Among many, many other things, you’ll need to provide “a detailed, time-bound plan to establish or expand manufacturing in the United States for the advanced robotic device.” \nBecause China also produces a large fraction of robot components, even for robots assembled in the United States, it will have strong leverage in any related negotiations until U.S. robotics companies further diversify their supply chains.\nRELATED: Proposed Chinese Robot Ban Is Latest U.S. Tech Sovereignty Move\nApplicants must also submit their applications to the DOD and FCC by 1 January 2028, which is unfortunate for anyone who wants to develop an advanced robotic device after that point. \nRobotics Industry Reactions\nThis is all very new, and reactions from the robotics community have been mixed. \nSome American robotics companies may benefit in the local market from the newfound lack of competition in the commercial market. Brendan Schulman, Boston Dynamics’ vice president of policy, wrote an enthusiastic endorsement of the ban on LinkedIn: “I sense that this is just the first round in a series of policies that will define the success and growth of the industry for decades to come.” On the other hand, third-country buyers may just stick to Chinese products, as they generally have for drones and electric cars. \nBut not all companies expect major changes from the new regulation. American customers “need to know they can audit the technology, get support quickly, and keep the system operating without depending on a fragile overseas supply chain,” Nic Radford, the CEO of U.S. humanoid robotics company Persona, tells IEEE Spectrum. In other words, he figures some customers wouldn’t have wanted Chinese humanoids anyway.\nPhilipp Frey, vice president of strategy for Swiss quadruped company ANYbotics, agrees. He says their enterprise customers in the United States “increasingly evaluate robots on long-term reliability, cybersecurity, software capability, safety certification, serviceability, and ecosystem integration, not on hardware cost alone.” \nANYbotics also plans to apply for conditional approval of future products, Frey says. That will involve a national-security review by DOD or the Department of Homeland Security, disclosing company beneficial ownership, supply chain risks, and declaring a plan for establishing a significant manufacturing presence in the United States.\nU.S. quadruped company Ghost Robotic’s CEO Gavin Kenneally is more explicit about the risks Chinese robot strategy poses to the United States. “Active and purposeful spyware is deployed inside the U.S. on Chinese robots. Examples of predatory pricing abound. And this isn’t just a competition between U.S. and Chinese robotics companies; it’s between private U.S. companies and China’s coordinated national strategy,” Kenneally tells Spectrum. “If today’s announcement encourages stronger cybersecurity and a more level competitive environment, that’s good for customers and good for the robotics industry.”\nSo is an industry-wide ban the best way to guard against threats? American approaches to Chinese technology security risks have been “ad hoc and fragmented,” wrote Brookings Institution sociologist Kyle Chan in a report published 9 July. Chan called for the Bureau of Industry and Security, part of the Department of Commerce, to centralize federal information gathering and decision-making on how to handle risky foreign devices. He also called for better public input mechanisms for these issues, and a continuous, proportionate process that tightened or relaxed targeted import restrictions in response to well-defined risks. \nThat would allow American industry to continue benefiting from partnerships with Chinese manufacturers in less sensitive links of the supply chain, Chan argues. Those links will evolve over time, requiring continued assessment, but without those partnerships, crude bans “could make it more difficult for American startups and researchers to develop new software and end up slowing innovation across the U.S. robotics ecosystem,” he writes.",
+      "tags": [
+        "产品",
+        "robot",
+        "robotics",
+        "humanoid"
+      ],
+      "authors": [
+        "Evan Ackerman"
+      ],
+      "sourceTier": "权威产业媒体",
+      "kind": "产品发布",
+      "score": 110,
+      "titleZh": "机器人企业如何看待美国对外国机器人的禁令",
+      "summaryZh": "美国FCC将2公斤以上的外国产移动机器人列入禁售清单，称其威胁国家安全。此举被指实为针对中国，盟国企业也受波及，须在美设厂方可豁免。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "cc50d346defdadab",
+      "title": "Perceptual Robotics raises funds to grow wind inspection business - Renewables Now",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcEtoVmQwZW0xRnRQVW4wVm54TTJ4NmNVN1pTYXREV1J3d2JUZ3RQRGdTbjJ3a0VDOHFyLWRUM1pBR2dVeHRwekZ6T1hPNVFqaF9QOVFyaV9fZnVXQWVJdlVDRkFpaHBBOVZDNW9OQkM2OXZkd3hDTURtWW4tOG1ReVF2OFBNclBIT19aZ2g4OWNsR1dtalFRamt4dnpPSDYtbXpZWC1ZSEU?oc=5",
+      "publishedAt": "2026-08-05T07:30:53.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "Perceptual Robotics raises funds to grow wind inspection business  Renewables Now",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "Perceptual Robotics 融资扩大风电巡检业务",
+      "summaryZh": "Perceptual Robotics 宣布完成新一轮融资，计划利用所筹资金进一步发展并扩大其风电巡检业务。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "8d7a1ba4d03f3951",
+      "title": "国产人形机器人出海「避雷指南」 - 投资界",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1SZGkzZlpWdW5FdHEzRHBkSVpMWVBwejlHdzRNTkdQYnRTWXplQ2RtNEZBTHJwNVZDRkVHUHJKV1RxZ0d3UFNsWTdkRFJqc2FwenAycGVR?oc=5",
+      "publishedAt": "2026-08-05T06:51:00.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.717Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 6,
+      "excerpt": "国产人形机器人出海「避雷指南」  投资界",
+      "tags": [
+        "投融资",
+        "人形机器人",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "国产人形机器人出海「避雷指南」",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
     {
       "id": "ec93bcb545090605",
       "title": "39起融资、超110亿元！7月人形机器人赛道融资图谱 - 电子工程专辑",
       "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE14ZTE3aTF5RVVhSkN5N20wdFNaNzYtbVNPU1pCV3hMUlZJX05tamFlcmZqTXpRUWYtZ2VFa0xNaE94ODU0ZGd6eU5hQWZYODVoRVVj?oc=5",
       "publishedAt": "2026-08-05T03:45:00.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
+      "fetchedAt": "2026-08-05T09:01:37.717Z",
       "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
+      "sourceWeight": 6,
       "excerpt": "39起融资、超110亿元！7月人形机器人赛道融资图谱  电子工程专辑",
       "tags": [
         "投融资",
@@ -268,12 +398,15 @@
         "机器人"
       ],
       "authors": [],
+      "sourceTier": "线索发现层",
       "kind": "投融资",
-      "score": 118,
-      "titleZh": "7月人形机器人赛道融资图谱：39起融资、总额超110亿元",
-      "summaryZh": "7月人形机器人赛道融资活跃，共发生39起融资事件，总金额超过110亿元，文章梳理了当月该赛道的融资图谱。",
-      "stage": "待公司主体确认",
+      "score": 108,
+      "titleZh": "39起融资、超110亿元！7月人形机器人赛道融资图谱 - 电子工程专辑",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
       "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
     },
@@ -282,9 +415,9 @@
       "title": "破壳机器人完成亿美元级融资：「操作」才是具身落地的最大挑战 - AgeClub",
       "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9OenNsUTdqNXkyWG1iaUR6bDIyUVdjZ01pVzBZY3JNbWNmb3ZOdWQ0SGpDbFJSbWpSZ0JOSEpleWhjcDlTZUJMMEI2U0Z1RUxBVENERmY0bw?oc=5",
       "publishedAt": "2026-08-05T00:56:49.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
+      "fetchedAt": "2026-08-05T09:01:37.717Z",
       "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
+      "sourceWeight": 6,
       "excerpt": "破壳机器人完成亿美元级融资：「操作」才是具身落地的最大挑战  AgeClub",
       "tags": [
         "投融资",
@@ -292,225 +425,121 @@
         "机器人"
       ],
       "authors": [],
+      "sourceTier": "线索发现层",
       "kind": "投融资",
-      "score": 118,
-      "titleZh": "破壳机器人完成亿美元级融资：「操作」才是具身落地的最大挑战",
-      "summaryZh": "破壳机器人完成亿美元级融资，公司认为「操作」能力是具身智能落地的最大挑战。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "2f52f06a11cc8b80",
-      "title": "方石机器人完成数千万元A+轮融资 资金用于产能扩充 - 观点网",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE40NnZQbkg4Qmk0OXBxNy1aTlgzOGVuWHlaVXhobTBLYjh3RzJ1dWItUmp1QzQ0WlI0d1dxeEFSbmxUOHo0YWFzMkh5Z0E3ZDBOaUs0UU41eWJwZ204V3F3RnJB?oc=5",
-      "publishedAt": "2026-08-05T04:37:11.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "方石机器人完成数千万元A+轮融资 资金用于产能扩充  观点网",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "方石机器人完成数千万元A+轮融资，资金将用于产能扩充",
-      "summaryZh": "方石机器人宣布完成数千万元A+轮融资，本轮融资所募资金将主要用于产能扩充。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "聚合盘点或评论性质内容",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "380c5fcc51d6dd18",
-      "title": "机器人AI：8月4日融资买入561.41万元，融资融券余额1.25亿元 - 搜狐网",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPYW5iRWlHd05yaVZvV2FDYzgxVXZFZEp5WWQxbHhjYm9GcDRCaXVwYkxPLWFZNVk3ZG5ocVZYT0FYeXVYeFRVV2dCNnFObUlLMW5nN0NxdEFtQThkVC1mTUhqbzkzOFdrUVlDcUJFVWdreTdzb2pZMXJ6bU5leEl4d3FmUTl2UTlh?oc=5",
-      "publishedAt": "2026-08-05T04:24:18.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "机器人AI：8月4日融资买入561.41万元，融资融券余额1.25亿元  搜狐网",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "机器人AI 8月4日融资买入561.41万元，融资融券余额1.25亿元",
-      "summaryZh": "8月4日，机器人AI获融资买入561.41万元，融资融券余额1.25亿元。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "7fa1eadcc0b84d95",
-      "title": "机器人NF：8月4日融资买入186.31万元，融资融券余额809.87万元 - 搜狐网",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZ0lhSWZyWGJSOVhVWXFZeE5BcUtaLXlMNmVmZnNQUkhxdmg1cVdsTy1lcHBkOVNocHlsNG9fOGs0ZGlkRXhETFZtLUJwQVJtR2hNNmZHclYzODdRZDlxYVhCdDdiVTV0cWlpNU5qMWE3UlZsc1FBLUVwNTIxTFFSRFRNRFlGTGZR?oc=5",
-      "publishedAt": "2026-08-05T03:40:27.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "机器人NF：8月4日融资买入186.31万元，融资融券余额809.87万元  搜狐网",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "机器人NF：8月4日融资买入186.31万元，融资融券余额809.87万元",
-      "summaryZh": "机器人NF于8月4日获融资买入186.31万元，当日融资融券余额为809.87万元。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "8add3656d29be38a",
-      "title": "36氪首发 | 大疆前高管押注个人出行机器人，累计融资近亿美元 - 36 Kr",
-      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9Bd2tGeFhkMnA3M25aaWpMYXNHcnhTWW1EXzR1YXVjRUtpX1FwbklTVXZvSVo1MkxQMlltb2NZbFB0MEZ2REc2UlJlS2M5ZlRW?oc=5",
-      "publishedAt": "2026-08-05T02:20:05.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "36氪首发 | 大疆前高管押注个人出行机器人，累计融资近亿美元  36 Kr",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "大疆前高管押注个人出行机器人，累计融资近亿美元",
-      "summaryZh": "一位大疆前高管正押注个人出行机器人领域，相关项目累计融资规模已接近一亿美元。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "7d5af3156492e94e",
-      "title": "收购一家机器人公司，李飞飞揭秘：老板是我带的博士后 - 21财经",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQck9YYjBjc3dqd2M1cXZCQWNUdTd0bDVQV0ttRzR4TEt4TDdMLWV3eGRlTDlnT2xoekZkTEJNRVVQZ00xQzJTelRSZ0lYc3lJT190Y0VHT2xiUWhYSFRRendOOE8yMlZGdVRQTjVOV0tHMUMwNWdHZTVKdllLZkViMzFVaXhGZWNqeXRVYw?oc=5",
-      "publishedAt": "2026-08-05T00:00:00.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "收购一家机器人公司，李飞飞揭秘：老板是我带的博士后  21财经",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "李飞飞揭秘收购一家机器人公司：老板是我带的博士后",
-      "summaryZh": "李飞飞透露，她收购了一家机器人公司，并揭秘该公司老板正是自己曾带过的博士后。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "f6c582e59af800c5",
-      "title": "观瑞慧途机器人获梦溪天使基金天使轮投资 - 搜狐网",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQR2h3LW1EeXh0TFdLY3J4aVVpNVY0VU9Ddnl5RkQ5cFhjWTVzR1U0VElQZXVQY2VhYVhQVUdlU1JqYjl6SmtJZzJmeWxFUlRacmY0X21nRVdFV3pWemM0LWU0aEYxZFNBZ2N4UHI3d3hyVWlLRGFySk5ISFp6MFR2VHhRZWtMYWZY?oc=5",
-      "publishedAt": "2026-08-04T20:10:00.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "观瑞慧途机器人获梦溪天使基金天使轮投资  搜狐网",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "观瑞慧途机器人获梦溪天使基金天使轮投资",
-      "summaryZh": "观瑞慧途机器人获梦溪天使基金天使轮投资，本轮投资由梦溪天使基金出资，融资阶段为天使轮。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "cc32b61d7c192066",
-      "title": "多家头部具身智能公司“押注”！恺望数据拿下亿元级战略融资 - finance.sina.com.cn",
-      "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5",
-      "publishedAt": "2026-08-04T14:49:00.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "多家头部具身智能公司“押注”！恺望数据拿下亿元级战略融资  finance.sina.com.cn",
-      "tags": [
-        "投融资",
-        "具身"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "恺望数据获亿元级战略融资，多家头部具身智能公司押注",
-      "summaryZh": "恺望数据宣布完成亿元级战略融资，本轮融资获得多家头部具身智能公司押注参与投资。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "bfc5fa64a33e3536",
-      "title": "小米连投两轮！成立5个月融资过亿美元，清华系破壳杀入独角兽预备队！ - 机器人大讲堂",
-      "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1WOGUwbTM4aGpSSkVBanpoWnc3alhaRURwNTNBZjVzRTZnMmtUcm5ER2g4YVh0VkJWYnZZeWhIUHpETTdFZU5yZ0tTdmxmMFhpY2ozdzJHOA?oc=5",
-      "publishedAt": "2026-08-04T14:07:55.000Z",
-      "fetchedAt": "2026-08-05T05:08:06.175Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 7,
-      "excerpt": "小米连投两轮！成立5个月融资过亿美元，清华系破壳杀入独角兽预备队！  机器人大讲堂",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "kind": "投融资",
-      "score": 114,
-      "titleZh": "小米连投两轮，清华系机器人公司成立5个月融资超亿美元",
-      "summaryZh": "一家清华系机器人初创公司成立仅5个月，融资总额超过1亿美元，小米连续两轮参与投资，公司被视为潜在独角兽。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "4e68232ee3faf30e",
-      "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-      "link": "https://arxiv.org/abs/2608.03682v1",
-      "publishedAt": "2026-08-04T13:53:48.000Z",
-      "fetchedAt": "2026-08-05T05:08:05.754Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
-      "tags": [
-        "产品",
-        "robot",
-        "physical ai",
-        "vla"
-      ],
-      "authors": [
-        "Chenghua Wang"
-      ],
-      "kind": "产品发布",
-      "score": 144,
-      "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
+      "score": 108,
+      "titleZh": "破壳机器人完成亿美元级融资：「操作」才是具身落地的最大挑战 - AgeClub",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
-        "缺少完整中文事实简介"
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "aacccf2f5c401233",
+      "title": "Swiss Startup Exclaim Robotics Emerges From Stealth With Nearly $5M in Funding for AI Data Center Robotics - AI Insider",
+      "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPNGNPcER4NW85WU1JUERkSUMxZzcwMWlwc3c1Q2lKWnFpTUNXQ1BRVkRzdVdLRFFUSVUzd1kySXQzZU1URlllRVlocGhpd0VucmxkOElKdkMtaVZUelRNU1hqNERPU0NhOGNrREg1bFVad2F3eHZYSTNLeVhUci1zUHBuS0VlaUt3NkxlMjZDLVdySXlYTjNrdUI4MHpuOG9pTGVGX1hoQm9RanRBeXhubDhBUWktQkdiUnRlZDJ4bXhNSDI3VTlleTZROWNrbllyV0drOG5UMmUwdVk?oc=5",
+      "publishedAt": "2026-08-04T13:52:16.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "Swiss Startup Exclaim Robotics Emerges From Stealth With Nearly $5M in Funding for AI Data Center Robotics  AI Insider",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "瑞士初创公司 Exclaim Robotics 走出隐身模式，获近 500 万美元融资发力 AI 数据中心机器人",
+      "summaryZh": "瑞士机器人初创公司 Exclaim Robotics 宣布结束隐身状态正式亮相，已获得近 500 万美元融资，专注于为 AI 数据中心开发机器人技术。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "9116fc841f4e6bbb",
+      "title": "Farming Innovation Programme: UK Government launches £20 Million agri-tech robotics and automation funding - Open Access Government",
+      "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOY2dfUFVBYlI3dlY2NWdpNjU0bmNlOUhoTHc1bkpoYTExUWNBVjkwdFJUQzk3c1FTWHNvem1yV2VSazc5dVZHS2kweVNCdlJOaDV0aU1IdHVDY2ZMOWxHa3NVVzlNZzRRZmNRdzRmdUpCeHZIUUszcHJXckpUZ2J5QW81TGY1ZUx1ZjhxbExTc2gzNXlLWXBSSVFrVVdCY0cwTEc2SlRkOW1VOTQ2NjNwbDNBX241ZU5OQ1JldUc0OWlCN3diSW9Icy1OTFk1RktRYlgzVkVkdjIyNmJpMGZvbHdHWQ?oc=5",
+      "publishedAt": "2026-08-04T11:37:58.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "Farming Innovation Programme: UK Government launches £20 Million agri-tech robotics and automation funding  Open Access Government",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "Farming Innovation Programme: UK Government launches £20 Million agri-tech robotics and automation funding - Open Access Government",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "b829ad88fd7cd933",
+      "title": "UK government launches £20 million funding competition for agricultural robots - Robotics & Automation News",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOLUJsQlpFbnZEd0JBQTFRRWhKM0o1S09sbkhILXljSVN1SjI4aTVNZzlRRHhHM25LTGhYc19Td0U3WHR2U2R5RUVOdFduOUJnZzh4QTh6WXFRQUtNSUVsNjcxZGZGd3VEbWVZNjVCZkFWWkRRQ0lHOWxsVUV5NzRsd29ldUFXSnJsa3B0RGd0cVJuWk9fajUtNmVFaVZBWFB2VUdVWEF5dzd2ODYwaHAydHp1WTdFYy00d0MyUnVyTXpSbHIwNUkzSnZPX1B3WmM?oc=5",
+      "publishedAt": "2026-08-04T11:20:23.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "UK government launches £20 million funding competition for agricultural robots  Robotics & Automation News",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 108,
+      "titleZh": "UK government launches £20 million funding competition for agricultural robots - Robotics & Automation News",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "536da750a3980515",
+      "title": "Adiabatic Technologies raises Rs 8.3 crore to power robots and drones - YourStory.com",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOaXh1M3ltbUZKY21OV1Nud0t5V3BmUTY2V0JLQVFkRG9FWVk1bGdjdkRMYU9UaEdhcnBEaGg5N0lsRV9GTjg4YWh0azFBSW14Y1JmdXVwZVk4d19mTFdESW5XYjVJMDdCNE5PUzBZdWFaR2cwTUlpU1ZUWDZnc2JNMm9GLTZuUExqWHNXekUybUh5ZHJWYTVLZ0luVHpiZw?oc=5",
+      "publishedAt": "2026-08-05T06:22:31.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.794Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 6,
+      "excerpt": "Adiabatic Technologies raises Rs 8.3 crore to power robots and drones  YourStory.com",
+      "tags": [
+        "投融资",
+        "robot"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 104,
+      "titleZh": "Adiabatic Technologies 融资 8300 万卢比，为机器人与无人机提供动力",
+      "summaryZh": "Adiabatic Technologies 宣布完成 8300 万卢比（8.3 crore）融资，所筹资金将用于为机器人和无人机提供动力。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
       ]
     },
     {
@@ -518,9 +547,9 @@
       "title": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
       "link": "https://arxiv.org/abs/2608.02197v1",
       "publishedAt": "2026-08-03T13:18:36.000Z",
-      "fetchedAt": "2026-08-05T05:08:05.754Z",
+      "fetchedAt": "2026-08-05T09:01:37.360Z",
       "source": "arXiv · Robotics",
-      "sourceWeight": 10,
+      "sourceWeight": 9,
       "excerpt": "Visual representations of VLA models remain unreliable for spatially precise robotic manipulation. We uncover that vision encoders in VLAs also exhibit attention artifacts previously documented in generic Vision Transformers, and further show that, in embodied policies, these artifacts are closely associated with spatial perception capabilities acquired during post-training. As the encoder learns task-relevant information such as object location, depth ordering, and local geometry, limited global-token capacity causes part of this information to spill into low-information patch tokens. We introduce AtVLA, a framework that inserts learnable register tokens into the visual encoder. Trained end-to-end using only embodied data and the original action objective, these registers emerge as dedicated carriers of embodied spatial information, while the remaining patch tokens recover clean and spatially faithful attention distributions crucial for precise target localization and fine-grained contact. Clean attention restores reliable localization, but cannot recover geometric details lost in low-resolution observations. AtVLA therefore couples attention rectification with uncertainty-gated local refinement. The action expert samples multiple action chunks and estimates uncertainty from their disagreement; only for uncertain predictions, action-conditioned attention rollout identifies the task-relevant region, which is cropped, re-encoded at high resolution, and appended to the cached prefix for refined action generation. Across LIBERO, SimplerEnv, and a challenging single-view real-world benchmark, AtVLA improves the average LIBERO success rate from 94.2% to 98.4% and real-world success from 46.5% to 69.0%. The cropping is triggered on approximately 30% of replanning steps, resulting in only 1.4-1.6x the total computation of the base model under the representative deployment setting.",
       "tags": [
         "落地",
@@ -531,9 +560,66 @@
       "authors": [
         "Jin Cui"
       ],
+      "sourceTier": "官方公司与实验室",
       "kind": "部署案例",
-      "score": 140,
+      "score": 130,
       "titleZh": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "199de4cccaaf6b75",
+      "title": "Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution",
+      "link": "https://arxiv.org/abs/2608.03483v1",
+      "publishedAt": "2026-08-04T11:21:08.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.360Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Existing chunk-based Vision-Language-Action (VLA) models execute a fixed number of actions (i.e., execution horizon) before replanning, turning replanning into a task-agnostic periodic schedule that is independent of task progress. As a result, when no replanning boundary falls before a critical manipulation stage, it is executed from a stale chunk rather than a freshly replanned one. To address this limitation, we propose Bernoulli-Continuation Policy (BCP), a lightweight, plug-and-play framework for adaptive horizon execution that keeps the base VLA frozen. Given a fixed-length action chunk, its continuation head decomposes execution-horizon selection into a sequence of continue-or-replan decisions, which imposes an ordinal, prefix-sharing inductive bias over candidate horizons rather than treating them as independent classes. Since the optimal horizon for each chunk is not observable, we train this head with reinforcement learning from trajectory-level outcomes and introduce a Replanning-Efficiency Reward that jointly rewards task success and efficient VLA usage, discouraging the policy from collapsing to unnecessarily short horizons. On RoboTwin 2.0 with LingBot-VLA as the base policy, BCP improves the average success rate by +11.08% on 13 low-success tasks and from 89.88% to 93.94% (+4.06%) across all 50 tasks. Although trained only under the Clean setting, BCP generalizes to the Randomized setting, raising the average success rate by +4.06%. It also transfers to a different base policy $π_{0.5}$, achieving a better result on LIBERO (+1.7%) and, notably, on the harder LIBERO-PRO (+6.8%). On a real robot, BCP lifts success from 74% to 92% and from 44% to 84% on two manipulation tasks. Meanwhile, its negligible overhead, combined with higher success, makes BCP's overall runtime even lower than the fixed-horizon baselines.",
+      "tags": [
+        "产业",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Weichen Xu"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "公司商业",
+      "score": 130,
+      "titleZh": "Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "1a815b14347c7f6e",
+      "title": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
+      "link": "https://arxiv.org/abs/2608.03387v1",
+      "publishedAt": "2026-08-04T09:37:06.000Z",
+      "fetchedAt": "2026-08-05T09:01:37.360Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Humanoid robots have the potential to perform dexterous manipulation in human environments, yet acquiring diverse and generalizable skills remains costly due to expensive hardware data collection and labor-intensive annotation. Recent advances in video generative models provide a promising opportunity to synthesize rich manipulation experiences from visual observations, but transferring such imagined behaviors into executable whole-body humanoid skills remains largely unexplored. In this work, we present RoboReact, a framework that automatically synthesizes whole-body humanoid manipulation skills from a single egocentric RGB-D observation. RoboReact generates human manipulation videos, extracts geometry-preserving interaction keyframes through depth-aware 3D reconstruction, and retargets them to high-DoF humanoid platforms while preserving hand-object interaction geometry. To bridge the gap between imagined plans and physical execution, RoboReact performs online object-centric re-grounding and leverages a vision-language model-guided refinement loop to adapt skills under geometric mismatch and execution deviations. The refined skills are executed through a whole-body controller, enabling coordinated whole-body manipulation and dexterous interaction. Experiments on real humanoid robots demonstrate that RoboReact generalizes across diverse object configurations and robustly recovers from execution disturbances without requiring teleoperation or human demonstrations. These results highlight the potential of combining generative models, vision-language reasoning, and closed-loop control for scalable humanoid skill acquisition.",
+      "tags": [
+        "产业",
+        "robot",
+        "humanoid",
+        "manipulation"
+      ],
+      "authors": [
+        "Shuliang He"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -545,9 +631,9 @@
       "title": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
       "link": "https://arxiv.org/abs/2608.03727v1",
       "publishedAt": "2026-08-04T14:25:13.000Z",
-      "fetchedAt": "2026-08-05T05:08:05.754Z",
+      "fetchedAt": "2026-08-05T09:01:37.360Z",
       "source": "arXiv · Robotics",
-      "sourceWeight": 10,
+      "sourceWeight": 9,
       "excerpt": "Action labels tell a vision-language-action (VLA) policy which robot commands to imitate, but not how those commands change the 3D world. The aligned demonstration clip contains this missing supervision because its $K$ frame transitions record the geometry, motion, visibility, and camera change produced during the corresponding $K$ actions. We introduce Track4Action, a framework that distills this realized transition from a frozen world-centric 3D tracker into a current-observation VLA policy. During training, Track4World encodes the clip $V_{t:t+K}$ into a pooled tracker feature. Learnable track queries infer this feature from current VLA hidden states, match it in a shared space, and condition a flow-matching action head through a feature-wise gate. The tracker feature only defines the alignment target, so neither the clip nor the tracker is used at deployment. Track4Action reaches 82.3% on zero-shot LIBERO-Plus, improving the alignment-free variant by 7.6 points and LaMP by 3.0 points. It obtains 80.44% and 81.48% on the clean and randomized RoboTwin 2.0 splits, and 67.5% average success across four physical bimanual tasks, 25.0 points above the alignment-free variant. The gains across simulation and physical tasks support action-aligned 3D tracker features as privileged supervision for tracker-free VLA deployment. Our project page is available at https://wing0night.github.io/track4action-project-page.",
       "tags": [
         "落地",
@@ -558,8 +644,9 @@
       "authors": [
         "Chenyi Wang"
       ],
+      "sourceTier": "官方公司与实验室",
       "kind": "部署案例",
-      "score": 132,
+      "score": 122,
       "titleZh": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
@@ -573,8 +660,8 @@
       "component": "LLM",
       "status": "部分降级",
       "attempted": 16,
-      "succeeded": 13,
-      "failed": 3,
+      "succeeded": 8,
+      "failed": 8,
       "detail": "部分摘要调用失败，相关内容已留在候选层。"
     },
     {
@@ -586,11 +673,5 @@
       "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     }
   ],
-  "discoveredSources": [
-    {
-      "domain": "technologyreview.com",
-      "title": "Trump's AI protectionism has come for robotics",
-      "link": "https://www.technologyreview.com/2026/08/03/1141056/trumps-ai-protectionism-has-come-for-robotics/"
-    }
-  ]
+  "discoveredSources": []
 }

@@ -1,226 +1,505 @@
 {
-  "updatedAt": "2026-08-05T05:08:05.479Z",
+  "updatedAt": "2026-08-05T09:01:36.994Z",
   "windowDays": 30,
   "sources": [
     {
       "name": "arXiv · Robotics",
       "type": "rss",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 10,
+      "effectiveWeight": 9,
       "successfulRuns": 5,
       "failedRuns": 0,
-      "selectedArticles": 30,
+      "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 100,
+      "relatedHits": 43,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.43,
+        "inclusionRate": 0,
+        "correctionRate": 0,
+        "score": 55.75
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "NVIDIA Newsroom",
       "type": "rss",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 10,
       "effectiveWeight": 10,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 19,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "LeRobot Releases",
       "type": "rss",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
       "effectiveWeight": 9,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 10,
+      "relatedHits": 2,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.2,
+        "inclusionRate": 0,
+        "correctionRate": 0,
+        "score": 50
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Isaac Lab Releases",
       "type": "rss",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
       "effectiveWeight": 9,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Google DeepMind Blog",
       "type": "rss",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 10,
       "effectiveWeight": 10,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 100,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Google AI Blog",
       "type": "rss",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 8,
       "effectiveWeight": 8,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 20,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "IEEE Spectrum · Robotics",
       "type": "rss",
+      "tier": "权威产业媒体",
+      "status": "观察",
+      "publicationPolicy": "可作为独立报道",
       "configuredWeight": 7,
       "effectiveWeight": 7,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 30,
+      "relatedHits": 1,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.03,
+        "inclusionRate": 0,
+        "correctionRate": 0,
+        "score": 45.75
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "TechCrunch · Robotics",
       "type": "rss",
+      "tier": "权威产业媒体",
+      "status": "观察",
+      "publicationPolicy": "可作为独立报道",
       "configuredWeight": 6,
       "effectiveWeight": 6,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 20,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Google News · Robotics Capital",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 6,
       "effectiveWeight": 6,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 2,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 100,
+      "relatedHits": 13,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.13,
+        "inclusionRate": 0.15,
+        "correctionRate": 0,
+        "score": 52.75
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Google News · 中国具身融资",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 6,
-      "effectiveWeight": 7,
+      "effectiveWeight": 6,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 4,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 100,
+      "relatedHits": 11,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.11,
+        "inclusionRate": 0.36,
+        "correctionRate": 0,
+        "score": 58.55
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "OpenPI Releases",
       "type": "rss",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
       "effectiveWeight": 9,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "OpenVLA Releases",
       "type": "rss",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
       "effectiveWeight": 9,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Hacker News · Robotics",
       "type": "algolia",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 2,
       "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 1,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Hacker News · Humanoid",
       "type": "algolia",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 2,
       "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "Hacker News · Embodied AI",
       "type": "algolia",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 2,
       "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
+    },
+    {
+      "name": "X · 产业领军者观察",
+      "type": "x",
+      "tier": "线索发现层",
+      "status": "已暂停",
+      "publicationPolicy": "仅作线索发现",
+      "configuredWeight": 7,
+      "effectiveWeight": 7,
+      "successfulRuns": 0,
+      "failedRuns": 5,
+      "selectedArticles": 0,
+      "reliability": 0,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 0,
+        "correctionRate": 0,
+        "score": 15
+      },
+      "statusReason": "访问受限，等待凭据或配额恢复",
+      "recommendation": "排查"
     },
     {
       "name": "自动发现 · github.com",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
       "effectiveWeight": 3,
       "successfulRuns": 3,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "recommendation": "观察"
     },
     {
       "name": "自动发现 · huggingface.co",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
       "effectiveWeight": 3,
       "successfulRuns": 3,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 834,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "recommendation": "观察"
     },
     {
       "name": "自动发现 · covingtonblogs.com",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
       "effectiveWeight": 3,
       "successfulRuns": 1,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "recommendation": "观察"
     },
     {
       "name": "自动发现 · hmans.dev",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
       "effectiveWeight": 3,
       "successfulRuns": 3,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 7,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "recommendation": "观察"
     },
     {
       "name": "自动发现 · servethehome.com",
       "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
       "effectiveWeight": 3,
       "successfulRuns": 4,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "recommendation": "保留"
+      "fetchedArticles": 6,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 45
+      },
+      "recommendation": "观察"
     }
   ]
 }
