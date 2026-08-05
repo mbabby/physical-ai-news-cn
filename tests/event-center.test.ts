@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
+import { buildCompanyDossiers, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
 import type { Article } from "../src/types.js";
 
 function article(overrides: Partial<Article> = {}): Article {
@@ -85,6 +85,36 @@ test("merges multilingual coverage of the same financing event", () => {
   const second = upsertEvents(first, [article({ id: "humanoid-zh", title: "Humanoid完成1.52亿美元融资，投后估值13.5亿美元", titleZh: undefined, link: "https://example.com/humanoid-zh", kind: "投融资" })], now);
   assert.equal(second.events.length, 1);
   assert.equal(second.events[0].evidence.length, 2);
+});
+
+test("stores structured funding facts and never calls an unknown subject an industry company", () => {
+  const known = { name: "Nova Robotics", aliases: ["nova robotics"], region: "北美", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "仓储机器人", officialUrl: "https://novarobotics.example" };
+  const knownStore = upsertEvents(undefined, [article({
+    title: "Nova Robotics raises $12M Seed funding",
+    titleZh: "Nova Robotics 完成 1200 万美元种子轮融资",
+    summaryZh: "Nova Robotics 完成 1200 万美元种子轮融资，用于仓储机器人研发。",
+    kind: "投融资",
+  })], new Date(), [known]);
+  assert.equal(knownStore.events[0].primaryEntity, "Nova Robotics");
+  assert.equal(knownStore.events[0].funding?.entityStatus, "已确认");
+  assert.match(knownStore.events[0].funding?.round ?? "", /seed|种子/i);
+  assert.match(knownStore.events[0].funding?.amount ?? "", /12/);
+  const unknownStore = upsertEvents(undefined, [article({ title: "创业机器人公司完成 500 万美元种子轮融资", titleZh: "创业机器人公司完成 500 万美元种子轮融资", summaryZh: "一家创业机器人公司完成 500 万美元种子轮融资，用于具身机器人研发。", kind: "投融资" })]);
+  assert.match(formatCompanyRadar([], unknownStore.events), /待识别公司/);
+  assert.doesNotMatch(formatCompanyRadar([], unknownStore.events), /行业公司/);
+});
+
+test("builds company dossiers and route indexes from attributable events", () => {
+  const company = { name: "Google DeepMind", region: "北美", stage: "平台公司" as const, routes: ["VLA 与具身模型" as const], thesis: "机器人模型", officialUrl: "https://deepmind.google" };
+  const store = upsertEvents(undefined, [article()], new Date(), [company]);
+  const dossiers = buildCompanyDossiers([company], store.events);
+  const routes = buildRouteIndex([company], store.events);
+  assert.equal(dossiers.length, 1);
+  assert.equal(dossiers[0].eventIds.length, 1);
+  assert.equal(dossiers[0].productsAndDeployments.length, 1);
+  assert.deepEqual(routes.find((item) => item.route === "VLA 与具身模型")?.companies, ["Google DeepMind"]);
+  assert.match(formatCompanyDossiers(dossiers), /Google DeepMind/);
+  assert.match(formatCompanyDossiers(dossiers), /产品 \/ 部署/);
 });
 
 test("appends new evidence to an existing event instead of duplicating it", () => {

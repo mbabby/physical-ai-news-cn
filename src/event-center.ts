@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
-import type { Article, ArticleKind, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, TechnicalRoute } from "./types.js";
+import type { Article, ArticleKind, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, RouteIndexEntry, TechnicalRoute } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
 // mention a competitor or customer, but that must never overwrite its profile.
@@ -15,10 +15,17 @@ const FUNDING_WORDS = ["funding", "funded", "raises", "raised", "series a", "ser
 function id(value: string): string { return `evt-${createHash("sha256").update(value).digest("hex").slice(0, 12)}`; }
 function text(article: Article): string { return `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase(); }
 function titleText(article: Pick<Article, "title" | "titleZh">): string { return `${article.title} ${article.titleZh ?? ""}`.toLowerCase(); }
-function aliasesIn(value: string): string[] { return Object.entries(COMPANY_ALIASES).filter(([, aliases]) => aliases.some((alias) => value.includes(alias))).map(([name]) => name); }
-export function primaryEntityForArticle(article: Article): string | undefined {
+function entityAliases(companies: CompanyProfile[] = []): Record<string, string[]> {
+  const aliases: Record<string, string[]> = { ...COMPANY_ALIASES };
+  for (const company of companies) {
+    aliases[company.name] = [...new Set([...(aliases[company.name] ?? []), company.name.toLowerCase(), ...(company.aliases ?? []).map((alias) => alias.toLowerCase())])];
+  }
+  return aliases;
+}
+function aliasesIn(value: string, companies: CompanyProfile[] = []): string[] { return Object.entries(entityAliases(companies)).filter(([, aliases]) => aliases.some((alias) => value.includes(alias))).map(([name]) => name); }
+export function primaryEntityForArticle(article: Article, companies: CompanyProfile[] = []): string | undefined {
   const value = titleText(article);
-  const matches = Object.entries(COMPANY_ALIASES).flatMap(([name, aliases]) => aliases.filter((alias) => value.includes(alias)).map((alias) => ({ name, index: value.indexOf(alias) })));
+  const matches = Object.entries(entityAliases(companies)).flatMap(([name, aliases]) => aliases.filter((alias) => value.includes(alias)).map((alias) => ({ name, index: value.indexOf(alias) })));
   return matches.sort((a, b) => a.index - b.index)[0]?.name;
 }
 function routeFor(article: Article): TechnicalRoute[] {
@@ -47,10 +54,10 @@ function primaryForEvent(event: EventRecord): string | undefined {
   const title = event.title.toLowerCase();
   return aliasesIn(title)[0];
 }
-function normalizeExisting(events: EventRecord[]): EventRecord[] {
+function normalizeExisting(events: EventRecord[], companies: CompanyProfile[] = []): EventRecord[] {
   return events.map((event) => {
     const primaryEntity = primaryForEvent(event);
-    const mentioned = [...new Set([...(event.mentionedEntities ?? []), ...event.entities].filter((entity) => entity !== primaryEntity))];
+    const mentioned = [...new Set([...(event.mentionedEntities ?? []), ...event.entities, ...aliasesIn(event.title.toLowerCase(), companies)].filter((entity) => entity !== primaryEntity))];
     // Earlier versions classified any article containing the word investment as
     // a funding story. Repair those stored records during the next daily run.
     const type: ArticleKind = event.type === "投融资" && !isFundingTitle(event.title) ? "公司商业" : event.type;
@@ -77,22 +84,44 @@ function mergeRepeatedFunding(events: EventRecord[]): EventRecord[] {
   }
   return kept;
 }
-function similar(a: EventRecord, article: Article): boolean {
+function similar(a: EventRecord, article: Article, companies: CompanyProfile[] = []): boolean {
   if (a.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link))) return true;
   const eventWords = new Set(a.title.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
   const articleWords = new Set((article.titleZh ?? article.title).toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean));
   const shared = [...eventWords].filter((word) => articleWords.has(word)).length;
-  const primary = primaryEntityForArticle(article);
+  const primary = primaryEntityForArticle(article, companies);
   return shared >= 3 && Boolean(primary && primaryForEvent(a) === primary);
 }
 
-export function upsertEvents(store: EventStore | undefined, articles: Article[], now = new Date()): EventStore {
-  const events = normalizeExisting([...(store?.events ?? [])]);
+function matchAmount(value: string): string | undefined {
+  const dollar = value.match(/(?:US\$|USD|\$)\s*(\d+(?:\.\d+)?)\s*(m|b|million|billion)\b/i);
+  if (dollar) return `${dollar[1]} ${/b|billion/i.test(dollar[2]) ? "亿美元" : "百万美元"}`;
+  const chinese = value.match(/(\d+(?:\.\d+)?)(亿|万)\s*(美元|人民币|元)/);
+  return chinese ? `${chinese[1]}${chinese[2]}${chinese[3]}` : undefined;
+}
+function fundingDetails(article: Article, primaryEntity?: string): FundingFact | undefined {
+  if (article.kind !== "投融资") return undefined;
+  const value = `${article.titleZh ?? ""} ${article.title} ${article.summaryZh ?? ""} ${article.excerpt}`;
+  const round = value.match(/(?:pre[- ]?seed|seed|series\s+[a-d]|angel|种子轮|天使轮|A\+?轮|B\+?轮|C轮|战略融资)/i)?.[0];
+  const valuationMatch = value.match(/(?:投后估值|估值|valuation(?:\s+of)?)\s*(?:达|约为|为|at)?\s*((?:US\$|USD|\$)?\s*\d+(?:\.\d+)?\s*(?:m|b|million|billion|亿|万)?\s*(?:美元|人民币|元)?)/i)?.[1];
+  const investors = value.match(/(?:领投|参投|投资方包括|由)\s*([^。；;]{2,90})/)?.[1]?.split(/[、，,和及]/).map((item) => item.trim()).filter((item) => item.length >= 2 && item.length <= 40).slice(0, 6) ?? [];
+  return { entityStatus: primaryEntity ? "已确认" : "待识别", round, amount: matchAmount(value), valuation: valuationMatch?.replace(/\s+/g, " ").trim(), investors };
+}
+function productDeploymentDetails(article: Article): ProductDeploymentFact | undefined {
+  if (!["产品发布", "部署案例", "公司商业"].includes(article.kind ?? "")) return undefined;
+  const value = `${article.titleZh ?? ""} ${article.title} ${article.summaryZh ?? ""} ${article.excerpt}`;
+  const product = value.match(/(?:发布|推出|launch(?:ed)?)\s*([A-Za-z0-9._ -]{2,60}|[^，。；]{2,30})/i)?.[1]?.trim();
+  const deployment = value.match(/(?:部署|试点|客户|工厂|仓储|deployment|customer|factory)\s*([^。；;]{0,70})/i)?.[0]?.trim();
+  return { product: product?.slice(0, 60), customers: [], deployment: deployment?.slice(0, 80) };
+}
+
+export function upsertEvents(store: EventStore | undefined, articles: Article[], now = new Date(), companies: CompanyProfile[] = []): EventStore {
+  const events = normalizeExisting([...(store?.events ?? [])], companies);
   for (const article of articles.filter((item) => item.sourceWeight >= 6 && ["投融资", "产品发布", "公司商业", "部署案例", "开源项目"].includes(item.kind ?? ""))) {
     const evidence: EventEvidence = { link: article.link, source: article.source, grade: grade(article), publishedAt: article.publishedAt.toISOString(), supports: article.titleZh ?? article.title };
     const summary = meaningful(article.summaryZh) ? article.summaryZh! : article.titleZh ?? article.title;
     const update = { date: now.toISOString(), summary, evidenceLinks: [article.link] };
-    const existing = events.find((event) => similar(event, article));
+    const existing = events.find((event) => similar(event, article, companies));
     if (existing) {
       if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link))) existing.evidence.push(evidence);
       if (!existing.timeline.some((item) => item.evidenceLinks.includes(article.link))) existing.timeline.unshift(update);
@@ -100,12 +129,14 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       // The model may refine a previously stored fallback title on a later run.
       if (article.titleZh && hasChinese(article.titleZh)) existing.title = article.titleZh;
       if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
+      existing.funding ??= fundingDetails(article, existing.primaryEntity);
+      existing.productDeployment ??= productDeploymentDetails(article);
       continue;
     }
-    const primaryEntity = primaryEntityForArticle(article);
-    const mentionedEntities = aliasesIn(text(article)).filter((name) => name !== primaryEntity);
+    const primaryEntity = primaryEntityForArticle(article, companies);
+    const mentionedEntities = aliasesIn(text(article), companies).filter((name) => name !== primaryEntity);
     const title = article.titleZh ?? article.title;
-    events.push({ id: id(article.link), title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update] });
+    events.push({ id: id(article.link), title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
   }
   return { updatedAt: now.toISOString(), events: mergeRepeatedFunding(events).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)) };
 }
@@ -124,7 +155,10 @@ function fundingAmount(value: string): string | undefined {
 function headlineFor(event: EventRecord, omitCompany = false): string {
   const title = cleanTitle(event.title);
   if (hasChinese(title)) return omitCompany && event.primaryEntity ? title.replace(new RegExp(`^${event.primaryEntity}[：:，,\s]*`, "i"), "") : title;
-  if (event.type === "投融资") return `${omitCompany ? "" : `${fundingSubject(event) ?? "行业公司"}`}${omitCompany ? "" : " "}完成${fundingAmount(title) ?? "新一轮"}融资`;
+  if (event.type === "投融资") {
+    const subject = event.primaryEntity ?? (event.funding?.entityStatus === "待识别" ? "待识别公司" : undefined);
+    return `${omitCompany ? "" : `${subject ?? "待识别公司"} `}完成${event.funding?.amount ?? fundingAmount(title) ?? "新一轮"}融资`;
+  }
   return `${event.routes[0]}相关进展`;
 }
 function summaryFor(event: EventRecord): string { const fact = eventFact(event); return fact && hasChinese(fact) ? fact : "已纳入可追溯信源，中文事实简介将在更新后补齐。"; }
@@ -205,13 +239,15 @@ function corroborationScore(event: EventRecord): number { return Math.min(10, Ma
 function eventPriority(event: EventRecord): number { return impactScore(event) + authorityScore(event) + freshnessScore(event.lastUpdatedAt) + corroborationScore(event); }
 function isSpecificFunding(event: EventRecord): boolean {
   if (event.type !== "投融资") return true;
-  // Unknown startups remain useful candidates, but only tracked companies are
-  // allowed to enter the public capital map. This avoids presenting a headline
-  // parser's guess as a verified company identity.
   const subject = event.primaryEntity;
-  return Boolean(subject && !/^(行业公司|机器人公司|农业机器人公司|公司)$/i.test(subject) && !/融资净买入|融资余额|股票|股价|证券|跨界.*机器人/i.test(event.title));
+  const identified = Boolean(subject && !/^(行业公司|机器人公司|农业机器人公司|公司)$/i.test(subject));
+  const identifiableLead = event.funding?.entityStatus === "待识别" && Boolean(event.funding.amount || event.funding.round);
+  return (identified || identifiableLead) && !/融资净买入|融资余额|股票|股价|证券|跨界.*机器人/i.test(event.title);
 }
-function homepageEligible(event: EventRecord): boolean { return displayable(event) && Boolean(event.primaryEntity) && isSpecificFunding(event); }
+function homepageEligible(event: EventRecord): boolean {
+  if (!displayable(event) || !isSpecificFunding(event)) return false;
+  return event.type === "投融资" ? Boolean(event.primaryEntity || event.funding?.entityStatus === "待识别") : Boolean(event.primaryEntity);
+}
 function dedupeByCompany(events: EventRecord[], limit: number): EventRecord[] {
   const seen = new Set<string>();
   return events.filter((event) => {
@@ -279,26 +315,61 @@ export function formatResearchUpdates(articles: Article[], fallbackDate?: string
 function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }
 
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
-  const recent = events.filter(homepageEligible).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
-  const funding = dedupeByCompany(events.filter((event) => event.type === "投融资" && homepageEligible(event)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 5);
-  const companyEvents = dedupeByCompany(recent.filter((event) => primaryForEvent(event)), 8);
-  const lines: string[] = [];
-  if (funding.length) {
-    lines.push("### 融资与并购", "");
-    for (const event of funding) { const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0]; lines.push(`- **${event.primaryEntity ?? fundingSubject(event) ?? "行业公司"}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.lastUpdatedAt.slice(0, 10)}`); }
+  const since = Date.now() - 7 * 24 * 3_600_000;
+  const weekly = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= since && homepageEligible(event));
+  const funding = dedupeByCompany(weekly.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 5);
+  const productDeployment = dedupeByCompany(weekly.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 6);
+  const tracked = companies.map((company) => ({ company, event: events.filter((event) => event.primaryEntity === company.name && homepageEligible(event)).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a))[0] })).filter((item): item is { company: CompanyProfile; event: EventRecord } => Boolean(item.event)).sort((a, b) => b.event.lastUpdatedAt.localeCompare(a.event.lastUpdatedAt) || eventPriority(b.event) - eventPriority(a.event)).slice(0, 8);
+  const lines: string[] = ["> 只展示有证据链接的公司事件。未能确认主体的融资会标为“待识别公司”，不会写入公司档案。", ""];
+  const fundingLine = (event: EventRecord): string => {
+    const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+    const label = event.primaryEntity ?? "待识别公司";
+    const facts = [event.funding?.round, event.funding?.amount, event.funding?.valuation].filter(Boolean).join(" · ");
+    return `- **${label}** · [${headlineFor(event, true)}](${evidence.link})${facts ? ` · ${facts}` : ""} · ${event.lastUpdatedAt.slice(5, 10)}`;
+  };
+  const progressLine = (event: EventRecord): string => {
+    const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+    return `- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.routes.slice(0, 2).join(" / ")} · ${event.lastUpdatedAt.slice(5, 10)}`;
+  };
+  lines.push("### 本周融资", "", ...(funding.length ? funding.map(fundingLine) : ["- 暂无满足证据门槛的融资事件。"]), "");
+  lines.push("### 本周产品 / 部署", "", ...(productDeployment.length ? productDeployment.map(progressLine) : ["- 暂无满足证据门槛的产品或部署事件。"]), "");
+  lines.push("### 持续跟踪公司", "", ...(tracked.length ? tracked.map(({ company, event }) => `- ${companyLink(company)} · ${company.routes.join(" / ")} · [${headlineFor(event, true)}](${evidenceLink(event)}) · 更新 ${event.lastUpdatedAt.slice(0, 10)}`) : ["- 正在积累可归属的持续进展。"]));
+  return lines.join("\n");
+}
+
+export function buildCompanyDossiers(companies: CompanyProfile[], events: EventRecord[]): CompanyDossier[] {
+  return companies.map((company) => {
+    const linked = events.filter((event) => event.primaryEntity === company.name).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+    return {
+      company,
+      updatedAt: linked[0]?.lastUpdatedAt ?? "",
+      eventIds: linked.map((event) => event.id),
+      funding: linked.filter((event) => event.type === "投融资" && event.funding?.entityStatus === "已确认").map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), fact: event.funding!, evidenceLinks: event.evidence.map((item) => item.link) })),
+      productsAndDeployments: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), type: event.type, fact: event.productDeployment ?? { customers: [] }, evidenceLinks: event.evidence.map((item) => item.link) })),
+    };
+  });
+}
+
+export function buildRouteIndex(companies: CompanyProfile[], events: EventRecord[]): RouteIndexEntry[] {
+  const routes: TechnicalRoute[] = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
+  return routes.map((route) => {
+    const routeCompanies = companies.filter((company) => company.routes.includes(route)).map((company) => company.name);
+    const linked = events.filter((event) => event.routes.includes(route) && event.primaryEntity && routeCompanies.includes(event.primaryEntity));
+    return { route, companies: routeCompanies, fundingEventIds: linked.filter((event) => event.type === "投融资").map((event) => event.id), productDeploymentEventIds: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => event.id) };
+  });
+}
+
+export function formatCompanyDossiers(dossiers: CompanyDossier[]): string {
+  const lines = ["# 公司与团队", "", "> 档案覆盖平台公司、成长公司与创业公司。融资、产品和部署均只展示可追溯证据；空白表示尚未有满足门槛的公开事件。", ""];
+  for (const dossier of dossiers) {
+    const { company } = dossier;
+    lines.push(`## [${company.name}](${company.officialUrl})`, "", `- 地域 / 阶段：${company.region} / ${company.stage ?? "公司"}`, `- 技术路线：${company.routes.join(" · ")}`, `- 核心押注：${company.thesis}`);
+    if (dossier.funding.length) lines.push(`- 融资：${dossier.funding.slice(0, 3).map((item) => `${item.fact.round ?? "轮次未披露"} ${item.fact.amount ?? "金额未披露"}（[证据](${item.evidenceLinks[0] ?? "#"})，${item.date}）`).join("；")}`);
+    else lines.push("- 融资：尚未收录可归属的公开融资证据。");
+    if (dossier.productsAndDeployments.length) lines.push(`- 产品 / 部署：${dossier.productsAndDeployments.slice(0, 3).map((item) => `${item.fact.product ?? item.fact.deployment ?? item.type}（[证据](${item.evidenceLinks[0] ?? "#"})，${item.date}）`).join("；")}`);
+    else lines.push("- 产品 / 部署：尚未收录满足证据门槛的近期事件。");
     lines.push("");
   }
-  if (companyEvents.length) {
-    lines.push("### 公司最新进展", "");
-    for (const event of companyEvents) {
-      const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
-      lines.push(`- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link})：${summaryFor(event)}`);
-    }
-    lines.push("");
-  }
-  const routes: TechnicalRoute[] = ["VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "数据与训练", "部署与商业化"];
-  lines.push("### 技术路线地图", "", "| 路线 | 代表公司 |", "| --- | --- |");
-  for (const route of routes) lines.push(`| ${route} | ${companies.filter((company) => company.routes.includes(route)).slice(0, 8).map(companyLink).join(" · ")} |`);
   return lines.join("\n");
 }
 

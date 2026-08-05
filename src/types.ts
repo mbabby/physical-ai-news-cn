@@ -121,6 +121,21 @@ export interface EventUpdate {
   evidenceLinks: string[];
 }
 
+export interface FundingFact {
+  /** Only a verified canonical company may be named here. */
+  entityStatus: "已确认" | "待识别";
+  round?: string;
+  amount?: string;
+  valuation?: string;
+  investors: string[];
+}
+
+export interface ProductDeploymentFact {
+  product?: string;
+  customers: string[];
+  deployment?: string;
+}
+
 export interface EventRecord {
   id: string;
   title: string;
@@ -139,6 +154,8 @@ export interface EventRecord {
   openQuestions: string[];
   evidence: EventEvidence[];
   timeline: EventUpdate[];
+  funding?: FundingFact;
+  productDeployment?: ProductDeploymentFact;
 }
 
 export interface EventStore {
@@ -148,11 +165,28 @@ export interface EventStore {
 
 export interface CompanyProfile {
   name: string;
+  aliases?: string[];
   region: string;
   stage?: "平台公司" | "成长公司" | "创业公司";
   routes: TechnicalRoute[];
   thesis: string;
   officialUrl: string;
+}
+
+/** Public, generated dossier. It never fabricates facts that lack evidence. */
+export interface CompanyDossier {
+  company: CompanyProfile;
+  updatedAt: string;
+  eventIds: string[];
+  funding: Array<{ eventId: string; date: string; fact: FundingFact; evidenceLinks: string[] }>;
+  productsAndDeployments: Array<{ eventId: string; date: string; type: ArticleKind; fact: ProductDeploymentFact; evidenceLinks: string[] }>;
+}
+
+export interface RouteIndexEntry {
+  route: TechnicalRoute;
+  companies: string[];
+  fundingEventIds: string[];
+  productDeploymentEventIds: string[];
 }
 
 export type CandidateCompanyStatus = "候选" | "观察中" | "已交叉核验" | "已入库";

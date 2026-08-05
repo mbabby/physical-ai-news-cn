@@ -11,7 +11,7 @@ import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, upsertEvents } from "./event-center.js";
+import { buildCompanyDossiers, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
@@ -150,15 +150,18 @@ async function main(): Promise<void> {
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
   const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
-  const holdReasonsForCompanyArticle = (article: Article) => publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article) ?? ""));
+  const holdReasonsForCompanyArticle = (article: Article) => publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article, companies) ?? ""));
   const publicArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length === 0);
   const heldArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)));
   const eventPath = join(eventsDir, "index.json");
-  const eventStore = upsertEvents(await readJson<EventStore>(eventPath), publicArticles, now);
+  const eventStore = upsertEvents(await readJson<EventStore>(eventPath), publicArticles, now, companies);
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
+  const companyDossiers = buildCompanyDossiers(companies, eventStore.events);
+  await writeFile(join(eventsDir, "company-dossiers.json"), JSON.stringify(companyDossiers, null, 2) + "\n", "utf8");
+  await writeFile(join(eventsDir, "route-index.json"), JSON.stringify(buildRouteIndex(companies, eventStore.events), null, 2) + "\n", "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now), null, 2) + "\n", "utf8");
-  await writeFile(join(resourcesDir, "companies.md"), `# 公司与团队\n\n${formatCompanyRadar(companies, eventStore.events)}\n`, "utf8");
+  await writeFile(join(resourcesDir, "companies.md"), formatCompanyDossiers(companyDossiers) + "\n", "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));
   if (resourceCatalog) {
