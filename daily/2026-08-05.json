@@ -29,7 +29,7 @@
       "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
       "link": "https://arxiv.org/abs/2608.03682v1",
       "publishedAt": "2026-08-04T13:53:48.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
+      "fetchedAt": "2026-08-05T05:02:27.178Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 10,
       "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
@@ -44,8 +44,8 @@
       ],
       "kind": "产品发布",
       "score": 144,
-      "titleZh": "PhyAI：统一边缘与云端部署的实时物理 AI 推理引擎",
-      "summaryZh": "PhyAI 以单一运行时统一视觉语言动作模型与世界动作模型的推理，覆盖板端、边缘与云端部署，较官方实现提速1.4至4.65倍。"
+      "titleZh": "PhyAI：统一边缘与云端的实时物理 AI 推理引擎",
+      "summaryZh": "PhyAI 用单一运行时统一 VLA 与世界动作模型的推理，覆盖端侧、边缘与云端部署，较 pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。"
     },
     {
       "id": "5d41827fa30a6d06",
@@ -254,281 +254,11 @@
   ],
   "candidates": [
     {
-      "id": "c0c5a7667a31b2fd",
-      "title": "Stochastic Multiple Shooting Trajectory Optimization via Sequential Local Policy Evaluation",
-      "link": "https://arxiv.org/abs/2608.03978v1",
-      "publishedAt": "2026-08-04T17:43:21.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Stochastic single shooting trajectory optimization methods such as Model Predictive Path Integral control (MPPI) have been widely adopted in robotics due to their ability to reason about probabilistic dynamics and provide solutions where model gradients are noisy, costly to evaluate, or unavailable. However, satisfaction of terminal constraints when shooting over long action sequences is often sample inefficient, requiring a large number of iterations for convergence. In this paper, we present a stochastic multiple shooting method that optimizes short control action sequences connected via local feedback policies to improve sample efficiency and convergence to a terminal set. Additionally, we show that we are able to synthesize approximate system Jacobians purely from rollouts, making the method suitable for model-based reinforcement learning with black-box dynamics. We demonstrate the algorithm has improved sample efficiency and terminal set convergence for three nonlinear, underactuated optimization problems: a classic cartpole swingup task with analytical dynamics, a cartpole swingup task with learned neural network dynamics, and a VTOL quadplane performing a high angle-of-attack, precision post-stall landing maneuver.",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics"
-      ],
-      "authors": [
-        "Ashwin Gupta"
-      ],
-      "kind": "投融资",
-      "score": 148,
-      "titleZh": "基于序贯局部策略评估的随机多重打靶轨迹优化方法",
-      "summaryZh": "提出随机多重打靶轨迹优化方法，以局部反馈策略连接短控制序列，提升采样效率与终端集收敛，并可由滚动数据近似系统雅可比矩阵。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "4e68232ee3faf30e",
-      "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-      "link": "https://arxiv.org/abs/2608.03682v1",
-      "publishedAt": "2026-08-04T13:53:48.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
-      "tags": [
-        "产品",
-        "robot",
-        "physical ai",
-        "vla"
-      ],
-      "authors": [
-        "Chenghua Wang"
-      ],
-      "kind": "产品发布",
-      "score": 144,
-      "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "199de4cccaaf6b75",
-      "title": "Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution",
-      "link": "https://arxiv.org/abs/2608.03483v1",
-      "publishedAt": "2026-08-04T11:21:08.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Existing chunk-based Vision-Language-Action (VLA) models execute a fixed number of actions (i.e., execution horizon) before replanning, turning replanning into a task-agnostic periodic schedule that is independent of task progress. As a result, when no replanning boundary falls before a critical manipulation stage, it is executed from a stale chunk rather than a freshly replanned one. To address this limitation, we propose Bernoulli-Continuation Policy (BCP), a lightweight, plug-and-play framework for adaptive horizon execution that keeps the base VLA frozen. Given a fixed-length action chunk, its continuation head decomposes execution-horizon selection into a sequence of continue-or-replan decisions, which imposes an ordinal, prefix-sharing inductive bias over candidate horizons rather than treating them as independent classes. Since the optimal horizon for each chunk is not observable, we train this head with reinforcement learning from trajectory-level outcomes and introduce a Replanning-Efficiency Reward that jointly rewards task success and efficient VLA usage, discouraging the policy from collapsing to unnecessarily short horizons. On RoboTwin 2.0 with LingBot-VLA as the base policy, BCP improves the average success rate by +11.08% on 13 low-success tasks and from 89.88% to 93.94% (+4.06%) across all 50 tasks. Although trained only under the Clean setting, BCP generalizes to the Randomized setting, raising the average success rate by +4.06%. It also transfers to a different base policy $π_{0.5}$, achieving a better result on LIBERO (+1.7%) and, notably, on the harder LIBERO-PRO (+6.8%). On a real robot, BCP lifts success from 74% to 92% and from 44% to 84% on two manipulation tasks. Meanwhile, its negligible overhead, combined with higher success, makes BCP's overall runtime even lower than the fixed-horizon baselines.",
-      "tags": [
-        "产业",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "authors": [
-        "Weichen Xu"
-      ],
-      "kind": "公司商业",
-      "score": 140,
-      "titleZh": "Bernoulli-Continuation Policy：让 VLA 模型自适应决定继续执行还是重新规划",
-      "summaryZh": "BCP 是轻量即插即用框架，将执行时长选择分解为继续或重规划决策，经强化学习训练，冻结基座 VLA 即提升成功率且开销可忽略。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "f304bfee923bc158",
-      "title": "ETA: A New Agentic Paradigm for Embodied Tasks",
-      "link": "https://arxiv.org/abs/2608.03924v1",
-      "publishedAt": "2026-08-04T16:56:09.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "When will robots have their ChatGPT moment? Such a breakthrough requires a general-purpose robot that can handle unfamiliar tasks in unfamiliar environments, remain controllable over long interactions, and learn from experience.\n  Today's embodied systems largely follow an end-to-end observation-to-action path. Despite rapid progress, they remain far from this goal: their generalization depends heavily on the coverage of robot training data, while long task execution remains difficult to control and inspect. To realize this goal, we introduce the Embodied Task Agent (ETA), a new paradigm for extending digital agents into the physical world, and release OpenETA as its open-source implementation. ETA centers the robot around a Planner that chooses one Tool call at a time, an Interface that controls execution, and a World that returns the result and a fresh observation. This loop allows the agent to verify outcomes, adapt its plan, and turn successful and failed interactions into reusable experience. OpenETA provides replaceable Planners, composable Tools and Skills, auditable memory, replayable trajectories, and common interfaces for simulation and real robots. For Codex, OpenETA can operate as a lightweight plugin that exposes only observe, mark_point, and move_to.",
-      "tags": [
-        "产品",
-        "robot",
-        "embodied"
-      ],
-      "authors": [
-        "Yitong Chen"
-      ],
-      "kind": "产品发布",
-      "score": 136,
-      "titleZh": "ETA: A New Agentic Paradigm for Embodied Tasks",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "1a815b14347c7f6e",
-      "title": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
-      "link": "https://arxiv.org/abs/2608.03387v1",
-      "publishedAt": "2026-08-04T09:37:06.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Humanoid robots have the potential to perform dexterous manipulation in human environments, yet acquiring diverse and generalizable skills remains costly due to expensive hardware data collection and labor-intensive annotation. Recent advances in video generative models provide a promising opportunity to synthesize rich manipulation experiences from visual observations, but transferring such imagined behaviors into executable whole-body humanoid skills remains largely unexplored. In this work, we present RoboReact, a framework that automatically synthesizes whole-body humanoid manipulation skills from a single egocentric RGB-D observation. RoboReact generates human manipulation videos, extracts geometry-preserving interaction keyframes through depth-aware 3D reconstruction, and retargets them to high-DoF humanoid platforms while preserving hand-object interaction geometry. To bridge the gap between imagined plans and physical execution, RoboReact performs online object-centric re-grounding and leverages a vision-language model-guided refinement loop to adapt skills under geometric mismatch and execution deviations. The refined skills are executed through a whole-body controller, enabling coordinated whole-body manipulation and dexterous interaction. Experiments on real humanoid robots demonstrate that RoboReact generalizes across diverse object configurations and robustly recovers from execution disturbances without requiring teleoperation or human demonstrations. These results highlight the potential of combining generative models, vision-language reasoning, and closed-loop control for scalable humanoid skill acquisition.",
-      "tags": [
-        "产业",
-        "robot",
-        "humanoid",
-        "manipulation"
-      ],
-      "authors": [
-        "Shuliang He"
-      ],
-      "kind": "公司商业",
-      "score": 136,
-      "titleZh": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "5fd9b7c86fb42f1e",
-      "title": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
-      "link": "https://arxiv.org/abs/2608.03727v1",
-      "publishedAt": "2026-08-04T14:25:13.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Action labels tell a vision-language-action (VLA) policy which robot commands to imitate, but not how those commands change the 3D world. The aligned demonstration clip contains this missing supervision because its $K$ frame transitions record the geometry, motion, visibility, and camera change produced during the corresponding $K$ actions. We introduce Track4Action, a framework that distills this realized transition from a frozen world-centric 3D tracker into a current-observation VLA policy. During training, Track4World encodes the clip $V_{t:t+K}$ into a pooled tracker feature. Learnable track queries infer this feature from current VLA hidden states, match it in a shared space, and condition a flow-matching action head through a feature-wise gate. The tracker feature only defines the alignment target, so neither the clip nor the tracker is used at deployment. Track4Action reaches 82.3% on zero-shot LIBERO-Plus, improving the alignment-free variant by 7.6 points and LaMP by 3.0 points. It obtains 80.44% and 81.48% on the clean and randomized RoboTwin 2.0 splits, and 67.5% average success across four physical bimanual tasks, 25.0 points above the alignment-free variant. The gains across simulation and physical tasks support action-aligned 3D tracker features as privileged supervision for tracker-free VLA deployment. Our project page is available at https://wing0night.github.io/track4action-project-page.",
-      "tags": [
-        "落地",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "authors": [
-        "Chenyi Wang"
-      ],
-      "kind": "部署案例",
-      "score": 132,
-      "titleZh": "Track4Action：将世界中心3D追踪器蒸馏进视觉语言动作策略",
-      "summaryZh": "Track4Action以冻结的世界中心3D追踪器特征作对齐目标训练VLA策略，部署时无需追踪器；零样本LIBERO-Plus达82.3%，四项实体双臂任务平均成功率67.5%。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "0dd3b4d751446fd0",
-      "title": "Human Centric Embodied Intelligence for Soft Wearable Robotics",
-      "link": "https://arxiv.org/abs/2608.03556v1",
-      "publishedAt": "2026-08-04T12:26:14.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Soft wearable robots have evolved rapidly from proof-of-concept devices into promising platforms for rehabilitation, occupational assistance, and human augmentation. As the field matures, its central challenge extends beyond the development of softer materials and more capable actuators to the integration of sensing, intelligence, and human adaptation into systems that users can wear comfortably, trust, and benefit from over extended periods. This transition motivates the concept of Human-Centric Embodied Intelligence (HCEI), in which intelligence emerges from the coupled human-robot system through the interaction of morphology, multimodal sensing, adaptive cognition, compliant actuation, and the wearer's own physiological and behavioral adaptation. To organize this perspective, this review introduces the Perception-Cognition-Actuation-Augmentation (PCAA) framework, which positions perception and cognition as the primary drivers of design, shifting development beyond the conventional actuator-first paradigm. Using this framework, the review synthesizes advances in soft materials, wearable sensing, artificial intelligence, actuation, human-robot interaction, digital twins, clinical translation, manufacturing, regulation, and ethics, highlighting how these interdependent components collectively shape long-term personalization and real-world deployment. By providing a unified conceptual framework and design perspective, this review aims to guide future research, foster interdisciplinary collaboration, and accelerate the translation of next-generation soft wearable robots toward personalized, predictive, and human-centric wearable intelligence.",
-      "tags": [
-        "落地",
-        "robot",
-        "robotics",
-        "embodied"
-      ],
-      "authors": [
-        "Rainier Natividad"
-      ],
-      "kind": "部署案例",
-      "score": 132,
-      "titleZh": "面向柔性可穿戴机器人的人本具身智能",
-      "summaryZh": "综述提出人本具身智能概念与感知-认知-驱动-增强框架，以感知与认知驱动设计，推动柔性可穿戴机器人实现个性化长期应用。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "7aa15470a00aa82c",
-      "title": "Principles of Robot Autonomy",
-      "link": "https://arxiv.org/abs/2608.03496v1",
-      "publishedAt": "2026-08-04T11:35:20.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Autonomous robots are moving rapidly from research labs into everyday life - on roads, in the air, in warehouses, and in space. Robot autonomy is no longer solely an academic pursuit, but a collection of mature, field-tested methods and tools that practitioners rely on in real-world deployments. This book offers a clear, unified introduction to the methods that make this possible. Built on decades of teaching at Stanford, the text develops the core elements of modern autonomy stacks within a single conceptual framework, bridging classical robotics and modern physical AI. Every major topic is paired with hands-on Jupyter notebooks and implementation-driven exercises, so readers build practical intuition alongside theoretical understanding. The result is a principled, accessible, and deployment-aware foundation for anyone seeking to design, analyze, or contribute to the next generation of autonomous systems. This is a comprehensive resource for students, engineers, and researchers entering one of today's fastest-growing fields.",
-      "tags": [
-        "落地",
-        "robot",
-        "robotics",
-        "physical ai"
-      ],
-      "authors": [
-        "Daniele Gammelli"
-      ],
-      "kind": "部署案例",
-      "score": 132,
-      "titleZh": "Principles of Robot Autonomy",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "06c0726fc6018502",
-      "title": "PFM-HR: Pose Flow Matching for Humanoid Robots",
-      "link": "https://arxiv.org/abs/2608.03227v1",
-      "publishedAt": "2026-08-04T06:58:54.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Motion priors improve reinforcement learning for physics-based humanoid tracking, but temporal priors require ordered motion clips, while pose priors provide limited guidance for policy-induced pose transitions. We present Pose Flow Matching for Humanoid Robots (PFM-HR), a reusable flow matching prior trained directly on large scale unordered pose data. PFM-HR introduces the Pose Geometry Score (PGS), which quantifies how joint coordinate changes during rollouts align with the local geometry of pose variation captured by the prior. Using PGS to modulate the tracking reward guides policy exploration toward structured pose changes while keeping the prior frozen across tracking tasks. Experiments demonstrate that PFM-HR improves both single motion and general motion tracking, especially for highly dynamic motions.",
-      "tags": [
-        "产业",
-        "robot",
-        "humanoid"
-      ],
-      "authors": [
-        "Yukang Gao"
-      ],
-      "kind": "公司商业",
-      "score": 132,
-      "titleZh": "PFM-HR: Pose Flow Matching for Humanoid Robots",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "5f32ca2e5c6db214",
-      "title": "DigitCode: Symbolic Tokenization of Hand Motion by Anatomical Units",
-      "link": "https://arxiv.org/abs/2608.03127v1",
-      "publishedAt": "2026-08-04T04:55:47.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 10,
-      "excerpt": "Hand motion carries the finest-grained information in human activity, yet the representations behind hand generation, understanding, and robot learning are overwhelmingly continuous--joint angles or MANO parameters. These are accurate but unstructured: a finger cannot be indexed or edited as a symbol, and nothing marks a pose as anatomically valid. Discrete symbolic representations supply exactly this structure, and Hand Labanotation (HL) has shown they are feasible for the hand, writing motion as a T x 40 grid of one fixed direction symbol per bone. Building on this grid, we ask the question underneath it: the anatomical unit a symbol should span--bone, finger, or whole hand. DigitCode answers it by adapting, grouping, and layering HL's alphabet along the hand's unit hierarchy within one code, cutting the symbolic representation's quantization error by three quarters. The lever is the unit, not the quantizer family: at a fixed unit, training-free and learned strong quantizers are interchangeable on reconstruction, while moving down the anatomical hierarchy is what shifts accuracy. The hierarchy also tracks what downstream tasks need. Because a finger is a genuine, enumerable unit, one per-finger token doubles as a training-free, editable handle for jobs a continuous representation cannot address--repairing malformed generated hands, and retargeting them onto robots. We release HandTok, a reproducible testbed, so hand tokenizers can be compared unit-for-unit. Project page: https://digitcode-demo.github.io.",
-      "tags": [
-        "产品",
-        "robot"
-      ],
-      "authors": [
-        "Haoyu Gu"
-      ],
-      "kind": "产品发布",
-      "score": 132,
-      "titleZh": "DigitCode：基于解剖单元的手部动作符号化分词",
-      "summaryZh": "DigitCode 沿骨骼、手指、整手的解剖层级组织手部动作符号，将量化误差降低四分之三；单手指 token 可免训练修复畸形生成手并迁移至机器人。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "公司主体未确认"
-      ]
-    },
-    {
       "id": "eb18b0cf94089ec3",
       "title": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
       "link": "https://arxiv.org/abs/2608.02197v1",
       "publishedAt": "2026-08-03T13:18:36.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
+      "fetchedAt": "2026-08-05T05:02:27.178Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 10,
       "excerpt": "Visual representations of VLA models remain unreliable for spatially precise robotic manipulation. We uncover that vision encoders in VLAs also exhibit attention artifacts previously documented in generic Vision Transformers, and further show that, in embodied policies, these artifacts are closely associated with spatial perception capabilities acquired during post-training. As the encoder learns task-relevant information such as object location, depth ordering, and local geometry, limited global-token capacity causes part of this information to spill into low-information patch tokens. We introduce AtVLA, a framework that inserts learnable register tokens into the visual encoder. Trained end-to-end using only embodied data and the original action objective, these registers emerge as dedicated carriers of embodied spatial information, while the remaining patch tokens recover clean and spatially faithful attention distributions crucial for precise target localization and fine-grained contact. Clean attention restores reliable localization, but cannot recover geometric details lost in low-resolution observations. AtVLA therefore couples attention rectification with uncertainty-gated local refinement. The action expert samples multiple action chunks and estimates uncertainty from their disagreement; only for uncertain predictions, action-conditioned attention rollout identifies the task-relevant region, which is cropped, re-encoded at high resolution, and appended to the cached prefix for refined action generation. Across LIBERO, SimplerEnv, and a challenging single-view real-world benchmark, AtVLA improves the average LIBERO success rate from 94.2% to 98.4% and real-world success from 46.5% to 69.0%. The cropping is triggered on approximately 30% of replanning steps, resulting in only 1.4-1.6x the total computation of the base model under the representative deployment setting.",
@@ -551,11 +281,65 @@
       ]
     },
     {
+      "id": "1a815b14347c7f6e",
+      "title": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
+      "link": "https://arxiv.org/abs/2608.03387v1",
+      "publishedAt": "2026-08-04T09:37:06.000Z",
+      "fetchedAt": "2026-08-05T05:02:27.178Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 10,
+      "excerpt": "Humanoid robots have the potential to perform dexterous manipulation in human environments, yet acquiring diverse and generalizable skills remains costly due to expensive hardware data collection and labor-intensive annotation. Recent advances in video generative models provide a promising opportunity to synthesize rich manipulation experiences from visual observations, but transferring such imagined behaviors into executable whole-body humanoid skills remains largely unexplored. In this work, we present RoboReact, a framework that automatically synthesizes whole-body humanoid manipulation skills from a single egocentric RGB-D observation. RoboReact generates human manipulation videos, extracts geometry-preserving interaction keyframes through depth-aware 3D reconstruction, and retargets them to high-DoF humanoid platforms while preserving hand-object interaction geometry. To bridge the gap between imagined plans and physical execution, RoboReact performs online object-centric re-grounding and leverages a vision-language model-guided refinement loop to adapt skills under geometric mismatch and execution deviations. The refined skills are executed through a whole-body controller, enabling coordinated whole-body manipulation and dexterous interaction. Experiments on real humanoid robots demonstrate that RoboReact generalizes across diverse object configurations and robustly recovers from execution disturbances without requiring teleoperation or human demonstrations. These results highlight the potential of combining generative models, vision-language reasoning, and closed-loop control for scalable humanoid skill acquisition.",
+      "tags": [
+        "产业",
+        "robot",
+        "humanoid",
+        "manipulation"
+      ],
+      "authors": [
+        "Shuliang He"
+      ],
+      "kind": "公司商业",
+      "score": 136,
+      "titleZh": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "5fd9b7c86fb42f1e",
+      "title": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
+      "link": "https://arxiv.org/abs/2608.03727v1",
+      "publishedAt": "2026-08-04T14:25:13.000Z",
+      "fetchedAt": "2026-08-05T05:02:27.178Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 10,
+      "excerpt": "Action labels tell a vision-language-action (VLA) policy which robot commands to imitate, but not how those commands change the 3D world. The aligned demonstration clip contains this missing supervision because its $K$ frame transitions record the geometry, motion, visibility, and camera change produced during the corresponding $K$ actions. We introduce Track4Action, a framework that distills this realized transition from a frozen world-centric 3D tracker into a current-observation VLA policy. During training, Track4World encodes the clip $V_{t:t+K}$ into a pooled tracker feature. Learnable track queries infer this feature from current VLA hidden states, match it in a shared space, and condition a flow-matching action head through a feature-wise gate. The tracker feature only defines the alignment target, so neither the clip nor the tracker is used at deployment. Track4Action reaches 82.3% on zero-shot LIBERO-Plus, improving the alignment-free variant by 7.6 points and LaMP by 3.0 points. It obtains 80.44% and 81.48% on the clean and randomized RoboTwin 2.0 splits, and 67.5% average success across four physical bimanual tasks, 25.0 points above the alignment-free variant. The gains across simulation and physical tasks support action-aligned 3D tracker features as privileged supervision for tracker-free VLA deployment. Our project page is available at https://wing0night.github.io/track4action-project-page.",
+      "tags": [
+        "落地",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Chenyi Wang"
+      ],
+      "kind": "部署案例",
+      "score": 132,
+      "titleZh": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
       "id": "032ae11a91a5f019",
       "title": "A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces",
       "link": "https://arxiv.org/abs/2608.03103v1",
       "publishedAt": "2026-08-04T04:21:00.000Z",
-      "fetchedAt": "2026-08-05T04:42:07.021Z",
+      "fetchedAt": "2026-08-05T05:02:27.178Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 10,
       "excerpt": "Diffusion policies have shown strong performance in learning complex, multi-modal behaviors for robotic manipulation. However, their application to contact-rich disassembly tasks remains limited by a key trade-off: the iterative denoising process introduces inference latencies that makes high frequency control difficult, which is essential for realizing dynamic interactions such as chiseling and prying. Recent action-chunking techniques mitigate latency but use an open-loop execution window, rendering the system blind to rapid force transients caused by fracture events. To bridge this gap, we introduce the Diffusion Policy Augmented by Fast Trajectory Generation (DPA-FTG). Compared to recent visual-tactile approaches that focus on positional correction, DPA-FTG decouples low-frequency planning from high-frequency force regulation. At the high level ($5$ Hz), a conditional diffusion model predicts a sequence of latent parameters for selecting a strategy from a learned vocabulary of task primitives. At the low level ($60$ Hz), a lightweight, force-conditioned policy acts as a neural impedance controller, modulating execution in real-time to maintain contact stability. We validate our approach on a bimanual battery disassembly task involving the separation of a compliant sheet. Experimental evaluation demonstrates that DPA-FTG outperforms state-of-the-art baselines, including Reactive Diffusion Policy (RDP).",
@@ -581,9 +365,9 @@
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 16,
-      "succeeded": 9,
-      "failed": 7,
+      "attempted": 6,
+      "succeeded": 2,
+      "failed": 4,
       "detail": "部分摘要调用失败，相关内容已留在候选层。"
     },
     {
