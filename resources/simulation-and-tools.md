@@ -20,9 +20,9 @@
 
 - [Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
-- [Bernoulli-Continuation Policy：让 VLA 自适应决定继续执行还是重规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>BCP 将执行时域分解为继续或重规划决策，冻结基座 VLA 并以强化学习训练，在 RoboTwin 2.0、LIBERO 及真机任务上显著提升成功率且开销极低。
+- [Bernoulli-Continuation Policy：让 VLA 模型自适应决定继续执行还是重新规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>BCP以强化学习训练继续头，将执行时长拆分为继续或重规划决策，基础VLA保持冻结，在仿真与真机上显著提升成功率。
 
-- [RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [RoboReact：从生成的第一视角视频蒸馏人形机器人全身操作技能](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>该框架仅凭单张第一视角观测生成操作视频，提取关键帧并重定向至人形机器人，经视觉语言模型闭环优化，无需人类示范即可泛化完成全身操作。
 
 - [Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies](https://arxiv.org/abs/2608.01826v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
