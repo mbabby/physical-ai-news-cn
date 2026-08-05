@@ -7,7 +7,7 @@ body:
     id: type
     attributes:
       label: 内容类型
-      options: [资讯源, 公司与团队, 模型与开源项目, 机器人与硬件, 仿真与工具, 数据集与基准, 学习资料与社区]
+      options: [公司/融资/部署证据, 资讯源, 里程碑论文与精读, 模型与开源项目, 机器人与硬件, 仿真与工具, 数据集与基准, 学习资料与社区, 事实或路线纠错]
     validations:
       required: true
   - type: input
@@ -19,6 +19,6 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: 中文说明与收录理由
+      label: 中文事实说明、所属分类与收录/纠错理由
     validations:
       required: true

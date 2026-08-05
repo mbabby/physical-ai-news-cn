@@ -18,6 +18,7 @@ import { enrichResearchWithOpenAlex } from "./openalex.js";
 import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry } from "./research-registry.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
 import { formatSourceNetwork } from "./source-network.js";
+import { formatShareableSummary } from "./shareable-summary.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -244,6 +245,7 @@ async function main(): Promise<void> {
   const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
+  await writeFile(join(weeklyDir, "shareable-summary.md"), formatShareableSummary(eventStore, publicResearch, week), "utf8");
   const archives = await readRecentDailyArchives(outputDir, now, 30);
   const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);

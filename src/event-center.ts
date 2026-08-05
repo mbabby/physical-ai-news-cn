@@ -382,7 +382,7 @@ export function buildRouteIndex(companies: CompanyProfile[], events: EventRecord
 }
 
 export function formatCompanyDossiers(dossiers: CompanyDossier[]): string {
-  const lines = ["# 公司与团队", "", "> 档案覆盖平台公司、成长公司与创业公司。融资、产品和部署均只展示可追溯证据；空白表示尚未有满足门槛的公开事件。", ""];
+  const lines = ["# 公司与资本地图", "", "> 可独立分享的物理 AI 公司档案：查看每家公司押注的技术路线，以及可追溯的融资、产品与部署证据。空白或“未收录”仅表示当前信源尚无满足门槛的公开事件，不代表没有融资或没有进展。", ""];
   for (const dossier of dossiers) {
     const { company } = dossier;
     lines.push(`## [${company.name}](${company.officialUrl})`, "", `- 地域 / 阶段：${company.region} / ${company.stage ?? "公司"}`, `- 技术路线：${company.routes.join(" · ")}`, `- 核心押注：${company.thesis}`);

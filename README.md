@@ -2,14 +2,25 @@
 
 # 物理 AI 产业情报库
 
-> 面向物理 AI 从业者：用可追溯事实理解公司、资本、技术路线与研究进展。
+> 面向物理 AI 从业者的可追溯中文情报：用公开证据理解公司、资本、产品部署、技术竞争与研究前沿。
+
+**北京时间每日 08:30 自动更新** · **线索不等于事实** · **中文为主站，面向全球开放协作**
 
 <p align="center">
-  <a href="#产业进展">产业进展</a> ·
-  <a href="#公司与资本地图">公司与资本地图</a> ·
-  <a href="#学术与研究前沿">学术与研究前沿</a> ·
-  <a href="#技术竞争与研究">技术地图</a>
+  <a href="#产业进展">今日产业进展</a> ·
+  <a href="resources/companies.md">公司与资本地图</a> ·
+  <a href="resources/industry-landscape-and-tech-routes.md">竞争路线图</a> ·
+  <a href="resources/milestone-papers.md">里程碑论文</a> ·
+  <a href="weekly/shareable-summary.md">本周可分享摘要</a>
 </p>
+
+| 你想快速判断什么 | 直接进入 |
+| --- | --- |
+| 哪些公司获得了可核验的资本与产品/部署进展 | [公司与资本地图](resources/companies.md) |
+| 一条路线由谁在做、怎么做、资本是否支持、验证到了哪一步 | [物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md) |
+| 哪些论文正在形成长期技术脉络 | [里程碑论文与精读](resources/milestone-papers.md) |
+
+> 数据口径：官方公司/实验室、开源发布与权威产业媒体可作为公开证据；Google News、HN 与 X 仅用于发现线索，未完成主体与事实核验的内容只保留在候选层。
 
 ## 产业进展
 
@@ -62,6 +73,18 @@
 > 本轮论文已抓取，正在完成中文解读与事实校验；仅在标题、两句简介与元数据完整后展示。
 
 <!-- RESEARCH_UPDATES_END -->
+
+## 分享与协作
+
+- 可直接发布的 [本周物理 AI 情报摘要](weekly/shareable-summary.md)：仅从已公开、可追溯事件与完整中文研究卡生成。
+- 想补充公司、融资、产品部署、论文或信源？请阅读 [贡献指南](CONTRIBUTING.md)，再提交 [Issue](../../issues/new/choose) 或 PR。
+- 发现事实、主体或路线归属错误？请提交 Issue 并附上原始证据；纠错优先于扩充。
+
+## For global readers
+
+**Physical AI Intelligence Repository** is a source-traceable Chinese intelligence hub for Physical AI practitioners, covering companies, funding, product deployment, technical competition, and robotics research. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
+
+Read the concise [English project overview](README.en.md). Suggested GitHub topics: `physical-ai`, `embodied-ai`, `robotics`, `humanoid-robotics`, `vision-language-action`, `world-models`, `robot-learning`, `ai-news`, `chinese`.
 
 ## 公司、技术与研究
 
