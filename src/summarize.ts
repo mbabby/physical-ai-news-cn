@@ -50,7 +50,7 @@ export class CompatibleSummarizer {
           signal: AbortSignal.timeout(30_000),
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${this.settings.apiKey}` },
           body: JSON.stringify({ model: this.settings.model, messages: [
-            { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出两行纯文本，不要 Markdown、JSON 或解释。第一行固定为“标题：”加简洁自然的中文标题。公司、机构、产品、模型与论文名称必须保留原始官方写法（如 World Labs、SceniX、Gemini Robotics），不要翻译、音译或在名称前拼接人物名；只翻译事件本身。不要保留媒体名、站点名或英文原标题尾缀。第二行固定为“摘要：”。有来源摘要时，摘要写 35 至 60 字的中文事实简介，不得补充未给出的事实；来源摘要为空时，摘要写“暂无原文摘要，请阅读原文。”。" },
+            { role: "system", content: "你是严谨的中文科技编辑。只根据输入输出两行纯文本，不要 Markdown、JSON 或解释。第一行固定为“标题：”加简洁自然的中文标题。公司、机构、产品、模型与论文名称必须保留原始官方写法（如 World Labs、SceniX、Gemini Robotics），不要翻译、音译或在名称前拼接人物名；只翻译事件本身。不要保留媒体名、站点名或英文原标题尾缀。第二行固定为“摘要：”。有来源摘要时，摘要必须恰好两句、合计 45 至 90 字：第一句说明研究做了什么，第二句说明其在真实机器人、基准或可复现性上的已知证据；没有对应证据时明确写“摘要未提供真实机器人、基准或开源证据”。不得补充未给出的事实。来源摘要为空时，摘要写“暂无原文摘要，请阅读原文。”。" },
             { role: "user", content: `标题：${article.title}\n作者：${article.authors?.join("、") || "（未提供）"}\n来源摘要：${article.excerpt.slice(0, 4000) || "（无）"}` },
           ] }),
         });

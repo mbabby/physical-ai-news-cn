@@ -11,13 +11,14 @@ import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
-import { buildCompanyDossiers, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, upsertEvents } from "./event-center.js";
+import { buildCompanyDossiers, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchCards, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
+import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry } from "./research-registry.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
 import { formatSourceNetwork } from "./source-network.js";
-import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -34,8 +35,8 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[], refreshedAt: Date, researchFallbackDate?: string): string {
-  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research, researchFallbackDate));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], refreshedAt: Date, researchFallbackDate?: string): string {
+  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -121,8 +122,8 @@ function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["
 
 async function main(): Promise<void> {
   const windowHours = parseWindow(process.argv.slice(2));
-  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events");
-  await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true })]);
+  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research");
+  await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
@@ -142,14 +143,14 @@ async function main(): Promise<void> {
   // daily quota before funding, product and deployment sources are assessed.
   const industrySelected = filterIndustryAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
   // arXiv's submission calendar has gaps and one day's papers are too noisy
-  // to represent a field. Keep a 30-day pool, refresh its scholarly metadata
-  // daily, then only summarize the six highest-ranked candidates.
+  // to represent a field. Merge live results with all rolling archives, then
+  // refresh the pool's scholarly metadata and rerank it every day.
   const researchWindowHours = 30 * 24;
   const liveResearch = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), researchWindowHours, 24);
-  const recentArchives = await readRecentDailyArchives(outputDir, now, 7);
-  const cachedResearch = (await readRecentDailyArticles(outputDir, now)).filter((article) => article.source.startsWith("arXiv · Robotics"));
+  const recentArchives = await readRecentDailyArchives(outputDir, now, 30);
+  const cachedResearch = (await readRecentDailyArticles(outputDir, now, 30)).filter((article) => article.source.startsWith("arXiv · Robotics"));
   const latestCachedResearchDate = recentArchives.filter((archive) => archive.articles.some((article) => article.source.startsWith("arXiv · Robotics"))).sort((a, b) => b.date.localeCompare(a.date))[0]?.date;
-  const researchCandidates = liveResearch.length ? liveResearch : filterAndRank(cachedResearch, researchWindowHours, 24);
+  const researchCandidates = rankResearchArticles(uniqueArticles([...liveResearch, ...cachedResearch])).slice(0, 36);
   const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
   const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
@@ -157,12 +158,20 @@ async function main(): Promise<void> {
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
   const articles = await summarizeInSmallBatches(summarizer, industrySelected);
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
-  const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 6);
+  // Twelve summaries absorb occasional LLM failures while leaving enough
+  // complete cards to publish six. Any incomplete card remains private.
+  const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
-  const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
+  const researchPool = uniqueArticles([...researchArticles, ...openAlex.articles, ...cachedResearch]);
+  const previousResearch = await readJson<ResearchRegistry>(join(researchDir, "registry.json"));
+  const researchRegistry = updateResearchRegistry(previousResearch, researchPool, now);
+  const publicResearchRecords = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article)).slice(0, 6);
+  const shownResearchIds = new Set(publicResearchRecords.map((record) => record.id));
+  researchRegistry.records.forEach((record) => { if (shownResearchIds.has(record.id)) record.lastShownAt = now.toISOString(); });
+  const publicResearch = publicResearchRecords.map((record) => record.article);
   const hasFundingCrossEvidence = (article: Article): boolean => {
     if (article.kind !== "投融资" || article.sourceTier === "官方公司与实验室") return true;
     const entity = primaryEntityForArticle(article, companies);
@@ -189,6 +198,8 @@ async function main(): Promise<void> {
   await writeFile(join(eventsDir, "route-index.json"), JSON.stringify(buildRouteIndex(companies, eventStore.events), null, 2) + "\n", "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now), null, 2) + "\n", "utf8");
+  await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
+  await writeFile(join(resourcesDir, "research-promotion.md"), researchPromotionMarkdown(researchRegistry) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), formatCompanyDossiers(companyDossiers) + "\n", "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
   const resourceCatalog = await readJson<Record<"models" | "datasets" | "tools", Array<{ name: string; link: string; description: string; group: string; rank: number }>>>(join(resourcesDir, "resource-catalog.json"));
@@ -220,7 +231,8 @@ async function main(): Promise<void> {
   const archiveArticles = uniqueArticles([...publicArticles, ...publicResearch]);
   const candidates = uniqueArticles([...heldArticles, ...heldPulse, ...heldResearch]).map((article) => article as CandidateArticle);
   const statuses = [summarizer.status(), openAlex.status];
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources };
+  const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => change.date.slice(0, 10) === now.toISOString().slice(0, 10) && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: now.toISOString().slice(0, 10) })));
+  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
@@ -239,7 +251,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearch, now, researchFallbackDate), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, now, researchFallbackDate), "utf8");
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

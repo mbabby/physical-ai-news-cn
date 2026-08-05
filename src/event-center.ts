@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
-import type { Article, ArticleKind, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, RouteIndexEntry, TechnicalRoute } from "./types.js";
+import type { Article, ArticleKind, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteIndexEntry, TechnicalRoute } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
 // mention a competitor or customer, but that must never overwrite its profile.
@@ -310,6 +310,27 @@ export function formatResearchUpdates(articles: Article[], fallbackDate?: string
     const authority = researchAuthority(article);
     const byline = authority.labels.length ? `<br><sub>重点关注：${authority.labels.join(" · ")}</sub>` : "";
     return `- [${articleTitle(article)}](${article.link})<br>${articleSummary(article)}${byline}`;
+  }).join("\n\n");
+}
+
+function researchWhy(record: ResearchRecord): string {
+  const reasons: string[] = [];
+  if (record.authorityLabels.length) reasons.push(`来自 ${record.authorityLabels.join(" / ")}`);
+  if (record.evidenceTags.length) reasons.push(`提供${record.evidenceTags.join("、")}证据`);
+  if ((record.article.scholar?.citedByCount ?? 0) >= 50) reasons.push(`OpenAlex 收录引用 ${record.article.scholar!.citedByCount}`);
+  return reasons.length ? `值得关注：${reasons.join("；")}。` : "值得关注：面向物理 AI 的近期可复现实证。";
+}
+
+/** Strict public card: every displayed field is either source text or OpenAlex metadata. */
+export function formatResearchCards(records: ResearchRecord[], fallbackDate?: string): string {
+  const publishable = records.filter((record) => isPublishableResearch(record.article) && record.status !== "待复核" && record.status !== "已撤稿").slice(0, 6);
+  if (!publishable.length) return "> 本轮论文已抓取，正在完成中文解读与事实校验；仅在标题、两句简介与元数据完整后展示。";
+  const notice = fallbackDate ? `> arXiv 暂未刷新，以下为最近一次成功抓取（${fallbackDate}）的完整研究卡。\n\n` : "> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。\n\n";
+  return notice + publishable.map((record) => {
+    const article = record.article;
+    const tags = [...record.evidenceTags.map((tag) => `<kbd>${tag}</kbd>`), ...record.authorityLabels.slice(0, 1).map((label) => `<kbd>${label}</kbd>`)].join(" ");
+    const author = record.notableAuthor ? `<br><sub>重点作者 / 实验室：${record.notableAuthor}${record.authorityLabels.length ? ` · ${record.authorityLabels.join(" / ")}` : ""}</sub>` : "";
+    return `- [${articleTitle(article)}](${article.link}) ${tags}<br>${article.summaryZh}<br>${researchWhy(record)}${author}`;
   }).join("\n\n");
 }
 

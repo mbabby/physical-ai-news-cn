@@ -45,6 +45,29 @@ export interface ScholarlyMetadata {
   checkedAt: string;
 }
 
+/** A durable, auditable record for a research card. It is refreshed from
+ * arXiv/OpenAlex rather than reconstructed from one day's digest. */
+export interface ResearchRecord {
+  id: string;
+  article: Article;
+  firstSeenAt: string;
+  lastCheckedAt: string;
+  lastShownAt?: string;
+  arxivVersion?: number;
+  factHash: string;
+  status: "新论文" | "候选资源" | "常青资源候选" | "里程碑精读候选" | "待复核" | "已撤稿";
+  appearances: number;
+  evidenceTags: Array<"真实机器人" | "基准" | "开源">;
+  authorityLabels: string[];
+  notableAuthor?: string;
+  changes: Array<{ date: string; kind: "新收录" | "版本更新" | "元数据更新" | "撤稿" | "待复核"; detail: string }>;
+}
+
+export interface ResearchRegistry {
+  updatedAt: string;
+  records: ResearchRecord[];
+}
+
 interface BaseSourceConfig {
   name: string;
   weight: number;
