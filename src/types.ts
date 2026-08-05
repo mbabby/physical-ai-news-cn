@@ -155,6 +155,28 @@ export interface CompanyProfile {
   officialUrl: string;
 }
 
+export type CandidateCompanyStatus = "候选" | "观察中" | "已交叉核验" | "已入库";
+
+/** An internal company dossier assembled from funding candidates, never a public recommendation. */
+export interface CandidateCompany {
+  id: string;
+  name: string;
+  aliases: string[];
+  status: CandidateCompanyStatus;
+  verificationScore: number;
+  routes: TechnicalRoute[];
+  officialUrl?: string;
+  firstSeenAt: string;
+  lastSeenAt: string;
+  evidence: Array<{ link: string; source: string; sourceWeight: number; publishedAt: string; title: string }>;
+  openQuestions: string[];
+}
+
+export interface CandidateCompanyRegistry {
+  updatedAt: string;
+  companies: CandidateCompany[];
+}
+
 export interface DigestResult {
   articles: Article[];
   failures: FetchFailure[];

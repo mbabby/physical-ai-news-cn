@@ -15,7 +15,8 @@ import { formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResear
 import { formatResourcePage } from "./resource-radar.js";
 import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
-import type { Article, CandidateArticle, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -118,6 +119,7 @@ async function main(): Promise<void> {
   const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
+  const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -145,8 +147,8 @@ async function main(): Promise<void> {
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 6);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
   // A public intelligence product must not oscillate between polished Chinese
-  // cards and half-translated raw abstracts. Keep unfinished translations in
-  // the archive, while the homepage falls back to the latest complete cards.
+  // cards and half-translated raw abstracts. The homepage falls back to the
+  // latest complete cards; unfinished research stays in the candidate layer.
   const publicResearch = rankResearchArticles(uniqueArticles([...researchArticles, ...cachedResearch].filter(isPublishableResearch))).slice(0, 6);
   const holdReasonsForCompanyArticle = (article: Article) => publicHoldReasons(article, trackedCompanies.has(primaryEntityForArticle(article) ?? ""));
   const publicArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length === 0);
@@ -179,8 +181,13 @@ async function main(): Promise<void> {
   const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry));
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
-  const archiveArticles = [...publicArticles, ...researchArticles.filter((article) => !publicArticles.some((selectedArticle) => selectedArticle.id === article.id))];
-  const candidates = uniqueArticles([...heldArticles, ...heldPulse]).map((article) => article as CandidateArticle);
+  const heldResearch = researchArticles
+    .filter((article) => !isPublishableResearch(article))
+    .map((article) => candidateArticle(article, publicHoldReasons(article, true, false)));
+  // The JSON archive is the source for public pages. Keep it as strict as the
+  // homepage: incomplete or unverified material belongs only in candidates.
+  const archiveArticles = uniqueArticles([...publicArticles, ...publicResearch]);
+  const candidates = uniqueArticles([...heldArticles, ...heldPulse, ...heldResearch]).map((article) => article as CandidateArticle);
   const statuses = [summarizer.status(), openAlex.status];
   const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
@@ -189,11 +196,14 @@ async function main(): Promise<void> {
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   const archives = await readRecentDailyArchives(outputDir, now, 30);
+  const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
   const registry = buildSourceRegistry(archives, configuredSources, activeSources, now);
   const watchlist = selectWatchlistCandidates(weekly);
   await writeFile(join(sourcesDir, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
   await writeFile(candidatePath, JSON.stringify(nextCandidateRegistry, null, 2) + "\n", "utf8");
+  await writeFile(companyCandidatePath, JSON.stringify(companyCandidates, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "company-candidates.md"), formatCandidateCompanyReview(companyCandidates), "utf8");
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
