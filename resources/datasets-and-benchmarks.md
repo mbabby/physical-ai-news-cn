@@ -16,21 +16,21 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI：统一边缘与云端的实时物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 用单一运行时统一 VLA 与世界动作模型的推理，覆盖端侧、边缘与云端部署，较 pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。
+- [PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 以单一运行时统一物理 AI 推理，支持 VLA 与 WAM 模型在车载、边缘及云端多 GPU 部署，对 pi0.5、GR00T N1.7 等模型实现 1.40 至 4.65 倍加速。
 
-- [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。
-
-- [DPA-FTG：面向时变力操作任务的分层模仿学习方法](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>DPA-FTG将低频规划与高频力调节解耦，5Hz扩散模型选取任务基元，60Hz力条件策略实时调节接触，双臂电池拆解验证优于RDP。
+- [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
-- [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
+- [聚焦关键之处：视觉-语言-动作模型的自适应视觉细化](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。
 
-- [ReTouch：在线精调触觉预测赋能接触型灵巧操作](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>ReTouch 将在线精调的触觉预测融入视觉语言动作模型，通过执行时反馈闭环修正动作，在真实机器人接触型操作任务中成功率较最强基线提升18.4至23.8个百分点。
+- [ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
-- [WAM-Diff2：以分层自回归到扩散蒸馏实现高效自动驾驶VLA模型](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。
+- [WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>暂未生成中文摘要，请阅读原文。
 
 - [WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning](https://arxiv.org/abs/2607.29613v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
+
+- [PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball](https://arxiv.org/abs/2607.28623v1) · arXiv · Robotics · 2026-07-30<br>暂未生成中文摘要，请阅读原文。
 
 ## 排序与收录
 
