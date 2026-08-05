@@ -18,9 +18,9 @@
 
 - [人形机器人持物平衡的质量权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。
 
-- [Track4Action：将世界中心3D追踪器蒸馏进视觉-语言-动作策略](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>Track4Action将冻结的世界中心3D追踪器的转移信息蒸馏进VLA策略，仅训练时作对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，真机双臂任务提升25个百分点。
+- [Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
-- [BCP：让 VLA 模型自适应决定继续执行还是重新规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>轻量即插即用框架BCP将执行时域选择化为继续或重规划决策，用强化学习训练，冻结基础VLA，在仿真与真实机器人上显著提升成功率，开销可忽略。
+- [继续还是重规划？面向自适应执行时域的 Bernoulli-Continuation Policy 学习](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>Bernoulli-Continuation Policy 是保持 VLA 基座冻结的轻量即插即用框架，将执行时域选择化为继续或重规划决策并经强化学习训练，在 RoboTwin 2.0、LIBERO 及真机任务上均提升成功率。
 
 - [RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
