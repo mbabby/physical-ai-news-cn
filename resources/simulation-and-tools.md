@@ -18,8 +18,6 @@
 
 - [人形机器人持物平衡的质量权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。
 
-- [Track4Action：将世界中心3D追踪器蒸馏入视觉语言动作策略](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>Track4Action将冻结的世界中心3D追踪器特征蒸馏进VLA策略，追踪特征仅作训练对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，四项真机双臂任务平均成功率67.5%。
-
 - [Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing](https://arxiv.org/abs/2607.26337v1) · arXiv · Robotics · 2026-07-28<br>暂未生成中文摘要，请阅读原文。

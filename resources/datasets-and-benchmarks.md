@@ -16,9 +16,9 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 以单一运行时统一物理 AI 推理，支持 VLA 与 WAM 模型在车载、边缘及云端多 GPU 部署，对 pi0.5、GR00T N1.7 等模型实现 1.40 至 4.65 倍加速。
+- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
-- [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
+- [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>研究提出开源的 BWM 世界模拟器，可根据机器人动作预测未来观测并评估策略。该模型在 WorldArena 基准和实体机器人上验证了保真度与实用性，并开放权重、代码及接口。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
