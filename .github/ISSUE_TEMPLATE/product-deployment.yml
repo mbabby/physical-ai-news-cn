@@ -1,0 +1,24 @@
+name: 提交产品或部署证据
+description: 补充真实产品、客户、试点、部署或开源发布事实
+title: "[产品/部署] "
+labels: ["product-evidence"]
+body:
+  - type: input
+    id: company
+    attributes:
+      label: 公司或实验室主体
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 原始证据链接
+    validations:
+      required: true
+  - type: textarea
+    id: facts
+    attributes:
+      label: 中文事实说明
+      description: 写明产品、客户/场景、验证阶段与发生日期；不要提交泛泛评论或演示剪辑。
+    validations:
+      required: true

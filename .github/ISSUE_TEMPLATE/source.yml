@@ -1,0 +1,25 @@
+name: 提交资讯源
+description: 推荐官方、开源、权威产业媒体或待观察来源
+title: "[信源] "
+labels: ["source"]
+body:
+  - type: input
+    id: source_url
+    attributes:
+      label: RSS、Atom、Releases 或新闻主页
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: 信源层级
+      options: [官方公司与实验室, 开源发布, 权威产业媒体, 线索发现层]
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: 推荐理由与示例
+      description: 请给出至少一条物理 AI 相关样例，并说明为何适合作为事实证据或仅作线索。
+    validations:
+      required: true

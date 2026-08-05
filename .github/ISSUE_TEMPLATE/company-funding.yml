@@ -1,0 +1,32 @@
+name: 提交公司或融资证据
+description: 补充可追溯的公司主体、融资、估值或投资方事实
+title: "[公司/融资] "
+labels: ["company-evidence"]
+body:
+  - type: input
+    id: company
+    attributes:
+      label: 公司主体（官方名称）
+    validations:
+      required: true
+  - type: dropdown
+    id: event_type
+    attributes:
+      label: 事件类型
+      options: [融资, 并购, 估值, 投资方公告, 公司主体纠错]
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 原始证据链接
+      description: 优先公司、投资方或交易方公告；媒体报道请补第二个独立来源。
+    validations:
+      required: true
+  - type: textarea
+    id: facts
+    attributes:
+      label: 中文事实说明
+      description: 请写明发生日期、轮次/金额/估值/投资方（若公开）与可核验依据。
+    validations:
+      required: true

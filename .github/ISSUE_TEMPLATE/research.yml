@@ -1,0 +1,18 @@
+name: 提交论文或研究元数据
+description: 推荐物理 AI 论文、作者/实验室元数据或纠错
+title: "[研究] "
+labels: ["research"]
+body:
+  - type: input
+    id: paper_url
+    attributes:
+      label: arXiv、DOI 或论文主页
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: 为什么值得关注
+      description: 请说明真实机器人、基准、开源、重点作者/实验室或元数据纠错依据。
+    validations:
+      required: true

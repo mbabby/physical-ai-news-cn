@@ -19,6 +19,7 @@ import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry 
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
+import { buildProjectMetrics, formatCommunityReviewQueue, formatWeeklyReport } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -123,8 +124,8 @@ function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["
 
 async function main(): Promise<void> {
   const windowHours = parseWindow(process.argv.slice(2));
-  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research"); const routesDir = join(root, "routes");
-  await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true })]);
+  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research"); const routesDir = join(root, "routes"); const metricsDir = join(root, "metrics");
+  await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true }), mkdir(metricsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
@@ -258,6 +259,10 @@ async function main(): Promise<void> {
   await writeFile(join(reviewDir, "company-candidates.md"), formatCandidateCompanyReview(companyCandidates), "utf8");
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
+  const metrics = buildProjectMetrics(archives, eventStore, registry, companyCandidates, now);
+  await writeFile(join(metricsDir, "weekly.json"), JSON.stringify(metrics, null, 2) + "\n", "utf8");
+  await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
+  await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   const readmePath = join(root, "README.md");
   await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, now, researchFallbackDate), "utf8");
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);

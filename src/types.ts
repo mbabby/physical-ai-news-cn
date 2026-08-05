@@ -366,3 +366,15 @@ export interface LlmSettings {
   baseUrl?: string;
   model?: string;
 }
+
+/** A compact, public quality snapshot. Missing GitHub traffic means the
+ * repository has not configured the optional traffic collector; it is never
+ * rendered as a misleading zero. */
+export interface ProjectMetrics {
+  updatedAt: string;
+  windowDays: number;
+  digest: { expectedRuns: number; observedRuns: number; successfulRuns: number; successRate?: number };
+  publicContent: { homepageEffectiveItems: number; evidenceABRatio?: number; companyDossierCoverage: number };
+  flywheel: { enabledSources: number; observedSources: number; pausedSources: number; promotedSources: number; reviewCandidates: number };
+  community: { stars: { status: "未配置" | "已采集"; value?: number }; visitors: { status: "未配置" | "已采集"; value?: number }; referrers: { status: "未配置" | "已采集"; items?: Array<{ source: string; visitors: number }> } };
+}

@@ -22,8 +22,23 @@ test("English overview and every README share target are present", async () => {
     access(join(root, "resources", "industry-landscape-and-tech-routes.md")),
     access(join(root, "resources", "milestone-papers.md")),
     access(join(root, "weekly", "shareable-summary.md")),
+    access(join(root, "weekly", "2026-W32-report.md")),
+    access(join(root, "metrics", "weekly.json")),
+    access(join(root, "review", "community-queue.md")),
+    access(join(root, "posts", "2026-08-project-update.md")),
   ]);
   const english = await readFile(join(root, "README.en.md"), "utf8");
   assert.match(english, /source-traceable Chinese intelligence/i);
   assert.match(english, /discovery leads/i);
+});
+
+test("weekly reporting assets explain their public and review boundaries", async () => {
+  const [report, queue, metrics] = await Promise.all([
+    readFile(join(root, "weekly", "2026-W32-report.md"), "utf8"),
+    readFile(join(root, "review", "community-queue.md"), "utf8"),
+    readFile(join(root, "metrics", "weekly.json"), "utf8"),
+  ]);
+  assert.match(report, /A\/B 级非线索证据/);
+  assert.match(queue, /待核验候选/);
+  assert.match(metrics, /未配置/);
 });
