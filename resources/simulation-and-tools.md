@@ -18,7 +18,11 @@
 
 - [人形机器人持物平衡的质量权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。
 
-- [利用缝线操控实现自主缝合中的缝针拾取](https://arxiv.org/abs/2607.26337v1) · arXiv · Robotics · 2026-07-28<br>该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。
+- [Track4Action：将世界中心3D追踪器蒸馏进视觉-语言-动作策略](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>Track4Action将冻结的世界中心3D追踪器的转移信息蒸馏进VLA策略，仅训练时作对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，真机双臂任务提升25个百分点。
+
+- [BCP：让 VLA 模型自适应决定继续执行还是重新规划](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>轻量即插即用框架BCP将执行时域选择化为继续或重规划决策，用强化学习训练，冻结基础VLA，在仿真与真实机器人上显著提升成功率，开销可忽略。
+
+- [RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation](https://arxiv.org/abs/2608.03387v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies](https://arxiv.org/abs/2608.01826v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 

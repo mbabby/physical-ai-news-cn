@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T03:44:48.084Z",
+  "generatedAt": "2026-08-05T03:41:21.868Z",
   "stats": {
     "events": 107,
     "companies": 26,
@@ -121,6 +121,33 @@
   ],
   "research": [
     {
+      "title": "Track4Action：将世界中心3D追踪器蒸馏进视觉-语言-动作策略",
+      "summary": "Track4Action将冻结的世界中心3D追踪器的转移信息蒸馏进VLA策略，仅训练时作对齐目标，部署无需追踪器；零样本LIBERO-Plus达82.3%，真机双臂任务提升25个百分点。",
+      "link": "https://arxiv.org/abs/2608.03727v1",
+      "type": "研究论文",
+      "route": "落地",
+      "date": "2026-08-04",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "PhyAI：统一边缘与云端的实时物理 AI 推理引擎",
+      "summary": "PhyAI 以单一运行时统一 VLA 模型与世界动作模型在端侧、边缘及云端的推理，较 pi0、pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。",
+      "link": "https://arxiv.org/abs/2608.03682v1",
+      "type": "研究论文",
+      "route": "产品",
+      "date": "2026-08-04",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架",
+      "summary": "该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。",
+      "link": "https://arxiv.org/abs/2607.28623v1",
+      "type": "研究论文",
+      "route": "落地",
+      "date": "2026-07-30",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "聚焦关键之处：视觉-语言-动作模型的自适应视觉细化",
       "summary": "AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。",
       "link": "https://arxiv.org/abs/2608.02197v1",
@@ -136,33 +163,6 @@
       "type": "研究论文",
       "route": "开源",
       "date": "2026-08-03",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架",
-      "summary": "该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "type": "研究论文",
-      "route": "落地",
-      "date": "2026-07-30",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "WAM-Diff2：以分层自回归到扩散蒸馏实现高效自动驾驶VLA模型",
-      "summary": "WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。",
-      "link": "https://arxiv.org/abs/2608.01035v1",
-      "type": "研究论文",
-      "route": "落地",
-      "date": "2026-08-02",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "BWM：面向机器人学习的低成本高保真世界模拟器",
-      "summary": "BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。",
-      "link": "https://arxiv.org/abs/2607.29302v1",
-      "type": "研究论文",
-      "route": "产品",
-      "date": "2026-07-31",
       "source": "arXiv · Robotics"
     }
   ],

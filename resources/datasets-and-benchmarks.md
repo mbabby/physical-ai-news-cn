@@ -16,21 +16,21 @@
 
 ## 近期已验证更新（自动）
 
+- [PhyAI：统一边缘与云端的实时物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>PhyAI 以单一运行时统一 VLA 模型与世界动作模型在端侧、边缘及云端的推理，较 pi0、pi0.5、GR00T N1.7 等官方实现提速 1.40 至 4.65 倍。
+
 - [BWM：面向机器人学习的低成本高保真世界模拟器](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。
+
+- [A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces](https://arxiv.org/abs/2608.03103v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
-- [聚焦关键之处：视觉-语言-动作模型的自适应视觉细化](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。
+- [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
 - [ReTouch：在线精调触觉预测赋能接触型灵巧操作](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>ReTouch 将在线精调的触觉预测融入视觉语言动作模型，通过执行时反馈闭环修正动作，在真实机器人接触型操作任务中成功率较最强基线提升18.4至23.8个百分点。
 
 - [WAM-Diff2：以分层自回归到扩散蒸馏实现高效自动驾驶VLA模型](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。
 
 - [WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning](https://arxiv.org/abs/2607.29613v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
-
-- [PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架](https://arxiv.org/abs/2607.28623v1) · arXiv · Robotics · 2026-07-30<br>该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。
-
-- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) · arXiv · Robotics · 2026-07-30<br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。
 
 ## 排序与收录
 
