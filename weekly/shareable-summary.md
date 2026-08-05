@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1)。研究者构建了物理 AI 推理引擎 PhyAI，以单一运行时在机载、边缘与云端部署中运行 VLA 和世界-动作模型。其在 pi0.5、GR00T N1.7 等模型上较官方实现提速 1.40 至 4.65 倍，并提供 LIBERO 基准结果与开源代码。
+研究：本周暂无完整中文研究卡。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

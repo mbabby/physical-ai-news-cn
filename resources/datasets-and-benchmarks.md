@@ -16,7 +16,7 @@
 
 ## 近期已验证更新（自动）
 
-- [PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>研究者构建了物理 AI 推理引擎 PhyAI，以单一运行时在机载、边缘与云端部署中运行 VLA 和世界-动作模型。其在 pi0.5、GR00T N1.7 等模型上较官方实现提速 1.40 至 4.65 倍，并提供 LIBERO 基准结果与开源代码。
+- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
@@ -26,7 +26,7 @@
 
 - [ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 
-- [WAM-Diff2：面向高效自动驾驶视觉语言动作模型的分层蒸馏框架](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>WAM-Diff2 通过渐进式块适配、块级蒸馏和跨尺度蒸馏，将自回归自动驾驶 VLA 转为多任务离散扩散模型。多项驾驶理解、感知与规划基准显示其性能与自回归基线相当，并实现 2.8 倍解码加速。
+- [WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>暂未生成中文摘要，请阅读原文。
 
 - [WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning](https://arxiv.org/abs/2607.29613v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
 
