@@ -38,6 +38,18 @@
 - 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMihgFBVV95cUxOdm1GQ1B4dng5Qm81SW1BYmwzZ1hDcXVVd25nSmU3cVk5YlVCWkVWTWJ3d3VFajh3cWRqNjFtMndvcDFRTUNDYkczSHRnRVZrNWMyaGJjTjhZdUsxbUhZczhXRUh2N1cyaGVZS19sdXp0cHhsQkUwbnV2VkRySjJyNzN4aXFZUQ?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 瑞士初创公司 Exclaim Robotics 结束隐身状态， · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi2wFBVV95cUxPNGNPcER4NW85WU1JUERkSUMxZzcwMWlwc3c1Q2lKWnFpTUNXQ1BRVkRzdVdLRFFUSVUzd1kySXQzZU1URlllRVlocGhpd0VucmxkOElKdkMtaVZUelRNU1hqNERPU0NhOGNrREg1bFVad2F3eHZYSTNLeVhUci1zUHBuS0VlaUt3NkxlMjZDLVdySXlYTjNrdUI4MHpuOG9pTGVGX1hoQm9RanRBeXhubDhBUWktQkdiUnRlZDJ4bXhNSDI3VTlleTZROWNrbllyV0drOG5UMmUwdVk?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Adiabatic Technologies · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMingFBVV95cUxOaXh1M3ltbUZKY21OV1Nud0t5V3BmUTY2V0JLQVFkRG9FWVk1bGdjdkRMYU9UaEdhcnBEaGg5N0lsRV9GTjg4YWh0azFBSW14Y1JmdXVwZVk4d19mTFdESW5XYjVJMDdCNE5PUzBZdWFaR2cwTUlpU1ZUWDZnc2JNMm9GLTZuUExqWHNXekUybUh5ZHJWYTVLZ0luVHpiZw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 瑞士初创公司 Exclaim Robotics 结束隐身， · 候选 · 22/100
 
 - 路线：部署与商业化

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-05T09:37:22.609Z",
+  "generatedAt": "2026-08-05T09:53:51.665Z",
   "stats": {
     "events": 107,
     "companies": 26,
-    "research": 1
+    "research": 2
   },
   "keyEvents": [
     {
@@ -121,12 +121,21 @@
   ],
   "research": [
     {
-      "title": "BWM：面向机器人学习的低成本高保真世界模拟器",
-      "summary": "研究提出开源的 BWM 世界模拟器，可根据机器人动作预测未来观测并评估策略。该模型在 WorldArena 基准和实体机器人上验证了保真度与实用性，并开放权重、代码及接口。",
-      "link": "https://arxiv.org/abs/2607.29302v1",
+      "title": "PhyAI：边缘实时、云端可扩展的统一物理 AI 推理引擎",
+      "summary": "研究者构建了物理 AI 推理引擎 PhyAI，以单一运行时在机载、边缘与云端部署中运行 VLA 和世界-动作模型。其在 pi0.5、GR00T N1.7 等模型上较官方实现提速 1.40 至 4.65 倍，并提供 LIBERO 基准结果与开源代码。",
+      "link": "https://arxiv.org/abs/2608.03682v1",
       "type": "研究论文",
       "route": "产品",
-      "date": "2026-07-31",
+      "date": "2026-08-04",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "WAM-Diff2：面向高效自动驾驶视觉语言动作模型的分层蒸馏框架",
+      "summary": "WAM-Diff2 通过渐进式块适配、块级蒸馏和跨尺度蒸馏，将自回归自动驾驶 VLA 转为多任务离散扩散模型。多项驾驶理解、感知与规划基准显示其性能与自回归基线相当，并实现 2.8 倍解码加速。",
+      "link": "https://arxiv.org/abs/2608.01035v1",
+      "type": "研究论文",
+      "route": "落地",
+      "date": "2026-08-02",
       "source": "arXiv · Robotics"
     }
   ],
