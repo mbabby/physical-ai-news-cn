@@ -33,8 +33,8 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[], researchFallbackDate?: string): string {
-  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research, researchFallbackDate));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: Article[], refreshedAt: Date, researchFallbackDate?: string): string {
+  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchUpdates(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -76,7 +76,7 @@ async function collectX(windowHours: number, bearerToken?: string): Promise<Dige
   return { articles, failures, sourceOutcomes };
 }
 
-async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 2): Promise<Article[]> {
+async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 1): Promise<Article[]> {
   const output: Article[] = [];
   for (let index = 0; index < articles.length; index += batchSize) {
     output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
@@ -128,6 +128,11 @@ async function main(): Promise<void> {
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
   const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
+  const isResearchArticle = (article: Article) => article.source.startsWith("arXiv · Robotics");
+  // Research has its own public gate: it needs a complete Chinese factual
+  // brief, not a company identity. Corporate facts remain strict because the
+  // homepage must never invent a company behind a funding headline.
+  const industrySelected = selected.filter((article) => !isResearchArticle(article));
   // arXiv's submission calendar has gaps and one day's papers are too noisy
   // to represent a field. Keep a 30-day pool, refresh its scholarly metadata
   // daily, then only summarize the six highest-ranked candidates.
@@ -140,9 +145,9 @@ async function main(): Promise<void> {
   const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
   const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
-  const rawPulse = selectIndustryPulse(xSelected, selected);
+  const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
-  const articles = await summarizeInSmallBatches(summarizer, selected);
+  const articles = await summarizeInSmallBatches(summarizer, industrySelected);
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 6);
   const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
@@ -181,7 +186,7 @@ async function main(): Promise<void> {
   const heldPulse = [...summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length > 0).map((article) => candidateArticle(article, publicHoldReasons(article, true, false))), ...summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)))];
   const visibleArticles = publicArticles.filter((article) => !pulseArticleIds(pulse).has(article.id));
   const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
-  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry));
+  const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry, SOURCES.length), publicResearch);
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
   const heldResearch = researchArticles
@@ -210,7 +215,7 @@ async function main(): Promise<void> {
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearch, researchFallbackDate), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearch, now, researchFallbackDate), "utf8");
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

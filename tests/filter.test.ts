@@ -56,3 +56,9 @@ test("holds incomplete, unowned and roundup content out of public surfaces", () 
   const roundup = item({ title: "Top 10 robotics stories of July", titleZh: "七月机器人十大新闻盘点", summaryZh: "文章汇总了七月机器人领域的十条新闻。" });
   assert.ok(publicHoldReasons(roundup, true).includes("聚合盘点或评论性质内容"));
 });
+
+test("allows a publishable research card to skip the company-identity rule", () => {
+  const paper = item({ source: "arXiv · Robotics", titleZh: "具身机器人研究论文", summaryZh: "论文报告了真实机器人任务中的可复现实验结果。" });
+  assert.equal(publicHoldReasons(paper, false, false).length, 0);
+  assert.ok(publicHoldReasons(paper, false, true).includes("公司主体未确认"));
+});

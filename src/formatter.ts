@@ -9,8 +9,8 @@ function renderArticle(lines: string[], article: Article, heading = "##"): void 
   lines.push(`${heading} [${title}](${article.link})`, "", article.summaryZh ?? "暂无原文摘要，请阅读原文。", `*${meta}*`, "");
 }
 
-export function formatMarkdown(articles: Article[], windowHours: number, _failures: FetchFailure[] = [], now = new Date(), pulse: IndustryPulse = { viewpoints: [], events: [] }, totalArticles = articles.length, sourceNetwork = ""): string {
-  const lines = [`# 物理 AI 每日资讯 — ${date(now)}`, "", `过去 ${windowHours} 小时 · ${totalArticles} 条精选 · 投融资与产业动态优先`, ""];
+export function formatMarkdown(articles: Article[], windowHours: number, _failures: FetchFailure[] = [], now = new Date(), pulse: IndustryPulse = { viewpoints: [], events: [] }, totalArticles = articles.length, sourceNetwork = "", research: Article[] = []): string {
+  const lines = [`# 物理 AI 每日资讯 — ${date(now)}`, "", `过去 ${windowHours} 小时 · 产业与资本 ${totalArticles} 条 · 学术研究 ${research.length} 篇`, ""];
   if (pulse.viewpoints.length || pulse.events.length) {
     lines.push("## 行业脉搏", "", "> 领军人物公开观点与已核验的关键产业事件；观点不等同于事实结论。", "");
     if (pulse.viewpoints.length) {
@@ -23,8 +23,13 @@ export function formatMarkdown(articles: Article[], windowHours: number, _failur
     }
   }
   if (articles.length) lines.push("## 今日其它资讯", "");
-  if (!articles.length && !pulse.viewpoints.length && !pulse.events.length) lines.push("> 今日暂无达到发布阈值的高优先级事件。严格筛选不等于停止跟踪。", "", "**仍在跟踪**：官方发布、开源项目、行业部署与重点公司动态。", sourceNetwork ? `\n*${sourceNetwork}*` : "");
+  if (!articles.length && !pulse.viewpoints.length && !pulse.events.length && !research.length) lines.push("> 今日暂无达到发布阈值的高优先级事件。严格筛选不等于停止跟踪。", "", "**仍在跟踪**：官方发布、开源项目、行业部署与重点公司动态。", sourceNetwork ? `\n*${sourceNetwork}*` : "");
   for (const article of articles) renderArticle(lines, article, articles.length ? "###" : "##");
+  if (research.length) {
+    lines.push("## 学术与研究前沿", "", "> 近 30 天论文池每日重排；仅展示已完成中文事实简介的研究。", "");
+    for (const article of research) renderArticle(lines, article, "###");
+  }
+  if (sourceNetwork) lines.push(`*${sourceNetwork}*`, "");
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
   return lines.join("\n");
 }

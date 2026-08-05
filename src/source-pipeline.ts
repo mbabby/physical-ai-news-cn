@@ -68,10 +68,11 @@ export function dynamicSources(registry?: CandidateSourceRegistry): RssSourceCon
   }));
 }
 
-export function sourceNetworkSummary(registry?: CandidateSourceRegistry): string {
+export function sourceNetworkSummary(registry?: CandidateSourceRegistry, baseSourceCount = 0): string {
   const sources = registry?.sources ?? [];
-  if (!sources.length) return "";
+  if (!sources.length) return baseSourceCount ? `信源：${baseSourceCount} 个基础信源已接入` : "";
   const active = sources.filter((source) => source.status === "已启用").length;
   const shadow = sources.filter((source) => source.status === "影子观察").length;
-  return `信源网络：${active} 个自动启用 · ${shadow} 个影子观察`;
+  const base = baseSourceCount ? `${baseSourceCount} 个基础信源已接入` : "基础信源已接入";
+  return `信源：${base} · 自动发现 ${active} 个已启用、${shadow} 个影子观察`;
 }

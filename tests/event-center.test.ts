@@ -15,7 +15,8 @@ test("creates an evidence-backed canonical event from a qualified article", () =
   assert.deepEqual(store.events[0].entities, ["Google DeepMind"]);
   assert.match(formatRecentEvents(store.events), /\[Google DeepMind 发布 Gemini Robotics\]/);
   assert.match(formatRecentEvents(store.events), /本期关键进展/);
-  assert.match(formatRecentEvents(store.events), /更新至 2026-08-01/);
+  assert.match(formatRecentEvents(store.events, new Date("2026-08-02")), /数据刷新至 2026-08-02/);
+  assert.match(formatRecentEvents(store.events, new Date("2026-08-02")), /最近确证产业事件 2026-08-01/);
   assert.doesNotMatch(formatRecentEvents(store.events), /为什么值得看/);
 });
 
