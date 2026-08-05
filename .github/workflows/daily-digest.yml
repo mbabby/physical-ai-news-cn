@@ -94,7 +94,7 @@ jobs:
           # Stage both before rebasing, otherwise Git refuses to rebase with
           # the dashboard JSON left unstaged and none of the refreshed pages
           # reach main.
-          git add daily weekly sources review resources events research site/data/dashboard.json FACTS_POLICY.md README.md
+          git add daily weekly sources review resources events research routes site/data/dashboard.json FACTS_POLICY.md README.md
           if ! git diff --cached --quiet; then
             git config user.name "physical-ai-news-bot"
             git config user.email "actions@github.com"

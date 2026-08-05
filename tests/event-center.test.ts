@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildCompanyDossiers, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, upsertEvents } from "../src/event-center.js";
+import { buildCompanyDossiers, buildRouteCompetitionMap, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchUpdates, routeCorrections, upsertEvents } from "../src/event-center.js";
 import type { Article } from "../src/types.js";
 
 function article(overrides: Partial<Article> = {}): Article {
@@ -41,11 +41,24 @@ test("connects companies, routes and only attributable capital evidence", () => 
   })]);
   const companies = [{ name: "Google DeepMind", region: "北美", stage: "平台公司" as const, routes: ["VLA 与具身模型" as const], thesis: "VLA 模型", officialUrl: "https://example.com/deepmind" }];
   const map = formatIndustryMap(store.events, companies);
-  assert.match(map, /公司 × 技术路线 × 资本图谱/);
-  assert.match(map, /路线热度/);
+  assert.match(map, /物理 AI 竞争路线图/);
+  assert.match(map, /竞争总览/);
   assert.match(map, /Google DeepMind/);
   assert.match(map, /完成新一轮融资/);
   assert.doesNotMatch(map, /最新可验证信号/);
+});
+
+test("makes capital uncertainty explicit and records route-stage corrections", () => {
+  const company = { name: "Google DeepMind", region: "北美", stage: "平台公司" as const, routes: ["VLA 与具身模型" as const], thesis: "机器人模型", officialUrl: "https://deepmind.google" };
+  const first = buildRouteCompetitionMap(upsertEvents(undefined, [article()], new Date(), [company]).events, [company], new Date("2026-08-01"));
+  const before = first.routes.find((item) => item.route === "VLA 与具身模型")!.companies[0]!;
+  assert.equal(before.capitalStatus, "证据不足");
+  assert.equal(before.validationStage, "原型与演示");
+  const funded = upsertEvents(undefined, [article({ id: "fund", kind: "投融资", title: "Google DeepMind Gemini Robotics VLA raises $12M funding", titleZh: "Google DeepMind 的 Gemini Robotics VLA 完成 1200 万美元融资", summaryZh: "Google DeepMind 的 Gemini Robotics VLA 完成 1200 万美元融资。该资金用于机器人模型研发。" })], new Date(), [company]);
+  const next = buildRouteCompetitionMap(funded.events, [company], new Date("2026-08-02"));
+  assert.equal(next.routes.find((item) => item.route === "VLA 与具身模型")!.companies[0]!.capitalStatus, "已证实");
+  assert.match(routeCorrections(first, next)[0]?.detail ?? "", /已证实/);
+  assert.match(formatIndustryMap(funded.events, [company]), /证据不足（不代表未融资）|已证实/);
 });
 
 test("keeps a complete Chinese research card readable", () => {

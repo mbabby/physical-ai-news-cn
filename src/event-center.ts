@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
-import type { Article, ArticleKind, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteIndexEntry, TechnicalRoute } from "./types.js";
+import type { Article, ArticleKind, CapitalEvidenceStatus, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteCompetitionEntry, RouteCompetitionMap, RouteCompanySnapshot, RouteCorrection, RouteIndexEntry, TechnicalRoute, ValidationStage } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
 // mention a competitor or customer, but that must never overwrite its profile.
@@ -445,28 +445,95 @@ function companyRoutePriority(events: EventRecord[]): number {
   return capital + traction + openness;
 }
 
+function capitalStatus(events: EventRecord[]): CapitalEvidenceStatus {
+  const funding = events.filter((event) => event.type === "投融资");
+  if (funding.some((event) => event.funding?.entityStatus === "已确认" && event.evidence.some((item) => item.grade === "A" || item.grade === "B"))) return "已证实";
+  if (funding.length) return "有资本信号";
+  return "证据不足";
+}
+function validationStage(events: EventRecord[]): ValidationStage {
+  const value = events.filter((event) => ["产品发布", "部署案例", "公司商业", "开源项目"].includes(event.type)).map((event) => `${event.title} ${eventFact(event) ?? ""}`).join(" ").toLowerCase();
+  if (!value) return "证据不足";
+  if (/量产|规模化|production|commercial scale|规模部署/.test(value)) return "规模部署 / 商业化";
+  if (/客户|订单|工厂|warehouse|customer|pilot|试点|deploy|deployment/.test(value)) return "客户试点";
+  if (/实机|真实机器人|real[- ]world|on[- ]robot|unitree|franka/.test(value)) return "实机验证";
+  if (/发布|launch|release|演示|demo|prototype|原型/.test(value)) return "原型与演示";
+  return "概念 / 研究";
+}
+function companyRouteSnapshot(company: CompanyProfile, events: EventRecord[], route: TechnicalRoute): RouteCompanySnapshot {
+  const linked = routeEvidence(events, company, route);
+  const capital = linked.filter((event) => event.type === "投融资");
+  const productDeployment = linked.filter((event) => ["产品发布", "部署案例", "公司商业", "开源项目"].includes(event.type));
+  return {
+    company: company.name, officialUrl: company.officialUrl, region: company.region, stage: company.stage ?? "公司", approach: company.thesis,
+    capitalStatus: capitalStatus(linked), capitalEventIds: capital.map((event) => event.id), validationStage: validationStage(linked), productDeploymentEventIds: productDeployment.map((event) => event.id),
+    evidenceLinks: [...new Set(linked.flatMap((event) => event.evidence.filter((item) => item.grade === "A" || item.grade === "B").map((item) => item.link)))].slice(0, 4),
+    updatedAt: linked.map((event) => event.lastUpdatedAt).sort().at(-1),
+  };
+}
+const CAPITAL_ORDER: Record<CapitalEvidenceStatus, number> = { "已证实": 3, "有资本信号": 2, "证据不足": 1 };
+const VALIDATION_ORDER: Record<ValidationStage, number> = { "规模部署 / 商业化": 6, "客户试点": 5, "实机验证": 4, "原型与演示": 3, "概念 / 研究": 2, "证据不足": 1 };
+
+export function buildRouteCompetitionMap(events: EventRecord[], companies: CompanyProfile[], now = new Date()): RouteCompetitionMap {
+  const routes: RouteCompetitionEntry[] = ROUTE_MAP.map((meta) => {
+    const companySnapshots = companies.filter((company) => company.routes.includes(meta.route)).map((company) => companyRouteSnapshot(company, events, meta.route))
+      .sort((a, b) => CAPITAL_ORDER[b.capitalStatus] - CAPITAL_ORDER[a.capitalStatus] || VALIDATION_ORDER[b.validationStage] - VALIDATION_ORDER[a.validationStage] || (b.evidenceLinks.length - a.evidenceLinks.length) || a.company.localeCompare(b.company));
+    return {
+      route: meta.route, question: meta.focus, approaches: meta.approaches, companies: companySnapshots,
+      verifiedCapitalCompanies: companySnapshots.filter((company) => company.capitalStatus === "已证实").length,
+      verifiedProductDeploymentCompanies: companySnapshots.filter((company) => company.validationStage !== "证据不足").length,
+      lastUpdatedAt: companySnapshots.map((company) => company.updatedAt).filter(Boolean).sort().at(-1),
+    };
+  });
+  return { updatedAt: now.toISOString(), routes };
+}
+
+export function routeCorrections(previous: RouteCompetitionMap | undefined, next: RouteCompetitionMap): RouteCorrection[] {
+  if (!previous) return [];
+  const prior = new Map(previous.routes.flatMap((route) => route.companies.map((company) => [`${route.route}:${company.company}`, company])));
+  const corrections: RouteCorrection[] = [];
+  for (const route of next.routes) for (const company of route.companies) {
+    const before = prior.get(`${route.route}:${company.company}`);
+    if (!before) continue;
+    if (before.capitalStatus !== company.capitalStatus) corrections.push({ date: next.updatedAt, route: route.route, company: company.company, kind: "资本状态变化", detail: `${before.capitalStatus} → ${company.capitalStatus}` });
+    if (before.validationStage !== company.validationStage) corrections.push({ date: next.updatedAt, route: route.route, company: company.company, kind: "验证阶段变化", detail: `${before.validationStage} → ${company.validationStage}` });
+    if (before.evidenceLinks.length > 0 && company.evidenceLinks.length === 0) corrections.push({ date: next.updatedAt, route: route.route, company: company.company, kind: "证据移除", detail: "原有公开证据已不再满足路线归属门槛。" });
+  }
+  return corrections;
+}
+
+function routeMapCapital(snapshot: RouteCompanySnapshot, events: EventRecord[]): string {
+  if (snapshot.capitalStatus === "证据不足") return "证据不足（不代表未融资）";
+  const event = events.find((item) => item.id === snapshot.capitalEventIds[0]);
+  return event ? `[${snapshot.capitalStatus} · ${headlineFor(event, true)}](${evidenceLink(event)})` : snapshot.capitalStatus;
+}
+function routeMapValidation(snapshot: RouteCompanySnapshot, events: EventRecord[]): string {
+  if (snapshot.validationStage === "证据不足") return "证据不足";
+  const event = events.find((item) => item.id === snapshot.productDeploymentEventIds[0]);
+  return event ? `[${snapshot.validationStage} · ${headlineFor(event, true)}](${evidenceLink(event)})` : snapshot.validationStage;
+}
+
 export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
-  const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route) })).sort((a, b) => b.score - a.score || b.capital - a.capital || b.traction - a.traction || a.route.localeCompare(b.route));
+  const map = buildRouteCompetitionMap(events, companies);
+  const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route), entry: map.routes.find((entry) => entry.route === meta.route)! })).sort((a, b) => b.score - a.score || b.capital - a.capital || b.traction - a.traction || a.route.localeCompare(b.route));
   const lines = [
-    "# 公司 × 技术路线 × 资本图谱",
+    "# 物理 AI 竞争路线图",
     "",
-    "> 这里回答的不是“技术是什么”，而是“哪些公司押注哪条路线、资本支持是否已公开披露、是否已有产品或部署证据”。只统计可归属到公司的 A/B 级证据；没有公开信息不会用推测补齐。",
+    "> 30 秒读图：每条路线都回答“谁在做、怎么做、资本是否支持、到了什么验证阶段”。只使用可归属公司的 A/B 级证据；“证据不足”表示当前信源未能确认，不代表公司没有融资或没有进展。",
     "",
-    "## 路线热度",
+    "## 竞争总览",
     "",
-    "| 路线 | 覆盖公司 | 已披露资本事件 | 产品/部署事件 | 开放/数据事件 |", "| --- | ---: | ---: | ---: | ---: |",
-    ...momentum.map((item) => `| ${item.route} | ${item.companyBreadth} | ${item.capital} | ${item.traction} | ${item.open} |`),
+    "| 路线 | 活跃公司 | 已证实资本支持 | 已有产品/部署验证 |", "| --- | ---: | ---: | ---: |",
+    ...momentum.map((item) => `| ${item.route} | ${item.entry.companies.length} | ${item.entry.verifiedCapitalCompanies} | ${item.entry.verifiedProductDeploymentCompanies} |`),
     "",
   ];
   for (const [index, meta] of momentum.entries()) {
-    const routeCompanies = companies.filter((company) => company.routes.includes(meta.route)).sort((a, b) => companyRoutePriority(routeEvidence(events, b, meta.route)) - companyRoutePriority(routeEvidence(events, a, meta.route)) || a.name.localeCompare(b.name));
-    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**技术命题**：${meta.focus}  `, `**主流押注**：${meta.approaches}  `, "", "| 公司 | 技术押注 | 资本支持（已披露） | 产品 / 落地信号 |", "| --- | --- | --- | --- |");
-    for (const company of routeCompanies) {
-      const linked = routeEvidence(events, company, meta.route);
-      lines.push(`| [${company.name}](${company.officialUrl})<br><sub>${company.region} · ${company.stage ?? "公司"}</sub> | ${company.thesis} | ${capitalLabel(linked)} | ${tractionLabel(linked, company)} |`);
+    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**要解决什么**：${meta.entry.question}  `, `**主流怎么做**：${meta.entry.approaches}  `, `**格局判断**：${meta.entry.companies.length} 家已建档公司，其中 ${meta.entry.verifiedCapitalCompanies} 家有已证实资本支持、${meta.entry.verifiedProductDeploymentCompanies} 家有产品或部署验证。`, "", "| 谁在做 | 怎么做 | 资本是否支持 | 验证阶段 |", "| --- | --- | --- | --- |");
+    for (const company of meta.entry.companies) {
+      lines.push(`| [${company.company}](${company.officialUrl})<br><sub>${company.region} · ${company.stage}</sub> | ${company.approach} | ${routeMapCapital(company, events)} | ${routeMapValidation(company, events)} |`);
     }
     lines.push("");
   }
-  lines.push("## 排序与口径", "", "- 路线排序：资本支持 40% → 产品/部署验证 30% → 参与公司广度 20% → 开源、代码或数据资产 10%；证据等级和新近程度只作小幅加权。", "- 公司排序：先看已披露资本支持，再看部署/产品验证，随后看开源项目；同分按公司名稳定排序。", "- 资本支持：仅计融资、并购或其他可明确归属到公司的公开资本事件；不把股票交易或传闻当作融资。", "- 产品/落地：仅计公司主体明确的产品发布、部署案例或商业进展。", "- 资本事件为 0 不代表未融资，只表示当前信源尚无可核验、且可归属到该路线的公开披露。", "");
+  lines.push("## 排序与校验口径", "", "- 公司排序：已证实资本支持 → 验证阶段 → 可追溯证据数量；同分按名称稳定排序。", "- 资本状态：仅统计主体明确的融资、并购或战略资本事件；“证据不足”不代表未融资。", "- 验证阶段：产品发布不等同于部署；只有客户、试点、工厂、订单或规模化等可追溯证据才能升级。", "- 每日日报写入新证据后自动重算；资本状态或验证阶段回退会记录到内部纠错档案。", "");
   return lines.join("\n");
 }

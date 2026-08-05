@@ -222,6 +222,47 @@ export interface RouteIndexEntry {
   productDeploymentEventIds: string[];
 }
 
+export type CapitalEvidenceStatus = "已证实" | "有资本信号" | "证据不足";
+export type ValidationStage = "证据不足" | "概念 / 研究" | "原型与演示" | "实机验证" | "客户试点" | "规模部署 / 商业化";
+
+/** A public, evidence-backed view of one company inside one technical route. */
+export interface RouteCompanySnapshot {
+  company: string;
+  officialUrl: string;
+  region: string;
+  stage: string;
+  approach: string;
+  capitalStatus: CapitalEvidenceStatus;
+  capitalEventIds: string[];
+  validationStage: ValidationStage;
+  productDeploymentEventIds: string[];
+  evidenceLinks: string[];
+  updatedAt?: string;
+}
+
+export interface RouteCompetitionEntry {
+  route: TechnicalRoute;
+  question: string;
+  approaches: string;
+  companies: RouteCompanySnapshot[];
+  verifiedCapitalCompanies: number;
+  verifiedProductDeploymentCompanies: number;
+  lastUpdatedAt?: string;
+}
+
+export interface RouteCompetitionMap {
+  updatedAt: string;
+  routes: RouteCompetitionEntry[];
+}
+
+export interface RouteCorrection {
+  date: string;
+  route: TechnicalRoute;
+  company: string;
+  kind: "资本状态变化" | "验证阶段变化" | "证据移除";
+  detail: string;
+}
+
 export type CandidateCompanyStatus = "候选" | "观察中" | "已交叉核验" | "已入库";
 
 /** An internal company dossier assembled from funding candidates, never a public recommendation. */
