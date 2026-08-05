@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { filterAndRank, normalizeUrl, publicHoldReasons } from "../src/filter.js";
+import { filterAndRank, filterIndustryAndRank, normalizeUrl, publicHoldReasons } from "../src/filter.js";
 import type { Article } from "../src/types.js";
 
 const now = new Date();
@@ -36,6 +36,14 @@ test("prioritizes funding over otherwise similar industry news", () => {
     item({ id: "funding", link: "https://example.com/funding", title: "Humanoid robotics startup raises Series B funding" }),
   ], 24);
   assert.equal(result[0].kind, "投融资");
+});
+
+test("keeps industry capacity independent from a busy arXiv day", () => {
+  const papers = Array.from({ length: 12 }, (_, index) => item({ id: `paper-${index}`, link: `https://arxiv.org/${index}`, source: "arXiv · Robotics", sourceWeight: 10, title: `Robot VLA paper ${index}` }));
+  const funding = item({ id: "funding", link: "https://example.com/funding", title: "Humanoid robotics startup raises Series B funding" });
+  const industry = filterIndustryAndRank([...papers, funding], 24, 10);
+  assert.equal(industry.length, 1);
+  assert.equal(industry[0].id, "funding");
 });
 
 test("keeps context-free Hacker News hits out of the published digest", () => {

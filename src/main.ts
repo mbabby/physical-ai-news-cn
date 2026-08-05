@@ -5,7 +5,7 @@ import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
 import { fetchXSource } from "./fetchers/x.js";
-import { filterAndRank, publicHoldReasons } from "./filter.js";
+import { filterAndRank, filterIndustryAndRank, publicHoldReasons } from "./filter.js";
 import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
 import { CompatibleSummarizer } from "./summarize.js";
@@ -127,12 +127,12 @@ async function main(): Promise<void> {
   const activeSources = applyRegistryWeights(configuredSources, await readRegistry(join(sourcesDir, "registry.json")));
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(windowHours, process.env.X_BEARER_TOKEN);
-  const selected = filterAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
-  const isResearchArticle = (article: Article) => article.source.startsWith("arXiv · Robotics");
   // Research has its own public gate: it needs a complete Chinese factual
   // brief, not a company identity. Corporate facts remain strict because the
   // homepage must never invent a company behind a funding headline.
-  const industrySelected = selected.filter((article) => !isResearchArticle(article));
+  // Rank after splitting: a busy arXiv day must not use up the industry's
+  // daily quota before funding, product and deployment sources are assessed.
+  const industrySelected = filterIndustryAndRank(collected.articles, windowHours, windowHours > DEFAULT_WINDOW_HOURS ? 60 : MAX_DAILY_ARTICLES);
   // arXiv's submission calendar has gaps and one day's papers are too noisy
   // to represent a field. Keep a 30-day pool, refresh its scholarly metadata
   // daily, then only summarize the six highest-ranked candidates.
@@ -177,7 +177,7 @@ async function main(): Promise<void> {
       writeFile(join(resourcesDir, "simulation-and-tools.md"), formatResourcePage("tools", resourceCatalog, radarArticles, now), "utf8"),
     ]);
   }
-  const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !selected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
+  const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
   const summarizedPulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const pulse: IndustryPulse = {
     viewpoints: summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length === 0),

@@ -69,6 +69,11 @@ export function filterAndRank(articles: Article[], windowHours: number, limit = 
   return unique.slice(0, limit);
 }
 
+/** Industry and research use separate quotas so a busy arXiv day cannot hide capital or deployment facts. */
+export function filterIndustryAndRank(articles: Article[], windowHours: number, limit = 10): Article[] {
+  return filterAndRank(articles.filter((article) => !article.source.startsWith("arXiv · Robotics")), windowHours, limit);
+}
+
 export function publicHoldReasons(article: Article, hasTrackedCompany: boolean, requireCompany = true): string[] {
   const reasons: string[] = [];
   const title = article.titleZh?.trim() ?? "";
