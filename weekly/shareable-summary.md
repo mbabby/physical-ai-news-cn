@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：本周暂无完整中文研究卡。
+研究：[自主缝合中通过缝线牵引实现灵活的缝针间接拾取](https://arxiv.org/abs/2607.26337v1)。研究提出以缝线为辅助工具间接拾取缝针的自主框架，涵盖缝线重建、抓取点选择与双臂循线抓针。在 da Vinci Research Kit 真实环境实验中，即使缝线复杂或缝针不可接近也能稳健完成拾取。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)
@@ -21,8 +21,8 @@
 
 Physical AI Intelligence Brief · 2026-W32
 
-- [Google DeepMind Launches Gemini Robotics 2 for Adaptive Robotics](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
-- [NVIDIA Cosmos Advances Physical AI Across Japan's Robotics and Manufacturing Leaders](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
-- [Agility Robotics Plans SPAC Listing; CEO Cautious About Home Robots](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)
+- [Google DeepMind announces a product update](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
+- [NVIDIA announces a product update](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
+- [Agility Robotics reports a business update](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)
 
 Source-traceable Chinese intelligence for Physical AI practitioners: companies, capital, product deployment, technical competition, and research.

@@ -18,9 +18,9 @@
 
 - [人形机器人持物平衡的质量权衡分析与搬举控制](https://arxiv.org/abs/2607.29625v1) · arXiv · Robotics · 2026-07-31<br>研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。
 
-- [Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies](https://arxiv.org/abs/2608.03727v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
+- [Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution](https://arxiv.org/abs/2608.03483v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
-- [Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing](https://arxiv.org/abs/2607.26337v1) · arXiv · Robotics · 2026-07-28<br>暂未生成中文摘要，请阅读原文。
+- [自主缝合中通过缝线牵引实现灵活的缝针间接拾取](https://arxiv.org/abs/2607.26337v1) · arXiv · Robotics · 2026-07-28<br>研究提出以缝线为辅助工具间接拾取缝针的自主框架，涵盖缝线重建、抓取点选择与双臂循线抓针。在 da Vinci Research Kit 真实环境实验中，即使缝线复杂或缝针不可接近也能稳健完成拾取。
 
 - [Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies](https://arxiv.org/abs/2608.01826v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 

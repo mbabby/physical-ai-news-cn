@@ -23,7 +23,7 @@
 ## 观瑞慧途机器人 · 候选 · 31/100
 
 - 路线：部署与商业化
-- 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQR2h3LW1EeXh0TFdLY3J4aVVpNVY0VU9Ddnl5RkQ5cFhjWTVzR1U0VElQZXVQY2VhYVhQVUdlU1JqYjl6SmtJZzJmeWxFUlRacmY0X21nRVdFV3pWemM0LWU0aEYxZFNBZ2N4UHI3d3hyVWlLRGFySk5ISFp6MFR2VHhRZWtMYWZY?oc=5)
+- 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQR2h3LW1EeXh0TFdLY3J4aVVpNVY0VU9Ddnl5RkQ5cFhjWTVzR1U0VElQZXVQY2VhYVhQVUdlU1JqYjl6SmtJZzJmeWxFUlRacmY0X21nRVdFV3pWemM0LWU0aEYxZFNBZ2N4UHI3d3hyVWlLRGFySk5ISFp6MFR2VHhRZWtMYWZY?oc=5) · [Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbEZuNnhqczNRcjNEN1BCeTJOWEstZlpnV1pBMjczQ0dHem8yOFRlazdNVWkxQl9tTnl1X1k1TVNmSURScjhGeGVVUU1xTHpYYTFSTm9OUEpVb1F4TUE3eVh1cTJJTGVfRXFlTkZrZ1FwX0pkSnhQUUxpd09FU3pONDdjak5BNWty?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 恺望数据 · 候选 · 31/100
@@ -44,6 +44,30 @@
 - 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMihgFBVV95cUxOdm1GQ1B4dng5Qm81SW1BYmwzZ1hDcXVVd25nSmU3cVk5YlVCWkVWTWJ3d3VFajh3cWRqNjFtMndvcDFRTUNDYkczSHRnRVZrNWMyaGJjTjhZdUsxbUhZczhXRUh2N1cyaGVZS19sdXp0cHhsQkUwbnV2VkRySjJyNzN4aXFZUQ?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## Perceptual Robotics · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcEtoVmQwZW0xRnRQVW4wVm54TTJ4NmNVN1pTYXREV1J3d2JUZ3RQRGdTbjJ3a0VDOHFyLWRUM1pBR2dVeHRwekZ6T1hPNVFqaF9QOVFyaV9fZnVXQWVJdlVDRkFpaHBBOVZDNW9OQkM2OXZkd3hDTURtWW4tOG1ReVF2OFBNclBIT19aZ2g4OWNsR1dtalFRamt4dnpPSDYtbXpZWC1ZSEU?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Chinese Robotics Startup PokeBot · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMixAFBVV95cUxPZ0htVjB4bUk3NDhBNzlwQ2dzNm4xdFFNQjhsR2NSeEpDNDJTQzljdlNyLXJRcmVJa3lzc0g0NngxbXVXRVAxRzRLdUhENENTNnRvRmR4OGpkUEZwUDJ2XzdWNW11Y3BhYVZrTGR5SXRBX25qUmo2ZnpFSHdWTnRVamRlWXo0NHBhQ0JhSEhHVU5MMTFxOGwtWW1NMjI3X250enU4MHNfY1I4UGhyMVpBSnB5SnJ5S0ttWU9fVzgtTGlMRFJO?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 卧安机器人： · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiZkFVX3lxTE81Q3lDVUhEaFhyeVNXUmhudHNUdDlMazd2ejJOV080aHllTGVIWXZHYXJ5M3oxeE1ibm40eWNKNnRoX2NFY1ZFQTZtR2ZQODZYU0N5UFRsSnpVRHljLW45ZlF4QlZTdw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Shelfmark · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMikgFBVV95cUxQQ0RmRnJhX2tKTzVpOTl3U2JYT3lUVHRuSER0MDdZdzRsRmtmamR0RU1zcDFfQWxjOE5VUEtDYV83X3BWSGFLMGxCYjVuT0QyREpIOGh4RS1rSG0tai0zaUR6Tk9MQTJaYmxGXzRiUjdpMFcxYnhTQWYzRWprQ0hubDdZNFk1RGFKOTh0UHhUSHYtZw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## Adiabatic Technologies · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -54,12 +78,6 @@
 
 - 路线：部署与商业化
 - 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMixAFBVV95cUxPZ0htVjB4bUk3NDhBNzlwQ2dzNm4xdFFNQjhsR2NSeEpDNDJTQzljdlNyLXJRcmVJa3lzc0g0NngxbXVXRVAxRzRLdUhENENTNnRvRmR4OGpkUEZwUDJ2XzdWNW11Y3BhYVZrTGR5SXRBX25qUmo2ZnpFSHdWTnRVamRlWXo0NHBhQ0JhSEhHVU5MMTFxOGwtWW1NMjI3X250enU4MHNfY1I4UGhyMVpBSnB5SnJ5S0ttWU9fVzgtTGlMRFJO?oc=5)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## Perceptual Robotics · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcEtoVmQwZW0xRnRQVW4wVm54TTJ4NmNVN1pTYXREV1J3d2JUZ3RQRGdTbjJ3a0VDOHFyLWRUM1pBR2dVeHRwekZ6T1hPNVFqaF9QOVFyaV9fZnVXQWVJdlVDRkFpaHBBOVZDNW9OQkM2OXZkd3hDTURtWW4tOG1ReVF2OFBNclBIT19aZ2g4OWNsR1dtalFRamt4dnpPSDYtbXpZWC1ZSEU?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 卧安机器人 · 候选 · 22/100
