@@ -206,6 +206,12 @@ export interface CompanyProfile {
   routes: TechnicalRoute[];
   thesis: string;
   officialUrl: string;
+  /** A stable identity lets aliases, candidates and public dossiers converge
+   * without treating a translated headline as a new company. */
+  entityId?: string;
+  /** First-party profile evidence only establishes company identity and focus;
+   * it never by itself verifies a financing or deployment event. */
+  profileEvidence?: Array<{ link: string; source: string; checkedAt: string; supports: string }>;
 }
 
 /** Public, generated dossier. It never fabricates facts that lack evidence. */
@@ -285,6 +291,27 @@ export interface CandidateCompany {
 export interface CandidateCompanyRegistry {
   updatedAt: string;
   companies: CandidateCompany[];
+}
+
+/** Internal identity graph joining curated company profiles with financing
+ * candidates. Candidate nodes never become public profiles automatically. */
+export type CompanyEntityStatus = "已建档" | "候选" | "观察中" | "已交叉核验";
+export interface CompanyEntity {
+  id: string;
+  name: string;
+  aliases: string[];
+  officialUrl?: string;
+  region?: string;
+  routes: TechnicalRoute[];
+  status: CompanyEntityStatus;
+  firstSeenAt: string;
+  lastSeenAt: string;
+  evidence: Array<{ link: string; source: string; publishedAt?: string; supports: string }>;
+  promotion: { eligibleForReview: boolean; reasons: string[] };
+}
+export interface CompanyEntityRegistry {
+  updatedAt: string;
+  entities: CompanyEntity[];
 }
 
 export interface DigestResult {

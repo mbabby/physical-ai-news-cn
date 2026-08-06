@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { updateCandidateCompanies } from "../src/company-candidates.js";
-import type { Article } from "../src/types.js";
+import type { Article, CompanyProfile } from "../src/types.js";
 
 function funding(overrides: Partial<Article> = {}): Article {
   const now = new Date("2026-08-05T00:00:00Z");
@@ -31,4 +31,17 @@ test("does not create a dossier for a generic or non-physical-AI financing headl
     excerpt: "A generic market update without a physical AI subject.",
   })]);
   assert.equal(registry.companies.length, 0);
+});
+
+test("resolves a funding lead to an existing Chinese company profile without treating its profile as financing proof", () => {
+  const galaxea: CompanyProfile = {
+    entityId: "company-galaxea", name: "星海图", aliases: ["Galaxea", "Galaxea AI"], region: "中国", stage: "创业公司",
+    routes: ["VLA 与具身模型", "本体与硬件"], thesis: "具身智能基础模型与自研机器人。", officialUrl: "https://galaxea-ai.com/cn/about",
+  };
+  const registry = updateCandidateCompanies(undefined, [funding({
+    title: "Galaxea raises funding", titleZh: "星海图完成融资", link: "https://media.example.com/galaxea-funding",
+  })], new Date("2026-08-06T01:00:00Z"), [galaxea]);
+  assert.equal(registry.companies[0].name, "星海图");
+  assert.equal(registry.companies[0].officialUrl, galaxea.officialUrl);
+  assert.notEqual(registry.companies[0].status, "已交叉核验");
 });

@@ -17,10 +17,11 @@ import { buildDashboard } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
 import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry } from "./research-registry.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
+import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./company-entities.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
 import { buildProjectMetrics, formatCommunityReviewQueue, formatWeeklyReport } from "./project-insights.js";
-import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -128,6 +129,7 @@ async function main(): Promise<void> {
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true }), mkdir(metricsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
+  const companyEntityPath = join(eventsDir, "company-entities.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -248,7 +250,8 @@ async function main(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   await writeFile(join(weeklyDir, "shareable-summary.md"), formatShareableSummary(eventStore, publicResearch, week), "utf8");
   const archives = await readRecentDailyArchives(outputDir, now, 30);
-  const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now);
+  const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now, companies);
+  const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
   const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
   const watchlist = selectWatchlistCandidates(weekly);
@@ -257,6 +260,8 @@ async function main(): Promise<void> {
   await writeFile(candidatePath, JSON.stringify(nextCandidateRegistry, null, 2) + "\n", "utf8");
   await writeFile(companyCandidatePath, JSON.stringify(companyCandidates, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "company-candidates.md"), formatCandidateCompanyReview(companyCandidates), "utf8");
+  await writeFile(companyEntityPath, JSON.stringify(companyEntities, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "company-entity-promotions.md"), formatCompanyEntityReview(companyEntities), "utf8");
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
   const metrics = buildProjectMetrics(archives, eventStore, registry, companyCandidates, now);

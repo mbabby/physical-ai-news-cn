@@ -8,7 +8,7 @@ const COMPANY_ALIASES: Record<string, string[]> = {
   Tesla: ["tesla", "optimus"], NVIDIA: ["nvidia"], "Google DeepMind": ["google deepmind", "gemini robotics", "google robotics"], Meta: ["meta ai", "meta robotics"],
   Figure: ["figure ai", "figure robot", "figure 02", "figure 03", "helix"], "Physical Intelligence": ["physical intelligence"], "World Labs": ["world labs"],
   "1X": ["1x technologies", "1x humanoid"], Apptronik: ["apptronik", "apollo humanoid"], "Agility Robotics": ["agility robotics", "digit robot"], "Sanctuary AI": ["sanctuary ai"], Skild: ["skild ai"], Dexterity: ["dexterity ai"], "Boston Dynamics": ["boston dynamics"],
-  "宇树科技": ["unitree", "宇树"], "优必选": ["ubtech", "优必选"], "智元机器人": ["智元机器人", "agibot"], "银河通用": ["galbot", "银河通用"], "众擎机器人": ["engineai", "众擎"], "傅利叶智能": ["fourier intelligence", "傅利叶"], "逐际动力": ["limx dynamics", "逐际"], "松延动力": ["noetix", "松延"], "魔法原子": ["magiclab", "魔法原子"], "乐聚机器人": ["leju robot", "乐聚"], "NEURA Robotics": ["neura robotics"], ANYbotics: ["anybotics"],
+  "宇树科技": ["unitree", "宇树"], "优必选": ["ubtech", "优必选"], "智元机器人": ["智元机器人", "agibot"], "银河通用": ["galbot", "银河通用"], "星海图": ["星海图", "galaxea", "galaxea ai"], "众擎机器人": ["engineai", "众擎"], "傅利叶智能": ["fourier intelligence", "傅利叶"], "逐际动力": ["limx dynamics", "逐际"], "松延动力": ["noetix", "松延"], "魔法原子": ["magiclab", "魔法原子"], "乐聚机器人": ["leju robot", "乐聚"], "NEURA Robotics": ["neura robotics"], ANYbotics: ["anybotics"],
 };
 const FUNDING_WORDS = ["funding", "funded", "raises", "raised", "series a", "series b", "series c", "seed round", "venture round", "valuation", "acquisition", "融资", "投资", "收购", "估值"];
 
