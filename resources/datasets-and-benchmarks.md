@@ -20,9 +20,9 @@
 
 - [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v2) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
-- [Kitchen Robotic Manipulation utilizing Foundation Models](https://arxiv.org/abs/2608.04042v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
-
 - [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
+
+- [Kitchen Robotic Manipulation utilizing Foundation Models](https://arxiv.org/abs/2608.04042v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
 
 - [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
 

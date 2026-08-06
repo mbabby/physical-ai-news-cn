@@ -2,6 +2,139 @@
   "date": "2026-08-06",
   "articles": [
     {
+      "id": "01ceff838e07f605",
+      "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+      "link": "https://arxiv.org/abs/2607.26337v1",
+      "publishedAt": "2026-07-28T23:20:51.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+      "tags": [
+        "产品",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Emma Huang"
+      ],
+      "kind": "产品发布",
+      "score": 126,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171804857",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Carnegie Mellon University"
+        ],
+        "authors": [
+          {
+            "name": "Emma Huang",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Zih-Yun Chiu",
+            "totalCitations": 273,
+            "hIndex": 8,
+            "institutions": []
+          },
+          {
+            "name": "Neelay Joglekar",
+            "totalCitations": 15,
+            "hIndex": 2,
+            "institutions": [
+              "Carnegie Mellon University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-08-06T08:46:39.062Z"
+      },
+      "titleZh": "借助缝线操控实现自主缝合中的柔性缝针拾取",
+      "summaryZh": "该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖组织重建、抓取点选择与双臂循线，避免器械接触组织。在 da Vinci Research Kit 真实实验中，即使缝线复杂或缝针不可接近仍能稳健抓取。"
+    },
+    {
+      "id": "36307d4fa4526afd",
+      "title": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
+      "link": "https://arxiv.org/abs/2608.04996v1",
+      "publishedAt": "2026-08-05T16:04:23.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.120Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 7,
+      "excerpt": "World Action Models (WAMs) learn action-relevant representations by predicting how the observed world will evolve. Most existing WAMs define this future in RGB space, where task-relevant state transitions are entangled with nuisance variations in texture, illumination, background, and viewpoint. We argue that WAMs should explicitly predict action-relevant future state rather than relying on RGB prediction alone. We introduce DreamWAM, which reformulates future prediction as structured world modeling beyond RGB, representing future states through complementary views of appearance, motion, geometry, and semantics. During training, DreamWAM combines joint latent denoising of RGB and motion with lightweight gated residual branches for geometry and semantics. Shared attention between VideoDiT and ActionDiT allows the action branch to learn from these future-state predictions, while all beyond-RGB supervision branches are disabled at inference and deployment remains RGB-only. Across both no-rollout and joint video-action inference, DreamWAM consistently improves the matched RGB-only baselines on LIBERO, from 97.30\\% to 98.40\\% and from 98.00\\% to 98.90\\%, respectively. The gains become larger under unseen LIBERO-Plus perturbations, from 51.36\\% to 63.44\\% and from 69.16\\% to 75.47\\%. The same robustness extends to real-world manipulation, where DreamWAM attains an average success rate of 74.4\\% across unseen changes in lighting, background, and object layout, compared with 55.6\\% for Fast-WAM-Joint. These results show that robust world-action learning depends not only on predicting the future, but on representing it in a form that matters for action. The code and models are publicly released at https://github.com/hustvl/DreamWAM.",
+      "tags": [
+        "产品",
+        "manipulation",
+        "world model"
+      ],
+      "authors": [
+        "Shanglin Yuan"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "产品发布",
+      "score": 106,
+      "titleZh": "DreamWAM：超越RGB未来预测的世界动作模型",
+      "summaryZh": "DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。"
+    },
+    {
+      "id": "5d41827fa30a6d06",
+      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
+      "link": "https://arxiv.org/abs/2607.28623v1",
+      "publishedAt": "2026-07-30T17:59:35.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
+      "tags": [
+        "落地",
+        "robot",
+        "humanoid"
+      ],
+      "authors": [
+        "Lizhi Yang"
+      ],
+      "kind": "部署案例",
+      "score": 118,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7171928651",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "California Institute of Technology",
+          "Dynamic Systems (United States)"
+        ],
+        "authors": [
+          {
+            "name": "Lizhi Yang",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Junheng Li",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Aaron D. Ames",
+            "totalCitations": 15579,
+            "hIndex": 58,
+            "institutions": [
+              "California Institute of Technology",
+              "Dynamic Systems (United States)"
+            ]
+          }
+        ],
+        "checkedAt": "2026-08-06T08:46:39.174Z"
+      },
+      "titleZh": "PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架",
+      "summaryZh": "研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。"
+    },
+    {
       "id": "d296eb9c0886d703",
       "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
       "link": "https://arxiv.org/abs/2607.27782v1",
@@ -18,8 +151,8 @@
       ],
       "kind": "部署案例",
       "score": 126,
-      "titleZh": "RedFlow：将失败重定向为动作级纠正的流匹配VLA策略",
-      "summaryZh": "提出离线强化学习框架RedFlow，将失败经验转化为动作级纠正监督，用于改进流匹配VLA操作策略。在LIBERO基准与三项真实操作任务上优于现有离线方法，真实成功率由56.7%提升至74.7%。",
+      "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+      "summaryZh": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
       "authors": [
         "Zehong Yan",
         "Junhao Li",
@@ -59,31 +192,8 @@
             ]
           }
         ],
-        "checkedAt": "2026-08-06T03:50:47.622Z"
+        "checkedAt": "2026-08-06T08:46:39.192Z"
       }
-    },
-    {
-      "id": "783fbd7bfd2569e0",
-      "title": "Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors",
-      "link": "https://arxiv.org/abs/2608.04673v1",
-      "publishedAt": "2026-08-05T10:36:04.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.488Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "Accurate six-degree-of-freedom (6-DOF) motion estimation is essential for robotic manipulation, autonomous systems, and structural displacement monitoring. Conventional 3D-2D methods estimate absolute camera poses independently at each time and recover platform motion through camera-to-platform extrinsics, making them sensitive to extrinsic calibration errors, especially for micromotion. We present a differential pose estimation method that directly recovers platform motion from inter-frame image displacements and known 3D control points. By differencing perspective projection equations, using a depth-invariance approximation, and modeling motion on SE(3), the method avoids independent absolute-pose estimation and supports both monocular and multi-camera systems. We prove that translational extrinsic errors cancel exactly, while rotational errors induce a bounded perturbation determined by calibration error, motion magnitude, and observation geometry. We also derive generic observability conditions, a Cramer-Rao lower bound, and a bias-eliminated consistent estimator, and characterize the validity limits of the approximations. Extensive synthetic and real-world experiments establish a new state of the art for 6-DOF platform micromotion estimation, outperforming representative PnP and generalized-PnP methods in accuracy, calibration robustness, and computational efficiency. With five control points and 0.5-pixel image noise, the monocular solver obtains a combined pitch-yaw rotation RMSE of 10.09 arcsec, a translation RMSE of 3.70 mm, and a runtime of 0.34 ms. The binocular solver achieves a rotation RMSE of 10.58 arcsec, a translation RMSE of 3.91 mm, and a runtime of 0.27 ms. Code will be released upon publication at https://github.com/zyoungszu/pami2026.",
-      "tags": [
-        "产品",
-        "robot",
-        "manipulation"
-      ],
-      "authors": [
-        "Yueqiang Zhang"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "产品发布",
-      "score": 106,
-      "titleZh": "对相机标定误差具可证明一阶免疫的差分六自由度位姿估计",
-      "summaryZh": "该研究提出差分位姿估计方法，从帧间图像位移与已知3D控制点直接恢复平台六自由度运动，并证明平移外参误差可精确抵消。合成与真实实验表明其精度、标定鲁棒性与效率均优于PnP类方法，代码将随论文发表开源。"
     }
   ],
   "industryPulse": {
@@ -128,8 +238,9 @@
     },
     {
       "source": "TechCrunch · Robotics",
-      "status": "success",
-      "fetchedArticles": 20
+      "status": "failure",
+      "reason": "HTTP 403 Forbidden",
+      "fetchedArticles": 0
     },
     {
       "source": "Google News · Robotics Capital",
@@ -194,11 +305,38 @@
   ],
   "candidates": [
     {
+      "id": "c6489d1600774b9f",
+      "title": "使用VR头显远程操控仓库机器人，Avatar Robotics完成650万美元融资 - VR陀螺",
+      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5SekViZ2hzRzFEekpRdl8xT2k3anlsajQ4V0NoYlpyYlVhU2VnOHRaZ0hzSTBad3NWbDZvTS1GWk5VV2VWNGc4QWtJMA?oc=5",
+      "publishedAt": "2026-08-06T01:52:04.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.150Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "使用VR头显远程操控仓库机器人，Avatar Robotics完成650万美元融资  VR陀螺",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 92,
+      "titleZh": "用VR头显远程操控仓库机器人，Avatar Robotics完成650万美元融资",
+      "summaryZh": "Avatar Robotics完成650万美元融资，其方案通过VR头显远程操控仓库机器人。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
       "id": "03d7d69fe43f77a6",
       "title": "Avatar Robotics Raises $6.5M in Seed Funding to Develop Industrial Humanoid Robots - AI Insider",
       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5",
       "publishedAt": "2026-08-05T19:58:23.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Avatar Robotics Raises $6.5M in Seed Funding to Develop Industrial Humanoid Robots  AI Insider",
@@ -212,10 +350,11 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 92,
-      "titleZh": "Avatar Robotics 完成 650 万美元种子轮融资，开发工业人形机器人",
-      "summaryZh": "Avatar Robotics 宣布完成 650 万美元种子轮融资，资金将用于开发面向工业场景的人形机器人。摘要未提供真实机器人、基准或开源证据",
-      "stage": "待公司主体确认",
+      "titleZh": "Avatar Robotics 获 650 万美元种子轮融资，开发工业人形机器人",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
       "holdReasons": [
+        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
@@ -225,7 +364,7 @@
       "title": "经历6月创纪录的融资高峰后，人形机器人与具身智能赛道在7月迎来阶段性回调。2026年上半年人形机器人产业发展简报 - 雪球",
       "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE43XzZfdE1saGhxUFdYaVdQNl9Ra2lIOHBoYjlEYzFtRTRRMFFKZzV6TWVPSDkwcjAtUGhLSnRVbk1KdWthMDVodVJrOEc3Wkxp?oc=5",
       "publishedAt": "2026-08-05T10:29:00.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.955Z",
+      "fetchedAt": "2026-08-06T08:40:08.150Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 4,
       "excerpt": "经历6月创纪录的融资高峰后，人形机器人与具身智能赛道在7月迎来阶段性回调。2026年上半年人形机器人产业发展简报  雪球",
@@ -239,34 +378,7 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 92,
-      "titleZh": "2026年上半年人形机器人产业发展简报：6月融资创纪录后7月阶段性回调",
-      "summaryZh": "简报梳理2026年上半年人形机器人与具身智能产业动态，指出6月融资创纪录后赛道在7月迎来阶段性回调。摘要未提供真实机器人、基准或开源证据。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "8ef75b2b45dee359",
-      "title": "DISCOVER Robotics, PokeBot lock in at least $100m each amid China's embodied AI funding surge - DealStreetAsia",
-      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOdm1GQ1B4dng5Qm81SW1BYmwzZ1hDcXVVd25nSmU3cVk5YlVCWkVWTWJ3d3VFajh3cWRqNjFtMndvcDFRTUNDYkczSHRnRVZrNWMyaGJjTjhZdUsxbUhZczhXRUh2N1cyaGVZS19sdXp0cHhsQkUwbnV2VkRySjJyNzN4aXFZUQ?oc=5",
-      "publishedAt": "2026-08-05T08:21:59.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 4,
-      "excerpt": "DISCOVER Robotics, PokeBot lock in at least $100m each amid China's embodied AI funding surge  DealStreetAsia",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics",
-        "embodied"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 92,
-      "titleZh": "DISCOVER Robotics 与 PokeBot 各锁定至少 1 亿美元融资，中国具身智能赛道融资升温",
+      "titleZh": "2026年上半年人形机器人产业简报：6月融资创纪录后，7月赛道阶段性回调",
       "summaryZh": "暂无原文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -276,11 +388,64 @@
       ]
     },
     {
+      "id": "845524bee2cfb9df",
+      "title": "Avatar Robotics Raises $6.5M in Seed Funding - FinSMEs",
+      "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5",
+      "publishedAt": "2026-08-06T06:48:26.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 4,
+      "excerpt": "Avatar Robotics Raises $6.5M in Seed Funding  FinSMEs",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "Avatar Robotics 完成 650 万美元种子轮融资",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "1d4776f4f00f1481",
+      "title": "成都汇阳投资关于宇树科技 IPO 过会，人形机器人全产业链催化来袭！ - sohu.com",
+      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZ25oUWc3dUFhZ0xPZUJLNGZpcTFibHQ5OEcyRkJxcm9Gdkp0eFdhSDBQbnlIeC1URFdFNmZ5bnUxekNLNWlITmIwS1p2QWFWMGUzc3dDQWZkRWo5Sjdaak1zX3kxb1FBTmg5cHNTVmllLWFKbG0yUGh2aTZmX19pSndDdHdscEJW?oc=5",
+      "publishedAt": "2026-08-06T02:14:42.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.150Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "成都汇阳投资关于宇树科技 IPO 过会，人形机器人全产业链催化来袭！  sohu.com",
+      "tags": [
+        "投融资",
+        "人形机器人",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "成都汇阳投资关于宇树科技 IPO 过会，人形机器人全产业链催化来袭！ - sohu.com",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验"
+      ]
+    },
+    {
       "id": "a46572023a81fee5",
       "title": "Avatar Robotics Raises $6.5 Million Seed to Build the Unlimited Industrial Workforce - PR Newswire",
       "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQdGxSc2hFb1NsbmpTUVZJYk1HeU1FSkNQZFlyOUNwVWNUZWdFS2RPMzdmWkxmVTNNSVJzcFRaanp1cEVESFMtUnh6N1I5QnVoX3FiZllPWXlmRjdjcmNTbzVzdUtqeVU1QS1IMjVpR1FDMXpyaGE1T1QtLXloTDBsd3ZGN21RS2ZFdzNwWHhIZnNRazVRcnBiZDlReDMxb2lRMmVEdWxKQS04SVprQWxueURPQThSZHNVVnZta29YeHFhVjhCOHhyTnR6X3o1Vk5lZEhiOENR?oc=5",
       "publishedAt": "2026-08-05T15:43:00.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Avatar Robotics Raises $6.5 Million Seed to Build the Unlimited Industrial Workforce  PR Newswire",
@@ -293,8 +458,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Avatar Robotics 获 650 万美元种子轮融资，打造“无限工业劳动力”",
-      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "titleZh": "Avatar Robotics Raises $6.5 Million Seed to Build the Unlimited Industrial Workforce - PR Newswire",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介",
@@ -307,7 +472,7 @@
       "title": "Chinese Robotics Startup PokeBot Raises Hundreds of Millions of Dollars - Caixin Global",
       "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPZ0htVjB4bUk3NDhBNzlwQ2dzNm4xdFFNQjhsR2NSeEpDNDJTQzljdlNyLXJRcmVJa3lzc0g0NngxbXVXRVAxRzRLdUhENENTNnRvRmR4OGpkUEZwUDJ2XzdWNW11Y3BhYVZrTGR5SXRBX25qUmo2ZnpFSHdWTnRVamRlWXo0NHBhQ0JhSEhHVU5MMTFxOGwtWW1NMjI3X250enU4MHNfY1I4UGhyMVpBSnB5SnJ5S0ttWU9fVzgtTGlMRFJO?oc=5",
       "publishedAt": "2026-08-05T11:38:00.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Chinese Robotics Startup PokeBot Raises Hundreds of Millions of Dollars  Caixin Global",
@@ -334,7 +499,7 @@
       "title": "Exclaim Robotics raises USD 4.95 million for data centre repair robots - Startupticker.ch",
       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
       "publishedAt": "2026-08-05T11:01:55.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Exclaim Robotics raises USD 4.95 million for data centre repair robots  Startupticker.ch",
@@ -348,7 +513,7 @@
       "kind": "投融资",
       "score": 88,
       "titleZh": "Exclaim Robotics 融资 495 万美元用于数据中心维修机器人",
-      "summaryZh": "Exclaim Robotics 宣布获得 495 万美元融资，资金用于数据中心维修机器人。摘要未提供真实机器人、基准或开源证据。",
+      "summaryZh": "Exclaim Robotics 宣布完成 495 万美元融资，资金将投入数据中心维修机器人方向。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -360,7 +525,7 @@
       "title": "Adiabatic Technologies raises Rs 8.3 crore to scale Lithium-Ion battery production for drones and robotics - Indian Startup News",
       "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNdW1xWGs1MGZxTmlDbGVRZkNsTkRDNEpEZVVLWk5RQ3JJSEtRUFp0NGJ6SFlRcHRxN3R3b0FRenN6SXFaUlRES1dRY1l6OXVQQjRCMkRPcnlVSUIxMXo3a1p0a1lyTUU0THEyRUxDUElGWDZERUpYMmtoczZQcWVhTFJLaENadVZpOF8xSjVzNDE5YlpRYzFHS1NRMnRTeVZGdzk3dlVRWmhPckFxa081R3BfWVJTZ0JtUTBpODNVaFc5MEpWVUhSejUtdk9VX0xmS2hDTVN2Z0p3OF9tX05BREs0UFBkZGvSAecBQVVfeXFMTXVtcVhrNTBmcU5pQ2xlUWZDbE5EQzRKRGVVS1pOUUNySUhLUVBadDRiekhZUXB0cTd0d29BUXpzeklxWlJUREtXUWNZejl1UEI0QjJET3J5VUlCMTF6N2tadGtZck1FNExxMkVMQ1BJRlg2REVKWDJraHM2UHFlYUxSS2hDWnVWaThfMUo1czQxOWJaUWMxR0tTUTJ0U3lWRnc5N3ZVUVpoT3JBcWtPNUdwX1lSU2dCbVEwaTgzVWhXOTBKVlVIUno1LXZPVV9MZktoQ01TdmdKdzhfbV9OQURLNFBQZGRr?oc=5",
       "publishedAt": "2026-08-05T10:29:53.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
+      "fetchedAt": "2026-08-06T08:40:08.255Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Adiabatic Technologies raises Rs 8.3 crore to scale Lithium-Ion battery production for drones and robotics  Indian Startup News",
@@ -373,8 +538,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Adiabatic Technologies 融资 8300 万卢比，扩大无人机与机器人用锂离子电池产能",
-      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "titleZh": "Adiabatic Technologies raises Rs 8.3 crore to scale Lithium-Ion battery production for drones and robotics - Indian Startup News",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介",
@@ -383,67 +548,14 @@
       ]
     },
     {
-      "id": "cc50d346defdadab",
-      "title": "Perceptual Robotics raises funds to grow wind inspection business - renewablesnow.com",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcEtoVmQwZW0xRnRQVW4wVm54TTJ4NmNVN1pTYXREV1J3d2JUZ3RQRGdTbjJ3a0VDOHFyLWRUM1pBR2dVeHRwekZ6T1hPNVFqaF9QOVFyaV9fZnVXQWVJdlVDRkFpaHBBOVZDNW9OQkM2OXZkd3hDTURtWW4tOG1ReVF2OFBNclBIT19aZ2g4OWNsR1dtalFRamt4dnpPSDYtbXpZWC1ZSEU?oc=5",
-      "publishedAt": "2026-08-05T07:30:53.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.998Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 4,
-      "excerpt": "Perceptual Robotics raises funds to grow wind inspection business  renewablesnow.com",
-      "tags": [
-        "投融资",
-        "robot",
-        "robotics"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 88,
-      "titleZh": "Perceptual Robotics 获融资以扩大风电检测业务",
-      "summaryZh": "Perceptual Robotics 完成新一轮融资，资金将用于扩大其风电检测业务。摘要未提供真实机器人、基准或开源证据。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "8d7a1ba4d03f3951",
-      "title": "国产人形机器人出海「避雷指南」 - 投资界",
-      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1SZGkzZlpWdW5FdHEzRHBkSVpMWVBwejlHdzRNTkdQYnRTWXplQ2RtNEZBTHJwNVZDRkVHUHJKV1RxZ0d3UFNsWTdkRFJqc2FwenAycGVR?oc=5",
-      "publishedAt": "2026-08-05T06:51:00.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.955Z",
+      "id": "b292438a28667154",
+      "title": "BeeX获770万美元A轮融资，加速水下机器人研发 - DoNews",
+      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1reXBHd1RDZlBkZ3VvamRLbW1Hb21SLXBJZE0wT2dZaXIxMDAzT2liVVY5bk1oSVhLY3FSQmhPeEN4OW5WaDgzTjhzQ1ZMQVFRNWV3c2lIOEttMVpaYVE?oc=5",
+      "publishedAt": "2026-08-06T03:55:03.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.150Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 4,
-      "excerpt": "国产人形机器人出海「避雷指南」  投资界",
-      "tags": [
-        "投融资",
-        "人形机器人",
-        "机器人"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 88,
-      "titleZh": "国产人形机器人出海「避雷指南」",
-      "summaryZh": "暂无原文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介",
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "6e5a3505d4857215",
-      "title": "FF宣布机器人独立融资等措施 两年内市值达上市时水平实现价值回归 - 搜狐网",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNVTh3OHltNE9USEMzOVlObTBROGxleVBZXzAtdFMwQ3B1dFpfVlN2SFBnUTZMX1FIWW1MR1hLbURQOE1KR01WR01MM0xHcjN0NlUtYlI3bG1JVmstTDNjcl9zMUhWUklpUlRDNmduUzFhaVdWZ1g0dlM0NEEzUzR4NlBGNVpqYk1P?oc=5",
-      "publishedAt": "2026-08-06T02:29:00.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.955Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 4,
-      "excerpt": "FF宣布机器人独立融资等措施 两年内市值达上市时水平实现价值回归  搜狐网",
+      "excerpt": "BeeX获770万美元A轮融资，加速水下机器人研发  DoNews",
       "tags": [
         "投融资",
         "机器人"
@@ -452,8 +564,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 84,
-      "titleZh": "FF宣布机器人业务独立融资，力争两年内市值回归上市时水平",
-      "summaryZh": "FF宣布推动机器人业务独立融资等措施，计划两年内使市值恢复至上市时水平，实现价值回归。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "BeeX获770万美元A轮融资，加速水下机器人研发",
+      "summaryZh": "BeeX宣布完成770万美元A轮融资，资金将用于加速水下机器人的研发工作。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -461,38 +573,11 @@
       ]
     },
     {
-      "id": "36307d4fa4526afd",
-      "title": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
-      "link": "https://arxiv.org/abs/2608.04996v1",
-      "publishedAt": "2026-08-05T16:04:23.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.488Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "World Action Models (WAMs) learn action-relevant representations by predicting how the observed world will evolve. Most existing WAMs define this future in RGB space, where task-relevant state transitions are entangled with nuisance variations in texture, illumination, background, and viewpoint. We argue that WAMs should explicitly predict action-relevant future state rather than relying on RGB prediction alone. We introduce DreamWAM, which reformulates future prediction as structured world modeling beyond RGB, representing future states through complementary views of appearance, motion, geometry, and semantics. During training, DreamWAM combines joint latent denoising of RGB and motion with lightweight gated residual branches for geometry and semantics. Shared attention between VideoDiT and ActionDiT allows the action branch to learn from these future-state predictions, while all beyond-RGB supervision branches are disabled at inference and deployment remains RGB-only. Across both no-rollout and joint video-action inference, DreamWAM consistently improves the matched RGB-only baselines on LIBERO, from 97.30\\% to 98.40\\% and from 98.00\\% to 98.90\\%, respectively. The gains become larger under unseen LIBERO-Plus perturbations, from 51.36\\% to 63.44\\% and from 69.16\\% to 75.47\\%. The same robustness extends to real-world manipulation, where DreamWAM attains an average success rate of 74.4\\% across unseen changes in lighting, background, and object layout, compared with 55.6\\% for Fast-WAM-Joint. These results show that robust world-action learning depends not only on predicting the future, but on representing it in a form that matters for action. The code and models are publicly released at https://github.com/hustvl/DreamWAM.",
-      "tags": [
-        "产品",
-        "manipulation",
-        "world model"
-      ],
-      "authors": [
-        "Shanglin Yuan"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "产品发布",
-      "score": 106,
-      "titleZh": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
-    },
-    {
       "id": "ff7230a90a96acaf",
       "title": "RORA: Realistic Object Reconstruction with Articulation",
       "link": "https://arxiv.org/abs/2608.04842v1",
       "publishedAt": "2026-08-05T13:36:58.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.488Z",
+      "fetchedAt": "2026-08-06T08:40:08.120Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 7,
       "excerpt": "Replicating real-world environments into simulation by realistic visual representation like NeRF and 3D Gaussian Splatting (3DGS) has emerged as an effective strategy to reduce the sim-to-real gap in robot learning. However, implementing object articulation during the real-to-sim process is still a challenging task. Existing motion tracking or learning based articulation methods shows low success rates on complex kinematic structures having multiple joints. Furthermore, those methods require scan of dynamic motion of objects, which makes reconstruction process much complicated. In this work, we propose the first end-to-end pipeline that reconstructs simulation-ready assets with accurate articulation from a single static object video input through suggestion based human-in-the-loop process. Our approach exports a hybrid representation combining 3DGS for photorealistic rendering and mesh-based geometry for physical interaction. In the reconstruction process, our pipeline performs convex decomposition followed by user grouping for intuitive part segmentation, subsequently binding 3D Gaussians to the corresponding mesh parts. An Automatic Joint Suggestion Algorithm then calculates candidate joint axes from local boundary geometries and presents them to users for efficient articulated asset reconstruction. We have shown that our method achieves precise articulation results on partnet-mobility-v0 dataset and real objects. Additionally we presented a potential usage of our framework on robot learning, deploying the reconstructed assets in Unreal Engine and NVIDIA Isaac Sim, demonstrating real-time dexterous hand manipulation tasks.",
@@ -509,6 +594,33 @@
       "kind": "部署案例",
       "score": 102,
       "titleZh": "RORA: Realistic Object Reconstruction with Articulation",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "783fbd7bfd2569e0",
+      "title": "Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors",
+      "link": "https://arxiv.org/abs/2608.04673v1",
+      "publishedAt": "2026-08-05T10:36:04.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.120Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 7,
+      "excerpt": "Accurate six-degree-of-freedom (6-DOF) motion estimation is essential for robotic manipulation, autonomous systems, and structural displacement monitoring. Conventional 3D-2D methods estimate absolute camera poses independently at each time and recover platform motion through camera-to-platform extrinsics, making them sensitive to extrinsic calibration errors, especially for micromotion. We present a differential pose estimation method that directly recovers platform motion from inter-frame image displacements and known 3D control points. By differencing perspective projection equations, using a depth-invariance approximation, and modeling motion on SE(3), the method avoids independent absolute-pose estimation and supports both monocular and multi-camera systems. We prove that translational extrinsic errors cancel exactly, while rotational errors induce a bounded perturbation determined by calibration error, motion magnitude, and observation geometry. We also derive generic observability conditions, a Cramer-Rao lower bound, and a bias-eliminated consistent estimator, and characterize the validity limits of the approximations. Extensive synthetic and real-world experiments establish a new state of the art for 6-DOF platform micromotion estimation, outperforming representative PnP and generalized-PnP methods in accuracy, calibration robustness, and computational efficiency. With five control points and 0.5-pixel image noise, the monocular solver obtains a combined pitch-yaw rotation RMSE of 10.09 arcsec, a translation RMSE of 3.70 mm, and a runtime of 0.34 ms. The binocular solver achieves a rotation RMSE of 10.58 arcsec, a translation RMSE of 3.91 mm, and a runtime of 0.27 ms. Code will be released upon publication at https://github.com/zyoungszu/pami2026.",
+      "tags": [
+        "产品",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Yueqiang Zhang"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "产品发布",
+      "score": 106,
+      "titleZh": "Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -536,6 +648,62 @@
       "kind": "部署案例",
       "score": 130,
       "titleZh": "Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "7e4a09414f545820",
+      "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
+      "link": "https://arxiv.org/abs/2608.03682v2",
+      "publishedAt": "2026-08-04T13:53:48.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.120Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 7,
+      "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
+      "tags": [
+        "产品",
+        "robot",
+        "physical ai",
+        "vla"
+      ],
+      "authors": [
+        "Chenghua Wang"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "产品发布",
+      "score": 114,
+      "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "950e6762825eb293",
+      "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
+      "link": "https://arxiv.org/abs/2608.04042v1",
+      "publishedAt": "2026-08-04T05:07:45.000Z",
+      "fetchedAt": "2026-08-06T08:40:08.120Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 7,
+      "excerpt": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstruction, and a 2D-3D feature fusion strategy for 6D pose estimation and grasp planning. Its modular design enables systematic substitution of multiple visual and geometric foundation models, allowing us to identify the best-performing configuration through extensive evaluation on a custom kitchen dataset. The best-performing configuration (LLMDet + SAMv2 + DINOv2 + GeoTransformer) achieves an ADI of 89.12\\% on the 20-scene kitchen benchmark with cluttered and occluded conditions. Furthermore, real-world demonstrations confirm that the best configuration can be deployed on physical robots without environment-specific retraining, successfully executing tasks such as sink-to-dishwasher transfer and cup stacking. It validates the adaptability and scalability of the pipeline and highlights its potential as a practical framework for household robotic systems. Our code and supplementary materials are available at https://raivlab.github.io/FM_kitchen .",
+      "tags": [
+        "落地",
+        "robot",
+        "vla",
+        "manipulation"
+      ],
+      "authors": [
+        "Myung-Hwan Jeon"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "部署案例",
+      "score": 102,
+      "titleZh": "Kitchen Robotic Manipulation utilizing Foundation Models",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -582,64 +750,8 @@
             ]
           }
         ],
-        "checkedAt": "2026-08-06T03:50:47.886Z"
+        "checkedAt": "2026-08-06T08:46:38.845Z"
       },
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
-    },
-    {
-      "id": "7e4a09414f545820",
-      "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-      "link": "https://arxiv.org/abs/2608.03682v2",
-      "publishedAt": "2026-08-04T13:53:48.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.488Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
-      "tags": [
-        "产品",
-        "robot",
-        "physical ai",
-        "vla"
-      ],
-      "authors": [
-        "Chenghua Wang"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "产品发布",
-      "score": 114,
-      "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
-    },
-    {
-      "id": "950e6762825eb293",
-      "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
-      "link": "https://arxiv.org/abs/2608.04042v1",
-      "publishedAt": "2026-08-04T05:07:45.000Z",
-      "fetchedAt": "2026-08-06T03:46:50.488Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 7,
-      "excerpt": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstruction, and a 2D-3D feature fusion strategy for 6D pose estimation and grasp planning. Its modular design enables systematic substitution of multiple visual and geometric foundation models, allowing us to identify the best-performing configuration through extensive evaluation on a custom kitchen dataset. The best-performing configuration (LLMDet + SAMv2 + DINOv2 + GeoTransformer) achieves an ADI of 89.12\\% on the 20-scene kitchen benchmark with cluttered and occluded conditions. Furthermore, real-world demonstrations confirm that the best configuration can be deployed on physical robots without environment-specific retraining, successfully executing tasks such as sink-to-dishwasher transfer and cup stacking. It validates the adaptability and scalability of the pipeline and highlights its potential as a practical framework for household robotic systems. Our code and supplementary materials are available at https://raivlab.github.io/FM_kitchen .",
-      "tags": [
-        "落地",
-        "robot",
-        "vla",
-        "manipulation"
-      ],
-      "authors": [
-        "Myung-Hwan Jeon"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "部署案例",
-      "score": 102,
-      "titleZh": "Kitchen Robotic Manipulation utilizing Foundation Models",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -681,7 +793,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-06T03:50:47.529Z"
+        "checkedAt": "2026-08-06T08:46:39.002Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -750,7 +862,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-08-06T03:50:47.693Z"
+        "checkedAt": "2026-08-06T08:46:39.154Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -788,59 +900,13 @@
         "authors": [
           {
             "name": "BWM Team",
+            "totalCitations": 0,
+            "hIndex": 0,
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-06T03:50:47.370Z"
+        "checkedAt": "2026-08-06T08:46:39.405Z"
       },
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
-    },
-    {
-      "id": "5d41827fa30a6d06",
-      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "publishedAt": "2026-07-30T17:59:35.000Z",
-      "fetchedAt": "2026-08-02T07:29:40.051Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
-      "tags": [
-        "落地",
-        "robot",
-        "humanoid"
-      ],
-      "authors": [
-        "Lizhi Yang"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7171928651",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [],
-        "authors": [
-          {
-            "name": "Lizhi Yang",
-            "institutions": []
-          },
-          {
-            "name": "Junheng Li",
-            "institutions": []
-          },
-          {
-            "name": "Aaron D. Ames",
-            "institutions": []
-          }
-        ],
-        "checkedAt": "2026-08-06T03:50:47.421Z"
-      },
-      "titleZh": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -852,20 +918,25 @@
       "component": "LLM",
       "status": "部分降级",
       "attempted": 22,
-      "succeeded": 12,
-      "failed": 10,
+      "succeeded": 10,
+      "failed": 12,
       "detail": "部分摘要调用失败，相关内容已留在候选层。"
     },
     {
       "component": "OpenAlex",
       "status": "部分降级",
       "attempted": 36,
-      "succeeded": 34,
-      "failed": 2,
+      "succeeded": 33,
+      "failed": 3,
       "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     }
   ],
   "discoveredSources": [
+    {
+      "domain": "navy.mil",
+      "title": "Navy Establishes Reporting Portfolio Manager for Robotic and Autonomous Systems",
+      "link": "https://www.navy.mil/Press-Office/Press-Releases/display-pressreleases/Article/4565150/department-of-the-navy-establishes-direct-reporting-portfolio-manager-for-robot/"
+    },
     {
       "domain": "technologyreview.com",
       "title": "Trump's AI protectionism has come for robotics",

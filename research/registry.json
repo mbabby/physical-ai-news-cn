@@ -1,6 +1,95 @@
 {
-  "updatedAt": "2026-08-06T03:46:50.218Z",
+  "updatedAt": "2026-08-06T08:40:07.046Z",
   "records": [
+    {
+      "id": "5d41827fa30a6d06",
+      "article": {
+        "id": "5d41827fa30a6d06",
+        "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
+        "link": "https://arxiv.org/abs/2607.28623v1",
+        "publishedAt": "2026-07-30T17:59:35.000Z",
+        "fetchedAt": "2026-08-02T07:29:40.051Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
+        "tags": [
+          "落地",
+          "robot",
+          "humanoid"
+        ],
+        "authors": [
+          "Lizhi Yang"
+        ],
+        "kind": "部署案例",
+        "score": 118,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7171928651",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "California Institute of Technology",
+            "Dynamic Systems (United States)"
+          ],
+          "authors": [
+            {
+              "name": "Lizhi Yang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Junheng Li",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Aaron D. Ames",
+              "totalCitations": 15579,
+              "hIndex": 58,
+              "institutions": [
+                "California Institute of Technology",
+                "Dynamic Systems (United States)"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-06T08:46:39.174Z"
+        },
+        "titleZh": "PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架",
+        "summaryZh": "研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。"
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "lastShownAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "4eb3a108b8344e79",
+      "status": "候选资源",
+      "appearances": 6,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Aaron D. Ames",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-05T14:15:04.572Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        },
+        {
+          "date": "2026-08-06T03:46:50.218Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
     {
       "id": "36307d4fa4526afd",
       "article": {
@@ -8,7 +97,7 @@
         "title": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
         "link": "https://arxiv.org/abs/2608.04996v1",
         "publishedAt": "2026-08-05T16:04:23.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "World Action Models (WAMs) learn action-relevant representations by predicting how the observed world will evolve. Most existing WAMs define this future in RGB space, where task-relevant state transitions are entangled with nuisance variations in texture, illumination, background, and viewpoint. We argue that WAMs should explicitly predict action-relevant future state rather than relying on RGB prediction alone. We introduce DreamWAM, which reformulates future prediction as structured world modeling beyond RGB, representing future states through complementary views of appearance, motion, geometry, and semantics. During training, DreamWAM combines joint latent denoising of RGB and motion with lightweight gated residual branches for geometry and semantics. Shared attention between VideoDiT and ActionDiT allows the action branch to learn from these future-state predictions, while all beyond-RGB supervision branches are disabled at inference and deployment remains RGB-only. Across both no-rollout and joint video-action inference, DreamWAM consistently improves the matched RGB-only baselines on LIBERO, from 97.30\\% to 98.40\\% and from 98.00\\% to 98.90\\%, respectively. The gains become larger under unseen LIBERO-Plus perturbations, from 51.36\\% to 63.44\\% and from 69.16\\% to 75.47\\%. The same robustness extends to real-world manipulation, where DreamWAM attains an average success rate of 74.4\\% across unseen changes in lighting, background, and object layout, compared with 55.6\\% for Fast-WAM-Joint. These results show that robust world-action learning depends not only on predicting the future, but on representing it in a form that matters for action. The code and models are publicly released at https://github.com/hustvl/DreamWAM.",
@@ -23,15 +112,16 @@
         "sourceTier": "官方公司与实验室",
         "kind": "产品发布",
         "score": 106,
-        "titleZh": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+        "titleZh": "DreamWAM：超越RGB未来预测的世界动作模型",
+        "summaryZh": "DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。"
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "lastShownAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "8e87eef763122544",
-      "status": "待复核",
-      "appearances": 1,
+      "status": "候选资源",
+      "appearances": 2,
       "evidenceTags": [
         "真实机器人",
         "基准",
@@ -53,7 +143,7 @@
         "title": "RORA: Realistic Object Reconstruction with Articulation",
         "link": "https://arxiv.org/abs/2608.04842v1",
         "publishedAt": "2026-08-05T13:36:58.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Replicating real-world environments into simulation by realistic visual representation like NeRF and 3D Gaussian Splatting (3DGS) has emerged as an effective strategy to reduce the sim-to-real gap in robot learning. However, implementing object articulation during the real-to-sim process is still a challenging task. Existing motion tracking or learning based articulation methods shows low success rates on complex kinematic structures having multiple joints. Furthermore, those methods require scan of dynamic motion of objects, which makes reconstruction process much complicated. In this work, we propose the first end-to-end pipeline that reconstructs simulation-ready assets with accurate articulation from a single static object video input through suggestion based human-in-the-loop process. Our approach exports a hybrid representation combining 3DGS for photorealistic rendering and mesh-based geometry for physical interaction. In the reconstruction process, our pipeline performs convex decomposition followed by user grouping for intuitive part segmentation, subsequently binding 3D Gaussians to the corresponding mesh parts. An Automatic Joint Suggestion Algorithm then calculates candidate joint axes from local boundary geometries and presents them to users for efficient articulated asset reconstruction. We have shown that our method achieves precise articulation results on partnet-mobility-v0 dataset and real objects. Additionally we presented a potential usage of our framework on robot learning, deploying the reconstructed assets in Unreal Engine and NVIDIA Isaac Sim, demonstrating real-time dexterous hand manipulation tasks.",
@@ -73,11 +163,11 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "660f187ec0987d8e",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -97,7 +187,7 @@
         "title": "Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors",
         "link": "https://arxiv.org/abs/2608.04673v1",
         "publishedAt": "2026-08-05T10:36:04.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Accurate six-degree-of-freedom (6-DOF) motion estimation is essential for robotic manipulation, autonomous systems, and structural displacement monitoring. Conventional 3D-2D methods estimate absolute camera poses independently at each time and recover platform motion through camera-to-platform extrinsics, making them sensitive to extrinsic calibration errors, especially for micromotion. We present a differential pose estimation method that directly recovers platform motion from inter-frame image displacements and known 3D control points. By differencing perspective projection equations, using a depth-invariance approximation, and modeling motion on SE(3), the method avoids independent absolute-pose estimation and supports both monocular and multi-camera systems. We prove that translational extrinsic errors cancel exactly, while rotational errors induce a bounded perturbation determined by calibration error, motion magnitude, and observation geometry. We also derive generic observability conditions, a Cramer-Rao lower bound, and a bias-eliminated consistent estimator, and characterize the validity limits of the approximations. Extensive synthetic and real-world experiments establish a new state of the art for 6-DOF platform micromotion estimation, outperforming representative PnP and generalized-PnP methods in accuracy, calibration robustness, and computational efficiency. With five control points and 0.5-pixel image noise, the monocular solver obtains a combined pitch-yaw rotation RMSE of 10.09 arcsec, a translation RMSE of 3.70 mm, and a runtime of 0.34 ms. The binocular solver achieves a rotation RMSE of 10.58 arcsec, a translation RMSE of 3.91 mm, and a runtime of 0.27 ms. Code will be released upon publication at https://github.com/zyoungszu/pami2026.",
@@ -112,16 +202,16 @@
         "sourceTier": "官方公司与实验室",
         "kind": "产品发布",
         "score": 106,
-        "titleZh": "对相机标定误差具可证明一阶免疫的差分六自由度位姿估计",
-        "summaryZh": "该研究提出差分位姿估计方法，从帧间图像位移与已知3D控制点直接恢复平台六自由度运动，并证明平移外参误差可精确抵消。合成与真实实验表明其精度、标定鲁棒性与效率均优于PnP类方法，代码将随论文发表开源。"
+        "titleZh": "Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "lastShownAt": "2026-08-06T03:46:50.218Z",
       "arxivVersion": 1,
       "factHash": "48bac94aa32c2a4e",
-      "status": "新论文",
-      "appearances": 1,
+      "status": "待复核",
+      "appearances": 2,
       "evidenceTags": [
         "真实机器人",
         "开源"
@@ -161,11 +251,11 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "b1fc4b62a70542e8",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -174,6 +264,174 @@
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "01ceff838e07f605",
+      "article": {
+        "id": "01ceff838e07f605",
+        "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+        "link": "https://arxiv.org/abs/2607.26337v1",
+        "publishedAt": "2026-07-28T23:20:51.000Z",
+        "fetchedAt": "2026-08-02T07:29:40.051Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+        "tags": [
+          "产品",
+          "robot",
+          "manipulation"
+        ],
+        "authors": [
+          "Emma Huang"
+        ],
+        "kind": "产品发布",
+        "score": 126,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7171804857",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "Carnegie Mellon University"
+          ],
+          "authors": [
+            {
+              "name": "Emma Huang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Zih-Yun Chiu",
+              "totalCitations": 273,
+              "hIndex": 8,
+              "institutions": []
+            },
+            {
+              "name": "Neelay Joglekar",
+              "totalCitations": 15,
+              "hIndex": 2,
+              "institutions": [
+                "Carnegie Mellon University"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-06T08:46:39.062Z"
+        },
+        "titleZh": "借助缝线操控实现自主缝合中的柔性缝针拾取",
+        "summaryZh": "该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖组织重建、抓取点选择与双臂循线，避免器械接触组织。在 da Vinci Research Kit 真实实验中，即使缝线复杂或缝针不可接近仍能稳健抓取。"
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "lastShownAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "b58b84ce73a54a82",
+      "status": "常青资源候选",
+      "appearances": 6,
+      "evidenceTags": [
+        "真实机器人"
+      ],
+      "authorityLabels": [
+        "CMU"
+      ],
+      "notableAuthor": "Zih-Yun Chiu",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "7e4a09414f545820",
+      "article": {
+        "id": "7e4a09414f545820",
+        "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
+        "link": "https://arxiv.org/abs/2608.03682v2",
+        "publishedAt": "2026-08-04T13:53:48.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
+        "tags": [
+          "产品",
+          "robot",
+          "physical ai",
+          "vla"
+        ],
+        "authors": [
+          "Chenghua Wang"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "产品发布",
+        "score": 114,
+        "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 2,
+      "factHash": "4cc9d1c482b07b15",
+      "status": "待复核",
+      "appearances": 2,
+      "evidenceTags": [
+        "基准",
+        "开源"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-06T03:46:50.218Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "950e6762825eb293",
+      "article": {
+        "id": "950e6762825eb293",
+        "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
+        "link": "https://arxiv.org/abs/2608.04042v1",
+        "publishedAt": "2026-08-04T05:07:45.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstruction, and a 2D-3D feature fusion strategy for 6D pose estimation and grasp planning. Its modular design enables systematic substitution of multiple visual and geometric foundation models, allowing us to identify the best-performing configuration through extensive evaluation on a custom kitchen dataset. The best-performing configuration (LLMDet + SAMv2 + DINOv2 + GeoTransformer) achieves an ADI of 89.12\\% on the 20-scene kitchen benchmark with cluttered and occluded conditions. Furthermore, real-world demonstrations confirm that the best configuration can be deployed on physical robots without environment-specific retraining, successfully executing tasks such as sink-to-dishwasher transfer and cup stacking. It validates the adaptability and scalability of the pipeline and highlights its potential as a practical framework for household robotic systems. Our code and supplementary materials are available at https://raivlab.github.io/FM_kitchen .",
+        "tags": [
+          "落地",
+          "robot",
+          "vla",
+          "manipulation"
+        ],
+        "authors": [
+          "Myung-Hwan Jeon"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "部署案例",
+        "score": 102,
+        "titleZh": "Kitchen Robotic Manipulation utilizing Foundation Models",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "93e90e541c76ab5b",
+      "status": "待复核",
+      "appearances": 2,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-06T03:46:50.218Z",
           "kind": "新收录",
           "detail": "进入近 30 天论文池。"
         }
@@ -221,15 +479,15 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.886Z"
+          "checkedAt": "2026-08-06T08:46:38.845Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "586bf2761dc941f6",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -245,180 +503,6 @@
           "date": "2026-08-05T14:15:04.572Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "d296eb9c0886d703",
-      "article": {
-        "id": "d296eb9c0886d703",
-        "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
-        "link": "https://arxiv.org/abs/2607.27782v1",
-        "publishedAt": "2026-07-30T07:14:39.000Z",
-        "fetchedAt": "2026-08-01T16:23:52.818Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
-        "tags": [
-          "落地",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "kind": "部署案例",
-        "score": 126,
-        "titleZh": "RedFlow：将失败重定向为动作级纠正的流匹配VLA策略",
-        "summaryZh": "提出离线强化学习框架RedFlow，将失败经验转化为动作级纠正监督，用于改进流匹配VLA操作策略。在LIBERO基准与三项真实操作任务上优于现有离线方法，真实成功率由56.7%提升至74.7%。",
-        "authors": [
-          "Zehong Yan",
-          "Junhao Li",
-          "Fangqi Zhu"
-        ],
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7172172425",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [
-            "Hong Kong University of Science and Technology"
-          ],
-          "authors": [
-            {
-              "name": "Zehong Yan",
-              "totalCitations": 3029,
-              "hIndex": 27,
-              "institutions": [
-                "Hong Kong University of Science and Technology"
-              ]
-            },
-            {
-              "name": "Junhao Li",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": [
-                "Hong Kong University of Science and Technology"
-              ]
-            },
-            {
-              "name": "Fangqi Zhu",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": [
-                "Hong Kong University of Science and Technology"
-              ]
-            }
-          ],
-          "checkedAt": "2026-08-06T03:50:47.622Z"
-        }
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "lastShownAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "1de8a2ebc09cd1dd",
-      "status": "候选资源",
-      "appearances": 5,
-      "evidenceTags": [
-        "真实机器人",
-        "基准"
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Zehong Yan",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "7e4a09414f545820",
-      "article": {
-        "id": "7e4a09414f545820",
-        "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-        "link": "https://arxiv.org/abs/2608.03682v2",
-        "publishedAt": "2026-08-04T13:53:48.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Physical AI policies require inference throughout their lifecycle, including model evaluation, cloud reinforcement learning rollout, edge GPU serving, and onboard deployment. Although these settings share the same checkpoint and action semantics, they often rely on separate inference programs. To unify them, we build PhyAI, a Physical AI inference engine with a single runtime that keeps architecture-specific conditioning, solver, cache, and output logic in model adapters while sharing graph execution, kernels, memory management, and parallel services. The same codebase runs vision-language-action (VLA) models and world-action models (WAMs) on single or multiple GPUs across onboard, edge, and cloud deployments. We used the adapter interface to add MiniCPM-Robot on the day of its release. PhyAI achieves 1.40x-4.65x speedups over the official implementations of pi0, pi0.5, GR00T N1.7, and MiniCPM-Robot. On Cosmos3-Nano-Policy-DROID it reduces latency from 2.46 to 1.18 s on eight H20 GPUs (CFG=2, TP=4), a 2.08x speedup. Specialized runtimes remain faster in several configurations, so our goal is one runtime with competitive latency rather than the fastest result in every case. Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s. Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16. We further introduce the control-time Roofline, which distinguishes inference-bound from environment-bound control; the measured pi0.5 points on four LIBERO suites are environment-bound while Cosmos3 stays inference-bound. Code and benchmarks: https://github.com/mingti-org/phyai.",
-        "tags": [
-          "产品",
-          "robot",
-          "physical ai",
-          "vla"
-        ],
-        "authors": [
-          "Chenghua Wang"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "产品发布",
-        "score": 114,
-        "titleZh": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。"
-      },
-      "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 2,
-      "factHash": "4cc9d1c482b07b15",
-      "status": "待复核",
-      "appearances": 1,
-      "evidenceTags": [
-        "基准",
-        "开源"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-06T03:46:50.218Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "950e6762825eb293",
-      "article": {
-        "id": "950e6762825eb293",
-        "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
-        "link": "https://arxiv.org/abs/2608.04042v1",
-        "publishedAt": "2026-08-04T05:07:45.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstruction, and a 2D-3D feature fusion strategy for 6D pose estimation and grasp planning. Its modular design enables systematic substitution of multiple visual and geometric foundation models, allowing us to identify the best-performing configuration through extensive evaluation on a custom kitchen dataset. The best-performing configuration (LLMDet + SAMv2 + DINOv2 + GeoTransformer) achieves an ADI of 89.12\\% on the 20-scene kitchen benchmark with cluttered and occluded conditions. Furthermore, real-world demonstrations confirm that the best configuration can be deployed on physical robots without environment-specific retraining, successfully executing tasks such as sink-to-dishwasher transfer and cup stacking. It validates the adaptability and scalability of the pipeline and highlights its potential as a practical framework for household robotic systems. Our code and supplementary materials are available at https://raivlab.github.io/FM_kitchen .",
-        "tags": [
-          "落地",
-          "robot",
-          "vla",
-          "manipulation"
-        ],
-        "authors": [
-          "Myung-Hwan Jeon"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "部署案例",
-        "score": 102,
-        "titleZh": "Kitchen Robotic Manipulation utilizing Foundation Models",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。"
-      },
-      "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "93e90e541c76ab5b",
-      "status": "待复核",
-      "appearances": 1,
-      "evidenceTags": [
-        "真实机器人",
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-06T03:46:50.218Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
         }
       ]
     },
@@ -460,16 +544,16 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.529Z"
+          "checkedAt": "2026-08-06T08:46:39.002Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "lastShownAt": "2026-08-05T09:53:51.665Z",
       "arxivVersion": 1,
       "factHash": "6eab3b1c9f743e2c",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "基准"
       ],
@@ -552,15 +636,15 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.693Z"
+          "checkedAt": "2026-08-06T08:46:39.154Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "8d4a79347b25f9c5",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -608,19 +692,21 @@
           "authors": [
             {
               "name": "BWM Team",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.370Z"
+          "checkedAt": "2026-08-06T08:46:39.405Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "lastShownAt": "2026-08-05T09:37:22.609Z",
       "arxivVersion": 1,
       "factHash": "6f98d7709c853ebb",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准",
@@ -636,82 +722,6 @@
         },
         {
           "date": "2026-08-05T14:15:04.572Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "5d41827fa30a6d06",
-      "article": {
-        "id": "5d41827fa30a6d06",
-        "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-        "link": "https://arxiv.org/abs/2607.28623v1",
-        "publishedAt": "2026-07-30T17:59:35.000Z",
-        "fetchedAt": "2026-08-02T07:29:40.051Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
-        "tags": [
-          "落地",
-          "robot",
-          "humanoid"
-        ],
-        "authors": [
-          "Lizhi Yang"
-        ],
-        "kind": "部署案例",
-        "score": 118,
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7171928651",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Lizhi Yang",
-              "institutions": []
-            },
-            {
-              "name": "Junheng Li",
-              "institutions": []
-            },
-            {
-              "name": "Aaron D. Ames",
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-06T03:50:47.421Z"
-        },
-        "titleZh": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。"
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "4eb3a108b8344e79",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "真实机器人",
-        "基准"
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Lizhi Yang",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-05T14:15:04.572Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        },
-        {
-          "date": "2026-08-06T03:46:50.218Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
         }
@@ -751,27 +761,123 @@
           "institutions": [],
           "authors": [
             {
+              "name": "Sihyung Yoon",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
               "name": "Minjong Yoo",
               "totalCitations": 29,
               "hIndex": 3,
               "institutions": []
+            },
+            {
+              "name": "Sanghyun Ahn",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.560Z"
+          "checkedAt": "2026-08-06T08:46:39.089Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "f2bdda75bba17380",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
       ],
       "authorityLabels": [],
       "notableAuthor": "Minjong Yoo",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "d296eb9c0886d703",
+      "article": {
+        "id": "d296eb9c0886d703",
+        "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
+        "link": "https://arxiv.org/abs/2607.27782v1",
+        "publishedAt": "2026-07-30T07:14:39.000Z",
+        "fetchedAt": "2026-08-01T16:23:52.818Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Flow-matching Vision-Language-Action (VLA) policies have shown strong potential for robotic manipulation but often suffer from compounding errors caused by distribution shifts during deployment. While offline reinforcement learning (RL) provides a practical way to improve deployed policies using rollout data, existing methods either ignore failure data or exploit it only at the trajectory level, resulting in low learning efficiency and persistent errors. We propose **RedFlow**, a fine-grained offline RL framework that redirects failure experiences into action-level corrective supervision for flow-matching VLA policies. RedFlow consists of two key components: (1) a **Context-Aware Corrective Matching** mechanism that identifies failure-inducing actions and retrieves successful alternatives from similar contexts as corrective targets, and (2) an **Adaptive Redirection Objective** that jointly reinforces successful actions, suppresses undesirable ones, and redirects recoverable failures toward corrective targets. By converting both successful and failed experiences into dense supervision, RedFlow enables robust recovery learning from mixed-quality data. Experiments on the LIBERO benchmark and three real-world manipulation tasks show that RedFlow consistently outperforms state-of-the-art offline RL baselines, improving the real-world success rate from 56.7% to 74.7%. It also matches strong on-policy methods (PPO, GRPO, and DDPO) while requiring roughly an order of magnitude fewer training samples.",
+        "tags": [
+          "落地",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "kind": "部署案例",
+        "score": 126,
+        "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+        "summaryZh": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
+        "authors": [
+          "Zehong Yan",
+          "Junhao Li",
+          "Fangqi Zhu"
+        ],
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7172172425",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "Hong Kong University of Science and Technology"
+          ],
+          "authors": [
+            {
+              "name": "Zehong Yan",
+              "totalCitations": 3029,
+              "hIndex": 27,
+              "institutions": [
+                "Hong Kong University of Science and Technology"
+              ]
+            },
+            {
+              "name": "Junhao Li",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": [
+                "Hong Kong University of Science and Technology"
+              ]
+            },
+            {
+              "name": "Fangqi Zhu",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": [
+                "Hong Kong University of Science and Technology"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-06T08:46:39.192Z"
+        }
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "lastShownAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "1de8a2ebc09cd1dd",
+      "status": "候选资源",
+      "appearances": 6,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Zehong Yan",
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
@@ -832,17 +938,17 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.341Z"
+          "checkedAt": "2026-08-06T08:46:39.105Z"
         },
         "titleZh": "DLAM：带时序约束的分布式潜在动作模型",
         "summaryZh": "DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "ac894e38439ccf4a",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -858,63 +964,311 @@
       ]
     },
     {
-      "id": "01ceff838e07f605",
+      "id": "4bc76fbae5abf0f2",
       "article": {
-        "id": "01ceff838e07f605",
-        "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
-        "link": "https://arxiv.org/abs/2607.26337v1",
-        "publishedAt": "2026-07-28T23:20:51.000Z",
-        "fetchedAt": "2026-08-02T07:29:40.051Z",
+        "id": "4bc76fbae5abf0f2",
+        "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+        "link": "https://arxiv.org/abs/2608.02580v1",
+        "publishedAt": "2026-08-03T17:52:26.000Z",
+        "fetchedAt": "2026-08-04T03:44:48.403Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 9,
-        "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+        "excerpt": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present \\textbf{Ego2Robot}, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
         "tags": [
-          "产品",
+          "落地",
           "robot",
+          "vision-language-action",
           "manipulation"
         ],
         "authors": [
-          "Emma Huang"
+          "Ye Wang"
         ],
-        "kind": "产品发布",
-        "score": 126,
+        "kind": "部署案例",
+        "score": 122,
+        "titleZh": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。",
         "scholar": {
           "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7171804857",
+          "workId": "https://openalex.org/W7172433693",
           "citedByCount": 0,
           "isRetracted": false,
           "institutions": [],
           "authors": [
             {
-              "name": "Emma Huang",
+              "name": "Pei Lin",
               "totalCitations": 0,
               "hIndex": 0,
               "institutions": []
-            },
-            {
-              "name": "Zih-Yun Chiu",
-              "totalCitations": 273,
-              "hIndex": 8,
-              "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.814Z"
-        },
-        "titleZh": "利用缝线操控实现自主缝合中的缝针拾取",
-        "summaryZh": "该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。"
+          "checkedAt": "2026-08-06T08:46:38.905Z"
+        }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "lastShownAt": "2026-08-05T14:33:35.447Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
-      "factHash": "b58b84ce73a54a82",
+      "factHash": "f0867aed6a6834b7",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
+      "evidenceTags": [],
+      "authorityLabels": [],
+      "notableAuthor": "Pei Lin",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-05T14:15:04.572Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "199de4cccaaf6b75",
+      "article": {
+        "id": "199de4cccaaf6b75",
+        "title": "Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution",
+        "link": "https://arxiv.org/abs/2608.03483v1",
+        "publishedAt": "2026-08-04T11:21:08.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Existing chunk-based Vision-Language-Action (VLA) models execute a fixed number of actions (i.e., execution horizon) before replanning, turning replanning into a task-agnostic periodic schedule that is independent of task progress. As a result, when no replanning boundary falls before a critical manipulation stage, it is executed from a stale chunk rather than a freshly replanned one. To address this limitation, we propose Bernoulli-Continuation Policy (BCP), a lightweight, plug-and-play framework for adaptive horizon execution that keeps the base VLA frozen. Given a fixed-length action chunk, its continuation head decomposes execution-horizon selection into a sequence of continue-or-replan decisions, which imposes an ordinal, prefix-sharing inductive bias over candidate horizons rather than treating them as independent classes. Since the optimal horizon for each chunk is not observable, we train this head with reinforcement learning from trajectory-level outcomes and introduce a Replanning-Efficiency Reward that jointly rewards task success and efficient VLA usage, discouraging the policy from collapsing to unnecessarily short horizons. On RoboTwin 2.0 with LingBot-VLA as the base policy, BCP improves the average success rate by +11.08% on 13 low-success tasks and from 89.88% to 93.94% (+4.06%) across all 50 tasks. Although trained only under the Clean setting, BCP generalizes to the Randomized setting, raising the average success rate by +4.06%. It also transfers to a different base policy $π_{0.5}$, achieving a better result on LIBERO (+1.7%) and, notably, on the harder LIBERO-PRO (+6.8%). On a real robot, BCP lifts success from 74% to 92% and from 44% to 84% on two manipulation tasks. Meanwhile, its negligible overhead, combined with higher success, makes BCP's overall runtime even lower than the fixed-horizon baselines.",
+        "tags": [
+          "产业",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Weichen Xu"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "公司商业",
+        "score": 110
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "18b84d59ad8051b1",
+      "status": "待复核",
+      "appearances": 6,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "146fa49cec09d72e",
+      "article": {
+        "id": "146fa49cec09d72e",
+        "title": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
+        "link": "https://arxiv.org/abs/2608.03387v2",
+        "publishedAt": "2026-08-04T09:37:06.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Humanoid robots have the potential to perform dexterous manipulation in human environments, yet acquiring diverse and generalizable skills remains costly due to expensive hardware data collection and labor-intensive annotation. Recent advances in video generative models provide a promising opportunity to synthesize rich manipulation experiences from visual observations, but transferring such imagined behaviors into executable whole-body humanoid skills remains largely unexplored. In this work, we present RoboReact, a framework that automatically synthesizes whole-body humanoid manipulation skills from a single egocentric RGB-D observation. RoboReact generates human manipulation videos, extracts geometry-preserving interaction keyframes through depth-aware 3D reconstruction, and retargets them to high-DoF humanoid platforms while preserving hand-object interaction geometry. To bridge the gap between imagined plans and physical execution, RoboReact performs online object-centric re-grounding and leverages a vision-language model-guided refinement loop to adapt skills under geometric mismatch and execution deviations. The refined skills are executed through a whole-body controller, enabling coordinated whole-body manipulation and dexterous interaction. Experiments on real humanoid robots demonstrate that RoboReact generalizes across diverse object configurations and robustly recovers from execution disturbances without requiring teleoperation or human demonstrations. These results highlight the potential of combining generative models, vision-language reasoning, and closed-loop control for scalable humanoid skill acquisition.",
+        "tags": [
+          "产业",
+          "robot",
+          "humanoid",
+          "manipulation"
+        ],
+        "authors": [
+          "Shuliang He"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "公司商业",
+        "score": 106
+      },
+      "firstSeenAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 2,
+      "factHash": "2035bb225c5d4457",
+      "status": "待复核",
+      "appearances": 2,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-06T03:46:50.218Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "032ae11a91a5f019",
+      "article": {
+        "id": "032ae11a91a5f019",
+        "title": "A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces",
+        "link": "https://arxiv.org/abs/2608.03103v1",
+        "publishedAt": "2026-08-04T04:21:00.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Diffusion policies have shown strong performance in learning complex, multi-modal behaviors for robotic manipulation. However, their application to contact-rich disassembly tasks remains limited by a key trade-off: the iterative denoising process introduces inference latencies that makes high frequency control difficult, which is essential for realizing dynamic interactions such as chiseling and prying. Recent action-chunking techniques mitigate latency but use an open-loop execution window, rendering the system blind to rapid force transients caused by fracture events. To bridge this gap, we introduce the Diffusion Policy Augmented by Fast Trajectory Generation (DPA-FTG). Compared to recent visual-tactile approaches that focus on positional correction, DPA-FTG decouples low-frequency planning from high-frequency force regulation. At the high level ($5$ Hz), a conditional diffusion model predicts a sequence of latent parameters for selecting a strategy from a learned vocabulary of task primitives. At the low level ($60$ Hz), a lightweight, force-conditioned policy acts as a neural impedance controller, modulating execution in real-time to maintain contact stability. We validate our approach on a bimanual battery disassembly task involving the separation of a compliant sheet. Experimental evaluation demonstrates that DPA-FTG outperforms state-of-the-art baselines, including Reactive Diffusion Policy (RDP).",
+        "tags": [
+          "产业",
+          "robot",
+          "manipulation"
+        ],
+        "authors": [
+          "Rishabh Shukla"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "公司商业",
+        "score": 102
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "765e2b1e5b69cace",
+      "status": "待复核",
+      "appearances": 6,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "22341c705beaf53d",
+      "article": {
+        "id": "22341c705beaf53d",
+        "title": "CUDA MPC: A GPU-Native Solver for Model Predictive Control",
+        "link": "https://arxiv.org/abs/2608.03051v1",
+        "publishedAt": "2026-08-04T03:02:04.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Model Predictive Control (MPC) delivers constraint-aware control, but its reliance on online optimization limits its use on systems with fast dynamics, high-dimensional models, or long horizons. Existing GPU implementations typically treat the device as a linear-algebra accelerator, leaving the optimization loop dependent on repeated kernel launches and high-latency memory transfers. This paper introduces CUDA MPC, a GPU-native MPC framework that co-designs the optimization algorithm, execution model, and memory architecture for CUDA hardware. CUDA MPC pairs a parallel-in-horizon alternating direction method of multipliers (ADMM) splitting with a fused CUDA kernel that runs the entire iterative solve on the device. Intermediate optimization variables stay in low-latency, on-chip shared memory, and a localized atomic-flag protocol synchronizes only adjacent horizon blocks, minimizing host intervention, kernel-dispatch overhead, and global-memory traffic. Across six nonlinear robotics benchmarks spanning increasing state dimension and constraint density, CUDA MPC sustains real-time rates at horizons one to two orders of magnitude longer than CPU solvers: it solves an optimization-based collision-avoidance parking problem with 100 s of lookahead within a 0.1 s sampling interval, and is the only solver evaluated that achieves both real-time execution and collision-free coordination for a centralized 10-agent swarm, where acados and CasADi return no feasible solution and require 3.5 s and 4.5 s per solve. Against tensor-framework implementations of the same ADMM splitting, the fused kernel is up to $965\\times$ faster.",
+        "tags": [
+          "产品",
+          "robot",
+          "robotics"
+        ],
+        "authors": [
+          "Babak Akbari"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "产品发布",
+        "score": 106
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "774a35729a2fa598",
+      "status": "待复核",
+      "appearances": 6,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "98ae277d22c172da",
+      "article": {
+        "id": "98ae277d22c172da",
+        "title": "Toward Certified Functional Safety for Industrial Humanoid Robots: The Fail-Passive Gap and a Feasibility Study",
+        "link": "https://arxiv.org/abs/2608.02809v1",
+        "publishedAt": "2026-08-03T19:04:24.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Industrial humanoid robots are constrained less by locomotion or manipulation capability than by the immaturity of functional safety certification for legged platforms. The root difficulty is that the safe state of a legged robot is an actively-controlled state, which violates the fail-passive assumption underlying ISO~13849-1 / EN~60204-1: removing power from a walking biped causes an uncontrolled fall, so classical de-energization is itself a hazard. We term this the fail-passive gap and use a certified external safety chain (light curtain, emergency stop, fail-safe input, fail-safe PLC, and wireless PROFIsafe) as an instrument to locate it precisely: because the external chain is closed and quantifiable with established methods (PFHD, DC, CCF, PL/SILCL), the residual uncertifiable element is pinpointed to the robot-side reaction chain. Using a Siemens fail-safe S7-1500 emergency-stop reference, we show its certifiable Reaction subsystem is contactor-based power removal (Stop Category~0)---exactly the element a balancing humanoid cannot have. We deliberately do not claim end-to-end certified PL~e / SIL~3. We validate the approach on a Unitree G1 EDU pick-and-place cell in a 3m x 1.5m semi-enclosed workspace, and contribute a humanoid-specific analysis of the active safe state (fall-as-hazard, single-support stop bounds, balancing-policy residual risk, ISO~13855 separation) and a provenance-labeled timing budget. Hosting an industrial software-defined automation (SDA) controller on the robot, co-located with the balancing policy, moves robot-side PROFINET/PROFIsafe reception onto a standardized IEC~61131-3 interface; because the G1's onboard compute is not safety-rated hardware, this endpoint is not a certified safety runtime, which reinforces rather than resolves the fail-passive gap and localizes it to the SDA-to-balancing-policy interface.",
+        "tags": [
+          "产业",
+          "robot",
+          "humanoid",
+          "manipulation"
+        ],
+        "authors": [
+          "Caiwu Ding"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "公司商业",
+        "score": 106
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "7595628b604d86a9",
+      "status": "待复核",
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人"
       ],
       "authorityLabels": [],
-      "notableAuthor": "Zih-Yun Chiu",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "5fd9b7c86fb42f1e",
+      "article": {
+        "id": "5fd9b7c86fb42f1e",
+        "title": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
+        "link": "https://arxiv.org/abs/2608.03727v1",
+        "publishedAt": "2026-08-04T14:25:13.000Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 7,
+        "excerpt": "Action labels tell a vision-language-action (VLA) policy which robot commands to imitate, but not how those commands change the 3D world. The aligned demonstration clip contains this missing supervision because its $K$ frame transitions record the geometry, motion, visibility, and camera change produced during the corresponding $K$ actions. We introduce Track4Action, a framework that distills this realized transition from a frozen world-centric 3D tracker into a current-observation VLA policy. During training, Track4World encodes the clip $V_{t:t+K}$ into a pooled tracker feature. Learnable track queries infer this feature from current VLA hidden states, match it in a shared space, and condition a flow-matching action head through a feature-wise gate. The tracker feature only defines the alignment target, so neither the clip nor the tracker is used at deployment. Track4Action reaches 82.3% on zero-shot LIBERO-Plus, improving the alignment-free variant by 7.6 points and LaMP by 3.0 points. It obtains 80.44% and 81.48% on the clean and randomized RoboTwin 2.0 splits, and 67.5% average success across four physical bimanual tasks, 25.0 points above the alignment-free variant. The gains across simulation and physical tasks support action-aligned 3D tracker features as privileged supervision for tracker-free VLA deployment. Our project page is available at https://wing0night.github.io/track4action-project-page.",
+        "tags": [
+          "落地",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Chenyi Wang"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "部署案例",
+        "score": 102
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "fe7bbfb0044db448",
+      "status": "待复核",
+      "appearances": 6,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
@@ -971,15 +1325,15 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.419Z"
+          "checkedAt": "2026-08-06T08:46:39.254Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "76110d0174431705",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -996,367 +1350,6 @@
           "date": "2026-08-05T14:15:04.572Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "4bc76fbae5abf0f2",
-      "article": {
-        "id": "4bc76fbae5abf0f2",
-        "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
-        "link": "https://arxiv.org/abs/2608.02580v1",
-        "publishedAt": "2026-08-03T17:52:26.000Z",
-        "fetchedAt": "2026-08-04T03:44:48.403Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present \\textbf{Ego2Robot}, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
-        "tags": [
-          "落地",
-          "robot",
-          "vision-language-action",
-          "manipulation"
-        ],
-        "authors": [
-          "Ye Wang"
-        ],
-        "kind": "部署案例",
-        "score": 122,
-        "titleZh": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7172433693",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Ye Wang",
-              "institutions": []
-            },
-            {
-              "name": "Pei Lin",
-              "institutions": []
-            },
-            {
-              "name": "Xiong-Hui Chen",
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-06T03:50:47.530Z"
-        }
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "f0867aed6a6834b7",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [],
-      "authorityLabels": [],
-      "notableAuthor": "Ye Wang",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-05T14:15:04.572Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "20c5339e3ae459eb",
-      "article": {
-        "id": "20c5339e3ae459eb",
-        "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
-        "link": "https://arxiv.org/abs/2608.01851v1",
-        "publishedAt": "2026-08-03T07:58:35.000Z",
-        "fetchedAt": "2026-08-04T03:44:48.403Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
-        "tags": [
-          "产业",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Gaytri Jena"
-        ],
-        "kind": "公司商业",
-        "score": 126,
-        "titleZh": "权重还是技能？机器人学习技术综述：从动作预测权重到自主编写技能的机器人",
-        "summaryZh": "综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。"
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "897d13a34880b35d",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "199de4cccaaf6b75",
-      "article": {
-        "id": "199de4cccaaf6b75",
-        "title": "Continue or Replan? Bernoulli-Continuation Policy Learning for Adaptive Horizon Execution",
-        "link": "https://arxiv.org/abs/2608.03483v1",
-        "publishedAt": "2026-08-04T11:21:08.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Existing chunk-based Vision-Language-Action (VLA) models execute a fixed number of actions (i.e., execution horizon) before replanning, turning replanning into a task-agnostic periodic schedule that is independent of task progress. As a result, when no replanning boundary falls before a critical manipulation stage, it is executed from a stale chunk rather than a freshly replanned one. To address this limitation, we propose Bernoulli-Continuation Policy (BCP), a lightweight, plug-and-play framework for adaptive horizon execution that keeps the base VLA frozen. Given a fixed-length action chunk, its continuation head decomposes execution-horizon selection into a sequence of continue-or-replan decisions, which imposes an ordinal, prefix-sharing inductive bias over candidate horizons rather than treating them as independent classes. Since the optimal horizon for each chunk is not observable, we train this head with reinforcement learning from trajectory-level outcomes and introduce a Replanning-Efficiency Reward that jointly rewards task success and efficient VLA usage, discouraging the policy from collapsing to unnecessarily short horizons. On RoboTwin 2.0 with LingBot-VLA as the base policy, BCP improves the average success rate by +11.08% on 13 low-success tasks and from 89.88% to 93.94% (+4.06%) across all 50 tasks. Although trained only under the Clean setting, BCP generalizes to the Randomized setting, raising the average success rate by +4.06%. It also transfers to a different base policy $π_{0.5}$, achieving a better result on LIBERO (+1.7%) and, notably, on the harder LIBERO-PRO (+6.8%). On a real robot, BCP lifts success from 74% to 92% and from 44% to 84% on two manipulation tasks. Meanwhile, its negligible overhead, combined with higher success, makes BCP's overall runtime even lower than the fixed-horizon baselines.",
-        "tags": [
-          "产业",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Weichen Xu"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "公司商业",
-        "score": 110
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "18b84d59ad8051b1",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "真实机器人",
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "146fa49cec09d72e",
-      "article": {
-        "id": "146fa49cec09d72e",
-        "title": "RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation",
-        "link": "https://arxiv.org/abs/2608.03387v2",
-        "publishedAt": "2026-08-04T09:37:06.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Humanoid robots have the potential to perform dexterous manipulation in human environments, yet acquiring diverse and generalizable skills remains costly due to expensive hardware data collection and labor-intensive annotation. Recent advances in video generative models provide a promising opportunity to synthesize rich manipulation experiences from visual observations, but transferring such imagined behaviors into executable whole-body humanoid skills remains largely unexplored. In this work, we present RoboReact, a framework that automatically synthesizes whole-body humanoid manipulation skills from a single egocentric RGB-D observation. RoboReact generates human manipulation videos, extracts geometry-preserving interaction keyframes through depth-aware 3D reconstruction, and retargets them to high-DoF humanoid platforms while preserving hand-object interaction geometry. To bridge the gap between imagined plans and physical execution, RoboReact performs online object-centric re-grounding and leverages a vision-language model-guided refinement loop to adapt skills under geometric mismatch and execution deviations. The refined skills are executed through a whole-body controller, enabling coordinated whole-body manipulation and dexterous interaction. Experiments on real humanoid robots demonstrate that RoboReact generalizes across diverse object configurations and robustly recovers from execution disturbances without requiring teleoperation or human demonstrations. These results highlight the potential of combining generative models, vision-language reasoning, and closed-loop control for scalable humanoid skill acquisition.",
-        "tags": [
-          "产业",
-          "robot",
-          "humanoid",
-          "manipulation"
-        ],
-        "authors": [
-          "Shuliang He"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "公司商业",
-        "score": 106
-      },
-      "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 2,
-      "factHash": "2035bb225c5d4457",
-      "status": "待复核",
-      "appearances": 1,
-      "evidenceTags": [
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-06T03:46:50.218Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "032ae11a91a5f019",
-      "article": {
-        "id": "032ae11a91a5f019",
-        "title": "A Hierarchical Approach to Imitation Learning for Manipulation Tasks Requiring Time Varying Forces",
-        "link": "https://arxiv.org/abs/2608.03103v1",
-        "publishedAt": "2026-08-04T04:21:00.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Diffusion policies have shown strong performance in learning complex, multi-modal behaviors for robotic manipulation. However, their application to contact-rich disassembly tasks remains limited by a key trade-off: the iterative denoising process introduces inference latencies that makes high frequency control difficult, which is essential for realizing dynamic interactions such as chiseling and prying. Recent action-chunking techniques mitigate latency but use an open-loop execution window, rendering the system blind to rapid force transients caused by fracture events. To bridge this gap, we introduce the Diffusion Policy Augmented by Fast Trajectory Generation (DPA-FTG). Compared to recent visual-tactile approaches that focus on positional correction, DPA-FTG decouples low-frequency planning from high-frequency force regulation. At the high level ($5$ Hz), a conditional diffusion model predicts a sequence of latent parameters for selecting a strategy from a learned vocabulary of task primitives. At the low level ($60$ Hz), a lightweight, force-conditioned policy acts as a neural impedance controller, modulating execution in real-time to maintain contact stability. We validate our approach on a bimanual battery disassembly task involving the separation of a compliant sheet. Experimental evaluation demonstrates that DPA-FTG outperforms state-of-the-art baselines, including Reactive Diffusion Policy (RDP).",
-        "tags": [
-          "产业",
-          "robot",
-          "manipulation"
-        ],
-        "authors": [
-          "Rishabh Shukla"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "公司商业",
-        "score": 102
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "765e2b1e5b69cace",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "22341c705beaf53d",
-      "article": {
-        "id": "22341c705beaf53d",
-        "title": "CUDA MPC: A GPU-Native Solver for Model Predictive Control",
-        "link": "https://arxiv.org/abs/2608.03051v1",
-        "publishedAt": "2026-08-04T03:02:04.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Model Predictive Control (MPC) delivers constraint-aware control, but its reliance on online optimization limits its use on systems with fast dynamics, high-dimensional models, or long horizons. Existing GPU implementations typically treat the device as a linear-algebra accelerator, leaving the optimization loop dependent on repeated kernel launches and high-latency memory transfers. This paper introduces CUDA MPC, a GPU-native MPC framework that co-designs the optimization algorithm, execution model, and memory architecture for CUDA hardware. CUDA MPC pairs a parallel-in-horizon alternating direction method of multipliers (ADMM) splitting with a fused CUDA kernel that runs the entire iterative solve on the device. Intermediate optimization variables stay in low-latency, on-chip shared memory, and a localized atomic-flag protocol synchronizes only adjacent horizon blocks, minimizing host intervention, kernel-dispatch overhead, and global-memory traffic. Across six nonlinear robotics benchmarks spanning increasing state dimension and constraint density, CUDA MPC sustains real-time rates at horizons one to two orders of magnitude longer than CPU solvers: it solves an optimization-based collision-avoidance parking problem with 100 s of lookahead within a 0.1 s sampling interval, and is the only solver evaluated that achieves both real-time execution and collision-free coordination for a centralized 10-agent swarm, where acados and CasADi return no feasible solution and require 3.5 s and 4.5 s per solve. Against tensor-framework implementations of the same ADMM splitting, the fused kernel is up to $965\\times$ faster.",
-        "tags": [
-          "产品",
-          "robot",
-          "robotics"
-        ],
-        "authors": [
-          "Babak Akbari"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "产品发布",
-        "score": 106
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "774a35729a2fa598",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "98ae277d22c172da",
-      "article": {
-        "id": "98ae277d22c172da",
-        "title": "Toward Certified Functional Safety for Industrial Humanoid Robots: The Fail-Passive Gap and a Feasibility Study",
-        "link": "https://arxiv.org/abs/2608.02809v1",
-        "publishedAt": "2026-08-03T19:04:24.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Industrial humanoid robots are constrained less by locomotion or manipulation capability than by the immaturity of functional safety certification for legged platforms. The root difficulty is that the safe state of a legged robot is an actively-controlled state, which violates the fail-passive assumption underlying ISO~13849-1 / EN~60204-1: removing power from a walking biped causes an uncontrolled fall, so classical de-energization is itself a hazard. We term this the fail-passive gap and use a certified external safety chain (light curtain, emergency stop, fail-safe input, fail-safe PLC, and wireless PROFIsafe) as an instrument to locate it precisely: because the external chain is closed and quantifiable with established methods (PFHD, DC, CCF, PL/SILCL), the residual uncertifiable element is pinpointed to the robot-side reaction chain. Using a Siemens fail-safe S7-1500 emergency-stop reference, we show its certifiable Reaction subsystem is contactor-based power removal (Stop Category~0)---exactly the element a balancing humanoid cannot have. We deliberately do not claim end-to-end certified PL~e / SIL~3. We validate the approach on a Unitree G1 EDU pick-and-place cell in a 3m x 1.5m semi-enclosed workspace, and contribute a humanoid-specific analysis of the active safe state (fall-as-hazard, single-support stop bounds, balancing-policy residual risk, ISO~13855 separation) and a provenance-labeled timing budget. Hosting an industrial software-defined automation (SDA) controller on the robot, co-located with the balancing policy, moves robot-side PROFINET/PROFIsafe reception onto a standardized IEC~61131-3 interface; because the G1's onboard compute is not safety-rated hardware, this endpoint is not a certified safety runtime, which reinforces rather than resolves the fail-passive gap and localizes it to the SDA-to-balancing-policy interface.",
-        "tags": [
-          "产业",
-          "robot",
-          "humanoid",
-          "manipulation"
-        ],
-        "authors": [
-          "Caiwu Ding"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "公司商业",
-        "score": 106
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "7595628b604d86a9",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "真实机器人"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "5fd9b7c86fb42f1e",
-      "article": {
-        "id": "5fd9b7c86fb42f1e",
-        "title": "Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies",
-        "link": "https://arxiv.org/abs/2608.03727v1",
-        "publishedAt": "2026-08-04T14:25:13.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 7,
-        "excerpt": "Action labels tell a vision-language-action (VLA) policy which robot commands to imitate, but not how those commands change the 3D world. The aligned demonstration clip contains this missing supervision because its $K$ frame transitions record the geometry, motion, visibility, and camera change produced during the corresponding $K$ actions. We introduce Track4Action, a framework that distills this realized transition from a frozen world-centric 3D tracker into a current-observation VLA policy. During training, Track4World encodes the clip $V_{t:t+K}$ into a pooled tracker feature. Learnable track queries infer this feature from current VLA hidden states, match it in a shared space, and condition a flow-matching action head through a feature-wise gate. The tracker feature only defines the alignment target, so neither the clip nor the tracker is used at deployment. Track4Action reaches 82.3% on zero-shot LIBERO-Plus, improving the alignment-free variant by 7.6 points and LaMP by 3.0 points. It obtains 80.44% and 81.48% on the clean and randomized RoboTwin 2.0 splits, and 67.5% average success across four physical bimanual tasks, 25.0 points above the alignment-free variant. The gains across simulation and physical tasks support action-aligned 3D tracker features as privileged supervision for tracker-free VLA deployment. Our project page is available at https://wing0night.github.io/track4action-project-page.",
-        "tags": [
-          "落地",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Chenyi Wang"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "部署案例",
-        "score": 102
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
-      "arxivVersion": 1,
-      "factHash": "fe7bbfb0044db448",
-      "status": "待复核",
-      "appearances": 5,
-      "evidenceTags": [
-        "基准"
-      ],
-      "authorityLabels": [],
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
         }
       ]
     },
@@ -1389,36 +1382,46 @@
           "workId": "https://openalex.org/W7172244345",
           "citedByCount": 0,
           "isRetracted": false,
-          "institutions": [],
+          "institutions": [
+            "Kunming University of Science and Technology"
+          ],
           "authors": [
             {
               "name": "Mingxin Wang",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             },
             {
               "name": "Bin Hu",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             },
             {
               "name": "Bin Qian",
-              "institutions": []
+              "totalCitations": 4435,
+              "hIndex": 35,
+              "institutions": [
+                "Kunming University of Science and Technology"
+              ]
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.615Z"
+          "checkedAt": "2026-08-06T08:46:39.400Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "bf43724c5f5b6460",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "基准"
       ],
       "authorityLabels": [],
-      "notableAuthor": "Mingxin Wang",
+      "notableAuthor": "Bin Qian",
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
@@ -1452,11 +1455,11 @@
         "summaryZh": "文章评估人形与四足机器人在硬件、运动、自主、数据与应用方面的现状，梳理关键进展与开放挑战，并展望其伦理、经济与政策影响。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "5a1c03879fc95517",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -1468,68 +1471,38 @@
       ]
     },
     {
-      "id": "713891c7314a8c8b",
+      "id": "20c5339e3ae459eb",
       "article": {
-        "id": "713891c7314a8c8b",
-        "title": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
-        "link": "https://arxiv.org/abs/2607.27784v1",
-        "publishedAt": "2026-07-30T07:17:28.000Z",
-        "fetchedAt": "2026-08-01T16:23:52.818Z",
+        "id": "20c5339e3ae459eb",
+        "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+        "link": "https://arxiv.org/abs/2608.01851v1",
+        "publishedAt": "2026-08-03T07:58:35.000Z",
+        "fetchedAt": "2026-08-04T03:44:48.403Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 9,
-        "excerpt": "Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternatives tend to provide less precise control and impose greater cognitive workload on operators. We present DexDirect, a direct kinesthetic arm guidance for efficient dexterous demonstration collection. The operator drags a 6-DoF gravity-compensated robot arm directly by a handle, while a single webcam retargets operator's other hand onto a 16 joints 13-DoF dexterous robot hand. User studies suggest DexDirect collects 17.2x and 3.2x more successful demonstrations compared to purely vision (AnyTeleop) and pose-tracking (TeleDex) baselines. An adapted NASA-TLX shows DexDirect greatly reduces mental demand, effort, and frustration, despite raising physical demand. A diffusion policy trained on DexDirect demonstrations reaches a 90% success rate on a cube pick-and-place task. These results suggest that direct kinesthetic arm guidance combined with vision-based hand retargeting provides an efficient low-setup and scalable interface for collecting dexterous manipulation demonstrations",
+        "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
         "tags": [
           "产业",
           "robot",
-          "manipulation"
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Gaytri Jena"
         ],
         "kind": "公司商业",
-        "score": 122,
-        "titleZh": "DexDirect：直接动觉引导机械臂的高效灵巧演示采集",
-        "summaryZh": "DexDirect 让操作者直接拖动重力补偿机械臂，并用单摄像头将另一只手重定向至灵巧机械手，演示采集量大幅超越基线，训练的扩散策略成功率达90%。",
-        "authors": [
-          "Beom Jun Kim",
-          "Shiu-Jen Wang",
-          "Jonathan Liu"
-        ],
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7171980777",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Beom Jun Kim",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            },
-            {
-              "name": "Shiu-Jen Wang",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            },
-            {
-              "name": "Jonathan Liu",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-06T03:50:47.424Z"
-        }
+        "score": 126,
+        "titleZh": "权重还是技能？机器人学习技术综述：从动作预测权重到自主编写技能的机器人",
+        "summaryZh": "综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
-      "factHash": "69fa2e48141df53a",
+      "factHash": "897d13a34880b35d",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [],
       "authorityLabels": [],
-      "notableAuthor": "Beom Jun Kim",
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
@@ -1568,9 +1541,18 @@
           "citedByCount": 0,
           "isRetracted": false,
           "institutions": [
+            "Sangji University",
             "New York University"
           ],
           "authors": [
+            {
+              "name": "Hyunjong Song",
+              "totalCitations": 282,
+              "hIndex": 8,
+              "institutions": [
+                "Sangji University"
+              ]
+            },
             {
               "name": "William Z. Peng",
               "totalCitations": 139,
@@ -1580,18 +1562,18 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.604Z"
+          "checkedAt": "2026-08-06T08:46:39.252Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "4ab8cabc8bbdf723",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [],
       "authorityLabels": [],
-      "notableAuthor": "William Z. Peng",
+      "notableAuthor": "Hyunjong Song",
       "changes": [
         {
           "date": "2026-08-05T09:37:22.609Z",
@@ -1600,6 +1582,77 @@
         },
         {
           "date": "2026-08-05T14:15:04.572Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "713891c7314a8c8b",
+      "article": {
+        "id": "713891c7314a8c8b",
+        "title": "DexDirect: Direct Kinesthetic Arm Guidance for Efficient Dexterous Demonstration Collection",
+        "link": "https://arxiv.org/abs/2607.27784v1",
+        "publishedAt": "2026-07-30T07:17:28.000Z",
+        "fetchedAt": "2026-08-01T16:23:52.818Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Scalable collection of dexterous manipulation demonstrations remains a major bottleneck for robot learning. High-fidelity interfaces often require costly hardware and extensive setup, while low-setup, low cost alternatives tend to provide less precise control and impose greater cognitive workload on operators. We present DexDirect, a direct kinesthetic arm guidance for efficient dexterous demonstration collection. The operator drags a 6-DoF gravity-compensated robot arm directly by a handle, while a single webcam retargets operator's other hand onto a 16 joints 13-DoF dexterous robot hand. User studies suggest DexDirect collects 17.2x and 3.2x more successful demonstrations compared to purely vision (AnyTeleop) and pose-tracking (TeleDex) baselines. An adapted NASA-TLX shows DexDirect greatly reduces mental demand, effort, and frustration, despite raising physical demand. A diffusion policy trained on DexDirect demonstrations reaches a 90% success rate on a cube pick-and-place task. These results suggest that direct kinesthetic arm guidance combined with vision-based hand retargeting provides an efficient low-setup and scalable interface for collecting dexterous manipulation demonstrations",
+        "tags": [
+          "产业",
+          "robot",
+          "manipulation"
+        ],
+        "kind": "公司商业",
+        "score": 122,
+        "titleZh": "DexDirect：直接动觉引导机械臂的高效灵巧演示采集",
+        "summaryZh": "DexDirect 让操作者直接拖动重力补偿机械臂，并用单摄像头将另一只手重定向至灵巧机械手，演示采集量大幅超越基线，训练的扩散策略成功率达90%。",
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7171980777",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [],
+          "authors": [
+            {
+              "name": "Beom Jun Kim",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Shiu-Jen Wang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Jonathan Liu",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            }
+          ],
+          "checkedAt": "2026-08-06T03:50:47.424Z"
+        }
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
+      "arxivVersion": 1,
+      "factHash": "7f14a744de0a98ff",
+      "status": "待复核",
+      "appearances": 6,
+      "evidenceTags": [],
+      "authorityLabels": [],
+      "notableAuthor": "Beom Jun Kim",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-06T08:40:07.046Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
         }
@@ -1661,15 +1714,15 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-06T03:50:47.816Z"
+          "checkedAt": "2026-08-06T08:46:39.434Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "b6d01d61d4954e1c",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1690,7 +1743,7 @@
         "title": "Principles of Robot Autonomy",
         "link": "https://arxiv.org/abs/2608.03496v1",
         "publishedAt": "2026-08-04T11:35:20.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Autonomous robots are moving rapidly from research labs into everyday life - on roads, in the air, in warehouses, and in space. Robot autonomy is no longer solely an academic pursuit, but a collection of mature, field-tested methods and tools that practitioners rely on in real-world deployments. This book offers a clear, unified introduction to the methods that make this possible. Built on decades of teaching at Stanford, the text develops the core elements of modern autonomy stacks within a single conceptual framework, bridging classical robotics and modern physical AI. Every major topic is paired with hands-on Jupyter notebooks and implementation-driven exercises, so readers build practical intuition alongside theoretical understanding. The result is a principled, accessible, and deployment-aware foundation for anyone seeking to design, analyze, or contribute to the next generation of autonomous systems. This is a comprehensive resource for students, engineers, and researchers entering one of today's fastest-growing fields.",
@@ -1708,11 +1761,11 @@
         "score": 102
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "bdd31985f72ab870",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1732,7 +1785,7 @@
         "title": "Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments",
         "link": "https://arxiv.org/abs/2608.04933v1",
         "publishedAt": "2026-08-05T14:57:24.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Long-horizon embodied task requires agents to act under partial observability while preserving both scene belief and execution progress. Flat histories or implicit policy states may contain past observations, but they do not provide an explicit interface for deciding which world facts support the currently active goal. We introduce Mimir, a neuro-symbolic memory that separates world memory from task memory and dynamically grounds them before each action. World memory maintains object locations, object states, and perceptual evidence, while task memory maintains an ordered goal agenda, progress state, hand state, failures, and execution constraints. A grounding module binds the active goal to recalled world candidates, fills missing source locations, and attaches evidence before planning and embodiment-specific execution. Across tested backbones, Mimir consistently improves on different EB-ALFRED and EB-Habitat tasks, with maximum gains of 42.5% and average gains of 23.0%, respectively. Compared with the best results among prior agent and memory systems evaluated under the same backbone, Mimir improves the overall average success rate by 8.5%. Finally, on the EB-Habitat Long-horizon subset, Mimir achieves 86.0% success rate, substantially outperforming current closed-source models. Our code will be released soon.",
@@ -1748,11 +1801,11 @@
         "score": 102
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "d9ee5e3b589ed8dc",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -1770,7 +1823,7 @@
         "title": "Explicit Language Memory for Long-Horizon Planning in Vision-Language-Action Models",
         "link": "https://arxiv.org/abs/2608.04765v1",
         "publishedAt": "2026-08-05T12:32:15.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Vision-language-action (VLA) models provide a unified paradigm for connecting visual perception, language understanding, and robotic control. However, existing VLA models still face major challenges in long-horizon tasks: sparse expert demonstrations constrain cross-task compositional generalization; the non-Markovian nature of long-horizon tasks makes it difficult for policies conditioned only on current observations to maintain temporal consistency; limited closed-loop error correction allows execution errors to accumulate; and end-to-end action fine-tuning may weaken the high-level semantic representations of vision-language model (VLM) backbones. To address these issues, we propose a hierarchical long-horizon VLA architecture with an explicit language-memory module. The central idea is to convert discrete temporal observations into a coherent textual memory sequence with temporal logic. The system is decoupled into a high-level VLM and a low-level VLA: the high-level VLM performs semantic reasoning through a visual question answering training paradigm, while the low-level VLA executes precise continuous control conditioned on subtask instructions and visual observations. The high-level VLM recursively updates both language memory and subtask instructions using the previous memory as a contextual anchor, enabling persistent temporal tracking and dynamic correction during long-horizon execution. We evaluate the proposed method in multiple simulation environments and conduct sim-to-real experiments on a real robotic platform. The results demonstrate that explicit language memory improves the success rate and robustness of VLA models on complex long-horizon tasks while providing an interpretable semantic account of the decision process.",
@@ -1788,11 +1841,11 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "68a7a3070d23aacb",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1812,7 +1865,7 @@
         "title": "Suppression Sticks, Locality Is Fragile: A Closed-Loop Target-and-Control Audit of Task-Vector Negation in VLA Policies",
         "link": "https://arxiv.org/abs/2608.04692v1",
         "publishedAt": "2026-08-05T10:59:53.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Task-vector arithmetic offers a closed-form way to modify a model, yet its behavioral locality remains unclear in closed-loop robot control. We present a target-and-control audit of per-skill task-vector subtraction from multitask vision-language-action (VLA) policies. Across all ten LIBERO-Goal skills, subtraction produces three qualitatively different regimes: target-control separation for five skills, resistance for three, and global collapse for two. On held-out initial states, the five suppressible targets remain at 0% success; however, mean baseline-normalized control retention is only 52%, and each target-suppressing edit materially harms at least one nominally unrelated control. Additional Goal panels show separation across tested policies with continuous-regression, discrete-token, and flow-matching action heads, whereas we observe no clean separation on Spatial and control collapse on the tested Object and Long-horizon panels. Mean task-vector cosine does not account for this variation. A matched-norm control identifies a local sign asymmetry around one Goal anchor, while multi-vector outcomes vary with anchor and scale. Retain-aware gradient baselines provide data-dependent comparators but require removal-time data and optimization; subtraction is data- and gradient-free only at edit time, assuming precomputed expert deltas. Finally, a single-skill relearning probe is consistent with behavioral masking, not certified unlearning. These results characterize task-vector subtraction as a fast but brittle intervention and underscore the need for closed-loop target-and-control evaluation when assessing locality in embodied model editing.",
@@ -1830,11 +1883,11 @@
         "score": 110
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "dcb00bbff63623d8",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [
         "基准"
       ],
@@ -1854,7 +1907,7 @@
         "title": "Retrieve in Time, Correct in Frequency",
         "link": "https://arxiv.org/abs/2608.04527v1",
         "publishedAt": "2026-08-05T06:58:00.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Frozen vision-language-action (VLA) policies generate temporally extended action chunks, but long-horizon manipulation remains vulnerable to accumulated execution error and visual aliasing across task stages. Successful rollouts provide useful corrective evidence, yet current frame retrieval can return progress-misaligned actions,while direct replay or time-domain fusion can overwrite the reactive structure of the policy proposal. We introduce Retrieve in Time, Correct in Frequency (RTCF), a training-free test-time correction framework that improves frozen VLA performance with low model-side overhead.RTCF separates which experience to retrieve from which part of its action to transfer. Progressive Memory Alignment (PMA) causally aligns the growing visual execution history with complete successful trajectories through incrementally updated monotonic frontiers, jointly identifying a relevant memory and the current aligned memory position without stage labels. From the aligned action chunk,RTCF transfers a coefficient-wise-clipped low-frequency residual on motion channels. Higher-frequency components and gripper decisions remain inherited from the frozen policy. Across four LIBERO suites and 2,000 episodes per condition, RTCF raises aggregate success from 86.4% to 88.4% and improves LIBERO-Long from 61.6% to 68.6%.These gains require no parameter updates, repeated VLA inference, or additional GPU resources: correction can be performed on the client CPU after a single policy invocation, and the median latencies sum to only 10.99 ms per action chunk",
@@ -1872,11 +1925,11 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "603c7d9ec7742fe2",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [
         "基准"
       ],
@@ -1896,7 +1949,7 @@
         "title": "SiMDex: Mining Similar Egocentric Videos for Cross-Embodiment Dexterous Manipulation",
         "link": "https://arxiv.org/abs/2608.04196v1",
         "publishedAt": "2026-08-04T19:55:12.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "Recent years have witnessed an explosive trend of scaling ego-centric human videos for robot manipulation, yet it remains unclear which data actually benefits dexterous manipulation. We present SiMDex, a similarity-based data mining framework that casts human data selection for VLA post-training in dexterous manipulation as a recommendation problem. For each robot demonstration, SiMDex employs a three-layer recall-ranking-re-ranking pipeline to extract task-relevant subsets from a pool of ~32M egocentric human samples, operating in a morphology-agnostic action space that requires no changes to VLA architecture or training. Against a strong baseline trained with an equal amount of randomly sampled human data, SiMDex uses only ~1.49M mined samples (<5% of the pool) yet improves the overall success rate from 47.7% to 61.1%, showing that selective curation outperforms indiscriminate data mixing.",
@@ -1914,11 +1967,11 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "578eb98617a0873f",
       "status": "待复核",
-      "appearances": 1,
+      "appearances": 2,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -1936,7 +1989,7 @@
         "title": "ETA: A New Agentic Paradigm for Embodied Tasks",
         "link": "https://arxiv.org/abs/2608.03924v1",
         "publishedAt": "2026-08-04T16:56:09.000Z",
-        "fetchedAt": "2026-08-06T03:46:50.488Z",
+        "fetchedAt": "2026-08-06T08:40:08.120Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 7,
         "excerpt": "When will robots have their ChatGPT moment? Such a breakthrough requires a general-purpose robot that can handle unfamiliar tasks in unfamiliar environments, remain controllable over long interactions, and learn from experience.\n  Today's embodied systems largely follow an end-to-end observation-to-action path. Despite rapid progress, they remain far from this goal: their generalization depends heavily on the coverage of robot training data, while long task execution remains difficult to control and inspect. To realize this goal, we introduce the Embodied Task Agent (ETA), a new paradigm for extending digital agents into the physical world, and release OpenETA as its open-source implementation. ETA centers the robot around a Planner that chooses one Tool call at a time, an Interface that controls execution, and a World that returns the result and a fresh observation. This loop allows the agent to verify outcomes, adapt its plan, and turn successful and failed interactions into reusable experience. OpenETA provides replaceable Planners, composable Tools and Skills, auditable memory, replayable trajectories, and common interfaces for simulation and real robots. For Codex, OpenETA can operate as a lightweight plugin that exposes only observe, mark_point, and move_to.",
@@ -1953,11 +2006,11 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "0704edddaa73ff97",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [
         "真实机器人",
         "开源"
@@ -1993,11 +2046,11 @@
         "summaryZh": "新研究提出 AAAI 框架，将硬件健康融入推理、规划与任务执行，让自主系统感知自身衰老并自适应调整，延长寿命、提升安全性。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "6148972143a078a2",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -2030,11 +2083,11 @@
         "summaryZh": "Arm2Air 将机械臂避障骨架跨本体迁入无人机中继布设，用 Neural MP 有序骨架预训练 Transformer，再经 Low-Rank Adaptation 适配；九张高杂乱三维城市地图上中位规划耗时降64.9%。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-06T03:46:50.218Z",
+      "lastCheckedAt": "2026-08-06T08:40:07.046Z",
       "arxivVersion": 1,
       "factHash": "14dc86c3a75f0df2",
       "status": "待复核",
-      "appearances": 5,
+      "appearances": 6,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-06T03:46:50.218Z",
+  "updatedAt": "2026-08-06T08:40:07.046Z",
   "windowDays": 30,
   "sources": [
     {
@@ -15,14 +15,14 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 200,
-      "relatedHits": 57,
+      "relatedHits": 58,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0.28,
+        "hitRate": 0.29,
         "inclusionRate": 0,
         "correctionRate": 0,
-        "score": 52
+        "score": 52.25
       },
       "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
@@ -176,25 +176,25 @@
       "name": "TechCrunch · Robotics",
       "type": "rss",
       "tier": "权威产业媒体",
-      "status": "观察",
+      "status": "已暂停",
       "publicationPolicy": "可作为独立报道",
       "configuredWeight": 6,
       "effectiveWeight": 4,
-      "successfulRuns": 6,
-      "failedRuns": 0,
+      "successfulRuns": 5,
+      "failedRuns": 1,
       "selectedArticles": 0,
-      "reliability": 1,
-      "fetchedArticles": 40,
+      "reliability": 0.83,
+      "fetchedArticles": 20,
       "relatedHits": 0,
       "correctionCount": 0,
       "health": {
-        "successRate": 1,
+        "successRate": 0.83,
         "hitRate": 0,
         "correctionRate": 0,
-        "score": 45
+        "score": 39.9
       },
-      "statusReason": "健康分低于 65，已降权观察",
-      "recommendation": "观察"
+      "statusReason": "访问受限，等待凭据或配额恢复",
+      "recommendation": "排查"
     },
     {
       "name": "Google News · Robotics Capital",
@@ -209,14 +209,14 @@
       "selectedArticles": 2,
       "reliability": 1,
       "fetchedArticles": 200,
-      "relatedHits": 20,
+      "relatedHits": 19,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
         "hitRate": 0.1,
-        "inclusionRate": 0.1,
+        "inclusionRate": 0.11,
         "correctionRate": 0,
-        "score": 50.5
+        "score": 50.8
       },
       "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
@@ -234,14 +234,14 @@
       "selectedArticles": 4,
       "reliability": 1,
       "fetchedArticles": 200,
-      "relatedHits": 15,
+      "relatedHits": 16,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0.07,
-        "inclusionRate": 0.27,
+        "hitRate": 0.08,
+        "inclusionRate": 0.25,
         "correctionRate": 0,
-        "score": 54.85
+        "score": 54.5
       },
       "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
@@ -486,7 +486,7 @@
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
-      "effectiveWeight": 3,
+      "effectiveWeight": 1,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
