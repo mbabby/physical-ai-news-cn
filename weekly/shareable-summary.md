@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[自主缝合中通过缝线牵引实现灵活的缝针间接拾取](https://arxiv.org/abs/2607.26337v1)。研究提出以缝线为辅助工具间接拾取缝针的自主框架，涵盖缝线重建、抓取点选择与双臂循线抓针。在 da Vinci Research Kit 真实环境实验中，即使缝线复杂或缝针不可接近也能稳健完成拾取。
+研究：[RedFlow：将失败重定向为动作级纠正的流匹配VLA策略](https://arxiv.org/abs/2607.27782v1)。提出离线强化学习框架RedFlow，将失败经验转化为动作级纠正监督，用于改进流匹配VLA操作策略。在LIBERO基准与三项真实操作任务上优于现有离线方法，真实成功率由56.7%提升至74.7%。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

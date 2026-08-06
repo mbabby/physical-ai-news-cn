@@ -18,13 +18,17 @@
 
 ## 近期已验证更新（自动）
 
+- [DreamWAM: Beyond RGB Future Prediction for World Action Models](https://arxiv.org/abs/2608.04996v1) · arXiv · Robotics · 2026-08-05<br>暂未生成中文摘要，请阅读原文。
+
+- [对相机标定误差具可证明一阶免疫的差分六自由度位姿估计](https://arxiv.org/abs/2608.04673v1) · arXiv · Robotics · 2026-08-05<br>该研究提出差分位姿估计方法，从帧间图像位移与已知3D控制点直接恢复平台六自由度运动，并证明平移外参误差可精确抵消。合成与真实实验表明其精度、标定鲁棒性与效率均优于PnP类方法，代码将随论文发表开源。
+
 - [权重还是技能？机器人学习技术综述：从动作预测权重到自主编写技能的机器人](https://arxiv.org/abs/2608.01851v1) · arXiv · Robotics · 2026-08-03<br>综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。
 
 - [足式机器人的进展、挑战与机遇](https://arxiv.org/abs/2607.28952v1) · arXiv · Robotics · 2026-07-31<br>文章评估人形与四足机器人在硬件、运动、自主、数据与应用方面的现状，梳理关键进展与开放挑战，并展望其伦理、经济与政策影响。
 
 - [DexDirect：直接动觉引导机械臂的高效灵巧演示采集](https://arxiv.org/abs/2607.27784v1) · arXiv · Robotics · 2026-07-30<br>DexDirect 让操作者直接拖动重力补偿机械臂，并用单摄像头将另一只手重定向至灵巧机械手，演示采集量大幅超越基线，训练的扩散策略成功率达90%。
 
-- [DLAM: Distributional Latent Actions with Temporal Constraints](https://arxiv.org/abs/2607.27138v1) · arXiv · Robotics · 2026-07-29<br>暂未生成中文摘要，请阅读原文。
+- [DLAM：带时序约束的分布式潜在动作模型](https://arxiv.org/abs/2607.27138v1) · arXiv · Robotics · 2026-07-29<br>DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。
 
 ## 排序与收录
 
