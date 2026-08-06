@@ -29,6 +29,10 @@ function profileFor(name: string, profiles: CompanyProfile[]): CompanyProfile | 
   const target = normalized(name);
   return profiles.find((profile) => [profile.name, ...(profile.aliases ?? [])].some((alias) => normalized(alias) === target));
 }
+function domainLooksOfficialFor(name: string, link: string): boolean {
+  const compact = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return compact.length >= 4 && domain(link).replace(/[^a-z0-9]/g, "").includes(compact);
+}
 function officialEvidence(company: CandidateCompany): boolean {
   if (!company.officialUrl) return false;
   const officialDomain = domain(company.officialUrl);
@@ -64,7 +68,7 @@ export function updateCandidateCompanies(existing: CandidateCompanyRegistry | un
     const evidence = { link: article.link, source: article.source, sourceWeight: article.sourceWeight, publishedAt: article.publishedAt.toISOString(), title: article.titleZh ?? article.title };
     if (!company.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(evidence.link))) company.evidence.push(evidence);
     company.routes = [...new Set([...company.routes, ...routes(article)])];
-    if (!company.officialUrl && /^(?:https?:)?\/\//.test(article.link) && normalized(article.title).includes(normalized(company.name))) company.officialUrl = new URL(article.link).origin;
+    if (!company.officialUrl && domainLooksOfficialFor(company.name, article.link)) company.officialUrl = new URL(article.link).origin;
     company.lastSeenAt = now.toISOString();
     company.verificationScore = score(company);
     company.status = status(company);
