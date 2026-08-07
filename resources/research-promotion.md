@@ -5,12 +5,14 @@
 ## 候选资源
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) · 真实机器人 / 基准 / 开源
-- [PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1) · 真实机器人 / 基准
-- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) · 真实机器人 / 基准
+- [权重还是技能？机器人学习技术综述](https://arxiv.org/abs/2608.01851v1) · 真实机器人 / 基准 / 开源
+- [PAC-MAN：面向人形机器人躲避球全身安全的感知感知 CBF-RL](https://arxiv.org/abs/2607.28623v1) · 真实机器人 / 基准
+- [RedFlow：把失败重定向为流匹配 VLA 策略的动作级纠正](https://arxiv.org/abs/2607.27782v1) · 真实机器人 / 基准
+- [WAM-Diff2：分层蒸馏将自回归VLA转化为高效扩散自动驾驶模型](https://arxiv.org/abs/2608.01035v1) · 基准
 
 ## 常青资源候选
 
-- [借助缝线操控实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1) · 真实机器人 · CMU
+- 暂无。
 
 ## 里程碑精读候选
 

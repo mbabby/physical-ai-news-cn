@@ -20,7 +20,7 @@
 
 | 谁在做 | 怎么做 | 资本是否支持 | 验证阶段 |
 | --- | --- | --- | --- |
-| [World Labs](https://www.worldlabs.ai/)<br><sub>北美 · 创业公司</sub> | 可生成、理解与交互三维世界的空间智能。 | [有资本信号 · 李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) | 证据不足 |
+| [World Labs](https://www.worldlabs.ai/)<br><sub>北美 · 创业公司</sub> | 可生成、理解与交互三维世界的空间智能。 | [有资本信号 · 李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](#) | 证据不足 |
 | [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/)<br><sub>北美 · 平台公司</sub> | 机器人训练、仿真、计算与基础模型平台。 | 证据不足（不代表未融资） | [概念 / 研究 · 日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) |
 
 ## 02 · 本体与硬件
@@ -31,7 +31,7 @@
 
 | 谁在做 | 怎么做 | 资本是否支持 | 验证阶段 |
 | --- | --- | --- | --- |
-| [逐际动力](https://www.limxdynamics.com/)<br><sub>中国 · 创业公司</sub> | 具身智能机器人本体与运动能力。 | [有资本信号 · 完成2亿美元融资](https://news.google.com/rss/articles/CBMipgFBVV95cUxNbE54eUUyOFZQY0NSMjFRQWtlUmQzME5KUlpncVNiZVlkeHMyd0JyWDhudDBrZGZCdHVIWEI4cFlHWmZJeGVJb0ZacDJtNnhqS2ZodEcyM2JYdzlMTjF3bDU4cnRDU1QyTDJjZnBPNlFuRHZNdVNiWElyRXNaRkxPWHdLS3htLUdud0hBM0ozTlJXWEZyRkRUWVdsVDRaWE9FSDZLcXp30gGrAUFVX3lxTE5aRV9UT0l2cEwyNUctaU5QZ3B4eklKYzdWT1NTT2psODFnb1QyODF4Tm9NTGNEUDk5Qmt2TmhyMk14Q2lOajg4TTN0ZWNndTROdW4ySFhWUjBRMEV6RUFYZ1kyVE0tSnZvNmNsTWFzZXNiRldVVW1FdWxYbVZpZGlrZkQtbDVPNG9EUGFFRTJ4TDJCeVl1b0tESVVKbXQybS1FWjB2aVVfNUx6RQ?oc=5) | 证据不足 |
+| [逐际动力](https://www.limxdynamics.com/)<br><sub>中国 · 创业公司</sub> | 具身智能机器人本体与运动能力。 | [有资本信号 · 完成2亿美元融资](#) | 证据不足 |
 | [Agility Robotics](https://agilityrobotics.com/)<br><sub>北美 · 成长公司</sub> | 面向物流和工业场景的双足机器人。 | 证据不足（不代表未融资） | [概念 / 研究 · 人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) |
 | [1X](https://www.1x.tech/)<br><sub>欧洲/北美 · 成长公司</sub> | 通用人形机器人与真实环境学习。 | 证据不足（不代表未融资） | 证据不足 |
 | [ANYbotics](https://www.anybotics.com/)<br><sub>欧洲 · 成长公司</sub> | 四足机器人与工业巡检。 | 证据不足（不代表未融资） | 证据不足 |
@@ -59,7 +59,7 @@
 
 | 谁在做 | 怎么做 | 资本是否支持 | 验证阶段 |
 | --- | --- | --- | --- |
-| [Google DeepMind](https://deepmind.google/)<br><sub>北美/英国 · 平台公司</sub> | 通用多模态推理与机器人泛化。 | 证据不足（不代表未融资） | [概念 / 研究 · 谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) |
+| [Google DeepMind](https://deepmind.google/)<br><sub>北美/英国 · 平台公司</sub> | 通用多模态推理与机器人泛化。 | 证据不足（不代表未融资） | [概念 / 研究 · 谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) |
 | [Dexterity](https://www.dexterity.ai/)<br><sub>北美 · 成长公司</sub> | 仓储与物流机器人智能。 | 证据不足（不代表未融资） | 证据不足 |
 | [Figure](https://www.figure.ai/)<br><sub>北美 · 成长公司</sub> | 人形本体、端到端机器人智能与工作场景。 | 证据不足（不代表未融资） | 证据不足 |
 | [Meta](https://ai.meta.com/)<br><sub>北美 · 平台公司</sub> | 开放模型、感知与具身研究生态。 | 证据不足（不代表未融资） | 证据不足 |

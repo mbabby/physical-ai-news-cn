@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[借助缝线操控实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1)。该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖组织重建、抓取点选择与双臂循线，避免器械接触组织。在 da Vinci Research Kit 真实实验中，即使缝线复杂或缝针不可接近仍能稳健抓取。
+研究：[DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1)。DreamWAM将未来预测重构为超越RGB的结构化世界建模，联合预测外观、运动、几何与语义状态，推理时仅保留RGB部署。在LIBERO、LIBERO-Plus扰动及真实世界操作任务上均超过RGB基线，代码与模型已开源。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

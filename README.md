@@ -21,7 +21,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-06 | 3 | 27 | 38 | 0 / 19 |
+| 2026-08-07 | 4 | 27 | 17 | 0 / 19 |
 
 **运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
 
@@ -41,16 +41,17 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-06 · 最近确证产业事件 2026-08-02 · 关键进展按影响力排序，最新动态按更新时间排序。
+> 数据刷新至 2026-08-07 · 最近确证产业事件 2026-08-01 · 关键进展按影响力排序，最新动态按更新时间排序。
 
 ### 本期关键进展
 
-- [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
+- [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
 - [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
+- [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
 
 ### 最新动态
 
-- [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
+- [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>08-01</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
 
 
 <!-- EVENT_CENTER_END -->
@@ -65,7 +66,7 @@
 
 ### 本周产品 / 部署
 
-- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) · VLA 与具身模型 · 08-01
+- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 08-01
 - **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 世界模型与空间智能 / 部署与商业化 · 08-01
 - **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) · 本体与硬件 · 08-01
 
@@ -77,15 +78,17 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
+> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-06）的完整研究卡。
 
-- [借助缝线操控实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1) <kbd>真实机器人</kbd> <kbd>CMU</kbd><br>该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖组织重建、抓取点选择与双臂循线，避免器械接触组织。在 da Vinci Research Kit 真实实验中，即使缝线复杂或缝针不可接近仍能稳健抓取。<br>值得关注：来自 CMU；提供真实机器人证据。<br><sub>重点作者 / 实验室：Zih-Yun Chiu · CMU</sub>
+- [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测重构为超越RGB的结构化世界建模，联合预测外观、运动、几何与语义状态，推理时仅保留RGB部署。在LIBERO、LIBERO-Plus扰动及真实世界操作任务上均超过RGB基线，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。
 
-- [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。
+- [权重还是技能？机器人学习技术综述](https://arxiv.org/abs/2608.01851v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>该综述以"权重对技能"为轴线梳理机器人学习领域，按自我改进程度对代码即策略方法进行分类，并考察了六个技术族的77个代表性系统。摘要未提供真实机器人、基准或开源证据。<br>值得关注：提供真实机器人、基准、开源证据。
 
-- [PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Aaron D. Ames</sub>
+- [PAC-MAN：面向人形机器人躲避球全身安全的感知感知 CBF-RL](https://arxiv.org/abs/2607.28623v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 PAC-MAN，将控制屏障安全约束与真实机载感知结合，实现人形机器人躲避球的全身规避，并用对抗运动先验规范规避反射。在任意连杆接触基准上接近特权状态基线，并零样本部署到真实 Unitree G1，投球躲避成功率 95%，还能借语义分割躲避不同的球。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Aaron D. Ames</sub>
 
-- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
+- [RedFlow：把失败重定向为流匹配 VLA 策略的动作级纠正](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 RedFlow，用离线强化学习把失败经验转化为动作级纠正监督，微调流匹配 VLA 策略。在 LIBERO 基准与三项真实机器人任务上，成功率由 56.7% 升至 74.7%，训练样本较 PPO、GRPO、DDPO 约少一个数量级。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
+
+- [WAM-Diff2：分层蒸馏将自回归VLA转化为高效扩散自动驾驶模型](https://arxiv.org/abs/2608.01035v1) <kbd>基准</kbd><br>研究提出WAM-Diff2，通过三阶段分层蒸馏将自回归驾驶VLA转为多任务离散扩散模型。在驾驶理解、感知与规划基准上与自回归基线持平，解码提速2.8倍、结合系统优化达15.1倍。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Zhihao Zhu</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

@@ -14,11 +14,11 @@
 
 ## 待评估信源
 
-- **github.com** · 连续成功 4 次 · 样例：[Valetudo Camera Streaming (FOSS for Vacuum Robots)](https://github.com/Hypfer/Valetudo/discussions/2547) · [提交信源建议](../../issues/new/choose)
-- **huggingface.co** · 连续成功 4 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
-- **covingtonblogs.com** · 连续成功 2 次 · 样例：[FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices](https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/) · [提交信源建议](../../issues/new/choose)
-- **hmans.dev** · 连续成功 4 次 · 样例：[Chatto Is Robots](https://www.hmans.dev/blog/chatto-is-robots) · [提交信源建议](../../issues/new/choose)
-- **servethehome.com** · 连续成功 5 次 · 样例：[AMD's physical AI plans come into focus as company launch Ryzen embedded AI X100](https://www.servethehome.com/amds-physical-ai-plans-come-into-focus-as-company-launches-ryzen-embedded-ai-x100/) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 5 次 · 样例：[Valetudo Camera Streaming (FOSS for Vacuum Robots)](https://github.com/Hypfer/Valetudo/discussions/2547) · [提交信源建议](../../issues/new/choose)
+- **huggingface.co** · 连续成功 5 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
+- **covingtonblogs.com** · 连续成功 3 次 · 样例：[FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices](https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/) · [提交信源建议](../../issues/new/choose)
+- **hmans.dev** · 连续成功 5 次 · 样例：[Chatto Is Robots](https://www.hmans.dev/blog/chatto-is-robots) · [提交信源建议](../../issues/new/choose)
+- **servethehome.com** · 连续成功 6 次 · 样例：[AMD's physical AI plans come into focus as company launch Ryzen embedded AI X100](https://www.servethehome.com/amds-physical-ai-plans-come-into-focus-as-company-launches-ryzen-embedded-ai-x100/) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

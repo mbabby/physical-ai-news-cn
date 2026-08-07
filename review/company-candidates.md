@@ -8,6 +8,24 @@
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiYkFVX3lxTE40NnZQbkg4Qmk0OXBxNy1aTlgzOGVuWHlaVXhobTBLYjh3RzJ1dWItUmp1QzQ0WlI0d1dxeEFSbmxUOHo0YWFzMkh5Z0E3ZDBOaUs0UU41eWJwZ204V3F3RnJB?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## Avatar Robotics · 候选 · 32/100
+
+- 路线：本体与硬件 · 部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi1gFBVV95cUxQdGxSc2hFb1NsbmpTUVZJYk1HeU1FSkNQZFlyOUNwVWNUZWdFS2RPMzdmWkxmVTNNSVJzcFRaanp1cEVESFMtUnh6N1I5QnVoX3FiZllPWXlmRjdjcmNTbzVzdUtqeVU1QS1IMjVpR1FDMXpyaGE1T1QtLXloTDBsd3ZGN21RS2ZFdzNwWHhIZnNRazVRcnBiZDlReDMxb2lRMmVEdWxKQS04SVprQWxueURPQThSZHNVVnZta29YeHFhVjhCOHhyTnR6X3o1Vk5lZEhiOENR?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMiqgFBVV95cUxPOEo3Zm83a0NwSEtLRDlwVGtrNllpSVpDQjJWajFiQmV4ZTNrdHgwMGxJS1RCMlJENDQ0SklmMGpZcWR0Q0xDZzZCVDliYnRqWVFxeHJlNG1YSmpveWx1bEd4T0g0X1p0NXJjNVpVUS12a3dyanFfbWZobVpER3pWM1hTYjB0NkZWWHA2bHR3UTBEb0poVHlmUW5HYWtaclNiTTJ1REtEQ2Zxdw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 陶世智能 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiTEFVX3lxTE9BTWdlRlZsLWc2Ni03ZWNZNVdYbjRSVGpiMHdXZjBfalM0MHlUSFg4T1FxMHFwZ0xYcDdaWkhuVmVNcGpnWHJ2bXRTSVQ?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Enigma · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiV0FVX3lxTFBMcGVHQWtZRzZERTQzQXF3cmNEOXBNVjBYNFZLQ2toTzlpQlJLN1FEY21fNU9Pc1oxYjRScnBBYnRBRUlKX2s5THVlNkdPdmp4NlBYX1lMcw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 用VR头显远程操控仓库机器人，Avatar Robotics · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -50,16 +68,28 @@
 - 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi2wFBVV95cUxPNGNPcER4NW85WU1JUERkSUMxZzcwMWlwc3c1Q2lKWnFpTUNXQ1BRVkRzdVdLRFFUSVUzd1kySXQzZU1URlllRVlocGhpd0VucmxkOElKdkMtaVZUelRNU1hqNERPU0NhOGNrREg1bFVad2F3eHZYSTNLeVhUci1zUHBuS0VlaUt3NkxlMjZDLVdySXlYTjNrdUI4MHpuOG9pTGVGX1hoQm9RanRBeXhubDhBUWktQkdiUnRlZDJ4bXhNSDI3VTlleTZROWNrbllyV0drOG5UMmUwdVk?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## Solinas · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMipAFBVV95cUxQVnBmWVY5QVpmd3pzTWx4NlJlQnVjeUpzY2p1YUNXYTZpWjZhUmVsRVdGVE5RZzdBdFRXcmtMZnIydjkwRjVVWm1ldEl4N2IxR0dRbWk3MDhUM1paLVp5WGNJOUdpMjlzTGRpNTBNcHdZYzQxWkVtZXhoZ3RsRDEzMHB3U1FZaTREWF84TzV1RjhlelprYm1lVVZ5bEtSTEZQWlRIZg?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## NavVis · 候选 · 22/100
+
+- 路线：世界模型与空间智能 · 部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMipAFBVV95cUxQRGZIZV84LVBsemF1TVc3V3h2cXI3RUJqT2lZRF9wbUlLQVZXZmtueHhUM0tkdnNWWm1WR0VRYVAxbl9DeXBpMG5ibURza3IxV2pXcWgzYWZNSWFnRG16YUN0cUM2ZVNQZllWN2ktaFRBeV9PVXRZNWs5WW9UZ3V4R2FpbXdBeHluYjI1Ylp0ZEJwbkd3TnlLVWxnOUVocnlzc01LZ9IBqgFBVV95cUxNdFJLbWRLSFBYdTF5SG0wMzcwaGFibFdETEpxM25aNy0ycldJRWMwcU51dHlUUGNwX3loNWFOTHdpMEh4bm0wRHhyaFAwOEdYZl9lNk5QQmhxMC1aSjFKRmJGT0tkN0Rrd0JOUVJVa1VBcXpkUTVHZUw4ODE0MjcyWk13a0ctVS1mMG5vSVB6S3pLM3NYdUM4RWpZLURjcm00MnNfRmt2YlJMZw?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMipwFBVV95cUxOY25sMVlxczNCVUlaQ1ZOYTBtSzMwendUcHhhTGFZeHZBUE1uakxBYzhQTEotV2p3WHhSMXVsQnZ0aHFkX0RwVnAzdWJYUW01NGRJMWRFRU1BQXF5R0lrNEV2MGR3ZEs5Nm56MDg5djhqcUVpRmdmNHlrQmZSdEpZUjk4VVZpTG5rQzBqbmQ1ZmNvcVdjT0c3eDIzOG9WMXZyOU4zT0M4dw?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Vangrid · 候选 · 22/100
+
+- 路线：世界模型与空间智能
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMixwFBVV95cUxPamNTaTVxYzNWbDV5QWp5MGFkU21UbDE3Q2xuVG13b2NXQTZJSTlPYnRTcU83VzN6cjlmNDExNTdsMGQ0Q2JRZmlJeURUMzY1WWctQ3dkSHM1YVRWQVBMV250Y1VWTzZuRXdiX3RQcjQzZnQ2NGluTGo1di1yd0JIWFdJOG1ObUxlWERqdjU3aXI1dW85RERuVlIzb3FCbzBTanpkWUNWWndOeXdIMTdCUnhDNTFvUXFJUjd4cE9wdkktS2ptbGlB?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 中国机器人初创公司 PokeBot · 候选 · 22/100
 
 - 路线：部署与商业化
 - 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMixAFBVV95cUxPZ0htVjB4bUk3NDhBNzlwQ2dzNm4xdFFNQjhsR2NSeEpDNDJTQzljdlNyLXJRcmVJa3lzc0g0NngxbXVXRVAxRzRLdUhENENTNnRvRmR4OGpkUEZwUDJ2XzdWNW11Y3BhYVZrTGR5SXRBX25qUmo2ZnpFSHdWTnRVamRlWXo0NHBhQ0JhSEhHVU5MMTFxOGwtWW1NMjI3X250enU4MHNfY1I4UGhyMVpBSnB5SnJ5S0ttWU9fVzgtTGlMRFJO?oc=5)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## Avatar Robotics · 候选 · 22/100
-
-- 路线：本体与硬件 · 部署与商业化
-- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi1gFBVV95cUxQdGxSc2hFb1NsbmpTUVZJYk1HeU1FSkNQZFlyOUNwVWNUZWdFS2RPMzdmWkxmVTNNSVJzcFRaanp1cEVESFMtUnh6N1I5QnVoX3FiZllPWXlmRjdjcmNTbzVzdUtqeVU1QS1IMjVpR1FDMXpyaGE1T1QtLXloTDBsd3ZGN21RS2ZFdzNwWHhIZnNRazVRcnBiZDlReDMxb2lRMmVEdWxKQS04SVprQWxueURPQThSZHNVVnZta29YeHFhVjhCOHhyTnR6X3o1Vk5lZEhiOENR?oc=5) · [Google News · Robotics Capital](https://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Adiabatic Technologies · 候选 · 22/100
