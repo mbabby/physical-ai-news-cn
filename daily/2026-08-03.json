@@ -2,29 +2,6 @@
   "date": "2026-08-03",
   "articles": [
     {
-      "id": "ef534dec6304bd43",
-      "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
-      "link": "https://arxiv.org/abs/2607.29613v1",
-      "publishedAt": "2026-07-31T16:48:45.000Z",
-      "fetchedAt": "2026-08-03T14:30:59.209Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
-      "tags": [
-        "落地",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "authors": [
-        "Senyu Fei"
-      ],
-      "kind": "部署案例",
-      "score": 130,
-      "titleZh": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
-    },
-    {
       "id": "d296eb9c0886d703",
       "title": "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy",
       "link": "https://arxiv.org/abs/2607.27782v1",
@@ -110,29 +87,6 @@
       "score": 130,
       "titleZh": "人形机器人持物平衡的质量权衡分析与搬举控制",
       "summaryZh": "研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。"
-    },
-    {
-      "id": "61b5624a84ebba5f",
-      "title": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
-      "link": "https://arxiv.org/abs/2607.28993v1",
-      "publishedAt": "2026-07-31T03:44:56.000Z",
-      "fetchedAt": "2026-08-03T14:30:59.209Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "World Action Models (WAMs) have emerged as a promising paradigm by jointly modeling robot actions and future visual dynamics. However, their reliance on pixel-generative future supervision can entangle action-relevant state transitions with task-irrelevant visual content, limiting robustness under visual distribution shifts. We identify Training-Distribution Hallucination, a recurring phenomenon in which futures conditioned on visually shifted observations hallucinate training-domain content rather than remain faithful to the current scene. A controlled frame-triplet diagnosis further shows that DINOv3 features remain more stable across visual shifts while better preserving task-state distinctions than Wan-VAE latents. Rather than correcting the predicted futures, we propose Semantic-Temporal WAM (ST-WAM) to improve action robustness by using DINOv3 as a shared semantic representation for future prediction and history retrieval while retaining fine-grained VAE dynamics. Its Dual-Space Future Experts (DSFE) jointly predict future VAE latents and DINO features, while Current-Anchored Intent Retrieval (CAIR) retrieves task-relevant evidence from recent DINO history under the current visual-language context. ST-WAM is trained end-to-end without additional embodied pretraining or task-specific annotations, and requires no explicit future generation at inference. It achieves 98.7% on LIBERO and 92.8% on RoboTwin 2.0; more importantly, compared with Fast-WAM, it improves zero-shot LIBERO-Plus performance by 21.3 percentage points and more than doubles real-world success under visual shifts from 25.8% to 61.5%. These results demonstrate that semantic-temporal modeling effectively complements pixel-generative dynamics for robust manipulation.",
-      "tags": [
-        "产业",
-        "robot",
-        "embodied",
-        "manipulation"
-      ],
-      "authors": [
-        "Mingxin Wang"
-      ],
-      "kind": "公司商业",
-      "score": 126,
-      "titleZh": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
     },
     {
       "id": "c7591cc122a4b394",
@@ -490,6 +444,60 @@
       "stage": "待公司主体确认",
       "holdReasons": [
         "公司主体未确认"
+      ]
+    },
+    {
+      "id": "ef534dec6304bd43",
+      "title": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+      "link": "https://arxiv.org/abs/2607.29613v1",
+      "publishedAt": "2026-07-31T16:48:45.000Z",
+      "fetchedAt": "2026-08-03T14:30:59.209Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Reinforcement learning (RL) post-training of Vision-Language-Action (VLA) models has shown strong promise for robotic manipulation. Among RL methods, critic-based approaches rely on a value estimator that predominantly operates on single-frame observations or single-frame VLM backbone latents, which is a fundamental mismatch with the partially observable nature of robot control. A naive approach to incorporate observation history into the critic incurs exponential complexity with high-dimensional visual space, and still fails because pure scalar-return regression provides insufficient supervision for learning cross-temporal dynamics. We identify the root cause as a state approximation problem: without an explicit world modeling objective, the critic's representation cannot capture the temporal structure needed for accurate value estimation. To address this, we propose the World Critic Model (WCM), built on a lightweight LeJEPA architecture; WCM jointly predicts future latent state and estimates values, such that the critic's representation is explicitly trained to capture temporal dynamics rather than merely regress scalar returns. WCM integrates seamlessly into both on-policy and off-policy training pipelines and is compatible with state-of-the-art VLA backbones including Pi0, Pi0.5, and OpenVLA-OFT. Extensive experiments on 149 tasks across four benchmarks demonstrate that WCM consistently achieves state-of-the-art performance in both in-distribution and out-of-distribution settings, with particularly strong generalization gains. We further validate WCM on seven real-world manipulation tasks using OpenVLA-OFT and Pi0.5 with off-policy RL, confirming stable deployment across diverse settings.",
+      "tags": [
+        "落地",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Senyu Fei"
+      ],
+      "kind": "部署案例",
+      "score": 130,
+      "titleZh": "WCM: A World Critic Model for Vision-Language-Action Reinforcement Learning",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "61b5624a84ebba5f",
+      "title": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
+      "link": "https://arxiv.org/abs/2607.28993v1",
+      "publishedAt": "2026-07-31T03:44:56.000Z",
+      "fetchedAt": "2026-08-03T14:30:59.209Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "World Action Models (WAMs) have emerged as a promising paradigm by jointly modeling robot actions and future visual dynamics. However, their reliance on pixel-generative future supervision can entangle action-relevant state transitions with task-irrelevant visual content, limiting robustness under visual distribution shifts. We identify Training-Distribution Hallucination, a recurring phenomenon in which futures conditioned on visually shifted observations hallucinate training-domain content rather than remain faithful to the current scene. A controlled frame-triplet diagnosis further shows that DINOv3 features remain more stable across visual shifts while better preserving task-state distinctions than Wan-VAE latents. Rather than correcting the predicted futures, we propose Semantic-Temporal WAM (ST-WAM) to improve action robustness by using DINOv3 as a shared semantic representation for future prediction and history retrieval while retaining fine-grained VAE dynamics. Its Dual-Space Future Experts (DSFE) jointly predict future VAE latents and DINO features, while Current-Anchored Intent Retrieval (CAIR) retrieves task-relevant evidence from recent DINO history under the current visual-language context. ST-WAM is trained end-to-end without additional embodied pretraining or task-specific annotations, and requires no explicit future generation at inference. It achieves 98.7% on LIBERO and 92.8% on RoboTwin 2.0; more importantly, compared with Fast-WAM, it improves zero-shot LIBERO-Plus performance by 21.3 percentage points and more than doubles real-world success under visual shifts from 25.8% to 61.5%. These results demonstrate that semantic-temporal modeling effectively complements pixel-generative dynamics for robust manipulation.",
+      "tags": [
+        "产业",
+        "robot",
+        "embodied",
+        "manipulation"
+      ],
+      "authors": [
+        "Mingxin Wang"
+      ],
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "ST-WAM: Semantic-Temporal World Action Model for Robust Manipulation under Visual Distribution Shifts",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
       ]
     }
   ],

@@ -12,7 +12,22 @@ test("README has shareable core entry points and a consistent evidence promise",
   assert.match(readme, /里程碑论文/);
   assert.match(readme, /线索不等于事实/);
   assert.match(readme, /README\.en\.md/);
+  assert.match(readme, /PROJECT_STATUS_START/);
+  assert.match(readme, /Daily digest/);
+  assert.match(readme, /行业入口/);
   assert.doesNotMatch(readme, /全覆盖|实时数据库|权威认证/);
+});
+
+test("public Markdown surfaces contain no failed-summary placeholders", async () => {
+  const files = [
+    "README.md", "daily/2026-08-01.md", "daily/2026-08-02.md", "daily/2026-08-03.md",
+    "daily/2026-08-04.md", "daily/2026-08-05.md", "daily/2026-08-06.md",
+    "resources/models-and-open-source.md", "resources/datasets-and-benchmarks.md", "resources/simulation-and-tools.md",
+    "site/data/dashboard.json",
+  ];
+  const content = (await Promise.all(files.map((file) => readFile(join(root, file), "utf8")))).join("\n");
+  assert.doesNotMatch(content, /暂无中文简介|中文简介暂未生成|暂未生成中文摘要|暂无原文摘要|原文摘要[:：]|请阅读原文/);
+  assert.doesNotMatch(content, /十大(?:机器人)?(?:新闻|热门报道).*盘点|榜单生意链/);
 });
 
 test("English overview and every README share target are present", async () => {

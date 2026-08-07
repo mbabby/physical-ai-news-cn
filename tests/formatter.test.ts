@@ -12,6 +12,17 @@ test("renders a complete daily Markdown entry without exposing fetch failures", 
   assert.doesNotMatch(markdown, /HN：失败/);
 });
 
+test("rejects incomplete copy from daily and weekly public outputs", () => {
+  const now = new Date("2026-08-01T00:00:00.000Z");
+  const incomplete: Article = { id: "raw", title: "English roundup", link: "https://example.com/raw", publishedAt: now, fetchedAt: now, source: "Aggregator", sourceWeight: 5, excerpt: "Raw English summary", kind: "公司商业", tags: [] };
+  const daily = formatMarkdown([incomplete], 24, [], now);
+  assert.doesNotMatch(daily, /English roundup|Raw English summary|暂无原文摘要/);
+  assert.match(daily, /暂无达到发布阈值/);
+  const weekly = formatWeeklyMarkdown([{ ...incomplete, weeklyScore: 1, selectionReason: "raw" }], "2026-W31");
+  assert.doesNotMatch(weekly, /English roundup|暂无原文摘要/);
+  assert.match(weekly, /0 条高影响事件/);
+});
+
 test("adapts a daily archive for the README homepage", () => {
   const markdown = "# 物理 AI 每日资讯 — 2026-08-01\n\n过去 24 小时 · 1 条精选\n\n## 机器人发布\n\n内容";
   const homepage = formatHomepageDigest(markdown);

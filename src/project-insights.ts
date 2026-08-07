@@ -13,6 +13,18 @@ function rate(numerator: number, denominator: number): number | undefined {
 }
 function unique<T>(items: T[]): T[] { return [...new Set(items)]; }
 
+export function formatHomepageStatus(metrics: ProjectMetrics, companyProfiles: number, researchPool: number): string {
+  const quality = metrics.publicContent.evidenceABRatio === undefined ? "样本积累中" : `${Math.round(metrics.publicContent.evidenceABRatio * 100)}%`;
+  const digest = metrics.digest.successRate === undefined ? "样本积累中" : `${Math.round(metrics.digest.successRate * 100)}%`;
+  return [
+    "| 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |",
+    "| --- | ---: | ---: | ---: | ---: |",
+    `| ${metrics.updatedAt.slice(0, 10)} | ${metrics.publicContent.homepageEffectiveItems} | ${companyProfiles} | ${researchPool} | ${metrics.flywheel.enabledSources} / ${metrics.flywheel.observedSources} |`,
+    "",
+    `**运行健康**：近 30 天日报成功率 ${digest} · A/B 级证据比例 ${quality} · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)`,
+  ].join("\n");
+}
+
 export function buildProjectMetrics(
   archives: DailyArchive[], store: EventStore, registry: SourceRegistry, companyCandidates: CandidateCompanyRegistry, now = new Date(),
 ): ProjectMetrics {

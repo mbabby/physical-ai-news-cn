@@ -6,6 +6,8 @@
 
 **北京时间每日 08:30 自动更新** · **线索不等于事实** · **中文为主站，面向全球开放协作**
 
+[![Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) [![Pages](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml) [![License: MIT](https://img.shields.io/github/license/mbabby/physical-ai-news-cn)](LICENSE) [![GitHub stars](https://img.shields.io/github/stars/mbabby/physical-ai-news-cn?style=flat)](https://github.com/mbabby/physical-ai-news-cn/stargazers)
+
 <p align="center">
   <a href="#产业进展">今日产业进展</a> ·
   <a href="resources/companies.md">公司与资本地图</a> ·
@@ -15,11 +17,23 @@
   <a href="weekly/2026-W32-report.md">本周周报</a>
 </p>
 
+<!-- PROJECT_STATUS_START -->
+
+| 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
+| --- | ---: | ---: | ---: | ---: |
+| 2026-08-06 | 3 | 27 | 38 | 0 / 19 |
+
+**运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
+
+<!-- PROJECT_STATUS_END -->
+
 | 你想快速判断什么 | 直接进入 |
 | --- | --- |
 | 哪些公司获得了可核验的资本与产品/部署进展 | [公司与资本地图](resources/companies.md) |
 | 一条路线由谁在做、怎么做、资本是否支持、验证到了哪一步 | [物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md) |
 | 哪些论文正在形成长期技术脉络 | [里程碑论文与精读](resources/milestone-papers.md) |
+
+> **行业入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。 **研究入口**：先看 6 张研究卡，再进入[里程碑论文与精读](resources/milestone-papers.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多从业者发现它。
 
 > 数据口径：官方公司/实验室、开源发布与权威产业媒体可作为公开证据；Google News、HN 与 X 仅用于发现线索，未完成主体与事实核验的内容只保留在候选层。
 
@@ -33,7 +47,6 @@
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
 - [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
-- [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) <kbd>投融资</kbd> <kbd>世界模型与空间智能</kbd> <kbd>数据与训练</kbd> <sub>08-02</sub><br>李飞飞旗下World Labs收购SceniX，物理AI训练正从采集数据转向构建仿真世界。
 
 ### 最新动态
 
@@ -46,11 +59,9 @@
 
 <!-- COMPANY_RADAR_START -->
 
-> 只展示有证据链接的公司事件。未能确认主体的融资会标为“待识别公司”，不会写入公司档案。
+### 本周融资 / 并购
 
-### 本周融资
-
-- **World Labs** · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 08-02
+- 暂无满足证据门槛的融资或并购事件。
 
 ### 本周产品 / 部署
 
@@ -58,12 +69,7 @@
 - **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 世界模型与空间智能 / 部署与商业化 · 08-01
 - **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) · 本体与硬件 · 08-01
 
-### 持续跟踪公司
-
-- [World Labs](https://www.worldlabs.ai/) · 世界模型与空间智能 · [李飞飞旗下World Labs收购SceniX，物理AI训练从“采数据”走向“造世界”](https://news.google.com/rss/articles/CBMipwFBVV95cUxNaGYta01KT282dlNQTlhnUnB1T1hhczhxMUN5NXZFZ2twZEtRdno0MDV5RDh3eHUzTGlYeER2dEx0N1NqRDBlWlg1c3ZiMWlGcDhfNC1maHdDU3QyV29PWDR2ZWNJOE9HcFZpOUJRQjN6Y2hMQ1NoWHJqQXVIVTZtc290dGFFak9wdGM0aGJvMlZqV1ZNR3RzUFh5Q0g5WTFLOUNGNUFjRQ?oc=5) · 更新 2026-08-02
-- [Google DeepMind](https://deepmind.google/) · VLA 与具身模型 / 数据与训练 · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/) · 更新 2026-08-01
-- [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · 数据与训练 / 世界模型与空间智能 / VLA 与具身模型 · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 更新 2026-08-01
-- [Agility Robotics](https://agilityrobotics.com/) · 本体与硬件 / 部署与商业化 · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) · 更新 2026-08-01
+> [查看 27 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 
 <!-- COMPANY_RADAR_END -->
 

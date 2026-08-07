@@ -16,21 +16,7 @@
 
 ## 近期已验证更新（自动）
 
-- [RORA: Realistic Object Reconstruction with Articulation](https://arxiv.org/abs/2608.04842v1) · arXiv · Robotics · 2026-08-05<br>暂未生成中文摘要，请阅读原文。
-
-- [PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud](https://arxiv.org/abs/2608.03682v2) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
-
-- [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](https://arxiv.org/abs/2607.29302v1) · arXiv · Robotics · 2026-07-31<br>暂未生成中文摘要，请阅读原文。
-
-- [Kitchen Robotic Manipulation utilizing Foundation Models](https://arxiv.org/abs/2608.04042v1) · arXiv · Robotics · 2026-08-04<br>暂未生成中文摘要，请阅读原文。
-
-- [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](https://arxiv.org/abs/2608.02580v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
-
-- [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](https://arxiv.org/abs/2608.02197v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
-
-- [ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction](https://arxiv.org/abs/2608.01824v1) · arXiv · Robotics · 2026-08-03<br>暂未生成中文摘要，请阅读原文。
-
-- [WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA](https://arxiv.org/abs/2608.01035v1) · arXiv · Robotics · 2026-08-02<br>暂未生成中文摘要，请阅读原文。
+近 30 天暂无同时满足中文事实简介与公开证据门槛的数据集或基准更新；候选仍在 Review 层持续核验。
 
 ## 排序与收录
 

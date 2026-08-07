@@ -25,6 +25,13 @@ test("keeps generic funding labels out of the public industry feed", () => {
   assert.doesNotMatch(formatRecentEvents(store.events), /机器人公司完成新一轮融资/);
 });
 
+test("keeps discovery-only sources out of public event and company surfaces", () => {
+  const lead = article({ source: "Google News · Robotics", sourceWeight: 8, sourceTier: "线索发现层" });
+  const store = upsertEvents(undefined, [lead]);
+  assert.doesNotMatch(formatRecentEvents(store.events), /Gemini Robotics/);
+  assert.doesNotMatch(formatCompanyRadar([], store.events), /Gemini Robotics/);
+});
+
 test("keeps the latest successful research cards visible when arXiv is temporarily unavailable", () => {
   const output = formatResearchUpdates([article({ title: "RoboBRIDGE", titleZh: "RoboBRIDGE：面向真实机器人的稳健策略框架" })], "2026-08-01");
   assert.match(output, /arXiv 暂未刷新/);

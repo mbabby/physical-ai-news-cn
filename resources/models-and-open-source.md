@@ -20,8 +20,6 @@
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) · arXiv · Robotics · 2026-08-05<br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。
 
-- [Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors](https://arxiv.org/abs/2608.04673v1) · arXiv · Robotics · 2026-08-05<br>暂未生成中文摘要，请阅读原文。
-
 - [权重还是技能？机器人学习技术综述：从动作预测权重到自主编写技能的机器人](https://arxiv.org/abs/2608.01851v1) · arXiv · Robotics · 2026-08-03<br>综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。
 
 - [足式机器人的进展、挑战与机遇](https://arxiv.org/abs/2607.28952v1) · arXiv · Robotics · 2026-07-31<br>文章评估人形与四足机器人在硬件、运动、自主、数据与应用方面的现状，梳理关键进展与开放挑战，并展望其伦理、经济与政策影响。

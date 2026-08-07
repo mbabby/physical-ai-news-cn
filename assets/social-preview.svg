@@ -1,0 +1,27 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1180" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050B15"/><stop offset="0.58" stop-color="#0A1A2E"/><stop offset="1" stop-color="#102E43"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="90" y1="520" x2="1170" y2="105" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/><stop offset="0.52" stop-color="#22D3EE"/><stop offset="1" stop-color="#5EEAD4"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1280" height="640" rx="28" fill="url(#bg)"/>
+  <g opacity=".13" stroke="#7DD3FC"><path d="M0 80H1280M0 160H1280M0 240H1280M0 320H1280M0 400H1280M0 480H1280M0 560H1280"/><path d="M80 0V640M160 0V640M240 0V640M320 0V640M400 0V640M880 0V640M960 0V640M1040 0V640M1120 0V640M1200 0V640"/></g>
+  <path d="M74 520C210 430 272 545 407 447C519 365 544 231 687 255C825 278 868 440 1004 346C1098 281 1110 139 1208 112" stroke="url(#signal)" stroke-width="3" stroke-dasharray="10 10" opacity=".7"/>
+  <g filter="url(#glow)" fill="#67E8F9"><circle cx="74" cy="520" r="7"/><circle cx="407" cy="447" r="7"/><circle cx="687" cy="255" r="8"/><circle cx="1004" cy="346" r="7"/><circle cx="1208" cy="112" r="8"/></g>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif">
+    <text x="78" y="110" fill="#67E8F9" font-size="19" font-weight="600" letter-spacing="5">PHYSICAL AI INTELLIGENCE</text>
+    <text x="74" y="232" fill="#F0F9FF" font-size="72" font-weight="750">物理 AI 产业情报库</text>
+    <text x="78" y="296" fill="#A8C4D8" font-size="29">公司 × 资本 × 产品部署 × 技术路线 × 研究前沿</text>
+    <text x="78" y="370" fill="#E0F2FE" font-size="23">每日自动更新 · 事实可追溯 · 线索不污染公开结论</text>
+    <text x="78" y="560" fill="#5EEAD4" font-size="20" font-weight="600" letter-spacing="2">OPEN SOURCE / CHINESE INTELLIGENCE FOR PRACTITIONERS</text>
+  </g>
+  <g transform="translate(970 166)" stroke="#A5F3FC" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 258L78 194L143 226L230 130" stroke-width="16" opacity=".88"/><path d="M12 258L78 194L143 226L230 130" stroke="#07111F" stroke-width="6" opacity=".7"/>
+    <circle cx="12" cy="258" r="23" fill="#0B2338" stroke-width="5"/><circle cx="78" cy="194" r="21" fill="#0B2338" stroke-width="5"/><circle cx="143" cy="226" r="21" fill="#0B2338" stroke-width="5"/>
+    <path d="M230 130L262 100M230 130L266 146M230 130L223 84" stroke-width="7"/>
+  </g>
+</svg>

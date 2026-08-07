@@ -1,4 +1,5 @@
 import type { Article } from "./types.js";
+import { hasCompleteChineseCopy } from "./publication.js";
 
 type ResourcePage = "models" | "datasets" | "tools";
 interface CoreResource { name: string; link: string; description: string; group: string; rank: number; }
@@ -27,10 +28,10 @@ function dynamicScore(article: Article): number {
   const relevance = /vla|robot|具身|manipulation|机器人|physical ai/.test(value) ? 20 : 8;
   return source + freshness + release + relevance;
 }
-function title(article: Article): string { return article.titleZh?.trim() || article.title; }
+function title(article: Article): string { return article.titleZh!.trim(); }
 function brief(article: Article): string {
-  const value = article.summaryZh?.trim() || article.excerpt.replace(/\s+/g, " ").trim();
-  return value.length > 150 ? `${value.slice(0, 150)}…` : value || "请阅读原始发布说明。";
+  const value = article.summaryZh!.replace(/\s+/g, " ").trim();
+  return value.length > 150 ? `${value.slice(0, 150)}…` : value;
 }
 function groupedCore(resources: CoreResource[]): Map<string, CoreResource[]> {
   const groups = new Map<string, CoreResource[]>();
@@ -43,7 +44,7 @@ function groupedCore(resources: CoreResource[]): Map<string, CoreResource[]> {
 export function formatResourcePage(page: ResourcePage, catalog: Catalog, articles: Article[], now = new Date()): string {
   const meta = PAGE_META[page];
   const cutoff = now.getTime() - 30 * 86_400_000;
-  const dynamic = articles.filter((article) => article.publishedAt.getTime() >= cutoff && pageFor(article) === page)
+  const dynamic = articles.filter((article) => article.publishedAt.getTime() >= cutoff && pageFor(article) === page && hasCompleteChineseCopy(article))
     .sort((a, b) => dynamicScore(b) - dynamicScore(a) || b.publishedAt.getTime() - a.publishedAt.getTime());
   const seen = new Set<string>();
   const recent = dynamic.filter((article) => {
@@ -64,4 +65,3 @@ export function formatResourcePage(page: ResourcePage, catalog: Catalog, article
   lines.push("## 排序与收录", "", "- 核心资源：先按行业影响与可复用性排序，再按类别组织。", "- 自动更新：相关性、官方/开源信源等级、发布活跃度、发布时间四项综合排序。", "- 仅保留可追溯链接；自动条目进入更新雷达，不会自动替换核心库。", "");
   return lines.join("\n");
 }
-

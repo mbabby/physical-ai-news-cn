@@ -20,7 +20,7 @@ import { formatCandidateCompanyReview, updateCandidateCompanies } from "./compan
 import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./company-entities.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
-import { buildProjectMetrics, formatCommunityReviewQueue, formatWeeklyReport } from "./project-insights.js";
+import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 
@@ -31,6 +31,8 @@ const companyStart = "<!-- COMPANY_RADAR_START -->";
 const companyEnd = "<!-- COMPANY_RADAR_END -->";
 const researchStart = "<!-- RESEARCH_UPDATES_START -->";
 const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
+const statusStart = "<!-- PROJECT_STATUS_START -->";
+const statusEnd = "<!-- PROJECT_STATUS_END -->";
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
@@ -38,8 +40,9 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], refreshedAt: Date, researchFallbackDate?: string): string {
-  return replaceSection(replaceSection(replaceSection(readme, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], researchPoolSize: number, metrics: ReturnType<typeof buildProjectMetrics>, refreshedAt: Date, researchFallbackDate?: string): string {
+  const withStatus = replaceSection(readme, statusStart, statusEnd, formatHomepageStatus(metrics, companies.length, researchPoolSize));
+  return replaceSection(replaceSection(replaceSection(withStatus, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -269,7 +272,7 @@ async function main(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, now, researchFallbackDate), "utf8");
+  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate), "utf8");
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

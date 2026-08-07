@@ -71,52 +71,6 @@
       "summaryZh": "WAM-Diff2通过三阶段分层蒸馏将自回归VLA模型转为并行离散扩散模型，在保持性能的同时缓解曝光偏差，解码提速2.8倍，结合系统优化最高加速15.1倍。"
     },
     {
-      "id": "77bab2e309ed1d5c",
-      "title": "Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies",
-      "link": "https://arxiv.org/abs/2608.01826v1",
-      "publishedAt": "2026-08-03T07:36:09.000Z",
-      "fetchedAt": "2026-08-04T03:44:48.403Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-Language-Action (VLA) models have shown strong generalization in robotic manipulation, yet complex contact-rich tasks often benefit from multi-camera observations that jointly capture the end effector, objects, and targets under occlusion. Existing multi-camera VLAs usually concatenate view tokens, leaving action representations weak in metric depth and inconsistent across cameras. We introduce Multi-View Unified Camera Fields (MVUCF), a training-only framework that forms a shared action-facing latent field across views. A coordinate-query depth objective makes metric depth recoverable, while a preprocessing-aware correspondence objective aligns tokens observing the same physical point from different cameras. Both directly shape the hidden states consumed by the action module. After geometry injection, depth, camera calibration, and auxiliary heads are removed, so deployment uses the original RGB-only graph with no extra inference FLOPs. Held-out probes confirm stronger depth recovery and cross-view matching. Under matched GR00T-N1.6 settings, MVUCF reaches 98.9% on LIBERO, improves LIBERO-Plus by 22.4 points, and raises success by 23.3 points across six RoboTwin tasks spanning three action families: touch, move-and-place, and contact interaction. Real-world humanoid experiments further provide evidence of its practical effectiveness under RGB-only deployment.",
-      "tags": [
-        "落地",
-        "robot",
-        "humanoid",
-        "vla"
-      ],
-      "authors": [
-        "Jiarui Yang"
-      ],
-      "kind": "部署案例",
-      "score": 130,
-      "titleZh": "Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
-    },
-    {
-      "id": "4bc76fbae5abf0f2",
-      "title": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
-      "link": "https://arxiv.org/abs/2608.02580v1",
-      "publishedAt": "2026-08-03T17:52:26.000Z",
-      "fetchedAt": "2026-08-04T03:44:48.403Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Learning generalizable robot manipulation policies requires large-scale and diverse demonstration data. Egocentric human manipulation videos offer rich scene and task diversity, and prior work has shown that retargeting and rendering such videos into robot-format data can yield effective per-task policies at small scale. However, whether this approach can provide pretraining benefits for vision-language-action models at scale remains unexplored. We present \\textbf{Ego2Robot}, a scalable pipeline that converts egocentric human manipulation videos into robot training data through action retargeting, robot-arm visual synthesis, and multi-level quality curation. Ego2Robot supports both curated datasets and in-the-wild videos, producing 18,561 hours of robot training data spanning 15 robot morphologies, making it the largest ego-to-robot dataset to date. To evaluate generalization, we extend RoboTwin2.0 with disentangled perturbation axes covering visual appearance, scene layout, embodiment morphology, and task semantics. Experiments show that joint pretraining on Ego2Robot-synthesized and robot data consistently improves out-of-distribution generalization across multiple perturbation types, with benefits validated on real-robot deployment. Project page: https://www-ye.github.io/ego2robot_blog/",
-      "tags": [
-        "落地",
-        "robot",
-        "vision-language-action",
-        "manipulation"
-      ],
-      "authors": [
-        "Ye Wang"
-      ],
-      "kind": "部署案例",
-      "score": 122,
-      "titleZh": "Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。"
-    },
-    {
       "id": "20c5339e3ae459eb",
       "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
       "link": "https://arxiv.org/abs/2608.01851v1",

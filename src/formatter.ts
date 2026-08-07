@@ -1,33 +1,39 @@
 import type { Article, FetchFailure, IndustryPulse, WeeklyArticle } from "./types.js";
+import { hasCompleteChineseCopy, publicArticlesOnly } from "./publication.js";
 
 function date(value: Date): string { return value.toISOString().slice(0, 10); }
 function shortDate(value: Date): string { return value.toISOString().slice(5, 10); }
 
 function renderArticle(lines: string[], article: Article, heading = "##"): void {
-  const title = article.titleZh ?? article.title;
+  const title = article.titleZh!;
   const meta = [article.pulseKind ?? article.kind ?? "未分类", article.source, shortDate(article.publishedAt), ...article.tags.slice(0, 2).map((tag) => `#${tag}`)].join(" · ");
-  lines.push(`${heading} [${title}](${article.link})`, "", article.summaryZh ?? "暂无原文摘要，请阅读原文。", `*${meta}*`, "");
+  lines.push(`${heading} [${title}](${article.link})`, "", article.summaryZh!, `*${meta}*`, "");
 }
 
 export function formatMarkdown(articles: Article[], windowHours: number, _failures: FetchFailure[] = [], now = new Date(), pulse: IndustryPulse = { viewpoints: [], events: [] }, totalArticles = articles.length, sourceNetwork = "", research: Article[] = []): string {
-  const lines = [`# 物理 AI 每日资讯 — ${date(now)}`, "", `过去 ${windowHours} 小时 · 产业与资本 ${totalArticles} 条 · 学术研究 ${research.length} 篇`, ""];
-  if (pulse.viewpoints.length || pulse.events.length) {
+  const publicNews = publicArticlesOnly(articles);
+  const publicViewpoints = publicArticlesOnly(pulse.viewpoints);
+  const publicPulseEvents = publicArticlesOnly(pulse.events);
+  const publicResearch = publicArticlesOnly(research);
+  const publishedIndustryCount = publicNews.length + publicViewpoints.length + publicPulseEvents.length;
+  const lines = [`# 物理 AI 每日资讯 — ${date(now)}`, "", `过去 ${windowHours} 小时 · 产业与资本 ${Math.min(totalArticles, publishedIndustryCount)} 条 · 学术研究 ${publicResearch.length} 篇`, ""];
+  if (publicViewpoints.length || publicPulseEvents.length) {
     lines.push("## 行业脉搏", "", "> 领军人物公开观点与已核验的关键产业事件；观点不等同于事实结论。", "");
-    if (pulse.viewpoints.length) {
+    if (publicViewpoints.length) {
       lines.push("### 人物观点", "");
-      for (const article of pulse.viewpoints) renderArticle(lines, article, "####");
+      for (const article of publicViewpoints) renderArticle(lines, article, "####");
     }
-    if (pulse.events.length) {
+    if (publicPulseEvents.length) {
       lines.push("### 关键事件", "");
-      for (const article of pulse.events) renderArticle(lines, article, "####");
+      for (const article of publicPulseEvents) renderArticle(lines, article, "####");
     }
   }
-  if (articles.length) lines.push("## 今日其它资讯", "");
-  if (!articles.length && !pulse.viewpoints.length && !pulse.events.length && !research.length) lines.push("> 今日暂无达到发布阈值的高优先级事件。严格筛选不等于停止跟踪。", "", "**仍在跟踪**：官方发布、开源项目、行业部署与重点公司动态。", sourceNetwork ? `\n*${sourceNetwork}*` : "");
-  for (const article of articles) renderArticle(lines, article, articles.length ? "###" : "##");
-  if (research.length) {
+  if (publicNews.length) lines.push("## 今日其它资讯", "");
+  if (!publicNews.length && !publicViewpoints.length && !publicPulseEvents.length && !publicResearch.length) lines.push("> 今日暂无达到发布阈值的高优先级事件。严格筛选不等于停止跟踪。", "", "**仍在跟踪**：官方发布、开源项目、行业部署与重点公司动态。", sourceNetwork ? `\n*${sourceNetwork}*` : "");
+  for (const article of publicNews) renderArticle(lines, article, publicNews.length ? "###" : "##");
+  if (publicResearch.length) {
     lines.push("## 学术与研究前沿", "", "> 近 30 天论文池每日重排；仅展示已完成中文事实简介的研究。", "");
-    for (const article of research) renderArticle(lines, article, "###");
+    for (const article of publicResearch) renderArticle(lines, article, "###");
   }
   if (sourceNetwork) lines.push(`*${sourceNetwork}*`, "");
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
@@ -46,12 +52,13 @@ export function formatHomepageDigest(dailyMarkdown: string): string {
 }
 
 export function formatWeeklyMarkdown(articles: WeeklyArticle[], week: string): string {
-  const lines = [`# 物理 AI 本周精选 — ${week}`, "", `过去 7 天 · ${articles.length} 条高影响事件 · 投融资与产业动态优先`, ""];
-  if (!articles.length) lines.push("本周暂无达到首页展示阈值的高影响事件。日报仍会持续更新。");
-  for (const article of articles) {
-    const title = article.titleZh ?? article.title;
+  const publicArticles = articles.filter(hasCompleteChineseCopy);
+  const lines = [`# 物理 AI 本周精选 — ${week}`, "", `过去 7 天 · ${publicArticles.length} 条高影响事件 · 投融资与产业动态优先`, ""];
+  if (!publicArticles.length) lines.push("本周暂无达到首页展示阈值的高影响事件。日报仍会持续更新。");
+  for (const article of publicArticles) {
+    const title = article.titleZh!;
     const meta = [`${article.kind ?? "未分类"}`, article.source, shortDate(article.publishedAt), ...article.tags.slice(0, 2).map((tag) => `#${tag}`)].join(" · ");
-    lines.push(`## [${title}](${article.link})`, "", article.summaryZh ?? "暂无原文摘要，请阅读原文。", "", `> 入选原因：${article.selectionReason}`, "", `*${meta}*`, "");
+    lines.push(`## [${title}](${article.link})`, "", article.summaryZh!, "", `> 入选原因：${article.selectionReason}`, "", `*${meta}*`, "");
   }
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");
   return lines.join("\n");

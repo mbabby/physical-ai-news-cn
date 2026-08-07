@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildProjectMetrics, formatCommunityReviewQueue, formatWeeklyReport } from "../src/project-insights.js";
+import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "../src/project-insights.js";
 import type { CandidateCompanyRegistry, CandidateSourceRegistry, DailyArchive, EventStore, SourceRegistry } from "../src/types.js";
 
 const now = new Date("2026-08-05T08:30:00Z");
@@ -21,6 +21,10 @@ test("weekly report and metrics only use public evidence-backed facts", () => {
   assert.doesNotMatch(output, /未确认融资/);
   assert.equal(metrics.publicContent.companyDossierCoverage, 1);
   assert.equal(metrics.community.stars.status, "未配置");
+  const status = formatHomepageStatus(metrics, 27, 6);
+  assert.match(status, /公司档案/);
+  assert.match(status, /27/);
+  assert.match(status, /信源健康分/);
 });
 
 test("community review queue labels candidates instead of promoting them", () => {

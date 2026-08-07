@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
+import { hasCompleteChineseCopy } from "./publication.js";
 import type { Article, ArticleKind, CapitalEvidenceStatus, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteCompetitionEntry, RouteCompetitionMap, RouteCompanySnapshot, RouteCorrection, RouteIndexEntry, TechnicalRoute, ValidationStage } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
@@ -11,6 +12,7 @@ const COMPANY_ALIASES: Record<string, string[]> = {
   "宇树科技": ["unitree", "宇树"], "优必选": ["ubtech", "优必选"], "智元机器人": ["智元机器人", "agibot"], "银河通用": ["galbot", "银河通用"], "星海图": ["星海图", "galaxea", "galaxea ai"], "众擎机器人": ["engineai", "众擎"], "傅利叶智能": ["fourier intelligence", "傅利叶"], "逐际动力": ["limx dynamics", "逐际"], "松延动力": ["noetix", "松延"], "魔法原子": ["magiclab", "魔法原子"], "乐聚机器人": ["leju robot", "乐聚"], "NEURA Robotics": ["neura robotics"], ANYbotics: ["anybotics"],
 };
 const FUNDING_WORDS = ["funding", "funded", "raises", "raised", "series a", "series b", "series c", "seed round", "venture round", "valuation", "acquisition", "融资", "投资", "收购", "估值"];
+const DISCOVERY_SOURCE = /google news|hacker news|^x\s*·/i;
 
 function id(value: string): string { return `evt-${createHash("sha256").update(value).digest("hex").slice(0, 12)}`; }
 function text(article: Article): string { return `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase(); }
@@ -205,7 +207,10 @@ function displayable(event: EventRecord): boolean {
   const fact = eventFact(event);
   // A headline alone is a useful lead for the capital tracker but not enough
   // context for the public industry feed.
-  return event.status !== "已归档" && event.evidence.some((item) => item.grade === "A" || item.grade === "B") && Boolean(fact) && hasChinese(fact!) && meaningful(fact) && fact !== event.title;
+  return event.status !== "已归档" && hasChinese(event.title) && Boolean(publicEvidence(event)) && Boolean(fact) && hasChinese(fact!) && meaningful(fact) && fact !== event.title;
+}
+function publicEvidence(event: EventRecord): EventEvidence | undefined {
+  return event.evidence.find((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE.test(item.source));
 }
 function ageInDays(value: string): number { return Math.max(0, (Date.now() - new Date(value).getTime()) / 86_400_000); }
 function freshnessScore(value: string): number {
@@ -272,7 +277,7 @@ export function formatRecentEvents(events: EventRecord[], refreshedAt = new Date
   // hidden behind yesterday's stronger stories in the same freshness bucket.
   const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a)), 6);
   const format = (event: EventRecord): string => {
-    const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+    const evidence = publicEvidence(event)!;
     return `- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`;
   };
   const lines: string[] = [`> 数据刷新至 ${refreshedDate} · 最近确证产业事件 ${updatedAt} · 关键进展按影响力排序，最新动态按更新时间排序。`, ""];
@@ -300,7 +305,7 @@ export function rankResearchArticles(articles: Article[]): Article[] {
   return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime());
 }
 export function isPublishableResearch(article: Article): boolean {
-  return Boolean(article.titleZh && article.summaryZh && hasChinese(article.titleZh) && hasChinese(article.summaryZh) && !/暂未生成|未配置摘要服务|暂无原文摘要|请阅读原文|中文简介暂未生成|原文未提供摘要/.test(article.summaryZh) && !article.scholar?.isRetracted);
+  return hasCompleteChineseCopy(article) && !article.scholar?.isRetracted;
 }
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);
@@ -335,28 +340,25 @@ export function formatResearchCards(records: ResearchRecord[], fallbackDate?: st
   }).join("\n\n");
 }
 
-function companyLink(company: CompanyProfile): string { return `[${company.name}](${company.officialUrl})`; }
-
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
   const since = Date.now() - 7 * 24 * 3_600_000;
   const weekly = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= since && homepageEligible(event));
-  const funding = dedupeByCompany(weekly.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 5);
-  const productDeployment = dedupeByCompany(weekly.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 6);
-  const tracked = companies.map((company) => ({ company, event: events.filter((event) => event.primaryEntity === company.name && homepageEligible(event)).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a))[0] })).filter((item): item is { company: CompanyProfile; event: EventRecord } => Boolean(item.event)).sort((a, b) => b.event.lastUpdatedAt.localeCompare(a.event.lastUpdatedAt) || eventPriority(b.event) - eventPriority(a.event)).slice(0, 8);
-  const lines: string[] = ["> 只展示有证据链接的公司事件。未能确认主体的融资会标为“待识别公司”，不会写入公司档案。", ""];
+  const funding = dedupeByCompany(weekly.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
+  const productDeployment = dedupeByCompany(weekly.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
+  const lines: string[] = [];
   const fundingLine = (event: EventRecord): string => {
-    const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+    const evidence = publicEvidence(event)!;
     const label = event.primaryEntity ?? "待识别公司";
     const facts = [event.funding?.round, event.funding?.amount, event.funding?.valuation].filter(Boolean).join(" · ");
     return `- **${label}** · [${headlineFor(event, true)}](${evidence.link})${facts ? ` · ${facts}` : ""} · ${event.lastUpdatedAt.slice(5, 10)}`;
   };
   const progressLine = (event: EventRecord): string => {
-    const evidence = event.evidence.find((item) => item.grade === "A") ?? event.evidence[0];
+    const evidence = publicEvidence(event)!;
     return `- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.routes.slice(0, 2).join(" / ")} · ${event.lastUpdatedAt.slice(5, 10)}`;
   };
-  lines.push("### 本周融资", "", ...(funding.length ? funding.map(fundingLine) : ["- 暂无满足证据门槛的融资事件。"]), "");
+  lines.push("### 本周融资 / 并购", "", ...(funding.length ? funding.map(fundingLine) : ["- 暂无满足证据门槛的融资或并购事件。"]), "");
   lines.push("### 本周产品 / 部署", "", ...(productDeployment.length ? productDeployment.map(progressLine) : ["- 暂无满足证据门槛的产品或部署事件。"]), "");
-  lines.push("### 持续跟踪公司", "", ...(tracked.length ? tracked.map(({ company, event }) => `- ${companyLink(company)} · ${company.routes.join(" / ")} · [${headlineFor(event, true)}](${evidenceLink(event)}) · 更新 ${event.lastUpdatedAt.slice(0, 10)}`) : ["- 正在积累可归属的持续进展。"]));
+  lines.push(`> [查看 ${companies.length} 家公司的完整档案、技术路线与资本证据](resources/companies.md)`);
   return lines.join("\n");
 }
 
@@ -407,7 +409,7 @@ const ROUTE_MAP: Array<{ route: TechnicalRoute; focus: string; approaches: strin
 function routeEvidence(events: EventRecord[], company: CompanyProfile, route: TechnicalRoute): EventRecord[] {
   return events.filter((event) => event.primaryEntity === company.name && event.routes.includes(route) && event.evidence.some((item) => item.grade === "A" || item.grade === "B"));
 }
-function evidenceLink(event: EventRecord): string { return (event.evidence.find((item) => item.grade === "A") ?? event.evidence[0])?.link ?? "#"; }
+function evidenceLink(event: EventRecord): string { return publicEvidence(event)?.link ?? "#"; }
 function compactEvent(event: EventRecord): string { return `[${headlineFor(event, true)}](${evidenceLink(event)})`; }
 function capitalLabel(events: EventRecord[]): string {
   const capital = events.filter((event) => event.type === "投融资");
