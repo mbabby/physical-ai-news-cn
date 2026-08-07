@@ -2,6 +2,60 @@
   "date": "2026-08-07",
   "articles": [
     {
+      "id": "01ceff838e07f605",
+      "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+      "link": "https://arxiv.org/abs/2607.26337v1",
+      "publishedAt": "2026-07-28T23:20:51.000Z",
+      "fetchedAt": "2026-08-02T07:29:40.051Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+      "tags": [
+        "产品",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Emma Huang"
+      ],
+      "kind": "产品发布",
+      "score": 126,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7172068454",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Carnegie Mellon University"
+        ],
+        "authors": [
+          {
+            "name": "Emma Huang",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Zih-Yun Chiu",
+            "totalCitations": 273,
+            "hIndex": 8,
+            "institutions": []
+          },
+          {
+            "name": "Neelay Joglekar",
+            "totalCitations": 15,
+            "hIndex": 2,
+            "institutions": [
+              "Carnegie Mellon University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-08-07T03:27:50.266Z"
+      },
+      "titleZh": "自主缝合中通过缝线操控间接拾取手术针",
+      "summaryZh": "该研究提出以缝线为辅助工具间接拾取手术针的自主框架，涵盖重建、抓取点选择与双臂沿线追踪，可在针被遮挡或难以接近时避免器械接触组织。在 da Vinci Research Kit 上的真实实验表明其在复杂缝线条件下仍具鲁棒性。"
+    },
+    {
       "id": "36307d4fa4526afd",
       "title": "DreamWAM: Beyond RGB Future Prediction for World Action Models",
       "link": "https://arxiv.org/abs/2608.04996v1",
@@ -22,86 +76,7 @@
       "kind": "产品发布",
       "score": 106,
       "titleZh": "DreamWAM：超越RGB未来预测的世界动作模型",
-      "summaryZh": "DreamWAM将未来预测重构为超越RGB的结构化世界建模，联合预测外观、运动、几何与语义状态，推理时仅保留RGB部署。在LIBERO、LIBERO-Plus扰动及真实世界操作任务上均超过RGB基线，代码与模型已开源。"
-    },
-    {
-      "id": "20c5339e3ae459eb",
-      "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
-      "link": "https://arxiv.org/abs/2608.01851v1",
-      "publishedAt": "2026-08-03T07:58:35.000Z",
-      "fetchedAt": "2026-08-04T03:44:48.403Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
-      "tags": [
-        "产业",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "authors": [
-        "Gaytri Jena"
-      ],
-      "kind": "公司商业",
-      "score": 126,
-      "titleZh": "权重还是技能？机器人学习技术综述",
-      "summaryZh": "该综述以\"权重对技能\"为轴线梳理机器人学习领域，按自我改进程度对代码即策略方法进行分类，并考察了六个技术族的77个代表性系统。摘要未提供真实机器人、基准或开源证据。"
-    },
-    {
-      "id": "5d41827fa30a6d06",
-      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "publishedAt": "2026-07-30T17:59:35.000Z",
-      "fetchedAt": "2026-08-02T07:29:40.051Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
-      "tags": [
-        "落地",
-        "robot",
-        "humanoid"
-      ],
-      "authors": [
-        "Lizhi Yang"
-      ],
-      "kind": "部署案例",
-      "score": 118,
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7171928651",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [
-          "California Institute of Technology",
-          "Dynamic Systems (United States)"
-        ],
-        "authors": [
-          {
-            "name": "Lizhi Yang",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Junheng Li",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Aaron D. Ames",
-            "totalCitations": 15583,
-            "hIndex": 58,
-            "institutions": [
-              "California Institute of Technology",
-              "Dynamic Systems (United States)"
-            ]
-          }
-        ],
-        "checkedAt": "2026-08-07T02:40:11.920Z"
-      },
-      "titleZh": "PAC-MAN：面向人形机器人躲避球全身安全的感知感知 CBF-RL",
-      "summaryZh": "研究提出 PAC-MAN，将控制屏障安全约束与真实机载感知结合，实现人形机器人躲避球的全身规避，并用对抗运动先验规范规避反射。在任意连杆接触基准上接近特权状态基线，并零样本部署到真实 Unitree G1，投球躲避成功率 95%，还能借语义分割躲避不同的球。"
+      "summaryZh": "DreamWAM将未来预测重构为超越RGB的结构化世界建模，用外观、运动、几何和语义的互补视图表示未来状态，推理时仅保留RGB分支。它在LIBERO及扰动基准和真实机器人操作任务上均超过RGB-only基线，代码与模型已开源。"
     },
     {
       "id": "d296eb9c0886d703",
@@ -120,8 +95,8 @@
       ],
       "kind": "部署案例",
       "score": 126,
-      "titleZh": "RedFlow：把失败重定向为流匹配 VLA 策略的动作级纠正",
-      "summaryZh": "研究提出 RedFlow，用离线强化学习把失败经验转化为动作级纠正监督，微调流匹配 VLA 策略。在 LIBERO 基准与三项真实机器人任务上，成功率由 56.7% 升至 74.7%，训练样本较 PPO、GRPO、DDPO 约少一个数量级。",
+      "titleZh": "RedFlow：将失败重定向为流匹配VLA策略的动作级纠错",
+      "summaryZh": "RedFlow提出细粒度离线强化学习框架，通过上下文感知纠错匹配与自适应重定向目标，将失败经验转化为动作级纠正监督。在LIBERO基准与三项真实操作任务上，其真实成功率由56.7%升至74.7%，并以约少一个数量级的样本比肩PPO等在策略方法。",
       "authors": [
         "Zehong Yan",
         "Junhao Li",
@@ -161,58 +136,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.799Z"
-      }
-    },
-    {
-      "id": "27057a129f8e30b6",
-      "title": "WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA",
-      "link": "https://arxiv.org/abs/2608.01035v1",
-      "publishedAt": "2026-08-02T06:45:16.000Z",
-      "fetchedAt": "2026-08-04T03:44:48.403Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-Language-Action (VLA) models have emerged as a prominent paradigm for end-to-end autonomous driving; however, their efficient deployment is severely constrained by high computational latency and exposure bias arising from sequential autoregressive decoding. Conversely, while specialized diffusion policies enable low-latency, parallel execution, training them from scratch typically yields narrow, single-task architectures that lack holistic visual-linguistic reasoning. Successfully transforming pre-trained autoregressive generalists into parallel diffusion models could combine multi-task cognitive intelligence with execution efficiency, yet this transition presents a formidable architectural challenge due to mismatched attention patterns (causal versus bidirectional) and divergent optimization objectives. To bridge this divide, we introduce WAM-Diff2, a multi-task discrete diffusion VLA framework powered by a three-stage hierarchical distillation strategy. By structuring the architectural shift through progressive block-wise adaptation, block-wise distillation, and model-wise cross-scale distillation, WAM-Diff2 preserves the underlying semantic foundations of the base model while accelerating inference. Extensive evaluations across driving understanding, perception, and planning benchmarks demonstrate that WAM-Diff2 effectively mitigates exposure bias and achieves performance parity with autoregressive baselines. Crucially, the autoregressive-to-diffusion transition yields a 2.8x decoding speedup, which scales to an ultimate 15.1x acceleration when combined with system-level optimizations including FlashInfer and CUDA Graphs.",
-      "tags": [
-        "落地",
-        "vla",
-        "vision-language-action",
-        "autonomous driving"
-      ],
-      "authors": [
-        "Zhihao Zhu"
-      ],
-      "kind": "部署案例",
-      "score": 122,
-      "titleZh": "WAM-Diff2：分层蒸馏将自回归VLA转化为高效扩散自动驾驶模型",
-      "summaryZh": "研究提出WAM-Diff2，通过三阶段分层蒸馏将自回归驾驶VLA转为多任务离散扩散模型。在驾驶理解、感知与规划基准上与自回归基线持平，解码提速2.8倍、结合系统优化达15.1倍。",
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7172382773",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [],
-        "authors": [
-          {
-            "name": "Zhihao Zhu",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Hanlin Shang",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Mingwang Xu",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          }
-        ],
-        "checkedAt": "2026-08-07T02:40:11.826Z"
+        "checkedAt": "2026-08-07T03:27:49.900Z"
       }
     }
   ],
@@ -324,7 +248,7 @@
       "title": "Robotics company raises $6M to help fund new vascular imaging platform - Cardiovascular Business",
       "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQaFBZQm1xRUVIUnUxdzFHV2ljYmFUOGMwd3RBblRFRWZpUVBJMmpGcjQ2aDhMREsyRktoQWg0M2FJMFYtWkl6X05zV3NxZ1N2Rkd5T3dIQUs4Y0dGeDlsSXZsaGJvcHo1aTg0OFJTXzJCWWlaZW5DejdfT2JhalVrQVVlLUV0OGdsSjRFZEF4dUx1U09xY1ZHT2Y3WlB6QzA2RkRjRjNZSlQ2d2xMYkQ5dmVOSTlCTElJamJZdktjaV93WlR6Vk1pTEpTNE1oOHVIVTlIRUhR?oc=5",
       "publishedAt": "2026-08-06T19:15:32.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Robotics company raises $6M to help fund new vascular imaging platform  Cardiovascular Business",
@@ -337,11 +261,10 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "机器人公司获600万美元融资，用于开发新型血管成像平台",
-      "summaryZh": "暂无原文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "机器人公司融资600万美元用于开发新型血管成像平台",
+      "summaryZh": "一家机器人公司完成600万美元融资，资金将用于支持新型血管成像平台的开发。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
@@ -351,7 +274,7 @@
       "title": "Avatar Robotics raises $6.5M seed round for teleoperated warehouse robots - Dealroom",
       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPOEo3Zm83a0NwSEtLRDlwVGtrNllpSVpDQjJWajFiQmV4ZTNrdHgwMGxJS1RCMlJENDQ0SklmMGpZcWR0Q0xDZzZCVDliYnRqWVFxeHJlNG1YSmpveWx1bEd4T0g0X1p0NXJjNVpVUS12a3dyanFfbWZobVpER3pWM1hTYjB0NkZWWHA2bHR3UTBEb0poVHlmUW5HYWtaclNiTTJ1REtEQ2Zxdw?oc=5",
       "publishedAt": "2026-08-06T16:34:00.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Avatar Robotics raises $6.5M seed round for teleoperated warehouse robots  Dealroom",
@@ -364,8 +287,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Avatar Robotics获650万美元种子轮融资，开发远程操控仓储机器人",
-      "summaryZh": "Avatar Robotics完成650万美元种子轮融资，资金将用于远程操控仓储机器人的研发与部署。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "Avatar Robotics 获 650 万美元种子轮融资，开发远程操控仓储机器人",
+      "summaryZh": "Avatar Robotics 宣布完成 650 万美元种子轮融资，资金将用于远程操控仓储机器人的开发。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -377,7 +300,7 @@
       "title": "Onconetix Acquisition Target Realbotix Secures Agreement for Humanoid Robot Appearance on Emmy Award-Winning Streaming Series - Yahoo Finance",
       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQeVYxdmpYMzNOdE02dFoyNGI0V1hUZTdTdXVXSFd2M05qMlBpd2V3UFRQWjAwLUQ0cjhGdmdzMklHN2ZhYkgtRlMxVXlwZnJ5Qkg5VU40b1c0VDdJQThydWgzbnBaSDRNY21MdnNVS3I1TUtvdi1lU2htZHdmSzdsazRqR0ZpNlVlc3FYOVUxVEJTaldEbnowRGdMUlhoOEFfd1NRODZFZWc3RlA5dUk0?oc=5",
       "publishedAt": "2026-08-06T12:30:00.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Onconetix Acquisition Target Realbotix Secures Agreement for Humanoid Robot Appearance on Emmy Award-Winning Streaming Series  Yahoo Finance",
@@ -390,8 +313,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Realbotix 人形机器人将亮相艾美奖获奖流媒体剧集",
-      "summaryZh": "Onconetix 收购目标 Realbotix 达成协议，其人形机器人将出演一部艾美奖获奖流媒体剧集。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "Onconetix 收购标的 Realbotix 签约，其人形机器人将亮相艾美奖获奖流媒体剧集",
+      "summaryZh": "Realbotix 达成协议，使其人形机器人将在一部艾美奖获奖流媒体剧集中出镜。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -403,7 +326,7 @@
       "title": "Avatar Robotics Raises $6.5M in Seed Funding - FinSMEs",
       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5",
       "publishedAt": "2026-08-06T06:48:26.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Avatar Robotics Raises $6.5M in Seed Funding  FinSMEs",
@@ -430,7 +353,7 @@
       "title": "Solinas raises $5.5M Series A1 to scale water infrastructure robotics - Dealroom",
       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQVnBmWVY5QVpmd3pzTWx4NlJlQnVjeUpzY2p1YUNXYTZpWjZhUmVsRVdGVE5RZzdBdFRXcmtMZnIydjkwRjVVWm1ldEl4N2IxR0dRbWk3MDhUM1paLVp5WGNJOUdpMjlzTGRpNTBNcHdZYzQxWkVtZXhoZ3RsRDEzMHB3U1FZaTREWF84TzV1RjhlelprYm1lVVZ5bEtSTEZQWlRIZg?oc=5",
       "publishedAt": "2026-08-06T04:10:32.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Solinas raises $5.5M Series A1 to scale water infrastructure robotics  Dealroom",
@@ -443,8 +366,83 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Solinas 完成 550 万美元 A1 轮融资，扩展水务基础设施机器人",
-      "summaryZh": "Solinas 宣布完成 550 万美元 A1 轮融资，用于扩大其水务基础设施机器人业务规模。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "Solinas 完成 550 万美元 A1 轮融资，扩大水务基础设施机器人业务",
+      "summaryZh": "Solinas 宣布完成 550 万美元 A1 轮融资，资金将用于扩大其水务基础设施机器人业务规模。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "a57ab02b9d2470bc",
+      "title": "宇树科技IPO：会翻跟头的机器人能吸引投资者吗？ - 茉莉花新闻网",
+      "link": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxON0tMUGZ2dl8xS2VPeFk0UXJXZ2dGOFBwOU9VRnZRNEtZMlg1WExQQ2JxdmxXVnhOWUdvTDRULWEyQXZGTUlLUDUxc1g4ZGl1a05XZXV4TWNNVjBleTBBYU1ESDRiMzdON2tqVkZIQXJpWEtHV2lqYUVnN1NOb2pxWEtpelNaSEhaSGl5V3pQM3NseXN5ZmJyZ3RVczRabTlXX01MQ1Vma2VGb3pwcnltbEhKWFRsUXNvbFhhZ1hIREJXbEhCZlRaY0ZuYjZ2Z28zNDk4eUxhd3dmMy1ULUVzUFRLTGR6VkhHVTlMSHlfSjVqRUlLeDBycW1oRTJ1LXRIclN0Um92cFRMZjZfUFhOTDhCQnNXZWNPcl83eG1QMEM5NnNmXy1BTjlENURoUW9Pbl9EeElxdUE?oc=5",
+      "publishedAt": "2026-08-07T03:08:06.000Z",
+      "fetchedAt": "2026-08-07T03:22:31.631Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "宇树科技IPO：会翻跟头的机器人能吸引投资者吗？  茉莉花新闻网",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 84,
+      "titleZh": "宇树科技IPO：会翻跟头的机器人能否吸引投资者",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验"
+      ]
+    },
+    {
+      "id": "c8157321a83be23d",
+      "title": "宇树科技IPO：会翻跟头的机器人能吸引投资者吗？ - 纽约时报中文网",
+      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5YWVphWlpkMmt5dUZ6V1ZxVnN3aGNNRUNJSkROdFUxNWtiX1VxdmRrRnpLMVZzcWJKUEdJTWpHSGtGOVgyX3Jadk1aSm9RbFV5djhHX2FVclo2d2FsbDZkMjNSaWYyal9PZ2lDdTMyamJObTQ?oc=5",
+      "publishedAt": "2026-08-07T02:33:21.000Z",
+      "fetchedAt": "2026-08-07T03:22:31.631Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "宇树科技IPO：会翻跟头的机器人能吸引投资者吗？  纽约时报中文网",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 84,
+      "titleZh": "宇树科技IPO：会翻跟头的机器人能吸引投资者吗？",
+      "summaryZh": "暂无原文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验"
+      ]
+    },
+    {
+      "id": "6ed66c591ebba507",
+      "title": "这家刚融资650万美元的初创公司押注：下一个风口副业是用VR头显操控机器人 - Nweon",
+      "link": "https://news.google.com/rss/articles/CBMiQ0FVX3lxTE5KX0doaVZkdVNjbTkyLXBNajJaOHQ0UHJQQ2FZeEVnU19BUmUtYmpndjRFNURjakFxUE4wLVlkUkpXNVk?oc=5",
+      "publishedAt": "2026-08-07T00:56:16.000Z",
+      "fetchedAt": "2026-08-07T03:22:31.631Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "这家刚融资650万美元的初创公司押注：下一个风口副业是用VR头显操控机器人  Nweon",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "authors": [],
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 84,
+      "titleZh": "融资650万美元的初创公司押注VR头显操控机器人副业",
+      "summaryZh": "一家融资650万美元的初创公司押注用VR头显操控机器人，将其视为下一个风口副业。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -456,7 +454,7 @@
       "title": "1.4亿元融资落地！陶世智能造出机器人“第四类减速器” - 机器人大讲堂",
       "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE9BTWdlRlZsLWc2Ni03ZWNZNVdYbjRSVGpiMHdXZjBfalM0MHlUSFg4T1FxMHFwZ0xYcDdaWkhuVmVNcGpnWHJ2bXRTSVQ?oc=5",
       "publishedAt": "2026-08-06T18:03:00.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.332Z",
+      "fetchedAt": "2026-08-07T03:22:31.631Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 4,
       "excerpt": "1.4亿元融资落地！陶世智能造出机器人“第四类减速器”  机器人大讲堂",
@@ -468,11 +466,10 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 84,
-      "titleZh": "陶世智能完成1.4亿元融资，造出机器人“第四类减速器”",
-      "summaryZh": "暂无原文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "陶世智能1.4亿元融资落地，造出机器人“第四类减速器”",
+      "summaryZh": "陶世智能宣布完成1.4亿元融资，并称造出机器人“第四类减速器”。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
@@ -482,7 +479,7 @@
       "title": "NavVis Raises $85 Million Series D To Build Spatial Data Foundation For Physical AI - Pulse 2.0",
       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQRGZIZV84LVBsemF1TVc3V3h2cXI3RUJqT2lZRF9wbUlLQVZXZmtueHhUM0tkdnNWWm1WR0VRYVAxbl9DeXBpMG5ibURza3IxV2pXcWgzYWZNSWFnRG16YUN0cUM2ZVNQZllWN2ktaFRBeV9PVXRZNWs5WW9UZ3V4R2FpbXdBeHluYjI1Ylp0ZEJwbkd3TnlLVWxnOUVocnlzc01LZ9IBqgFBVV95cUxNdFJLbWRLSFBYdTF5SG0wMzcwaGFibFdETEpxM25aNy0ycldJRWMwcU51dHlUUGNwX3loNWFOTHdpMEh4bm0wRHhyaFAwOEdYZl9lNk5QQmhxMC1aSjFKRmJGT0tkN0Rrd0JOUVJVa1VBcXpkUTVHZUw4ODE0MjcyWk13a0ctVS1mMG5vSVB6S3pLM3NYdUM4RWpZLURjcm00MnNfRmt2YlJMZw?oc=5",
       "publishedAt": "2026-08-06T17:36:41.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
+      "fetchedAt": "2026-08-07T03:22:31.684Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "NavVis Raises $85 Million Series D To Build Spatial Data Foundation For Physical AI  Pulse 2.0",
@@ -494,57 +491,7 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 84,
-      "titleZh": "NavVis 完成 8500 万美元 D 轮融资，构建面向物理 AI 的空间数据基础",
-      "summaryZh": "NavVis 宣布完成 8500 万美元 D 轮融资，资金将用于构建面向物理 AI 的空间数据基础。摘要未提供真实机器人、基准或开源证据。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "a01d8568d3cd0d8c",
-      "title": "Vangrid raises $9M seed to build a decentralised spatial intelligence network for the Physical AI era - Tech.eu",
-      "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPamNTaTVxYzNWbDV5QWp5MGFkU21UbDE3Q2xuVG13b2NXQTZJSTlPYnRTcU83VzN6cjlmNDExNTdsMGQ0Q2JRZmlJeURUMzY1WWctQ3dkSHM1YVRWQVBMV250Y1VWTzZuRXdiX3RQcjQzZnQ2NGluTGo1di1yd0JIWFdJOG1ObUxlWERqdjU3aXI1dW85RERuVlIzb3FCbzBTanpkWUNWWndOeXdIMTdCUnhDNTFvUXFJUjd4cE9wdkktS2ptbGlB?oc=5",
-      "publishedAt": "2026-08-06T16:01:00.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 4,
-      "excerpt": "Vangrid raises $9M seed to build a decentralised spatial intelligence network for the Physical AI era  Tech.eu",
-      "tags": [
-        "投融资",
-        "physical ai"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 84,
-      "titleZh": "Vangrid 获 900 万美元种子轮融资，构建面向物理 AI 时代的去中心化空间智能网络",
-      "summaryZh": "Vangrid 完成 900 万美元种子轮融资，资金用于构建面向物理 AI 时代的去中心化空间智能网络。摘要未提供真实机器人、基准或开源证据。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "c3f6d4246ab142c8",
-      "title": "NavVis Raises USD 85M Series D Round to Supply the Data Foundation for Physical AI - 01net",
-      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOY25sMVlxczNCVUlaQ1ZOYTBtSzMwendUcHhhTGFZeHZBUE1uakxBYzhQTEotV2p3WHhSMXVsQnZ0aHFkX0RwVnAzdWJYUW01NGRJMWRFRU1BQXF5R0lrNEV2MGR3ZEs5Nm56MDg5djhqcUVpRmdmNHlrQmZSdEpZUjk4VVZpTG5rQzBqbmQ1ZmNvcVdjT0c3eDIzOG9WMXZyOU4zT0M4dw?oc=5",
-      "publishedAt": "2026-08-06T16:00:00.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.353Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 4,
-      "excerpt": "NavVis Raises USD 85M Series D Round to Supply the Data Foundation for Physical AI  01net",
-      "tags": [
-        "投融资",
-        "physical ai"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 84,
-      "titleZh": "NavVis 完成 8500 万美元 D 轮融资，为物理 AI 提供数据基础",
+      "titleZh": "NavVis完成8500万美元D轮融资，为物理AI构建空间数据基础",
       "summaryZh": "暂无原文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -554,82 +501,59 @@
       ]
     },
     {
-      "id": "7360158eac52eabe",
-      "title": "让机器人的交互界面像手机一样直观，Enigma获7100万美元种子融资- 产业链 - 光通信Pro",
-      "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBMcGVHQWtZRzZERTQzQXF3cmNEOXBNVjBYNFZLQ2toTzlpQlJLN1FEY21fNU9Pc1oxYjRScnBBYnRBRUlKX2s5THVlNkdPdmp4NlBYX1lMcw?oc=5",
-      "publishedAt": "2026-08-06T12:10:15.000Z",
-      "fetchedAt": "2026-08-07T02:35:06.332Z",
-      "source": "Google News · 中国具身融资",
-      "sourceWeight": 4,
-      "excerpt": "让机器人的交互界面像手机一样直观，Enigma获7100万美元种子融资- 产业链  光通信Pro",
-      "tags": [
-        "投融资",
-        "机器人"
-      ],
-      "authors": [],
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 84,
-      "titleZh": "Enigma获7100万美元种子融资，打造手机般直观的机器人交互界面",
-      "summaryZh": "Enigma致力于让机器人的交互界面像手机一样直观，并因此获得7100万美元种子融资。摘要未提供真实机器人、基准或开源证据。",
-      "stage": "待公司主体确认",
-      "holdReasons": [
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
-      ]
-    },
-    {
-      "id": "01ceff838e07f605",
-      "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
-      "link": "https://arxiv.org/abs/2607.26337v1",
-      "publishedAt": "2026-07-28T23:20:51.000Z",
+      "id": "5d41827fa30a6d06",
+      "title": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
+      "link": "https://arxiv.org/abs/2607.28623v1",
+      "publishedAt": "2026-07-30T17:59:35.000Z",
       "fetchedAt": "2026-08-02T07:29:40.051Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 9,
-      "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+      "excerpt": "We present PAC-MAN, a perception-aware CBF-RL framework that couples control-barrier safety with deployment-realistic onboard sensing for whole-body humanoid dodgeball. The deployed policy sees the ball only as segmentation-masked depth from a head-mounted camera, while training-time CBF guidance represents clearance to every body link, and an adversarial motion prior regularizes the resulting evasive reflexes. We evaluate on a controlled any-link contact benchmark with seeded throws in two regimes: single throws and a deployment loop in which the robot walks back to its station and recovers between throws. On this benchmark, the policy comes within a few points of a privileged state oracle: a fixed onboard camera alone is adequate for evasion. We find that usable barrier structure depends on perceptual observability: Joint-CBF gives the best performance with accurate ball states, degrades under fixed-camera observations when used only as training guidance, and recovers with a ball-tracking gimbal or privileged runtime filter. We therefore deploy a lightweight Link-CBF policy zero-shot on the Unitree G1 in the real world, where it tolerates imperfect perception, succeeds on 95% of throws, and uses semantic segmentation to dodge different balls.",
       "tags": [
-        "产品",
+        "落地",
         "robot",
-        "manipulation"
+        "humanoid"
       ],
       "authors": [
-        "Emma Huang"
+        "Lizhi Yang"
       ],
-      "kind": "产品发布",
-      "score": 126,
+      "kind": "部署案例",
+      "score": 118,
       "scholar": {
         "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7172068454",
+        "workId": "https://openalex.org/W7171928651",
         "citedByCount": 0,
         "isRetracted": false,
         "institutions": [
-          "Carnegie Mellon University"
+          "California Institute of Technology",
+          "Dynamic Systems (United States)"
         ],
         "authors": [
           {
-            "name": "Emma Huang",
+            "name": "Lizhi Yang",
             "totalCitations": 0,
             "hIndex": 0,
             "institutions": []
           },
           {
-            "name": "Zih-Yun Chiu",
-            "totalCitations": 273,
-            "hIndex": 8,
+            "name": "Junheng Li",
+            "totalCitations": 0,
+            "hIndex": 0,
             "institutions": []
           },
           {
-            "name": "Neelay Joglekar",
-            "totalCitations": 15,
-            "hIndex": 2,
+            "name": "Aaron D. Ames",
+            "totalCitations": 15583,
+            "hIndex": 58,
             "institutions": [
-              "Carnegie Mellon University"
+              "California Institute of Technology",
+              "Dynamic Systems (United States)"
             ]
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.848Z"
+        "checkedAt": "2026-08-07T03:27:50.218Z"
       },
-      "titleZh": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+      "titleZh": "PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -703,7 +627,62 @@
             ]
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.873Z"
+        "checkedAt": "2026-08-07T03:27:50.135Z"
+      },
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "27057a129f8e30b6",
+      "title": "WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA",
+      "link": "https://arxiv.org/abs/2608.01035v1",
+      "publishedAt": "2026-08-02T06:45:16.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Vision-Language-Action (VLA) models have emerged as a prominent paradigm for end-to-end autonomous driving; however, their efficient deployment is severely constrained by high computational latency and exposure bias arising from sequential autoregressive decoding. Conversely, while specialized diffusion policies enable low-latency, parallel execution, training them from scratch typically yields narrow, single-task architectures that lack holistic visual-linguistic reasoning. Successfully transforming pre-trained autoregressive generalists into parallel diffusion models could combine multi-task cognitive intelligence with execution efficiency, yet this transition presents a formidable architectural challenge due to mismatched attention patterns (causal versus bidirectional) and divergent optimization objectives. To bridge this divide, we introduce WAM-Diff2, a multi-task discrete diffusion VLA framework powered by a three-stage hierarchical distillation strategy. By structuring the architectural shift through progressive block-wise adaptation, block-wise distillation, and model-wise cross-scale distillation, WAM-Diff2 preserves the underlying semantic foundations of the base model while accelerating inference. Extensive evaluations across driving understanding, perception, and planning benchmarks demonstrate that WAM-Diff2 effectively mitigates exposure bias and achieves performance parity with autoregressive baselines. Crucially, the autoregressive-to-diffusion transition yields a 2.8x decoding speedup, which scales to an ultimate 15.1x acceleration when combined with system-level optimizations including FlashInfer and CUDA Graphs.",
+      "tags": [
+        "落地",
+        "vla",
+        "vision-language-action",
+        "autonomous driving"
+      ],
+      "authors": [
+        "Zhihao Zhu"
+      ],
+      "kind": "部署案例",
+      "score": 122,
+      "titleZh": "WAM-Diff2: Hierarchical AR-to-Diffusion Distillation for Highly Efficient Autonomous Driving VLA",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7172382773",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Zhihao Zhu",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Hanlin Shang",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Mingwang Xu",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-08-07T03:27:50.492Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -746,7 +725,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.764Z"
+        "checkedAt": "2026-08-07T03:27:50.067Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -803,7 +782,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.643Z"
+        "checkedAt": "2026-08-07T03:27:50.244Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -860,9 +839,36 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.829Z"
+        "checkedAt": "2026-08-07T03:27:49.992Z"
       },
       "titleZh": "DLAM: Distributional Latent Actions with Temporal Constraints",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介"
+      ]
+    },
+    {
+      "id": "20c5339e3ae459eb",
+      "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+      "link": "https://arxiv.org/abs/2608.01851v1",
+      "publishedAt": "2026-08-03T07:58:35.000Z",
+      "fetchedAt": "2026-08-04T03:44:48.403Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
+      "tags": [
+        "产业",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Gaytri Jena"
+      ],
+      "kind": "公司商业",
+      "score": 126,
+      "titleZh": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -924,7 +930,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-08-07T02:40:11.893Z"
+        "checkedAt": "2026-08-07T03:27:50.366Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -937,8 +943,8 @@
       "component": "LLM",
       "status": "部分降级",
       "attempted": 22,
-      "succeeded": 15,
-      "failed": 7,
+      "succeeded": 13,
+      "failed": 9,
       "detail": "部分摘要调用失败，相关内容已留在候选层。"
     },
     {
