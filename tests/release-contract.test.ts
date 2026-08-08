@@ -23,6 +23,7 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /timeout --signal=TERM --kill-after=30s 15m/);
   assert.match(workflow, /pnpm run validate:release/);
   assert.match(workflow, /review\/pipeline-health\.json/);
+  assert.match(workflow, /package-manager-cache:\s*false/);
 });
 
 test("independent watchdog checks freshness without write permissions", async () => {
@@ -31,4 +32,5 @@ test("independent watchdog checks freshness without write permissions", async ()
   assert.match(workflow, /contents:\s*read/);
   assert.doesNotMatch(workflow, /contents:\s*write/);
   assert.match(workflow, /pnpm run validate:health/);
+  assert.match(workflow, /package-manager-cache:\s*false/);
 });
