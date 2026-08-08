@@ -42,7 +42,7 @@ function replaceSection(readme: string, start: string, end: string, content: str
 }
 function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], researchPoolSize: number, metrics: ReturnType<typeof buildProjectMetrics>, refreshedAt: Date, researchFallbackDate?: string): string {
   const withStatus = replaceSection(readme, statusStart, statusEnd, formatHomepageStatus(metrics, companies.length, researchPoolSize));
-  return replaceSection(replaceSection(replaceSection(withStatus, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
+  return replaceSection(replaceSection(replaceSection(withStatus, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events, refreshedAt)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {

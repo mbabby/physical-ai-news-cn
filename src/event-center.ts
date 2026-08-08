@@ -340,8 +340,15 @@ export function formatResearchCards(records: ResearchRecord[], fallbackDate?: st
   }).join("\n\n");
 }
 
-export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[]): string {
-  const since = Date.now() - 7 * 24 * 3_600_000;
+function isoWeekStart(value: Date): number {
+  const start = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate()));
+  const weekday = start.getUTCDay() || 7;
+  start.setUTCDate(start.getUTCDate() - weekday + 1);
+  return start.getTime();
+}
+
+export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[], now = new Date()): string {
+  const since = isoWeekStart(now);
   const weekly = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= since && homepageEligible(event));
   const funding = dedupeByCompany(weekly.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
   const productDeployment = dedupeByCompany(weekly.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);

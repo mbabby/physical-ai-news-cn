@@ -77,6 +77,14 @@ export const SOURCES: SourceConfig[] = [
   },
   {
     type: "rss",
+    name: "The Robot Report",
+    url: "https://www.therobotreport.com/feed/",
+    weight: 8,
+    keywords: ["robot", "robotics", "humanoid", "physical ai", "funding", "raises", "investment", "deployment"],
+    tier: "权威产业媒体", status: "已启用", publicationPolicy: "可作为独立报道",
+  },
+  {
+    type: "rss",
     name: "Google News · Robotics Capital",
     url: "https://news.google.com/rss/search?q=%28robotics%20OR%20humanoid%20OR%20%22physical%20AI%22%20OR%20embodied%29%20%28funding%20OR%20raises%20OR%20%22Series%20A%22%20OR%20%22Series%20B%22%20OR%20acquisition%29&hl=en-US&gl=US&ceid=US:en",
     weight: 6,

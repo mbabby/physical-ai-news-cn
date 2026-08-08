@@ -45,3 +45,36 @@ test("resolves a funding lead to an existing Chinese company profile without tre
   assert.equal(registry.companies[0].officialUrl, galaxea.officialUrl);
   assert.notEqual(registry.companies[0].status, "已交叉核验");
 });
+
+test("uses distinct Google News publishers only to raise a lead into observation", () => {
+  const first = updateCandidateCompanies(undefined, [funding({
+    id: "robot-report", source: "Google News · Robotics Capital", sourceTier: "线索发现层",
+    link: "https://news.google.com/rss/articles/one", title: "Avatar Robotics raises $6.5M seed round - The Robot Report",
+    titleZh: "Avatar Robotics 完成 650 万美元种子轮融资",
+  })], new Date("2026-08-08T01:00:00Z"));
+  const second = updateCandidateCompanies(first, [funding({
+    id: "tech-eu", source: "Google News · Robotics Capital", sourceTier: "线索发现层",
+    link: "https://news.google.com/rss/articles/two", title: "Avatar Robotics raises $6.5M seed round - Tech.eu",
+    titleZh: "Avatar Robotics 获 650 万美元种子轮融资",
+  })], new Date("2026-08-08T02:00:00Z"));
+  assert.equal(second.companies.length, 1);
+  assert.equal(second.companies[0].name, "Avatar Robotics");
+  assert.equal(second.companies[0].status, "观察中");
+  assert.notEqual(second.companies[0].status, "已交叉核验");
+  assert.deepEqual(second.companies[0].evidence.map((item) => item.publisher), ["The Robot Report", "Tech.eu"]);
+});
+
+test("merges descriptive aliases but rejects an unnamed incubator subject", () => {
+  const existing = updateCandidateCompanies(undefined, [funding({
+    title: "Avatar Robotics raises seed funding", titleZh: "Avatar Robotics 完成种子轮融资",
+  })], new Date("2026-08-07T01:00:00Z"));
+  existing.companies.push({ ...existing.companies[0], id: "bad-existing", name: "IIT Madras 孵化初创公司", aliases: ["IIT Madras 孵化初创公司"], evidence: [] });
+  const next = updateCandidateCompanies(existing, [
+    funding({ id: "dirty", title: "Avatar Robotics raises funding", titleZh: "用 VR 头显远程操控仓库机器人，Avatar Robotics 获融资", link: "https://news.example.com/avatar-two" }),
+    funding({ id: "unnamed", title: "IIT Madras-incubated startup raises $5.5M", titleZh: "IIT Madras 孵化初创公司获 550 万美元融资", link: "https://news.example.com/unnamed" }),
+    funding({ id: "park", title: "Robotics industrial park investment", titleZh: "佛山具身智能视觉感知产业园揭牌，总投资 73 亿元", link: "https://news.example.com/park" }),
+  ], new Date("2026-08-08T01:00:00Z"));
+  assert.equal(next.companies.length, 1);
+  assert.equal(next.companies[0].name, "Avatar Robotics");
+  assert.equal(next.companies[0].evidence.length, 2);
+});

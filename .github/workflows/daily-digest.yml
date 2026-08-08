@@ -8,6 +8,9 @@ on:
       - "events/companies.json"
       - ".github/workflows/daily-digest.yml"
   schedule:
+    # 提前探测：00:00 UTC = 北京时间 08:00。GitHub cron 可能排队，
+    # 多个幂等触发点提高当天按时产出的概率；已有机器人日报时会立即跳过。
+    - cron: "0 0 * * *"
     # 主任务：00:30 UTC = 北京时间 08:30
     - cron: "30 0 * * *"
     # 兜底任务：01:15 UTC = 北京时间 09:15。仅当主任务没有产出当天日报时运行。
@@ -45,13 +48,15 @@ jobs:
         shell: bash
         run: |
           echo "run=true" >> "$GITHUB_OUTPUT"
-          if [[ "${{ github.event.schedule }}" != "15 1 * * *" ]]; then
+          # Every scheduled trigger is idempotent. The earliest trigger that
+          # reaches a runner generates the digest; later delayed triggers skip.
+          if [[ -z "${{ github.event.schedule }}" ]]; then
             exit 0
           fi
           digest_date="$(TZ=Asia/Shanghai date +%F)"
           if git log --format='%an' --since="${digest_date} 00:00:00 +0800" -- "daily/${digest_date}.md" | grep -qx "physical-ai-news-bot"; then
             echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "Primary digest already committed for ${digest_date}; fallback skipped."
+            echo "A digest was already committed for ${digest_date}; this scheduled retry is skipped."
           fi
       - uses: actions/setup-node@v4
         if: steps.fallback.outputs.run == 'true'

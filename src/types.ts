@@ -284,7 +284,7 @@ export interface CandidateCompany {
   officialUrl?: string;
   firstSeenAt: string;
   lastSeenAt: string;
-  evidence: Array<{ link: string; source: string; sourceWeight: number; publishedAt: string; title: string }>;
+  evidence: Array<{ link: string; source: string; sourceWeight: number; publishedAt: string; title: string; publisher?: string }>;
   openQuestions: string[];
 }
 

@@ -32,6 +32,14 @@ test("keeps discovery-only sources out of public event and company surfaces", ()
   assert.doesNotMatch(formatCompanyRadar([], store.events), /Gemini Robotics/);
 });
 
+test("company radar uses the current ISO week instead of a rolling seven-day label", () => {
+  const old = upsertEvents(undefined, [article()], new Date("2026-08-01T16:00:00Z"));
+  const current = upsertEvents(old, [article({ id: "weekly", link: "https://deepmind.google/weekly", titleZh: "Google DeepMind 发布本周机器人模型", title: "Google DeepMind launches weekly robotics model" })], new Date("2026-08-04T08:00:00Z"));
+  const output = formatCompanyRadar([], current.events, new Date("2026-08-08T03:00:00Z"));
+  assert.match(output, /发布本周机器人模型/);
+  assert.doesNotMatch(output, /Google DeepMind 发布 Gemini Robotics/);
+});
+
 test("keeps the latest successful research cards visible when arXiv is temporarily unavailable", () => {
   const output = formatResearchUpdates([article({ title: "RoboBRIDGE", titleZh: "RoboBRIDGE：面向真实机器人的稳健策略框架" })], "2026-08-01");
   assert.match(output, /arXiv 暂未刷新/);
