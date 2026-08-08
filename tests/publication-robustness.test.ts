@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { preferKnownGoodArticles, recoverPublishedResearchRecords } from "../src/publication.js";
-import { validatePublication } from "../src/runtime/validation.js";
-import type { Article, DailyArchive, EventStore, ResearchRecord } from "../src/types.js";
+import { validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
+import type { Article, DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../src/types.js";
 
 const article = (id: string, complete = true): Article => ({
   id, title: `Source ${id}`, link: `https://example.com/${id}`, publishedAt: new Date("2026-08-08T00:00:00Z"), fetchedAt: new Date("2026-08-08T01:00:00Z"), source: "Official", sourceWeight: 10, excerpt: "source fact", tags: [],
@@ -36,4 +36,17 @@ test("published research archives remain the quality baseline when registry copy
   assert.equal(recovered.length, 1);
   assert.equal(recovered[0]?.article.titleZh, "物理智能机器人论文");
   assert.match(recovered[0]?.article.summaryZh ?? "", /真实机器人基准/);
+});
+
+test("cross-file contract accepts matching archive, manifest and history", () => {
+  const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")], candidates: [], sourceOutcomes: [{ source: "Official", status: "success", fetchedArticles: 1 }], runtimeStatus: [] };
+  const manifest: RunManifest = { schemaVersion: 1, runId: "2026-08-08-test", date: archive.date, startedAt: "2026-08-08T00:00:00Z", finishedAt: "2026-08-08T00:01:00Z", status: "success", quality: { publicIndustryItems: 1, publicResearchItems: 0, candidates: 0, sourceFailures: 0 }, services: [], outputs: 3 };
+  const history: RunHistory = { schemaVersion: 1, updatedAt: manifest.finishedAt, runs: [manifest] };
+  assert.doesNotThrow(() => validatePublicationArtifacts(archive, manifest, history));
+});
+
+test("cross-file contract rejects mismatched counts and service receipts", () => {
+  const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")], candidates: [], runtimeStatus: [{ component: "LLM", status: "成功", attempted: 1, succeeded: 1, failed: 0, detail: "ok" }] };
+  const manifest: RunManifest = { schemaVersion: 1, runId: "2026-08-08-test", date: archive.date, startedAt: "2026-08-08T00:00:00Z", finishedAt: "2026-08-08T00:01:00Z", status: "success", quality: { publicIndustryItems: 0, publicResearchItems: 0, candidates: 2, sourceFailures: 0 }, services: [{ component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "bad" }], outputs: 1 };
+  assert.throws(() => validatePublicationArtifacts(archive, manifest), /公开条目计数不一致[\s\S]*候选条目计数[\s\S]*LLM 状态/);
 });

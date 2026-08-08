@@ -38,7 +38,7 @@ jobs:
     timeout-minutes: 22
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Sync latest main before generation
         # A queued manual/push run can start just after the preceding digest
         # commits the same daily file. Generate from that newest commit, not
@@ -60,7 +60,7 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
             echo "A digest was already committed for ${digest_date}; this scheduled retry is skipped."
           fi
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.fallback.outputs.run == 'true'
         with:
           node-version: 24
@@ -112,6 +112,7 @@ jobs:
           jq -r '.runtimeStatus[] | "- \(.component)：\(.status)；请求 \(.attempted)，成功 \(.succeeded)，失败 \(.failed)。\(.detail)"' "daily/${digest_date}.json" >> "$GITHUB_STEP_SUMMARY"
           echo "### 发布事务" >> "$GITHUB_STEP_SUMMARY"
           jq -r '"- 状态：\(.status)；公开产业 \(.quality.publicIndustryItems) 条，研究 \(.quality.publicResearchItems) 条，候选 \(.quality.candidates) 条，失败信源 \(.quality.sourceFailures) 个。"' review/run-manifest.json >> "$GITHUB_STEP_SUMMARY"
+          jq -r '"- 连续成功发布：\(.consecutiveSuccessfulPublications) 次；最近成功率：\((.recentSuccessRate * 100 | round))%；健康状态：\(.status)。"' review/pipeline-health.json >> "$GITHUB_STEP_SUMMARY"
       - name: Commit updated digest
         id: commit_digest
         if: steps.fallback.outputs.run == 'true'

@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { FileTransaction, readJsonStrict } from "../src/runtime/storage.js";
+import { FileTransaction, readJsonStrict, withFileLock } from "../src/runtime/storage.js";
 
 test("readJsonStrict distinguishes missing optional state from corruption", async () => {
   const directory = await mkdtemp(join(tmpdir(), "physical-ai-json-"));
@@ -32,4 +32,22 @@ test("FileTransaction restores the last known good files after a swap failure", 
   await assert.rejects(() => transaction.commit(), /已回滚/);
   assert.equal(await readFile(first, "utf8"), "old-one");
   assert.equal(await readFile(second, "utf8"), "old-two");
+});
+
+test("withFileLock rejects an overlapping generator and releases after completion", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "physical-ai-lock-"));
+  const lock = join(directory, "generation.lock");
+  await withFileLock(lock, async () => {
+    await assert.rejects(() => withFileLock(lock, async () => undefined), /已有日报生成任务/);
+  });
+  assert.equal(await withFileLock(lock, async () => "released"), "released");
+});
+
+test("withFileLock reclaims a stale lock left by a killed process", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "physical-ai-stale-lock-"));
+  const lock = join(directory, "generation.lock");
+  await writeFile(lock, "stale", "utf8");
+  const old = new Date("2026-08-01T00:00:00Z");
+  await utimes(lock, old, old);
+  assert.equal(await withFileLock(lock, async () => "recovered", 1_000), "recovered");
 });

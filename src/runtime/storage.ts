@@ -1,4 +1,4 @@
-import { access, mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
+import { access, mkdir, open, readFile, rename, stat, unlink, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
 export interface JsonReadOptions<T> {
@@ -80,5 +80,39 @@ export class FileTransaction {
       await Promise.all(prepared.flatMap((file) => [unlink(file.temp).catch(() => undefined), unlink(file.backup).catch(() => undefined)]));
       throw new Error("输出事务提交失败；已回滚并保留上一版公开内容。", { cause: error });
     }
+  }
+}
+
+/** Cross-process lock for manual, scheduled and recovery invocations. GitHub
+ * concurrency protects hosted runs; this also protects local/CLI reruns and
+ * safely reclaims a lock left behind by a killed process. */
+export async function withFileLock<T>(path: string, task: () => Promise<T>, staleAfterMs = 30 * 60 * 1_000): Promise<T> {
+  await mkdir(dirname(path), { recursive: true });
+  const acquire = async (allowRecovery: boolean): Promise<Awaited<ReturnType<typeof open>>> => {
+    try {
+      const handle = await open(path, "wx");
+      try {
+        await handle.writeFile(JSON.stringify({ pid: process.pid, acquiredAt: new Date().toISOString() }) + "\n", "utf8");
+      } catch (error) {
+        await handle.close().catch(() => undefined);
+        await unlink(path).catch(() => undefined);
+        throw error;
+      }
+      return handle;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+      if (!allowRecovery) throw new Error("已有日报生成任务持有运行锁；本轮安全退出，避免并发覆盖。");
+      const details = await stat(path).catch(() => undefined);
+      if (!details || Date.now() - details.mtimeMs <= staleAfterMs) throw new Error("已有日报生成任务持有运行锁；本轮安全退出，避免并发覆盖。");
+      await unlink(path).catch(() => undefined);
+      return acquire(false);
+    }
+  };
+  const handle = await acquire(true);
+  try {
+    return await task();
+  } finally {
+    await handle.close().catch(() => undefined);
+    await unlink(path).catch(() => undefined);
   }
 }

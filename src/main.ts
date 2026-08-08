@@ -21,11 +21,12 @@ import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./compan
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
-import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
-import { FileTransaction, isArray, isObject, readJsonStrict } from "./runtime/storage.js";
+import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
 import { validatePublication } from "./runtime/validation.js";
+import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -139,7 +140,7 @@ function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["
   return lines.join("\n");
 }
 
-async function main(): Promise<void> {
+async function generate(): Promise<void> {
   const startedAt = new Date();
   const transaction = new FileTransaction();
   const writeFile = async (path: string, content: string, _encoding?: string): Promise<void> => { transaction.stage(path, content); };
@@ -310,7 +311,7 @@ async function main(): Promise<void> {
   validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousPublicRecords.length });
   await writeFile(readmePath, readme, "utf8");
   const finishedAt = new Date();
-  const runManifest = {
+  const runManifest: RunManifest = {
     schemaVersion: 1,
     runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
     date: archive.date,
@@ -319,10 +320,22 @@ async function main(): Promise<void> {
     status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
     quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
     services: statuses,
-    outputs: transaction.size + 1,
+    outputs: transaction.size + 3,
   };
+  const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
+    optional: true,
+    label: "运行历史",
+    validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
+  });
+  const runHistory = updateRunHistory(previousRunHistory, runManifest);
+  const pipelineHealth = buildPipelineHealth(runHistory, finishedAt);
   await writeFile(join(reviewDir, "run-manifest.json"), JSON.stringify(runManifest, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "run-history.json"), JSON.stringify(runHistory, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "pipeline-health.json"), JSON.stringify(pipelineHealth, null, 2) + "\n", "utf8");
   await transaction.commit();
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
+}
+async function main(): Promise<void> {
+  await withFileLock(join(root, ".daily-generation.lock"), generate);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

@@ -1,0 +1,34 @@
+name: Pipeline health watchdog
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/runtime/health.ts"
+      - "src/validate-health.ts"
+      - "review/run-history.json"
+      - ".github/workflows/pipeline-health.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: physical-ai-pipeline-health
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - name: Check publication freshness and run continuity
+        run: pnpm run validate:health

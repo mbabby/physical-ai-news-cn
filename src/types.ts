@@ -356,6 +356,47 @@ export interface RuntimeStatus {
   detail: string;
 }
 
+export type RunState = "success" | "degraded" | "failed";
+
+/** Credential-free publication receipt. It is intentionally small enough to
+ * keep as a rolling audit trail and strict enough to compare with the files
+ * produced by the same transaction. */
+export interface RunManifest {
+  schemaVersion: 1;
+  runId: string;
+  date: string;
+  startedAt: string;
+  finishedAt: string;
+  status: RunState;
+  quality: {
+    publicIndustryItems: number;
+    publicResearchItems: number;
+    candidates: number;
+    sourceFailures: number;
+  };
+  services: RuntimeStatus[];
+  outputs: number;
+}
+
+export interface RunHistory {
+  schemaVersion: 1;
+  updatedAt: string;
+  runs: RunManifest[];
+}
+
+export interface PipelineHealth {
+  schemaVersion: 1;
+  checkedAt: string;
+  status: "healthy" | "degraded" | "stale";
+  latestRunId: string;
+  latestDate: string;
+  consecutiveSuccessfulPublications: number;
+  recentRunCount: number;
+  recentSuccessRate: number;
+  latestPublicItems: number;
+  reasons: string[];
+}
+
 export interface IndustryPulse {
   viewpoints: Article[];
   events: Article[];
