@@ -11,6 +11,12 @@ on:
       - "src/**"
       - "README.md"
   workflow_dispatch:
+  # Commits made with GITHUB_TOKEN do not emit a new push workflow. Wait for
+  # the complete digest job, then explicitly check out the latest main so a
+  # just-pushed bot commit cannot be missed because of ref propagation delay.
+  workflow_run:
+    workflows: ["Daily physical AI digest"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -23,12 +29,15 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

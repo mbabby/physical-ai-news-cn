@@ -26,6 +26,14 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /package-manager-cache:\s*false/);
 });
 
+test("Pages deployment follows a completed digest and checks out latest main", async () => {
+  const workflow = await readFile(join(root, ".github", "workflows", "deploy-pages.yml"), "utf8");
+  assert.match(workflow, /workflow_run:/);
+  assert.match(workflow, /workflows:\s*\["Daily physical AI digest"\]/);
+  assert.match(workflow, /workflow_run\.conclusion == 'success'/);
+  assert.match(workflow, /ref:\s*main/);
+});
+
 test("independent watchdog checks freshness without write permissions", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "pipeline-health.yml"), "utf8");
   assert.match(workflow, /cron: "17 \*\/3 \* \* \*"/);
