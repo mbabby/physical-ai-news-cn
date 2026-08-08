@@ -4,12 +4,12 @@
 
 ## 候选资源
 
-- [DreamWAM：超越 RGB 未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) · 真实机器人 / 基准 / 开源
-- [AtVLA：面向精细操控的自适应视觉细化](https://arxiv.org/abs/2608.02197v1) · 真实机器人 / 基准
+- [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) · 真实机器人 / 基准 / 开源
+- [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) · 真实机器人 / 基准
 
 ## 常青资源候选
 
-- [借助缝线操作实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1) · 真实机器人 · CMU
+- 暂无。
 
 ## 里程碑精读候选
 
