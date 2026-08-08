@@ -42,3 +42,17 @@ test("independent watchdog checks freshness without write permissions", async ()
   assert.match(workflow, /pnpm run validate:health/);
   assert.match(workflow, /package-manager-cache:\s*false/);
 });
+
+test("weekly release publishes a stable evidence-backed brief", async () => {
+  const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
+  assert.match(workflow, /cron: "0 13 \* \* 0"/);
+  assert.match(workflow, /contents:\s*write/);
+  assert.match(workflow, /description: "Optional ISO week to publish \(YYYY-Www\)/);
+  assert.match(workflow, /find weekly .* -name '\?\?\?\?-W\?\?-report\.md'/);
+  assert.match(workflow, /\^\[0-9\]\{4\}-W\(0\[1-9\]\|\[1-4\]\[0-9\]\|5\[0-3\]\)\$/);
+  assert.match(workflow, /weekly\/\$\{week\}-report\.md/);
+  assert.match(workflow, /gh release view "\$tag"/);
+  assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$REPORT" --latest/);
+  assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$REPORT" --latest/);
+  assert.doesNotMatch(workflow, /date \+%G-W%V/);
+});

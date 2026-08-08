@@ -14,11 +14,18 @@ The Chinese README and data pages are the source of truth. This short English ov
 
 ## Explore
 
+- [Live intelligence terminal](https://mbabby.github.io/physical-ai-news-cn/)
+- [Weekly Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)
+- [Company × route × capital momentum](https://mbabby.github.io/physical-ai-news-cn/companies.html)
+- [Research → Industry graph](https://mbabby.github.io/physical-ai-news-cn/research.html)
+- [Latest evidence-backed weekly Release](https://github.com/mbabby/physical-ai-news-cn/releases/latest)
 - [Chinese daily industry updates](README.md#产业进展)
 - [Company & capital map](resources/companies.md)
 - [Physical AI competition map](resources/industry-landscape-and-tech-routes.md)
 - [Milestone papers and reading notes](resources/milestone-papers.md)
 - [Copy-ready weekly brief](weekly/shareable-summary.md)
+
+Star the repository to help other practitioners discover it; Watch **Releases only** to receive one evidence-backed weekly brief without daily commit noise.
 
 ## Contribute
 

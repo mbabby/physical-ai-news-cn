@@ -1,0 +1,77 @@
+name: Publish weekly Physical AI brief
+
+on:
+  schedule:
+    # Sunday 21:00 Beijing time. The daily pipeline has already refreshed the
+    # evidence pool, company dossiers and research cards for the week.
+    - cron: "0 13 * * 0"
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Optional ISO week to publish (YYYY-Www); defaults to the newest generated report"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-physical-ai-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    timeout-minutes: 6
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - name: Resolve the current weekly report
+        id: report
+        shell: bash
+        env:
+          REQUESTED_WEEK: ${{ inputs.week }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${REQUESTED_WEEK}" ]]; then
+            week="${REQUESTED_WEEK}"
+          else
+            latest_report="$(find weekly -maxdepth 1 -type f -name '????-W??-report.md' -print | LC_ALL=C sort | tail -n 1)"
+            test -n "${latest_report}"
+            week="${latest_report#weekly/}"
+            week="${week%-report.md}"
+          fi
+
+          if [[ ! "${week}" =~ ^[0-9]{4}-W(0[1-9]|[1-4][0-9]|5[0-3])$ ]]; then
+            echo "Invalid ISO week: ${week}. Expected YYYY-Www." >&2
+            exit 1
+          fi
+
+          report="weekly/${week}-report.md"
+          test -s "$report"
+          grep -Fq "# 物理 AI 周报 · ${week}" "$report"
+          echo "week=$week" >> "$GITHUB_OUTPUT"
+          echo "report=$report" >> "$GITHUB_OUTPUT"
+      - name: Create or refresh the weekly GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WEEK: ${{ steps.report.outputs.week }}
+          REPORT: ${{ steps.report.outputs.report }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="brief-${WEEK}"
+          title="Physical AI Intelligence Brief · ${WEEK}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release edit "$tag" --title "$title" --notes-file "$REPORT" --latest
+            action="refreshed"
+          else
+            gh release create "$tag" --target main --title "$title" --notes-file "$REPORT" --latest
+            action="created"
+          fi
+          echo "## Weekly brief published" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Release: ${tag}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Action: ${action}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Source: ${REPORT}" >> "$GITHUB_STEP_SUMMARY"

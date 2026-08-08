@@ -14,7 +14,10 @@ test("README has shareable core entry points and a consistent evidence promise",
   assert.match(readme, /README\.en\.md/);
   assert.match(readme, /PROJECT_STATUS_START/);
   assert.match(readme, /Daily digest/);
+  assert.match(readme, /Weekly brief/);
   assert.match(readme, /行业入口/);
+  assert.match(readme, /releases\/latest/);
+  assert.doesNotMatch(readme, /weekly\/\d{4}-W\d{2}-report\.md/);
   assert.doesNotMatch(readme, /全覆盖|实时数据库|权威认证/);
 });
 
@@ -41,10 +44,34 @@ test("English overview and every README share target are present", async () => {
     access(join(root, "metrics", "weekly.json")),
     access(join(root, "review", "community-queue.md")),
     access(join(root, "posts", "2026-08-project-update.md")),
+    access(join(root, "site", "weekly.html")),
+    access(join(root, "site", "companies.html")),
+    access(join(root, "site", "research.html")),
+    access(join(root, ".github", "workflows", "weekly-release.yml")),
   ]);
   const english = await readFile(join(root, "README.en.md"), "utf8");
   assert.match(english, /source-traceable Chinese intelligence/i);
   assert.match(english, /discovery leads/i);
+  assert.match(english, /Weekly Physical AI Top Signals/);
+  assert.match(english, /Releases only/);
+  assert.match(english, /releases\/latest/);
+});
+
+test("standalone share pages expose the three flagship product views", async () => {
+  const [home, weekly, companies, research, app] = await Promise.all([
+    readFile(join(root, "site", "index.html"), "utf8"),
+    readFile(join(root, "site", "weekly.html"), "utf8"),
+    readFile(join(root, "site", "companies.html"), "utf8"),
+    readFile(join(root, "site", "research.html"), "utf8"),
+    readFile(join(root, "site", "share-pages.js"), "utf8"),
+  ]);
+  assert.match(home, /本周十大信号/);
+  assert.match(home, /公司 × 路线 × 资本动量/);
+  assert.match(home, /从论文走向产业/);
+  assert.match(weekly, /Top Signals/);
+  assert.match(companies, /资本动量/);
+  assert.match(research, /Research → Industry/);
+  assert.match(app, /证据不足（不代表未融资）/);
 });
 
 test("weekly reporting assets explain their public and review boundaries", async () => {

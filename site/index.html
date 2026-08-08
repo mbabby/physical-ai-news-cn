@@ -14,23 +14,25 @@
     <div class="grid-glow"></div>
     <header class="shell hero">
       <a class="brand" href="#top"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
-      <nav><a href="#signals">情报流</a><a href="#companies">公司雷达</a><a href="#routes">技术路线</a><a href="#resources">资源雷达</a><a href="https://github.com/mbabby/physical-ai-news-cn">GitHub ↗</a></nav>
+      <nav aria-label="主要导航"><a href="#signals">本周 Top 10</a><a href="#companies">公司动量</a><a href="#research-graph">研究图谱</a><a href="#routes">技术路线</a><a href="https://github.com/mbabby/physical-ai-news-cn" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
       <div class="hero-copy" id="top">
         <p class="eyebrow">CHINA · OPEN INTELLIGENCE BRIEFING</p>
         <h1>看见物理 AI<br><em>正在发生的变化。</em></h1>
-        <p class="lede">面向物理 AI 从业者：跟踪可追溯的产品突破、资本动向、研究前沿与技术路线。</p>
+        <p class="lede">面向物理 AI 从业者的开源情报图谱：连接技术路线、公司、资本、产品部署与研究论文。</p>
+        <div class="hero-actions"><a class="primary-action" href="#signals">查看本周信号</a><a href="https://github.com/mbabby/physical-ai-news-cn" target="_blank" rel="noreferrer">Star / Watch on GitHub ↗</a></div>
       </div>
-      <div class="terminal" aria-label="系统状态"><span class="pulse"></span><span>LIVE SIGNALS</span><b id="updated">同步中</b></div>
+      <div class="terminal" aria-label="系统状态" aria-live="polite"><span class="pulse"></span><span>LIVE SIGNALS</span><b id="updated">同步中</b></div>
     </header>
 
     <main class="shell">
       <section class="metrics" aria-label="情报覆盖">
-        <div><strong id="event-count">—</strong><span>可追溯事件</span></div><div><strong id="company-count">—</strong><span>覆盖公司</span></div><div><strong id="research-count">—</strong><span>研究条目</span></div><div><strong>30D</strong><span>信号窗口</span></div>
+        <div><strong id="event-count">—</strong><span>可追溯事件</span></div><div><strong id="company-count">—</strong><span>公司档案</span></div><div><strong id="research-count">—</strong><span>研究卡片</span></div><div><strong id="source-count">—</strong><span>活跃信源</span></div>
       </section>
 
       <section id="signals" class="section">
-        <div class="section-head"><div><p class="eyebrow">PRIORITY QUEUE</p><h2>本期关键进展</h2></div><a href="../README.md">查看完整日报 ↗</a></div>
-        <div id="key-events" class="key-grid"></div>
+        <div class="section-head"><div><p class="eyebrow">WEEKLY PHYSICAL AI TOP SIGNALS</p><h2>本周十大信号</h2></div><a href="weekly.html">独立分享页 ↗</a></div>
+        <p class="section-note">综合证据等级、产业影响、时效性与多源佐证排序；最多展示 10 条，不用低质量内容凑数。</p>
+        <div id="top-signals" class="top-signals" aria-live="polite"><p class="empty">正在同步已验证信号…</p></div>
       </section>
 
       <section class="section signal-section">
@@ -43,14 +45,20 @@
       </section>
 
       <section id="companies" class="section company-section">
-        <div class="section-head"><div><p class="eyebrow">EVIDENCE-BACKED COMPANY RADAR</p><h2>公司与资本雷达</h2></div><a href="../resources/companies.md">完整公司档案 ↗</a></div>
+        <div class="section-head"><div><p class="eyebrow">COMPANY MOMENTUM RADAR</p><h2>公司 × 路线 × 资本动量</h2></div><a href="companies.html">独立分享页 ↗</a></div>
         <p class="section-note">按公司、技术路线与公开证据查看资本和产品推进；“证据不足”不代表该公司未融资或未推进。</p>
         <div class="radar-controls" aria-label="筛选公司雷达">
           <label>技术路线 <select id="route-filter"><option value="">全部路线</option></select></label>
           <label>区域 <select id="region-filter"><option value="">全部区域</option></select></label>
           <label>档案状态 <select id="status-filter"><option value="">全部状态</option><option value="已证实">已证实资本</option><option value="有资本信号">有资本信号</option><option value="证据不足">证据不足</option></select></label>
         </div>
-        <div id="company-radar" class="company-radar"></div>
+        <div id="company-radar" class="company-radar" aria-live="polite"><p class="empty">正在同步公司档案…</p></div>
+      </section>
+
+      <section id="research-graph" class="section research-graph-section">
+        <div class="section-head"><div><p class="eyebrow">RESEARCH → INDUSTRY</p><h2>从论文走向产业</h2></div><a href="research.html">独立分享页 ↗</a></div>
+        <p class="section-note">把完整中文研究卡连接到技术路线和相关公司，帮助判断研究如何进入工程与商业验证。</p>
+        <div id="research-graph-grid" class="research-graph-grid" aria-live="polite"><p class="empty">正在同步研究卡…</p></div>
       </section>
 
       <section id="routes" class="section route-section">
@@ -62,8 +70,14 @@
         <p class="eyebrow">BUILD WITH THE STACK</p><h2>资源雷达</h2><p>核心资源沉淀 + 每日验证更新。按模型、数据集与工具链进入。</p>
         <div class="resource-links"><a href="../resources/models-and-open-source.md">模型与开源项目 <span>→</span></a><a href="../resources/datasets-and-benchmarks.md">数据集与基准 <span>→</span></a><a href="../resources/simulation-and-tools.md">仿真与工具 <span>→</span></a></div>
       </section>
+
+      <section class="section contribute-panel">
+        <div><p class="eyebrow">OPEN INTELLIGENCE FLYWHEEL</p><h2>补证、纠错，或提交新信号</h2><p>候选内容先进入 Review 队列；只有主体明确、中文事实完整且证据达标的内容才公开。</p></div>
+        <div class="contribute-actions"><a href="https://github.com/mbabby/physical-ai-news-cn/issues/new/choose">提交证据 / 纠错 ↗</a><a href="https://github.com/mbabby/physical-ai-news-cn/blob/main/review/community-queue.md">认领候选 Review ↗</a><a href="https://github.com/mbabby/physical-ai-news-cn/blob/main/CONTRIBUTING.md">贡献指南 ↗</a></div>
+      </section>
     </main>
     <footer class="shell"><span>PHYSICAL AI INTELLIGENCE / OPEN REPOSITORY</span><span>所有事实请以原始来源为准</span></footer>
+    <noscript><p class="shell empty">该情报终端需要 JavaScript 读取每日生成的数据。请启用 JavaScript，或前往 GitHub 阅读 Markdown 版本。</p></noscript>
     <script type="module" src="app.js"></script>
   </body>
 </html>

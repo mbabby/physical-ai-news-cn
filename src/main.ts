@@ -252,7 +252,7 @@ async function generate(): Promise<void> {
   await writeFile(join(routesDir, "corrections.json"), JSON.stringify(corrections, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "route-corrections.md"), ["# 路线图纠错记录", "", ...(corrections.length ? corrections.map((item) => `- ${item.date.slice(0, 10)} · ${item.route} · ${item.company} · ${item.kind}：${item.detail}`) : ["- 本轮没有路线结论变化。"]), ""].join("\n"), "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
-  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now), null, 2) + "\n", "utf8");
+  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, { activeSources: activeSources.length + activeXSources.length, periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池` }), null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "research-promotion.md"), researchPromotionMarkdown(researchRegistry) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), formatCompanyDossiers(companyDossiers) + "\n", "utf8");
@@ -292,7 +292,7 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const archives = [...recentArchives.filter((item) => item.date !== archive.date), archive].sort((a, b) => a.date.localeCompare(b.date));
   const weeklyArticles = archives.flatMap((item) => item.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
-  const weekly = selectWeekly(weeklyArticles);
+  const weekly = selectWeekly(weeklyArticles, 10);
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   await writeFile(join(weeklyDir, "shareable-summary.md"), formatShareableSummary(eventStore, publicResearch, week), "utf8");

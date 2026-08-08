@@ -6,15 +6,21 @@
 
 **北京时间每日 08:30 自动更新** · **线索不等于事实** · **中文为主站，面向全球开放协作**
 
-[![Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) [![Pages](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml) [![License: MIT](https://img.shields.io/github/license/mbabby/physical-ai-news-cn)](LICENSE) [![GitHub stars](https://img.shields.io/github/stars/mbabby/physical-ai-news-cn?style=flat)](https://github.com/mbabby/physical-ai-news-cn/stargazers)
+> **为什么值得 Star / Watch**：每天刷新公开证据池，每周发布一份可直接分享的 Top Signals；公司、技术路线、资本事件和研究论文会持续形成交叉关联，而不是阅后即焚的新闻流。
+
+[![Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) [![Weekly brief](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/weekly-release.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/releases/latest) [![Pages](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml) [![License: MIT](https://img.shields.io/github/license/mbabby/physical-ai-news-cn)](LICENSE) [![GitHub stars](https://img.shields.io/github/stars/mbabby/physical-ai-news-cn?style=flat)](https://github.com/mbabby/physical-ai-news-cn/stargazers)
 
 <p align="center">
+  <a href="https://mbabby.github.io/physical-ai-news-cn/">情报终端</a> ·
+  <a href="https://mbabby.github.io/physical-ai-news-cn/weekly.html">本周 Top Signals</a> ·
+  <a href="https://mbabby.github.io/physical-ai-news-cn/companies.html">公司动量雷达</a> ·
+  <a href="https://mbabby.github.io/physical-ai-news-cn/research.html">Research → Industry</a> ·
   <a href="#产业进展">今日产业进展</a> ·
   <a href="resources/companies.md">公司与资本地图</a> ·
   <a href="resources/industry-landscape-and-tech-routes.md">竞争路线图</a> ·
   <a href="resources/milestone-papers.md">里程碑论文</a> ·
   <a href="weekly/shareable-summary.md">本周可分享摘要</a> ·
-  <a href="weekly/2026-W32-report.md">本周周报</a>
+  <a href="https://github.com/mbabby/physical-ai-news-cn/releases/latest">最新周报 Release</a>
 </p>
 
 <!-- PROJECT_STATUS_START -->
@@ -32,6 +38,12 @@
 | 哪些公司获得了可核验的资本与产品/部署进展 | [公司与资本地图](resources/companies.md) |
 | 一条路线由谁在做、怎么做、资本是否支持、验证到了哪一步 | [物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md) |
 | 哪些论文正在形成长期技术脉络 | [里程碑论文与精读](resources/milestone-papers.md) |
+
+### 三个可独立分享的入口
+
+- [本周 Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)：综合证据等级、产业影响、时效性与多源佐证排序，最多展示 10 条。
+- [公司 × 路线 × 资本动量](https://mbabby.github.io/physical-ai-news-cn/companies.html)：判断谁在做、资本是否支持、验证到了哪一步。
+- [Research → Industry](https://mbabby.github.io/physical-ai-news-cn/research.html)：把论文连接到技术路线与相关公司。
 
 > **行业入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。 **研究入口**：先看 6 张研究卡，再进入[里程碑论文与精读](resources/milestone-papers.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多从业者发现它。
 
@@ -93,7 +105,7 @@
 ## 分享与协作
 
 - 可直接发布的 [本周物理 AI 情报摘要](weekly/shareable-summary.md)：仅从已公开、可追溯事件与完整中文研究卡生成。
-- [本周周报](weekly/2026-W32-report.md)：汇总新增事件、融资、产品/部署、研究、信源质量与待验证候选。
+- [最新周报 Release](https://github.com/mbabby/physical-ai-news-cn/releases/latest)：汇总新增事件、融资、产品/部署、研究、信源质量与待验证候选；每周使用稳定 tag 幂等更新。
 - [项目质量指标](metrics/weekly.json)：日报成功率、首页有效条目、A/B 级证据比例、公司档案覆盖与信源晋升；未配置 GitHub Traffic 时不把 Star/访客显示为 0。
 - [社区 Review 队列](review/community-queue.md)：高质量候选在此等待补证，审核前不会进入公开结论。
 - [第一篇项目更新帖](posts/2026-08-project-update.md)：说明数据口径、开放贡献方向与本周发现。
