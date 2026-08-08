@@ -43,6 +43,17 @@ export function classify(article: Article): Article | undefined {
   const text = `${article.title} ${article.excerpt}`.toLowerCase();
   const relevance = PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).length;
   if (relevance === 0) return undefined;
+  // Source semantics are stronger than generic words in a paper abstract.
+  // Otherwise an arXiv paper containing "release" or "deployment" is
+  // incorrectly presented as a product launch or customer deployment.
+  if (article.source.startsWith("arXiv ·")) {
+    return {
+      ...article,
+      kind: "研究与数据",
+      tags: [...new Set(["研究", ...PHYSICAL_AI_WORDS.filter((word) => text.includes(word)).slice(0, 3)])],
+      score: article.sourceWeight * 10 + relevance * 4 + 4,
+    };
+  }
   // “investment” buried in a long article is not a financing event. Require the
   // financing language to be in the headline, otherwise let product/deployment
   // classification win.

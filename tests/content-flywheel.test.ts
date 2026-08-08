@@ -29,9 +29,21 @@ test("source registry exposes tiers, health and a pause for access-restricted so
   const registry = buildSourceRegistry(archives, sources, sources, new Date("2026-08-01T00:00:00Z"));
   const official = registry.sources[0];
   assert.equal(official.status, "已暂停");
-  assert.equal(official.health.score, 15);
+  assert.equal(official.health.score, 37.5);
   assert.match(formatSourceNetwork(registry), /官方公司与实验室/);
   assert.match(formatSourceNetwork(registry), /访问受限/);
+});
+
+test("a quiet but reliable official source is not downgraded for publishing nothing", () => {
+  const archives: DailyArchive[] = Array.from({ length: 8 }, (_, index) => ({
+    date: `2026-07-${String(24 + index).padStart(2, "0")}`,
+    articles: [],
+    candidates: [],
+    sourceOutcomes: [{ source: "Official", status: "success", fetchedArticles: 0 }],
+  }));
+  const registry = buildSourceRegistry(archives, sources, sources, new Date("2026-08-01T00:00:00Z"));
+  assert.equal(registry.sources[0].status, "已启用");
+  assert.equal(registry.sources[0].health.score, 77.5);
 });
 
 test("registry, discovery and review keep raw HN leads separate from published news", () => {

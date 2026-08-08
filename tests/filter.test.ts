@@ -46,6 +46,16 @@ test("keeps industry capacity independent from a busy arXiv day", () => {
   assert.equal(industry[0].id, "funding");
 });
 
+test("classifies arXiv work as research even when its abstract mentions release or deployment", () => {
+  const [paper] = filterAndRank([item({
+    source: "arXiv · Robotics",
+    title: "Robot policy for real-world deployment",
+    excerpt: "We release a VLA benchmark and deploy the robot in real-world manipulation.",
+  })], 24);
+  assert.equal(paper.kind, "研究与数据");
+  assert.ok(paper.tags.includes("研究"));
+});
+
 test("keeps context-free Hacker News hits out of the published digest", () => {
   const result = filterAndRank([item({ source: "Hacker News · Robotics", sourceWeight: 2, excerpt: "" })], 24);
   assert.equal(result.length, 0);

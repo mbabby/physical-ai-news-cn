@@ -59,16 +59,22 @@ export function buildSourceRegistry(archives: DailyArchive[], configuredSources:
     const failedRuns = outcomes.filter((outcome) => outcome.status === "failure").length;
     const fetchedArticles = outcomes.reduce((total, outcome) => total + (outcome.fetchedArticles ?? 0), 0);
     const relatedHits = recent.flatMap((archive) => [...archive.articles, ...(archive.candidates ?? [])]).filter((article) => article.source === source.name).length;
-    const selectedArticles = recent.flatMap((archive) => archive.articles).filter((article) => article.source === source.name && !article.source.startsWith("arXiv ·")).length;
+    const selectedArticles = recent.flatMap((archive) => archive.articles).filter((article) => article.source === source.name).length;
     const correctionCount = recent.flatMap((archive) => archive.sourceCorrections ?? []).filter((correction) => correction.source === source.name).length;
     const reliability = outcomes.length ? Number((successfulRuns / outcomes.length).toFixed(2)) : undefined;
     const successRate = outcomes.length ? rounded(successfulRuns / outcomes.length) : undefined;
     const hitRate = fetchedArticles ? rounded(relatedHits / fetchedArticles) : undefined;
     const inclusionRate = relatedHits ? rounded(selectedArticles / relatedHits) : undefined;
     const correctionRate = selectedArticles ? rounded(correctionCount / selectedArticles) : 0;
-    // Reliability avoids treating a high-volume, never-useful source as healthy:
-    // success 30% + relevance 25% + public inclusion 30% + correction quality 15%.
-    const score = successRate === undefined ? undefined : rounded(100 * (0.3 * successRate + 0.25 * (hitRate ?? 0) + 0.3 * (inclusionRate ?? 0) + 0.15 * (1 - correctionRate)));
+    // Quiet official feeds must not be punished as low quality merely because
+    // they had no publishable item today. Neutral priors keep sparse samples at
+    // 50%; observed evidence gradually replaces them. Reliability and factual
+    // correction remain the strongest signals.
+    const effectiveHitRate = hitRate ?? 0.5;
+    const effectiveInclusionRate = inclusionRate ?? 0.5;
+    const score = successRate === undefined ? undefined : rounded(100 * (
+      0.4 * successRate + 0.2 * effectiveHitRate + 0.25 * effectiveInclusionRate + 0.15 * (1 - correctionRate)
+    ));
     const latestFailure = outcomes.filter((outcome) => outcome.status === "failure").at(-1)?.reason;
     const state = sourceStatus(source, outcomes.length, score, latestFailure);
     const recommendation = state.status === "已暂停" ? "排查" : state.status === "观察" ? "观察" : "保留";
