@@ -52,11 +52,13 @@ test("uses a compact empty state and keeps failures out of public Markdown", () 
 
 test("renders publishable research even when no industry event clears the company gate", () => {
   const now = new Date("2026-08-05T00:00:00.000Z");
-  const paper: Article = { id: "paper", title: "VLA paper", titleZh: "VLA 真实机器人论文", summaryZh: "论文在真实机器人操作基准上验证视觉语言动作模型。", link: "https://arxiv.org/abs/1", publishedAt: now, fetchedAt: now, source: "arXiv · Robotics", sourceWeight: 10, excerpt: "robot", kind: "研究与数据", tags: ["研究"] };
+  const paper: Article = { id: "paper", title: "VLA paper", titleZh: "VLA 真实机器人论文", summaryZh: "论文在真实机器人操作基准上验证视觉语言动作模型。", link: "https://arxiv.org/abs/1", publishedAt: now, fetchedAt: now, source: "arXiv · Robotics", sourceWeight: 10, excerpt: "robot", kind: "产品发布", tags: ["产品", "robot"] };
   const markdown = formatMarkdown([], 24, [], now, undefined, 0, "信源：12 个基础信源已接入", [paper]);
   assert.match(markdown, /产业与资本 0 条 · 学术研究 1 篇/);
   assert.match(markdown, /学术与研究前沿/);
   assert.match(markdown, /VLA 真实机器人论文/);
+  assert.match(markdown, /研究与数据 · arXiv · Robotics/);
+  assert.doesNotMatch(markdown, /#产品/);
   assert.doesNotMatch(markdown, /今日暂无达到发布阈值/);
 });
 

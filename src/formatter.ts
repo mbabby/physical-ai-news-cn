@@ -4,9 +4,10 @@ import { hasCompleteChineseCopy, publicArticlesOnly } from "./publication.js";
 function date(value: Date): string { return value.toISOString().slice(0, 10); }
 function shortDate(value: Date): string { return value.toISOString().slice(5, 10); }
 
-function renderArticle(lines: string[], article: Article, heading = "##"): void {
+function renderArticle(lines: string[], article: Article, heading = "##", forceResearch = false): void {
   const title = article.titleZh!;
-  const meta = [article.pulseKind ?? article.kind ?? "未分类", article.source, shortDate(article.publishedAt), ...article.tags.slice(0, 2).map((tag) => `#${tag}`)].join(" · ");
+  const tags = forceResearch ? ["研究", ...article.tags.filter((tag) => tag !== "产品" && tag !== "落地")] : article.tags;
+  const meta = [forceResearch ? "研究与数据" : article.pulseKind ?? article.kind ?? "未分类", article.source, shortDate(article.publishedAt), ...[...new Set(tags)].slice(0, 2).map((tag) => `#${tag}`)].join(" · ");
   lines.push(`${heading} [${title}](${article.link})`, "", article.summaryZh!, `*${meta}*`, "");
 }
 
@@ -33,7 +34,7 @@ export function formatMarkdown(articles: Article[], windowHours: number, _failur
   for (const article of publicNews) renderArticle(lines, article, publicNews.length ? "###" : "##");
   if (publicResearch.length) {
     lines.push("## 学术与研究前沿", "", "> 近 30 天论文池每日重排；仅展示已完成中文事实简介的研究。", "");
-    for (const article of publicResearch) renderArticle(lines, article, "###");
+    for (const article of publicResearch) renderArticle(lines, article, "###", true);
   }
   if (sourceNetwork) lines.push(`*${sourceNetwork}*`, "");
   lines.push("---", "", "*本页由自动化生成；链接与摘要仅供信息参考，请以原始来源为准。*");

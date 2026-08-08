@@ -61,8 +61,15 @@ export function updateResearchRegistry(previous: ResearchRegistry | undefined, a
   const previousById = new Map((previous?.records ?? []).map((record) => [record.id, record]));
   const date = now.toISOString();
   const records = articles.map((incoming) => {
+    const normalizedIncoming: Article = {
+      ...incoming,
+      kind: "研究与数据",
+      tags: [...new Set(["研究", ...incoming.tags.filter((tag) => tag !== "产品" && tag !== "落地")])],
+    };
     const prior = previousById.get(incoming.id);
-    const article = prior?.article.scholar && !incoming.scholar ? { ...incoming, scholar: prior.article.scholar } : incoming;
+    const article = prior?.article.scholar && !normalizedIncoming.scholar
+      ? { ...normalizedIncoming, scholar: prior.article.scholar }
+      : normalizedIncoming;
     const hash = createHash("sha256").update(textOf(article)).digest("hex").slice(0, 16);
     const version = arxivVersion(article.link);
     const changes = [...(prior?.changes ?? [])];

@@ -16,6 +16,12 @@ test("uses only source-backed research evidence labels", () => {
   assert.deepEqual(researchEvidenceTags(paper()), ["真实机器人", "基准", "开源"]);
 });
 
+test("normalizes cached arXiv classification to research", () => {
+  const registry = updateResearchRegistry(undefined, [paper({ kind: "产品发布", tags: ["产品", "robot"] })], new Date("2026-08-01"));
+  assert.equal(registry.records[0]?.article.kind, "研究与数据");
+  assert.deepEqual(registry.records[0]?.article.tags, ["研究", "robot"]);
+});
+
 test("promotes recurring complete research but removes a retraction", () => {
   let registry = updateResearchRegistry(undefined, [paper()], new Date("2026-08-01"));
   registry = updateResearchRegistry(registry, [paper()], new Date("2026-08-02"));
