@@ -91,7 +91,7 @@ async function collectX(sources: SourceConfig[], windowHours: number, bearerToke
   return { articles, failures, sourceOutcomes };
 }
 
-async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 1): Promise<Article[]> {
+async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 2): Promise<Article[]> {
   const output: Article[] = [];
   for (let index = 0; index < articles.length; index += batchSize) {
     output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
