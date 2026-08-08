@@ -1,4 +1,4 @@
-import { hasCompleteChineseCopy } from "../publication.js";
+import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "../publication.js";
 import type { DailyArchive, EventStore, ResearchRecord } from "../types.js";
 
 export interface PublicationValidationInput {
@@ -26,6 +26,10 @@ export function validatePublication(input: PublicationValidationInput): void {
   }
   const researchMinimum = Math.min(6, input.previousCompleteResearchCount ?? 0);
   if (input.research.length < researchMinimum) errors.push(`研究卡从 ${researchMinimum} 篇倒退到 ${input.research.length} 篇`);
+  for (const record of input.research) {
+    if (!hasCompleteChineseResearchCopy(record.article)) errors.push(`公开研究卡缺少完整中文标题或两句事实简介：${record.id}`);
+    if (record.article.scholar?.isRetracted) errors.push(`公开研究卡包含已撤稿论文：${record.id}`);
+  }
   if (/暂无中文简介|暂未生成中文摘要|中文简介暂未生成/.test(input.readme)) errors.push("README 出现公开占位简介");
   if (errors.length) throw new Error(`发布质量门槛未通过：\n- ${errors.join("\n- ")}`);
 }

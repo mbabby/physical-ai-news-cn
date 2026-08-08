@@ -5,7 +5,7 @@ import type { Article } from "../src/types.js";
 
 function article(overrides: Partial<Article> = {}): Article {
   const now = new Date("2026-08-01T00:00:00.000Z");
-  return { id: "gemini", title: "Google DeepMind announces Gemini Robotics product launch", titleZh: "Google DeepMind 发布 Gemini Robotics", summaryZh: "官方发布新的机器人模型。", link: "https://deepmind.google/gemini-robotics", publishedAt: now, fetchedAt: now, source: "Google DeepMind Blog", sourceWeight: 10, excerpt: "Gemini Robotics vision-language-action robot launch", kind: "产品发布", tags: ["产品"], ...overrides };
+  return { id: "gemini", title: "Google DeepMind announces Gemini Robotics product launch", titleZh: "Google DeepMind 发布 Gemini Robotics", summaryZh: "官方发布新的机器人模型。该模型面向机器人任务。", link: "https://deepmind.google/gemini-robotics", publishedAt: now, fetchedAt: now, source: "Google DeepMind Blog", sourceWeight: 10, excerpt: "Gemini Robotics vision-language-action robot launch", kind: "产品发布", tags: ["产品"], ...overrides };
 }
 
 test("creates an evidence-backed canonical event from a qualified article", () => {
@@ -77,15 +77,15 @@ test("makes capital uncertainty explicit and records route-stage corrections", (
 });
 
 test("keeps a complete Chinese research card readable", () => {
-  const output = formatResearchUpdates([article({ title: "RoboBRIDGE: Modular robot agents", titleZh: "RoboBRIDGE：稳健机器人智能体框架", summaryZh: "模块化框架将策略组织为具备故障恢复能力的真实机器人智能体。" })]);
+  const output = formatResearchUpdates([article({ title: "RoboBRIDGE: Modular robot agents", titleZh: "RoboBRIDGE：稳健机器人智能体框架", summaryZh: "模块化框架将策略组织为具备故障恢复能力的真实机器人智能体。它在真实机器人任务中验证恢复能力。" })]);
   assert.match(output, /RoboBRIDGE：稳健机器人智能体框架/);
   assert.match(output, /模块化框架/);
   assert.doesNotMatch(output, /物理 AI 研究论文/);
 });
 
 test("prioritizes a paper from a recognized physical AI lab when other signals tie", () => {
-  const newer = article({ title: "Generic VLA manipulation", titleZh: "通用 VLA 操作策略", summaryZh: "提出机器人操作策略。", publishedAt: new Date("2026-08-02"), authors: ["Unknown Author"] });
-  const deepmind = article({ id: "deepmind-paper", title: "Robotics world model", titleZh: "机器人世界模型", summaryZh: "提出面向真实机器人推理的世界模型。", publishedAt: new Date("2026-08-01"), authors: ["Danijar Hafner"] });
+  const newer = article({ title: "Generic VLA manipulation", titleZh: "通用 VLA 操作策略", summaryZh: "提出机器人操作策略。该方法用于操作任务。", publishedAt: new Date("2026-08-02"), authors: ["Unknown Author"] });
+  const deepmind = article({ id: "deepmind-paper", title: "Robotics world model", titleZh: "机器人世界模型", summaryZh: "提出面向真实机器人推理的世界模型。该模型用于任务规划。", publishedAt: new Date("2026-08-01"), authors: ["Danijar Hafner"] });
   const output = formatResearchUpdates([newer, deepmind]);
   assert.ok(output.indexOf("机器人世界模型") < output.indexOf("通用 VLA 操作策略"));
   assert.match(output, /重点关注：Google DeepMind/);
@@ -95,6 +95,16 @@ test("does not publish half-translated research cards", () => {
   const output = formatResearchUpdates([article({ titleZh: "Only English", summaryZh: "暂未生成中文摘要，请阅读原文。" })]);
   assert.match(output, /正在完成中文解读/);
   assert.doesNotMatch(output, /Only English/);
+});
+
+test("does not publish an English source title disguised as a Chinese research card", () => {
+  const output = formatResearchUpdates([article({
+    title: "Robots Learn from World Models",
+    titleZh: "Robots Learn from World Models",
+    summaryZh: "论文研究机器人策略学习。实验在操作任务中完成验证。",
+  })]);
+  assert.match(output, /正在完成中文解读/);
+  assert.doesNotMatch(output, /Robots Learn from World Models/);
 });
 
 test("does not assign a company merely mentioned in article body", () => {

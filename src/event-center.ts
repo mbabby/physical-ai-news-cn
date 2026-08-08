@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
-import { hasCompleteChineseCopy } from "./publication.js";
+import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "./publication.js";
 import type { Article, ArticleKind, CapitalEvidenceStatus, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteCompetitionEntry, RouteCompetitionMap, RouteCompanySnapshot, RouteCorrection, RouteIndexEntry, TechnicalRoute, ValidationStage } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
@@ -305,7 +305,7 @@ export function rankResearchArticles(articles: Article[]): Article[] {
   return [...articles].sort((a, b) => researchPriority(b) - researchPriority(a) || b.publishedAt.getTime() - a.publishedAt.getTime());
 }
 export function isPublishableResearch(article: Article): boolean {
-  return hasCompleteChineseCopy(article) && !article.scholar?.isRetracted;
+  return hasCompleteChineseResearchCopy(article) && !article.scholar?.isRetracted;
 }
 export function formatResearchUpdates(articles: Article[], fallbackDate?: string): string {
   const publishable = articles.filter(isPublishableResearch);

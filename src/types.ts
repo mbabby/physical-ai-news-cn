@@ -56,6 +56,9 @@ export interface ResearchRecord {
   arxivVersion?: number;
   factHash: string;
   status: "新论文" | "候选资源" | "常青资源候选" | "里程碑精读候选" | "待复核" | "已撤稿";
+  /** Distinct UTC dates on which this paper was observed.  This prevents a
+   * manual rerun from inflating promotion eligibility. */
+  seenDates?: string[];
   appearances: number;
   evidenceTags: Array<"真实机器人" | "基准" | "开源">;
   authorityLabels: string[];

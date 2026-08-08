@@ -31,6 +31,14 @@ test("promotes recurring complete research but removes a retraction", () => {
   assert.equal(rankResearchRecords(registry.records).length, 0);
 });
 
+test("does not promote a paper merely because the same day was rerun", () => {
+  let registry = updateResearchRegistry(undefined, [paper()], new Date("2026-08-01T01:00:00Z"));
+  registry = updateResearchRegistry(registry, [paper()], new Date("2026-08-01T08:00:00Z"));
+  assert.equal(registry.records[0]?.appearances, 2);
+  assert.deepEqual(registry.records[0]?.seenDates, ["2026-08-01"]);
+  assert.equal(registry.records[0]?.status, "新论文");
+});
+
 test("records arXiv version changes for a renewed factual check", () => {
   const first = updateResearchRegistry(undefined, [paper()], new Date("2026-08-01"));
   const next = updateResearchRegistry(first, [paper({ link: "https://arxiv.org/abs/2608.00001v2" })], new Date("2026-08-02"));

@@ -1,9 +1,8 @@
 import { createHash } from "node:crypto";
 import type { Article, ResearchRecord, ResearchRegistry } from "./types.js";
+import { hasCompleteChineseResearchCopy } from "./publication.js";
 
 const textOf = (article: Article): string => `${article.title}\n${article.excerpt}\n${article.authors?.join("|") ?? ""}\n${article.scholar?.workId ?? ""}\n${article.scholar?.citedByCount ?? ""}\n${article.scholar?.isRetracted ?? false}`;
-const chinese = (value?: string): boolean => Boolean(value && /[\u3400-\u9fff]/.test(value));
-
 export function arxivVersion(link: string): number | undefined {
   return Number(link.match(/v(\d+)(?:$|[?#])/i)?.[1]) || undefined;
 }
@@ -41,8 +40,7 @@ function notableAuthor(article: Article): string | undefined {
 }
 
 function isComplete(article: Article): boolean {
-  const sentenceCount = (article.summaryZh?.match(/[。！？]/g) ?? []).length;
-  return chinese(article.titleZh) && chinese(article.summaryZh) && sentenceCount >= 2 && !/暂未生成|未配置|暂无原文摘要|请阅读原文|中文简介暂未生成/.test(article.summaryZh ?? "") && !article.scholar?.isRetracted;
+  return hasCompleteChineseResearchCopy(article) && !article.scholar?.isRetracted;
 }
 
 function promotion(record: ResearchRecord): ResearchRecord["status"] {
@@ -50,9 +48,10 @@ function promotion(record: ResearchRecord): ResearchRecord["status"] {
   if (!isComplete(record.article)) return "待复核";
   const evidence = record.evidenceTags.length;
   const citations = record.article.scholar?.citedByCount ?? 0;
-  if ((record.authorityLabels.length > 0 && evidence >= 2 && record.appearances >= 4) || citations >= 250) return "里程碑精读候选";
-  if ((record.authorityLabels.length > 0 && evidence >= 1 && record.appearances >= 3) || (citations >= 50 && evidence >= 1)) return "常青资源候选";
-  if (evidence >= 1 && record.appearances >= 2) return "候选资源";
+  const observedDays = record.seenDates?.length ?? record.appearances;
+  if ((record.authorityLabels.length > 0 && evidence >= 2 && observedDays >= 4) || citations >= 250) return "里程碑精读候选";
+  if ((record.authorityLabels.length > 0 && evidence >= 1 && observedDays >= 3) || (citations >= 50 && evidence >= 1)) return "常青资源候选";
+  if (evidence >= 1 && observedDays >= 2) return "候选资源";
   return "新论文";
 }
 
@@ -60,6 +59,7 @@ function promotion(record: ResearchRecord): ResearchRecord["status"] {
 export function updateResearchRegistry(previous: ResearchRegistry | undefined, articles: Article[], now = new Date()): ResearchRegistry {
   const previousById = new Map((previous?.records ?? []).map((record) => [record.id, record]));
   const date = now.toISOString();
+  const observedDate = date.slice(0, 10);
   const records = articles.map((incoming) => {
     const normalizedIncoming: Article = {
       ...incoming,
@@ -80,7 +80,7 @@ export function updateResearchRegistry(previous: ResearchRegistry | undefined, a
     const record: ResearchRecord = {
       id: article.id, article, firstSeenAt: prior?.firstSeenAt ?? date, lastCheckedAt: date,
       lastShownAt: prior?.lastShownAt, arxivVersion: version, factHash: hash,
-      status: prior?.status ?? "新论文", appearances: (prior?.appearances ?? 0) + 1,
+      status: prior?.status ?? "新论文", seenDates: [...new Set([...(prior?.seenDates ?? (prior?.firstSeenAt ? [prior.firstSeenAt.slice(0, 10)] : [])), observedDate])].sort(), appearances: (prior?.appearances ?? 0) + 1,
       evidenceTags: researchEvidenceTags(article), authorityLabels: researchAuthorityLabels(article), notableAuthor: notableAuthor(article), changes: changes.slice(-12),
     };
     record.status = promotion(record);
@@ -97,10 +97,10 @@ export function rankResearchRecords(records: ResearchRecord[]): ResearchRecord[]
 
 export function researchPromotionMarkdown(registry: ResearchRegistry): string {
   const groups: Array<[ResearchRecord["status"], string]> = [["候选资源", "候选资源"], ["常青资源候选", "常青资源候选"], ["里程碑精读候选", "里程碑精读候选"]];
-  const lines = ["# 研究晋升队列", "", "自动依据连续出现、真实机器人/基准/开源证据、作者与实验室信号、引用和撤稿状态生成候选；常青资源与里程碑精读仍需人工确认。", ""];
+  const lines = ["# 研究晋升队列", "", "自动依据跨日观测、真实机器人/基准/开源证据、作者与实验室信号、引用和撤稿状态生成候选；重复运行不会累计跨日观测。常青资源与里程碑精读仍需人工确认。", ""];
   for (const [status, heading] of groups) {
     const items = rankResearchRecords(registry.records.filter((record) => record.status === status));
-    lines.push(`## ${heading}`, "", ...(items.length ? items.map((record) => `- [${record.article.titleZh ?? record.article.title}](${record.article.link}) · ${record.evidenceTags.join(" / ") || "待补证据"}${record.authorityLabels.length ? ` · ${record.authorityLabels.join(" / ")}` : ""}`) : ["- 暂无。"]), "");
+    lines.push(`## ${heading}`, "", ...(items.length ? items.map((record) => `- [${record.article.titleZh ?? record.article.title}](${record.article.link}) · 跨日观测 ${record.seenDates?.length ?? record.appearances} 天 · ${record.evidenceTags.join(" / ") || "待补证据"}${record.authorityLabels.length ? ` · ${record.authorityLabels.join(" / ")}` : ""}${record.article.scholar?.citedByCount !== undefined ? ` · 引用 ${record.article.scholar.citedByCount}` : ""}`) : ["- 暂无。"]), "");
   }
   const corrections = registry.records.flatMap((record) => record.changes.filter((change) => change.kind === "撤稿" || change.kind === "版本更新").map((change) => `- ${change.date.slice(0, 10)} · ${record.article.title} · ${change.detail}`));
   lines.push("## 自动纠错记录", "", ...(corrections.length ? corrections.slice(-20) : ["- 暂无需要公开的论文纠错。"]));

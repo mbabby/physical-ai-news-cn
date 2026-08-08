@@ -1,6 +1,6 @@
 import type { Article, CompanyDossier, CompanyProfile, EventRecord, EventStore, ValidationStage } from "./types.js";
 import { buildCompanyDossiers } from "./event-center.js";
-import { hasChineseText, hasCompleteChineseCopy, isPlaceholderCopy } from "./publication.js";
+import { hasChineseText, hasCompleteChineseResearchCopy, isPlaceholderCopy } from "./publication.js";
 
 export interface DashboardItem { title: string; summary: string; link: string; type: string; route: string; date: string; source: string; }
 export interface CompanyRadarItem {
@@ -57,7 +57,7 @@ function radarItem(dossier: CompanyDossier, store: EventStore): CompanyRadarItem
 }
 
 export function buildDashboard(store: EventStore, companies: CompanyProfile[], research: Article[], generatedAt = new Date()): DashboardData {
-  const events = recent(store.events); const items = events.map(eventItem); const publicResearch = research.filter(hasCompleteChineseCopy);
+  const events = recent(store.events); const items = events.map(eventItem); const publicResearch = research.filter(hasCompleteChineseResearchCopy);
   const routeFocus: Record<string, string> = {
     "数据与训练": "真实数据与训练效率", "VLA 与具身模型": "泛化与长程任务", "世界模型与空间智能": "可预测的物理环境", "本体与硬件": "可靠性、灵巧性与成本", "部署与商业化": "可验证 ROI 与规模化",
   };

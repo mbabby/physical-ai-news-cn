@@ -19,6 +19,18 @@ export function hasCompleteChineseCopy(article: Pick<Article, "titleZh" | "summa
     && !isPlaceholderCopy(article.titleZh) && !isPlaceholderCopy(article.summaryZh);
 }
 
+/** Research cards are deliberately stricter than a news brief: the title
+ * must be a real Chinese rendering (unless the source title was Chinese), and
+ * the explanation must contain two factual sentences. */
+export function hasCompleteChineseResearchCopy(article: Pick<Article, "title" | "titleZh" | "summaryZh">): boolean {
+  if (!hasCompleteChineseCopy(article)) return false;
+  const titleChinese = (article.titleZh?.match(/[\u3400-\u9fff]/g) ?? []).length;
+  const sourceHasChinese = /[\u3400-\u9fff]/.test(article.title);
+  if (titleChinese < 4 || (!sourceHasChinese && article.titleZh?.trim() === article.title.trim())) return false;
+  const sentences = article.summaryZh?.match(/[。！？]/g)?.length ?? 0;
+  return sentences >= 2;
+}
+
 export function publicArticlesOnly<T extends Pick<Article, "titleZh" | "summaryZh">>(articles: T[]): T[] {
   return articles.filter(hasCompleteChineseCopy);
 }
