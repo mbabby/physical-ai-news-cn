@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-08T06:57:03.726Z",
+  "updatedAt": "2026-08-08T07:15:30.021Z",
   "windowDays": 30,
   "sources": [
     {
@@ -9,7 +9,7 @@
       "status": "观察",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 7,
       "successfulRuns": 7,
       "failedRuns": 1,
       "selectedArticles": 30,
@@ -148,7 +148,7 @@
       "name": "IEEE Spectrum · Robotics",
       "type": "rss",
       "tier": "权威产业媒体",
-      "status": "已启用",
+      "status": "观察",
       "publicationPolicy": "可作为独立报道",
       "configuredWeight": 7,
       "effectiveWeight": 6,
@@ -157,15 +157,17 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 120,
-      "relatedHits": 0,
+      "relatedHits": 1,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0,
+        "hitRate": 0.01,
+        "inclusionRate": 0,
         "correctionRate": 0,
-        "score": 67.5
+        "score": 55.2
       },
-      "recommendation": "保留"
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "name": "TechCrunch · Robotics",
@@ -228,7 +230,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 30,
+      "relatedHits": 28,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -253,7 +255,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 22,
+      "relatedHits": 23,
       "correctionCount": 0,
       "health": {
         "successRate": 1,

@@ -30,13 +30,6 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## IIT Madras孵化初创企业 · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[Indian Startup News](https://news.google.com/rss/articles/CBMi2wFBVV95cUxOUFZwcDc1WE5NcDRwNTg2VGs1ZExIRFZvbGxxV3dIamh6QWdlQUhRWmVOV2t5QzFfVUtSSW9lMy1lajVVZmtIRFROUTE2cG1FQ19jZEgtcERiV1ZhZ05HeG1vTEQ1ZHYybXB3b1VlMHV3UVFjeTFyVy0wYTJlTVJ6NVlLTngxUlQ4TEUzOXZNdXItU1hoT2k4MGxiQl81cllhRmt1RVcwVE51MnFvNXQ1cHVfQzJGWktSUHh1MzRqc1JZY3VKSDUwRjVOS05LMnB5VWhWTnU3Qm5TMHfSAdsBQVVfeXFMTlBWcHA3NVhOTXA0cDU4NlRrNWRMSERWb2xscVd3SGpoekFnZUFIUVplTldreUMxX1VLUklvZTMtZWo1VWZrSERUTlExNnBtRUNfY2RILXBEYldWYWdOR3htb0xENWR2Mm1wd29VZTB1d1FRY3kxclctMGEyZU1SejVZS054MVJUOExFMzl2TXVyLVNYaE9pODBsYkJfNXJZYUZrdUVXMFROdTJxbzV0NXB1X0MyRlpLUlB4dTM0anNSWWN1Skg1MEY1TktOSzJweVVoVk51N0JuUzB3?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22IIT%20Madras%E5%AD%B5%E5%8C%96%E5%88%9D%E5%88%9B%E4%BC%81%E4%B8%9A%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22IIT%20Madras%E5%AD%B5%E5%8C%96%E5%88%9D%E5%88%9B%E4%BC%81%E4%B8%9A%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 陶世智能 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -91,6 +84,13 @@
 - 路线：部署与商业化
 - 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcElJY1pKcVE4aXBQamdfaFllaUNFRGIxbzI3R1dOeDJUZnJhR00tY2llc3pZMFFZUHFsR25NOGNNRzVWVFFlU3hocHdxR0RNY3RlT0owSHhhVmlRcXhPTXE3M0tFVDQybEpwT3o0VTNBVFpxZThjdHRwQU0xMzVjQ1ltdm11b245?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 宣称 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMilAFBVV95cUxPQVY5LS13T2lXV0F4MmE1OVJnR2JwOGxuSkdDMkhDSUJENDNOeGtHN0tDWkNmcTVDbXBFUE1BNXNqbXBOMFhqQ2lHR3JXMFcta2cwWHN6a3JFLVhzSXJ6SlkzT0tJUlBoUjJNVzVLZUExWDJ1NUZBSlJ3dVpkcUZyU2J6RFc3MHZSVEpzbGlSR1loaWds?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%A3%E7%A7%B0%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%A3%E7%A7%B0%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Axis Robotics · 候选 · 22/100

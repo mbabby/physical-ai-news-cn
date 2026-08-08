@@ -21,7 +21,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-08 | 4 | 27 | 38 | 11 / 11 |
+| 2026-08-08 | 4 | 27 | 38 | 10 / 12 |
 
 **运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
 
@@ -78,7 +78,7 @@
 
 > 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
-- [BridgeVLA++：融合时空记忆的数据高效、可泛化三维操作视觉语言动作框架](https://arxiv.org/abs/2608.05042v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究为BridgeVLA引入统一时空记忆架构，构建出可推理历史观测的三维视觉语言动作框架BridgeVLA++。它在两个记忆依赖操作基准上达到最优性能，并在真实机器人平台与双臂操作场景中得到验证。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yuze Zhu</sub>
+- [DreamWAM：用超越 RGB 的未来状态预测增强机器人操作](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM 将未来状态拆分为外观、运动、几何和语义表征，联合训练视频与动作分支，推理时仅使用 RGB。该方法在 LIBERO、LIBERO-Plus 和真实机器人上均优于匹配基线，并公开代码与模型。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
 - [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
 

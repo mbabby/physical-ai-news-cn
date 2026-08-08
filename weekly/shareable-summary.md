@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[BridgeVLA++：融合时空记忆的数据高效、可泛化三维操作视觉语言动作框架](https://arxiv.org/abs/2608.05042v1)。研究为BridgeVLA引入统一时空记忆架构，构建出可推理历史观测的三维视觉语言动作框架BridgeVLA++。它在两个记忆依赖操作基准上达到最优性能，并在真实机器人平台与双臂操作场景中得到验证。
+研究：[DreamWAM：用超越 RGB 的未来状态预测增强机器人操作](https://arxiv.org/abs/2608.04996v1)。DreamWAM 将未来状态拆分为外观、运动、几何和语义表征，联合训练视频与动作分支，推理时仅使用 RGB。该方法在 LIBERO、LIBERO-Plus 和真实机器人上均优于匹配基线，并公开代码与模型。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)
