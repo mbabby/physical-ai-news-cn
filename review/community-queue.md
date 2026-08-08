@@ -12,8 +12,8 @@
 - [lerobot v0.6.1 发布，含模块重命名破坏性变更](https://github.com/huggingface/lerobot/releases/tag/v0.6.1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架](https://arxiv.org/abs/2608.02197v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示](https://arxiv.org/abs/2608.01826v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [Tacta Systems 发布 TactaBot，瞄准高技能制造工作](https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [Nomagic：生产数据是机器人在真实仓库中存活的护城河](https://www.therobotreport.com/building-robots-that-survive-warehouse/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [Tacta Systems 推出 TactaBot，瞄准高技能制造工作](https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [Nomagic 称生产数据是仓储机器人的真正护城河](https://www.therobotreport.com/building-robots-that-survive-warehouse/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 
 ## 待评估信源
 
