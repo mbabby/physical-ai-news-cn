@@ -1,39 +1,46 @@
 {
-  "updatedAt": "2026-08-08T09:39:26.923Z",
+  "updatedAt": "2026-08-08T10:13:29.484Z",
   "windowDays": 30,
   "sources": [
     {
+      "id": "academic-arxiv-robotics",
       "name": "arXiv · Robotics",
       "type": "rss",
+      "role": "学术索引",
       "tier": "官方公司与实验室",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 9,
       "successfulRuns": 7,
       "failedRuns": 1,
       "selectedArticles": 34,
       "reliability": 0.88,
       "fetchedArticles": 300,
-      "relatedHits": 83,
+      "relatedHits": 82,
       "correctionCount": 0,
       "health": {
         "successRate": 0.88,
-        "hitRate": 0.28,
+        "hitRate": 0.27,
         "inclusionRate": 0.41,
         "correctionRate": 0,
-        "score": 66.05
+        "score": 65.85
       },
       "recommendation": "保留"
     },
     {
+      "id": "official-nvidia-newsroom",
       "name": "NVIDIA Newsroom",
       "type": "rss",
+      "entityIds": [
+        "nvidia"
+      ],
+      "role": "公司官网",
       "tier": "官方公司与实验室",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 10,
-      "effectiveWeight": 9,
+      "effectiveWeight": 10,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -50,13 +57,18 @@
       "recommendation": "保留"
     },
     {
+      "id": "oss-lerobot-releases",
       "name": "LeRobot Releases",
       "type": "rss",
+      "entityIds": [
+        "huggingface"
+      ],
+      "role": "代码发布",
       "tier": "开源发布",
-      "status": "观察",
+      "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 7,
+      "effectiveWeight": 9,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -71,17 +83,21 @@
         "correctionRate": 0,
         "score": 56
       },
-      "statusReason": "健康分低于 65，已降权观察",
-      "recommendation": "观察"
+      "recommendation": "保留"
     },
     {
+      "id": "oss-isaac-lab-releases",
       "name": "Isaac Lab Releases",
       "type": "rss",
+      "entityIds": [
+        "nvidia"
+      ],
+      "role": "代码发布",
       "tier": "开源发布",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 9,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -98,13 +114,18 @@
       "recommendation": "保留"
     },
     {
+      "id": "official-google-deepmind-blog",
       "name": "Google DeepMind Blog",
       "type": "rss",
+      "entityIds": [
+        "google-deepmind"
+      ],
+      "role": "实验室官网",
       "tier": "官方公司与实验室",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 10,
-      "effectiveWeight": 9,
+      "effectiveWeight": 10,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -121,13 +142,18 @@
       "recommendation": "保留"
     },
     {
+      "id": "official-google-ai-blog",
       "name": "Google AI Blog",
       "type": "rss",
+      "entityIds": [
+        "google-deepmind"
+      ],
+      "role": "实验室官网",
       "tier": "官方公司与实验室",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 8,
-      "effectiveWeight": 7,
+      "effectiveWeight": 8,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -144,10 +170,12 @@
       "recommendation": "保留"
     },
     {
+      "id": "media-ieee-spectrum-robotics",
       "name": "IEEE Spectrum · Robotics",
       "type": "rss",
+      "role": "产业媒体",
       "tier": "权威产业媒体",
-      "status": "已启用",
+      "status": "观察",
       "publicationPolicy": "可作为独立报道",
       "configuredWeight": 7,
       "effectiveWeight": 6,
@@ -156,19 +184,23 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 120,
-      "relatedHits": 0,
+      "relatedHits": 1,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0,
+        "hitRate": 0.01,
+        "inclusionRate": 0,
         "correctionRate": 0,
-        "score": 67.5
+        "score": 55.2
       },
-      "recommendation": "保留"
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
+      "id": "media-techcrunch-robotics",
       "name": "TechCrunch · Robotics",
       "type": "rss",
+      "role": "产业媒体",
       "tier": "权威产业媒体",
       "status": "已暂停",
       "publicationPolicy": "可作为独立报道",
@@ -191,8 +223,10 @@
       "recommendation": "排查"
     },
     {
+      "id": "media-robot-report",
       "name": "The Robot Report",
       "type": "rss",
+      "role": "产业媒体",
       "tier": "权威产业媒体",
       "status": "已启用",
       "publicationPolicy": "可作为独立报道",
@@ -215,8 +249,10 @@
       "recommendation": "保留"
     },
     {
+      "id": "discovery-google-news-capital",
       "name": "Google News · Robotics Capital",
       "type": "rss",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
@@ -240,8 +276,10 @@
       "recommendation": "观察"
     },
     {
+      "id": "discovery-google-news-china",
       "name": "Google News · 中国具身融资",
       "type": "rss",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
@@ -252,7 +290,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 24,
+      "relatedHits": 23,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -265,13 +303,18 @@
       "recommendation": "观察"
     },
     {
+      "id": "oss-openpi-releases",
       "name": "OpenPI Releases",
       "type": "rss",
+      "entityIds": [
+        "physical-intelligence"
+      ],
+      "role": "代码发布",
       "tier": "开源发布",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 9,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -287,13 +330,15 @@
       "recommendation": "保留"
     },
     {
+      "id": "oss-openvla-releases",
       "name": "OpenVLA Releases",
       "type": "rss",
+      "role": "代码发布",
       "tier": "开源发布",
       "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 9,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -309,8 +354,499 @@
       "recommendation": "保留"
     },
     {
+      "id": "oss-groot-releases",
+      "name": "Isaac GR00T Releases",
+      "type": "github-releases",
+      "entityIds": [
+        "nvidia"
+      ],
+      "role": "代码发布",
+      "tier": "开源发布",
+      "status": "已启用",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 5,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "保留"
+    },
+    {
+      "id": "oss-genesis-releases",
+      "name": "Genesis Releases",
+      "type": "github-releases",
+      "role": "代码发布",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 8,
+      "effectiveWeight": 8,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "oss-maniskill-releases",
+      "name": "ManiSkill Releases",
+      "type": "github-releases",
+      "role": "代码发布",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 8,
+      "effectiveWeight": 8,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "oss-robomimic-releases",
+      "name": "robomimic Releases",
+      "type": "github-releases",
+      "role": "代码发布",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 8,
+      "effectiveWeight": 8,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 5,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "oss-mujoco-releases",
+      "name": "MuJoCo Releases",
+      "type": "github-releases",
+      "entityIds": [
+        "google-deepmind"
+      ],
+      "role": "代码发布",
+      "tier": "开源发布",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 8,
+      "effectiveWeight": 8,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-figure-news",
+      "name": "Figure News",
+      "type": "webpage",
+      "entityIds": [
+        "figure"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 20,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-1x-discover",
+      "name": "1X Discover",
+      "type": "webpage",
+      "entityIds": [
+        "1x"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 77.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-apptronik-press",
+      "name": "Apptronik Press",
+      "type": "webpage",
+      "entityIds": [
+        "apptronik"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 15,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-skild-blog",
+      "name": "Skild AI Blog",
+      "type": "webpage",
+      "entityIds": [
+        "skild-ai"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 2,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-boston-dynamics-news",
+      "name": "Boston Dynamics News",
+      "type": "webpage",
+      "entityIds": [
+        "boston-dynamics"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 1,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-physical-intelligence-blog",
+      "name": "Physical Intelligence Blog",
+      "type": "webpage",
+      "entityIds": [
+        "physical-intelligence"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 4,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-dyna-news",
+      "name": "DYNA Robotics News",
+      "type": "webpage",
+      "entityIds": [
+        "dyna-robotics"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 77.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-agility-press",
+      "name": "Agility Robotics Press",
+      "type": "webpage",
+      "entityIds": [
+        "agility-robotics"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 6,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-stanford-robotics",
+      "name": "Stanford Robotics Center",
+      "type": "webpage",
+      "entityIds": [
+        "stanford-robotics-center"
+      ],
+      "role": "实验室官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 9,
+      "effectiveWeight": 9,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 77.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-x-humanoid-news",
+      "name": "北京人形机器人创新中心",
+      "type": "webpage",
+      "entityIds": [
+        "x-humanoid"
+      ],
+      "role": "实验室官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 10,
+      "effectiveWeight": 10,
+      "successfulRuns": 0,
+      "failedRuns": 1,
+      "selectedArticles": 0,
+      "reliability": 0,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 0,
+        "correctionRate": 0,
+        "score": 37.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-booster-news",
+      "name": "加速进化 News",
+      "type": "webpage",
+      "entityIds": [
+        "booster-robotics"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 9,
+      "effectiveWeight": 9,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 77.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-robotera-news",
+      "name": "星动纪元 News",
+      "type": "webpage",
+      "entityIds": [
+        "robotera"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 9,
+      "effectiveWeight": 9,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 0,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "correctionRate": 0,
+        "score": 77.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "official-xsquare-news",
+      "name": "自变量机器人 News",
+      "type": "webpage",
+      "entityIds": [
+        "x-square-robot"
+      ],
+      "role": "公司官网",
+      "tier": "官方公司与实验室",
+      "status": "观察",
+      "publicationPolicy": "可作为一手证据",
+      "configuredWeight": 9,
+      "effectiveWeight": 9,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 2,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "id": "discovery-hn-robotics",
       "name": "Hacker News · Robotics",
       "type": "algolia",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "已启用",
       "publicationPolicy": "仅作线索发现",
@@ -332,8 +868,10 @@
       "recommendation": "保留"
     },
     {
+      "id": "discovery-hn-humanoid",
       "name": "Hacker News · Humanoid",
       "type": "algolia",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "已启用",
       "publicationPolicy": "仅作线索发现",
@@ -355,8 +893,10 @@
       "recommendation": "保留"
     },
     {
+      "id": "discovery-hn-embodied",
       "name": "Hacker News · Embodied AI",
       "type": "algolia",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "已启用",
       "publicationPolicy": "仅作线索发现",
@@ -378,8 +918,10 @@
       "recommendation": "保留"
     },
     {
+      "id": "discovery-x-leaders",
       "name": "X · 产业领军者观察",
       "type": "x",
+      "role": "线索发现",
       "tier": "线索发现层",
       "status": "已暂停",
       "publicationPolicy": "仅作线索发现",

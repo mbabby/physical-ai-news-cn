@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-08T09:39:26.923Z",
+  "generatedAt": "2026-08-08T10:13:29.484Z",
   "stats": {
     "events": 4,
-    "companies": 27,
+    "companies": 49,
     "research": 6
   },
   "keyEvents": [
@@ -93,6 +93,15 @@
       "source": "arXiv · Robotics"
     },
     {
+      "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
+      "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
+      "link": "https://arxiv.org/abs/2608.05970v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-06",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "ω-0：实现人形机器人移动与操作并行的潜在预测世界动作模型",
       "summary": "提出 ω-0，一个全身潜在预测世界动作模型，直接由语言指令、视觉与本体状态生成可执行的全身动作隐变量。在 11 项真实家庭任务上，单一模型即优于模仿学习、VLA 与人形基线。",
       "link": "https://arxiv.org/abs/2608.06375v1",
@@ -117,15 +126,6 @@
       "type": "研究论文",
       "route": "产品",
       "date": "2026-07-28",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架",
-      "summary": "研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。",
-      "link": "https://arxiv.org/abs/2607.28623v1",
-      "type": "研究论文",
-      "route": "落地",
-      "date": "2026-07-30",
       "source": "arXiv · Robotics"
     }
   ],
@@ -247,6 +247,20 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "Ambi Robotics",
+      "officialUrl": "https://www.ambirobotics.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "面向包裹分拣和仓储的机器人智能。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "ANYbotics",
       "officialUrl": "https://www.anybotics.com/",
       "region": "欧洲",
@@ -303,6 +317,34 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "DYNA Robotics",
+      "officialUrl": "https://www.dyna.co/",
+      "region": "北美",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "面向真实生产环境的通用操作模型与机器人部署。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Field AI",
+      "officialUrl": "https://www.fieldai.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "面向复杂非结构化环境的机器人基础模型。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "Figure",
       "officialUrl": "https://www.figure.ai/",
       "region": "北美",
@@ -313,6 +355,76 @@
         "部署与商业化"
       ],
       "thesis": "人形本体、端到端机器人智能与工作场景。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "GrayMatter Robotics",
+      "officialUrl": "https://graymatter-robotics.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "面向表面处理等复杂制造工序的机器人智能。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Hugging Face",
+      "officialUrl": "https://huggingface.co/lerobot",
+      "region": "北美/欧洲",
+      "stage": "平台公司",
+      "routes": [
+        "数据与训练",
+        "VLA 与具身模型"
+      ],
+      "thesis": "开放机器人模型、数据集、硬件配方与社区协作基础设施。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Humanoid",
+      "officialUrl": "https://thehumanoid.ai/",
+      "region": "欧洲",
+      "stage": "创业公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "面向产业与服务场景的通用人形机器人。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Intrinsic",
+      "officialUrl": "https://www.intrinsic.ai/",
+      "region": "北美",
+      "stage": "平台公司",
+      "routes": [
+        "数据与训练",
+        "部署与商业化"
+      ],
+      "thesis": "工业机器人软件、感知与自动化开发平台。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Mentee Robotics",
+      "officialUrl": "https://www.menteebot.com/",
+      "region": "以色列",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件"
+      ],
+      "thesis": "端到端智能与人形机器人协同研发。",
       "capitalStatus": "证据不足",
       "validationStage": "证据不足",
       "identitySource": "公司官网"
@@ -346,6 +458,20 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "PAL Robotics",
+      "officialUrl": "https://pal-robotics.com/",
+      "region": "欧洲",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "服务、人形和移动机器人产品与研究平台。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "Physical Intelligence",
       "officialUrl": "https://www.physicalintelligence.company/",
       "region": "北美",
@@ -355,6 +481,34 @@
         "数据与训练"
       ],
       "thesis": "多平台真实数据与生成式动作策略。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Pickle Robot",
+      "officialUrl": "https://www.picklerobot.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "面向物流装卸的具身自动化系统。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Robust AI",
+      "officialUrl": "https://www.robust.ai/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "面向仓储和工业协作的自主移动机器人。",
       "capitalStatus": "证据不足",
       "validationStage": "证据不足",
       "identitySource": "公司官网"
@@ -388,6 +542,35 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "Standard Bots",
+      "officialUrl": "https://standardbots.com/",
+      "region": "北美",
+      "stage": "创业公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "软硬件一体的协作机器人与工业自动化。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Stanford Robotics Center",
+      "officialUrl": "https://src.stanford.edu/",
+      "region": "北美",
+      "stage": "公司",
+      "routes": [
+        "VLA 与具身模型",
+        "数据与训练",
+        "本体与硬件"
+      ],
+      "thesis": "跨学科机器人研究与真实系统验证。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "Tesla",
       "officialUrl": "https://www.tesla.com/AI",
       "region": "北美",
@@ -403,6 +586,34 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "Toyota Research Institute",
+      "officialUrl": "https://www.tri.global/",
+      "region": "北美/日本",
+      "stage": "平台公司",
+      "routes": [
+        "数据与训练",
+        "VLA 与具身模型"
+      ],
+      "thesis": "大规模机器人行为学习与家庭操作研究。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "Wandercraft",
+      "officialUrl": "https://www.wandercraft.eu/",
+      "region": "欧洲/北美",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "动态行走控制、外骨骼与工业人形机器人。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "乐聚机器人",
       "officialUrl": "https://www.lejurobot.com/",
       "region": "中国",
@@ -412,6 +623,20 @@
         "部署与商业化"
       ],
       "thesis": "人形机器人与教育、行业应用。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "云深处科技",
+      "officialUrl": "https://www.deeprobotics.cn/",
+      "region": "中国",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "四足、人形机器人与复杂环境行业部署。",
       "capitalStatus": "证据不足",
       "validationStage": "证据不足",
       "identitySource": "公司官网"
@@ -458,6 +683,35 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "加速进化",
+      "officialUrl": "https://www.booster.tech/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "本体与硬件",
+        "数据与训练"
+      ],
+      "thesis": "面向开发者、赛事与研究的全尺寸人形机器人平台。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "北京人形机器人创新中心",
+      "officialUrl": "https://www.x-humanoid.com/",
+      "region": "中国",
+      "stage": "平台公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "数据与训练"
+      ],
+      "thesis": "通用具身智能平台、人形本体与公共数据基础设施。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "宇树科技",
       "officialUrl": "https://www.unitree.com/",
       "region": "中国",
@@ -467,6 +721,49 @@
         "数据与训练"
       ],
       "thesis": "高性能机器人本体与开发者生态。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "小鹏机器人",
+      "officialUrl": "https://www.xpeng.com/",
+      "region": "中国",
+      "stage": "平台公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "汽车智能体系延伸的人形机器人软硬件平台。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "开普勒机器人",
+      "officialUrl": "https://www.keplerbot.com/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "通用人形机器人本体与工业场景应用。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
+      "name": "星动纪元",
+      "officialUrl": "https://www.robotera.com/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件"
+      ],
+      "thesis": "软硬件全栈人形机器人与灵巧操作。",
       "capitalStatus": "证据不足",
       "validationStage": "证据不足",
       "identitySource": "公司官网"
@@ -515,6 +812,21 @@
       "identitySource": "公司官网"
     },
     {
+      "name": "自变量机器人",
+      "officialUrl": "https://x2robot.com/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "世界模型与空间智能",
+        "本体与硬件"
+      ],
+      "thesis": "世界统一模型与通用具身智能机器人。",
+      "capitalStatus": "证据不足",
+      "validationStage": "证据不足",
+      "identitySource": "公司官网"
+    },
+    {
       "name": "银河通用",
       "officialUrl": "https://galbot.com/",
       "region": "中国",
@@ -550,8 +862,8 @@
       "companies": [
         "Tesla",
         "NVIDIA",
-        "Google DeepMind",
-        "Meta"
+        "Hugging Face",
+        "Google DeepMind"
       ]
     },
     {
@@ -559,9 +871,9 @@
       "focus": "泛化与长程任务",
       "companies": [
         "NVIDIA",
+        "Hugging Face",
         "Google DeepMind",
-        "Meta",
-        "Figure"
+        "Meta"
       ]
     },
     {
@@ -569,7 +881,8 @@
       "focus": "可预测的物理环境",
       "companies": [
         "NVIDIA",
-        "World Labs"
+        "World Labs",
+        "自变量机器人"
       ]
     },
     {
