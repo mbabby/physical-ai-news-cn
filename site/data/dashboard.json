@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-08T15:02:55.242Z",
+  "generatedAt": "2026-08-08T15:04:22.013Z",
   "periodLabel": "本周 2026-W32 · 近 30 天滚动证据池",
   "stats": {
     "events": 4,
     "companies": 49,
-    "research": 5,
-    "sources": 13
+    "research": 6,
+    "sources": 40
   },
   "topSignals": [
     {
@@ -140,6 +140,24 @@
       "source": "arXiv · Robotics"
     },
     {
+      "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+      "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
+      "link": "https://arxiv.org/abs/2607.27782v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-07-30",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
+      "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
+      "link": "https://arxiv.org/abs/2608.05970v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-06",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "ω-0：实现人形机器人移动与操作并行的潜在预测世界动作模型",
       "summary": "提出 ω-0，一个全身潜在预测世界动作模型，直接由语言指令、视觉与本体状态生成可执行的全身动作隐变量。在 11 项真实家庭任务上，单一模型即优于模仿学习、VLA 与人形基线。",
       "link": "https://arxiv.org/abs/2608.06375v1",
@@ -158,21 +176,12 @@
       "source": "arXiv · Robotics"
     },
     {
-      "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-      "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-      "link": "https://arxiv.org/abs/2608.05970v1",
+      "title": "自主缝合中通过缝线操控间接拾取手术针",
+      "summary": "该研究提出以缝线为辅助工具间接拾取手术针的自主框架，涵盖重建、抓取点选择与双臂沿线追踪，可在针被遮挡或难以接近时避免器械接触组织。在 da Vinci Research Kit 上的真实实验表明其在复杂缝线条件下仍具鲁棒性。",
+      "link": "https://arxiv.org/abs/2607.26337v1",
       "type": "研究论文",
-      "route": "研究",
-      "date": "2026-08-06",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-      "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
-      "link": "https://arxiv.org/abs/2607.27782v1",
-      "type": "研究论文",
-      "route": "研究",
-      "date": "2026-07-30",
+      "route": "产品",
+      "date": "2026-07-28",
       "source": "arXiv · Robotics"
     }
   ],
@@ -194,6 +203,44 @@
         "自变量机器人"
       ],
       "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+    },
+    {
+      "paper": {
+        "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+        "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
+        "link": "https://arxiv.org/abs/2607.27782v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-07-30",
+        "source": "arXiv · Robotics"
+      },
+      "route": "VLA 与具身模型",
+      "companies": [
+        "Google DeepMind",
+        "NVIDIA",
+        "逐际动力",
+        "Ambi Robotics"
+      ],
+      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、逐际动力、Ambi Robotics 的路线进展，产品与部署仍以独立事件证据为准。"
+    },
+    {
+      "paper": {
+        "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
+        "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
+        "link": "https://arxiv.org/abs/2608.05970v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-06",
+        "source": "arXiv · Robotics"
+      },
+      "route": "VLA 与具身模型",
+      "companies": [
+        "Google DeepMind",
+        "NVIDIA",
+        "逐际动力",
+        "Ambi Robotics"
+      ],
+      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、逐际动力、Ambi Robotics 的路线进展，产品与部署仍以独立事件证据为准。"
     },
     {
       "paper": {
@@ -235,41 +282,22 @@
     },
     {
       "paper": {
-        "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-        "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-        "link": "https://arxiv.org/abs/2608.05970v1",
+        "title": "自主缝合中通过缝线操控间接拾取手术针",
+        "summary": "该研究提出以缝线为辅助工具间接拾取手术针的自主框架，涵盖重建、抓取点选择与双臂沿线追踪，可在针被遮挡或难以接近时避免器械接触组织。在 da Vinci Research Kit 上的真实实验表明其在复杂缝线条件下仍具鲁棒性。",
+        "link": "https://arxiv.org/abs/2607.26337v1",
         "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-06",
+        "route": "产品",
+        "date": "2026-07-28",
         "source": "arXiv · Robotics"
       },
-      "route": "VLA 与具身模型",
+      "route": "部署与商业化",
       "companies": [
-        "Google DeepMind",
-        "NVIDIA",
-        "逐际动力",
-        "Ambi Robotics"
+        "Agility Robotics",
+        "1X",
+        "Ambi Robotics",
+        "ANYbotics"
       ],
-      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、逐际动力、Ambi Robotics 的路线进展，产品与部署仍以独立事件证据为准。"
-    },
-    {
-      "paper": {
-        "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-        "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
-        "link": "https://arxiv.org/abs/2607.27782v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-07-30",
-        "source": "arXiv · Robotics"
-      },
-      "route": "VLA 与具身模型",
-      "companies": [
-        "Google DeepMind",
-        "NVIDIA",
-        "逐际动力",
-        "Ambi Robotics"
-      ],
-      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、逐际动力、Ambi Robotics 的路线进展，产品与部署仍以独立事件证据为准。"
+      "connection": "该研究对应「部署与商业化」路线；当前可关联观察 Agility Robotics、1X、Ambi Robotics、ANYbotics 的路线进展，产品与部署仍以独立事件证据为准。"
     }
   ],
   "companyRadar": [
