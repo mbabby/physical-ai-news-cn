@@ -13,7 +13,7 @@
 - [AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架](https://arxiv.org/abs/2608.02197v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示](https://arxiv.org/abs/2608.01826v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Tacta Systems 推出 TactaBot，瞄准高技能制造任务](https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [Nomagic：机器人必须在混乱的真实仓库中证明自己](https://www.therobotreport.com/building-robots-that-survive-warehouse/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [打造能在仓库中生存的机器人](https://www.therobotreport.com/building-robots-that-survive-warehouse/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 
 ## 待评估信源
 
