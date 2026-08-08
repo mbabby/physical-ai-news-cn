@@ -22,3 +22,13 @@ export function hasCompleteChineseCopy(article: Pick<Article, "titleZh" | "summa
 export function publicArticlesOnly<T extends Pick<Article, "titleZh" | "summaryZh">>(articles: T[]): T[] {
   return articles.filter(hasCompleteChineseCopy);
 }
+
+/** Reuse verified copy for the same source item when today's LLM call fails. */
+export function preferKnownGoodArticles(current: Article[], historical: Article[]): Article[] {
+  const known = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
+  return current.map((article) => {
+    const prior = known.get(article.id);
+    if (!prior || hasCompleteChineseCopy(article)) return article;
+    return { ...article, titleZh: prior.titleZh, summaryZh: prior.summaryZh };
+  });
+}

@@ -217,10 +217,15 @@ export interface CompanyProfile {
 /** Public, generated dossier. It never fabricates facts that lack evidence. */
 export interface CompanyDossier {
   company: CompanyProfile;
+  /** Official identity/focus proof. This is deliberately separate from event
+   * proof: a company home page never verifies a financing or deployment. */
+  identityEvidence: Array<{ link: string; source: string; checkedAt: string; supports: string }>;
   updatedAt: string;
   eventIds: string[];
   funding: Array<{ eventId: string; date: string; fact: FundingFact; evidenceLinks: string[] }>;
   productsAndDeployments: Array<{ eventId: string; date: string; type: ArticleKind; fact: ProductDeploymentFact; evidenceLinks: string[] }>;
+  capitalStatus: CapitalEvidenceStatus;
+  validationStage: ValidationStage;
 }
 
 export interface RouteIndexEntry {

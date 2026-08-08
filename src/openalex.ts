@@ -1,4 +1,5 @@
 import type { Article, RuntimeStatus, ScholarlyAuthor } from "./types.js";
+import { fetchWithRetry, mapWithConcurrency } from "./runtime/http.js";
 
 interface OpenAlexInstitution { display_name?: string }
 interface OpenAlexAuthorship { author?: { id?: string; display_name?: string }; institutions?: OpenAlexInstitution[] }
@@ -16,8 +17,7 @@ function arxivDateCompatible(article: Article, candidate: OpenAlexWork): boolean
   return Number.isFinite(delta) && delta <= 370 * 86_400_000;
 }
 async function request<T>(url: URL): Promise<T> {
-  const response = await fetch(url, { signal: AbortSignal.timeout(12_000), headers: { "User-Agent": "physical-ai-news-cn/1.0" } });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const response = await fetchWithRetry(url, { headers: { "User-Agent": "physical-ai-news-cn/1.0" } }, { timeoutMs: 12_000, attempts: 3 });
   return response.json() as Promise<T>;
 }
 async function authorProfile(id: string, apiKey: string): Promise<ScholarlyAuthor | undefined> {
@@ -39,7 +39,7 @@ export interface OpenAlexEnrichmentResult { articles: Article[]; status: Runtime
 export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: string): Promise<OpenAlexEnrichmentResult> {
   if (!apiKey) return { articles, status: { component: "OpenAlex", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "未配置 OpenAlex；论文仍按来源元数据排序。" } };
   let succeeded = 0; let failed = 0;
-  const enriched = await Promise.all(articles.map(async (article) => {
+  const enriched = await mapWithConcurrency(articles, 4, async (article) => {
     try {
       const url = new URL("https://api.openalex.org/works");
       url.searchParams.set("search", article.title);
@@ -64,6 +64,6 @@ export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: s
       failed += 1;
       return article;
     }
-  }));
+  });
   return { articles: enriched, status: { component: "OpenAlex", status: failed ? "部分降级" : "成功", attempted: articles.length, succeeded, failed, detail: failed ? "部分论文元数据未能刷新，已保留原始来源数据。" : "论文引用与作者机构元数据已刷新。" } };
 }

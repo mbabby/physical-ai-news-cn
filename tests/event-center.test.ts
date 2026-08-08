@@ -141,9 +141,13 @@ test("builds company dossiers and route indexes from attributable events", () =>
   assert.equal(dossiers.length, 1);
   assert.equal(dossiers[0].eventIds.length, 1);
   assert.equal(dossiers[0].productsAndDeployments.length, 1);
+  assert.equal(dossiers[0].identityEvidence[0]?.link, company.officialUrl);
+  assert.equal(dossiers[0].capitalStatus, "证据不足");
+  assert.equal(dossiers[0].validationStage, "原型与演示");
   assert.deepEqual(routes.find((item) => item.route === "VLA 与具身模型")?.companies, ["Google DeepMind"]);
   assert.match(formatCompanyDossiers(dossiers), /Google DeepMind/);
   assert.match(formatCompanyDossiers(dossiers), /产品 \/ 部署/);
+  assert.match(formatCompanyDossiers(dossiers), /不代表未融资/);
 });
 
 test("appends new evidence to an existing event instead of duplicating it", () => {

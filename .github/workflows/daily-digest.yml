@@ -79,6 +79,9 @@ jobs:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           DIGEST_HOURS: ${{ inputs.hours }}
+      - name: Validate generated publication
+        if: steps.fallback.outputs.run == 'true'
+        run: pnpm run validate:release
       - name: Report generator status
         id: generator_status
         if: steps.fallback.outputs.run == 'true'
@@ -91,6 +94,8 @@ jobs:
           jq -r '(.sourceOutcomes // []) | if map(select(.status == "failure")) | length == 0 then "- 成功：本轮已启用信源均完成抓取。" else map(select(.status == "failure") | "- 失败：\(.source)（\(.reason // "未知原因")）")[] end' "daily/${digest_date}.json" >> "$GITHUB_STEP_SUMMARY"
           echo "### LLM 与 OpenAlex" >> "$GITHUB_STEP_SUMMARY"
           jq -r '.runtimeStatus[] | "- \(.component)：\(.status)；请求 \(.attempted)，成功 \(.succeeded)，失败 \(.failed)。\(.detail)"' "daily/${digest_date}.json" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 发布事务" >> "$GITHUB_STEP_SUMMARY"
+          jq -r '"- 状态：\(.status)；公开产业 \(.quality.publicIndustryItems) 条，研究 \(.quality.publicResearchItems) 条，候选 \(.quality.candidates) 条，失败信源 \(.quality.sourceFailures) 个。"' review/run-manifest.json >> "$GITHUB_STEP_SUMMARY"
       - name: Commit updated digest
         id: commit_digest
         if: steps.fallback.outputs.run == 'true'

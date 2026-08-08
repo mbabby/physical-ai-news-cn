@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { FETCH_TIMEOUT_MS } from "../config.js";
+import { fetchWithRetry } from "../runtime/http.js";
 import type { Article, XSourceConfig } from "../types.js";
 
 interface XResponse {
@@ -47,10 +48,8 @@ export async function fetchXSource(source: XSourceConfig, bearerToken: string): 
   url.searchParams.set("tweet.fields", "created_at,author_id");
   url.searchParams.set("expansions", "author_id");
   url.searchParams.set("user.fields", "name,username");
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  const response = await fetchWithRetry(url, {
     headers: { Authorization: `Bearer ${bearerToken}`, "User-Agent": "physical-ai-news-cn/1.0" },
-  });
-  if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+  }, { timeoutMs: FETCH_TIMEOUT_MS, attempts: 2 });
   return parseXResponse(await response.json() as XResponse, source);
 }

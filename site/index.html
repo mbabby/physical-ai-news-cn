@@ -14,7 +14,7 @@
     <div class="grid-glow"></div>
     <header class="shell hero">
       <a class="brand" href="#top"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
-      <nav><a href="#signals">情报流</a><a href="#routes">技术路线</a><a href="#resources">资源雷达</a><a href="https://github.com/mbabby/physical-ai-news-cn">GitHub ↗</a></nav>
+      <nav><a href="#signals">情报流</a><a href="#companies">公司雷达</a><a href="#routes">技术路线</a><a href="#resources">资源雷达</a><a href="https://github.com/mbabby/physical-ai-news-cn">GitHub ↗</a></nav>
       <div class="hero-copy" id="top">
         <p class="eyebrow">CHINA · OPEN INTELLIGENCE BRIEFING</p>
         <h1>看见物理 AI<br><em>正在发生的变化。</em></h1>
@@ -40,6 +40,17 @@
           <article class="lane"><div class="lane-title"><span class="lane-icon industry-icon">↗</span><h3>产业进展</h3></div><div id="industry"></div></article>
           <article class="lane"><div class="lane-title"><span class="lane-icon research-icon">∿</span><h3>学术前沿</h3></div><div id="research"></div></article>
         </div>
+      </section>
+
+      <section id="companies" class="section company-section">
+        <div class="section-head"><div><p class="eyebrow">EVIDENCE-BACKED COMPANY RADAR</p><h2>公司与资本雷达</h2></div><a href="../resources/companies.md">完整公司档案 ↗</a></div>
+        <p class="section-note">按公司、技术路线与公开证据查看资本和产品推进；“证据不足”不代表该公司未融资或未推进。</p>
+        <div class="radar-controls" aria-label="筛选公司雷达">
+          <label>技术路线 <select id="route-filter"><option value="">全部路线</option></select></label>
+          <label>区域 <select id="region-filter"><option value="">全部区域</option></select></label>
+          <label>档案状态 <select id="status-filter"><option value="">全部状态</option><option value="已证实">已证实资本</option><option value="有资本信号">有资本信号</option><option value="证据不足">证据不足</option></select></label>
+        </div>
+        <div id="company-radar" class="company-radar"></div>
       </section>
 
       <section id="routes" class="section route-section">

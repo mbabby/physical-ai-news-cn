@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -23,6 +23,9 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
+import { preferKnownGoodArticles } from "./publication.js";
+import { FileTransaction, isArray, isObject, readJsonStrict } from "./runtime/storage.js";
+import { validatePublication } from "./runtime/validation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -46,12 +49,12 @@ function updateReadme(readme: string, events: EventStore, companies: CompanyProf
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
-  try { return JSON.parse(await readFile(path, "utf8")) as SourceRegistry; } catch { return undefined; }
+  return readJsonStrict<SourceRegistry>(path, { optional: true, label: "信源注册表", validate: (value): value is SourceRegistry => isObject(value) && Array.isArray(value.sources) });
 }
 async function readCandidateRegistry(path: string): Promise<CandidateSourceRegistry | undefined> {
-  try { return JSON.parse(await readFile(path, "utf8")) as CandidateSourceRegistry; } catch { return undefined; }
+  return readJsonStrict<CandidateSourceRegistry>(path, { optional: true, label: "候选信源注册表", validate: (value): value is CandidateSourceRegistry => isObject(value) && Array.isArray(value.sources) });
 }
-async function readJson<T>(path: string): Promise<T | undefined> { try { return JSON.parse(await readFile(path, "utf8")) as T; } catch { return undefined; } }
+async function readJson<T>(path: string): Promise<T | undefined> { return readJsonStrict<T>(path, { optional: true }); }
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
   const results = await Promise.allSettled(sources.map((source) => {
@@ -127,6 +130,9 @@ function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["
 }
 
 async function main(): Promise<void> {
+  const startedAt = new Date();
+  const transaction = new FileTransaction();
+  const writeFile = async (path: string, content: string, _encoding?: string): Promise<void> => { transaction.stage(path, content); };
   const windowHours = parseWindow(process.argv.slice(2));
   const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research"); const routesDir = join(root, "routes"); const metricsDir = join(root, "metrics");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true }), mkdir(metricsDir, { recursive: true })]);
@@ -134,7 +140,7 @@ async function main(): Promise<void> {
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const companyEntityPath = join(eventsDir, "company-entities.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
-  const companies = await readJson<CompanyProfile[]>(join(eventsDir, "companies.json")) ?? [];
+  const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
   const trackedCompanies = new Set(companies.map((company) => company.name));
   const priorRegistry = await readRegistry(join(sourcesDir, "registry.json"));
   const configuredSources = [...SOURCES, ...dynamicSources(candidateRegistry)];
@@ -155,27 +161,37 @@ async function main(): Promise<void> {
   const researchWindowHours = 30 * 24;
   const liveResearch = filterAndRank(collected.articles.filter((article) => article.source.startsWith("arXiv · Robotics")), researchWindowHours, 24);
   const recentArchives = await readRecentDailyArchives(outputDir, now, 30);
+  const historicalArticles = recentArchives.flatMap((archive) => archive.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
   const cachedResearch = (await readRecentDailyArticles(outputDir, now, 30)).filter((article) => article.source.startsWith("arXiv · Robotics"));
+  const previousResearch = await readJson<ResearchRegistry>(join(researchDir, "registry.json"));
+  const researchCutoff = now.getTime() - researchWindowHours * 3_600_000;
+  const registeredResearch = (previousResearch?.records ?? []).map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))
+    .filter((article) => article.publishedAt.getTime() >= researchCutoff);
   const latestCachedResearchDate = recentArchives.filter((archive) => archive.articles.some((article) => article.source.startsWith("arXiv · Robotics"))).sort((a, b) => b.date.localeCompare(a.date))[0]?.date;
-  const researchCandidates = rankResearchArticles(uniqueArticles([...liveResearch, ...cachedResearch])).slice(0, 36);
+  const researchCandidates = rankResearchArticles(uniqueArticles([...liveResearch, ...cachedResearch, ...registeredResearch])).slice(0, 36);
   const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
   const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
-  const articles = await summarizeInSmallBatches(summarizer, industrySelected);
+  const articles = preferKnownGoodArticles(await summarizeInSmallBatches(summarizer, industrySelected), historicalArticles);
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough
   // complete cards to publish six. Any incomplete card remains private.
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
-  const researchArticles = await summarizeInSmallBatches(summarizer, researchSelected);
+  const researchArticles = preferKnownGoodArticles(await summarizeInSmallBatches(summarizer, researchSelected), [...registeredResearch, ...cachedResearch, ...historicalArticles]);
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
-  const researchPool = uniqueArticles([...researchArticles, ...openAlex.articles, ...cachedResearch]);
-  const previousResearch = await readJson<ResearchRegistry>(join(researchDir, "registry.json"));
+  const researchPool = uniqueArticles(preferKnownGoodArticles([...researchArticles, ...openAlex.articles, ...registeredResearch, ...cachedResearch], [...registeredResearch, ...cachedResearch, ...historicalArticles]));
   const researchRegistry = updateResearchRegistry(previousResearch, researchPool, now);
-  const publicResearchRecords = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article)).slice(0, 6);
+  const freshlyRankedResearch = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article));
+  const previousPublicRecords = (previousResearch?.records ?? []).filter((record) => isPublishableResearch(record.article) && !record.article.scholar?.isRetracted)
+    .map((record) => ({ ...record, article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) } }));
+  const previousById = new Map(previousPublicRecords.map((record) => [record.id, record]));
+  const fallbackOrder = rankResearchArticles(previousPublicRecords.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) })))
+    .flatMap((article) => previousById.get(article.id) ? [previousById.get(article.id)!] : []);
+  const publicResearchRecords = [...new Map([...freshlyRankedResearch, ...fallbackOrder].map((record) => [record.id, record])).values()].slice(0, 6);
   const shownResearchIds = new Set(publicResearchRecords.map((record) => record.id));
   researchRegistry.records.forEach((record) => { if (shownResearchIds.has(record.id)) record.lastShownAt = now.toISOString(); });
   const publicResearch = publicResearchRecords.map((record) => record.article);
@@ -248,11 +264,12 @@ async function main(): Promise<void> {
   const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
-  const weekly = selectWeekly(await readRecentDailyArticles(outputDir, now));
+  const archives = [...recentArchives.filter((item) => item.date !== archive.date), archive].sort((a, b) => a.date.localeCompare(b.date));
+  const weeklyArticles = archives.flatMap((item) => item.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
+  const weekly = selectWeekly(weeklyArticles);
   const week = isoWeek(now); const weeklyMarkdown = formatWeeklyMarkdown(weekly, week);
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   await writeFile(join(weeklyDir, "shareable-summary.md"), formatShareableSummary(eventStore, publicResearch, week), "utf8");
-  const archives = await readRecentDailyArchives(outputDir, now, 30);
   const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now, companies);
   const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
@@ -272,7 +289,23 @@ async function main(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   const readmePath = join(root, "README.md");
-  await writeFile(readmePath, updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate), "utf8");
+  const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate);
+  validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousResearch?.records.filter((record) => isPublishableResearch(record.article)).length ?? 0 });
+  await writeFile(readmePath, readme, "utf8");
+  const finishedAt = new Date();
+  const runManifest = {
+    schemaVersion: 1,
+    runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
+    date: archive.date,
+    startedAt: startedAt.toISOString(),
+    finishedAt: finishedAt.toISOString(),
+    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status === "部分降级") ? "degraded" : "success",
+    quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
+    services: statuses,
+    outputs: transaction.size + 1,
+  };
+  await writeFile(join(reviewDir, "run-manifest.json"), JSON.stringify(runManifest, null, 2) + "\n", "utf8");
+  await transaction.commit();
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
 main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });

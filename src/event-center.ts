@@ -371,13 +371,23 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
 
 export function buildCompanyDossiers(companies: CompanyProfile[], events: EventRecord[]): CompanyDossier[] {
   return companies.map((company) => {
-    const linked = events.filter((event) => event.primaryEntity === company.name).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+    const linked = events.filter((event) => event.primaryEntity === company.name && event.evidence.some((item) => item.grade === "A" || item.grade === "B"))
+      .sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+    // Most legacy profiles were curated before identity evidence became an
+    // explicit field. Their official URL is still a traceable identity source,
+    // but is never reused as evidence for funding or a product claim.
+    const identityEvidence = company.profileEvidence?.length
+      ? company.profileEvidence
+      : [{ link: company.officialUrl, source: "公司官网", checkedAt: "2026-08-08", supports: "公司主体、官方入口与公开技术定位。" }];
     return {
       company,
+      identityEvidence,
       updatedAt: linked[0]?.lastUpdatedAt ?? "",
       eventIds: linked.map((event) => event.id),
       funding: linked.filter((event) => event.type === "投融资" && event.funding?.entityStatus === "已确认").map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), fact: event.funding!, evidenceLinks: event.evidence.map((item) => item.link) })),
       productsAndDeployments: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), type: event.type, fact: event.productDeployment ?? { customers: [] }, evidenceLinks: event.evidence.map((item) => item.link) })),
+      capitalStatus: capitalStatus(linked),
+      validationStage: validationStage(linked),
     };
   });
 }
@@ -392,10 +402,10 @@ export function buildRouteIndex(companies: CompanyProfile[], events: EventRecord
 }
 
 export function formatCompanyDossiers(dossiers: CompanyDossier[]): string {
-  const lines = ["# 公司与资本地图", "", "> 可独立分享的物理 AI 公司档案：查看每家公司押注的技术路线，以及可追溯的融资、产品与部署证据。空白或“未收录”仅表示当前信源尚无满足门槛的公开事件，不代表没有融资或没有进展。", ""];
+  const lines = ["# 公司与资本地图", "", "> 可独立分享的物理 AI 公司档案：查看每家公司押注的技术路线，以及可追溯的融资、产品与部署证据。**“证据不足”只表示本库尚未收录可归属的公开证据，不表示没有融资或没有进展。**", "", "## 使用口径", "", "- 主体与技术定位：每家公司均链接至官网或一手主体证据。", "- 融资：仅在主体明确、且 A/B 级证据可追溯时显示轮次、金额、估值与投资方。", "- 产品 / 部署：产品发布不自动等同于客户部署；验证阶段由单独的公开证据决定。", ""];
   for (const dossier of dossiers) {
     const { company } = dossier;
-    lines.push(`## [${company.name}](${company.officialUrl})`, "", `- 地域 / 阶段：${company.region} / ${company.stage ?? "公司"}`, `- 技术路线：${company.routes.join(" · ")}`, `- 核心押注：${company.thesis}`);
+    lines.push(`## [${company.name}](${company.officialUrl})`, "", `- 地域 / 阶段：${company.region} / ${company.stage ?? "公司"}`, `- 技术路线：${company.routes.join(" · ")}`, `- 核心押注：${company.thesis}`, `- 档案状态：资本 ${dossier.capitalStatus === "证据不足" ? "证据不足（不代表未融资）" : dossier.capitalStatus}；验证 ${dossier.validationStage}`, `- 主体证据：[${dossier.identityEvidence[0]?.source ?? "公司官网"}](${dossier.identityEvidence[0]?.link ?? company.officialUrl})`);
     if (dossier.funding.length) lines.push(`- 融资：${dossier.funding.slice(0, 3).map((item) => `${item.fact.round ?? "轮次未披露"} ${item.fact.amount ?? "金额未披露"}（[证据](${item.evidenceLinks[0] ?? "#"})，${item.date}）`).join("；")}`);
     else lines.push("- 融资：尚未收录可归属的公开融资证据。");
     if (dossier.productsAndDeployments.length) lines.push(`- 产品 / 部署：${dossier.productsAndDeployments.slice(0, 3).map((item) => `${item.fact.product ?? item.fact.deployment ?? item.type}（[证据](${item.evidenceLinks[0] ?? "#"})，${item.date}）`).join("；")}`);

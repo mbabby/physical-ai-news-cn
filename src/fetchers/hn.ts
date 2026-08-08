@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { FETCH_TIMEOUT_MS } from "../config.js";
+import { fetchWithRetry } from "../runtime/http.js";
 import type { AlgoliaSourceConfig, Article } from "../types.js";
 
 export interface AlgoliaHit { title: string | null; url: string | null; objectID: string; created_at: string }
@@ -25,7 +26,6 @@ export async function fetchAlgoliaSource(source: AlgoliaSourceConfig, windowHour
   url.searchParams.set("query", source.query);
   url.searchParams.set("tags", "story");
   url.searchParams.set("numericFilters", `created_at_i>=${sinceUnix}`);
-  const response = await fetch(url, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
-  if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+  const response = await fetchWithRetry(url, {}, { timeoutMs: FETCH_TIMEOUT_MS });
   return parseAlgoliaResponse((await response.json()) as AlgoliaResponse, source);
 }
