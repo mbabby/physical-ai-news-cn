@@ -82,6 +82,8 @@
 
 - [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
 
+- [PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Aaron D. Ames</sub>
+
 <!-- RESEARCH_UPDATES_END -->
 
 ## 分享与协作

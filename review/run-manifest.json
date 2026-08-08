@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-08-2026-08-08T08-02-23-087Z",
+  "runId": "2026-08-08-2026-08-08T08-38-38-944Z",
   "date": "2026-08-08",
-  "startedAt": "2026-08-08T08:02:23.087Z",
-  "finishedAt": "2026-08-08T08:02:26.405Z",
-  "status": "success",
+  "startedAt": "2026-08-08T08:38:38.944Z",
+  "finishedAt": "2026-08-08T08:42:49.980Z",
+  "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
-    "publicResearchItems": 6,
-    "candidates": 19,
+    "publicResearchItems": 3,
+    "candidates": 21,
     "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
-      "status": "未配置",
-      "attempted": 22,
-      "succeeded": 0,
-      "failed": 0,
-      "detail": "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。"
+      "status": "部分降级",
+      "attempted": 12,
+      "succeeded": 9,
+      "failed": 3,
+      "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
     {
       "component": "OpenAlex",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
-      "failed": 0,
-      "detail": "未配置 OpenAlex；论文仍按来源元数据排序。"
+      "status": "部分降级",
+      "attempted": 36,
+      "succeeded": 33,
+      "failed": 3,
+      "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     }
   ],
   "outputs": 33
