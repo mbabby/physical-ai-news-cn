@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-08T03:37:04.139Z",
+  "updatedAt": "2026-08-08T06:23:48.183Z",
   "windowDays": 30,
   "sources": [
     {
@@ -12,7 +12,7 @@
       "effectiveWeight": 8,
       "successfulRuns": 7,
       "failedRuns": 1,
-      "selectedArticles": 31,
+      "selectedArticles": 34,
       "reliability": 0.88,
       "fetchedArticles": 300,
       "relatedHits": 81,
@@ -20,9 +20,9 @@
       "health": {
         "successRate": 0.88,
         "hitRate": 0.27,
-        "inclusionRate": 0.38,
+        "inclusionRate": 0.42,
         "correctionRate": 0,
-        "score": 65.1
+        "score": 66.1
       },
       "recommendation": "保留"
     },
@@ -191,6 +191,30 @@
       "recommendation": "排查"
     },
     {
+      "name": "The Robot Report",
+      "type": "rss",
+      "tier": "权威产业媒体",
+      "status": "已启用",
+      "publicationPolicy": "可作为独立报道",
+      "configuredWeight": 8,
+      "effectiveWeight": 8,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 15,
+      "relatedHits": 3,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0.2,
+        "inclusionRate": 0,
+        "correctionRate": 0,
+        "score": 59
+      },
+      "recommendation": "保留"
+    },
+    {
       "name": "Google News · Robotics Capital",
       "type": "rss",
       "tier": "线索发现层",
@@ -203,14 +227,14 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 32,
+      "relatedHits": 30,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0.08,
+        "hitRate": 0.07,
         "inclusionRate": 0,
         "correctionRate": 0,
-        "score": 56.6
+        "score": 56.4
       },
       "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
@@ -228,7 +252,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 23,
+      "relatedHits": 22,
       "correctionCount": 0,
       "health": {
         "successRate": 1,

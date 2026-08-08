@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[通过缝线操控实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1)。该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖重建、抓取点选择与双臂循线。在 da Vinci Research Kit 上的真实实验显示，即使缝线形态复杂或针不可直达仍稳健。
+研究：[利用缝线操作实现自主缝合中的灵活拾针](https://arxiv.org/abs/2607.26337v1)。该研究提出以缝线为辅助工具间接拾取缝合针的自主框架，涵盖组织重建、抓取点选择、稳定提线到双手循线的完整流程。研究在 da Vinci Research Kit 上完成真实环境验证，即使缝线形态复杂或缝合针无法直接接近时仍表现稳健。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

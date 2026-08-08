@@ -21,7 +21,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-08 | 4 | 27 | 38 | 11 / 10 |
+| 2026-08-08 | 4 | 27 | 38 | 12 / 10 |
 
 **运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
 
@@ -66,9 +66,7 @@
 
 ### 本周产品 / 部署
 
-- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 08-01
-- **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 世界模型与空间智能 / 部署与商业化 · 08-01
-- **Agility Robotics** · [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) · 本体与硬件 · 08-01
+- 暂无满足证据门槛的产品或部署事件。
 
 > [查看 27 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 
@@ -80,11 +78,17 @@
 
 > 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
-- [通过缝线操控实现自主缝合中的柔性缝针拾取](https://arxiv.org/abs/2607.26337v1) <kbd>真实机器人</kbd> <kbd>CMU</kbd><br>该研究提出以缝线辅助间接拾取缝针的自主框架，涵盖重建、抓取点选择与双臂循线。在 da Vinci Research Kit 上的真实实验显示，即使缝线形态复杂或针不可直达仍稳健。<br>值得关注：来自 CMU；提供真实机器人证据。<br><sub>重点作者 / 实验室：Zih-Yun Chiu · CMU</sub>
+- [利用缝线操作实现自主缝合中的灵活拾针](https://arxiv.org/abs/2607.26337v1) <kbd>真实机器人</kbd> <kbd>CMU</kbd><br>该研究提出以缝线为辅助工具间接拾取缝合针的自主框架，涵盖组织重建、抓取点选择、稳定提线到双手循线的完整流程。研究在 da Vinci Research Kit 上完成真实环境验证，即使缝线形态复杂或缝合针无法直接接近时仍表现稳健。<br>值得关注：来自 CMU；提供真实机器人证据。<br><sub>重点作者 / 实验室：Neelay Joglekar · CMU</sub>
+
+- [BridgeVLA++：引入时空记忆的高效可泛化3D视觉语言动作框架](https://arxiv.org/abs/2608.05042v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究在BridgeVLA基础上引入统一时空记忆架构，实现数据高效且可泛化的记忆增强3D操作框架。它在两个记忆依赖基准上达到最优，并在双臂任务与真实机器人平台验证有效。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yuze Zhu</sub>
+
+- [PAC-MAN：感知驱动的CBF-RL框架保障人形机器人躲避球中的全身安全](https://arxiv.org/abs/2607.28623v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出PAC-MAN框架，将控制屏障安全与机载感知结合，使人形机器人仅凭头戴相机的深度分割实现全身闪避。它在受控接触基准上接近特权状态谕示，并零样本部署于真实Unitree G1，躲球成功率达95%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Aaron D. Ames</sub>
 
 - [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
 
-- [HiRoC：超越扁平策略的机器人操作分层后训练框架](https://arxiv.org/abs/2608.05999v1) <kbd>基准</kbd><br>研究提出分层后训练框架 HiRoC，解耦任务规划与动作执行，规划器生成子目标，执行器经强化学习持续改进动作生成。在多个机器人操作基准上，HiRoC 持续优于强基线。<br>值得关注：提供基准证据。
+- [ω-0：面向人形机器人行走操作协同的潜在预测世界动作模型](https://arxiv.org/abs/2608.06375v1) <kbd>真实机器人</kbd><br>提出潜在预测世界动作模型ω-0，根据语言指令、视觉观测和本体状态直接生成控制器兼容的全身动作，实现人形机器人移动中操作。基于40余小时真实家庭数据集ω-HOME，在11项真实任务中单模型持续优于模仿学习、VLA及人形基线。<br>值得关注：提供真实机器人证据。
+
+- [超越扁平策略：面向机器人操作具身智能体的分层后训练](https://arxiv.org/abs/2608.05999v1) <kbd>基准</kbd><br>提出分层后训练框架 HiRoC，将高层任务规划与低层动作执行解耦，规划器生成子目标，执行器经强化学习持续改进动作生成。在多个机器人操作基准上 HiRoC 持续优于强基线，消融分析验证了各关键组件的贡献。<br>值得关注：提供基准证据。
 
 <!-- RESEARCH_UPDATES_END -->
 
