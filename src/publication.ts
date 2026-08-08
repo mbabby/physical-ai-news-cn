@@ -1,4 +1,4 @@
-import type { Article } from "./types.js";
+import type { Article, DailyArchive, ResearchRecord } from "./types.js";
 
 const PUBLIC_PLACEHOLDERS = /暂无(?:中文简介|原文摘要)|中文简介暂未生成|暂未生成中文摘要|原文摘要[:：]|原文未提供摘要|请阅读(?:原文|论文原文)|自动摘要失败|未配置(?:模型|摘要服务)/i;
 
@@ -43,4 +43,25 @@ export function preferKnownGoodArticles(current: Article[], historical: Article[
     if (!prior || hasCompleteChineseCopy(article)) return article;
     return { ...article, titleZh: prior.titleZh, summaryZh: prior.summaryZh };
   });
+}
+
+/** Recover the actual cards that cleared publication in recent archives.
+ * Registry refreshes may update metadata or copy, but they must not erase a
+ * previously published, still-valid Chinese card during an upstream outage. */
+export function recoverPublishedResearchRecords(archives: DailyArchive[], previous: ResearchRecord[]): ResearchRecord[] {
+  const previousById = new Map(previous.map((record) => [record.id, record]));
+  const seen = new Set<string>();
+  const records: ResearchRecord[] = [];
+  for (const archive of [...archives].sort((a, b) => b.date.localeCompare(a.date))) {
+    for (const raw of archive.articles) {
+      if (seen.has(raw.id) || !raw.source.startsWith("arXiv · Robotics")) continue;
+      const article = { ...raw, publishedAt: new Date(raw.publishedAt), fetchedAt: new Date(raw.fetchedAt) };
+      if (!hasCompleteChineseResearchCopy(article)) continue;
+      const prior = previousById.get(article.id);
+      if (!prior || prior.article.scholar?.isRetracted) continue;
+      seen.add(article.id);
+      records.push({ ...prior, article: { ...article, scholar: prior.article.scholar ?? article.scholar } });
+    }
+  }
+  return records;
 }
