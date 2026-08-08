@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[GAUGE：衡量物理仿真引擎与视频世界模型物理保真度的测量基准](https://arxiv.org/abs/2608.05948v1)。提出GAUGE基准，以真实轨迹与标定物理元数据，联合诊断数值仿真器与视频世界模型对真实物理的复现与偏离。对Isaac Sim、Genesis、Newton及6个图生视频模型的评测显示，冲击接触、布料快速运动与体积形变偏差最大。
+研究：[BridgeVLA++：融合时空记忆的数据高效、可泛化三维操作视觉语言动作框架](https://arxiv.org/abs/2608.05042v1)。研究为BridgeVLA引入统一时空记忆架构，构建出可推理历史观测的三维视觉语言动作框架BridgeVLA++。它在两个记忆依赖操作基准上达到最优性能，并在真实机器人平台与双臂操作场景中得到验证。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)
