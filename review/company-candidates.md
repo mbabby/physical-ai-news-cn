@@ -92,6 +92,12 @@
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcElJY1pKcVE4aXBQamdfaFllaUNFRGIxbzI3R1dOeDJUZnJhR00tY2llc3pZMFFZUHFsR25NOGNNRzVWVFFlU3hocHdxR0RNY3RlT0owSHhhVmlRcXhPTXE3M0tFVDQybEpwT3o0VTNBVFpxZThjdHRwQU0xMzVjQ1ltdm11b245?oc=5)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## IIT Madras 孵化初创公司 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Google News · Robotics Capital](https://news.google.com/rss/articles/CBMi2wFBVV95cUxOUFZwcDc1WE5NcDRwNTg2VGs1ZExIRFZvbGxxV3dIamh6QWdlQUhRWmVOV2t5QzFfVUtSSW9lMy1lajVVZmtIRFROUTE2cG1FQ19jZEgtcERiV1ZhZ05HeG1vTEQ1ZHYybXB3b1VlMHV3UVFjeTFyVy0wYTJlTVJ6NVlLTngxUlQ4TEUzOXZNdXItU1hoT2k4MGxiQl81cllhRmt1RVcwVE51MnFvNXQ1cHVfQzJGWktSUHh1MzRqc1JZY3VKSDUwRjVOS05LMnB5VWhWTnU3Qm5TMHfSAdsBQVVfeXFMTlBWcHA3NVhOTXA0cDU4NlRrNWRMSERWb2xscVd3SGpoekFnZUFIUVplTldreUMxX1VLUklvZTMtZWo1VWZrSERUTlExNnBtRUNfY2RILXBEYldWYWdOR3htb0xENWR2Mm1wd29VZTB1d1FRY3kxclctMGEyZU1SejVZS054MVJUOExFMzl2TXVyLVNYaE9pODBsYkJfNXJZYUZrdUVXMFROdTJxbzV0NXB1X0MyRlpLUlB4dTM0anNSWWN1Skg1MEY1TktOSzJweVVoVk51N0JuUzB3?oc=5)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## Solinas · 候选 · 22/100
 
 - 路线：部署与商业化
