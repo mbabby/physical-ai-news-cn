@@ -79,13 +79,6 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Hadrian%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Hadrian%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## 宇树科技IPO：会翻跟头的机器人能否吸引 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[文学城](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWXdJRzZEbHZxUGpKeWkzU19wTTRub0VJLTYtRzJuSmhNZWJXMmtTZnZwX1BIa1VjeGwtdk1MejhOSHdTSGN5MUI5WHlPVW4zQ0RCdUV3Vi1Uc3cwcWJMRk84TVNOaVk3TzBIeXlVeTQzRmdmU1U3Y0xsNUlEYUZrVzJpcS1Fclgx?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 蚂蚁灵波拟 · 候选 · 22/100
 
 - 路线：本体与硬件
@@ -98,6 +91,20 @@
 - 路线：部署与商业化
 - 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcElJY1pKcVE4aXBQamdfaFllaUNFRGIxbzI3R1dOeDJUZnJhR00tY2llc3pZMFFZUHFsR25NOGNNRzVWVFFlU3hocHdxR0RNY3RlT0owSHhhVmlRcXhPTXE3M0tFVDQybEpwT3o0VTNBVFpxZThjdHRwQU0xMzVjQ1ltdm11b245?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 宇树科技冲刺IPO：会翻跟头的机器人能否吸引 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[文学城](https://news.google.com/rss/articles/CBMieEFVX3lxTE5rWmRhcUJYM25oXzZ5aTlNWVZ5bkNrRWdNTUUteEVPWUVEelRneV84a1NLalBncmpfcW0yVkQ1RmNYWTZ2b0VjZHA3cy1CUFJteGp6SUpnaGUxMmpjMFlyZDd6aXdtaEtCczhHNHg5RUgxb2dMZENKVg?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80%E5%86%B2%E5%88%BAIPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80%E5%86%B2%E5%88%BAIPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 宇树科技IPO：会翻跟头的机器人能否吸引 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[文学城](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPWXdJRzZEbHZxUGpKeWkzU19wTTRub0VJLTYtRzJuSmhNZWJXMmtTZnZwX1BIa1VjeGwtdk1MejhOSHdTSGN5MUI5WHlPVW4zQ0RCdUV3Vi1Uc3cwcWJMRk84TVNOaVk3TzBIeXlVeTQzRmdmU1U3Y0xsNUlEYUZrVzJpcS1Fclgx?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%EF%BC%9A%E4%BC%9A%E7%BF%BB%E8%B7%9F%E5%A4%B4%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%83%BD%E5%90%A6%E5%90%B8%E5%BC%95%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 宣称 · 候选 · 22/100

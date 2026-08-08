@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-08-08T08:55:36.657Z",
+  "week": "2026-W32",
+  "seeds": [
+    {
+      "id": "source-github.com",
+      "priority": "高",
+      "category": "信源",
+      "title": "github.com",
+      "evidenceLink": "https://github.com/IERoboticsAILab/RODEO",
+      "missingEvidence": "需要确认来源性质、RSS/Atom 稳定性与事实证据边界",
+      "issueTemplate": "source.yml",
+      "issueTitle": "[复核] 信源 github.com",
+      "issueBody": "<!-- review-seed:source-github.com -->\n\n候选信源：https://github.com/IERoboticsAILab/RODEO\n\n已连续成功抓取：6 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。"
+    },
+    {
+      "id": "source-hmans.dev",
+      "priority": "高",
+      "category": "信源",
+      "title": "hmans.dev",
+      "evidenceLink": "https://www.hmans.dev/blog/chatto-is-robots",
+      "missingEvidence": "需要确认来源性质、RSS/Atom 稳定性与事实证据边界",
+      "issueTemplate": "source.yml",
+      "issueTitle": "[复核] 信源 hmans.dev",
+      "issueBody": "<!-- review-seed:source-hmans.dev -->\n\n候选信源：https://www.hmans.dev/blog/chatto-is-robots\n\n已连续成功抓取：6 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。"
+    },
+    {
+      "id": "source-huggingface.co",
+      "priority": "高",
+      "category": "信源",
+      "title": "huggingface.co",
+      "evidenceLink": "https://huggingface.co/blog/nvidia/cosmos3edge",
+      "missingEvidence": "需要确认来源性质、RSS/Atom 稳定性与事实证据边界",
+      "issueTemplate": "source.yml",
+      "issueTitle": "[复核] 信源 huggingface.co",
+      "issueBody": "<!-- review-seed:source-huggingface.co -->\n\n候选信源：https://huggingface.co/blog/nvidia/cosmos3edge\n\n已连续成功抓取：6 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。"
+    },
+    {
+      "id": "source-servethehome.com",
+      "priority": "高",
+      "category": "信源",
+      "title": "servethehome.com",
+      "evidenceLink": "https://www.servethehome.com/amds-physical-ai-plans-come-into-focus-as-company-launches-ryzen-embedded-ai-x100/",
+      "missingEvidence": "需要确认来源性质、RSS/Atom 稳定性与事实证据边界",
+      "issueTemplate": "source.yml",
+      "issueTitle": "[复核] 信源 servethehome.com",
+      "issueBody": "<!-- review-seed:source-servethehome.com -->\n\n候选信源：https://www.servethehome.com/amds-physical-ai-plans-come-into-focus-as-company-launches-ryzen-embedded-ai-x100/\n\n已连续成功抓取：7 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。"
+    },
+    {
+      "id": "article-eb18b0cf94089ec3",
+      "priority": "高",
+      "category": "公司/融资",
+      "title": "AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架",
+      "evidenceLink": "https://arxiv.org/abs/2608.02197v1",
+      "missingEvidence": "公司主体未确认",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架",
+      "issueBody": "<!-- review-seed:article-eb18b0cf94089ec3 -->\n\n候选链接：https://arxiv.org/abs/2608.02197v1\n\n待补证据：公司主体未确认\n\n中文线索说明：AtVLA 在视觉编码器中插入可学习寄存器令牌，修复注意力伪影并按不确定度门控局部细化，将 LIBERO 成功率从94.2%提至98.4%，真实场景从46.5%提至69.0%。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    },
+    {
+      "id": "article-9290c9749967e2cb",
+      "priority": "高",
+      "category": "公司/融资",
+      "title": "lerobot v0.6.1 发布，含模块重命名破坏性变更",
+      "evidenceLink": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+      "missingEvidence": "公司主体未确认",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] lerobot v0.6.1 发布，含模块重命名破坏性变更",
+      "issueBody": "<!-- review-seed:article-9290c9749967e2cb -->\n\n候选链接：https://github.com/huggingface/lerobot/releases/tag/v0.6.1\n\n待补证据：公司主体未确认\n\n中文线索说明：lerobot v0.6.1 发布，lerobot.types 模块更名为 lerobot.lerobot_types，并带来 VLM 标注改进、扩散策略内存优化、数据集切片支持及多项修复。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    },
+    {
+      "id": "article-77bab2e309ed1d5c",
+      "priority": "高",
+      "category": "公司/融资",
+      "title": "MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示",
+      "evidenceLink": "https://arxiv.org/abs/2608.01826v1",
+      "missingEvidence": "公司主体未确认",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示",
+      "issueBody": "<!-- review-seed:article-77bab2e309ed1d5c -->\n\n候选链接：https://arxiv.org/abs/2608.01826v1\n\n待补证据：公司主体未确认\n\n中文线索说明：MVUCF 仅在训练阶段构建跨视角共享潜在场，注入度量深度与跨相机对应约束，部署时保持原始纯 RGB 流程；在 LIBERO 达 98.9%，并显著提升 LIBERO-Plus、RoboTwin 及真机任务成功率。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    },
+    {
+      "id": "source-covingtonblogs.com",
+      "priority": "常规",
+      "category": "信源",
+      "title": "covingtonblogs.com",
+      "evidenceLink": "https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/",
+      "missingEvidence": "需要确认来源性质、RSS/Atom 稳定性与事实证据边界",
+      "issueTemplate": "source.yml",
+      "issueTitle": "[复核] 信源 covingtonblogs.com",
+      "issueBody": "<!-- review-seed:source-covingtonblogs.com -->\n\n候选信源：https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/\n\n已连续成功抓取：4 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。"
+    },
+    {
+      "id": "company-candidate-03950aa949fb",
+      "priority": "常规",
+      "category": "公司/融资",
+      "title": "Avatar Robotics",
+      "evidenceLink": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5",
+      "missingEvidence": "已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] Avatar Robotics 公司 / 融资证据",
+      "issueBody": "<!-- review-seed:company-candidate-03950aa949fb -->\n\n候选主体：Avatar Robotics\n\n现有证据：https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5\nhttps://news.google.com/rss/articles/CBMi1gFBVV95cUxQdGxSc2hFb1NsbmpTUVZJYk1HeU1FSkNQZFlyOUNwVWNUZWdFS2RPMzdmWkxmVTNNSVJzcFRaanp1cEVESFMtUnh6N1I5QnVoX3FiZllPWXlmRjdjcmNTbzVzdUtqeVU1QS1IMjVpR1FDMXpyaGE1T1QtLXloTDBsd3ZGN21RS2ZFdzNwWHhIZnNRazVRcnBiZDlReDMxb2lRMmVEdWxKQS04SVprQWxueURPQThSZHNVVnZta29YeHFhVjhCOHhyTnR6X3o1Vk5lZEhiOENR?oc=5\nhttps://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5\nhttps://news.google.com/rss/articles/CBMiqgFBVV95cUxPOEo3Zm83a0NwSEtLRDlwVGtrNllpSVpDQjJWajFiQmV4ZTNrdHgwMGxJS1RCMlJENDQ0SklmMGpZcWR0Q0xDZzZCVDliYnRqWVFxeHJlNG1YSmpveWx1bEd4T0g0X1p0NXJjNVpVUS12a3dyanFfbWZobVpER3pWM1hTYjB0NkZWWHA2bHR3UTBEb0poVHlmUW5HYWtaclNiTTJ1REtEQ2Zxdw?oc=5\nhttps://news.google.com/rss/articles/CBMirAFBVV95cUxNMFEzRWdyMF9jTHNwWTlhdmZTZ1c0a3B5Z01EV0hIc3ZlQXllSl81eFg2emtMeENid2pXWm1SeXhaYTVoSUlGNU1FZVVpNVpiRENBMjFnZHhfVWwtMnNYc2pIUjVOaEpaZExYVzVVUzFRNElMRGhpY1gyY1V4VGRwLVlGZUE3dmxHU1drUXBPVUtpTWd1LWhmd3l3WWUwakY3Tk1VbFUyN1d3S2VQ?oc=5\nhttps://news.google.com/rss/articles/CBMiS0FVX3lxTE5SekViZ2hzRzFEekpRdl8xT2k3anlsajQ4V0NoYlpyYlVhU2VnOHRaZ0hzSTBad3NWbDZvTS1GWk5VV2VWNGc4QWtJMA?oc=5\nhttps://www.therobotreport.com/avatar-robotics-raises-6-5-m-seed-round-address-industrial-labor-constraints/\n\n待补证据：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。\n\n请提供官网、投资方公告或两个独立来源。"
+    },
+    {
+      "id": "article-53ee453c2d97e882",
+      "priority": "常规",
+      "category": "公司/融资",
+      "title": "Avatar Robotics 完成种子轮融资以应对工业劳动力短缺",
+      "evidenceLink": "https://www.therobotreport.com/avatar-robotics-raises-6-5-m-seed-round-address-industrial-labor-constraints/",
+      "missingEvidence": "公司主体未确认；融资缺少一手或独立媒体交叉证据",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] Avatar Robotics 完成种子轮融资以应对工业劳动力短缺",
+      "issueBody": "<!-- review-seed:article-53ee453c2d97e882 -->\n\n候选链接：https://www.therobotreport.com/avatar-robotics-raises-6-5-m-seed-round-address-industrial-labor-constraints/\n\n待补证据：公司主体未确认；融资缺少一手或独立媒体交叉证据\n\n中文线索说明：Avatar Robotics 获得 650 万美元种子轮融资，用于在工业供应链中规模化扩展人形机器人与远程遥操作。摘要未提供真实机器人、基准或开源证据。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    },
+    {
+      "id": "company-candidate-a1c1e83feec9",
+      "priority": "常规",
+      "category": "公司/融资",
+      "title": "Solinas Integrity",
+      "evidenceLink": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPV3pwYTJyN3kzSFhpMkxiVWt6eDhJRFlRUlRUR095dTdfS283a3pGWnJzMmpuSDBaUnRhQTNNZXZIUWUzTnhkZkR0RDZ2WmQ4MHBNVzZ6TGpSczdfa0RIcFpDdGc1cHhoS0VtVEpqQWlhWE9ISUlkcHYySjdVQzVMUmlRbElsRzdZY3p6MWs2SFh4MEw2bnQyY3pvQ0pOdmMzMmoxeGRaVG1jc0xaUjkwQnFHR3VHZlRibUVBV1JXUVl1UThKNXVkTjZQYS1aZzB0QkhZWWtLZHZDdHdB?oc=5",
+      "missingEvidence": "已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] Solinas Integrity 公司 / 融资证据",
+      "issueBody": "<!-- review-seed:company-candidate-a1c1e83feec9 -->\n\n候选主体：Solinas Integrity\n\n现有证据：https://news.google.com/rss/articles/CBMi3AFBVV95cUxPV3pwYTJyN3kzSFhpMkxiVWt6eDhJRFlRUlRUR095dTdfS283a3pGWnJzMmpuSDBaUnRhQTNNZXZIUWUzTnhkZkR0RDZ2WmQ4MHBNVzZ6TGpSczdfa0RIcFpDdGc1cHhoS0VtVEpqQWlhWE9ISUlkcHYySjdVQzVMUmlRbElsRzdZY3p6MWs2SFh4MEw2bnQyY3pvQ0pOdmMzMmoxeGRaVG1jc0xaUjkwQnFHR3VHZlRibUVBV1JXUVl1UThKNXVkTjZQYS1aZzB0QkhZWWtLZHZDdHdB?oc=5\nhttps://news.google.com/rss/articles/CBMipAFBVV95cUxQVnBmWVY5QVpmd3pzTWx4NlJlQnVjeUpzY2p1YUNXYTZpWjZhUmVsRVdGVE5RZzdBdFRXcmtMZnIydjkwRjVVWm1ldEl4N2IxR0dRbWk3MDhUM1paLVp5WGNJOUdpMjlzTGRpNTBNcHdZYzQxWkVtZXhoZ3RsRDEzMHB3U1FZaTREWF84TzV1RjhlelprYm1lVVZ5bEtSTEZQWlRIZg?oc=5\nhttps://news.google.com/rss/articles/CBMi1AFBVV95cUxNQ1lrZUlSbExWQmVmVXVVSndCRkZ0QkNlSUdTekw4YUt2eFhUakdsQ2N6cGFKY1dqa21VVjYtb1NzdVljVXd3My1tNDJ5RVBvQU9VdUd4MFJMUzl5QnVqcmdsZ1RyWFhicGdBRlhuWGM1RTVFV2pzNjJROEZ1RGx2MzgtamxLdG5naEpJODRUa0NaTGxjRENoemNiTy1aekc3Wjg0NUs0ckVNV0dqTWJoczBaelRENVViZHI5Um9HbFJZU0tJWGdRNGx5aW9sM05fRmJObA?oc=5\n\n待补证据：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。\n\n请提供官网、投资方公告或两个独立来源。"
+    },
+    {
+      "id": "article-a35febf1b57fb48a",
+      "priority": "常规",
+      "category": "公司/融资",
+      "title": "Tacta Systems 推出 TactaBot，瞄准高技能制造作业",
+      "evidenceLink": "https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/",
+      "missingEvidence": "公司主体未确认",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] Tacta Systems 推出 TactaBot，瞄准高技能制造作业",
+      "issueBody": "<!-- review-seed:article-a35febf1b57fb48a -->\n\n候选链接：https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/\n\n待补证据：公司主体未确认\n\n中文线索说明：Tacta Systems 发布了一套包含机械手的三部分系统，用户可教机器人学习新的灵巧操作技能。摘要未提供真实机器人、基准或开源证据。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    },
+    {
+      "id": "article-2a9bfa786bc78ad2",
+      "priority": "常规",
+      "category": "公司/融资",
+      "title": "打造能在仓库中生存下来的机器人",
+      "evidenceLink": "https://www.therobotreport.com/building-robots-that-survive-warehouse/",
+      "missingEvidence": "公司主体未确认",
+      "issueTemplate": "company-funding.yml",
+      "issueTitle": "[复核] 打造能在仓库中生存下来的机器人",
+      "issueBody": "<!-- review-seed:article-2a9bfa786bc78ad2 -->\n\n候选链接：https://www.therobotreport.com/building-robots-that-survive-warehouse/\n\n待补证据：公司主体未确认\n\n中文线索说明：Nomagic 称其真正的护城河是来自生产环境的数据，因为真实仓库的混乱正是机器人证明自身或失败的地方。摘要未提供真实机器人、基准或开源证据。\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。"
+    }
+  ]
+}

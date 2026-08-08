@@ -1,31 +1,30 @@
 {
-  "updatedAt": "2026-08-08T08:45:37.398Z",
+  "updatedAt": "2026-08-08T08:55:36.657Z",
   "windowDays": 30,
   "sources": [
     {
       "name": "arXiv · Robotics",
       "type": "rss",
       "tier": "官方公司与实验室",
-      "status": "观察",
+      "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 8,
+      "effectiveWeight": 7,
       "successfulRuns": 7,
       "failedRuns": 1,
-      "selectedArticles": 30,
+      "selectedArticles": 34,
       "reliability": 0.88,
       "fetchedArticles": 300,
-      "relatedHits": 81,
+      "relatedHits": 83,
       "correctionCount": 0,
       "health": {
         "successRate": 0.88,
-        "hitRate": 0.27,
-        "inclusionRate": 0.37,
+        "hitRate": 0.28,
+        "inclusionRate": 0.41,
         "correctionRate": 0,
-        "score": 64.85
+        "score": 66.05
       },
-      "statusReason": "健康分低于 65，已降权观察",
-      "recommendation": "观察"
+      "recommendation": "保留"
     },
     {
       "name": "NVIDIA Newsroom",
@@ -477,21 +476,20 @@
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
-      "effectiveWeight": 2,
-      "successfulRuns": 5,
-      "failedRuns": 1,
+      "effectiveWeight": 1,
+      "successfulRuns": 6,
+      "failedRuns": 0,
       "selectedArticles": 0,
-      "reliability": 0.83,
-      "fetchedArticles": 2503,
+      "reliability": 1,
+      "fetchedArticles": 3338,
       "relatedHits": 0,
       "correctionCount": 0,
       "health": {
-        "successRate": 0.83,
+        "successRate": 1,
         "hitRate": 0,
         "correctionRate": 0,
-        "score": 60.7
+        "score": 67.5
       },
-      "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
     },
     {

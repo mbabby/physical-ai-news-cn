@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-08T08:45:37.398Z",
+  "generatedAt": "2026-08-08T08:55:36.657Z",
   "stats": {
     "events": 4,
     "companies": 27,
-    "research": 2
+    "research": 6
   },
   "keyEvents": [
     {
@@ -89,6 +89,42 @@
       "link": "https://arxiv.org/abs/2607.27782v1",
       "type": "研究论文",
       "route": "研究",
+      "date": "2026-07-30",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "ω-0：实现人形机器人移动与操作并行的潜在预测世界动作模型",
+      "summary": "提出 ω-0，一个全身潜在预测世界动作模型，直接由语言指令、视觉与本体状态生成可执行的全身动作隐变量。在 11 项真实家庭任务上，单一模型即优于模仿学习、VLA 与人形基线。",
+      "link": "https://arxiv.org/abs/2608.06375v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-06",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "HiRoC：面向机器人操作的分层后训练框架",
+      "summary": "研究提出分层后训练框架HiRoC，将高层任务规划与低层动作执行解耦，规划器生成子目标，执行器经子目标对齐后通过强化学习持续改进。在多个机器人操作基准上，HiRoC持续优于强基线。",
+      "link": "https://arxiv.org/abs/2608.05999v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-06",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "自主缝合中通过缝线操控间接拾取手术针",
+      "summary": "该研究提出以缝线为辅助工具间接拾取手术针的自主框架，涵盖重建、抓取点选择与双臂沿线追踪，可在针被遮挡或难以接近时避免器械接触组织。在 da Vinci Research Kit 上的真实实验表明其在复杂缝线条件下仍具鲁棒性。",
+      "link": "https://arxiv.org/abs/2607.26337v1",
+      "type": "研究论文",
+      "route": "产品",
+      "date": "2026-07-28",
+      "source": "arXiv · Robotics"
+    },
+    {
+      "title": "PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架",
+      "summary": "研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。",
+      "link": "https://arxiv.org/abs/2607.28623v1",
+      "type": "研究论文",
+      "route": "落地",
       "date": "2026-07-30",
       "source": "arXiv · Robotics"
     }
