@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-08T10:21:59.208Z",
+  "updatedAt": "2026-08-08T10:30:29.794Z",
   "windowDays": 30,
   "sources": [
     {
@@ -175,24 +175,26 @@
       "type": "rss",
       "role": "产业媒体",
       "tier": "权威产业媒体",
-      "status": "已启用",
+      "status": "观察",
       "publicationPolicy": "可作为独立报道",
       "configuredWeight": 7,
-      "effectiveWeight": 5,
+      "effectiveWeight": 6,
       "successfulRuns": 8,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 120,
-      "relatedHits": 0,
+      "relatedHits": 1,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0,
+        "hitRate": 0.01,
+        "inclusionRate": 0,
         "correctionRate": 0,
-        "score": 67.5
+        "score": 55.2
       },
-      "recommendation": "保留"
+      "statusReason": "健康分低于 65，已降权观察",
+      "recommendation": "观察"
     },
     {
       "id": "media-techcrunch-robotics",
@@ -288,7 +290,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 400,
-      "relatedHits": 24,
+      "relatedHits": 23,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
