@@ -69,6 +69,7 @@ test("merges descriptive aliases but rejects an unnamed incubator subject", () =
     title: "Avatar Robotics raises seed funding", titleZh: "Avatar Robotics 完成种子轮融资",
   })], new Date("2026-08-07T01:00:00Z"));
   existing.companies.push({ ...existing.companies[0], id: "bad-existing", name: "IIT Madras 孵化初创公司", aliases: ["IIT Madras 孵化初创公司"], evidence: [] });
+  existing.companies.push({ ...existing.companies[0], id: "bad-enterprise", name: "IIT Madras孵化初创企业", aliases: ["IIT Madras孵化初创企业"], evidence: [] });
   const next = updateCandidateCompanies(existing, [
     funding({ id: "dirty", title: "Avatar Robotics raises funding", titleZh: "用 VR 头显远程操控仓库机器人，Avatar Robotics 获融资", link: "https://news.example.com/avatar-two" }),
     funding({ id: "unnamed", title: "IIT Madras-incubated startup raises $5.5M", titleZh: "IIT Madras 孵化初创公司获 550 万美元融资", link: "https://news.example.com/unnamed" }),

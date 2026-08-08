@@ -3,7 +3,7 @@ import { normalizeUrl } from "./filter.js";
 import type { Article, CandidateCompany, CandidateCompanyRegistry, CompanyProfile, TechnicalRoute } from "./types.js";
 
 const GENERIC = /^(?:行业公司|机器人公司|具身智能公司|人形机器人公司|公司|融资周报|机器人)$/i;
-const DESCRIPTIVE_SUBJECT = /(?:孵化|旗下|一家|这家|某家).{0,12}(?:初创公司|机器人公司)$|产业园|园区|基金|政府|揭牌|融资买入|ETF|总投资/i;
+const DESCRIPTIVE_SUBJECT = /(?:孵化|旗下|一家|这家|某家).{0,12}(?:初创公司|初创企业|创业公司|机器人公司)$|产业园|园区|基金|政府|揭牌|融资买入|ETF|总投资/i;
 const FUNDING = /融资|投资|收购|估值|funding|raises?|raised|seed|series\s+[a-d]|acquisition|valuation/i;
 const TECH = /robot|robotics|humanoid|embodied|physical ai|vla|world model|具身|机器人|人形/i;
 
