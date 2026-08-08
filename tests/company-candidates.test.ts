@@ -78,3 +78,41 @@ test("merges descriptive aliases but rejects an unnamed incubator subject", () =
   assert.equal(next.companies[0].name, "Avatar Robotics");
   assert.equal(next.companies[0].evidence.length, 2);
 });
+
+test("collapses bilingual descriptive prefixes and shared evidence into one company", () => {
+  const sharedLink = "https://news.google.com/rss/articles/pokebot?oc=5";
+  const existing = {
+    updatedAt: "2026-08-05T00:00:00.000Z",
+    companies: [
+      {
+        id: "candidate-cn",
+        name: "中国机器人初创公司 PokeBot",
+        aliases: ["中国机器人初创公司 PokeBot"],
+        status: "候选" as const,
+        verificationScore: 22,
+        routes: ["部署与商业化" as const],
+        firstSeenAt: "2026-08-05T00:00:00.000Z",
+        lastSeenAt: "2026-08-05T00:00:00.000Z",
+        evidence: [{ link: sharedLink, source: "Google News", sourceWeight: 4, publishedAt: "2026-08-05T00:00:00.000Z", title: "PokeBot 融资" }],
+        openQuestions: []
+      },
+      {
+        id: "candidate-en",
+        name: "Chinese Robotics Startup PokeBot",
+        aliases: ["Chinese Robotics Startup PokeBot"],
+        status: "候选" as const,
+        verificationScore: 22,
+        routes: ["部署与商业化" as const],
+        firstSeenAt: "2026-08-05T00:00:00.000Z",
+        lastSeenAt: "2026-08-05T00:00:00.000Z",
+        evidence: [{ link: sharedLink, source: "Google News", sourceWeight: 4, publishedAt: "2026-08-05T00:00:00.000Z", title: "PokeBot funding" }],
+        openQuestions: []
+      }
+    ]
+  };
+
+  const updated = updateCandidateCompanies(existing, [], new Date("2026-08-08T00:00:00.000Z"));
+  assert.equal(updated.companies.length, 1);
+  assert.equal(updated.companies[0].name, "PokeBot");
+  assert.equal(updated.companies[0].evidence.length, 1);
+});

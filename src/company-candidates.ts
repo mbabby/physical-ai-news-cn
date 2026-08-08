@@ -8,7 +8,12 @@ const FUNDING = /融资|投资|收购|估值|funding|raises?|raised|seed|series\
 const TECH = /robot|robotics|humanoid|embodied|physical ai|vla|world model|具身|机器人|人形/i;
 
 function cleanedEntityName(value: string): string | undefined {
-  let name = value.replace(/^(?:一家|这家|某家)/, "").replace(/[，,:：；;]+$/, "").trim();
+  let name = value
+    .replace(/^(?:一家|这家|某家)/, "")
+    .replace(/^(?:中国\s*)?(?:机器人|人形机器人|具身智能)\s*(?:初创公司|创业公司|公司)\s*/i, "")
+    .replace(/^(?:chinese\s+)?(?:robotics?|humanoid|embodied\s+ai)\s+(?:startup|company)\s+/i, "")
+    .replace(/[，,:：；;]+$/, "")
+    .trim();
   // A translated headline may contain a descriptive clause before a clear
   // Latin company name. Prefer the explicit proper noun over the whole clause.
   const latinNames = [...name.matchAll(/\b([A-Z][A-Za-z0-9&.'-]*(?:\s+[A-Z][A-Za-z0-9&.'-]*){1,3})\b/g)];
@@ -102,7 +107,11 @@ function compactCompanies(input: CandidateCompany[]): CandidateCompany[] {
       company.aliases = [...new Set([...company.aliases, company.name, cleaned])];
       company.name = cleaned;
     }
-    const existing = output.find((item) => [item.name, ...item.aliases].some((left) => [company.name, ...company.aliases].some((right) => sameCompanyName(left, right))));
+    const evidenceLinks = new Set(company.evidence.map((item) => normalizeUrl(item.link)));
+    const existing = output.find((item) =>
+      [item.name, ...item.aliases].some((left) => [company.name, ...company.aliases].some((right) => sameCompanyName(left, right)))
+      || item.evidence.some((evidence) => evidenceLinks.has(normalizeUrl(evidence.link)))
+    );
     if (existing) mergeCompany(existing, company); else output.push(company);
   }
   return output;
