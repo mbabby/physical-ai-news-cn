@@ -5,6 +5,12 @@ const REGISTRY_WINDOW_DAYS = 30;
 
 function clamp(value: number, minimum: number, maximum: number): number { return Math.min(maximum, Math.max(minimum, value)); }
 function host(value: string): string | undefined { try { return new URL(value).hostname.replace(/^www\./, ""); } catch { return undefined; } }
+function sourceEndpoint(source: SourceConfig): string | undefined {
+  if (source.type === "rss" || source.type === "webpage" || source.type === "sitemap") return source.url;
+  if (source.type === "github-releases") return `https://github.com/${source.repo}/releases`;
+  if (source.type === "youtube") return `https://www.youtube.com/channel/${source.channelId}`;
+  return undefined;
+}
 
 function sourceTier(source: SourceConfig): SourceTier { return source.tier ?? "官方公司与实验室"; }
 function sourcePolicy(source: SourceConfig): SourceRegistryEntry["publicationPolicy"] {
@@ -13,8 +19,15 @@ function sourcePolicy(source: SourceConfig): SourceRegistryEntry["publicationPol
 }
 function rounded(value: number): number { return Number(value.toFixed(2)); }
 
-function sourceStatus(source: SourceConfig, totalRuns: number, healthScore: number | undefined, latestFailure?: string): { status: SourceStatus; reason?: string } {
+function sourceStatus(source: SourceConfig, totalRuns: number, healthScore: number | undefined, successRate: number | undefined, latestFailure?: string): { status: SourceStatus; reason?: string } {
   if (/\b(?:401|402|403)\b/.test(latestFailure ?? "")) return { status: "已暂停", reason: "访问受限，等待凭据或配额恢复" };
+  // First-party and release sources are often intentionally quiet. Their
+  // health is transport reliability, not how often they make the homepage.
+  if (source.tier === "官方公司与实验室" || source.tier === "开源发布") {
+    if (totalRuns >= 7 && (successRate ?? 1) < 0.5) return { status: "已暂停", reason: "一手端点连续不可用，已停止自动抓取" };
+    if (totalRuns >= 5 && (successRate ?? 1) < 0.75) return { status: "观察", reason: "一手端点成功率偏低，继续观察" };
+    return { status: source.status ?? "已启用" };
+  }
   if (totalRuns >= 7 && healthScore !== undefined && healthScore < 45) return { status: "已暂停", reason: "健康分持续低于 45，已停止自动抓取" };
   if (totalRuns >= 5 && healthScore !== undefined && healthScore < 65) return { status: "观察", reason: "健康分低于 65，已降权观察" };
   return { status: source.status ?? "已启用" };
@@ -27,6 +40,11 @@ export function applyRegistryWeights(sources: SourceConfig[], registry?: SourceR
     const totalRuns = (entry?.successfulRuns ?? 0) + (entry?.failedRuns ?? 0);
     let adjustment = 0;
     if (entry?.status === "已暂停") return { ...source, status: "已暂停", weight: 0 };
+    if (source.tier === "官方公司与实验室" || source.tier === "开源发布") {
+      const successRate = entry?.health.successRate;
+      if (totalRuns >= 5 && successRate !== undefined && successRate < 0.75) adjustment = -1;
+      return { ...source, status: entry?.status ?? source.status, weight: clamp(source.weight + adjustment, 1, 10) };
+    }
     if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 45) adjustment = -3;
     else if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 65) adjustment = -2;
     else if (totalRuns >= 5 && (entry?.health?.score ?? 100) < 80) adjustment = -1;
@@ -36,7 +54,7 @@ export function applyRegistryWeights(sources: SourceConfig[], registry?: SourceR
 }
 
 export function discoverSourceCandidates(articles: Article[], configuredSources: SourceConfig[]): DiscoveredSource[] {
-  const configuredFeeds = new Set(configuredSources.filter((source) => source.type === "rss").map((source) => source.url.replace(/\/$/, "")));
+  const configuredFeeds = new Set(configuredSources.flatMap((source) => sourceEndpoint(source) ? [sourceEndpoint(source)!.replace(/\/$/, "")] : []));
   const configuredNames = new Set(configuredSources.map((source) => source.name));
   const seen = new Set<string>();
   return articles.flatMap((article) => {
@@ -76,10 +94,10 @@ export function buildSourceRegistry(archives: DailyArchive[], configuredSources:
       0.4 * successRate + 0.2 * effectiveHitRate + 0.25 * effectiveInclusionRate + 0.15 * (1 - correctionRate)
     ));
     const latestFailure = outcomes.filter((outcome) => outcome.status === "failure").at(-1)?.reason;
-    const state = sourceStatus(source, outcomes.length, score, latestFailure);
+    const state = sourceStatus(source, outcomes.length, score, successRate, latestFailure);
     const recommendation = state.status === "已暂停" ? "排查" : state.status === "观察" ? "观察" : "保留";
     return {
-      name: source.name, type: source.type, tier: sourceTier(source), status: state.status, publicationPolicy: sourcePolicy(source),
+      id: source.id, name: source.name, type: source.type, entityIds: source.entityIds, role: source.role, tier: sourceTier(source), status: state.status, publicationPolicy: sourcePolicy(source),
       configuredWeight: source.weight, effectiveWeight, successfulRuns, failedRuns, selectedArticles, reliability,
       fetchedArticles, relatedHits, correctionCount, health: { successRate, hitRate, inclusionRate, correctionRate, score },
       statusReason: state.reason, recommendation,

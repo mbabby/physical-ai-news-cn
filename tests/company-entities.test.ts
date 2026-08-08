@@ -33,3 +33,21 @@ test("does not automatically promote a cross-verified candidate into a public pr
   assert.equal(registry.entities[0].status, "已交叉核验");
   assert.equal(registry.entities[0].promotion.eligibleForReview, true);
 });
+
+test("rebuild drops stale headline fragments from the historical identity graph", () => {
+  const existing = { updatedAt: "2026-08-01T00:00:00Z", entities: [{
+    id: "company-noise", entityType: "公司" as const, name: "一家机器人公司完成亿元融资", aliases: ["一家机器人公司完成亿元融资"], officialDomains: [], sourceIds: [], products: [], routes: [], status: "候选" as const,
+    firstSeenAt: "2026-08-01T00:00:00Z", lastSeenAt: "2026-08-01T00:00:00Z", evidence: [], promotion: { eligibleForReview: false, reasons: [] },
+  }] };
+  const registry = updateCompanyEntityRegistry(existing, [galaxea], { updatedAt: "2026-08-08T00:00:00Z", companies: [] }, new Date("2026-08-08T00:00:00Z"));
+  assert.deepEqual(registry.entities.map((entity) => entity.name), ["星海图"]);
+});
+
+test("candidate headline fragments never become company entities", () => {
+  const candidates: CandidateCompanyRegistry = { updatedAt: "2026-08-08T00:00:00Z", companies: [{
+    id: "candidate-noise", name: "机器人初创公司完成亿元融资", aliases: [], status: "已交叉核验", verificationScore: 90,
+    routes: ["本体与硬件"], firstSeenAt: "2026-08-08T00:00:00Z", lastSeenAt: "2026-08-08T00:00:00Z", evidence: [], openQuestions: [],
+  }] };
+  const registry = updateCompanyEntityRegistry(undefined, [], candidates, new Date("2026-08-08T00:00:00Z"));
+  assert.equal(registry.entities.length, 0);
+});

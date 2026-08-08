@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
 import { fetchRssSource } from "./fetchers/rss.js";
+import { fetchGithubReleasesSource, fetchSitemapSource, fetchWebPageSource, fetchYoutubeSource } from "./fetchers/structured.js";
 import { fetchXSource } from "./fetchers/x.js";
 import { filterAndRank, filterIndustryAndRank, publicHoldReasons } from "./filter.js";
 import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
@@ -27,6 +28,7 @@ import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResear
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
 import { validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
+import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -61,6 +63,10 @@ async function collect(sources: SourceConfig[], windowHours: number): Promise<Di
   const results = await Promise.allSettled(sources.map((source) => {
     if (source.type === "rss") return fetchRssSource(source);
     if (source.type === "algolia") return fetchAlgoliaSource(source, windowHours);
+    if (source.type === "webpage") return fetchWebPageSource(source);
+    if (source.type === "sitemap") return fetchSitemapSource(source);
+    if (source.type === "github-releases") return fetchGithubReleasesSource(source);
+    if (source.type === "youtube") return fetchYoutubeSource(source);
     throw new Error("X 信源必须通过带凭据的行业脉搏流程抓取");
   }));
   const articles: Article[] = []; const failures: DigestResult["failures"] = []; const sourceOutcomes: DigestResult["sourceOutcomes"] = [];
@@ -152,12 +158,15 @@ async function generate(): Promise<void> {
   const companyEntityPath = join(eventsDir, "company-entities.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
+  const catalogErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
+  if (catalogErrors.length) throw new Error(`实体与信源目录不一致：\n- ${catalogErrors.join("\n- ")}`);
   const trackedCompanies = new Set(companies.map((company) => company.name));
   const priorRegistry = await readRegistry(join(sourcesDir, "registry.json"));
   const configuredSources = [...SOURCES, ...dynamicSources(candidateRegistry)];
   const registrySources = [...SOURCES, ...X_SOURCES, ...dynamicSources(candidateRegistry)];
   const activeSources = applyRegistryWeights(configuredSources, priorRegistry).filter((source) => source.status !== "已暂停");
   const activeXSources = applyRegistryWeights(X_SOURCES, priorRegistry).filter((source) => source.status !== "已暂停");
+  await writeFile(join(resourcesDir, "entity-source-coverage.md"), formatEntityCoverage(buildEntityCoverage(companies, [...SOURCES, ...X_SOURCES]), now), "utf8");
   const collected = await collect(activeSources, windowHours);
   const xCollected = await collectX(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
   // Research has its own public gate: it needs a complete Chinese factual

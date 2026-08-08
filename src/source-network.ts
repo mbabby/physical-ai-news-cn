@@ -27,7 +27,7 @@ export function formatSourceNetwork(registry: SourceRegistry): string {
     "- **开源发布**：用于验证代码、模型、数据与版本发布。",
     "- **权威产业媒体**：可补充产品与部署；融资须有一手证据或两家独立媒体交叉确认。",
     "- **线索发现层**：Google News、Hacker News、X 和自动发现 RSS 只进入候选层，不能直接出现在公开资讯中。",
-    "", "## 健康分", "", "健康分 = 成功率 40% + 相关命中率 20% + 最终公开收录率 25% + 事后纠错质量 15%。没有新内容时采用中性先验，不把安静但稳定的官方源误判为低质量；累计样本不足 5 次不自动降权，低于 65 分进入观察，连续低于 45 分或访问受限则暂停。", "",
+    "", "## 健康分", "", "媒体与发现源按成功率 40% + 相关命中率 20% + 最终公开收录率 25% + 事后纠错质量 15% 评分。官方与开源端点只按可访问性降级，不因发布频率低或未进入首页受罚；累计样本不足 5 次不自动降权。", "",
   ];
   for (const tier of tiers) {
     const items = registry.sources.filter((source) => source.tier === tier);
@@ -35,7 +35,9 @@ export function formatSourceNetwork(registry: SourceRegistry): string {
     if (!items.length) { lines.push("暂无已登记来源。", ""); continue; }
     for (const item of items.sort((a, b) => (b.health.score ?? -1) - (a.health.score ?? -1) || a.name.localeCompare(b.name))) {
       const reason = item.statusReason ? `；${item.statusReason}` : "";
-      lines.push(`- **${item.name}** · ${item.status} · ${item.publicationPolicy} · ${health(item)}${reason}`);
+      const binding = item.entityIds?.length ? ` · 绑定实体 ${item.entityIds.length}` : "";
+      const role = item.role ? ` · ${item.role}` : "";
+      lines.push(`- **${item.name}** · ${item.status}${role}${binding} · ${item.publicationPolicy} · ${health(item)}${reason}`);
     }
     lines.push("");
   }

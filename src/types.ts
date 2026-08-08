@@ -72,9 +72,14 @@ export interface ResearchRegistry {
 }
 
 interface BaseSourceConfig {
+  /** Stable source identity. Display names may change without losing history. */
+  id?: string;
   name: string;
   weight: number;
   keywords: string[];
+  /** Canonical entities this source is allowed to establish or update. */
+  entityIds?: string[];
+  role?: "公司官网" | "实验室官网" | "学术索引" | "代码发布" | "监管披露" | "产业媒体" | "线索发现";
   /** Defaults preserve compatibility for local/test-only sources. */
   tier?: SourceTier;
   status?: SourceStatus;
@@ -102,7 +107,32 @@ export interface XSourceConfig extends BaseSourceConfig {
   accounts: XAccountConfig[];
 }
 
-export type SourceConfig = RssSourceConfig | AlgoliaSourceConfig | XSourceConfig;
+export interface WebPageSourceConfig extends BaseSourceConfig {
+  type: "webpage";
+  url: string;
+  /** Only links whose absolute URL matches this expression are emitted. */
+  linkPattern?: string;
+  maxItems?: number;
+}
+
+export interface SitemapSourceConfig extends BaseSourceConfig {
+  type: "sitemap";
+  url: string;
+  linkPattern?: string;
+  maxItems?: number;
+}
+
+export interface GithubReleasesSourceConfig extends BaseSourceConfig {
+  type: "github-releases";
+  repo: string;
+}
+
+export interface YoutubeSourceConfig extends BaseSourceConfig {
+  type: "youtube";
+  channelId: string;
+}
+
+export type SourceConfig = RssSourceConfig | AlgoliaSourceConfig | XSourceConfig | WebPageSourceConfig | SitemapSourceConfig | GithubReleasesSourceConfig | YoutubeSourceConfig;
 
 export interface FetchFailure {
   source: string;
@@ -202,13 +232,20 @@ export interface EventStore {
 }
 
 export interface CompanyProfile {
+  entityType?: "公司" | "实验室" | "开源组织" | "投资机构";
   name: string;
+  legalName?: string;
   aliases?: string[];
+  country?: string;
   region: string;
   stage?: "平台公司" | "成长公司" | "创业公司";
   routes: TechnicalRoute[];
   thesis: string;
   officialUrl: string;
+  officialDomains?: string[];
+  products?: string[];
+  sourceIds?: string[];
+  lastVerifiedAt?: string;
   /** A stable identity lets aliases, candidates and public dossiers converge
    * without treating a translated headline as a new company. */
   entityId?: string;
@@ -306,10 +343,16 @@ export interface CandidateCompanyRegistry {
 export type CompanyEntityStatus = "已建档" | "候选" | "观察中" | "已交叉核验";
 export interface CompanyEntity {
   id: string;
+  entityType: "公司" | "实验室" | "开源组织" | "投资机构";
   name: string;
+  legalName?: string;
   aliases: string[];
   officialUrl?: string;
+  officialDomains: string[];
+  sourceIds: string[];
+  products: string[];
   region?: string;
+  stage?: CompanyProfile["stage"];
   routes: TechnicalRoute[];
   status: CompanyEntityStatus;
   firstSeenAt: string;
@@ -408,8 +451,11 @@ export interface WeeklyArticle extends Article {
 }
 
 export interface SourceRegistryEntry {
+  id?: string;
   name: string;
   type: SourceConfig["type"];
+  entityIds?: string[];
+  role?: BaseSourceConfig["role"];
   tier: SourceTier;
   status: SourceStatus;
   publicationPolicy: SourcePublicationPolicy;
