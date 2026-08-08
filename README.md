@@ -21,7 +21,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-08 | 4 | 27 | 38 | 12 / 10 |
+| 2026-08-08 | 4 | 27 | 38 | 11 / 11 |
 
 **运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
 
@@ -78,11 +78,9 @@
 
 > 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
-- [DreamWAM：用超越 RGB 的未来状态预测增强机器人操作](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM 将未来状态拆分为外观、运动、几何和语义表征，联合训练视频与动作分支，推理时仅使用 RGB。该方法在 LIBERO、LIBERO-Plus 和真实机器人上均优于匹配基线，并公开代码与模型。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
+- [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
 - [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Zehong Yan</sub>
-
-- [PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Aaron D. Ames</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

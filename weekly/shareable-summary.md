@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[DreamWAM：用超越 RGB 的未来状态预测增强机器人操作](https://arxiv.org/abs/2608.04996v1)。DreamWAM 将未来状态拆分为外观、运动、几何和语义表征，联合训练视频与动作分支，推理时仅使用 RGB。该方法在 LIBERO、LIBERO-Plus 和真实机器人上均优于匹配基线，并公开代码与模型。
+研究：[DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1)。DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

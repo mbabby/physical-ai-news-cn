@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-08T08:38:38.944Z",
+  "generatedAt": "2026-08-08T08:45:37.398Z",
   "stats": {
     "events": 4,
     "companies": 27,
-    "research": 3
+    "research": 2
   },
   "keyEvents": [
     {
@@ -75,8 +75,8 @@
   ],
   "research": [
     {
-      "title": "DreamWAM：用超越 RGB 的未来状态预测增强机器人操作",
-      "summary": "DreamWAM 将未来状态拆分为外观、运动、几何和语义表征，联合训练视频与动作分支，推理时仅使用 RGB。该方法在 LIBERO、LIBERO-Plus 和真实机器人上均优于匹配基线，并公开代码与模型。",
+      "title": "DreamWAM：超越RGB未来预测的世界动作模型",
+      "summary": "DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。",
       "link": "https://arxiv.org/abs/2608.04996v1",
       "type": "研究论文",
       "route": "研究",
@@ -87,15 +87,6 @@
       "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
       "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
       "link": "https://arxiv.org/abs/2607.27782v1",
-      "type": "研究论文",
-      "route": "研究",
-      "date": "2026-07-30",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架",
-      "summary": "研究提出感知感知的 PAC-MAN 框架，将控制屏障安全与头相机分割深度观测结合，训练时按各连杆间隙引导并以对抗动作先验规范躲避动作。策略在 Unitree G1 上零样本真实部署，成功躲避 95% 投掷，表现接近特权状态 oracle。",
-      "link": "https://arxiv.org/abs/2607.28623v1",
       "type": "研究论文",
       "route": "研究",
       "date": "2026-07-30",

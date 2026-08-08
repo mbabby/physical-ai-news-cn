@@ -79,13 +79,6 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Hadrian%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Hadrian%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## 梅卡曼德机器人 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcElJY1pKcVE4aXBQamdfaFllaUNFRGIxbzI3R1dOeDJUZnJhR00tY2llc3pZMFFZUHFsR25NOGNNRzVWVFFlU3hocHdxR0RNY3RlT0owSHhhVmlRcXhPTXE3M0tFVDQybEpwT3o0VTNBVFpxZThjdHRwQU0xMzVjQ1ltdm11b245?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 宇树科技IPO：会翻跟头的机器人能否吸引 · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -98,6 +91,13 @@
 - 路线：本体与硬件
 - 证据：[凤凰网科技](https://news.google.com/rss/articles/CBMiTEFVX3lxTFBvdHg1Wm12QXdPdkgyb252bEs1c1dtVW5IYWpSNVlWYVE0LW9PNDdYRkpEdDlLelIybzFzVG1fdlRKU3RwckgteGNiWGc?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%9A%82%E8%9A%81%E7%81%B5%E6%B3%A2%E6%8B%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%9A%82%E8%9A%81%E7%81%B5%E6%B3%A2%E6%8B%9F%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 梅卡曼德机器人 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcElJY1pKcVE4aXBQamdfaFllaUNFRGIxbzI3R1dOeDJUZnJhR00tY2llc3pZMFFZUHFsR25NOGNNRzVWVFFlU3hocHdxR0RNY3RlT0owSHhhVmlRcXhPTXE3M0tFVDQybEpwT3o0VTNBVFpxZThjdHRwQU0xMzVjQ1ltdm11b245?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A2%85%E5%8D%A1%E6%9B%BC%E5%BE%B7%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 宣称 · 候选 · 22/100
