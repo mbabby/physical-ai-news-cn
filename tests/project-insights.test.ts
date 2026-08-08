@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "../src/project-insights.js";
+import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "../src/project-insights.js";
 import type { CandidateCompanyRegistry, CandidateSourceRegistry, DailyArchive, EventStore, SourceRegistry } from "../src/types.js";
 
 const now = new Date("2026-08-05T08:30:00Z");
@@ -33,4 +33,12 @@ test("community review queue labels candidates instead of promoting them", () =>
   assert.match(output, /Nova 融资线索/);
   assert.match(output, /需要官网/);
   assert.doesNotMatch(output, /已确证/);
+});
+
+test("builds auditable Issue seeds without promoting candidates", () => {
+  const seeds = buildCommunityReviewSeeds(archives, companies, sources);
+  assert.equal(seeds.length, 1);
+  assert.ok(seeds.some((seed) => seed.id === "article-candidate" && seed.issueTemplate === "company-funding.yml"));
+  assert.ok(seeds.every((seed) => seed.issueBody.includes("review-seed:")));
+  assert.ok(seeds.every((seed) => /^https?:\/\//.test(seed.evidenceLink)));
 });

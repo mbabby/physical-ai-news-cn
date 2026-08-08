@@ -20,10 +20,10 @@ import { formatCandidateCompanyReview, updateCandidateCompanies } from "./compan
 import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./company-entities.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
-import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
+import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { hasCompleteChineseCopy, preferKnownGoodArticles } from "./publication.js";
+import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict } from "./runtime/storage.js";
 import { validatePublication } from "./runtime/validation.js";
 
@@ -196,8 +196,14 @@ async function main(): Promise<void> {
   const researchPool = uniqueArticles(preferKnownGoodArticles([...researchArticles, ...openAlex.articles, ...registeredResearch, ...cachedResearch], [...registeredResearch, ...cachedResearch, ...historicalArticles]));
   const researchRegistry = updateResearchRegistry(previousResearch, researchPool, now);
   const freshlyRankedResearch = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article));
-  const previousPublicRecords = (previousResearch?.records ?? []).filter((record) => isPublishableResearch(record.article) && !record.article.scholar?.isRetracted)
+  // The daily archives are the actual publication history. The registry may
+  // temporarily lose complete copy when a provider returns a poorer refresh,
+  // so using only the registry as the baseline allowed the homepage to shrink
+  // from three cards to two across two otherwise successful runs.
+  const archivedPublicRecords = recoverPublishedResearchRecords(recentArchives, previousResearch?.records ?? []);
+  const registryPublicRecords = (previousResearch?.records ?? []).filter((record) => isPublishableResearch(record.article) && !record.article.scholar?.isRetracted)
     .map((record) => ({ ...record, article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) } }));
+  const previousPublicRecords = [...new Map([...archivedPublicRecords, ...registryPublicRecords].map((record) => [record.id, record])).values()];
   const previousById = new Map(previousPublicRecords.map((record) => [record.id, record]));
   const fallbackOrder = rankResearchArticles(previousPublicRecords.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) })))
     .flatMap((article) => previousById.get(article.id) ? [previousById.get(article.id)!] : []);
@@ -298,9 +304,10 @@ async function main(): Promise<void> {
   await writeFile(join(metricsDir, "weekly.json"), JSON.stringify(metrics, null, 2) + "\n", "utf8");
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
+  await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate);
-  validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousResearch?.records.filter((record) => isPublishableResearch(record.article)).length ?? 0 });
+  validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousPublicRecords.length });
   await writeFile(readmePath, readme, "utf8");
   const finishedAt = new Date();
   const runManifest = {

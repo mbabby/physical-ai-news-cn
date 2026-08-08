@@ -1,5 +1,17 @@
 import type { Article, CandidateCompanyRegistry, CandidateSourceRegistry, DailyArchive, EventRecord, EventStore, ProjectMetrics, ResearchRecord, SourceRegistry } from "./types.js";
 
+export interface CommunityReviewSeed {
+  id: string;
+  priority: "高" | "常规";
+  category: "公司/融资" | "产品/部署" | "论文" | "信源";
+  title: string;
+  evidenceLink: string;
+  missingEvidence: string;
+  issueTemplate: string;
+  issueTitle: string;
+  issueBody: string;
+}
+
 const DISCOVERY = /google news|hacker news|^x\s*·/i;
 const zh = (value: string | undefined): value is string => Boolean(value && /[\u3400-\u9fff]/.test(value) && !/暂无|未生成|请阅读|原文摘要/.test(value));
 const evidence = (event: EventRecord) => event.evidence.find((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY.test(item.source));
@@ -85,4 +97,45 @@ export function formatCommunityReviewQueue(
   lines.push("", "## 待评估信源", "", ...(sources.length ? sources.map((source) => `- **${source.domain}** · 连续成功 ${source.successfulRuns} 次 · 样例：[${source.title}](${source.link}) · [提交信源建议](../../issues/new/choose)`) : ["- 暂无达到复核阈值的候选信源。"]));
   lines.push("", "## 如何贡献", "", "1. 选择 Issue 类型：公司/融资、产品/部署、论文、信源或事实纠错。", "2. 提供原始链接、主体名称、发生时间与简短中文事实说明。", "3. 线索链接本身不足以入库；融资优先公司或投资方公告，或两家独立媒体交叉确认。", "");
   return lines.join("\n");
+}
+
+/**
+ * Convert private candidates into deterministic, evidence-first Issue seeds.
+ * This deliberately does not create GitHub Issues itself: the generated JSON
+ * is auditable, and the optional manual workflow de-duplicates before posting.
+ */
+export function buildCommunityReviewSeeds(
+  archives: DailyArchive[], candidateCompanies: CandidateCompanyRegistry, candidateSources: CandidateSourceRegistry | undefined,
+): CommunityReviewSeed[] {
+  const articleSeeds = archives.flatMap((archive) => archive.candidates ?? [])
+    .filter((article) => article.stage !== "不适合公开资讯" && article.sourceWeight >= 7 && zh(article.summaryZh))
+    .filter((article, index, all) => all.findIndex((item) => item.link === article.link) === index)
+    .map((article): CommunityReviewSeed => {
+      const companyOrFunding = article.kind === "投融资" || article.stage === "待公司主体确认";
+      const category = companyOrFunding ? "公司/融资" : article.kind === "研究与数据" ? "论文" : "产品/部署";
+      const issueTemplate = category === "公司/融资" ? "company-funding.yml" : category === "论文" ? "research.yml" : "product-deployment.yml";
+      const title = article.titleZh ?? article.title;
+      const missing = article.holdReasons.join("；") || "需要补充原始事实证据";
+      return {
+        id: `article-${article.id}`, priority: article.sourceWeight >= 9 ? "高" : "常规", category, title, evidenceLink: article.link, missingEvidence: missing, issueTemplate,
+        issueTitle: `[复核] ${title.slice(0, 72)}`,
+        issueBody: `<!-- review-seed:article-${article.id} -->\n\n候选链接：${article.link}\n\n待补证据：${missing}\n\n中文线索说明：${article.summaryZh}\n\n请补充公司/实验室主体、发生日期，以及官网、投资方公告或第二独立来源。`,
+      };
+    });
+  const companySeeds = candidateCompanies.companies.filter((company) => company.status === "观察中" || company.status === "已交叉核验").map((company): CommunityReviewSeed => ({
+    id: `company-${company.id}`, priority: company.status === "已交叉核验" ? "高" : "常规", category: "公司/融资", title: company.name,
+    evidenceLink: company.evidence[0]?.link ?? company.officialUrl ?? "", missingEvidence: company.openQuestions.join("；") || "需要补充主体或融资一手证据", issueTemplate: "company-funding.yml",
+    issueTitle: `[复核] ${company.name} 公司 / 融资证据`,
+    issueBody: `<!-- review-seed:company-${company.id} -->\n\n候选主体：${company.name}\n\n现有证据：${company.evidence.map((item) => item.link).join("\n") || "暂无"}\n\n待补证据：${company.openQuestions.join("；") || "主体或融资一手证据"}\n\n请提供官网、投资方公告或两个独立来源。`,
+  }));
+  const sourceSeeds = (candidateSources?.sources ?? []).filter((source) => source.successfulRuns >= 2 && Boolean(source.feedUrl)).map((source): CommunityReviewSeed => ({
+    id: `source-${source.domain}`, priority: source.successfulRuns >= 5 ? "高" : "常规", category: "信源", title: source.domain,
+    evidenceLink: source.link, missingEvidence: "需要确认来源性质、RSS/Atom 稳定性与事实证据边界", issueTemplate: "source.yml",
+    issueTitle: `[复核] 信源 ${source.domain}`,
+    issueBody: `<!-- review-seed:source-${source.domain} -->\n\n候选信源：${source.link}\n\n已连续成功抓取：${source.successfulRuns} 次\n\n建议补充：官方 RSS/Atom/Releases 地址、物理 AI 样例，以及应作为事实源还是线索源。`,
+  }));
+  return [...companySeeds, ...articleSeeds, ...sourceSeeds]
+    .filter((seed) => /^https?:\/\//.test(seed.evidenceLink))
+    .sort((a, b) => (a.priority === b.priority ? a.category.localeCompare(b.category) || a.title.localeCompare(b.title) : a.priority === "高" ? -1 : 1))
+    .slice(0, 20);
 }

@@ -1,0 +1,48 @@
+name: Materialize community review issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "只预览候选，不创建 Issue"
+        required: true
+        type: boolean
+        default: true
+      limit:
+        description: "本次最多处理的高质量候选数"
+        required: false
+        default: "5"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create deduplicated review issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          LIMIT: ${{ inputs.limit }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f review/issue-seeds.json
+          echo "## Community review Issue materialization" >> "$GITHUB_STEP_SUMMARY"
+          jq -c ".seeds[:${LIMIT}][]" review/issue-seeds.json | while IFS= read -r seed; do
+            id="$(jq -r '.id' <<< "$seed")"
+            title="$(jq -r '.issueTitle' <<< "$seed")"
+            body="$(jq -r '.issueBody' <<< "$seed")"
+            existing="$(gh issue list --state all --search "review-seed:${id} in:body" --json number --jq 'length')"
+            if [[ "$existing" != "0" ]]; then
+              echo "- 跳过重复：${id}" >> "$GITHUB_STEP_SUMMARY"
+            elif [[ "$DRY_RUN" == "true" ]]; then
+              echo "- 预览：${title}" >> "$GITHUB_STEP_SUMMARY"
+            else
+              gh issue create --title "$title" --body "$body"
+              echo "- 已创建：${title}" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
