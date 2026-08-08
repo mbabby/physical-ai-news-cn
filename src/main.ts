@@ -23,7 +23,7 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { preferKnownGoodArticles } from "./publication.js";
+import { hasCompleteChineseCopy, preferKnownGoodArticles } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict } from "./runtime/storage.js";
 import { validatePublication } from "./runtime/validation.js";
 
@@ -97,6 +97,16 @@ async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, article
     output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
   }
   return output;
+}
+
+async function summarizeWithCache(summarizer: CompatibleSummarizer, articles: Article[], historical: Article[]): Promise<Article[]> {
+  const cached = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
+  const pending = articles.filter((article) => {
+    const prior = cached.get(article.id);
+    return !prior || prior.title !== article.title || prior.excerpt !== article.excerpt;
+  });
+  const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending)).map((article) => [article.id, article]));
+  return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical);
 }
 
 function mergePulseSummaries(pulse: IndustryPulse, summaries: Article[]): IndustryPulse {
@@ -174,12 +184,12 @@ async function main(): Promise<void> {
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
-  const articles = preferKnownGoodArticles(await summarizeInSmallBatches(summarizer, industrySelected), historicalArticles);
+  const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles);
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough
   // complete cards to publish six. Any incomplete card remains private.
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
-  const researchArticles = preferKnownGoodArticles(await summarizeInSmallBatches(summarizer, researchSelected), [...registeredResearch, ...cachedResearch, ...historicalArticles]);
+  const researchArticles = await summarizeWithCache(summarizer, researchSelected, [...registeredResearch, ...cachedResearch, ...historicalArticles]);
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
