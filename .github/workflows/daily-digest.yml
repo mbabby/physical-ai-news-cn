@@ -33,7 +33,9 @@ concurrency:
 
 jobs:
   generate:
-    timeout-minutes: 30
+    # Hard ceiling for the complete pipeline. The generator has a smaller
+    # ceiling below so cleanup/status steps still have time to run.
+    timeout-minutes: 22
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +72,21 @@ jobs:
         if: steps.fallback.outputs.run == 'true'
       - run: pnpm test
         if: steps.fallback.outputs.run == 'true'
-      - run: pnpm start -- --hours "${DIGEST_HOURS:-24}"
+      - name: Generate digest with a bounded deadline
+        id: generate_digest
+        shell: bash
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=30s 15m pnpm start -- --hours "${DIGEST_HOURS:-24}"
+          exit_code=$?
+          set -e
+          if [[ "$exit_code" -eq 124 || "$exit_code" -eq 137 ]]; then
+            echo "::error::日报生成超过 15 分钟，已终止。本轮不会提交半成品，后续定时触发可安全重试。"
+            echo "## 日报生成超时" >> "$GITHUB_STEP_SUMMARY"
+            echo "- 生成步骤超过 15 分钟并被终止；事务写入保证公开文件未被部分覆盖。" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          exit "$exit_code"
         if: steps.fallback.outputs.run == 'true'
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
@@ -121,7 +137,8 @@ jobs:
         shell: bash
         run: |
           echo "### 页面更新与提交" >> "$GITHUB_STEP_SUMMARY"
-          echo "- 生成步骤：${{ steps.generator_status.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 生成命令：${{ steps.generate_digest.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 发布校验与状态报告：${{ steps.generator_status.outcome }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- 提交步骤：${{ steps.commit_digest.outcome }} · ${{ steps.commit_digest.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- 说明：日报由机器人提交时会显式派发 GitHub Pages 部署，避免 Actions 提交无法触发 push 工作流。" >> "$GITHUB_STEP_SUMMARY"
       - name: Dispatch Pages deployment after bot commit
