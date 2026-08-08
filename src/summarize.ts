@@ -24,19 +24,25 @@ export class CompatibleSummarizer {
   private attempted = 0;
   private succeeded = 0;
   private failed = 0;
+  private circuitOpen = false;
   constructor(private readonly settings: LlmSettings) {}
 
   status(): RuntimeStatus {
     const configured = Boolean(this.settings.apiKey && this.settings.baseUrl && this.settings.model);
     if (!configured) return { component: "LLM", status: "未配置", attempted: this.attempted, succeeded: 0, failed: 0, detail: "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。" };
-    return { component: "LLM", status: this.failed ? "部分降级" : "成功", attempted: this.attempted, succeeded: this.succeeded, failed: this.failed, detail: this.failed ? "部分摘要调用失败，相关内容已留在候选层。" : "中文事实简介已完成。" };
+    return { component: "LLM", status: this.failed ? "部分降级" : "成功", attempted: this.attempted, succeeded: this.succeeded, failed: this.failed, detail: this.circuitOpen ? "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。" : this.failed ? "部分摘要调用失败，相关内容已留在候选层。" : "中文事实简介已完成。" };
   }
 
   async summarize(article: Article): Promise<Article> {
-    this.attempted += 1;
     if (!this.settings.apiKey || !this.settings.baseUrl || !this.settings.model) {
       return { ...article, titleZh: article.title, summaryZh: "未配置摘要服务；请阅读原文。" };
     }
+    // A provider outage must not multiply into one minute of retries for every
+    // remaining article. Two failed articles are enough evidence to stop new
+    // requests for this run; publication then restores verified copy or keeps
+    // the item in the private candidate layer.
+    if (this.circuitOpen) return { ...article, titleZh: article.title, summaryZh: "暂未生成中文摘要，请阅读原文。" };
+    this.attempted += 1;
     // The provider can briefly throttle a parallel batch. Retry transient
     // failures so that a later research batch does not quietly become six
     // identical placeholder cards on the homepage.
@@ -72,6 +78,7 @@ export class CompatibleSummarizer {
     // reveal only the actionable provider status, never credentials or source text.
     console.warn(`[summary] unavailable after retry (${lastError})`);
     this.failed += 1;
+    if (this.failed >= 2) this.circuitOpen = true;
     return { ...article, titleZh: article.title, summaryZh: "暂未生成中文摘要，请阅读原文。" };
   }
 }
