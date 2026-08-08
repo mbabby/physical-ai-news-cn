@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   if (!archive || !events || !research) throw new Error("发布产物不完整");
   const readme = await readFile(join(root, "README.md"), "utf8");
   const publicResearch = research.records.filter((record) => isPublishableResearch(record.article));
-  const rankedIds = new Set(rankResearchArticles(publicResearch.map((record) => record.article)).slice(0, 6).map((article) => article.id));
+  const rankedIds = new Set(rankResearchArticles(publicResearch.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))).slice(0, 6).map((article) => article.id));
   validatePublication({ archive, events, research: publicResearch.filter((record) => rankedIds.has(record.id)), readme, expectedDate: manifest.date });
   console.log(`发布校验通过：${manifest.date}，公开 ${archive.articles.length} 条，运行状态 ${manifest.status}。`);
 }

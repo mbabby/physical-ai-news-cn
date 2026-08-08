@@ -132,6 +132,7 @@ jobs:
         shell: bash
         run: |
           curl --fail-with-body --request POST \
+            --retry 3 --retry-delay 2 --retry-all-errors \
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer ${GH_TOKEN}" \
             --header "X-GitHub-Api-Version: 2022-11-28" \

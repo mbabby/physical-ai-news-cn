@@ -5,6 +5,7 @@
 ## 候选资源
 
 - [DreamWAM：用超越 RGB 的未来状态预测增强机器人操作](https://arxiv.org/abs/2608.04996v1) · 真实机器人 / 基准 / 开源
+- [PAC-MAN：结合机载感知与 CBF-RL 的人形机器人躲避球全身安全框架](https://arxiv.org/abs/2607.28623v1) · 真实机器人 / 基准
 - [RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略](https://arxiv.org/abs/2607.27782v1) · 真实机器人 / 基准
 
 ## 常青资源候选

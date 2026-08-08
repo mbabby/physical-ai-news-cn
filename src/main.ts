@@ -299,7 +299,7 @@ async function main(): Promise<void> {
     date: archive.date,
     startedAt: startedAt.toISOString(),
     finishedAt: finishedAt.toISOString(),
-    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status === "部分降级") ? "degraded" : "success",
+    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
     quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
     services: statuses,
     outputs: transaction.size + 1,
