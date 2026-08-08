@@ -56,11 +56,23 @@ test("connects companies, routes and only attributable capital evidence", () => 
   })]);
   const companies = [{ name: "Google DeepMind", region: "北美", stage: "平台公司" as const, routes: ["VLA 与具身模型" as const], thesis: "VLA 模型", officialUrl: "https://example.com/deepmind" }];
   const map = formatIndustryMap(store.events, companies);
-  assert.match(map, /物理 AI 竞争路线图/);
+  assert.match(map, /物理 AI 技术路线竞争图谱/);
   assert.match(map, /竞争总览/);
+  assert.match(map, /本路线领先信号/);
+  assert.match(map, /证据不足/);
   assert.match(map, /Google DeepMind/);
   assert.match(map, /完成新一轮融资/);
   assert.doesNotMatch(map, /最新可验证信号/);
+});
+
+test("keeps companies without route evidence in a compact watchlist", () => {
+  const active = { name: "Active Robotics", region: "北美", stage: "创业公司" as const, routes: ["VLA 与具身模型" as const], thesis: "通用操作模型", officialUrl: "https://active.example" };
+  const quiet = { name: "Quiet Robotics", region: "中国", stage: "创业公司" as const, routes: ["VLA 与具身模型" as const], thesis: "具身策略", officialUrl: "https://quiet.example" };
+  const store = upsertEvents(undefined, [article({ title: "Active Robotics raises $10M", titleZh: "Active Robotics 完成 1000 万美元融资", kind: "投融资", summaryZh: "Active Robotics 完成 1000 万美元融资。资金用于机器人策略研发。" })], new Date(), [active, quiet]);
+  const map = formatIndustryMap(store.events, [active, quiet]);
+  assert.match(map, /本路线领先信号/);
+  assert.match(map, /持续跟踪（尚缺可归属的资本或验证事件/);
+  assert.match(map, /Quiet Robotics/);
 });
 
 test("makes capital uncertainty explicit and records route-stage corrections", () => {
@@ -74,6 +86,7 @@ test("makes capital uncertainty explicit and records route-stage corrections", (
   assert.equal(next.routes.find((item) => item.route === "VLA 与具身模型")!.companies[0]!.capitalStatus, "已证实");
   assert.match(routeCorrections(first, next)[0]?.detail ?? "", /已证实/);
   assert.match(formatIndustryMap(funded.events, [company]), /证据不足（不代表未融资）|已证实/);
+  assert.match(formatIndustryMap(funded.events, [company]), /技术路线竞争图谱/);
 });
 
 test("keeps a complete Chinese research card readable", () => {

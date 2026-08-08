@@ -533,27 +533,43 @@ function routeMapValidation(snapshot: RouteCompanySnapshot, events: EventRecord[
   return event ? `[${snapshot.validationStage} · ${headlineFor(event, true)}](${evidenceLink(event)})` : snapshot.validationStage;
 }
 
+/** A route page should foreground attributable competition, not a static
+ * directory of every company that happens to be associated with the route. */
+function hasRouteSignal(snapshot: RouteCompanySnapshot): boolean {
+  return snapshot.capitalStatus !== "证据不足" || snapshot.validationStage !== "证据不足";
+}
+function routeCompanySignalScore(snapshot: RouteCompanySnapshot): number {
+  return CAPITAL_ORDER[snapshot.capitalStatus] * 100
+    + VALIDATION_ORDER[snapshot.validationStage] * 10
+    + snapshot.evidenceLinks.length;
+}
+
 export function formatIndustryMap(events: EventRecord[], companies: CompanyProfile[] = []): string {
   const map = buildRouteCompetitionMap(events, companies);
   const momentum = ROUTE_MAP.map((meta) => ({ ...meta, ...routeMomentum(events, companies, meta.route), entry: map.routes.find((entry) => entry.route === meta.route)! })).sort((a, b) => b.score - a.score || b.capital - a.capital || b.traction - a.traction || a.route.localeCompare(b.route));
   const lines = [
-    "# 物理 AI 竞争路线图",
+    "# 物理 AI 技术路线竞争图谱",
     "",
     "> 30 秒读图：每条路线都回答“谁在做、怎么做、资本是否支持、到了什么验证阶段”。只使用可归属公司的 A/B 级证据；“证据不足”表示当前信源未能确认，不代表公司没有融资或没有进展。",
     "",
     "## 竞争总览",
     "",
-    "| 路线 | 活跃公司 | 已证实资本支持 | 已有产品/部署验证 |", "| --- | ---: | ---: | ---: |",
-    ...momentum.map((item) => `| ${item.route} | ${item.entry.companies.length} | ${item.entry.verifiedCapitalCompanies} | ${item.entry.verifiedProductDeploymentCompanies} |`),
+    "| 路线 | 已建档公司 | 有资本信号 | 有产品 / 部署信号 |", "| --- | ---: | ---: | ---: |",
+    ...momentum.map((item) => `| ${item.route} | ${item.entry.companies.length} | ${item.entry.companies.filter((company) => company.capitalStatus !== "证据不足").length} | ${item.entry.verifiedProductDeploymentCompanies} |`),
     "",
   ];
   for (const [index, meta] of momentum.entries()) {
-    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**要解决什么**：${meta.entry.question}  `, `**主流怎么做**：${meta.entry.approaches}  `, `**格局判断**：${meta.entry.companies.length} 家已建档公司，其中 ${meta.entry.verifiedCapitalCompanies} 家有已证实资本支持、${meta.entry.verifiedProductDeploymentCompanies} 家有产品或部署验证。`, "", "| 谁在做 | 怎么做 | 资本是否支持 | 验证阶段 |", "| --- | --- | --- | --- |");
-    for (const company of meta.entry.companies) {
+    const signalled = meta.entry.companies.filter(hasRouteSignal).sort((a, b) => routeCompanySignalScore(b) - routeCompanySignalScore(a) || a.company.localeCompare(b.company));
+    const watching = meta.entry.companies.filter((company) => !hasRouteSignal(company));
+    lines.push(`## ${String(index + 1).padStart(2, "0")} · ${meta.route}`, "", `**谁在做**：${meta.entry.companies.length} 家已建档公司；${signalled.length} 家已有可追溯资本或产品 / 部署信号。  `, `**怎么做**：${meta.entry.approaches}  `, `**资本是否支持**：${meta.entry.verifiedCapitalCompanies} 家已证实；${meta.entry.companies.filter((company) => company.capitalStatus === "有资本信号").length} 家有待补强的资本信号。  `, `**验证到哪**：${meta.entry.verifiedProductDeploymentCompanies} 家有公开产品 / 部署证据；最高为${signalled.map((company) => company.validationStage).sort((a, b) => VALIDATION_ORDER[b] - VALIDATION_ORDER[a])[0] ?? "证据不足"}。`, "");
+    if (signalled.length) lines.push("### 本路线领先信号", "", "| 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |", "| --- | --- | --- | --- |");
+    for (const company of signalled.slice(0, 8)) {
       lines.push(`| [${company.company}](${company.officialUrl})<br><sub>${company.region} · ${company.stage}</sub> | ${company.approach} | ${routeMapCapital(company, events)} | ${routeMapValidation(company, events)} |`);
     }
+    if (!signalled.length) lines.push("> 尚无同时满足公开主体归属与资本 / 产品验证门槛的公司信号；这不是对路线或公司的负面判断。", "");
+    if (watching.length) lines.push("", `**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：${watching.map((company) => `[${company.company}](${company.officialUrl})`).join(" · ")}`);
     lines.push("");
   }
-  lines.push("## 排序与校验口径", "", "- 公司排序：已证实资本支持 → 验证阶段 → 可追溯证据数量；同分按名称稳定排序。", "- 资本状态：仅统计主体明确的融资、并购或战略资本事件；“证据不足”不代表未融资。", "- 验证阶段：产品发布不等同于部署；只有客户、试点、工厂、订单或规模化等可追溯证据才能升级。", "- 每日日报写入新证据后自动重算；资本状态或验证阶段回退会记录到内部纠错档案。", "");
+  lines.push("## 排序与校验口径", "", "- 路线排序：资本、产品 / 部署、参与公司广度与开源资产组成动量分；证据等级和时效性只作为小幅乘数。", "- 路线内排序：已证实资本支持 → 验证阶段 → 可追溯证据数量；同分按名称稳定排序。", "- 资本状态：仅统计主体明确的融资、并购或战略资本事件；“证据不足”不代表未融资。", "- 验证阶段：产品发布不等同于部署；只有客户、试点、工厂、订单或规模化等可追溯证据才能升级。", "- 每日日报写入新证据后自动重算；资本状态或验证阶段回退会记录到内部纠错档案。", "");
   return lines.join("\n");
 }
