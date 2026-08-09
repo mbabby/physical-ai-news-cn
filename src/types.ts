@@ -25,6 +25,9 @@ export interface Article {
   speaker?: string;
   /** Source tier is attached at collection time; it prevents discovery leads from leaking to public pages. */
   sourceTier?: SourceTier;
+  /** Explicit event/announcement date when the source distinguishes it from
+   * the page publication timestamp. Most feeds omit this field. */
+  eventDate?: Date;
 }
 
 export interface ScholarlyAuthor {
@@ -215,7 +218,20 @@ export interface EventRecord {
   mentionedEntities?: string[];
   routes: TechnicalRoute[];
   status: EventStatus;
+  /** Date on which the underlying event happened (or was announced), never
+   * the date on which this repository happened to ingest it. */
+  occurredAt?: string;
+  /** Backward-compatible calendar-date alias used by exported datasets. */
+  eventDate?: string;
+  dateSource?: "explicit" | "official-published" | "media-published" | "inferred";
+  dateConfidence?: "high" | "medium" | "low";
   firstSeenAt: string;
+  /** Publication time of the newest supporting item, not a crawler clock. */
+  lastEvidenceAt?: string;
+  /** Last time the event's public facts materially changed. */
+  lastMaterialChangeAt?: string;
+  /** Legacy compatibility field. New code keeps it equal to
+   * `lastMaterialChangeAt`; it must not be used as the event date. */
   lastUpdatedAt: string;
   lastVerifiedAt: string;
   facts: string[];

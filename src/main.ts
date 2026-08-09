@@ -29,6 +29,9 @@ import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from
 import { validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
+import { buildCandidateVerificationArtifact, formatCandidateVerificationReview, verificationIssueSeeds } from "./candidate-verification.js";
+import type { CandidateVerificationArtifact } from "./candidate-verification.js";
+import { buildEventAnomalyReport } from "./event-anomalies.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -297,6 +300,42 @@ async function generate(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}.md`), weeklyMarkdown, "utf8");
   await writeFile(join(weeklyDir, "shareable-summary.md"), formatShareableSummary(eventStore, publicResearch, week), "utf8");
   const companyCandidates = updateCandidateCompanies(await readJson<CandidateCompanyRegistry>(companyCandidatePath), candidates, now, companies);
+  // Secondary verification is an internal-only evidence queue. It consumes
+  // held candidates from the rolling archive, but never writes public events
+  // or company profiles. A corrupt/legacy queue must not stop the daily
+  // intelligence product; the deterministic evidence pool can rebuild it.
+  const verificationPath = join(reviewDir, "candidate-verification.json");
+  const previousVerification = await readJson<CandidateVerificationArtifact>(verificationPath).catch(() => undefined);
+  const verificationArchives = [...(await readRecentDailyArchives(outputDir, now, 60)).filter((item) => item.date !== archive.date), archive];
+  const verificationInput = uniqueArticles(verificationArchives.flatMap((item) => (item.candidates ?? []).map((article) => ({
+    ...article,
+    publishedAt: new Date(article.publishedAt),
+    fetchedAt: new Date(article.fetchedAt),
+  }))));
+  const candidateVerification = buildCandidateVerificationArtifact(previousVerification, verificationInput, companies, now);
+  await writeFile(verificationPath, JSON.stringify(candidateVerification, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "candidate-verification.md"), formatCandidateVerificationReview(candidateVerification) + "\n", "utf8");
+  await writeFile(join(reviewDir, "candidate-verification-issue-seeds.json"), JSON.stringify({
+    generatedAt: candidateVerification.generatedAt,
+    seeds: verificationIssueSeeds(candidateVerification),
+  }, null, 2) + "\n", "utf8");
+  const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
+  await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "event-anomalies.md"), [
+    `# 事件时效与候选积压监控 · ${archive.date}`,
+    "",
+    "本文件用于内部质量控制，不会用虚构内容填补空窗。",
+    "",
+    `- 近 30 天公开产业事件：${anomalyReport.metrics.publicIndustryEvents30d}`,
+    `- 近 7 天真实新增事件：${anomalyReport.metrics.newPublicIndustryEvents7d}`,
+    `- 候选积压：${anomalyReport.metrics.candidateBacklog}`,
+    `- arXiv 产业库污染：${anomalyReport.metrics.arxivIndustryEvents}`,
+    "",
+    "## 告警",
+    "",
+    ...(anomalyReport.alerts.length ? anomalyReport.alerts.map((alert) => `- **${alert.severity} · ${alert.code}**：${alert.message}`) : ["- 无异常。"]),
+    "",
+  ].join("\n"), "utf8");
   const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
   const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);

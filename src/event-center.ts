@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "./publication.js";
+import { eventMaterialChangeAt, eventOccurredAt, eventTimeForArticle, migrateEventTime, newestEvidenceAt } from "./event-time.js";
 import type { Article, ArticleKind, CapitalEvidenceStatus, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteCompetitionEntry, RouteCompetitionMap, RouteCompanySnapshot, RouteCorrection, RouteIndexEntry, TechnicalRoute, ValidationStage } from "./types.js";
 
 // Alias matching is deliberately title-only for event ownership. An article may
@@ -13,6 +14,7 @@ const COMPANY_ALIASES: Record<string, string[]> = {
 };
 const FUNDING_WORDS = ["funding", "funded", "raises", "raised", "series a", "series b", "series c", "seed round", "venture round", "valuation", "acquisition", "融资", "投资", "收购", "估值"];
 const DISCOVERY_SOURCE = /google news|hacker news|^x\s*·/i;
+const RESEARCH_SOURCE = /arxiv|openalex|semantic scholar|papers? with code|crossref/i;
 
 function id(value: string): string { return `evt-${createHash("sha256").update(value).digest("hex").slice(0, 12)}`; }
 function text(article: Article): string { return `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase(); }
@@ -56,8 +58,24 @@ function primaryForEvent(event: EventRecord): string | undefined {
   const title = event.title.toLowerCase();
   return aliasesIn(title)[0];
 }
+function isResearchEvent(event: EventRecord): boolean {
+  return event.type === "研究与数据" || (event.evidence.length > 0 && event.evidence.every((item) => RESEARCH_SOURCE.test(`${item.source} ${item.link}`)));
+}
+function isResearchArticle(article: Article): boolean {
+  return article.kind === "研究与数据" || RESEARCH_SOURCE.test(`${article.source} ${article.link}`);
+}
+function hasPublicEventEvidence(event: EventRecord): boolean {
+  return event.evidence.some((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE.test(item.source));
+}
+function isStoredPublicIndustryEvent(event: EventRecord): boolean {
+  // The event store backs every public company/route surface. Historical
+  // discovery-only, unnamed or research records belong in review archives,
+  // never in this public fact store.
+  return !isResearchEvent(event) && Boolean(primaryForEvent(event)) && hasPublicEventEvidence(event);
+}
 function normalizeExisting(events: EventRecord[], companies: CompanyProfile[] = []): EventRecord[] {
-  return events.map((event) => {
+  return events.filter(isStoredPublicIndustryEvent).map((raw) => {
+    const event = migrateEventTime(raw);
     const primaryEntity = primaryForEvent(event);
     const mentioned = [...new Set([...(event.mentionedEntities ?? []), ...event.entities, ...aliasesIn(event.title.toLowerCase(), companies)].filter((entity) => entity !== primaryEntity))];
     // Earlier versions classified any article containing the word investment as
@@ -82,7 +100,12 @@ function mergeRepeatedFunding(events: EventRecord[]): EventRecord[] {
     for (const evidence of event.evidence) if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(evidence.link))) existing.evidence.push(evidence);
     for (const update of event.timeline) if (!existing.timeline.some((item) => item.evidenceLinks.some((link) => update.evidenceLinks.includes(link)))) existing.timeline.push(update);
     existing.timeline.sort((a, b) => b.date.localeCompare(a.date));
-    if (event.lastUpdatedAt > existing.lastUpdatedAt) existing.lastUpdatedAt = event.lastUpdatedAt;
+    existing.lastEvidenceAt = [newestEvidenceAt(existing), newestEvidenceAt(event)].sort().at(-1);
+    existing.lastVerifiedAt = [existing.lastVerifiedAt, event.lastVerifiedAt].sort().at(-1)!;
+    if (eventMaterialChangeAt(event) > eventMaterialChangeAt(existing)) {
+      existing.lastMaterialChangeAt = eventMaterialChangeAt(event);
+      existing.lastUpdatedAt = existing.lastMaterialChangeAt;
+    }
   }
   return kept;
 }
@@ -119,34 +142,43 @@ function productDeploymentDetails(article: Article): ProductDeploymentFact | und
 
 export function upsertEvents(store: EventStore | undefined, articles: Article[], now = new Date(), companies: CompanyProfile[] = []): EventStore {
   const events = normalizeExisting([...(store?.events ?? [])], companies);
-  for (const article of articles.filter((item) => item.sourceWeight >= 6 && ["投融资", "产品发布", "公司商业", "部署案例", "开源项目"].includes(item.kind ?? ""))) {
+  for (const article of articles.filter((item) => item.sourceWeight >= 6 && !isResearchArticle(item) && ["投融资", "产品发布", "公司商业", "部署案例", "开源项目"].includes(item.kind ?? ""))) {
     const evidence: EventEvidence = { link: article.link, source: article.source, grade: grade(article), publishedAt: article.publishedAt.toISOString(), supports: article.titleZh ?? article.title };
     const summary = meaningful(article.summaryZh) ? article.summaryZh! : article.titleZh ?? article.title;
     const update = { date: now.toISOString(), summary, evidenceLinks: [article.link] };
     const existing = events.find((event) => similar(event, article, companies));
     if (existing) {
-      if (!existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link))) existing.evidence.push(evidence);
-      if (!existing.timeline.some((item) => item.evidenceLinks.includes(article.link))) existing.timeline.unshift(update);
-      existing.lastUpdatedAt = now.toISOString();
+      const before = materialFingerprint(existing);
+      const evidenceAdded = !existing.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link));
+      if (evidenceAdded) existing.evidence.push(evidence);
+      if (evidenceAdded && !existing.timeline.some((item) => item.evidenceLinks.includes(article.link))) existing.timeline.unshift(update);
+      existing.lastEvidenceAt = [newestEvidenceAt(existing), article.publishedAt.toISOString()].sort().at(-1);
       // The model may refine a previously stored fallback title on a later run.
       if (article.titleZh && hasChinese(article.titleZh)) existing.title = article.titleZh;
       if (!existing.sourceTitle) existing.sourceTitle = article.title;
-      if (grade(article) <= "B") { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
+      if ((grade(article) === "A" || grade(article) === "B") && !DISCOVERY_SOURCE.test(article.source)) { existing.lastVerifiedAt = now.toISOString(); existing.status = grade(article) === "A" ? "已确证" : existing.status; }
       existing.funding ??= fundingDetails(article, existing.primaryEntity);
       existing.productDeployment ??= productDeploymentDetails(article);
+      if (materialFingerprint(existing) !== before) {
+        existing.lastMaterialChangeAt = now.toISOString();
+        existing.lastUpdatedAt = existing.lastMaterialChangeAt;
+      }
       continue;
     }
     const primaryEntity = primaryEntityForArticle(article, companies);
     const mentionedEntities = aliasesIn(text(article), companies).filter((name) => name !== primaryEntity);
     const title = article.titleZh ?? article.title;
-    events.push({ id: id(article.link), title, sourceTitle: article.title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), firstSeenAt: now.toISOString(), lastUpdatedAt: now.toISOString(), lastVerifiedAt: now.toISOString(), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
+    events.push({ id: id(article.link), title, sourceTitle: article.title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), ...eventTimeForArticle(article, now), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
   }
-  return { updatedAt: now.toISOString(), events: mergeRepeatedFunding(events).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)) };
+  return { updatedAt: now.toISOString(), events: mergeRepeatedFunding(events).sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a))) };
 }
 
 function eventFact(event: EventRecord): string | undefined {
   const candidates = [...event.timeline.map((item) => item.summary), ...event.facts].filter(meaningful);
   return candidates.find(hasChinese) ?? candidates[0];
+}
+function materialFingerprint(event: EventRecord): string {
+  return JSON.stringify({ title: event.title, type: event.type, primaryEntity: event.primaryEntity, routes: event.routes, fact: eventFact(event), funding: event.funding, productDeployment: event.productDeployment });
 }
 function fundingAmount(value: string): string | undefined {
   const match = value.match(/\$\s*(\d+(?:\.\d+)?)\s*(m|b|million|billion)\b/i);
@@ -165,7 +197,7 @@ function headlineFor(event: EventRecord, omitCompany = false): string {
   return `${event.routes[0]}相关进展`;
 }
 function summaryFor(event: EventRecord): string { const fact = eventFact(event); return fact && hasChinese(fact) ? fact : "已纳入可追溯信源，中文事实简介将在更新后补齐。"; }
-function eventTags(event: EventRecord): string { return [`<kbd>${event.type}</kbd>`, ...event.routes.slice(0, 2).map((route) => `<kbd>${route}</kbd>`), `<sub>${event.lastUpdatedAt.slice(5, 10)}</sub>`].join(" "); }
+function eventTags(event: EventRecord): string { return [`<kbd>${event.type}</kbd>`, ...event.routes.slice(0, 2).map((route) => `<kbd>${route}</kbd>`), `<sub>事件 ${eventOccurredAt(event).slice(5, 10)}</sub>`].join(" "); }
 function articleTitle(article: Article): string { return cleanTitle(article.titleZh || article.title); }
 function articleSummary(article: Article): string {
   if (meaningful(article.summaryZh) && hasChinese(article.summaryZh!)) return article.summaryZh!;
@@ -242,7 +274,7 @@ function impactScore(event: EventRecord): number {
 }
 function corroborationScore(event: EventRecord): number { return Math.min(10, Math.max(0, event.evidence.length - 1) * 4 + (event.status === "已确证" ? 2 : 0)); }
 /** Homepage order: impact 40, authority 30, freshness 20, corroboration 10. */
-function eventPriority(event: EventRecord): number { return impactScore(event) + authorityScore(event) + freshnessScore(event.lastUpdatedAt) + corroborationScore(event); }
+function eventPriority(event: EventRecord): number { return impactScore(event) + authorityScore(event) + freshnessScore(eventOccurredAt(event)) + corroborationScore(event); }
 function isSpecificFunding(event: EventRecord): boolean {
   if (event.type !== "投融资") return true;
   const subject = event.primaryEntity;
@@ -265,22 +297,22 @@ function dedupeByCompany(events: EventRecord[], limit: number): EventRecord[] {
 }
 
 export function formatRecentEvents(events: EventRecord[], refreshedAt = new Date()): string {
-  const cutoff = Date.now() - 30 * 24 * 3_600_000;
-  const active = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= cutoff && homepageEligible(event));
+  const cutoff = refreshedAt.getTime() - 30 * 24 * 3_600_000;
+  const active = events.filter((event) => new Date(eventOccurredAt(event)).getTime() >= cutoff && homepageEligible(event));
   const refreshedDate = refreshedAt.toISOString().slice(0, 10);
   if (!active.length) return `> 数据刷新至 ${refreshedDate} · 暂无满足首页发布门槛的产业事件。`;
-  const updatedAt = [...active].sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt))[0].lastUpdatedAt.slice(0, 10);
-  const key = dedupeByCompany([...active].sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
+  const newestEvent = [...active].sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a)))[0];
+  const updatedAt = eventOccurredAt(newestEvent).slice(0, 10);
+  const key = dedupeByCompany([...active].sort((a, b) => eventPriority(b) - eventPriority(a) || eventOccurredAt(b).localeCompare(eventOccurredAt(a))), 3);
   const keyIds = new Set(key.map((event) => event.id));
-  // This lane is a changelog, not another "most important" list. Use the
-  // exact update timestamp so that today's confirmed additions are never
-  // hidden behind yesterday's stronger stories in the same freshness bucket.
-  const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || eventPriority(b) - eventPriority(a)), 6);
+  // This lane follows actual event/announcement time. A newly re-verified old
+  // story must not masquerade as today's industry progress.
+  const latest = dedupeByCompany(active.filter((event) => !keyIds.has(event.id)).sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a)) || eventPriority(b) - eventPriority(a)), 6);
   const format = (event: EventRecord): string => {
     const evidence = publicEvidence(event)!;
     return `- [${headlineFor(event)}](${evidence.link}) ${eventTags(event)}<br>${summaryFor(event)}`;
   };
-  const lines: string[] = [`> 数据刷新至 ${refreshedDate} · 最近确证产业事件 ${updatedAt} · 关键进展按影响力排序，最新动态按更新时间排序。`, ""];
+  const lines: string[] = [`> 数据刷新至 ${refreshedDate} · 最近确证产业事件 ${updatedAt} · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。`, ""];
   if (key.length) lines.push("### 本期关键进展", "", ...key.map(format), "");
   if (latest.length) lines.push("### 最新动态", "", ...latest.map(format), "");
   return lines.join("\n");
@@ -349,22 +381,24 @@ function isoWeekStart(value: Date): number {
 
 export function formatCompanyRadar(companies: CompanyProfile[], events: EventRecord[], now = new Date()): string {
   const since = isoWeekStart(now);
-  const weekly = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= since && homepageEligible(event));
-  const funding = dedupeByCompany(weekly.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
-  const productDeployment = dedupeByCompany(weekly.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)), 3);
+  const cutoff = now.getTime() - 30 * 24 * 3_600_000;
+  const recent = events.filter((event) => new Date(eventOccurredAt(event)).getTime() >= cutoff && homepageEligible(event));
+  const funding = dedupeByCompany(recent.filter((event) => event.type === "投融资").sort((a, b) => eventPriority(b) - eventPriority(a) || eventOccurredAt(b).localeCompare(eventOccurredAt(a))), 3);
+  const productDeployment = dedupeByCompany(recent.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).sort((a, b) => eventPriority(b) - eventPriority(a) || eventOccurredAt(b).localeCompare(eventOccurredAt(a))), 3);
   const lines: string[] = [];
+  const dateLabel = (event: EventRecord): string => `${new Date(eventOccurredAt(event)).getTime() >= since ? " <kbd>本周新增</kbd>" : ""} · 事件 ${eventOccurredAt(event).slice(5, 10)}`;
   const fundingLine = (event: EventRecord): string => {
     const evidence = publicEvidence(event)!;
     const label = event.primaryEntity ?? "待识别公司";
     const facts = [event.funding?.round, event.funding?.amount, event.funding?.valuation].filter(Boolean).join(" · ");
-    return `- **${label}** · [${headlineFor(event, true)}](${evidence.link})${facts ? ` · ${facts}` : ""} · ${event.lastUpdatedAt.slice(5, 10)}`;
+    return `- **${label}** · [${headlineFor(event, true)}](${evidence.link})${facts ? ` · ${facts}` : ""}${dateLabel(event)}`;
   };
   const progressLine = (event: EventRecord): string => {
     const evidence = publicEvidence(event)!;
-    return `- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.routes.slice(0, 2).join(" / ")} · ${event.lastUpdatedAt.slice(5, 10)}`;
+    return `- **${event.primaryEntity}** · [${headlineFor(event, true)}](${evidence.link}) · ${event.routes.slice(0, 2).join(" / ")}${dateLabel(event)}`;
   };
-  lines.push("### 本周融资 / 并购", "", ...(funding.length ? funding.map(fundingLine) : ["- 暂无满足证据门槛的融资或并购事件。"]), "");
-  lines.push("### 本周产品 / 部署", "", ...(productDeployment.length ? productDeployment.map(progressLine) : ["- 暂无满足证据门槛的产品或部署事件。"]), "");
+  lines.push("### 近 30 天融资 / 并购", "", ...(funding.length ? funding.map(fundingLine) : ["- 近 30 天暂无满足证据门槛的融资或并购事件。"]), "");
+  lines.push("### 近 30 天产品 / 部署", "", ...(productDeployment.length ? productDeployment.map(progressLine) : ["- 近 30 天暂无满足证据门槛的产品或部署事件。"]), "");
   lines.push(`> [查看 ${companies.length} 家公司的完整档案、技术路线与资本证据](resources/companies.md)`);
   return lines.join("\n");
 }
@@ -372,7 +406,7 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
 export function buildCompanyDossiers(companies: CompanyProfile[], events: EventRecord[]): CompanyDossier[] {
   return companies.map((company) => {
     const linked = events.filter((event) => event.primaryEntity === company.name && event.evidence.some((item) => item.grade === "A" || item.grade === "B"))
-      .sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt));
+      .sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a)));
     // Most legacy profiles were curated before identity evidence became an
     // explicit field. Their official URL is still a traceable identity source,
     // but is never reused as evidence for funding or a product claim.
@@ -382,10 +416,10 @@ export function buildCompanyDossiers(companies: CompanyProfile[], events: EventR
     return {
       company,
       identityEvidence,
-      updatedAt: linked[0]?.lastUpdatedAt ?? "",
+      updatedAt: linked.length ? eventMaterialChangeAt(linked[0]) : "",
       eventIds: linked.map((event) => event.id),
-      funding: linked.filter((event) => event.type === "投融资" && event.funding?.entityStatus === "已确认").map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), fact: event.funding!, evidenceLinks: event.evidence.map((item) => item.link) })),
-      productsAndDeployments: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => ({ eventId: event.id, date: event.lastUpdatedAt.slice(0, 10), type: event.type, fact: event.productDeployment ?? { customers: [] }, evidenceLinks: event.evidence.map((item) => item.link) })),
+      funding: linked.filter((event) => event.type === "投融资" && event.funding?.entityStatus === "已确认").map((event) => ({ eventId: event.id, date: eventOccurredAt(event).slice(0, 10), fact: event.funding!, evidenceLinks: event.evidence.map((item) => item.link) })),
+      productsAndDeployments: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => ({ eventId: event.id, date: eventOccurredAt(event).slice(0, 10), type: event.type, fact: event.productDeployment ?? { customers: [] }, evidenceLinks: event.evidence.map((item) => item.link) })),
       capitalStatus: capitalStatus(linked),
       validationStage: validationStage(linked),
     };
@@ -438,7 +472,7 @@ function tractionLabel(events: EventRecord[], company: CompanyProfile): string {
 }
 function routeEventScore(event: EventRecord): number {
   const evidence = authorityScore(event) / 30;
-  const freshness = freshnessScore(event.lastUpdatedAt) / 20;
+  const freshness = freshnessScore(eventOccurredAt(event)) / 20;
   return 0.7 + evidence * 0.2 + freshness * 0.1;
 }
 function routeMomentum(events: EventRecord[], companies: CompanyProfile[], route: TechnicalRoute): { capital: number; traction: number; open: number; companyBreadth: number; score: number } {
@@ -488,7 +522,7 @@ function companyRouteSnapshot(company: CompanyProfile, events: EventRecord[], ro
     company: company.name, officialUrl: company.officialUrl, region: company.region, stage: company.stage ?? "公司", approach: company.thesis,
     capitalStatus: capitalStatus(linked), capitalEventIds: capital.map((event) => event.id), validationStage: validationStage(linked), productDeploymentEventIds: productDeployment.map((event) => event.id),
     evidenceLinks: [...new Set(linked.flatMap((event) => event.evidence.filter((item) => item.grade === "A" || item.grade === "B").map((item) => item.link)))].slice(0, 4),
-    updatedAt: linked.map((event) => event.lastUpdatedAt).sort().at(-1),
+    updatedAt: linked.map((event) => eventMaterialChangeAt(event)).sort().at(-1),
   };
 }
 const CAPITAL_ORDER: Record<CapitalEvidenceStatus, number> = { "已证实": 3, "有资本信号": 2, "证据不足": 1 };

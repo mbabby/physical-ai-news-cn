@@ -1,8 +1,21 @@
 import type { Article, CompanyDossier, CompanyProfile, EventRecord, EventStore, TechnicalRoute, ValidationStage } from "./types.js";
 import { buildCompanyDossiers } from "./event-center.js";
+import { eventMaterialChangeAt } from "./event-time.js";
 import { hasChineseText, hasCompleteChineseResearchCopy, isPlaceholderCopy } from "./publication.js";
 
-export interface DashboardItem { title: string; summary: string; link: string; type: string; route: string; date: string; source: string; }
+export interface DashboardItem {
+  title: string;
+  summary: string;
+  link: string;
+  type: string;
+  route: string;
+  /** The event occurrence / announcement date, never the ingestion timestamp. */
+  date: string;
+  source: string;
+  isThisWeek?: boolean;
+  lastVerifiedAt?: string;
+  lastMaterialChangeAt?: string;
+}
 export interface DashboardSignal extends DashboardItem {
   entity: string;
   evidenceGrade: "A" | "B" | "学术";
@@ -60,6 +73,28 @@ function publicEvidence(event: EventRecord) {
     .sort((a, b) => (a.grade === "A" ? 0 : 1) - (b.grade === "A" ? 0 : 1))[0];
 }
 
+function validIsoDate(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const timestamp = new Date(value).getTime();
+  return Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : undefined;
+}
+
+/**
+ * Resolve when the fact happened, rather than when our pipeline happened to
+ * ingest or re-check it. Historic records fall back to the earliest public
+ * A/B evidence publication date, so another verification run cannot make an
+ * old event look new.
+ */
+export function publicEventDate(event: EventRecord): string | undefined {
+  const explicit = validIsoDate(event.occurredAt) ?? validIsoDate(event.eventDate);
+  if (explicit) return explicit;
+  return event.evidence
+    .filter((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE_PATTERN.test(item.source))
+    .map((item) => validIsoDate(item.publishedAt))
+    .filter((item): item is string => Boolean(item))
+    .sort()[0];
+}
+
 function ageInDays(value: string, now: Date): number | undefined {
   const timestamp = new Date(value).getTime();
   if (!Number.isFinite(timestamp)) return undefined;
@@ -75,9 +110,22 @@ function isPublicEvent(event: EventRecord): boolean {
     && Boolean(eventFact(event));
 }
 
-function eventItem(event: EventRecord): DashboardItem {
+function eventItem(event: EventRecord, now?: Date): DashboardItem {
   const evidence = publicEvidence(event);
-  return { title: event.title, summary: eventFact(event), link: evidence?.link ?? "#", type: event.type, route: event.routes[0] ?? "物理 AI", date: event.lastUpdatedAt.slice(0, 10), source: evidence?.source ?? "可追溯来源" };
+  const eventDate = publicEventDate(event);
+  const materialDate = validIsoDate(eventMaterialChangeAt(event));
+  return {
+    title: event.title,
+    summary: eventFact(event),
+    link: evidence?.link ?? "#",
+    type: event.type,
+    route: event.routes[0] ?? "物理 AI",
+    date: eventDate?.slice(0, 10) ?? "日期待核验",
+    source: evidence?.source ?? "可追溯来源",
+    isThisWeek: now && eventDate ? (ageInDays(eventDate, now) ?? Number.POSITIVE_INFINITY) <= 7 : undefined,
+    lastVerifiedAt: validIsoDate(event.lastVerifiedAt),
+    lastMaterialChangeAt: materialDate,
+  };
 }
 
 const KIND_IMPACT: Record<string, number> = { "投融资": 30, "部署案例": 28, "产品发布": 26, "公司商业": 18, "开源项目": 15, "研究与数据": 10 };
@@ -87,7 +135,7 @@ function signalScore(event: EventRecord, now: Date): number {
   const evidence = event.evidence.filter((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE_PATTERN.test(item.source));
   const grade = evidence.some((item) => item.grade === "A") ? 20 : 12;
   const sources = new Set(evidence.map((item) => item.source)).size;
-  const ageDays = ageInDays(event.lastUpdatedAt, now) ?? 30;
+  const ageDays = ageInDays(publicEventDate(event) ?? "", now) ?? 30;
   const freshness = Math.max(0, 18 - ageDays * 0.6);
   const impact = IMPACT_PATTERN.test(`${event.title} ${eventFact(event)}`) ? 10 : 0;
   return Math.round((KIND_IMPACT[event.type] ?? 10) + grade + Math.min(12, sources * 4) + freshness + impact);
@@ -107,7 +155,7 @@ function eventWhy(event: EventRecord): string {
 }
 
 function signalItem(event: EventRecord, now: Date): DashboardSignal {
-  const item = eventItem(event);
+  const item = eventItem(event, now);
   const grade = event.evidence.some((evidence) => evidence.grade === "A" && !DISCOVERY_SOURCE_PATTERN.test(evidence.source)) ? "A" : "B";
   return { ...item, entity: event.primaryEntity!, evidenceGrade: grade, whyItMatters: eventWhy(event), score: signalScore(event, now) };
 }
@@ -116,8 +164,8 @@ function articleItem(article: Article): DashboardItem {
 }
 function recent(events: EventRecord[], now: Date, windowDays = 30): EventRecord[] {
   return [...events]
-    .filter((event) => isPublicEvent(event) && (ageInDays(event.lastUpdatedAt, now) ?? Number.POSITIVE_INFINITY) <= windowDays)
-    .sort((a, b) => b.lastUpdatedAt.localeCompare(a.lastUpdatedAt) || a.id.localeCompare(b.id));
+    .filter((event) => isPublicEvent(event) && (ageInDays(publicEventDate(event) ?? "", now) ?? Number.POSITIVE_INFINITY) <= windowDays)
+    .sort((a, b) => (publicEventDate(b) ?? "").localeCompare(publicEventDate(a) ?? "") || a.id.localeCompare(b.id));
 }
 
 const CAPITAL_ORDER: Record<string, number> = { "已证实": 3, "有资本信号": 2, "证据不足": 1 };
@@ -130,7 +178,7 @@ function radarItem(dossier: CompanyDossier, store: EventStore, now: Date): Compa
   const funding = fundingEvent && isPublicEvent(fundingEvent) ? fundingEvent : undefined;
   const progress = progressEvent && isPublicEvent(progressEvent) ? progressEvent : undefined;
   const companyEvents = dossier.eventIds.flatMap((id) => byId.get(id) ? [byId.get(id)!] : []);
-  const recentSignals = companyEvents.filter((event) => isPublicEvent(event) && (ageInDays(event.lastUpdatedAt, now) ?? Number.POSITIVE_INFINITY) <= 30).length;
+  const recentSignals = companyEvents.filter((event) => isPublicEvent(event) && (ageInDays(publicEventDate(event) ?? "", now) ?? Number.POSITIVE_INFINITY) <= 30).length;
   const momentumScore = Math.min(100, recentSignals * 12 + CAPITAL_ORDER[dossier.capitalStatus] * 8 + VALIDATION_ORDER[dossier.validationStage] * 7);
   return {
     name: dossier.company.name,
@@ -141,8 +189,8 @@ function radarItem(dossier: CompanyDossier, store: EventStore, now: Date): Compa
     thesis: dossier.company.thesis,
     capitalStatus: dossier.capitalStatus,
     validationStage: dossier.validationStage,
-    funding: funding ? eventItem(funding) : undefined,
-    progress: progress ? eventItem(progress) : undefined,
+    funding: funding ? eventItem(funding, now) : undefined,
+    progress: progress ? eventItem(progress, now) : undefined,
     identitySource: dossier.identityEvidence[0]?.source ?? "公司官网",
     updatedAt: dossier.updatedAt || undefined,
     momentumScore,
@@ -161,7 +209,7 @@ function researchRoute(article: Article): TechnicalRoute {
 }
 
 export function buildDashboard(store: EventStore, companies: CompanyProfile[], research: Article[], generatedAt = new Date(), context: DashboardContext = {}): DashboardData {
-  const events = recent(store.events, generatedAt); const items = events.map(eventItem); const publicResearch = research.filter(hasCompleteChineseResearchCopy);
+  const events = recent(store.events, generatedAt); const items = events.map((event) => eventItem(event, generatedAt)); const publicResearch = research.filter(hasCompleteChineseResearchCopy);
   const routeFocus: Record<string, string> = {
     "数据与训练": "真实数据与训练效率", "VLA 与具身模型": "泛化与长程任务", "世界模型与空间智能": "可预测的物理环境", "本体与硬件": "可靠性、灵巧性与成本", "部署与商业化": "可验证 ROI 与规模化",
   };

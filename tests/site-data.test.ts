@@ -64,9 +64,9 @@ test("uses public evidence grade and excludes discovery-only, stale, future, and
   const store: EventStore = { updatedAt: "2026-08-08", events: [
     discoveryAndPublic,
     makeEvent({ id: "discovery", evidence: [{ link: "https://news.google.com/clue", source: "Google News", grade: "A", publishedAt: "2026-08-08", supports: "线索" }] }),
-    makeEvent({ id: "stale", lastUpdatedAt: "2026-06-01" }),
-    makeEvent({ id: "future", lastUpdatedAt: "2026-08-09" }),
-    makeEvent({ id: "invalid", lastUpdatedAt: "not-a-date" }),
+    makeEvent({ id: "stale", lastUpdatedAt: "2026-08-08", evidence: [{ link: "https://example.com/stale", source: "Official", grade: "A", publishedAt: "2026-06-01", supports: "旧事件" }] }),
+    makeEvent({ id: "future", lastUpdatedAt: "2026-08-08", evidence: [{ link: "https://example.com/future", source: "Official", grade: "A", publishedAt: "2026-08-09", supports: "未来日期" }] }),
+    makeEvent({ id: "invalid", lastUpdatedAt: "2026-08-08", evidence: [{ link: "https://example.com/invalid", source: "Official", grade: "A", publishedAt: "not-a-date", supports: "无效日期" }] }),
   ] };
   const dashboard = buildDashboard(store, [], [], new Date("2026-08-08"));
   assert.deepEqual(dashboard.topSignals.map((item) => item.entity), ["MixedCo"]);
@@ -92,7 +92,7 @@ test("company momentum counts only public signals inside the rolling window", ()
   ];
   const store: EventStore = { updatedAt: "2026-08-08", events: [
     makeEvent({ id: "active", title: "ActiveCo 发布新产品", primaryEntity: "ActiveCo", entities: ["ActiveCo"], type: "产品发布", routes: ["VLA 与具身模型"], lastUpdatedAt: "2026-08-07", facts: ["ActiveCo 发布新产品并公开技术能力。"] }),
-    makeEvent({ id: "quiet-old", title: "QuietCo 曾发布产品", primaryEntity: "QuietCo", entities: ["QuietCo"], type: "产品发布", routes: ["VLA 与具身模型"], lastUpdatedAt: "2026-05-01", facts: ["QuietCo 曾发布可核验产品。"] }),
+    makeEvent({ id: "quiet-old", title: "QuietCo 曾发布产品", primaryEntity: "QuietCo", entities: ["QuietCo"], type: "产品发布", routes: ["VLA 与具身模型"], lastUpdatedAt: "2026-08-08", facts: ["QuietCo 曾发布可核验产品。"], evidence: [{ link: "https://quiet.example/old", source: "QuietCo 官网", grade: "A", publishedAt: "2026-05-01", supports: "旧产品" }] }),
   ] };
   const dashboard = buildDashboard(store, companies, [], new Date("2026-08-08"));
   assert.equal(dashboard.companyRadar[0]?.name, "ActiveCo");
@@ -115,4 +115,35 @@ test("links complete research to route companies and states when no verified rel
   assert.equal(dashboard.researchGraph[1]?.route, "本体与硬件");
   assert.deepEqual(dashboard.researchGraph[1]?.companies, []);
   assert.match(dashboard.researchGraph[1]?.connection ?? "", /尚无可核验的公司关联/);
+});
+
+test("uses occurrence or evidence publication date instead of ingestion time", () => {
+  const older = makeEvent({
+    id: "older-ingested-late", title: "OlderCo 完成部署", primaryEntity: "OlderCo", entities: ["OlderCo"], type: "部署案例",
+    lastUpdatedAt: "2026-08-08", lastVerifiedAt: "2026-08-08", facts: ["OlderCo 在真实客户现场完成机器人部署。"],
+    evidence: [{ link: "https://older.example", source: "OlderCo 官网", grade: "A", publishedAt: "2026-07-20", supports: "部署" }],
+  });
+  const newer = makeEvent({
+    id: "newer-ingested-early", title: "NewerCo 发布产品", primaryEntity: "NewerCo", entities: ["NewerCo"], type: "产品发布",
+    lastUpdatedAt: "2026-08-01", lastVerifiedAt: "2026-08-09", facts: ["NewerCo 正式发布具身机器人产品。"],
+    evidence: [{ link: "https://newer.example", source: "NewerCo 官网", grade: "A", publishedAt: "2026-08-06", supports: "发布" }],
+  });
+  const dashboard = buildDashboard({ updatedAt: "2026-08-09", events: [older, newer] }, [], [], new Date("2026-08-09"));
+  assert.deepEqual(dashboard.industry.map((item) => item.title), ["NewerCo 发布产品", "OlderCo 完成部署"]);
+  assert.equal(dashboard.industry[0]?.date, "2026-08-06");
+  assert.equal(dashboard.industry[0]?.isThisWeek, true);
+  assert.equal(dashboard.industry[0]?.lastVerifiedAt, "2026-08-09T00:00:00.000Z");
+  assert.equal(dashboard.industry[1]?.date, "2026-07-20");
+  assert.equal(dashboard.industry[1]?.isThisWeek, false);
+});
+
+test("keeps 30-day verified events visible when the current week is empty", () => {
+  const olderFunding = makeEvent({
+    id: "funding-older-week", lastUpdatedAt: "2026-08-09", lastVerifiedAt: "2026-08-09",
+    evidence: [{ link: "https://example.com/funding", source: "Example 官网", grade: "A", publishedAt: "2026-07-25", supports: "融资" }],
+  });
+  const dashboard = buildDashboard({ updatedAt: "2026-08-09", events: [olderFunding] }, [], [], new Date("2026-08-09"));
+  assert.equal(dashboard.capital.length, 1);
+  assert.equal(dashboard.capital[0]?.date, "2026-07-25");
+  assert.equal(dashboard.capital[0]?.isThisWeek, false);
 });

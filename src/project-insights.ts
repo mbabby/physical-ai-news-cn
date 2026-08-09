@@ -1,4 +1,5 @@
 import type { Article, CandidateCompanyRegistry, CandidateSourceRegistry, DailyArchive, EventRecord, EventStore, ProjectMetrics, ResearchRecord, SourceRegistry } from "./types.js";
+import { publicEventDate } from "./site-data.js";
 
 export interface CommunityReviewSeed {
   id: string;
@@ -47,7 +48,10 @@ export function buildProjectMetrics(
   const events = store.events.filter(publicEvent);
   const withAB = events.filter((event) => Boolean(evidence(event)));
   const coveredCompanies = new Set(events.map((event) => event.primaryEntity)).size;
-  const effectiveItems = events.filter((event) => new Date(event.lastUpdatedAt).getTime() >= since).length;
+  const effectiveItems = events.filter((event) => {
+    const eventDate = publicEventDate(event);
+    return eventDate ? new Date(eventDate).getTime() >= since : false;
+  }).length;
   const reviewCandidates = recent.flatMap((archive) => archive.candidates ?? []).filter((item) => item.stage !== "不适合公开资讯" && item.sourceWeight >= 7 && zh(item.summaryZh)).length + companyCandidates.companies.filter((item) => item.status === "观察中" || item.status === "已交叉核验").length;
   return {
     updatedAt: now.toISOString(), windowDays,
@@ -69,7 +73,10 @@ function eventLine(event: EventRecord): string { return `- **${event.primaryEnti
 /** Weekly report is shareable and only consumes public, evidence-backed facts. */
 export function formatWeeklyReport(store: EventStore, research: ResearchRecord[], metrics: ProjectMetrics, week: string, now = new Date()): string {
   const since = now.getTime() - 7 * 86_400_000;
-  const events = store.events.filter((event) => publicEvent(event) && new Date(event.lastUpdatedAt).getTime() >= since);
+  const events = store.events.filter((event) => {
+    const eventDate = publicEventDate(event);
+    return publicEvent(event) && Boolean(eventDate) && new Date(eventDate!).getTime() >= since;
+  });
   const funding = events.filter((event) => event.type === "投融资");
   const products = events.filter((event) => event.type === "产品发布" || event.type === "部署案例" || event.type === "公司商业");
   const papers = research.filter((record) => record.lastShownAt && new Date(record.lastShownAt).getTime() >= since && zh(record.article.titleZh) && zh(record.article.summaryZh) && record.status !== "待复核" && record.status !== "已撤稿").slice(0, 6);

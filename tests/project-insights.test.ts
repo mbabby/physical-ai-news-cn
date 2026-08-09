@@ -42,3 +42,15 @@ test("builds auditable Issue seeds without promoting candidates", () => {
   assert.ok(seeds.every((seed) => seed.issueBody.includes("review-seed:")));
   assert.ok(seeds.every((seed) => /^https?:\/\//.test(seed.evidenceLink)));
 });
+
+test("metrics and weekly report use event publication date, not re-verification time", () => {
+  const reverifiedOld: EventStore = { updatedAt: "2026-08-05T08:30:00Z", events: [{
+    ...store.events[0], id: "old-event", lastUpdatedAt: "2026-08-05T08:30:00Z", lastVerifiedAt: "2026-08-05T08:30:00Z",
+    evidence: [{ link: "https://nova.example/old", source: "Nova 官方", grade: "A", publishedAt: "2026-06-01", supports: "旧融资" }],
+  }] };
+  const metrics = buildProjectMetrics(archives, reverifiedOld, registry, companies, now);
+  assert.equal(metrics.publicContent.homepageEffectiveItems, 0);
+  const output = formatWeeklyReport(reverifiedOld, [], metrics, "2026-W32", now);
+  assert.doesNotMatch(output, /Nova Robotics 完成融资/);
+  assert.match(output, /本周暂无满足公开门槛的新增产业事件/);
+});

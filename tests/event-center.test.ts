@@ -32,12 +32,13 @@ test("keeps discovery-only sources out of public event and company surfaces", ()
   assert.doesNotMatch(formatCompanyRadar([], store.events), /Gemini Robotics/);
 });
 
-test("company radar uses the current ISO week instead of a rolling seven-day label", () => {
+test("company radar uses occurrence time for its 30-day window and weekly-new badge", () => {
   const old = upsertEvents(undefined, [article()], new Date("2026-08-01T16:00:00Z"));
-  const current = upsertEvents(old, [article({ id: "weekly", link: "https://deepmind.google/weekly", titleZh: "Google DeepMind 发布本周机器人模型", title: "Google DeepMind launches weekly robotics model" })], new Date("2026-08-04T08:00:00Z"));
+  const current = upsertEvents(old, [article({ id: "weekly", link: "https://deepmind.google/weekly", titleZh: "Google DeepMind 发布本周机器人模型", title: "Google DeepMind launches weekly robotics model", publishedAt: new Date("2026-08-04T07:00:00Z") })], new Date("2026-08-04T08:00:00Z"));
   const output = formatCompanyRadar([], current.events, new Date("2026-08-08T03:00:00Z"));
   assert.match(output, /发布本周机器人模型/);
   assert.doesNotMatch(output, /Google DeepMind 发布 Gemini Robotics/);
+  assert.match(output, /本周新增/);
 });
 
 test("keeps the latest successful research cards visible when arXiv is temporarily unavailable", () => {
@@ -133,8 +134,9 @@ test("does not assign a company merely mentioned in article body", () => {
 
 test("merges multilingual coverage of the same financing event", () => {
   const now = new Date("2026-08-01T01:00:00.000Z");
-  const first = upsertEvents(undefined, [article({ title: "Humanoid Raises $152 Million at $1.35 Billion Valuation", titleZh: undefined, kind: "投融资" })], now);
-  const second = upsertEvents(first, [article({ id: "humanoid-zh", title: "Humanoid完成1.52亿美元融资，投后估值13.5亿美元", titleZh: undefined, link: "https://example.com/humanoid-zh", kind: "投融资" })], now);
+  const companies = [{ name: "Humanoid", aliases: ["humanoid"], region: "欧洲", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "人形机器人", officialUrl: "https://humanoid.example" }];
+  const first = upsertEvents(undefined, [article({ title: "Humanoid Raises $152 Million at $1.35 Billion Valuation", titleZh: undefined, kind: "投融资" })], now, companies);
+  const second = upsertEvents(first, [article({ id: "humanoid-zh", title: "Humanoid完成1.52亿美元融资，投后估值13.5亿美元", titleZh: undefined, link: "https://example.com/humanoid-zh", kind: "投融资" })], now, companies);
   assert.equal(second.events.length, 1);
   assert.equal(second.events[0].evidence.length, 2);
 });
@@ -179,4 +181,59 @@ test("appends new evidence to an existing event instead of duplicating it", () =
   assert.equal(second.events.length, 1);
   assert.equal(second.events[0].evidence.length, 2);
   assert.equal(second.events[0].timeline.length, 2);
+});
+
+test("reprocessing identical evidence does not create a false material update", () => {
+  const first = upsertEvents(undefined, [article({ publishedAt: new Date("2026-07-30T09:00:00Z") })], new Date("2026-08-01T01:00:00Z"));
+  const second = upsertEvents(first, [article({ publishedAt: new Date("2026-07-30T09:00:00Z") })], new Date("2026-08-09T01:00:00Z"));
+  assert.equal(second.events[0].occurredAt, "2026-07-30T09:00:00.000Z");
+  assert.equal(second.events[0].lastMaterialChangeAt, "2026-08-01T01:00:00.000Z");
+  assert.equal(second.events[0].lastUpdatedAt, "2026-08-01T01:00:00.000Z");
+  assert.equal(second.events[0].lastVerifiedAt, "2026-08-09T01:00:00.000Z");
+});
+
+test("new corroboration refreshes evidence and verification clocks without rewriting occurrence", () => {
+  const first = upsertEvents(undefined, [article({ publishedAt: new Date("2026-07-30T09:00:00Z") })], new Date("2026-08-01T01:00:00Z"));
+  const second = upsertEvents(first, [article({ link: "https://spectrum.ieee.org/gemini-robotics", source: "IEEE Spectrum", sourceWeight: 7, publishedAt: new Date("2026-08-02T09:00:00Z") })], new Date("2026-08-03T01:00:00Z"));
+  assert.equal(second.events[0].occurredAt, "2026-07-30T09:00:00.000Z");
+  assert.equal(second.events[0].lastEvidenceAt, "2026-08-02T09:00:00.000Z");
+  assert.equal(second.events[0].lastVerifiedAt, "2026-08-03T01:00:00.000Z");
+  assert.equal(second.events[0].lastMaterialChangeAt, "2026-08-01T01:00:00.000Z");
+});
+
+test("rejects arXiv papers even when a legacy classifier calls them a product launch", () => {
+  const store = upsertEvents(undefined, [article({ source: "arXiv Robotics", link: "https://arxiv.org/abs/2608.00001", kind: "产品发布" })]);
+  assert.equal(store.events.length, 0);
+});
+
+test("removes legacy discovery-only and unnamed records from the public event store", () => {
+  const seed = upsertEvents(undefined, [article()], new Date("2026-08-01T01:00:00Z"));
+  const valid = seed.events[0];
+  const polluted = {
+    ...valid,
+    id: "legacy-discovery-only",
+    primaryEntity: undefined,
+    entities: [],
+    evidence: [{
+      link: "https://news.google.com/rss/articles/lead",
+      source: "Google News · Robotics Capital",
+      grade: "B" as const,
+      publishedAt: "2026-08-01T00:00:00.000Z",
+      supports: "融资线索",
+    }],
+  };
+  const cleaned = upsertEvents({ updatedAt: seed.updatedAt, events: [valid, polluted] }, [], new Date("2026-08-09T01:00:00Z"));
+  assert.deepEqual(cleaned.events.map((event) => event.id), [valid.id]);
+});
+
+test("public dates use occurrence time and 30-day radar labels do not imply ingestion date", () => {
+  const store = upsertEvents(undefined, [article({ publishedAt: new Date("2026-07-16T09:00:00Z") })], new Date("2026-08-01T01:00:00Z"));
+  const feed = formatRecentEvents(store.events, new Date("2026-08-09T00:00:00Z"));
+  const radar = formatCompanyRadar([], store.events, new Date("2026-08-09T00:00:00Z"));
+  assert.match(feed, /事件 07-16/);
+  assert.match(feed, /最近确证产业事件 2026-07-16/);
+  assert.doesNotMatch(feed, /事件 08-01/);
+  assert.match(radar, /近 30 天产品 \/ 部署/);
+  assert.match(radar, /事件 07-16/);
+  assert.doesNotMatch(radar, /本周新增/);
 });
