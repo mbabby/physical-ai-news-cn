@@ -12,13 +12,58 @@ on:
         description: "本次最多处理的高质量候选数"
         required: false
         default: "5"
+  issues:
+    types: [opened, labeled]
 
 permissions:
   contents: read
   issues: write
 
 jobs:
+  ensure-labels:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure review lifecycle labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh label create evidence-review --repo "$REPO" --color "5319E7" --description "候选证据正在人工复核，不是公开事实" --force
+          gh label create needs-evidence --repo "$REPO" --color "D4C5F9" --description "仍需补充一手来源或独立交叉证据" --force
+          gh label create accepted-evidence --repo "$REPO" --color "0E8A16" --description "证据已被维护者采纳；不代表自动发布" --force
+          gh label create contributor-credited --repo "$REPO" --color "1D76DB" --description "贡献者已进入可追溯署名入口" --force
+          gh label create source-evidence --repo "$REPO" --color "C5DEF5" --description "信源复核" --force
+          gh label create company-evidence --repo "$REPO" --color "BFDADC" --description "公司、融资、产品或部署证据" --force
+          gh label create research-evidence --repo "$REPO" --color "FBCA04" --description "论文与研究元数据证据" --force
+
+  initialize-community-evidence:
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    needs: ensure-labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Put community submissions in the review layer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$ISSUE_TITLE" in
+            "[信源]"*) category_label="source-evidence" ;;
+            "[研究]"*) category_label="research-evidence" ;;
+            "[公司/融资]"*|"[产品/部署]"*) category_label="company-evidence" ;;
+            *) exit 0 ;;
+          esac
+          gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "evidence-review" --add-label "needs-evidence" --add-label "$category_label"
+
   materialize:
+    if: github.event_name == 'workflow_dispatch'
+    needs: ensure-labels
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -36,13 +81,48 @@ jobs:
             id="$(jq -r '.id' <<< "$seed")"
             title="$(jq -r '.issueTitle' <<< "$seed")"
             body="$(jq -r '.issueBody' <<< "$seed")"
+            category="$(jq -r '.category' <<< "$seed")"
+            case "$category" in
+              "信源") category_label="source-evidence" ;;
+              "研究") category_label="research-evidence" ;;
+              *) category_label="company-evidence" ;;
+            esac
             existing="$(gh issue list --state all --search "review-seed:${id} in:body" --json number --jq 'length')"
             if [[ "$existing" != "0" ]]; then
               echo "- 跳过重复：${id}" >> "$GITHUB_STEP_SUMMARY"
             elif [[ "$DRY_RUN" == "true" ]]; then
               echo "- 预览：${title}" >> "$GITHUB_STEP_SUMMARY"
             else
-              gh issue create --title "$title" --body "$body"
+              gh issue create --title "$title" --body "$body" --label "evidence-review" --label "needs-evidence" --label "$category_label"
               echo "- 已创建：${title}" >> "$GITHUB_STEP_SUMMARY"
             fi
           done
+
+  acknowledge-accepted-evidence:
+    if: github.event_name == 'issues' && github.event.label.name == 'accepted-evidence'
+    needs: ensure-labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Credit the evidence contributor without auto-publishing the candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh label create contributor-credited --repo "$REPO" --color "1D76DB" --description "贡献者已进入可追溯署名入口" --force
+          gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "contributor-credited"
+          if gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json labels --jq '.labels[].name' | grep -qx "needs-evidence"; then
+            gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --remove-label "needs-evidence"
+          fi
+          marker="<!-- accepted-evidence-credit -->"
+          existing="$(gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json comments --jq "[.comments[].body | contains(\"$marker\")] | any")"
+          if [[ "$existing" != "true" ]]; then
+            gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$marker
+
+          感谢 @$ISSUE_AUTHOR 补充可追溯证据。本 Issue 已标记为 \`accepted-evidence\`，贡献会出现在[证据贡献者入口](https://github.com/$REPO/issues?q=is%3Aissue+label%3Aaccepted-evidence)中。
+
+          该标签只表示证据被采纳，不会把候选自动写入日报、公司档案或公开页面；公开结论仍需经过数据校验与下一次生成流程。"
+          fi

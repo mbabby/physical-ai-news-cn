@@ -1,7 +1,7 @@
 name: 提交公司或融资证据
 description: 补充可追溯的公司主体、融资、估值或投资方事实
 title: "[公司/融资] "
-labels: ["company-evidence"]
+labels: ["evidence-review", "needs-evidence", "company-evidence"]
 body:
   - type: input
     id: company
@@ -23,6 +23,13 @@ body:
       description: 优先公司、投资方或交易方公告；媒体报道请补第二个独立来源。
     validations:
       required: true
+  - type: input
+    id: second_source
+    attributes:
+      label: 第二个独立来源（媒体线索必填）
+      description: 已有公司、投资方、交易方或监管公告时可填写“不适用：已有一手来源”。
+    validations:
+      required: true
   - type: textarea
     id: facts
     attributes:
@@ -30,3 +37,10 @@ body:
       description: 请写明发生日期、轮次/金额/估值/投资方（若公开）与可核验依据。
     validations:
       required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: 候选层确认
+      options:
+        - label: 我理解提交 Issue 不会让候选自动进入日报、公司档案或公开页面。
+          required: true

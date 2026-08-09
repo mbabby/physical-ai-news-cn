@@ -109,6 +109,8 @@
 - 可直接发布的 [本周物理 AI 情报摘要](weekly/shareable-summary.md)：仅从已公开、可追溯事件与完整中文研究卡生成。
 - [最新周报 Release](https://github.com/mbabby/physical-ai-news-cn/releases/latest)：汇总新增事件、融资、产品/部署、研究、信源质量与待验证候选；每周使用稳定 tag 幂等更新。
 - [项目质量指标](metrics/weekly.json)：日报成功率、首页有效条目、A/B 级证据比例、公司档案覆盖与信源晋升；未配置 GitHub Traffic 时不把 Star/访客显示为 0。
+- [社区影响指标](metrics/community.json)：每日同步 Star、Fork、Watch、Issue、贡献者与可用的 14 天 Traffic；权限不足时明确标记不可用，不把缺失值写成 0。
+- [贡献者与 Evidence Review](CONTRIBUTORS.md)：代码贡献与已采纳证据分别留痕；采纳证据不会绕过校验直接进入公开页面。
 - [社区 Review 队列](review/community-queue.md)：高质量候选在此等待补证，审核前不会进入公开结论。
 - [第一篇项目更新帖](posts/2026-08-project-update.md)：说明数据口径、开放贡献方向与本周发现。
 - 想补充公司、融资、产品部署、论文或信源？请阅读 [贡献指南](CONTRIBUTING.md)，再提交 [Issue](../../issues/new/choose) 或 PR。

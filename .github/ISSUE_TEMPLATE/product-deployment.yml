@@ -1,7 +1,7 @@
 name: 提交产品或部署证据
 description: 补充真实产品、客户、试点、部署或开源发布事实
 title: "[产品/部署] "
-labels: ["product-evidence"]
+labels: ["evidence-review", "needs-evidence", "company-evidence"]
 body:
   - type: input
     id: company
@@ -15,6 +15,13 @@ body:
       label: 原始证据链接
     validations:
       required: true
+  - type: dropdown
+    id: validation_stage
+    attributes:
+      label: 验证阶段
+      options: [概念或模拟, 实验室真机, 客户试点, 商业部署, 规模部署, 开源发布, 尚不明确]
+    validations:
+      required: true
   - type: textarea
     id: facts
     attributes:
@@ -22,3 +29,10 @@ body:
       description: 写明产品、客户/场景、验证阶段与发生日期；不要提交泛泛评论或演示剪辑。
     validations:
       required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: 候选层确认
+      options:
+        - label: 我理解演示、评论或营销材料不能自动成为公开部署事实。
+          required: true

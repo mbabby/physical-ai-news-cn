@@ -21,6 +21,28 @@
 
 维护者优先审核与真实机器人、具身模型、仿真、部署和开源生态直接相关的内容；常青资源需具备长期参考价值。
 
+## Evidence Review：从线索到采纳
+
+候选内容不会因为创建 Issue 或被自动抓取就成为公开事实。完整流程如下：
+
+1. **候选**：自动任务或社区成员提交线索，Issue 标记为 `evidence-review` 和 `needs-evidence`。
+2. **补证**：贡献者补充主体、日期、原始链接和中文事实说明；融资优先公司/投资方公告，媒体线索需要独立交叉来源。
+3. **人工审阅**：维护者判断主体、事件类型和证据边界，并检查是否与已有事件重复或冲突。
+4. **采纳证据**：维护者手动添加 `accepted-evidence`。系统会记录 Issue 作者并移除 `needs-evidence`。
+5. **进入生成链路**：采纳标签本身**不会自动发布内容**。数据仍须通过实体匹配、公开内容门槛和下一次生成校验，才能进入日报、公司档案或常青资源。
+
+如果证据不足，Issue 会继续停留在候选层；若证据被反驳或失效，维护者会说明原因后关闭，而不会污染公开页面。
+
+详细判定口径见 [Evidence Review 手册](community/evidence-review.md)。
+
+## 贡献者署名
+
+- **代码与文档贡献**：通过合并记录出现在 [GitHub Contributors](https://github.com/mbabby/physical-ai-news-cn/graphs/contributors)。
+- **证据贡献**：Issue 被维护者标记为 `accepted-evidence` 后，Issue 作者会出现在[已采纳证据列表](https://github.com/mbabby/physical-ai-news-cn/issues?q=is%3Aissue+label%3Aaccepted-evidence)。
+- **联合贡献**：请在 Issue 中 @ 共同补证者；维护者会保留证据讨论记录。不要提交不必要的真实姓名、邮箱或其他个人信息。
+
+署名代表对证据或代码的贡献，不代表项目为相关公司、产品或观点背书。
+
 ## 最快的三种贡献
 
 - **补事实**：提交公司、融资、产品或部署的原始公告/可靠报道。

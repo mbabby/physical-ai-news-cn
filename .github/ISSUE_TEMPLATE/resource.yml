@@ -1,7 +1,7 @@
 name: 提交资讯源或常青资源
 description: 推荐可靠的物理 AI 资讯源或长期资源
 title: "[资源] "
-labels: ["resource"]
+labels: ["evidence-review", "needs-evidence", "resource"]
 body:
   - type: dropdown
     id: type
@@ -22,3 +22,10 @@ body:
       label: 中文事实说明、所属分类与收录/纠错理由
     validations:
       required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: 候选层确认
+      options:
+        - label: 我理解常青资源需要长期价值审阅，不会因提交而自动进入正文。
+          required: true

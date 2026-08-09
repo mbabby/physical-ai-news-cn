@@ -1,7 +1,7 @@
 name: 提交资讯源
 description: 推荐官方、开源、权威产业媒体或待观察来源
 title: "[信源] "
-labels: ["source"]
+labels: ["evidence-review", "needs-evidence", "source-evidence"]
 body:
   - type: input
     id: source_url
@@ -23,3 +23,17 @@ body:
       description: 请给出至少一条物理 AI 相关样例，并说明为何适合作为事实证据或仅作线索。
     validations:
       required: true
+  - type: dropdown
+    id: evidence_policy
+    attributes:
+      label: 建议证据边界
+      options: [可作为一手证据, 可作为独立交叉来源, 仅作为线索发现, 尚不明确]
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: 候选层确认
+      options:
+        - label: 我理解新信源需经过健康度与收录率观察，不会因提交而直接启用。
+          required: true

@@ -38,6 +38,16 @@ const percentage = (value, fallbackValue = 0) => {
   const number = Number(value);
   return Number.isFinite(number) ? Math.min(100, Math.max(0, number)) : fallbackValue;
 };
+const finiteNumber = (value) => {
+  if (value === null || value === undefined || value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+};
+const countOf = (value) => Array.isArray(value) ? value.length : finiteNumber(value);
+const formattedCount = (value) => {
+  const number = finiteNumber(value);
+  return number === null ? "—" : new Intl.NumberFormat("zh-CN", { notation: number >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(number);
+};
 
 function itemCard(item, compact = false) {
   return `<a class="${compact ? "feed-item" : "key-card"}" href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">
@@ -171,6 +181,47 @@ function render(data) {
   byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
 }
 
+function renderCommunity(data) {
+  const community = data && typeof data === "object" ? data : {};
+  const repository = community.repository && typeof community.repository === "object" ? community.repository : {};
+  byId("community-stars").textContent = formattedCount(repository.stars);
+  byId("community-forks").textContent = formattedCount(repository.forks);
+  byId("community-watchers").textContent = formattedCount(repository.subscribers);
+  byId("community-issues").textContent = formattedCount(repository.openIssues);
+
+  const generated = new Date(community.generatedAt);
+  byId("community-updated").textContent = Number.isNaN(generated.getTime())
+    ? "社区数据待同步"
+    : `同步 ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
+
+  const traffic = community.traffic && typeof community.traffic === "object" ? community.traffic : {};
+  const trafficMetrics = [traffic.views14d, traffic.uniqueVisitors14d, traffic.clones14d, traffic.uniqueCloners14d].map(finiteNumber);
+  const hasTrafficMetrics = trafficMetrics.some((value) => value !== null);
+  const trafficStatus = text(traffic.status).toLowerCase();
+  const trafficUnavailable = ["unavailable", "disabled", "forbidden", "missing", "error"].includes(trafficStatus);
+  const referrers = list(traffic.referrers).filter((item) => item && typeof item === "object").slice(0, 3);
+  if (!trafficUnavailable && hasTrafficMetrics) {
+    byId("community-traffic").innerHTML = `<div class="traffic-metrics"><div><strong>${formattedCount(traffic.views14d)}</strong><span>Views</span></div><div><strong>${formattedCount(traffic.uniqueVisitors14d)}</strong><span>Visitors</span></div><div><strong>${formattedCount(traffic.clones14d)}</strong><span>Clones</span></div><div><strong>${formattedCount(traffic.uniqueCloners14d)}</strong><span>Cloners</span></div></div>${referrers.length ? `<p class="traffic-referrers"><b>Top referrers</b> ${referrers.map((item) => safe(item.referrer || item.name || "未知来源")).join(" · ")}</p>` : ""}`;
+  } else {
+    const message = trafficUnavailable
+      ? "GitHub Traffic 暂不可用（通常需要仓库管理员权限）；未将缺失数据计为 0。"
+      : "GitHub Traffic 尚未同步；未将缺失数据计为 0。";
+    byId("community-traffic").innerHTML = `<p class="community-unavailable">${safe(message)}</p>`;
+  }
+
+  const contributors = community.contributors && typeof community.contributors === "object" ? community.contributors : {};
+  const codeCount = countOf(contributors.codeContributors);
+  const evidenceCount = countOf(contributors.acceptedEvidenceContributors);
+  const contributorCount = finiteNumber(contributors.count);
+  byId("community-contributors").textContent = formattedCount(contributorCount);
+  const contributorParts = [];
+  if (codeCount !== null) contributorParts.push(`${formattedCount(codeCount)} 位代码贡献者`);
+  if (evidenceCount !== null) contributorParts.push(`${formattedCount(evidenceCount)} 位已采纳证据贡献者`);
+  byId("community-contributor-detail").textContent = contributorParts.length
+    ? contributorParts.join(" · ")
+    : "贡献者明细尚未同步；欢迎提交信源、证据与纠错。";
+}
+
 async function loadDashboard() {
   const localPath = "data/dashboard.json";
   const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/dashboard.json";
@@ -185,4 +236,19 @@ async function loadDashboard() {
   }
 }
 
+async function loadCommunity() {
+  const localPath = "data/community.json";
+  const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/community.json";
+  const source = window.location.protocol === "file:" ? remotePath : localPath;
+  try {
+    const response = await fetch(`${source}${source.includes("?") ? "&" : "?"}v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.warn("Community data unavailable; rendering explicit unavailable state.", error);
+    return null;
+  }
+}
+
 loadDashboard().then(render);
+loadCommunity().then(renderCommunity);

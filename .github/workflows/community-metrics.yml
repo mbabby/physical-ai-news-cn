@@ -1,0 +1,77 @@
+name: Refresh community metrics
+
+on:
+  schedule:
+    # 02:10 UTC = 10:10 Beijing time, after the daily intelligence refresh.
+    - cron: "10 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: physical-ai-community-metrics
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - name: Collect repository and community metrics
+        env:
+          # The script never logs this value. If privileged traffic endpoints
+          # are unavailable, it publishes traffic.status=unavailable and exits
+          # successfully while retaining public repository metrics.
+          COMMUNITY_METRICS_TOKEN: ${{ github.token }}
+        run: pnpm run community:metrics
+      - name: Validate community metrics contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(jq -r '.traffic.status' metrics/community.json)" = "available" || test "$(jq -r '.traffic.status' metrics/community.json)" = "unavailable"
+          diff -u metrics/community.json site/data/community.json
+          jq -e '
+            (.generatedAt | type == "string") and
+            (.repository | has("stars") and has("forks") and has("subscribers") and has("openIssues")) and
+            (.contributors | has("codeContributors") and has("acceptedEvidenceContributors") and has("count"))
+          ' metrics/community.json >/dev/null
+      - name: Commit refreshed metrics
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add metrics/community.json site/data/community.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No community metric changes." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "physical-ai-news-bot"
+          git config user.email "actions@github.com"
+          git commit -m "chore: refresh community metrics"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "Community metrics refreshed and published." >> "$GITHUB_STEP_SUMMARY"
+      - name: Deploy refreshed public metrics
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Commits authored with GITHUB_TOKEN do not emit a push event, so
+          # dispatch Pages explicitly after the metrics commit reaches main.
+          gh workflow run deploy-pages.yml --ref main
+          echo "Pages deployment dispatched for the refreshed metrics." >> "$GITHUB_STEP_SUMMARY"

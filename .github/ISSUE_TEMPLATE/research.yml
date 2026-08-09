@@ -1,7 +1,7 @@
 name: 提交论文或研究元数据
 description: 推荐物理 AI 论文、作者/实验室元数据或纠错
 title: "[研究] "
-labels: ["research"]
+labels: ["evidence-review", "needs-evidence", "research-evidence"]
 body:
   - type: input
     id: paper_url
@@ -16,3 +16,26 @@ body:
       description: 请说明真实机器人、基准、开源、重点作者/实验室或元数据纠错依据。
     validations:
       required: true
+  - type: input
+    id: authors_labs
+    attributes:
+      label: 重点作者或实验室依据
+      description: 填写论文元数据、实验室主页或 OpenAlex 可核验链接；没有则写“未确认”。
+    validations:
+      required: true
+  - type: checkboxes
+    id: evidence_tags
+    attributes:
+      label: 可核验证据标签
+      options:
+        - label: 真实机器人实验
+        - label: 公开基准或数据集
+        - label: 开源代码、模型或数据
+        - label: 撤稿/更正/元数据修正
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: 候选层确认
+      options:
+        - label: 我理解论文主张与公开验证结果会被分别记录，提交不会自动发布。
+          required: true
