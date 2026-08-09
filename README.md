@@ -27,7 +27,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-09 | 4 | 49 | 38 | 13 / 27 |
+| 2026-08-09 | 3 | 49 | 38 | 13 / 27 |
 
 **运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
 
@@ -53,17 +53,13 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-09 · 最近确证产业事件 2026-08-01 · 关键进展按影响力排序，最新动态按更新时间排序。
+> 数据刷新至 2026-08-09 · 最近确证产业事件 2026-07-28 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
-- [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>08-01</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
-- [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>08-01</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
-- [人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>08-01</sub><br>Agility Robotics计划通过SPAC上市。与其他追逐高估值的人形机器人初创公司不同，该公司押注执行力，其CEO表示近期不会承诺让机器人走进家庭。
-
-### 最新动态
-
-- [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>08-01</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
+- [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>事件 07-28</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
+- [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>事件 07-16</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
+- [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>事件 07-17</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
 
 
 <!-- EVENT_CENTER_END -->
@@ -72,13 +68,15 @@
 
 <!-- COMPANY_RADAR_START -->
 
-### 本周融资 / 并购
+### 近 30 天融资 / 并购
 
-- 暂无满足证据门槛的融资或并购事件。
+- 近 30 天暂无满足证据门槛的融资或并购事件。
 
-### 本周产品 / 部署
+### 近 30 天产品 / 部署
 
-- 暂无满足证据门槛的产品或部署事件。
+- **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 事件 07-28
+- **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 世界模型与空间智能 / 部署与商业化 · 事件 07-16
+- **Agility Robotics** · [ 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) · 数据与训练 · 事件 07-17
 
 > [查看 49 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 
@@ -88,7 +86,7 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-08）的完整研究卡。
+> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 

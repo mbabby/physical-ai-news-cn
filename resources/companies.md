@@ -26,7 +26,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
 - 主体证据：[公司官网](https://www.nvidia.com/en-us/ai-robotics/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-08-01）
+- 产品 / 部署：产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-07-16）
 
 ## [Hugging Face](https://huggingface.co/lerobot)
 
@@ -46,7 +46,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
 - 主体证据：[公司官网](https://deepmind.google/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：产品发布（[证据](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)，2026-08-01）
+- 产品 / 部署：产品发布（[证据](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)，2026-07-28）
 
 ## [Meta](https://ai.meta.com/)
 
@@ -83,7 +83,7 @@
 - 地域 / 阶段：北美 / 创业公司
 - 技术路线：世界模型与空间智能
 - 核心押注：可生成、理解与交互三维世界的空间智能。
-- 档案状态：资本 有资本信号；验证 证据不足
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://www.worldlabs.ai/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
@@ -116,7 +116,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
 - 主体证据：[公司官网](https://agilityrobotics.com/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)，2026-08-01）；公司商业（[证据](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/)，2026-08-01）
+- 产品 / 部署：公司商业（[证据](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/)，2026-07-17）；公司商业（[证据](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)，2026-07-06）
 
 ## [Sanctuary AI](https://www.sanctuary.ai/)
 
@@ -373,7 +373,7 @@
 - 地域 / 阶段：中国 / 创业公司
 - 技术路线：本体与硬件 · VLA 与具身模型
 - 核心押注：具身智能机器人本体与运动能力。
-- 档案状态：资本 有资本信号；验证 证据不足
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://www.limxdynamics.com/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。

@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-09-2026-08-09T01-17-05-131Z",
+  "runId": "2026-08-09-2026-08-09T07-23-19-554Z",
   "date": "2026-08-09",
-  "startedAt": "2026-08-09T01:17:05.131Z",
-  "finishedAt": "2026-08-09T01:21:37.044Z",
+  "startedAt": "2026-08-09T07:23:19.554Z",
+  "finishedAt": "2026-08-09T07:25:49.605Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 15,
-    "sourceFailures": 2
+    "candidates": 12,
+    "sourceFailures": 1
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 13,
-      "succeeded": 11,
+      "attempted": 8,
+      "succeeded": 6,
       "failed": 2,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
@@ -29,5 +29,5 @@
       "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     }
   ],
-  "outputs": 37
+  "outputs": 42
 }
