@@ -28,6 +28,14 @@ export interface Article {
   /** Explicit event/announcement date when the source distinguishes it from
    * the page publication timestamp. Most feeds omit this field. */
   eventDate?: Date;
+  /** Discovery feeds often wrap an original publisher link. Preserve the
+   * aggregator URL and publisher metadata so verification can seek the real
+   * landing page without treating the aggregator itself as evidence. */
+  discoveryOrigin?: {
+    aggregatorLink: string;
+    publisher?: string;
+    publisherUrl?: string;
+  };
 }
 
 export interface ScholarlyAuthor {

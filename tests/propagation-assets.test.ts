@@ -65,7 +65,8 @@ test("standalone share pages expose the three flagship product views", async () 
     readFile(join(root, "site", "research.html"), "utf8"),
     readFile(join(root, "site", "share-pages.js"), "utf8"),
   ]);
-  assert.match(home, /本周十大信号/);
+  assert.match(home, /已确认进展/);
+  assert.match(home, /正在发生/);
   assert.match(home, /公司 × 路线 × 资本动量/);
   assert.match(home, /从论文走向产业/);
   assert.match(weekly, /Top Signals/);

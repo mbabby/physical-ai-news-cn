@@ -2,6 +2,8 @@ const fallback = {
   generatedAt: new Date().toISOString(),
   periodLabel: "近 30 天滚动窗口",
   stats: { events: 0, companies: 0, research: 0, sources: 0 },
+  confirmedSignals: [],
+  developingSignals: [],
   topSignals: [],
   keyEvents: [],
   capital: [],
@@ -61,11 +63,20 @@ function signalCard(item, index) {
   return `<article class="top-signal">
     <div class="signal-rank">${String(index + 1).padStart(2, "0")}</div>
     <div class="signal-copy">
-      <div class="signal-badges"><span>${safe(item.type || "已验证信号")}</span><span>证据 ${safe(item.evidenceGrade || "B")}</span>${item.score != null ? `<span>影响分 ${safe(item.score)}</span>` : ""}</div>
+      <div class="signal-badges"><span>${safe(item.verificationStatus || (item.evidenceGrade === "A" ? "官方确认" : "多方证实"))}</span><span>${safe(item.type || "已验证信号")}</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span>${item.score != null ? `<span>影响分 ${safe(item.score)}</span>` : ""}</div>
       <h3><a href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">${safe(item.title || "未命名信号")}</a></h3>
       <p>${safe(item.summary || "查看原始证据了解详情。")}</p>
-      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entity || item.source || "公开来源")} · ${date(item.date)}</i></footer>
+      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entity || item.source || "公开来源")} · 事件 ${date(item.date)}${item.verifiedAt ? ` · 核验 ${date(item.verifiedAt)}` : ""}</i></footer>
     </div>
+  </article>`;
+}
+
+function developingCard(item) {
+  return `<article class="developing-signal">
+    <div class="signal-badges"><span>正在发生</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span><span>${safe(item.type || "产业信号")}</span></div>
+    <h3><a href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">${safe(item.title || "未命名信号")}</a></h3>
+    <p>${safe(item.summary || "查看原始证据了解详情。")}</p>
+    <footer><strong>仍待补证</strong> ${safe(item.missingEvidence || "缺少官方公告或第二个独立可信来源")}<i>${safe(item.entity || item.source || "主体已识别")} · ${date(item.date)}</i></footer>
   </article>`;
 }
 
@@ -170,8 +181,10 @@ function render(data) {
   const generated = new Date(data.generatedAt);
   byId("updated").textContent = Number.isNaN(generated.getTime()) ? "UPDATE PENDING" : `UPDATED ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
 
-  const topSignals = list(data.topSignals).length ? data.topSignals : list(data.keyEvents);
+  const topSignals = list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents));
   byId("top-signals").innerHTML = topSignals.length ? topSignals.slice(0, 10).map(signalCard).join("") : '<p class="empty">正在接收满足公开门槛的验证信号…</p>';
+  const developingSignals = list(data.developingSignals).slice(0, 5);
+  byId("developing-signals").innerHTML = developingSignals.length ? developingSignals.map(developingCard).join("") : '<p class="empty">当前没有主体明确、达到单一可信来源门槛的新线索。</p>';
   renderFeed("capital", data.capital);
   renderFeed("industry", data.industry);
   renderFeed("research", data.research);

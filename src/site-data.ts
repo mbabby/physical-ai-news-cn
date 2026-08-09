@@ -2,6 +2,8 @@ import type { Article, CompanyDossier, CompanyProfile, EventRecord, EventStore, 
 import { buildCompanyDossiers } from "./event-center.js";
 import { eventMaterialChangeAt } from "./event-time.js";
 import { hasChineseText, hasCompleteChineseResearchCopy, isPlaceholderCopy } from "./publication.js";
+import { isCandidateEligibleForPublicLayer } from "./candidate-verification.js";
+import type { CandidateVerificationRecord } from "./candidate-verification.js";
 
 export interface DashboardItem {
   title: string;
@@ -19,6 +21,10 @@ export interface DashboardItem {
 export interface DashboardSignal extends DashboardItem {
   entity: string;
   evidenceGrade: "A" | "B" | "学术";
+  verificationStatus: "官方确认" | "多方证实" | "正在发生";
+  evidenceCount: number;
+  missingEvidence?: string;
+  verifiedAt?: string;
   whyItMatters: string;
   score: number;
 }
@@ -49,6 +55,11 @@ export interface DashboardData {
   generatedAt: string;
   periodLabel: string;
   stats: { events: number; companies: number; research: number; sources: number; };
+  /** Confirmed by official evidence or at least two independent B-grade sources. */
+  confirmedSignals: DashboardSignal[];
+  /** Timely, single-source B-grade facts. These remain explicitly provisional. */
+  developingSignals: DashboardSignal[];
+  /** Backward-compatible alias for confirmedSignals. */
   topSignals: DashboardSignal[];
   keyEvents: DashboardItem[];
   capital: DashboardItem[];
@@ -59,7 +70,12 @@ export interface DashboardData {
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
 }
 
-export interface DashboardContext { activeSources?: number; periodLabel?: string; }
+export interface DashboardContext {
+  activeSources?: number;
+  periodLabel?: string;
+  /** Internal verification records are filtered again before any public copy is emitted. */
+  candidateVerificationRecords?: CandidateVerificationRecord[];
+}
 
 function eventFact(event: EventRecord): string {
   return [...event.timeline.map((item) => item.summary), ...event.facts].find((value) => hasChineseText(value) && !isPlaceholderCopy(value)) ?? "";
@@ -71,6 +87,35 @@ function publicEvidence(event: EventRecord) {
   return event.evidence
     .filter((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE_PATTERN.test(item.source))
     .sort((a, b) => (a.grade === "A" ? 0 : 1) - (b.grade === "A" ? 0 : 1))[0];
+}
+
+function publicEvidenceSet(event: EventRecord) {
+  const seen = new Set<string>();
+  return event.evidence.filter((item) => {
+    if ((item.grade !== "A" && item.grade !== "B") || DISCOVERY_SOURCE_PATTERN.test(item.source)) return false;
+    let identity = item.source.trim().toLowerCase();
+    try { identity = new URL(item.link).hostname.replace(/^www\./, ""); } catch { /* source name remains the stable fallback */ }
+    if (seen.has(identity)) return false;
+    seen.add(identity);
+    return true;
+  });
+}
+
+const CONFLICT_PATTERN = /冲突|矛盾|主体待识别|主体不明|归属不明|金额待核验|轮次待核验/i;
+
+function hasPublicationConflict(event: EventRecord): boolean {
+  if (event.status === "待复核" || !event.primaryEntity) return true;
+  if (event.type === "投融资" && event.funding?.entityStatus !== "已确认") return true;
+  return event.openQuestions.some((question) => CONFLICT_PATTERN.test(question));
+}
+
+function verificationState(event: EventRecord): "官方确认" | "多方证实" | "正在发生" | undefined {
+  if (hasPublicationConflict(event)) return undefined;
+  const evidence = publicEvidenceSet(event);
+  if (evidence.some((item) => item.grade === "A")) return "官方确认";
+  if (evidence.filter((item) => item.grade === "B").length >= 2) return "多方证实";
+  if (evidence.some((item) => item.grade === "B")) return "正在发生";
+  return undefined;
 }
 
 function validIsoDate(value: string | undefined): string | undefined {
@@ -106,7 +151,7 @@ function isPublicEvent(event: EventRecord): boolean {
   return event.status !== "已归档"
     && hasChineseText(event.title)
     && Boolean(event.primaryEntity)
-    && Boolean(publicEvidence(event))
+    && Boolean(verificationState(event))
     && Boolean(eventFact(event));
 }
 
@@ -156,8 +201,69 @@ function eventWhy(event: EventRecord): string {
 
 function signalItem(event: EventRecord, now: Date): DashboardSignal {
   const item = eventItem(event, now);
-  const grade = event.evidence.some((evidence) => evidence.grade === "A" && !DISCOVERY_SOURCE_PATTERN.test(evidence.source)) ? "A" : "B";
-  return { ...item, entity: event.primaryEntity!, evidenceGrade: grade, whyItMatters: eventWhy(event), score: signalScore(event, now) };
+  const evidence = publicEvidenceSet(event);
+  const grade = evidence.some((item) => item.grade === "A") ? "A" : "B";
+  const verificationStatus = verificationState(event)!;
+  const missingEvidence = verificationStatus === "正在发生"
+    ? event.openQuestions.find((question) => !CONFLICT_PATTERN.test(question)) ?? "缺少官方公告或第二个独立可信来源"
+    : undefined;
+  return {
+    ...item,
+    entity: event.primaryEntity!,
+    evidenceGrade: grade,
+    verificationStatus,
+    evidenceCount: evidence.length,
+    missingEvidence,
+    verifiedAt: validIsoDate(event.lastVerifiedAt) ?? validIsoDate(event.lastEvidenceAt),
+    whyItMatters: eventWhy(event),
+    score: signalScore(event, now),
+  };
+}
+
+const GENERIC_COMPANY = /^(?:待识别公司|行业公司|机器人公司|具身智能公司|人形机器人公司|公司)$/i;
+
+function candidateSignal(record: CandidateVerificationRecord, now: Date): DashboardSignal | undefined {
+  if (!isCandidateEligibleForPublicLayer(record)) return undefined;
+  if (!record.companyName || GENERIC_COMPANY.test(record.companyName) || !hasChineseText(record.title)) return undefined;
+  const evidence = record.evidence.filter((item) => (item.grade === "A" || item.grade === "B") && item.sourceClass !== "discovery");
+  if (!evidence.length) return undefined;
+  const strongest = [...evidence].sort((a, b) => b.score - a.score || b.publishedAt.localeCompare(a.publishedAt))[0];
+  const newest = [...evidence].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))[0];
+  const eventDate = record.facts.eventDate ?? newest.publishedAt.slice(0, 10);
+  const age = ageInDays(eventDate, now);
+  const verificationStatus = record.publicStatus === "confirmed" ? "官方确认"
+    : record.publicStatus === "corroborated" ? "多方证实" : "正在发生";
+  if (age === undefined || age > (verificationStatus === "正在发生" ? 7 : 30)) return undefined;
+  const factParts = record.kind === "投融资"
+    ? [record.facts.amount, record.facts.round].filter(Boolean)
+    : [];
+  const evidenceCopy = verificationStatus === "官方确认" ? "已有一手来源确认"
+    : verificationStatus === "多方证实" ? "已有多个独立可信来源相互印证"
+      : "已有单一可信媒体报道，尚待官方或第二来源确认";
+  const summary = record.kind === "投融资"
+    ? `${record.companyName} 的融资进展${evidenceCopy}${factParts.length ? `；已核验字段：${factParts.join("、")}` : ""}。`
+    : `${record.companyName} 的${record.kind === "产品发布" ? "产品发布" : "部署进展"}${evidenceCopy}。`;
+  const typeImpact = KIND_IMPACT[record.kind] ?? 15;
+  return {
+    title: record.title,
+    summary,
+    link: strongest.link,
+    type: record.kind,
+    route: "物理 AI",
+    date: eventDate,
+    source: strongest.source,
+    isThisWeek: age <= 7,
+    verifiedAt: record.lastAttemptAt,
+    entity: record.companyName,
+    evidenceGrade: evidence.some((item) => item.grade === "A") ? "A" : "B",
+    verificationStatus,
+    evidenceCount: new Set(evidence.map((item) => item.independentOrigin || item.source)).size,
+    missingEvidence: verificationStatus === "正在发生"
+      ? record.failureReasons.find((reason) => !CONFLICT_PATTERN.test(reason)) ?? "缺少官方公告或第二个独立可信来源"
+      : undefined,
+    whyItMatters: record.kind === "投融资" ? "资本线索可能改变公司资源与交付节奏。" : "产品或部署线索可能反映工程化进展。",
+    score: Math.round(typeImpact + Math.min(30, record.confidenceScore) + Math.max(0, 12 - age)),
+  };
 }
 function articleItem(article: Article): DashboardItem {
   return { title: article.titleZh!, summary: article.summaryZh!, link: article.link, type: "研究论文", route: article.tags[0] ?? "具身智能", date: article.publishedAt.toISOString().slice(0, 10), source: article.source };
@@ -221,14 +327,31 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
       || Number(Boolean(b.updatedAt)) - Number(Boolean(a.updatedAt))
       || a.name.localeCompare(b.name));
   const companyRank = new Map(companyRadar.map((company, index) => [company.name, index]));
+  const rankedSignals = events.map((event) => signalItem(event, generatedAt))
+    .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+  const confirmedSignals = rankedSignals.filter((item) => item.verificationStatus !== "正在发生").slice(0, 10);
+  const candidateSignals = (context.candidateVerificationRecords ?? []).flatMap((record) => {
+    const item = candidateSignal(record, generatedAt); return item ? [item] : [];
+  });
+  const confirmedCandidateSignals = candidateSignals.filter((item) => item.verificationStatus !== "正在发生");
+  const developingSignals = [...rankedSignals.filter((item) => item.verificationStatus === "正在发生" && item.isThisWeek), ...candidateSignals.filter((item) => item.verificationStatus === "正在发生")]
+    .filter((item, index, all) => all.findIndex((candidate) => candidate.link === item.link || (candidate.entity === item.entity && candidate.type === item.type && candidate.title === item.title)) === index)
+    .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date)).slice(0, 5);
+  const confirmedItems = events.filter((event) => verificationState(event) !== "正在发生").map((event) => eventItem(event, generatedAt));
   return {
     generatedAt: generatedAt.toISOString(),
     periodLabel: context.periodLabel ?? "近 30 天滚动窗口",
     stats: { events: events.length, companies: companies.length, research: publicResearch.length, sources: context.activeSources ?? 0 },
-    topSignals: events.map((event) => signalItem(event, generatedAt)).sort((a, b) => b.score - a.score || b.date.localeCompare(a.date) || a.title.localeCompare(b.title)).slice(0, 10),
-    keyEvents: items.slice(0, 3),
-    capital: items.filter((item) => item.type === "投融资").slice(0, 4),
-    industry: items.filter((item) => item.type !== "投融资").slice(0, 5),
+    confirmedSignals: [...confirmedSignals, ...confirmedCandidateSignals]
+      .filter((item, index, all) => all.findIndex((candidate) => candidate.link === item.link || (candidate.entity === item.entity && candidate.type === item.type && candidate.title === item.title)) === index)
+      .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date)).slice(0, 10),
+    developingSignals,
+    topSignals: [...confirmedSignals, ...confirmedCandidateSignals]
+      .filter((item, index, all) => all.findIndex((candidate) => candidate.link === item.link || (candidate.entity === item.entity && candidate.type === item.type && candidate.title === item.title)) === index)
+      .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date)).slice(0, 10),
+    keyEvents: confirmedItems.slice(0, 3),
+    capital: confirmedItems.filter((item) => item.type === "投融资").slice(0, 4),
+    industry: confirmedItems.filter((item) => item.type !== "投融资").slice(0, 5),
     research: publicResearch.slice(0, 6).map(articleItem),
     researchGraph: publicResearch.slice(0, 6).map((article) => {
       const route = researchRoute(article);

@@ -1,19 +1,37 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
-import type { Article, CompanyProfile } from "./types.js";
+import { enrichCandidateEvidence, candidateImpactScore, discoveryOrigins } from "./candidate-enrichment.js";
+import type { CandidateEnrichmentAttempt, DiscoveryOrigin } from "./candidate-enrichment.js";
+import type { Article, CompanyProfile, SourceConfig } from "./types.js";
 
 export type VerificationStatus = "待复核" | "可人工审核" | "证据冲突" | "已拒绝" | "等待重试" | "停止自动重试";
 export type VerificationGrade = "A" | "B" | "C" | "线索";
+export type PublicVerificationStatus = "confirmed" | "corroborated" | "developing" | "candidate";
+export type EvidenceSourceClass = "company-official" | "regulatory" | "investor-official" | "authoritative-media" | "industry-media" | "other" | "discovery";
+export type FieldVerificationStatus = "confirmed" | "corroborated" | "single-source" | "conflicting" | "unknown";
+
+export interface FieldVerification {
+  status: FieldVerificationStatus;
+  /** Only source-extracted values are retained. Missing values stay absent. */
+  value?: string;
+  independentSourceCount: number;
+  evidenceArticleIds: string[];
+}
 
 export interface CandidateVerificationEvidence {
   articleId: string;
   link: string;
   source: string;
   grade: VerificationGrade;
+  sourceClass: EvidenceSourceClass;
+  score: number;
+  independentOrigin: string;
   publishedAt: string;
   title: string;
   amount?: string;
   round?: string;
+  /** Explicit event date only; publication time is not silently promoted to an event fact. */
+  eventDate?: string;
 }
 
 export interface CandidateVerificationRecord {
@@ -23,6 +41,17 @@ export interface CandidateVerificationRecord {
   kind: "投融资" | "产品发布" | "部署案例";
   title: string;
   status: VerificationStatus;
+  publicStatus: PublicVerificationStatus;
+  /** Stable machine-facing alias used by public-layer selectors. */
+  publicationState: PublicVerificationStatus;
+  confidenceScore: number;
+  independentEvidenceCount: number;
+  /** Impact decides which due candidate gets scarce enrichment capacity first. */
+  impactScore: number;
+  /** Discovery provenance is retained but never scored as publication proof. */
+  discoveryOrigins: DiscoveryOrigin[];
+  /** Append-only audit of active source-corpus scans and query targets. */
+  enrichmentAttempts: CandidateEnrichmentAttempt[];
   firstSeenAt: string;
   lastAttemptAt?: string;
   nextReviewAt?: string;
@@ -30,6 +59,11 @@ export interface CandidateVerificationRecord {
   evidenceHash: string;
   evidence: CandidateVerificationEvidence[];
   facts: { amount?: string; round?: string; eventDate?: string };
+  fieldVerification: {
+    amount: FieldVerification;
+    round: FieldVerification;
+    eventDate: FieldVerification;
+  };
   conflicts: string[];
   failureReasons: string[];
   reviewSeed?: { title: string; body: string; labels: string[] };
@@ -41,6 +75,15 @@ export interface CandidateVerificationArtifact {
   records: CandidateVerificationRecord[];
 }
 
+export interface CandidateVerificationOptions {
+  /** Rolling official/media/public corpus already fetched by the daily job. */
+  evidencePool?: Article[];
+  /** Enabled/observed source catalogue used to construct auditable probe targets. */
+  sources?: SourceConfig[];
+  /** Bounds work per run while ensuring high-impact candidates go first. */
+  maxEnrichmentAttempts?: number;
+}
+
 const HIGH_VALUE_KINDS = new Set(["投融资", "产品发布", "部署案例"]);
 const DISCOVERY = /google news|hacker news|\bhn\b|\bx\b|twitter|news\.google\.com/i;
 // Do not treat a publisher containing “Capital” or “Ventures” as first-party:
@@ -48,6 +91,8 @@ const DISCOVERY = /google news|hacker news|\bhn\b|\bx\b|twitter|news\.google\.co
 // only when the source explicitly identifies itself as an official investor
 // announcement or portfolio notice.
 const FIRST_PARTY = /监管|交易所|sec\b|nasdaq|nyse|投资机构官网|投资方公告|investor (?:announcement|news|relations)|official|官网/i;
+const REGULATORY = /监管|交易所|\bsec\b|nasdaq|nyse/i;
+const INVESTOR_OFFICIAL = /投资机构官网|投资方公告|investor (?:announcement|news|relations)|portfolio (?:news|announcement)/i;
 const GENERIC_ENTITY = /^(?:行业公司|机器人公司|具身智能公司|人形机器人公司|公司|一家初创公司|待识别公司)$/i;
 const ROUND = /(?:pre[-\s]?seed|seed|series\s+[a-f]|angel|strategic|种子轮|天使轮|pre[-\s]?[a-f]\s*轮|[a-f]\+?轮|战略融资)/i;
 const AMOUNT = /(?:US\$|USD\s*|\$|人民币\s*)?\d+(?:[.,]\d+)?\s*(?:million|billion|m|bn|亿美元|亿元|万美元|万元|美元|元)/i;
@@ -101,22 +146,86 @@ function grade(article: Article, profile?: CompanyProfile): VerificationGrade {
   return "C";
 }
 
+function sourceClass(article: Article, profile?: CompanyProfile): EvidenceSourceClass {
+  if (article.sourceTier === "线索发现层" || DISCOVERY.test(`${article.source} ${article.link}`)) return "discovery";
+  const articleHost = host(article.link);
+  if (profile && profileDomains(profile).some((domain) => articleHost === domain || articleHost.endsWith(`.${domain}`))) return "company-official";
+  if (REGULATORY.test(article.source)) return "regulatory";
+  if (INVESTOR_OFFICIAL.test(article.source)) return "investor-official";
+  if (article.sourceTier === "官方公司与实验室") return "company-official";
+  if (article.sourceTier === "权威产业媒体" || article.sourceWeight >= 7) return "authoritative-media";
+  if (article.sourceWeight >= 5) return "industry-media";
+  return "other";
+}
+
+function sourceScore(value: EvidenceSourceClass): number {
+  switch (value) {
+    case "company-official":
+    case "regulatory": return 50;
+    case "investor-official": return 45;
+    case "authoritative-media": return 30;
+    case "industry-media": return 20;
+    case "other": return 10;
+    case "discovery": return 0;
+  }
+}
+
+function independentOrigin(article: Article): string {
+  const articleHost = host(article.link);
+  if (articleHost) return articleHost;
+  return compact(article.source).replace(/(?:官方|官网|新闻|媒体)$/u, "") || compact(article.source);
+}
+
 function evidenceFor(article: Article, profile?: CompanyProfile): CandidateVerificationEvidence {
   const text = `${article.titleZh ?? article.title} ${article.title}`;
+  const classified = sourceClass(article, profile);
   return {
     articleId: article.id,
     link: article.link,
     source: article.source,
     grade: grade(article, profile),
+    sourceClass: classified,
+    score: sourceScore(classified),
+    independentOrigin: independentOrigin(article),
     publishedAt: new Date(article.publishedAt).toISOString(),
     title: article.titleZh ?? article.title,
     amount: text.match(AMOUNT)?.[0]?.replace(/\s+/g, " "),
     round: text.match(ROUND)?.[0],
+    eventDate: article.eventDate ? isoDay(article.eventDate) : undefined,
+  };
+}
+
+function normalizeStoredEvidence(item: CandidateVerificationEvidence): CandidateVerificationEvidence {
+  const inferredClass: EvidenceSourceClass = item.sourceClass ?? (item.grade === "A" ? "company-official" : item.grade === "B" ? "authoritative-media" : item.grade === "线索" ? "discovery" : "other");
+  return {
+    ...item,
+    sourceClass: inferredClass,
+    score: Number.isFinite(item.score) ? item.score : sourceScore(inferredClass),
+    independentOrigin: item.independentOrigin || host(item.link) || compact(item.source),
   };
 }
 
 function evidenceOrigin(item: CandidateVerificationEvidence): string {
-  return `${item.grade}:${host(item.link) || compact(item.source)}`;
+  return item.independentOrigin || host(item.link) || compact(item.source);
+}
+
+function independentEvidence(evidence: CandidateVerificationEvidence[]): CandidateVerificationEvidence[] {
+  const byOrigin = new Map<string, CandidateVerificationEvidence>();
+  for (const item of evidence) {
+    const origin = evidenceOrigin(item);
+    const saved = byOrigin.get(origin);
+    if (!saved || item.score > saved.score || (item.score === saved.score && item.publishedAt > saved.publishedAt)) byOrigin.set(origin, item);
+  }
+  const byReport = new Map<string, CandidateVerificationEvidence>();
+  for (const item of byOrigin.values()) {
+    // Exact headline copies on different hosts are normally wire syndication,
+    // not independent corroboration. First-party statements remain distinct.
+    const firstParty = ["company-official", "regulatory", "investor-official"].includes(item.sourceClass);
+    const reportKey = firstParty ? `first-party:${evidenceOrigin(item)}` : compact(item.title);
+    const saved = byReport.get(reportKey);
+    if (!saved || item.score > saved.score) byReport.set(reportKey, item);
+  }
+  return [...byReport.values()];
 }
 
 function factConflicts(evidence: CandidateVerificationEvidence[]): string[] {
@@ -129,8 +238,35 @@ function factConflicts(evidence: CandidateVerificationEvidence[]): string[] {
 }
 
 function eligibleForHumanReview(evidence: CandidateVerificationEvidence[]): boolean {
-  if (evidence.some((item) => item.grade === "A")) return true;
-  return new Set(evidence.filter((item) => item.grade === "B").map(evidenceOrigin)).size >= 2;
+  const independent = independentEvidence(evidence);
+  if (independent.some((item) => item.grade === "A")) return true;
+  return independent.filter((item) => item.grade === "B").length >= 2;
+}
+
+function fieldVerification(
+  evidence: CandidateVerificationEvidence[],
+  field: "amount" | "round" | "eventDate",
+  conflicts: boolean,
+): FieldVerification {
+  const withValue = independentEvidence(evidence).filter((item) => Boolean(item[field]));
+  if (!withValue.length) return { status: "unknown", independentSourceCount: 0, evidenceArticleIds: [] };
+  const values = unique(withValue.map((item) => item[field]!).filter(Boolean));
+  const articleIds = withValue.map((item) => item.articleId);
+  if (conflicts || values.length > 1) return { status: "conflicting", independentSourceCount: withValue.length, evidenceArticleIds: articleIds };
+  const status: FieldVerificationStatus = withValue.some((item) => ["company-official", "regulatory", "investor-official"].includes(item.sourceClass))
+    ? "confirmed"
+    : withValue.filter((item) => item.grade === "B").length >= 2 ? "corroborated" : "single-source";
+  return { status, value: values[0], independentSourceCount: withValue.length, evidenceArticleIds: articleIds };
+}
+
+function confidence(evidence: CandidateVerificationEvidence[], conflicts: string[], subjectBlocked: boolean): { score: number; status: PublicVerificationStatus } {
+  const independent = independentEvidence(evidence.filter((item) => item.grade !== "线索"));
+  const score = Math.max(0, independent.reduce((sum, item) => sum + item.score, 0) - conflicts.length * 30 - (subjectBlocked ? 100 : 0));
+  if (subjectBlocked || conflicts.length) return { score, status: "candidate" };
+  if (independent.some((item) => ["company-official", "regulatory", "investor-official"].includes(item.sourceClass))) return { score, status: "confirmed" };
+  if (new Set(independent.filter((item) => item.grade === "B").map(evidenceOrigin)).size >= 2 || score >= 60) return { score, status: "corroborated" };
+  if (score >= 20) return { score, status: "developing" };
+  return { score, status: "candidate" };
 }
 
 function evidenceHash(evidence: CandidateVerificationEvidence[]): string {
@@ -164,6 +300,7 @@ export function buildCandidateVerificationArtifact(
   input: Article[],
   profiles: CompanyProfile[],
   now = new Date(),
+  options: CandidateVerificationOptions = {},
 ): CandidateVerificationArtifact {
   const prior = new Map((previous?.records ?? []).map((record) => [record.id, record]));
   const grouped = new Map<string, { resolution: ReturnType<typeof resolveCandidateCompany>; articles: Article[] }>();
@@ -176,46 +313,99 @@ export function buildCandidateVerificationArtifact(
   }
 
   const records: CandidateVerificationRecord[] = [];
-  for (const [key, group] of grouped) {
+  const orderedGroups = [...grouped.entries()].sort(([, left], [, right]) => {
+    const leftKind = left.articles[0]?.kind as CandidateVerificationRecord["kind"];
+    const rightKind = right.articles[0]?.kind as CandidateVerificationRecord["kind"];
+    return candidateImpactScore(rightKind, right.articles) - candidateImpactScore(leftKind, left.articles);
+  });
+  let enrichmentBudget = options.maxEnrichmentAttempts ?? 20;
+  for (const [key, group] of orderedGroups) {
     const profile = group.resolution.entityId ? profiles.find((item) => item.entityId === group.resolution.entityId) : profiles.find((item) => item.name === group.resolution.name);
-    const evidence = [...new Map(group.articles.map((article) => {
-      const item = evidenceFor(article, profile); return [normalizeUrl(item.link), item];
-    })).values()].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
-    const hash = evidenceHash(evidence);
     const id = `verify-${createHash("sha256").update(key).digest("hex").slice(0, 14)}`;
     const saved = prior.get(id);
+    const hasNewLead = !saved || group.articles.some((article) => !saved.evidence.some((item) => normalizeUrl(item.link) === normalizeUrl(article.link)));
+    const scheduledDue = Boolean(saved?.nextReviewAt && new Date(saved.nextReviewAt).getTime() <= now.getTime());
+    const shouldEnrich = Boolean(options.evidencePool?.length && options.sources?.length && enrichmentBudget > 0 && (!saved || hasNewLead || scheduledDue));
+    const enrichment = shouldEnrich ? enrichCandidateEvidence({
+      companyName: group.resolution.name ?? "待识别公司", entityId: group.resolution.entityId,
+      kind: group.articles[0].kind as CandidateVerificationRecord["kind"], leads: group.articles,
+      evidencePool: options.evidencePool!, profile, sources: options.sources!,
+      previousEvidenceLinks: saved?.evidence.map((item) => item.link) ?? [], previousAttempts: saved?.enrichmentAttempts ?? [],
+      now, trigger: !saved ? "首次补证" : hasNewLead ? "新证据触发" : "定时重试",
+    }) : undefined;
+    if (enrichment) enrichmentBudget -= 1;
+    const articleEvidence = [...group.articles, ...(enrichment?.matchedEvidence ?? [])].map((article) => evidenceFor(article, profile));
+    const evidence = [...new Map([...(saved?.evidence ?? []).map(normalizeStoredEvidence), ...articleEvidence].map((item) => {
+      return [normalizeUrl(item.link), item];
+    })).values()].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+    const hash = evidenceHash(evidence);
     const shouldAttempt = due(saved, hash, now);
     const attempts = shouldAttempt ? (saved?.attempts ?? 0) + 1 : saved?.attempts ?? 0;
-    const conflicts = factConflicts(evidence);
     const rejected = group.resolution.error ? [group.resolution.error] : [];
     const publicEvidence = evidence.filter((item) => item.grade !== "线索");
+    // Discovery leads may trigger enrichment but never establish or conflict a
+    // public fact on their own.
+    const conflicts = factConflicts(publicEvidence);
     const eligible = !conflicts.length && !rejected.length && eligibleForHumanReview(publicEvidence);
+    const confidenceResult = confidence(evidence, conflicts, Boolean(rejected.length));
     const result = shouldAttempt ? statusAndRetry(attempts, conflicts, eligible, rejected, now) : { status: saved!.status, nextReviewAt: saved!.nextReviewAt };
     const failureReasons = rejected.length ? rejected : conflicts.length ? conflicts : eligible ? [] : ["尚缺一条 A 级一手证据，或两个独立 B 级来源", ...(evidence.every((item) => item.grade === "线索") ? ["现有材料全部来自线索发现层，不能作为公开证据"] : [])];
-    const best = group.articles.sort((a, b) => b.sourceWeight - a.sourceWeight || b.publishedAt.getTime() - a.publishedAt.getTime())[0];
-    const facts = { amount: evidence.find((item) => item.amount)?.amount, round: evidence.find((item) => item.round)?.round, eventDate: evidence[0] ? isoDay(evidence[0].publishedAt) : undefined };
+    const best = [...group.articles, ...(enrichment?.matchedEvidence ?? [])].sort((a, b) => b.sourceWeight - a.sourceWeight || b.publishedAt.getTime() - a.publishedAt.getTime())[0];
+    const amountVerification = fieldVerification(publicEvidence, "amount", conflicts.some((item) => item.includes("金额")));
+    const roundVerification = fieldVerification(publicEvidence, "round", conflicts.some((item) => item.includes("轮次")));
+    const dateVerification = fieldVerification(publicEvidence, "eventDate", false);
+    const facts = {
+      amount: amountVerification.status === "conflicting" ? undefined : amountVerification.value,
+      round: roundVerification.status === "conflicting" ? undefined : roundVerification.value,
+      eventDate: dateVerification.status === "conflicting" ? undefined : dateVerification.value,
+    };
     const companyName = group.resolution.name ?? "待识别公司";
     records.push({
       id, companyName, companyEntityId: group.resolution.entityId, kind: best.kind as CandidateVerificationRecord["kind"], title: best.titleZh ?? best.title,
-      status: result.status, firstSeenAt: saved?.firstSeenAt ?? now.toISOString(), lastAttemptAt: shouldAttempt ? now.toISOString() : saved?.lastAttemptAt,
+      status: result.status, publicStatus: confidenceResult.status, publicationState: confidenceResult.status,
+      confidenceScore: confidenceResult.score, independentEvidenceCount: independentEvidence(publicEvidence).length,
+      impactScore: candidateImpactScore(best.kind as CandidateVerificationRecord["kind"], group.articles),
+      discoveryOrigins: [...(saved?.discoveryOrigins ?? []), ...discoveryOrigins(group.articles)]
+        .filter((item, index, all) => all.findIndex((other) => normalizeUrl(other.discoveryLink) === normalizeUrl(item.discoveryLink)) === index),
+      enrichmentAttempts: [...(saved?.enrichmentAttempts ?? []), ...(enrichment ? [enrichment.attempt] : [])].slice(-12),
+      firstSeenAt: saved?.firstSeenAt ?? now.toISOString(), lastAttemptAt: shouldAttempt ? now.toISOString() : saved?.lastAttemptAt,
       nextReviewAt: result.nextReviewAt, attempts, evidenceHash: hash, evidence, facts, conflicts, failureReasons,
+      fieldVerification: { amount: amountVerification, round: roundVerification, eventDate: dateVerification },
       reviewSeed: eligible ? {
         title: `[证据复核] ${companyName} · ${best.kind} · ${facts.eventDate ?? "日期待确认"}`,
-        body: [`候选主体：${companyName}`, `事件：${best.titleZh ?? best.title}`, `金额/轮次：${facts.amount ?? "待确认"} / ${facts.round ?? "待确认"}`, "", "证据：", ...publicEvidence.map((item) => `- [${item.grade}] ${item.source} · ${item.link}`), "", "该记录仅进入人工 Review；确认前不得写入公开页面。"].join("\n"),
+        body: [`候选主体：${companyName}`, `事件：${best.titleZh ?? best.title}`, `金额/轮次：${facts.amount ?? "待确认"} / ${facts.round ?? "待确认"}`, "", "证据：", ...publicEvidence.map((item) => `- [${item.grade}] ${item.source} · ${item.link}`), "", "该记录可按证据等级进入首页信号层；人工确认前不得写入规范事件库或公司资本档案。"].join("\n"),
         labels: ["evidence-review", best.kind === "投融资" ? "funding" : "product-deployment"],
       } : undefined,
     });
   }
-  return { schemaVersion: 1, generatedAt: now.toISOString(), records: records.sort((a, b) => (a.status === "可人工审核" ? -1 : 0) - (b.status === "可人工审核" ? -1 : 0) || b.evidence.length - a.evidence.length || a.companyName.localeCompare(b.companyName, "zh-CN")) };
+  return { schemaVersion: 1, generatedAt: now.toISOString(), records: records.sort((a, b) => (a.status === "可人工审核" ? -1 : 0) - (b.status === "可人工审核" ? -1 : 0) || b.impactScore - a.impactScore || b.evidence.length - a.evidence.length || a.companyName.localeCompare(b.companyName, "zh-CN")) };
 }
 
 export function formatCandidateVerificationReview(artifact: CandidateVerificationArtifact): string {
-  const lines = ["# 高价值公司 / 融资候选二次核验", "", "内部 Review 层：线索发现源永不直接晋升；达到证据门槛也只生成审核种子，不写入首页、事件中心或公司地图。", ""];
+  const lines = ["# 高价值公司 / 融资候选二次核验", "", "审阅与分级发布层：线索发现源永不直接晋升；主体明确且有可信证据的记录可分级进入首页，但人工确认前不会写入规范事件中心或公司资本档案。", ""];
   if (!artifact.records.length) return [...lines, "暂无高价值候选。", ""].join("\n");
-  for (const record of artifact.records) lines.push(`## ${record.companyName} · ${record.kind} · ${record.status}`, "", `- 尝试：${record.attempts}${record.nextReviewAt ? `；下次复核 ${record.nextReviewAt.slice(0, 10)}` : ""}`, `- 事实：${record.facts.amount ?? "金额待确认"} · ${record.facts.round ?? "轮次待确认"} · ${record.facts.eventDate ?? "日期待确认"}`, `- 证据：${record.evidence.map((item) => `[${item.grade} · ${item.source}](${item.link})`).join(" · ")}`, `- 结论：${record.failureReasons.join("；") || "证据包已达到人工审核门槛，尚未公开。"}`, "");
+  for (const record of artifact.records) lines.push(`## ${record.companyName} · ${record.kind} · ${record.status}`, "", `- 公开等级：${record.publicStatus} · 可信分 ${record.confidenceScore} · 影响分 ${record.impactScore}`, `- 尝试：${record.attempts}${record.nextReviewAt ? `；下次复核 ${record.nextReviewAt.slice(0, 10)}` : ""}`, `- 主动补证：${record.enrichmentAttempts.at(-1)?.outcome ?? "尚未执行"}${record.enrichmentAttempts.at(-1)?.failureReasons.length ? `（${record.enrichmentAttempts.at(-1)!.failureReasons.join("；")}）` : ""}`, `- 事实：${record.facts.amount ?? "金额待确认"}（${record.fieldVerification.amount.status}） · ${record.facts.round ?? "轮次待确认"}（${record.fieldVerification.round.status}） · ${record.facts.eventDate ?? "日期待确认"}（${record.fieldVerification.eventDate.status}）`, `- 证据：${record.evidence.map((item) => `[${item.grade} · ${item.source} · ${item.score}分](${item.link})`).join(" · ")}`, `- 结论：${record.failureReasons.join("；") || "证据包已达到人工审核门槛，尚未公开。"}`, "");
   return lines.join("\n");
 }
 
 export function verificationIssueSeeds(artifact: CandidateVerificationArtifact): Array<{ id: string; title: string; body: string; labels: string[] }> {
   return artifact.records.flatMap((record) => record.status === "可人工审核" && record.reviewSeed ? [{ id: record.id, ...record.reviewSeed }] : []);
+}
+
+/**
+ * Shared publication gate for a future public candidate/"正在发生" layer.
+ * It deliberately does not inspect the Chinese workflow status: developing
+ * records may be visible with an explicit caveat before they qualify for the
+ * confirmed-event store. Identity or fact conflicts always hard-block it.
+ */
+export function isCandidateEligibleForPublicLayer(
+  record: CandidateVerificationRecord,
+  options: { includeDeveloping?: boolean } = {},
+): boolean {
+  if (record.companyName === "待识别公司" || record.status === "已拒绝" || record.status === "证据冲突" || record.conflicts.length) return false;
+  if (Object.values(record.fieldVerification).some((field) => field.status === "conflicting")) return false;
+  const allowed: PublicVerificationStatus[] = options.includeDeveloping === false
+    ? ["confirmed", "corroborated"]
+    : ["confirmed", "corroborated", "developing"];
+  return allowed.includes(record.publicationState ?? record.publicStatus);
 }

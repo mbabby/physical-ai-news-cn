@@ -255,7 +255,6 @@ async function generate(): Promise<void> {
   await writeFile(join(routesDir, "corrections.json"), JSON.stringify(corrections, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "route-corrections.md"), ["# 路线图纠错记录", "", ...(corrections.length ? corrections.map((item) => `- ${item.date.slice(0, 10)} · ${item.route} · ${item.company} · ${item.kind}：${item.detail}`) : ["- 本轮没有路线结论变化。"]), ""].join("\n"), "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
-  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, { activeSources: activeSources.length + activeXSources.length, periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池` }), null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "research-promotion.md"), researchPromotionMarkdown(researchRegistry) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), formatCompanyDossiers(companyDossiers) + "\n", "utf8");
@@ -312,13 +311,38 @@ async function generate(): Promise<void> {
     publishedAt: new Date(article.publishedAt),
     fetchedAt: new Date(article.fetchedAt),
   }))));
-  const candidateVerification = buildCandidateVerificationArtifact(previousVerification, verificationInput, companies, now);
+  // Active enrichment reuses the already-collected rolling corpus. It never
+  // performs an unbounded search here: configured source collection remains
+  // the only network boundary, while verification records every probe target,
+  // result and retry reason for audit.
+  const verificationEvidencePool = uniqueArticles([
+    ...verificationArchives.flatMap((item) => [...item.articles, ...(item.candidates ?? [])].map((article) => ({
+      ...article,
+      publishedAt: new Date(article.publishedAt),
+      fetchedAt: new Date(article.fetchedAt),
+      eventDate: article.eventDate ? new Date(article.eventDate) : undefined,
+    }))),
+    ...collected.articles,
+    ...xCollected.articles,
+  ]);
+  const candidateVerification = buildCandidateVerificationArtifact(previousVerification, verificationInput, companies, now, {
+    evidencePool: verificationEvidencePool,
+    sources: registrySources,
+    maxEnrichmentAttempts: 20,
+  });
   await writeFile(verificationPath, JSON.stringify(candidateVerification, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "candidate-verification.md"), formatCandidateVerificationReview(candidateVerification) + "\n", "utf8");
   await writeFile(join(reviewDir, "candidate-verification-issue-seeds.json"), JSON.stringify({
     generatedAt: candidateVerification.generatedAt,
     seeds: verificationIssueSeeds(candidateVerification),
   }, null, 2) + "\n", "utf8");
+  // Build public data after verification so “正在发生” reflects evidence
+  // found in this run instead of the previous review artifact.
+  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, {
+    activeSources: activeSources.length + activeXSources.length,
+    periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
+    candidateVerificationRecords: candidateVerification.records,
+  }), null, 2) + "\n", "utf8");
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "event-anomalies.md"), [
