@@ -30,6 +30,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 自变量机器人被曝以200亿元 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMickFVX3lxTE5HazZweXVodkNLcFd6V0hkZFBwY2MxOXQ2NHNSa0FQQmxXREpzbFFzVXFDWmgwVFIxWHJHbWg2SWdYYXNvWlJkYU4xOFZuTUxSd2w3Qnk2UWhaQUFOOFYtTml4WVRPVENzYi04Q2lWeXEzUQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%87%AA%E5%8F%98%E9%87%8F%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%A2%AB%E6%9B%9D%E4%BB%A5200%E4%BA%BF%E5%85%83%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%87%AA%E5%8F%98%E9%87%8F%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%A2%AB%E6%9B%9D%E4%BB%A5200%E4%BA%BF%E5%85%83%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 陶世智能 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -84,6 +91,13 @@
 - 路线：本体与硬件
 - 证据：[sina.cn](https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%E7%81%AB%E7%83%AD%EF%BC%9A%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B5%AA%E6%BD%AE%E4%B8%8B%EF%BC%8C%E4%BB%B7%E5%80%BC%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80IPO%E7%81%AB%E7%83%AD%EF%BC%9A%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B5%AA%E6%BD%AE%E4%B8%8B%EF%BC%8C%E4%BB%B7%E5%80%BC%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 曾宣称 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMiwAVBVV95cUxQc1Q5dkdzTmYyUnF4MUp4YlVPY1ZUYlRnS01YTERlWXg2eWZCd1pxdXRxWEk1SHdrUC11NXlVdjRYTzYzcXExYndmc24zYWYzQlh4bFhvRDFiVFE2MUtuRHdRUVEycWY1SnRFQ0Fjcmh2R2I5eUVxUnBkVFF6QktOc0V3ODlMV3lKVTNkODJIRHd4SDZBc09Od1ZIRGFUWHkwVUstRWlReE9weHpkMEp1ZWpaZ081V0NvY2xrTEJ4SDh6c2Q2TjVKeVluS01CRy12eEVGR3NaSUxxOHFUY3FDakNQWHRZSjBjb3lVeFE3amtpWVJadHYybnJqUV9LV1pfazg5dzNXamQ4QkI0MkZzbmRUVjBXTTV5XzhhakRnbXpqWGFoUTJhWTlQbE5ELUhreWVzMmNVT1Z5b1BlajUtN2toNEgyRXZScHJTeFAtbDZwYklkNm9uMXhGM0tITlhNT3VnN0RYaXYxNWlybEM1QTg1a0JpREdCd19YNFpHdDBlbi1IcGtkYWcxQU92cXQ1UGpNMFUwR3VucU45MFB4TWhJYjFyRVpRZktEZmpxX3k5bms1cHNYNkJ1YWJUWGQ2Z1dIUVJOLUhiZDY5T05qTy16cXY5em5FMWItRGpEVkR5c3Zlc0thajdGUmZGdFJqSEQtb2Q2SnBGYWxHS1FDQ0FtQVdaZGZsMWpyNVh2QV82RXFTOWMwc0QxN01obDRzbXByZjA1ci0xVXljSzV3RVZ5Qy03M0pDbHNlWGo2Rm1ObjVVZTM4UjRsRVZPM05vVjNOdE1xbUNhSE1tUVB0YlZyekM3RWZQUVVsVTlwa2tSNklxbjd5REQ0T1pBanBPUXRjY1JPWEh4WGZvbF9UVVFweFBvTzJNTnVYMTFDNHRkREVOY3E0QWpHV1ZLNk1YRlp6b0tqWmxuczJ1bEF6UA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9B%BE%E5%AE%A3%E7%A7%B0%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9B%BE%E5%AE%A3%E7%A7%B0%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Hadrian · 候选 · 22/100
