@@ -94,7 +94,7 @@
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
-- [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yaxin Feng</sub>
+- [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Shuai Wang</sub>
 
 - [JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习](https://arxiv.org/abs/2608.05674v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：RA Team</sub>
 

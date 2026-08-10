@@ -58,6 +58,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%89%8D%E5%8D%8E%E4%B8%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%B4%9F%E8%B4%A3%E4%BA%BA%E8%BF%9B%E5%86%9B%E5%AE%B6%E5%8A%A1%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%9A%E5%A4%A9%E4%BD%BF%2B%2B%E8%BD%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%89%8D%E5%8D%8E%E4%B8%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%B4%9F%E8%B4%A3%E4%BA%BA%E8%BF%9B%E5%86%9B%E5%AE%B6%E5%8A%A1%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%9A%E5%A4%A9%E4%BD%BF%2B%2B%E8%BD%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 中国一消费级具身智能模型开发商 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Global Times](https://news.google.com/rss/articles/CBMiYkFVX3lxTE02THFwdk55WWNUWlplWEk2NU03YTg0UXBERE5pSUN2Z1VVa1VCc3NnWW4xWm1NQzdQVmhQYmliaHFVUnNrOVIyMDhzMm1xcVdhM05BcEpkRk53MWp4cVFVREZB?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E4%B8%80%E6%B6%88%E8%B4%B9%E7%BA%A7%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E5%95%86%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E4%B8%80%E6%B6%88%E8%B4%B9%E7%BA%A7%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E5%95%86%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 机器人AI于8月7日 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -128,6 +135,27 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 机器人产业链并购活跃，一公司拟溢价9倍 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOckNBbUFLdTU3NjVMVEtQREotN2RTRWlMOFVwaUNaNnVoQkNoUmlFNmFXckRjQml1Uk1ISkwxQnRoUk40WGdWUHBOSGZWTHpTcVFidVlLYnVyZ2lnSHhSemw3QzlEMEpmRzhNUzU3TkJxa2w3NlZERklEVTVVMVhMaEdBMlBUZVF5?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%BA%A7%E4%B8%9A%E9%93%BE%E5%B9%B6%E8%B4%AD%E6%B4%BB%E8%B7%83%EF%BC%8C%E4%B8%80%E5%85%AC%E5%8F%B8%E6%8B%9F%E6%BA%A2%E4%BB%B79%E5%80%8D%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%BA%A7%E4%B8%9A%E9%93%BE%E5%B9%B6%E8%B4%AD%E6%B4%BB%E8%B7%83%EF%BC%8C%E4%B8%80%E5%85%AC%E5%8F%B8%E6%8B%9F%E6%BA%A2%E4%BB%B79%E5%80%8D%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 江苏89年小伙放弃2000万收入，创业机器人操作系统 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%B1%9F%E8%8B%8F89%E5%B9%B4%E5%B0%8F%E4%BC%99%E6%94%BE%E5%BC%832000%E4%B8%87%E6%94%B6%E5%85%A5%EF%BC%8C%E5%88%9B%E4%B8%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%B1%9F%E8%8B%8F89%E5%B9%B4%E5%B0%8F%E4%BC%99%E6%94%BE%E5%BC%832000%E4%B8%87%E6%94%B6%E5%85%A5%EF%BC%8C%E5%88%9B%E4%B8%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[bloomingbit](https://news.google.com/rss/articles/CBMiVEFVX3lxTE5iNTY0UDVxMUFFaUU2X0RKTXBJNFZwaHpILTVkVnR0ek9UcV90eHB5TUZxUXBXQWhsZy1VRUtWMjZCZXNJWDlSS0gzTk9LMHFGUVExVw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E5%8B%9F%E8%B5%84%201.229%20%E4%BA%BF%E7%BE%8E%E5%85%83%EF%BC%8C%E6%89%A9%E5%A4%A7%E7%89%A9%E7%90%86%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E5%8B%9F%E8%B5%84%201.229%20%E4%BA%BF%E7%BE%8E%E5%85%83%EF%BC%8C%E6%89%A9%E5%A4%A7%E7%89%A9%E7%90%86%20AI%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 89年江苏小伙放弃2000万收入，做机器人操作系统 · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -140,13 +168,6 @@
 - 路线：部署与商业化
 - 证据：[bloomingbit](https://news.google.com/rss/articles/CBMiVEFVX3lxTE5iNTY0UDVxMUFFaUU2X0RKTXBJNFZwaHpILTVkVnR0ek9UcV90eHB5TUZxUXBXQWhsZy1VRUtWMjZCZXNJWDlSS0gzTk9LMHFGUVExVw?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E8%82%A1%E7%A5%A8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E8%82%A1%E7%A5%A8%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 机器人产业链并购活跃，一公司拟溢价9倍 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOckNBbUFLdTU3NjVMVEtQREotN2RTRWlMOFVwaUNaNnVoQkNoUmlFNmFXckRjQml1Uk1ISkwxQnRoUk40WGdWUHBOSGZWTHpTcVFidVlLYnVyZ2lnSHhSemw3QzlEMEpmRzhNUzU3TkJxa2w3NlZERklEVTVVMVhMaEdBMlBUZVF5?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%BA%A7%E4%B8%9A%E9%93%BE%E5%B9%B6%E8%B4%AD%E6%B4%BB%E8%B7%83%EF%BC%8C%E4%B8%80%E5%85%AC%E5%8F%B8%E6%8B%9F%E6%BA%A2%E4%BB%B79%E5%80%8D%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%BA%A7%E4%B8%9A%E9%93%BE%E5%B9%B6%E8%B4%AD%E6%B4%BB%E8%B7%83%EF%BC%8C%E4%B8%80%E5%85%AC%E5%8F%B8%E6%8B%9F%E6%BA%A2%E4%BB%B79%E5%80%8D%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 招商局创投与蔚来资本领投，北京具身智能企业 · 候选 · 22/100

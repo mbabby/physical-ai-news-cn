@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T11:44:36.399Z",
+  "generatedAt": "2026-08-10T11:48:46.705Z",
   "assignments": [
     {
       "caseId": "review-article-34d3abc4251cd1b5",
@@ -565,13 +565,13 @@
       "reason": "capacity-exhausted",
       "priority": "P0",
       "dueAt": "2026-08-10T11:09:18.065Z",
-      "nextAction": "缺少完整中文事实简介",
+      "nextAction": "线索来源尚未完成二次核验",
       "slo": {
         "firstResponseHours": 4,
         "breached": true
       },
       "assignedAt": null,
-      "updatedAt": "2026-08-10T11:44:36.399Z",
+      "updatedAt": "2026-08-10T11:48:46.705Z",
       "autoDecisionAllowed": false,
       "auditTrail": [
         {
@@ -583,6 +583,13 @@
         },
         {
           "at": "2026-08-10T11:44:36.399Z",
+          "action": "refreshed",
+          "fromOwner": null,
+          "toOwner": null,
+          "detail": "Priority, SLO, dueAt or nextAction changed"
+        },
+        {
+          "at": "2026-08-10T11:48:46.705Z",
           "action": "refreshed",
           "fromOwner": null,
           "toOwner": null,

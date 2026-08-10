@@ -16,7 +16,7 @@
 - [MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示](https://arxiv.org/abs/2608.01826v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [RoboBusiness 大会专家展望机器人未来二十年](https://www.therobotreport.com/experts-look-ahead-at-the-next-20-years-of-robotics-at-robobusiness/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Tacta Systems 发布 TactaBot，瞄准高技能制造工作](https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [Analog Devices 再次成为 MassRobotics 战略赞助商以扶持初创企业](https://www.therobotreport.com/analog-devices-returns-strategic-sponsor-aid-massrobotics-startups/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [Analog Devices 再次成为 MassRobotics 战略赞助商以支持初创企业](https://www.therobotreport.com/analog-devices-returns-strategic-sponsor-aid-massrobotics-startups/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 
 ## 待评估信源
 

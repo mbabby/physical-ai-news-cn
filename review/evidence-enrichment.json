@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T11:44:36.399Z",
+  "generatedAt": "2026-08-10T11:48:46.705Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -66,8 +66,8 @@
   },
   "budget": {
     "maxPlansPerRun": 20,
-    "attemptedPlans": 20,
-    "deferredPlans": 9,
+    "attemptedPlans": 12,
+    "deferredPlans": 0,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -361,6 +361,200 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-10T08:13:44.563Z",
       "nextAttemptAt": "2026-08-11T08:13:44.563Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-1430818f44ed4e4178cc",
+      "recordId": "verify-7e09fcc9c51738",
+      "companyName": "RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy",
+      "eventKind": "投融资",
+      "fingerprint": "13f71f5cd7484adf543b",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 98,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-f403a9437a2fa7ac0c4a",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-78dc7acb99a8cce98e40",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-3c04864d67ed018474ed",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-f7ca68cfc506a719e43b",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4adf59fc3f0f1ddde2f3",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-efeba82705d0e8dc0ec2",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-10T11:48:46.705Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-991ac996f3678d848876",
+      "recordId": "verify-8d0e69a3b80b90",
+      "companyName": "中国一消费级具身智能模型开发商",
+      "eventKind": "投融资",
+      "fingerprint": "d8f8179cd270e60f888f",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 98,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-5944e51061a99f8d7ef7",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e2badd14f760dd8cc33d",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a65614de31f3983fa6f5",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-6f5b38bd73fecf4faf20",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-c5aeb21fa87d9b1b6e01",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-bc369b357b0625e0840b",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"中国一消费级具身智能模型开发商\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-10T11:48:46.705Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1529,103 +1723,6 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
-      "id": "plan-e791bb7dab9432db13f6",
-      "recordId": "verify-0df79c2908524d",
-      "companyName": "Consumer-oriented embodied AI model developer",
-      "eventKind": "投融资",
-      "fingerprint": "5ed0c2b64e290af45f8a",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 80,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-450c5937e3cb5ae39591",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-a63dc036c13ac60922c6",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-57c78b3bcd5c224614ca",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-432af3327d6004119526",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-60922ae3c50596491a8d",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-10b487b43b1f328002e0",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"Consumer-oriented embodied AI model developer\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-10T11:44:36.399Z",
-      "lastAttemptAt": "2026-08-10T11:44:36.399Z",
-      "nextAttemptAt": "2026-08-11T11:44:36.399Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
       "id": "plan-a4fbb761b3355157eba0",
       "recordId": "verify-4905afa180ee66",
       "companyName": "Exclaim Robotics",
@@ -2010,103 +2107,6 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-10T08:13:44.563Z",
       "nextAttemptAt": "2026-08-11T08:13:44.563Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-49c3634cc4798a63d294",
-      "recordId": "verify-dd8e6881f81e7b",
-      "companyName": "RoboStrategy",
-      "eventKind": "投融资",
-      "fingerprint": "a7e21763d4cf18e5880f",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 80,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-f14f4ae3981ea272940d",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-f919db782b63fcb9355f",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-8bc1299b5d716137b9eb",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-873b2fc9d6c8e21aa33f",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-6a386eac9ca65e8d68d0",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-2060270dfaf13d4c4570",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"RoboStrategy\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-10T11:44:36.399Z",
-      "lastAttemptAt": "2026-08-10T11:44:36.399Z",
-      "nextAttemptAt": "2026-08-11T11:44:36.399Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3077,6 +3077,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-d68105e6528a7a877de8",
+      "recordId": "verify-805c2f33a19e8f",
+      "companyName": "江苏89年小伙放弃2000万收入，创业机器人操作系统",
+      "eventKind": "投融资",
+      "fingerprint": "ec4b400900491d1a00be",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-e571a918331812d7331f",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-bc7bd970befdfb38eabe",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a6b905fc599fea66a163",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-415bff346ecac8ca2e94",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-c40dbb86964012f86b4e",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-e501e417446d3ad7c7ba",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"江苏89年小伙放弃2000万收入，创业机器人操作系统\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-10T11:48:46.705Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-278d659b2e13e89420ab",
       "recordId": "verify-8651343f2ae24b",
       "companyName": "融资650万美元的初创公司押注VR头显操控机器人副业 这家刚",
@@ -3653,103 +3750,6 @@
       "candidateEvidence": [],
       "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-10T11:44:36.399Z",
-      "nextAttemptAt": "2026-08-11T11:44:36.399Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-1a656f781c3f3575ed4a",
-      "recordId": "verify-f7c1296483e2e9",
-      "companyName": "江苏89年小伙，放弃2000万收入，做机器人操作系统",
-      "eventKind": "投融资",
-      "fingerprint": "ec4b400900491d1a00be",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 70,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-edac904de2e9d07cb289",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-98b3a2b7167f242dc939",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-be394f02891ddcd949fa",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-4e0d358528b99ff585f7",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-ac9883ef80500e6fb656",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-2bbd5e528b93b38357f5",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"江苏89年小伙，放弃2000万收入，做机器人操作系统\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-10T11:44:36.399Z",
       "lastAttemptAt": "2026-08-10T11:44:36.399Z",
       "nextAttemptAt": "2026-08-11T11:44:36.399Z",
       "errors": [],
@@ -4824,14 +4824,88 @@
         "missing-subject"
       ],
       "priority": 60,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-a558975ac805f56ea7e0",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-8e4239822836780fed16",
+          "domain": "github.com",
+          "sourceId": "oss-groot-releases",
+          "sourceLabel": "Isaac GR00T Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-acba2be6029d5571dd25",
+          "domain": "github.com",
+          "sourceId": "oss-isaac-lab-releases",
+          "sourceLabel": "Isaac Lab Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7b37b58fe2cc8dea422e",
+          "domain": "github.com",
+          "sourceId": "oss-lerobot-releases",
+          "sourceLabel": "LeRobot Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-072b0419381000e2b34b",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-cab511417315a3649565",
+          "domain": "github.com",
+          "sourceId": "oss-mujoco-releases",
+          "sourceLabel": "MuJoCo Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Kitchen Robotic Manipulation utilizing Foundation Models\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-97d0a6cb6b7a8f479af4",
@@ -4844,14 +4918,89 @@
         "missing-second-independent-source"
       ],
       "priority": 56,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-244c9abc85dc0a846665",
+          "domain": "export.arxiv.org",
+          "sourceId": "academic-arxiv-robotics",
+          "sourceLabel": "arXiv · Robotics",
+          "sourceClass": "company-official",
+          "query": "site:export.arxiv.org \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-00036c20d5eb01dfa987",
+          "domain": "thehumanoid.ai",
+          "sourceLabel": "Humanoid 官网",
+          "sourceClass": "company-official",
+          "query": "site:thehumanoid.ai \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9b285415513210cbf921",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-3a38dac4808cfc3e9eca",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-12882762fa70344b9d83",
+          "domain": "github.com",
+          "sourceId": "oss-openvla-releases",
+          "sourceLabel": "OpenVLA Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-333f93a851ece22aca85",
+          "domain": "github.com",
+          "sourceId": "oss-robomimic-releases",
+          "sourceLabel": "robomimic Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" product launch release 产品 发布",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-daa1f11686a376c3c21e",
@@ -4865,14 +5014,90 @@
         "missing-second-independent-source"
       ],
       "priority": 56,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-3ff6d7a4ddea35ca29c2",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-89feeeb5d8b04c49969e",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0be731062bd8f7d6fe01",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2e051d189ae97188a049",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b08580d8da4f79eb83cc",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9415763314c67f63c478",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Release v0.6.1\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-154753a58da6e9bb5221",
@@ -4886,14 +5111,90 @@
         "missing-second-independent-source"
       ],
       "priority": 56,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-dfffe9c46fdc3465513e",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-6422050f517c5c90aa09",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-bbfe61aaf6108fbb42a8",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e0e00f8b42eaa0e0cb19",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-f7098008aadd1ac43fa5",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-bedeeed6ea02722a003d",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"利用缝线操控实现自主缝合中的缝针拾取\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-6c0bf90157e5c319fc5c",
@@ -4907,14 +5208,90 @@
         "missing-second-independent-source"
       ],
       "priority": 56,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-e233244276a2801f7bb5",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-92b14451b4ed3f6be9a6",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-808144f4856799057549",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-cd5366154d3796a8828a",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0d80efd2f84512cbe882",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-5e403fd3c393ffa42c6f",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-a1772c558503a1dae52d",
@@ -4928,14 +5305,90 @@
         "missing-second-independent-source"
       ],
       "priority": 55,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-6126abbee47eaf8aaf27",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-d42a374843e2b80743a3",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-001c736dd3e93adf8e0f",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-eab488be0b9451d758cd",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ad71a27681a9ac0ceef2",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-83e6ecb8d89578287e61",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Tacta Systems\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
+      "nextAttemptAt": "2026-08-11T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-cabf23995728cee9d565",
@@ -4947,14 +5400,148 @@
         "missing-subject"
       ],
       "priority": 54,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
+      "status": "candidate-found",
+      "probes": [
+        {
+          "id": "probe-29970811b646d5aed6c6",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-0edcc04032fe529287ab",
+          "domain": "github.com",
+          "sourceId": "oss-groot-releases",
+          "sourceLabel": "Isaac GR00T Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-0a67cf0c8ca2d64a4572",
+          "domain": "github.com",
+          "sourceId": "oss-isaac-lab-releases",
+          "sourceLabel": "Isaac Lab Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-078d2064841e162d5933",
+          "domain": "github.com",
+          "sourceId": "oss-lerobot-releases",
+          "sourceLabel": "LeRobot Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ffe44fc466e6f52e272f",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-91310e4e39d82bc6cead",
+          "domain": "github.com",
+          "sourceId": "oss-mujoco-releases",
+          "sourceLabel": "MuJoCo Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
+      "candidateEvidence": [
+        {
+          "articleId": "9290c9749967e2cb",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.1",
+          "publishedAt": "2026-08-03T14:24:49.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "2566138e1e58aef8",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.0",
+          "publishedAt": "2026-07-08T15:39:00.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "dcf1a3bd2d6e87a6",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.5.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.5.0",
+          "publishedAt": "2026-03-09T20:55:14.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "650e350e204880fe",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.4.2",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.4.2",
+          "publishedAt": "2025-11-27T21:42:42.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        }
+      ],
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "发现的材料仅进入内部候选证据层；必须重新走主体、独立性、事实冲突和人工审核门槛。"
     },
     {
       "id": "plan-6789dd1160d43f5d077f",
@@ -4966,14 +5553,148 @@
         "missing-subject"
       ],
       "priority": 54,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
+      "status": "candidate-found",
+      "probes": [
+        {
+          "id": "probe-d53d93e838b13d7671df",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-dbdd6f207086583b2d37",
+          "domain": "github.com",
+          "sourceId": "oss-groot-releases",
+          "sourceLabel": "Isaac GR00T Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-054cf871f6d5955cecc9",
+          "domain": "github.com",
+          "sourceId": "oss-isaac-lab-releases",
+          "sourceLabel": "Isaac Lab Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-303965c5bdf1fe178061",
+          "domain": "github.com",
+          "sourceId": "oss-lerobot-releases",
+          "sourceLabel": "LeRobot Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-111d7f7352f740ffca1f",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7aa97ce77c4907439d81",
+          "domain": "github.com",
+          "sourceId": "oss-mujoco-releases",
+          "sourceLabel": "MuJoCo Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
+      "candidateEvidence": [
+        {
+          "articleId": "9290c9749967e2cb",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.1",
+          "publishedAt": "2026-08-03T14:24:49.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "2566138e1e58aef8",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.0",
+          "publishedAt": "2026-07-08T15:39:00.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "dcf1a3bd2d6e87a6",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.5.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.5.0",
+          "publishedAt": "2026-03-09T20:55:14.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "650e350e204880fe",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.4.2",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.4.2",
+          "publishedAt": "2025-11-27T21:42:42.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        }
+      ],
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "发现的材料仅进入内部候选证据层；必须重新走主体、独立性、事实冲突和人工审核门槛。"
     },
     {
       "id": "plan-d62f3da499867de457ac",
@@ -4985,14 +5706,163 @@
         "missing-subject"
       ],
       "priority": 54,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
+      "status": "candidate-found",
+      "probes": [
+        {
+          "id": "probe-6aa5624de867f1911d17",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-f70a517fba9df5889e52",
+          "domain": "github.com",
+          "sourceId": "oss-groot-releases",
+          "sourceLabel": "Isaac GR00T Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-6f3393d03cde1ba82eb8",
+          "domain": "github.com",
+          "sourceId": "oss-isaac-lab-releases",
+          "sourceLabel": "Isaac Lab Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b61f2a8d32833881cb68",
+          "domain": "github.com",
+          "sourceId": "oss-lerobot-releases",
+          "sourceLabel": "LeRobot Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-35196a8588356d6c8482",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-a29e2c3a657997724e55",
+          "domain": "github.com",
+          "sourceId": "oss-mujoco-releases",
+          "sourceLabel": "MuJoCo Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Differential 6-DOF Pose Estimation with Provable First-Order Immunity to Camera Calibration Errors\" product launch release 产品 发布",
+          "addresses": [
+            "missing-subject"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
+      "candidateEvidence": [
+        {
+          "articleId": "9290c9749967e2cb",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.1",
+          "publishedAt": "2026-08-03T14:24:49.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "2566138e1e58aef8",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.6.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.6.0",
+          "publishedAt": "2026-07-08T15:39:00.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "3187f7aebf7b4be9",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.5.1",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.5.1",
+          "publishedAt": "2026-04-07T14:57:52.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "dcf1a3bd2d6e87a6",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.5.0",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.5.0",
+          "publishedAt": "2026-03-09T20:55:14.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        },
+        {
+          "articleId": "5e277322a42f340c",
+          "link": "https://github.com/huggingface/lerobot/releases/tag/v0.4.4",
+          "domain": "github.com",
+          "source": "LeRobot Releases",
+          "sourceClass": "other",
+          "title": "Release v0.4.4",
+          "publishedAt": "2026-02-27T18:07:31.000Z",
+          "addresses": [
+            "missing-subject"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        }
+      ],
+      "attemptCount": 1,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "nextAttemptAt": "2026-08-10T08:13:44.563Z",
+      "lastAttemptAt": "2026-08-10T11:48:46.705Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "发现的材料仅进入内部候选证据层；必须重新走主体、独立性、事实冲突和人工审核门槛。"
     }
   ]
 }

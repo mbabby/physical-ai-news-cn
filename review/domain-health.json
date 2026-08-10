@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T11:47:30.906Z",
+  "generatedAt": "2026-08-10T11:53:29.488Z",
   "domains": {
     "industry": {
       "expected": 1,
@@ -60,8 +60,8 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 4,
-      "evidenceReady": 4,
+      "observed": 10,
+      "evidenceReady": 10,
       "failureCount": 2,
       "coverageRate": 1,
       "evidenceReadyRate": 1,
@@ -388,7 +388,7 @@
     },
     {
       "dimension": "company",
-      "key": "江苏89年小伙，放弃2000万收入，做机器人操作系统",
+      "key": "江苏89年小伙放弃2000万收入，创业机器人操作系统",
       "domains": {
         "industry": {
           "expected": 0,
@@ -1102,6 +1102,52 @@
     },
     {
       "dimension": "company",
+      "key": "中国一消费级具身智能模型开发商",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "中科院系农业机器人公司",
       "domains": {
         "industry": {
@@ -1327,52 +1373,6 @@
     {
       "dimension": "company",
       "key": "Chinese Robotics Startup PokeBot",
-      "domains": {
-        "industry": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "funding": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        }
-      },
-      "total": {
-        "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
-        "failureCount": 0,
-        "evidenceReadyRate": 0,
-        "status": "degraded",
-        "gaps": [
-          "1 个观测尚未达到证据门槛",
-          "2 个观测尚未达到证据门槛",
-          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-          "现有材料全部来自线索发现层，不能作为公开证据"
-        ]
-      }
-    },
-    {
-      "dimension": "company",
-      "key": "Consumer-oriented embodied AI model developer",
       "domains": {
         "industry": {
           "expected": 0,
@@ -1846,7 +1846,7 @@
     },
     {
       "dimension": "company",
-      "key": "RoboStrategy",
+      "key": "RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy",
       "domains": {
         "industry": {
           "expected": 0,
