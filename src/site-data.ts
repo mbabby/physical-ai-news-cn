@@ -4,6 +4,11 @@ import { eventMaterialChangeAt } from "./event-time.js";
 import { hasChineseText, hasCompleteChineseResearchCopy, isPlaceholderCopy } from "./publication.js";
 import { isCandidateEligibleForPublicLayer } from "./candidate-verification.js";
 import type { CandidateVerificationRecord } from "./candidate-verification.js";
+import { derivePublication } from "./facts-contract.js";
+import type { CompanyClaimLedger } from "./company-claim-ledger.js";
+import type { ResearchDecisionCard } from "./research-decision-card.js";
+import { researchIndustryCompanyId } from "./research-industry-relations.js";
+import type { ResearchIndustryRelationEdge } from "./research-industry-relations.js";
 
 export interface DashboardItem {
   title: string;
@@ -44,13 +49,17 @@ export interface CompanyRadarItem {
   momentumScore: number;
   momentumLabel: "高动量" | "持续推进" | "长期跟踪";
   recentSignals: number;
+  claimCompleteness?: number;
+  staleClaims?: number;
 }
 export interface ResearchIndustryLink {
   paper: DashboardItem;
   route: string;
   companies: string[];
   connection: string;
+  relations?: Array<{ company: string; type: string; state: "verified" | "developing"; evidenceLinks: string[]; }>;
 }
+export interface DashboardResearchItem extends DashboardItem { decisionCard?: ResearchDecisionCard; }
 export interface DashboardData {
   generatedAt: string;
   periodLabel: string;
@@ -64,7 +73,7 @@ export interface DashboardData {
   keyEvents: DashboardItem[];
   capital: DashboardItem[];
   industry: DashboardItem[];
-  research: DashboardItem[];
+  research: DashboardResearchItem[];
   researchGraph: ResearchIndustryLink[];
   companyRadar: CompanyRadarItem[];
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
@@ -75,6 +84,9 @@ export interface DashboardContext {
   periodLabel?: string;
   /** Internal verification records are filtered again before any public copy is emitted. */
   candidateVerificationRecords?: CandidateVerificationRecord[];
+  companyClaimLedger?: CompanyClaimLedger;
+  researchDecisionCards?: ResearchDecisionCard[];
+  researchIndustryEdges?: ResearchIndustryRelationEdge[];
 }
 
 function eventFact(event: EventRecord): string {
@@ -111,10 +123,18 @@ function hasPublicationConflict(event: EventRecord): boolean {
 
 function verificationState(event: EventRecord): "官方确认" | "多方证实" | "正在发生" | undefined {
   if (hasPublicationConflict(event)) return undefined;
-  const evidence = publicEvidenceSet(event);
-  if (evidence.some((item) => item.grade === "A")) return "官方确认";
-  if (evidence.filter((item) => item.grade === "B").length >= 2) return "多方证实";
-  if (evidence.some((item) => item.grade === "B")) return "正在发生";
+  const publication = derivePublication({ evidence: event.evidence.map((item) => ({
+    id: item.link,
+    link: item.link,
+    source: item.source,
+    grade: item.grade,
+    discovery: DISCOVERY_SOURCE_PATTERN.test(item.source),
+    independentOrigin: (() => { try { return new URL(item.link).hostname.replace(/^www\./, ""); } catch { return item.source; } })(),
+  })) });
+  if (publication.evidenceState === "confirmed") {
+    return event.evidence.some((item) => item.grade === "A" && !DISCOVERY_SOURCE_PATTERN.test(item.source)) ? "官方确认" : "多方证实";
+  }
+  if (publication.evidenceState === "developing" || publication.evidenceState === "corroborated") return "正在发生";
   return undefined;
 }
 
@@ -320,7 +340,15 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
     "数据与训练": "真实数据与训练效率", "VLA 与具身模型": "泛化与长程任务", "世界模型与空间智能": "可预测的物理环境", "本体与硬件": "可靠性、灵巧性与成本", "部署与商业化": "可验证 ROI 与规模化",
   };
   const routeNames = Object.keys(routeFocus);
-  const companyRadar = buildCompanyDossiers(companies, store.events).map((dossier) => radarItem(dossier, store, generatedAt))
+  const ledgerByName = new Map((context.companyClaimLedger?.companies ?? []).map((entry) => [entry.companyName, entry]));
+  const selectedCompanies = context.companyClaimLedger
+    ? companies.filter((company) => ledgerByName.has(company.name))
+    : companies;
+  const companyRadar = buildCompanyDossiers(selectedCompanies, store.events).map((dossier) => {
+    const item = radarItem(dossier, store, generatedAt);
+    const ledger = ledgerByName.get(dossier.company.name);
+    return ledger ? { ...item, claimCompleteness: ledger.metrics.fieldCompletenessRate, staleClaims: ledger.metrics.staleClaimCount } : item;
+  })
     .sort((a, b) => b.momentumScore - a.momentumScore
       || CAPITAL_ORDER[b.capitalStatus] - CAPITAL_ORDER[a.capitalStatus]
       || VALIDATION_ORDER[b.validationStage] - VALIDATION_ORDER[a.validationStage]
@@ -352,16 +380,27 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
     keyEvents: confirmedItems.slice(0, 3),
     capital: confirmedItems.filter((item) => item.type === "投融资").slice(0, 4),
     industry: confirmedItems.filter((item) => item.type !== "投融资").slice(0, 5),
-    research: publicResearch.slice(0, 6).map(articleItem),
+    research: publicResearch.slice(0, 6).map((article) => ({
+      ...articleItem(article),
+      decisionCard: (context.researchDecisionCards ?? []).find((card) => card.identity.paperId.value === article.id),
+    })),
     researchGraph: publicResearch.slice(0, 6).map((article) => {
       const route = researchRoute(article);
-      const linkedCompanies = companies.filter((company) => company.routes.includes(route))
-        .sort((a, b) => (companyRank.get(a.name) ?? Number.MAX_SAFE_INTEGER) - (companyRank.get(b.name) ?? Number.MAX_SAFE_INTEGER))
-        .slice(0, 4).map((company) => company.name);
-      const connection = linkedCompanies.length
-        ? `该研究对应「${route}」路线；当前可关联观察 ${linkedCompanies.join("、")} 的路线进展，产品与部署仍以独立事件证据为准。`
-        : `该研究对应「${route}」路线；当前尚无可核验的公司关联，保留为研究侧信号。`;
-      return { paper: articleItem(article), route, companies: linkedCompanies, connection };
+      const relations = (context.researchIndustryEdges ?? [])
+        .filter((edge) => edge.paperId === article.id && edge.relationType !== "route_adjacency" && (edge.relationState === "verified" || edge.relationState === "developing"))
+        .flatMap((edge) => {
+          const company = companies.find((item) => researchIndustryCompanyId(item) === edge.companyId);
+          return company ? [{ company: company.name, type: edge.relationType, state: edge.relationState as "verified" | "developing", evidenceLinks: edge.evidenceUrls }] : [];
+        });
+      const verifiedCompanies = [...new Set(relations.filter((relation) => relation.state === "verified").map((relation) => relation.company))]
+        .sort((a, b) => (companyRank.get(a) ?? Number.MAX_SAFE_INTEGER) - (companyRank.get(b) ?? Number.MAX_SAFE_INTEGER));
+      const developingCount = relations.filter((relation) => relation.state === "developing").length;
+      const connection = verifiedCompanies.length
+        ? `已核验 ${verifiedCompanies.length} 条公司关系；每条关系均附显式采用、合作、机构或复现证据。`
+        : developingCount
+          ? `存在 ${developingCount} 条待补证关系；当前没有可确认为采用或合作的公司关联。`
+          : `当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。`;
+      return { paper: articleItem(article), route, companies: verifiedCompanies, connection, relations };
     }),
     companyRadar,
     routes: routeNames.map((name) => ({ name, focus: routeFocus[name], companies: companies.filter((company) => company.routes.includes(name as CompanyProfile["routes"][number])).slice(0, 4).map((company) => company.name) })),

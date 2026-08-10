@@ -21,3 +21,13 @@
 - 演示视频：仅标记为能力演示，不自动推断可靠部署或商业化。
 
 发现冲突证据时，事件转为“待复核”；更正保留在时间线中。
+
+## 公开语义与证据契约
+
+机器可执行的契约位于 `src/facts-contract.ts`，是事件中心、候选核验和任何公开页面的共同边界。新记录使用以下稳定枚举；旧的中文 `ArticleKind` 会被兼容映射，未映射的类型保持 `unknown`，不得冒充确定语义。
+
+- 事件类型：`funding`（融资）、`acquisition`（并购）、`product-release`（产品发布）、`demonstration`（演示）、`pilot`（试点）、`deployment`（部署）、`mass-production`（量产）、`commercialisation`（商业化）、`research-author-report`（研究作者报告）、`independent-replication`（独立复现）。作者报告只能表述作者报告的结果，不能写成独立复现。
+- 证据状态：`candidate`、`developing`、`corroborated`、`confirmed`、`rejected`、`conflicted`、`withdrawn`。`confirmed` 的门槛仍是至少一项非发现层 A 级证据，或两项**独立来源**的非发现层 B 级证据；单一 B 级证据最高为 `developing`。
+- 统一时间字段：`eventDate`、`publishedAt`、`firstSeenAt`、`verifiedAt`、`materiallyChangedAt`。缺失或无法解析的值显式为 `unknown`；绝不以抓取/运行时间补写，也不从页面发布时间推断事件发生日。旧字段 `occurredAt`、`lastEvidenceAt`、`lastVerifiedAt`、`lastMaterialChangeAt`、`lastUpdatedAt` 仅按其原有含义映射。
+
+发现层（Google News、Hacker News、X 等，或注册表标为“仅作线索发现”的来源）可以留在内部候选和审计记录，但不能被选入 `publicEvidenceIds`，也不能单独让记录公开。公开边界应调用 `assertFacts`；仅需要展示降级状态时调用 `validateFacts` 或 `derivePublicFacts`，并将 `unknown` 原样保留。

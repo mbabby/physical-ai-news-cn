@@ -28,6 +28,17 @@ test("publication validation blocks a research-card quality regression", () => {
   assert.throws(() => validatePublication({ archive, events, research: [record("one")], readme: "README", expectedDate: "2026-08-08", previousCompleteResearchCount: 6 }), /研究卡从 6 篇倒退到 1 篇/);
 });
 
+test("publication validation rejects a single-B event labeled as confirmed", () => {
+  const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")] };
+  const events: EventStore = { updatedAt: "2026-08-08", events: [{
+    id: "single-b", title: "Example 宣布客户试点", type: "部署案例", entities: ["Example"], primaryEntity: "Example",
+    routes: ["部署与商业化"], status: "已确证", firstSeenAt: "2026-08-08T00:00:00Z", lastUpdatedAt: "2026-08-08T01:00:00Z",
+    lastVerifiedAt: "2026-08-08T01:00:00Z", facts: ["Example 宣布客户试点。"], openQuestions: [], timeline: [],
+    evidence: [{ link: "https://media.example/report", source: "Industry Media", grade: "B", publishedAt: "2026-08-08T00:00:00Z", supports: "试点" }],
+  }] };
+  assert.throws(() => validatePublication({ archive, events, research: [], readme: "README", expectedDate: "2026-08-08" }), /违反公开事实契约/);
+});
+
 test("published research archives remain the quality baseline when registry copy regresses", () => {
   const published = { ...article("paper"), source: "arXiv · Robotics", title: "A Physical AI Paper", titleZh: "物理智能机器人论文", summaryZh: "论文提出一种机器人策略。实验在真实机器人基准上完成验证。" };
   const degraded = { ...published, titleZh: "A Physical AI Paper", summaryZh: "暂未生成中文摘要，请阅读原文。" };

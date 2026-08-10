@@ -28,13 +28,14 @@ function unique<T>(items: T[]): T[] { return [...new Set(items)]; }
 
 export function formatHomepageStatus(metrics: ProjectMetrics, companyProfiles: number, researchPool: number): string {
   const quality = metrics.publicContent.evidenceABRatio === undefined ? "样本积累中" : `${Math.round(metrics.publicContent.evidenceABRatio * 100)}%`;
-  const digest = metrics.digest.successRate === undefined ? "样本积累中" : `${Math.round(metrics.digest.successRate * 100)}%`;
+  const coverage = metrics.digest.calendarCoverageRate === undefined ? "样本积累中" : `${Math.round(metrics.digest.calendarCoverageRate * 100)}%`;
+  const observedSuccess = metrics.digest.successRate === undefined ? "样本积累中" : `${Math.round(metrics.digest.successRate * 100)}%`;
   return [
     "| 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |",
     "| --- | ---: | ---: | ---: | ---: |",
     `| ${metrics.updatedAt.slice(0, 10)} | ${metrics.publicContent.homepageEffectiveItems} | ${companyProfiles} | ${researchPool} | ${metrics.flywheel.enabledSources} / ${metrics.flywheel.observedSources} |`,
     "",
-    `**运行健康**：近 30 天日报成功率 ${digest} · A/B 级证据比例 ${quality} · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)`,
+    `**运行健康**：近 30 天日历覆盖 ${metrics.digest.observedRuns}/${metrics.digest.expectedRuns}（${coverage}） · 已归档运行成功 ${metrics.digest.successfulRuns}/${metrics.digest.observedRuns}（${observedSuccess}） · A/B 级证据比例 ${quality} · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)`,
   ].join("\n");
 }
 
@@ -55,7 +56,14 @@ export function buildProjectMetrics(
   const reviewCandidates = recent.flatMap((archive) => archive.candidates ?? []).filter((item) => item.stage !== "不适合公开资讯" && item.sourceWeight >= 7 && zh(item.summaryZh)).length + companyCandidates.companies.filter((item) => item.status === "观察中" || item.status === "已交叉核验").length;
   return {
     updatedAt: now.toISOString(), windowDays,
-    digest: { expectedRuns: windowDays, observedRuns: recent.length, successfulRuns: successful.length, successRate: rate(successful.length, recent.length) },
+    digest: {
+      expectedRuns: windowDays,
+      observedRuns: recent.length,
+      successfulRuns: successful.length,
+      successRate: rate(successful.length, recent.length),
+      calendarCoverageRate: rate(recent.length, windowDays),
+      calendarSuccessRate: rate(successful.length, windowDays),
+    },
     publicContent: { homepageEffectiveItems: effectiveItems, evidenceABRatio: rate(withAB.length, events.length), companyDossierCoverage: coveredCompanies },
     flywheel: {
       enabledSources: registry.sources.filter((item) => item.status === "已启用").length,
@@ -86,7 +94,7 @@ export function formatWeeklyReport(store: EventStore, research: ResearchRecord[]
   lines.push("", "## 产品与部署", "", ...(products.length ? products.map(eventLine) : ["- 本周暂无满足公开门槛的产品或部署事件。"]));
   lines.push("", "## 研究前沿", "", ...(papers.length ? papers.map((record) => `- [${record.article.titleZh}](${record.article.link})：${record.article.summaryZh}`) : ["- 本周暂无完整中文研究卡进入公开周报。"]));
   const health = metrics.flywheel;
-  lines.push("", "## 信源质量变化", "", `- 已启用 ${health.enabledSources} 个；观察 ${health.observedSources} 个；暂停 ${health.pausedSources} 个；达到晋升条件 ${health.promotedSources} 个。`, "", "## 项目指标", "", `- 日报成功率：${metrics.digest.successRate === undefined ? "样本不足" : `${Math.round(metrics.digest.successRate * 100)}%`}（${metrics.digest.successfulRuns}/${metrics.digest.observedRuns} 个已归档运行）`, `- 首页有效条目：${metrics.publicContent.homepageEffectiveItems}；A/B 级证据比例：${metrics.publicContent.evidenceABRatio === undefined ? "样本不足" : `${Math.round(metrics.publicContent.evidenceABRatio * 100)}%`}；公司档案覆盖：${metrics.publicContent.companyDossierCoverage} 家。`, "", "## 待验证候选", "", `- 有 ${metrics.flywheel.reviewCandidates} 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。`, "", "---", "", "*GitHub Star、访问量与来源需要另行授权 GitHub Traffic API；未配置时不会以 0 展示。*", "");
+  lines.push("", "## 信源质量变化", "", `- 已启用 ${health.enabledSources} 个；观察 ${health.observedSources} 个；暂停 ${health.pausedSources} 个；达到晋升条件 ${health.promotedSources} 个。`, "", "## 项目指标", "", `- 日历覆盖：${metrics.digest.observedRuns}/${metrics.digest.expectedRuns}（${metrics.digest.calendarCoverageRate === undefined ? "样本不足" : `${Math.round(metrics.digest.calendarCoverageRate * 100)}%`}）；已归档运行成功：${metrics.digest.successfulRuns}/${metrics.digest.observedRuns}（${metrics.digest.successRate === undefined ? "样本不足" : `${Math.round(metrics.digest.successRate * 100)}%`}）`, `- 首页有效条目：${metrics.publicContent.homepageEffectiveItems}；A/B 级证据比例：${metrics.publicContent.evidenceABRatio === undefined ? "样本不足" : `${Math.round(metrics.publicContent.evidenceABRatio * 100)}%`}；公司档案覆盖：${metrics.publicContent.companyDossierCoverage} 家。`, "", "## 待验证候选", "", `- 有 ${metrics.flywheel.reviewCandidates} 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。`, "", "---", "", "*GitHub Star、访问量与来源需要另行授权 GitHub Traffic API；未配置时不会以 0 展示。*", "");
   return lines.join("\n");
 }
 

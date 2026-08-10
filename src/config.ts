@@ -11,11 +11,10 @@ export const SOURCES: SourceConfig[] = [
     id: "academic-arxiv-robotics", role: "学术索引",
     type: "rss",
     name: "arXiv · Robotics",
-    // The category RSS feed is empty on arXiv non-publication days. The Atom
-    // API keeps the latest submissions available for the rolling research view.
-    // Keep a sufficiently deep rolling pool. The homepage selects only six
-    // papers, but needs more than one day's submissions to rank responsibly.
-    url: "https://export.arxiv.org/api/query?search_query=cat:cs.RO&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending",
+    // Physical AI papers are frequently cross-listed outside cs.RO. The
+    // category union improves recall while the mandatory robotics/embodied
+    // terms and the downstream relevance gate prevent a generic-AI flood.
+    url: "https://export.arxiv.org/api/query?search_query=(cat:cs.RO+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CV)+AND+(all:robot+OR+all:robotics+OR+all:embodied+OR+all:humanoid+OR+all:vision-language-action+OR+all:world-model)&start=0&max_results=150&sortBy=submittedDate&sortOrder=descending",
     weight: 9,
     keywords: ["robot", "robotics", "humanoid", "embodied", "manipulation", "vision-language-action", "world model"],
     tier: "官方公司与实验室", status: "已启用", publicationPolicy: "可作为一手证据",

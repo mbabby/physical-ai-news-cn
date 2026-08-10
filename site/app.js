@@ -86,6 +86,32 @@ function renderFeed(id, items) {
     : '<p class="empty">等待下一条已验证信号</p>';
 }
 
+function decisionValue(field, fallbackValue = "未知") {
+  const value = field && typeof field === "object" && "value" in field ? field.value : undefined;
+  if (value === undefined || value === null || value === "unknown") return fallbackValue;
+  return Array.isArray(value) ? value.join(" · ") : String(value);
+}
+
+function renderResearchFeed(items) {
+  byId("research").innerHTML = list(items).length ? list(items).map((item) => {
+    const card = item.decisionCard;
+    if (!card) return itemCard(item, true);
+    const tags = [
+      decisionValue(card.task, "任务未知"),
+      decisionValue(card.embodiment, "本体未知"),
+      `基准：${decisionValue(card.benchmark)}`,
+      `实机：${decisionValue(card.realRobotTrials, "未知")}`,
+      `复现成本：${decisionValue(card.reproducibilityCost)}`,
+    ];
+    return `<a class="feed-item research-decision" href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">
+      <div class="item-meta"><span>研究决策卡</span><time datetime="${safe(item.date)}">${date(item.date)}</time></div>
+      <h3>${safe(item.title || "未命名论文")}</h3><p>${safe(item.summary || "查看论文原文了解研究方法与实验结论。")}</p>
+      <div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div>
+      <small>${safe(decisionValue(card.whyWorthAttention, "字段不足处已明确标记为未知，不进行推断。"))}</small>
+    </a>`;
+  }).join("") : '<p class="empty">等待完成身份、元数据和中文事实门槛的研究决策卡。</p>';
+}
+
 function fillOptions(id, values, firstLabel) {
   const select = byId(id);
   const current = select.value;
@@ -130,8 +156,8 @@ function renderCompanyRadar(items) {
     <p>${safe(item.thesis || "公司技术路线与产业定位仍在补全。")}</p>
     <div class="route-tags">${item.routes.length ? item.routes.map((name) => `<span>${safe(name)}</span>`).join("") : "<span>路线待补全</span>"}</div>
     <dl><div><dt>资本</dt><dd class="${item.capitalStatus === "已证实" ? "verified" : ""}">${safe(item.capitalStatus === "证据不足" ? "证据不足（不代表未融资）" : item.capitalStatus)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div></dl>
-    <div class="company-facts"><div><small>融资 / 并购</small>${compactFact(item.funding, "尚未收录可归属公开证据")}</div><div><small>产品 / 部署</small>${compactFact(item.progress, "尚未收录满足门槛的事件")}</div></div>
-    <footer>主体证据：${safe(item.identitySource || "待补全")}${item.updatedAt ? ` · 更新 ${date(item.updatedAt)}` : ""}</footer>
+    <div class="company-facts"><div><small>融资 / 并购</small>${compactFact(item.funding, "证据不足（不代表未融资）")}</div><div><small>产品 / 部署</small>${compactFact(item.progress, "尚未收录满足门槛的事件")}</div></div>
+    <footer>主体证据：${safe(item.identitySource || "待补全")}${item.updatedAt ? ` · 更新 ${date(item.updatedAt)}` : ""}${item.claimCompleteness != null ? ` · 字段完整 ${Math.round(Number(item.claimCompleteness) * 100)}%` : ""}${Number(item.staleClaims) > 0 ? ` · ${safe(item.staleClaims)} 条证据过期` : ""}</footer>
   </article>`).join("") : '<p class="empty">当前筛选条件下暂无可公开展示的公司档案。</p>';
 }
 
@@ -160,7 +186,7 @@ function renderResearchGraph(items) {
     <h3><a href="${safeUrl(item.paper?.link)}" target="_blank" rel="noopener noreferrer">${safe(item.paper?.title || "未命名论文")}</a></h3>
     <p>${safe(item.paper?.summary || "查看论文原文了解研究方法与实验结论。")}</p>
     <div class="graph-line"><span>论文</span><i aria-hidden="true">→</i><span>${safe(item.route || "机器人学习")}</span><i aria-hidden="true">→</i><span>${list(item.companies).length ? list(item.companies).map(safe).join(" · ") : "产业关联待补证"}</span></div>
-    <small>${safe(item.connection || "持续追踪工程化与商业验证。")}</small>
+    <small>${safe(item.connection || "持续追踪工程化与商业验证。")}${list(item.relations).length ? ` · ${list(item.relations).filter((relation) => relation.state === "verified").length} 条已核验关系` : ""}</small>
   </article>`).join("") : '<p class="empty">等待完整中文研究卡与产业路线建立连接。</p>';
 }
 
@@ -187,7 +213,7 @@ function render(data) {
   byId("developing-signals").innerHTML = developingSignals.length ? developingSignals.map(developingCard).join("") : '<p class="empty">当前没有主体明确、达到单一可信来源门槛的新线索。</p>';
   renderFeed("capital", data.capital);
   renderFeed("industry", data.industry);
-  renderFeed("research", data.research);
+  renderResearchFeed(data.research);
   setupCompanyRadar(data.companyRadar);
   renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);

@@ -1,6 +1,7 @@
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "../publication.js";
 import type { DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../types.js";
 import { validateHistoryContinuity } from "./health.js";
+import { validateFacts } from "../facts-contract.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -24,6 +25,18 @@ export function validatePublication(input: PublicationValidationInput): void {
   if (new Set(eventIds).size !== eventIds.length) errors.push("事件中心含重复事件 ID");
   for (const event of input.events.events) {
     if (!event.evidence.length || event.evidence.some((evidence) => !/^https?:\/\//.test(evidence.link))) errors.push(`事件缺少可追溯证据：${event.id}`);
+    if (event.status === "已确证") {
+      const contract = validateFacts({
+        type: event.type,
+        eventDate: event.eventDate ?? event.occurredAt,
+        firstSeenAt: event.firstSeenAt,
+        verifiedAt: event.lastVerifiedAt,
+        materiallyChangedAt: event.lastUpdatedAt,
+        public: true,
+        evidence: event.evidence.map((item) => ({ id: item.link, link: item.link, source: item.source, grade: item.grade, publishedAt: item.publishedAt })),
+      });
+      if (!contract.valid) errors.push(`已确证事件违反公开事实契约：${event.id}（${contract.issues.map((issue) => issue.code).join(", ")}）`);
+    }
   }
   const researchMinimum = Math.min(6, input.previousCompleteResearchCount ?? 0);
   if (input.research.length < researchMinimum) errors.push(`研究卡从 ${researchMinimum} 篇倒退到 ${input.research.length} 篇`);

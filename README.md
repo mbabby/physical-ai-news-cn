@@ -43,7 +43,7 @@
 
 - [本周 Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)：综合证据等级、产业影响、时效性与多源佐证排序，最多展示 10 条。
 - [公司 × 路线 × 资本动量](https://mbabby.github.io/physical-ai-news-cn/companies.html)：判断谁在做、资本是否支持、验证到了哪一步。
-- [Research → Industry](https://mbabby.github.io/physical-ai-news-cn/research.html)：把论文连接到技术路线与相关公司。
+- [Research → Industry](https://mbabby.github.io/physical-ai-news-cn/research.html)：只用官方采用、合作、机构、代码依赖或独立复现证据连接论文与公司；同路线仅作为相邻观察。
 
 > **行业入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。 **研究入口**：先看 6 张研究卡，再进入[里程碑论文与精读](resources/milestone-papers.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多从业者发现它。
 
@@ -107,6 +107,10 @@
 - 可直接发布的 [本周物理 AI 情报摘要](weekly/shareable-summary.md)：仅从已公开、可追溯事件与完整中文研究卡生成。
 - [最新周报 Release](https://github.com/mbabby/physical-ai-news-cn/releases/latest)：汇总新增事件、融资、产品/部署、研究、信源质量与待验证候选；每周使用稳定 tag 幂等更新。
 - [项目质量指标](metrics/weekly.json)：日报成功率、首页有效条目、A/B 级证据比例、公司档案覆盖与信源晋升；未配置 GitHub Traffic 时不把 Star/访客显示为 0。
+- [审查 Case 与 SLO](review/cases.md)：候选的 owner、优先级、截止时间、下一动作与审计轨迹；进入队列不代表获准公开。
+- [重点公司 Claim Ledger](events/company-claim-ledger.json)：Top 15 公司可追溯的融资、产品、部署、量产与商业化主张，缺失融资保持 unknown。
+- [研究决策卡 v2](research/decision-cards.json)：任务、本体、基准、实机、复现资产、限制与 OpenAlex 新鲜度均按字段提供证据或 unknown。
+- [研究—产业显式关系](research/industry-relations.json)：只有可追溯的采用、合作、机构、代码或复现证据才能成为强关系边。
 - [社区影响指标](metrics/community.json)：每日同步 Star、Fork、Watch、Issue、贡献者与可用的 14 天 Traffic；权限不足时明确标记不可用，不把缺失值写成 0。
 - [贡献者与 Evidence Review](CONTRIBUTORS.md)：代码贡献与已采纳证据分别留痕；采纳证据不会绕过校验直接进入公开页面。
 - [社区 Review 队列](review/community-queue.md)：高质量候选在此等待补证，审核前不会进入公开结论。

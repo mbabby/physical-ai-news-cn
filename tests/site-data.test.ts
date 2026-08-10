@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { buildDashboard } from "../src/site-data.js";
+import { buildResearchIndustryRelationEdges, researchIndustryCompanyId } from "../src/research-industry-relations.js";
 import type { Article, EventStore } from "../src/types.js";
 
 const article: Article = { id: "paper", title: "Robotics paper", titleZh: "机器人研究论文", summaryZh: "论文在真实机器人基准上验证了新的视觉语言动作方法。实验报告了跨任务的评测结果。", link: "https://arxiv.org/abs/test", publishedAt: new Date("2026-08-02"), fetchedAt: new Date(), source: "arXiv · Robotics", sourceWeight: 9, excerpt: "Research abstract", tags: ["VLA"] };
@@ -107,20 +108,30 @@ test("company momentum counts only public signals inside the rolling window", ()
   assert.equal(dashboard.companyRadar[1]?.momentumLabel, "长期跟踪");
 });
 
-test("links complete research to route companies and states when no verified relation exists", () => {
+test("never treats route overlap as adoption and only links explicit verified research evidence", () => {
   const companies = [
     { name: "LeaderCo", region: "北美", stage: "成长公司" as const, routes: ["VLA 与具身模型" as const], thesis: "VLA", officialUrl: "https://leader.example" },
     { name: "FollowerCo", region: "中国", stage: "创业公司" as const, routes: ["VLA 与具身模型" as const], thesis: "VLA", officialUrl: "https://follower.example" },
   ];
   const leaderEvent = makeEvent({ id: "leader", title: "LeaderCo 完成客户部署", primaryEntity: "LeaderCo", entities: ["LeaderCo"], type: "部署案例", routes: ["VLA 与具身模型"], lastUpdatedAt: "2026-08-08", facts: ["LeaderCo 已在客户现场完成机器人部署。"] });
   const hardwarePaper = { ...article, id: "hardware", title: "Dexterous humanoid hardware", titleZh: "灵巧人形机器人硬件", summaryZh: "论文介绍人形机器人本体与灵巧操作硬件。实验在真实机器人上完成基准测试。", tags: ["humanoid"] };
-  const dashboard = buildDashboard({ updatedAt: "2026-08-08", events: [leaderEvent] }, companies, [article, hardwarePaper], new Date("2026-08-08"));
+  const relations = buildResearchIndustryRelationEdges([article, hardwarePaper], companies, [{
+    paperId: article.id,
+    companyId: researchIndustryCompanyId(companies[0]!),
+    relationType: "code_or_model_adoption",
+    url: "https://leader.example/research-adoption",
+    source: "LeaderCo 官网",
+    grade: "A",
+    publishedAt: "2026-08-07",
+    supports: "LeaderCo 官方说明产品采用该论文公开的方法。",
+  }], { now: new Date("2026-08-08") });
+  const dashboard = buildDashboard({ updatedAt: "2026-08-08", events: [leaderEvent] }, companies, [article, hardwarePaper], new Date("2026-08-08"), { researchIndustryEdges: relations.edges });
   assert.equal(dashboard.researchGraph[0]?.route, "VLA 与具身模型");
-  assert.deepEqual(dashboard.researchGraph[0]?.companies, ["LeaderCo", "FollowerCo"]);
-  assert.match(dashboard.researchGraph[0]?.connection ?? "", /LeaderCo/);
+  assert.deepEqual(dashboard.researchGraph[0]?.companies, ["LeaderCo"]);
+  assert.match(dashboard.researchGraph[0]?.connection ?? "", /已核验 1 条/);
   assert.equal(dashboard.researchGraph[1]?.route, "本体与硬件");
   assert.deepEqual(dashboard.researchGraph[1]?.companies, []);
-  assert.match(dashboard.researchGraph[1]?.connection ?? "", /尚无可核验的公司关联/);
+  assert.match(dashboard.researchGraph[1]?.connection ?? "", /暂无已证实产业关联/);
 });
 
 test("uses occurrence or evidence publication date instead of ingestion time", () => {

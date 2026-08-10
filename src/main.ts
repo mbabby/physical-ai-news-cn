@@ -32,6 +32,12 @@ import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings
 import { buildCandidateVerificationArtifact, formatCandidateVerificationReview, verificationIssueSeeds } from "./candidate-verification.js";
 import type { CandidateVerificationArtifact } from "./candidate-verification.js";
 import { buildEventAnomalyReport } from "./event-anomalies.js";
+import { buildReviewCaseArtifact, reviewCaseGenerator, serializeReviewCaseArtifact } from "./review-cases.js";
+import type { ReviewCaseArtifact, ReviewCaseGenerator } from "./review-cases.js";
+import { buildCompanyClaimLedger } from "./company-claim-ledger.js";
+import { selectTopResearchDecisionCards } from "./research-decision-card.js";
+import { buildResearchIndustryRelationEdges } from "./research-industry-relations.js";
+import type { RelationEvidenceCandidate } from "./research-industry-relations.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -149,6 +155,67 @@ function formatRuntimeStatus(statuses: RuntimeStatus[], outcomes: DigestResult["
   return lines.join("\n");
 }
 
+/** Candidate verification has its own durable IDs, so retain it as a distinct
+ * review stream rather than attempting to reverse-map it to a display title. */
+function candidateVerificationReviewGenerator(artifact: CandidateVerificationArtifact): ReviewCaseGenerator {
+  return {
+    id: "candidate-verification",
+    *generate() {
+      for (const record of artifact.records) {
+        const missingEvidence = [...new Set([...record.failureReasons, ...record.conflicts])];
+        const nextAction = record.status === "可人工审核"
+          ? "由人工确认是否采纳证据包；确认前不得写入公开事件中心"
+          : record.nextReviewAt
+            ? `在 ${record.nextReviewAt.slice(0, 10)} 前复核证据包`
+            : "核对主体、原始证据与冲突字段";
+        yield {
+          type: "article" as const,
+          subjectId: record.id,
+          createdAt: record.firstSeenAt,
+          impactScore: record.impactScore,
+          evidenceCount: record.independentEvidenceCount,
+          hasConflict: record.conflicts.length > 0,
+          missingEvidence,
+          nextAction,
+        };
+      }
+    },
+  };
+}
+
+function formatMetric(value: number | undefined, suffix = ""): string { return value === undefined ? "无样本" : `${value}${suffix}`; }
+
+/** Private review receipt. It deliberately names SLO and ownership gaps but
+ * contains no publication controls and is never consumed by homepage builders. */
+function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
+  const active = artifact.cases.filter((item) => item.state === "open" || item.state === "in_progress").length;
+  const alerts = (code: "overdue" | "unowned" | "no-next-action") => artifact.alerts.filter((item) => item.code === code);
+  const metrics = artifact.metrics;
+  const lines = [
+    `# 审查工作项 · ${artifact.generatedAt.slice(0, 10)}`,
+    "",
+    "内部审查队列；候选进入本文件不等于获准公开，也不会自动写入事件中心、公司档案或首页。",
+    "",
+    "## 队列",
+    "",
+    `- 工作项：${artifact.cases.length}（活跃 ${active}）`,
+    `- 已超时：${alerts("overdue").length}`, `- 无 owner：${alerts("unowned").length}`, `- 无 nextAction：${alerts("no-next-action").length}`,
+    "",
+    "## SLO",
+    "",
+    `- 首次响应 P90：${formatMetric(metrics.firstResponseP90Hours, " 小时")}`,
+    `- 首次响应 SLO 达标：${metrics.sloComplianceRate.met}/${metrics.sloComplianceRate.eligible}（${formatMetric(metrics.sloComplianceRate.rate === undefined ? undefined : metrics.sloComplianceRate.rate * 100, "%")}）`,
+    `- 到期 Top 20 探查覆盖：${metrics.dueTop20ProbeCoverage.covered}/${metrics.dueTop20ProbeCoverage.eligible}（${formatMetric(metrics.dueTop20ProbeCoverage.rate === undefined ? undefined : metrics.dueTop20ProbeCoverage.rate * 100, "%")}）`,
+    `- 活跃积压年龄 P50 / P90 / 最大：${formatMetric(metrics.backlogAgeHours.p50, " 小时")} / ${formatMetric(metrics.backlogAgeHours.p90, " 小时")} / ${formatMetric(metrics.backlogAgeHours.max, " 小时")}`,
+    "",
+    "## 告警",
+    "",
+    ...(artifact.alerts.length ? artifact.alerts.map((alert) => `- **${alert.severity} · ${alert.code}**：${alert.message}`) : ["- 无告警。"]),
+    "",
+  ];
+  return lines.join("\n");
+}
+
 async function generate(): Promise<void> {
   const startedAt = new Date();
   const transaction = new FileTransaction();
@@ -224,6 +291,9 @@ async function generate(): Promise<void> {
   const shownResearchIds = new Set(publicResearchRecords.map((record) => record.id));
   researchRegistry.records.forEach((record) => { if (shownResearchIds.has(record.id)) record.lastShownAt = now.toISOString(); });
   const publicResearch = publicResearchRecords.map((record) => record.article);
+  const researchDecisionCards = selectTopResearchDecisionCards(researchRegistry.records, { now });
+  const relationEvidenceCandidates = await readJson<RelationEvidenceCandidate[]>(join(reviewDir, "research-industry-evidence.json")) ?? [];
+  const researchIndustryRelations = buildResearchIndustryRelationEdges(researchRegistry.records, companies, relationEvidenceCandidates, { now });
   const hasFundingCrossEvidence = (article: Article): boolean => {
     if (article.kind !== "投融资" || article.sourceTier === "官方公司与实验室") return true;
     const entity = primaryEntityForArticle(article, companies);
@@ -256,6 +326,13 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "route-corrections.md"), ["# 路线图纠错记录", "", ...(corrections.length ? corrections.map((item) => `- ${item.date.slice(0, 10)} · ${item.route} · ${item.company} · ${item.kind}：${item.detail}`) : ["- 本轮没有路线结论变化。"]), ""].join("\n"), "utf8");
   await mkdir(join(root, "site", "data"), { recursive: true });
   await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
+  await writeFile(join(researchDir, "decision-cards.json"), JSON.stringify({ generatedAt: now.toISOString(), cards: researchDecisionCards }, null, 2) + "\n", "utf8");
+  await writeFile(join(researchDir, "industry-relations.json"), JSON.stringify(researchIndustryRelations, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "research-industry-relation-metrics.json"), JSON.stringify({
+    schemaVersion: 1,
+    generatedAt: researchIndustryRelations.generatedAt,
+    metrics: researchIndustryRelations.metrics,
+  }, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "research-promotion.md"), researchPromotionMarkdown(researchRegistry) + "\n", "utf8");
   await writeFile(join(resourcesDir, "companies.md"), formatCompanyDossiers(companyDossiers) + "\n", "utf8");
   await writeFile(join(resourcesDir, "industry-landscape-and-tech-routes.md"), formatIndustryMap(eventStore.events, companies), "utf8");
@@ -338,10 +415,14 @@ async function generate(): Promise<void> {
   }, null, 2) + "\n", "utf8");
   // Build public data after verification so “正在发生” reflects evidence
   // found in this run instead of the previous review artifact.
+  const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now });
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
     candidateVerificationRecords: candidateVerification.records,
+    companyClaimLedger,
+    researchDecisionCards,
+    researchIndustryEdges: researchIndustryRelations.edges,
   }), null, 2) + "\n", "utf8");
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
@@ -373,6 +454,41 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "company-entity-promotions.md"), formatCompanyEntityReview(companyEntities), "utf8");
   await writeFile(join(resourcesDir, "watchlist.md"), formatWatchlistMarkdown(watchlist, week), "utf8");
   await writeFile(join(reviewDir, `${week}.md`), formatReviewMarkdown(registry, aggregateSourceCandidates(archives), watchlist, week), "utf8");
+  // This is a separate, private decision queue. Reading the prior artifact
+  // preserves human states and audit trails; deterministic upserts make a
+  // same-day rerun a no-op when candidate evidence has not changed.
+  const reviewCasesPath = join(reviewDir, "cases.json");
+  const previousReviewCases = await readJsonStrict<ReviewCaseArtifact>(reviewCasesPath, {
+    optional: true,
+    label: "审查工作项",
+    validate: (value): value is ReviewCaseArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.cases),
+  });
+  const reviewCases = buildReviewCaseArtifact(previousReviewCases, [
+    reviewCaseGenerator({
+      articles: candidates,
+      companies: companyCandidates.companies,
+      sources: nextCandidateRegistry.sources,
+      papers: researchRegistry.records,
+    }),
+    candidateVerificationReviewGenerator(candidateVerification),
+  ], now);
+  await writeFile(reviewCasesPath, serializeReviewCaseArtifact(reviewCases), "utf8");
+  await writeFile(join(reviewDir, "case-metrics.json"), JSON.stringify({
+    schemaVersion: 1,
+    generatedAt: reviewCases.generatedAt,
+    metrics: reviewCases.metrics,
+    alerts: reviewCases.alerts,
+  }, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "cases.md"), formatReviewCasesMarkdown(reviewCases), "utf8");
+  // The claim ledger reads only already-public A/B-evidence events. Candidate
+  // verification stays out of this input, so an unknown financing item remains
+  // unknown rather than being promoted into a company capital assertion.
+  await writeFile(join(eventsDir, "company-claim-ledger.json"), JSON.stringify(companyClaimLedger, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "company-claim-ledger-metrics.json"), JSON.stringify({
+    schemaVersion: 1,
+    generatedAt: companyClaimLedger.generatedAt,
+    metrics: companyClaimLedger.metrics,
+  }, null, 2) + "\n", "utf8");
   const metrics = buildProjectMetrics(archives, eventStore, registry, companyCandidates, now);
   await writeFile(join(metricsDir, "weekly.json"), JSON.stringify(metrics, null, 2) + "\n", "utf8");
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");

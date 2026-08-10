@@ -20,11 +20,15 @@ test("weekly report and metrics only use public evidence-backed facts", () => {
   assert.match(output, /Nova Robotics/);
   assert.doesNotMatch(output, /未确认融资/);
   assert.equal(metrics.publicContent.companyDossierCoverage, 1);
+  assert.equal(metrics.digest.calendarCoverageRate, 0.03);
+  assert.equal(metrics.digest.successRate, 1);
   assert.equal(metrics.community.stars.status, "未配置");
   const status = formatHomepageStatus(metrics, 27, 6);
   assert.match(status, /公司档案/);
   assert.match(status, /27/);
   assert.match(status, /信源健康分/);
+  assert.match(status, /1\/30/);
+  assert.match(status, /1\/1/);
 });
 
 test("community review queue labels candidates instead of promoting them", () => {

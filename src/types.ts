@@ -521,7 +521,17 @@ export interface LlmSettings {
 export interface ProjectMetrics {
   updatedAt: string;
   windowDays: number;
-  digest: { expectedRuns: number; observedRuns: number; successfulRuns: number; successRate?: number };
+  digest: {
+    expectedRuns: number;
+    observedRuns: number;
+    successfulRuns: number;
+    /** Success among archived observations; never presented without its denominator. */
+    successRate?: number;
+    /** Calendar coverage is observed runs divided by expected days. */
+    calendarCoverageRate?: number;
+    /** Successful archived runs divided by expected calendar days. */
+    calendarSuccessRate?: number;
+  };
   publicContent: { homepageEffectiveItems: number; evidenceABRatio?: number; companyDossierCoverage: number };
   flywheel: { enabledSources: number; observedSources: number; pausedSources: number; promotedSources: number; reviewCandidates: number };
   community: { stars: { status: "未配置" | "已采集"; value?: number }; visitors: { status: "未配置" | "已采集"; value?: number }; referrers: { status: "未配置" | "已采集"; items?: Array<{ source: string; visitors: number }> } };
