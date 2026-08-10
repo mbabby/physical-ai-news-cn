@@ -75,5 +75,6 @@ a,button,input,select,textarea,[tabindex]{scroll-margin:96px}a:focus-visible,but
 @media(max-width:520px){
   .briefing-hero .hero-actions{grid-template-columns:1fr}
   .briefing-hero .hero-actions a{min-height:38px}
+  .briefing-hero .hero-actions a:not(.primary-action){display:none}
   #briefing>.section-head>a{display:none}
 }
