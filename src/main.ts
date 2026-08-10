@@ -32,7 +32,7 @@ import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings
 import { buildCandidateVerificationArtifact, formatCandidateVerificationReview, verificationIssueSeeds } from "./candidate-verification.js";
 import type { CandidateVerificationArtifact } from "./candidate-verification.js";
 import { buildEventAnomalyReport } from "./event-anomalies.js";
-import { buildReviewCaseArtifact, reviewCaseGenerator, serializeReviewCaseArtifact } from "./review-cases.js";
+import { buildReviewCaseArtifact, reviewCaseAlerts, reviewCaseGenerator, reviewCaseMetrics, serializeReviewCaseArtifact } from "./review-cases.js";
 import type { ReviewCaseArtifact, ReviewCaseGenerator } from "./review-cases.js";
 import { buildCompanyClaimLedger } from "./company-claim-ledger.js";
 import { selectTopResearchDecisionCards } from "./research-decision-card.js";
@@ -161,7 +161,11 @@ function candidateVerificationReviewGenerator(artifact: CandidateVerificationArt
   return {
     id: "candidate-verification",
     *generate() {
-      for (const record of artifact.records) {
+      const records = [...artifact.records]
+        .filter((record) => record.status !== "已拒绝")
+        .sort((a, b) => b.impactScore - a.impactScore || (a.nextReviewAt ?? "").localeCompare(b.nextReviewAt ?? "") || a.id.localeCompare(b.id))
+        .slice(0, 20);
+      for (const record of records) {
         const missingEvidence = [...new Set([...record.failureReasons, ...record.conflicts])];
         const nextAction = record.status === "可人工审核"
           ? "由人工确认是否采纳证据包；确认前不得写入公开事件中心"
@@ -463,15 +467,27 @@ async function generate(): Promise<void> {
     label: "审查工作项",
     validate: (value): value is ReviewCaseArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.cases),
   });
-  const reviewCases = buildReviewCaseArtifact(previousReviewCases, [
+  const broadReviewCases = buildReviewCaseArtifact(previousReviewCases, [
     reviewCaseGenerator({
-      articles: candidates,
-      companies: companyCandidates.companies,
-      sources: nextCandidateRegistry.sources,
-      papers: researchRegistry.records,
+      articles: candidates.filter((article) => article.kind !== "研究与数据"),
+      companies: companyCandidates.companies.filter((company) => company.status === "观察中" || company.status === "已交叉核验"),
+      sources: [],
+      papers: [],
     }),
     candidateVerificationReviewGenerator(candidateVerification),
   ], now);
+  // P0 keeps the operational queue intentionally narrow: high-value industry
+  // articles and companies only. Research/source review remains in its own
+  // registry until the first SLO has proven sustainable.
+  const scopedCases = broadReviewCases.cases
+    .filter((item) => (item.type === "article" || item.type === "company") && (item.priority === "P0" || item.priority === "P1"))
+    .slice(0, 40);
+  const reviewCases: ReviewCaseArtifact = {
+    ...broadReviewCases,
+    cases: scopedCases,
+    alerts: reviewCaseAlerts(scopedCases, now),
+    metrics: reviewCaseMetrics(scopedCases, now),
+  };
   await writeFile(reviewCasesPath, serializeReviewCaseArtifact(reviewCases), "utf8");
   await writeFile(join(reviewDir, "case-metrics.json"), JSON.stringify({
     schemaVersion: 1,
