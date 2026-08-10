@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-10T07:18:54.274Z",
+  "updatedAt": "2026-08-10T08:13:44.563Z",
   "windowDays": 30,
   "sources": [
     {
@@ -941,6 +941,29 @@
       },
       "statusReason": "访问受限，等待凭据或配额恢复",
       "recommendation": "排查"
+    },
+    {
+      "name": "自动发现 · marcusoft.net",
+      "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
+      "configuredWeight": 3,
+      "effectiveWeight": 3,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 10,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
     },
     {
       "name": "自动发现 · hackaday.com",

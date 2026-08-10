@@ -9,5 +9,5 @@
 
 ## 告警
 
-- **严重 · no-new-industry-evidence**：已连续 305 小时没有新的 A/B 级公开产业证据。
+- **严重 · no-new-industry-evidence**：已连续 306 小时没有新的 A/B 级公开产业证据。
 - **严重 · candidate-backlog**：候选层积压 91 条去重线索，需要扩充二次核验能力或调整低质量来源。

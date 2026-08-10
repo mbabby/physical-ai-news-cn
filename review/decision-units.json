@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-10T08:13:44.563Z",
+  "units": [
+    {
+      "unitId": "decision-11dadecc97b99204",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-f9bcda2f30b3",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-f9bcda2f30b3"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-11dadecc97b99204:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-f9bcda2f30b3"
+          ]
+        },
+        {
+          "eventId": "decision-11dadecc97b99204:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-f9bcda2f30b3"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-1df59094e468c921",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:a69b824bb1a59cee",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "a69b824bb1a59cee"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-1df59094e468c921:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:a69b824bb1a59cee"
+          ]
+        },
+        {
+          "eventId": "decision-1df59094e468c921:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:a69b824bb1a59cee"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-26111d2bad26e695",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-gemini-robotics-2",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-gemini-robotics-2"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-26111d2bad26e695:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-gemini-robotics-2"
+          ]
+        },
+        {
+          "eventId": "decision-26111d2bad26e695:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-gemini-robotics-2"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-2effd55eb65a546d",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:d296eb9c0886d703",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "d296eb9c0886d703"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-2effd55eb65a546d:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:d296eb9c0886d703"
+          ]
+        },
+        {
+          "eventId": "decision-2effd55eb65a546d:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:d296eb9c0886d703"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-51077616f8bb6f67",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:8c419dab7bc8d2c0",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "8c419dab7bc8d2c0"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-51077616f8bb6f67:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:8c419dab7bc8d2c0"
+          ]
+        },
+        {
+          "eventId": "decision-51077616f8bb6f67:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:8c419dab7bc8d2c0"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-55f8c77ab794ab84",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:7e4a09414f545820",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "7e4a09414f545820"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-55f8c77ab794ab84:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:7e4a09414f545820"
+          ]
+        },
+        {
+          "eventId": "decision-55f8c77ab794ab84:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:7e4a09414f545820"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-76a35afb8abd1f35",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:84d803ee8b094f55",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "84d803ee8b094f55"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-76a35afb8abd1f35:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:84d803ee8b094f55"
+          ]
+        },
+        {
+          "eventId": "decision-76a35afb8abd1f35:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:84d803ee8b094f55"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-7c57aa1120d58464",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-46afdafa077d",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-46afdafa077d"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-7c57aa1120d58464:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-46afdafa077d"
+          ]
+        },
+        {
+          "eventId": "decision-7c57aa1120d58464:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-46afdafa077d"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-a80a1742ad6f0458",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:36307d4fa4526afd",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "36307d4fa4526afd"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-a80a1742ad6f0458:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:36307d4fa4526afd"
+          ]
+        },
+        {
+          "eventId": "decision-a80a1742ad6f0458:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:36307d4fa4526afd"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-b78d15c4bead2d69",
+      "actorId": "public-intelligence",
+      "decisionKey": "claim:google-deepmind:product",
+      "references": [
+        {
+          "kind": "claim",
+          "id": "claim-e2a47a23c0648e04"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-b78d15c4bead2d69:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "claim:claim-e2a47a23c0648e04"
+          ]
+        },
+        {
+          "eventId": "decision-b78d15c4bead2d69:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "claim:claim-e2a47a23c0648e04"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-c1e9b5a9ccee56c1",
+      "actorId": "public-intelligence",
+      "decisionKey": "claim:nvidia:deployment",
+      "references": [
+        {
+          "kind": "claim",
+          "id": "claim-d3822c558ff6f0e8"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-c1e9b5a9ccee56c1:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "claim:claim-d3822c558ff6f0e8"
+          ]
+        },
+        {
+          "eventId": "decision-c1e9b5a9ccee56c1:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "claim:claim-d3822c558ff6f0e8"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-c241f9646038cfe6",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-9da8fb3e629b",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-9da8fb3e629b"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-c241f9646038cfe6:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-9da8fb3e629b"
+          ]
+        },
+        {
+          "eventId": "decision-c241f9646038cfe6:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-9da8fb3e629b"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-ce10f0cf2474c727",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:b49c381c4969fe7b",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "b49c381c4969fe7b"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-ce10f0cf2474c727:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:b49c381c4969fe7b"
+          ]
+        },
+        {
+          "eventId": "decision-ce10f0cf2474c727:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:b49c381c4969fe7b"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-d345051085785577",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:7e18442fe90c9cfc",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "7e18442fe90c9cfc"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-d345051085785577:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:7e18442fe90c9cfc"
+          ]
+        },
+        {
+          "eventId": "decision-d345051085785577:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:7e18442fe90c9cfc"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-df69b4ee05f4c403",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:d827be18151f4e34",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "d827be18151f4e34"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-10T08:13:44.563Z",
+      "updatedAt": "2026-08-10T08:13:44.563Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-df69b4ee05f4c403:created",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:d827be18151f4e34"
+          ]
+        },
+        {
+          "eventId": "decision-df69b4ee05f4c403:public-shortlist",
+          "at": "2026-08-10T08:13:44.563Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:d827be18151f4e34"
+          ]
+        }
+      ]
+    }
+  ],
+  "funnel": {
+    "totalUnits": 15,
+    "byStage": {
+      "discovered": 0,
+      "shortlisted": 15,
+      "evaluating": 0,
+      "decided": 0,
+      "acted": 0,
+      "dismissed": 0
+    },
+    "active": 15,
+    "converted": 0,
+    "rejected": 0,
+    "transitionEvents": 15,
+    "conversionRate": 0
+  }
+}

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-10T07:18:54.274Z",
+  "generatedAt": "2026-08-10T08:13:44.563Z",
   "periodLabel": "本周 2026-W33 · 近 30 天滚动证据池",
   "stats": {
     "events": 3,
     "companies": 49,
     "research": 6,
-    "sources": 40
+    "sources": 41
   },
   "confirmedSignals": [
     {
@@ -49,6 +49,24 @@
   ],
   "developingSignals": [
     {
+      "title": "Avatar Robotics获650万美元种子轮以缓解工业劳动力短缺",
+      "summary": "Humanoid 的融资进展已有单一可信媒体报道，尚待官方或第二来源确认；已核验字段：650万美元、种子轮。",
+      "link": "https://www.therobotreport.com/avatar-robotics-raises-6-5-m-seed-round-address-industrial-labor-constraints/",
+      "type": "投融资",
+      "route": "物理 AI",
+      "date": "2026-08-07",
+      "source": "The Robot Report",
+      "isThisWeek": true,
+      "verifiedAt": "2026-08-10T08:13:44.563Z",
+      "entity": "Humanoid",
+      "evidenceGrade": "B",
+      "verificationStatus": "正在发生",
+      "evidenceCount": 1,
+      "missingEvidence": "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+      "whyItMatters": "资本线索可能改变公司资源与交付节奏。",
+      "score": 69
+    },
+    {
       "title": "Tacta Systems 发布 TactaBot，瞄准高技能制造工作",
       "summary": "Tacta Systems 的产品发布已有单一可信媒体报道，尚待官方或第二来源确认。",
       "link": "https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/",
@@ -57,7 +75,7 @@
       "date": "2026-08-07",
       "source": "The Robot Report",
       "isThisWeek": true,
-      "verifiedAt": "2026-08-09T07:23:19.554Z",
+      "verifiedAt": "2026-08-10T08:13:44.563Z",
       "entity": "Tacta Systems",
       "evidenceGrade": "B",
       "verificationStatus": "正在发生",
@@ -1886,6 +1904,387 @@
       "staleClaims": 0
     }
   ],
+  "companyBoards": {
+    "generatedAt": "2026-08-10T08:13:44.563Z",
+    "policy": {
+      "limit": 5,
+      "minimumSampleSize": 10,
+      "momentumWindowDays": 30,
+      "momentumProof": "真实 eventDate 在近 30 天；生命周期为 confirmed/corroborated；且存在 A 级证据或两个独立 B 级来源。",
+      "strategicProof": "仅按受控公司重要性、技术路线覆盖和档案完整度评分；不读取近期事件分。"
+    },
+    "momentum": {
+      "kind": "momentum",
+      "title": "公司近期动量榜",
+      "mode": "watchlist",
+      "sampleSize": 1,
+      "minimumSampleSize": 10,
+      "reason": "仅 1 家达到门槛，少于 10 家；取消名次并降级为无序观察清单。",
+      "entries": [
+        {
+          "rank": null,
+          "companyId": "nvidia",
+          "companyName": "NVIDIA",
+          "officialUrl": "https://www.nvidia.com/en-us/ai-robotics/",
+          "routes": [
+            "VLA 与具身模型",
+            "世界模型与空间智能",
+            "数据与训练"
+          ],
+          "score": 46,
+          "scoreBreakdown": [
+            {
+              "key": "material-events",
+              "label": "重大进展",
+              "points": 15,
+              "maxPoints": 35,
+              "basis": "1 个合格事件；按事件影响取最高值并计有限多事件加分",
+              "evidenceDates": [
+                "2026-07-16"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "recency",
+              "label": "事件新近度",
+              "points": 5,
+              "maxPoints": 30,
+              "basis": "最新真实事件日期 2026-07-16",
+              "evidenceDates": [
+                "2026-07-16"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "proof",
+              "label": "证据强度",
+              "points": 22,
+              "maxPoints": 25,
+              "basis": "仅 A 级一手证据或两个独立 B 级来源计分",
+              "evidenceDates": [
+                "2026-07-16"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "event-breadth",
+              "label": "进展类型覆盖",
+              "points": 4,
+              "maxPoints": 10,
+              "basis": "1 类公开进展",
+              "evidenceDates": [
+                "2026-07-16"
+              ],
+              "unknown": false
+            }
+          ],
+          "evidenceDates": [
+            "2026-07-16"
+          ],
+          "unknowns": [],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": [
+            {
+              "eventId": "evt-9da8fb3e629b",
+              "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
+              "eventDate": "2026-07-16",
+              "evidenceState": "confirmed",
+              "evidenceGrade": "A",
+              "evidenceCount": 1,
+              "evidenceUrls": [
+                "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "strategic": {
+      "kind": "strategic",
+      "title": "公司战略观察榜",
+      "mode": "ranked",
+      "sampleSize": 45,
+      "minimumSampleSize": 10,
+      "reason": "共 45 家达到样本门槛，展示 Top 5。",
+      "entries": [
+        {
+          "rank": 1,
+          "companyId": "nvidia",
+          "companyName": "NVIDIA",
+          "officialUrl": "https://www.nvidia.com/en-us/ai-robotics/",
+          "routes": [
+            "VLA 与具身模型",
+            "世界模型与空间智能",
+            "数据与训练"
+          ],
+          "score": 97,
+          "scoreBreakdown": [
+            {
+              "key": "controlled-importance",
+              "label": "受控公司重要性",
+              "points": 40,
+              "maxPoints": 40,
+              "basis": "仅按受控公司阶段字段：平台公司",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "route-coverage",
+              "label": "路线覆盖",
+              "points": 30,
+              "maxPoints": 30,
+              "basis": "3 条受控技术路线",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "dossier-completeness",
+              "label": "档案完整度",
+              "points": 27,
+              "maxPoints": 30,
+              "basis": "9/10 个受控档案字段已填充",
+              "evidenceDates": [],
+              "unknown": true
+            }
+          ],
+          "evidenceDates": [],
+          "unknowns": [
+            "档案完整度",
+            "融资证据"
+          ],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": []
+        },
+        {
+          "rank": 2,
+          "companyId": "tesla",
+          "companyName": "Tesla",
+          "officialUrl": "https://www.tesla.com/AI",
+          "routes": [
+            "数据与训练",
+            "本体与硬件",
+            "部署与商业化"
+          ],
+          "score": 94,
+          "scoreBreakdown": [
+            {
+              "key": "controlled-importance",
+              "label": "受控公司重要性",
+              "points": 40,
+              "maxPoints": 40,
+              "basis": "仅按受控公司阶段字段：平台公司",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "route-coverage",
+              "label": "路线覆盖",
+              "points": 30,
+              "maxPoints": 30,
+              "basis": "3 条受控技术路线",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "dossier-completeness",
+              "label": "档案完整度",
+              "points": 24,
+              "maxPoints": 30,
+              "basis": "8/10 个受控档案字段已填充",
+              "evidenceDates": [],
+              "unknown": true
+            }
+          ],
+          "evidenceDates": [],
+          "unknowns": [
+            "档案完整度",
+            "融资证据"
+          ],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": []
+        },
+        {
+          "rank": 3,
+          "companyId": "xpeng-robotics",
+          "companyName": "小鹏机器人",
+          "officialUrl": "https://www.xpeng.com/",
+          "routes": [
+            "VLA 与具身模型",
+            "本体与硬件",
+            "部署与商业化"
+          ],
+          "score": 94,
+          "scoreBreakdown": [
+            {
+              "key": "controlled-importance",
+              "label": "受控公司重要性",
+              "points": 40,
+              "maxPoints": 40,
+              "basis": "仅按受控公司阶段字段：平台公司",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "route-coverage",
+              "label": "路线覆盖",
+              "points": 30,
+              "maxPoints": 30,
+              "basis": "3 条受控技术路线",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "dossier-completeness",
+              "label": "档案完整度",
+              "points": 24,
+              "maxPoints": 30,
+              "basis": "8/10 个受控档案字段已填充",
+              "evidenceDates": [],
+              "unknown": true
+            }
+          ],
+          "evidenceDates": [],
+          "unknowns": [
+            "档案完整度",
+            "融资证据"
+          ],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": []
+        },
+        {
+          "rank": 4,
+          "companyId": "figure",
+          "companyName": "Figure",
+          "officialUrl": "https://www.figure.ai/",
+          "routes": [
+            "VLA 与具身模型",
+            "本体与硬件",
+            "部署与商业化"
+          ],
+          "score": 87,
+          "scoreBreakdown": [
+            {
+              "key": "controlled-importance",
+              "label": "受控公司重要性",
+              "points": 30,
+              "maxPoints": 40,
+              "basis": "仅按受控公司阶段字段：成长公司",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "route-coverage",
+              "label": "路线覆盖",
+              "points": 30,
+              "maxPoints": 30,
+              "basis": "3 条受控技术路线",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "dossier-completeness",
+              "label": "档案完整度",
+              "points": 27,
+              "maxPoints": 30,
+              "basis": "9/10 个受控档案字段已填充",
+              "evidenceDates": [],
+              "unknown": true
+            }
+          ],
+          "evidenceDates": [],
+          "unknowns": [
+            "档案完整度",
+            "融资证据"
+          ],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": []
+        },
+        {
+          "rank": 5,
+          "companyId": "huggingface",
+          "companyName": "Hugging Face",
+          "officialUrl": "https://huggingface.co/lerobot",
+          "routes": [
+            "VLA 与具身模型",
+            "数据与训练"
+          ],
+          "score": 87,
+          "scoreBreakdown": [
+            {
+              "key": "controlled-importance",
+              "label": "受控公司重要性",
+              "points": 40,
+              "maxPoints": 40,
+              "basis": "仅按受控公司阶段字段：平台公司",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "route-coverage",
+              "label": "路线覆盖",
+              "points": 20,
+              "maxPoints": 30,
+              "basis": "2 条受控技术路线",
+              "evidenceDates": [],
+              "unknown": false
+            },
+            {
+              "key": "dossier-completeness",
+              "label": "档案完整度",
+              "points": 27,
+              "maxPoints": 30,
+              "basis": "9/10 个受控档案字段已填充",
+              "evidenceDates": [],
+              "unknown": true
+            }
+          ],
+          "evidenceDates": [],
+          "unknowns": [
+            "档案完整度",
+            "融资证据"
+          ],
+          "capital": {
+            "state": "evidence_insufficient",
+            "value": "unknown",
+            "eventDate": "unknown",
+            "evidenceDates": [],
+            "note": "当前有效证据不足；不代表该公司未融资。"
+          },
+          "qualifyingEvents": []
+        }
+      ]
+    }
+  },
   "routes": [
     {
       "name": "数据与训练",
