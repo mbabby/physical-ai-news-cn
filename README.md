@@ -88,11 +88,11 @@
 
 > 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
+- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
+
 - [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：来自 清华大学；提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai · 清华大学</sub>
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
-
-- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
 
 - [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yaxin Feng</sub>
 

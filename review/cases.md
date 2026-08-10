@@ -5,16 +5,16 @@
 ## 队列
 
 - 工作项：40（活跃 40）
-- 已超时：20
+- 已超时：17
 - 无 owner：40
 - 无 nextAction：0
 
 ## SLO
 
 - 首次响应 P90：无样本
-- 首次响应 SLO 达标：0/20（0%）
-- 到期 Top 20 探查覆盖：0/20（0%）
-- 活跃积压年龄 P50 / P90 / 最大：1.07 小时 / 24.84 小时 / 192.73 小时
+- 首次响应 SLO 达标：0/17（0%）
+- 到期 Top 20 探查覆盖：0/17（0%）
+- 活跃积压年龄 P50 / P90 / 最大：1.18 小时 / 24.95 小时 / 192.85 小时
 
 ## 告警
 
@@ -64,6 +64,9 @@
 - **critical · unowned**：review-article-dad48f921c6f721d has no explicit owner
 - **critical · unowned**：review-article-76de556958722c8a has no explicit owner
 - **critical · unowned**：review-article-cae393ca764e6792 has no explicit owner
+- **critical · unowned**：review-article-0cfa91675c86b03c has no explicit owner
+- **critical · unowned**：review-article-9b12b728652c8b87 has no explicit owner
+- **critical · unowned**：review-article-e570efd81e7664ab has no explicit owner
 - **warning · overdue**：review-company-16e888f9a7c4ba5c missed its first-response SLO at 2026-08-07T03:46:50.218Z
 - **warning · unowned**：review-company-16e888f9a7c4ba5c has no explicit owner
 - **warning · overdue**：review-article-050f1599fd8848e5 missed its first-response SLO at 2026-08-10T07:23:19.554Z
@@ -72,9 +75,3 @@
 - **warning · unowned**：review-article-0842b6b4df581434 has no explicit owner
 - **warning · overdue**：review-article-16eb650bf8b6f29a missed its first-response SLO at 2026-08-10T07:23:19.554Z
 - **warning · unowned**：review-article-16eb650bf8b6f29a has no explicit owner
-- **warning · overdue**：review-article-18bfb26fd2563333 missed its first-response SLO at 2026-08-10T07:23:19.554Z
-- **warning · unowned**：review-article-18bfb26fd2563333 has no explicit owner
-- **warning · overdue**：review-article-27bcd8e3eae9338c missed its first-response SLO at 2026-08-10T07:23:19.554Z
-- **warning · unowned**：review-article-27bcd8e3eae9338c has no explicit owner
-- **warning · overdue**：review-article-297204fbd6ed3d02 missed its first-response SLO at 2026-08-10T07:23:19.554Z
-- **warning · unowned**：review-article-297204fbd6ed3d02 has no explicit owner

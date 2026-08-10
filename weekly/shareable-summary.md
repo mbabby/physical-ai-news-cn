@@ -10,7 +10,7 @@
 
 资本：本周暂无满足公开门槛的资本事件。
 产品与部署：[Google DeepMind](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) 出现产品、部署或商业进展。
-研究：[PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2)。构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。
+研究：[SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1)。SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。
 
 完整情报：
 - [公司与资本地图](../resources/companies.md)

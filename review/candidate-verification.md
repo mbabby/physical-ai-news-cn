@@ -2,9 +2,9 @@
 
 审阅与分级发布层：线索发现源永不直接晋升；主体明确且有可信证据的记录可分级进入首页，但人工确认前不会写入规范事件中心或公司资本档案。
 
-## Toyota Research Institute · undefined · 可人工审核
+## Toyota Research Institute · 投融资 · 可人工审核
 
-- 公开等级：confirmed · 可信分 80 · 影响分 65
+- 公开等级：confirmed · 可信分 80 · 影响分 83
 - 尝试：2
 - 主动补证：发现新证据
 - 事实：650万美元（single-source） · 种子轮（single-source） · 日期待确认（unknown）
@@ -38,7 +38,7 @@
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMipAFBVV95cUxQRGZIZV84LVBsemF1TVc3V3h2cXI3RUJqT2lZRF9wbUlLQVZXZmtueHhUM0tkdnNWWm1WR0VRYVAxbl9DeXBpMG5ibURza3IxV2pXcWgzYWZNSWFnRG16YUN0cUM2ZVNQZllWN2ktaFRBeV9PVXRZNWs5WW9UZ3V4R2FpbXdBeHluYjI1Ylp0ZEJwbkd3TnlLVWxnOUVocnlzc01LZ9IBqgFBVV95cUxNdFJLbWRLSFBYdTF5SG0wMzcwaGFibFdETEpxM25aNy0ycldJRWMwcU51dHlUUGNwX3loNWFOTHdpMEh4bm0wRHhyaFAwOEdYZl9lNk5QQmhxMC1aSjFKRmJGT0tkN0Rrd0JOUVJVa1VBcXpkUTVHZUw4ODE0MjcyWk13a0ctVS1mMG5vSVB6S3pLM3NYdUM4RWpZLURjcm00MnNfRmt2YlJMZw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## RoboStrategy 增发股票 · 投融资 · 等待重试
+## RoboStrategy 通过增发股票 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
 - 尝试：1；下次复核 2026-08-11
@@ -101,7 +101,7 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPVjFQUFdVRnZwMlk2ZFVZU2RiMDc0cGZRZl9sRFpHWUlRRW5wRGtWVjVoaFNBbnpCOGZYMmttN1U3TU51dDdXeTkyajh3QUdoMWJHekdqclhwRWpxSUgwRWFkVU03VVdqRW5IVW4zbW9EU3Z2QW1ycThaTnA5dXREdEV3LXNUNnFJ?oc=5)
 - 结论：无法唯一识别公司主体
 
-## 机器人AI 8月7日 · 投融资 · 等待重试
+## 机器人AI于8月7日 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
 - 尝试：1；下次复核 2026-08-11
@@ -128,7 +128,7 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiRkFVX3lxTE9Ra1BEcXVEc2hrTXhjYnZjNlhuUk94bWR4VEM5S3ZuSGhXaWJ1d0puUjRYcEtHU2xiSVdGYUhuYmV5U3VJQnc?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 招商局创投、蔚来资本领投，北京具身智能黑马 · 投融资 · 等待重试
+## 招商局创投与蔚来资本领投，北京具身智能企业 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
 - 尝试：1；下次复核 2026-08-11
@@ -272,6 +272,15 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTE43XzZfdE1saGhxUFdYaVdQNl9Ra2lIOHBoYjlEYzFtRTRRMFFKZzV6TWVPSDkwcjAtUGhLSnRVbk1KdWthMDVodVJrOEc3Wkxp?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
+## 89年江苏小伙放弃2000万收入，做机器人操作系统 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-08-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
 ## 待识别公司 · 投融资 · 已拒绝
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -288,15 +297,6 @@
 - 主动补证：尚未执行
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMi1gFBVV95cUxQaFBZQm1xRUVIUnUxdzFHV2ljYmFUOGMwd3RBblRFRWZpUVBJMmpGcjQ2aDhMREsyRktoQWg0M2FJMFYtWkl6X05zV3NxZ1N2Rkd5T3dIQUs4Y0dGeDlsSXZsaGJvcHo1aTg0OFJTXzJCWWlaZW5DejdfT2JhalVrQVVlLUV0OGdsSjRFZEF4dUx1U09xY1ZHT2Y3WlB6QzA2RkRjRjNZSlQ2d2xMYkQ5dmVOSTlCTElJamJZdktjaV93WlR6Vk1pTEpTNE1oOHVIVTlIRUhR?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
-## 江苏89年小伙放弃2000万收入做机器人操作系统 · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-08-11
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 蚂蚁灵波拟 · 投融资 · 等待重试
