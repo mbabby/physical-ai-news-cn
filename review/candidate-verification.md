@@ -74,6 +74,24 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPVjFQUFdVRnZwMlk2ZFVZU2RiMDc0cGZRZl9sRFpHWUlRRW5wRGtWVjVoaFNBbnpCOGZYMmttN1U3TU51dDdXeTkyajh3QUdoMWJHekdqclhwRWpxSUgwRWFkVU03VVdqRW5IVW4zbW9EU3Z2QW1ycThaTnA5dXREdEV3LXNUNnFJ?oc=5)
 - 结论：无法唯一识别公司主体
 
+## 复旦95后做机器人大脑，眸深智能 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 88
+- 尝试：1；下次复核 2026-08-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 蚂蚁灵波启动15亿元独立 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 88
+- 尝试：1；下次复核 2026-08-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTjNnS09yUWdSc1FCRWVCTnlrX3Z2cm9EZi1JaVdIS0lqbmFHd3RfdUxuUDRRRHc2TUc0TjRyMjdwRlRQR2VHN1ZkY0RtTmJSRlN6emJsVDFhVy1yNFJfVGdXclpvQkM1bnBJa21UQXdkTUJmaWprNlFlLTY3cWpwaDlrMUwyMUVP?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
 ## 陶世智能1.4亿元 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
@@ -212,10 +230,10 @@
 ## 宇树科技 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-08-10
-- 主动补证：尚未执行
+- 尝试：2；下次复核 2026-08-13
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiuAJBVV95cUxON0tMUGZ2dl8xS2VPeFk0UXJXZ2dGOFBwOU9VRnZRNEtZMlg1WExQQ2JxdmxXVnhOWUdvTDRULWEyQXZGTUlLUDUxc1g4ZGl1a05XZXV4TWNNVjBleTBBYU1ESDRiMzdON2tqVkZIQXJpWEtHV2lqYUVnN1NOb2pxWEtpelNaSEhaSGl5V3pQM3NseXN5ZmJyZ3RVczRabTlXX01MQ1Vma2VGb3pwcnltbEhKWFRsUXNvbFhhZ1hIREJXbEhCZlRaY0ZuYjZ2Z28zNDk4eUxhd3dmMy1ULUVzUFRLTGR6VkhHVTlMSHlfSjVqRUlLeDBycW1oRTJ1LXRIclN0Um92cFRMZjZfUFhOTDhCQnNXZWNPcl83eG1QMEM5NnNmXy1BTjlENURoUW9Pbl9EeElxdUE?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMic0FVX3lxTE5YWVphWlpkMmt5dUZ6V1ZxVnN3aGNNRUNJSkROdFUxNWtiX1VxdmRrRnpLMVZzcWJKUEdJTWpHSGtGOVgyX3Jadk1aSm9RbFV5djhHX2FVclo2d2FsbDZkMjNSaWYyal9PZ2lDdTMyamJObTQ?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZ25oUWc3dUFhZ0xPZUJLNGZpcTFibHQ5OEcyRkJxcm9Gdkp0eFdhSDBQbnlIeC1URFdFNmZ5bnUxekNLNWlITmIwS1p2QWFWMGUzc3dDQWZkRWo5Sjdaak1zX3kxb1FBTmg5cHNTVmllLWFKbG0yUGh2aTZmX19pSndDdHdscEJW?oc=5)
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiaEFVX3lxTFBfVUYzZkFGSmJoR2k1ZjVqU2tyaVJTUjY2ZWVQZWpkSHdqaHR2Nm1WVVJKYndrM3VNTzd3Q0tNRWtHRFNraWlJUzNWb0N2S0RER0FxM1BTX1NnYUl0dnBmd3c2Rk1Cd2hL?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiuAJBVV95cUxON0tMUGZ2dl8xS2VPeFk0UXJXZ2dGOFBwOU9VRnZRNEtZMlg1WExQQ2JxdmxXVnhOWUdvTDRULWEyQXZGTUlLUDUxc1g4ZGl1a05XZXV4TWNNVjBleTBBYU1ESDRiMzdON2tqVkZIQXJpWEtHV2lqYUVnN1NOb2pxWEtpelNaSEhaSGl5V3pQM3NseXN5ZmJyZ3RVczRabTlXX01MQ1Vma2VGb3pwcnltbEhKWFRsUXNvbFhhZ1hIREJXbEhCZlRaY0ZuYjZ2Z28zNDk4eUxhd3dmMy1ULUVzUFRLTGR6VkhHVTlMSHlfSjVqRUlLeDBycW1oRTJ1LXRIclN0Um92cFRMZjZfUFhOTDhCQnNXZWNPcl83eG1QMEM5NnNmXy1BTjlENURoUW9Pbl9EeElxdUE?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMic0FVX3lxTE5YWVphWlpkMmt5dUZ6V1ZxVnN3aGNNRUNJSkROdFUxNWtiX1VxdmRrRnpLMVZzcWJKUEdJTWpHSGtGOVgyX3Jadk1aSm9RbFV5djhHX2FVclo2d2FsbDZkMjNSaWYyal9PZ2lDdTMyamJObTQ?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZ25oUWc3dUFhZ0xPZUJLNGZpcTFibHQ5OEcyRkJxcm9Gdkp0eFdhSDBQbnlIeC1URFdFNmZ5bnUxekNLNWlITmIwS1p2QWFWMGUzc3dDQWZkRWo5Sjdaak1zX3kxb1FBTmg5cHNTVmllLWFKbG0yUGh2aTZmX19pSndDdHdscEJW?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## Avatar Robotics · 投融资 · 等待重试
@@ -244,6 +262,15 @@
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5)
 - 结论：标题或简介同时匹配多个公司实体：Toyota Research Institute、Humanoid
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiVkFVX3lxTE93Si1aME1CeWtSQ0RLSUZURDBuUjM4UXJxZkVDT0I2NlVKbFZkMkNXUkNrcGNnX29LODJJV2JPcjlNcWJWbW5lMW15R0hweExiWGRYVzB3?oc=5)
+- 结论：无法唯一识别公司主体
 
 ## 机器人公司融资600万美元用于开发新型血管成像平台 Robotics company · 投融资 · 等待重试
 

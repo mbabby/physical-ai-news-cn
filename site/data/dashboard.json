@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-09T08:48:23.760Z",
-  "periodLabel": "本周 2026-W32 · 近 30 天滚动证据池",
+  "generatedAt": "2026-08-10T01:19:16.896Z",
+  "periodLabel": "本周 2026-W33 · 近 30 天滚动证据池",
   "stats": {
     "events": 3,
     "companies": 49,
@@ -64,7 +64,7 @@
       "evidenceCount": 1,
       "missingEvidence": "尚缺一条 A 级一手证据，或两个独立 B 级来源",
       "whyItMatters": "产品或部署线索可能反映工程化进展。",
-      "score": 66
+      "score": 65
     }
   ],
   "topSignals": [
@@ -198,21 +198,21 @@
       "source": "arXiv · Robotics"
     },
     {
+      "title": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
+      "summary": "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。",
+      "link": "https://arxiv.org/abs/2608.05674v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-06",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架",
       "summary": "该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。",
       "link": "https://arxiv.org/abs/2608.05042v1",
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-05",
-      "source": "arXiv · Robotics"
-    },
-    {
-      "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-      "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
-      "link": "https://arxiv.org/abs/2607.27782v1",
-      "type": "研究论文",
-      "route": "研究",
-      "date": "2026-07-30",
       "source": "arXiv · Robotics"
     }
   ],
@@ -293,6 +293,24 @@
     },
     {
       "paper": {
+        "title": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
+        "summary": "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。",
+        "link": "https://arxiv.org/abs/2608.05674v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-06",
+        "source": "arXiv · Robotics"
+      },
+      "route": "世界模型与空间智能",
+      "companies": [
+        "NVIDIA",
+        "World Labs",
+        "自变量机器人"
+      ],
+      "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+    },
+    {
+      "paper": {
         "title": "BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架",
         "summary": "该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。",
         "link": "https://arxiv.org/abs/2608.05042v1",
@@ -308,25 +326,6 @@
         "自变量机器人"
       ],
       "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
-    },
-    {
-      "paper": {
-        "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-        "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
-        "link": "https://arxiv.org/abs/2607.27782v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-07-30",
-        "source": "arXiv · Robotics"
-      },
-      "route": "VLA 与具身模型",
-      "companies": [
-        "Google DeepMind",
-        "NVIDIA",
-        "Ambi Robotics",
-        "Dexterity"
-      ],
-      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、Ambi Robotics、Dexterity 的路线进展，产品与部署仍以独立事件证据为准。"
     }
   ],
   "companyRadar": [

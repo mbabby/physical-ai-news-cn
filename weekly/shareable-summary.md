@@ -1,4 +1,4 @@
-# 本周物理 AI 情报摘要 · 2026-W32
+# 本周物理 AI 情报摘要 · 2026-W33
 
 > 可直接复制发布。内容仅来自已公开、可追溯的事件与完整中文研究卡。
 
@@ -19,7 +19,7 @@
 
 ## English short version
 
-Physical AI Intelligence Brief · 2026-W32
+Physical AI Intelligence Brief · 2026-W33
 
 - [Google DeepMind announces a product update](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)
 - [NVIDIA announces a product update](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)

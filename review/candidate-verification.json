@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-09T08:48:23.760Z",
+  "generatedAt": "2026-08-10T01:19:16.896Z",
   "records": [
     {
       "id": "verify-41a29bdf48f1e7",
@@ -493,6 +493,208 @@
       "conflicts": [],
       "failureReasons": [
         "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-3671ae9256bc43",
+      "companyName": "复旦95后做机器人大脑，眸深智能",
+      "kind": "投融资",
+      "title": "复旦95后做机器人大脑，眸深智能融资3亿元",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "36 Kr",
+          "publisherUrl": "https://m.36kr.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-10T01:19:16.896Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"复旦95后做机器人大脑，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"复旦95后做机器人大脑，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"复旦95后做机器人大脑，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "36 Kr",
+              "value": "https://m.36kr.com",
+              "query": "\"复旦95后做机器人大脑，眸深智能\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1617,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-10T01:19:16.896Z",
+      "lastAttemptAt": "2026-08-10T01:19:16.896Z",
+      "nextReviewAt": "2026-08-11T01:19:16.896Z",
+      "attempts": 1,
+      "evidenceHash": "244e4d0304c03ef1e965",
+      "evidence": [
+        {
+          "articleId": "2bb8276ec8238ac8",
+          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-09T07:35:34.000Z",
+          "title": "复旦95后做机器人大脑，眸深智能融资3亿元",
+          "amount": "3亿元"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-00effe4d517c51",
+      "companyName": "蚂蚁灵波启动15亿元独立",
+      "kind": "投融资",
+      "title": "蚂蚁灵波启动15亿元独立融资，具身智能“通用大脑”赛道获资本重注",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTjNnS09yUWdSc1FCRWVCTnlrX3Z2cm9EZi1JaVdIS0lqbmFHd3RfdUxuUDRRRHc2TUc0TjRyMjdwRlRQR2VHN1ZkY0RtTmJSRlN6emJsVDFhVy1yNFJfVGdXclpvQkM1bnBJa21UQXdkTUJmaWprNlFlLTY3cWpwaDlrMUwyMUVP?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "搜狐网",
+          "publisherUrl": "https://m.sohu.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-10T01:19:16.896Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"蚂蚁灵波启动15亿元独立\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"蚂蚁灵波启动15亿元独立\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"蚂蚁灵波启动15亿元独立\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "搜狐网",
+              "value": "https://m.sohu.com",
+              "query": "\"蚂蚁灵波启动15亿元独立\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1617,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-10T01:19:16.896Z",
+      "lastAttemptAt": "2026-08-10T01:19:16.896Z",
+      "nextReviewAt": "2026-08-11T01:19:16.896Z",
+      "attempts": 1,
+      "evidenceHash": "75160d2657df3bb83019",
+      "evidence": [
+        {
+          "articleId": "48b7d660dfddbf8a",
+          "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTjNnS09yUWdSc1FCRWVCTnlrX3Z2cm9EZi1JaVdIS0lqbmFHd3RfdUxuUDRRRHc2TUc0TjRyMjdwRlRQR2VHN1ZkY0RtTmJSRlN6emJsVDFhVy1yNFJfVGdXclpvQkM1bnBJa21UQXdkTUJmaWprNlFlLTY3cWpwaDlrMUwyMUVP?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-09T16:44:00.000Z",
+          "title": "蚂蚁灵波启动15亿元独立融资，具身智能“通用大脑”赛道获资本重注",
+          "amount": "15亿元"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
       ],
       "fieldVerification": {
         "amount": {
@@ -1484,7 +1686,7 @@
       "companyName": "宇树科技",
       "companyEntityId": "unitree",
       "kind": "投融资",
-      "title": "宇树科技IPO火热：人形机器人浪潮下，价值投资者该看见什么",
+      "title": "宇树科技IPO：会翻跟头的机器人能否吸引投资者？",
       "status": "等待重试",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -1511,15 +1713,100 @@
           "discoveryLink": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5",
           "discoverySource": "Google News · 中国具身融资",
           "publisher": "sina.cn"
+        },
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBfVUYzZkFGSmJoR2k1ZjVqU2tyaVJTUjY2ZWVQZWpkSHdqaHR2Nm1WVVJKYndrM3VNTzd3Q0tNRWtHRFNraWlJUzNWb0N2S0RER0FxM1BTX1NnYUl0dnBmd3c2Rk1Cd2hL?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "早晨报",
+          "publisherUrl": "https://www.zaochenbao.com"
         }
       ],
-      "enrichmentAttempts": [],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-10T01:19:16.896Z",
+          "trigger": "新证据触发",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "公司官网",
+              "label": "宇树科技 官网",
+              "value": "https://www.unitree.com/",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "sohu.com",
+              "value": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPZ25oUWc3dUFhZ0xPZUJLNGZpcTFibHQ5OEcyRkJxcm9Gdkp0eFdhSDBQbnlIeC1URFdFNmZ5bnUxekNLNWlITmIwS1p2QWFWMGUzc3dDQWZkRWo5Sjdaak1zX3kxb1FBTmg5cHNTVmllLWFKbG0yUGh2aTZmX19pSndDdHdscEJW?oc=5",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "茉莉花新闻网",
+              "value": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxON0tMUGZ2dl8xS2VPeFk0UXJXZ2dGOFBwOU9VRnZRNEtZMlg1WExQQ2JxdmxXVnhOWUdvTDRULWEyQXZGTUlLUDUxc1g4ZGl1a05XZXV4TWNNVjBleTBBYU1ESDRiMzdON2tqVkZIQXJpWEtHV2lqYUVnN1NOb2pxWEtpelNaSEhaSGl5V3pQM3NseXN5ZmJyZ3RVczRabTlXX01MQ1Vma2VGb3pwcnltbEhKWFRsUXNvbFhhZ1hIREJXbEhCZlRaY0ZuYjZ2Z28zNDk4eUxhd3dmMy1ULUVzUFRLTGR6VkhHVTlMSHlfSjVqRUlLeDBycW1oRTJ1LXRIclN0Um92cFRMZjZfUFhOTDhCQnNXZWNPcl83eG1QMEM5NnNmXy1BTjlENURoUW9Pbl9EeElxdUE?oc=5",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "纽约时报中文网",
+              "value": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5YWVphWlpkMmt5dUZ6V1ZxVnN3aGNNRUNJSkROdFUxNWtiX1VxdmRrRnpLMVZzcWJKUEdJTWpHSGtGOVgyX3Jadk1aSm9RbFV5djhHX2FVclo2d2FsbDZkMjNSaWYyal9PZ2lDdTMyamJObTQ?oc=5",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "sina.cn",
+              "value": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "早晨报",
+              "value": "https://www.zaochenbao.com",
+              "query": "\"宇树科技\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1617,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-08-09T07:23:19.554Z",
-      "lastAttemptAt": "2026-08-09T07:23:19.554Z",
-      "nextReviewAt": "2026-08-10T07:23:19.554Z",
-      "attempts": 1,
-      "evidenceHash": "2f9750c47053c0d411d1",
+      "lastAttemptAt": "2026-08-10T01:19:16.896Z",
+      "nextReviewAt": "2026-08-13T01:19:16.896Z",
+      "attempts": 2,
+      "evidenceHash": "2840b299e76c3306eac0",
       "evidence": [
+        {
+          "articleId": "f24e123b4f11f51c",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBfVUYzZkFGSmJoR2k1ZjVqU2tyaVJTUjY2ZWVQZWpkSHdqaHR2Nm1WVVJKYndrM3VNTzd3Q0tNRWtHRFNraWlJUzNWb0N2S0RER0FxM1BTX1NnYUl0dnBmd3c2Rk1Cd2hL?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-09T07:31:00.000Z",
+          "title": "宇树科技IPO：会翻跟头的机器人能否吸引投资者？"
+        },
         {
           "articleId": "3a434653ac467d4b",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5JV2JJWUU0RHl5TWVGc0FmYmxpOEF6T21jQWJYcFBwdnM4VnhZdk5rMGs0b2pTdFFoUVQwdFFOaVdXNDZ5aFFybi1lOGpYU1VLZUNVeEJWOHh5THlIMElyU0lhOA?oc=5",
@@ -1773,6 +2060,104 @@
       "conflicts": [],
       "failureReasons": [
         "标题或简介同时匹配多个公司实体：Toyota Research Institute、Humanoid"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-10fb191a8c2da4",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "梁文锋1.4亿押注宇树，DeepSeek投资机器人_精彩视频为您呈现_36氪 - 36 Kr",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93Si1aME1CeWtSQ0RLSUZURDBuUjM4UXJxZkVDT0I2NlVKbFZkMkNXUkNrcGNnX29LODJJV2JPcjlNcWJWbW5lMW15R0hweExiWGRYVzB3?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "36 Kr",
+          "publisherUrl": "https://www.36kr.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-10T01:19:16.896Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "36 Kr",
+              "value": "https://www.36kr.com",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1617,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-10T01:19:16.896Z",
+      "lastAttemptAt": "2026-08-10T01:19:16.896Z",
+      "attempts": 1,
+      "evidenceHash": "948d001c7c9d8152fb74",
+      "evidence": [
+        {
+          "articleId": "66c61a6ea2d8fc56",
+          "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE93Si1aME1CeWtSQ0RLSUZURDBuUjM4UXJxZkVDT0I2NlVKbFZkMkNXUkNrcGNnX29LODJJV2JPcjlNcWJWbW5lMW15R0hweExiWGRYVzB3?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-10T00:04:20.000Z",
+          "title": "梁文锋1.4亿押注宇树，DeepSeek投资机器人_精彩视频为您呈现_36氪 - 36 Kr"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
       ],
       "fieldVerification": {
         "amount": {
