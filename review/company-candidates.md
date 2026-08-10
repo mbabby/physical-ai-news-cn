@@ -37,6 +37,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 复旦95后做机器人大脑，眸深智能 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[36 Kr](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%84%91%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%84%91%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 机器人AI：8月7日 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOSTc3RzU3RkNFanJGbkFSb3FENWhlbTF0cnQ4Mm96UlRLYmRwTF8teVEyZnVja1ZRU2dGTUYyWURXNkZIVzc0ejBZRU52X3B6eFpJVmVhNzJyMTlWbGhnTjNLVjJwRU5oZTJTUkZXenZ1UjBUcXJCUENhYW91enpJZlhQS1Q3U1VK?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%EF%BC%9A8%E6%9C%887%E6%97%A5%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%EF%BC%9A8%E6%9C%887%E6%97%A5%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 机器人AI 8月7日 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -44,25 +58,11 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%208%E6%9C%887%E6%97%A5%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%208%E6%9C%887%E6%97%A5%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## 复旦95后团队研发机器人“大脑”，眸深智能 · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[36 Kr](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%9B%A2%E9%98%9F%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%9B%A2%E9%98%9F%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 蚂蚁灵波 · 候选 · 32/100
 
 - 路线：部署与商业化
 - 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTjNnS09yUWdSc1FCRWVCTnlrX3Z2cm9EZi1JaVdIS0lqbmFHd3RfdUxuUDRRRHc2TUc0TjRyMjdwRlRQR2VHN1ZkY0RtTmJSRlN6emJsVDFhVy1yNFJfVGdXclpvQkM1bnBJa21UQXdkTUJmaWprNlFlLTY3cWpwaDlrMUwyMUVP?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%9A%82%E8%9A%81%E7%81%B5%E6%B3%A2%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%9A%82%E8%9A%81%E7%81%B5%E6%B3%A2%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 复旦95后做机器人大脑，眸深智能 · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[36 Kr](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%84%91%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%84%91%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 自变量机器人被曝以200亿元 · 候选 · 32/100
