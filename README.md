@@ -27,9 +27,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-10 | 3 | 49 | 39 | 13 / 27 |
+| 2026-08-10 | 3 | 49 | 49 | 13 / 27 |
 
-**运行健康**：近 30 天日报成功率 100% · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/community-queue.md)
+**运行健康**：近 30 天日历覆盖 10/30（33%） · 已归档运行成功 10/10（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -94,7 +94,7 @@
 
 - [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
 
-- [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Shuai Wang</sub>
+- [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yaxin Feng</sub>
 
 - [JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习](https://arxiv.org/abs/2608.05674v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：RA Team</sub>
 

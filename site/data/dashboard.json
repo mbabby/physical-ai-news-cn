@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T01:19:16.896Z",
+  "generatedAt": "2026-08-10T07:09:17.273Z",
   "periodLabel": "本周 2026-W33 · 近 30 天滚动证据池",
   "stats": {
     "events": 3,
@@ -25,7 +25,7 @@
       "evidenceCount": 2,
       "verifiedAt": "2026-08-01T16:02:57.199Z",
       "whyItMatters": "产品能力或工程边界出现可核验推进；当前由一手证据支持。",
-      "score": 65
+      "score": 64
     },
     {
       "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
@@ -85,7 +85,7 @@
       "evidenceCount": 2,
       "verifiedAt": "2026-08-01T16:02:57.199Z",
       "whyItMatters": "产品能力或工程边界出现可核验推进；当前由一手证据支持。",
-      "score": 65
+      "score": 64
     },
     {
       "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
@@ -168,7 +168,228 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-04",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "7e4a09414f545820",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.03682v2"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7201914260",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914260"
+            ]
+          },
+          "version": {
+            "value": 2,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.03682v2"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。",
+            "其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ]
+        },
+        "task": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": [
+            "LIBERO"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ]
+        },
+        "baselineDelta": {
+          "value": "Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "https://github.com/mingti-org/phyai",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.03682v2",
+              "https://github.com/mingti-org/phyai"
+            ]
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": [
+            "Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16."
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ]
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "Chenghua Wang",
+            "Daliang Xu",
+            "Dongqi Cai"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7201914260"
+          ]
+        },
+        "lab": {
+          "value": [
+            "Beijing University of Posts and Telecommunications",
+            "Nanjing University",
+            "Ming Chi University of Technology",
+            "Tsinghua University",
+            "Peking University",
+            "University of Macau",
+            "University of Cambridge",
+            "Suzhou University of Science and Technology",
+            "清华大学"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7201914260"
+          ]
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914260"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7201914260"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914260"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现基准、开源证据；OpenAlex 作者/机构元数据包含Beijing University of Posts and Telecommunications、Nanjing University。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.03682v2",
+            "https://openalex.org/W7201914260"
+          ]
+        },
+        "rankScore": 71,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.03682v2",
+            "https://openalex.org/W7201914260",
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "task": [],
+          "embodiment": [],
+          "datasetTrainingScale": [],
+          "benchmark": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [
+            "https://arxiv.org/abs/2608.03682v2",
+            "https://github.com/mingti-org/phyai"
+          ],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [
+            "https://arxiv.org/abs/2608.03682v2"
+          ],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7201914260"
+          ],
+          "lab": [
+            "https://openalex.org/W7201914260"
+          ],
+          "openAlex.match": [
+            "https://openalex.org/W7201914260"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7201914260"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7201914260"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.03682v2",
+            "https://openalex.org/W7201914260"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 15,
+          "unknownFields": 9,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "DreamWAM：超越RGB未来预测的世界动作模型",
@@ -177,7 +398,227 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-05",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "36307d4fa4526afd",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.04996v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7201914890",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914890"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.04996v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "DreamWAM：超越RGB未来预测的世界动作模型",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。",
+            "该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": [
+            "LIBERO"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "baselineDelta": {
+          "value": "Across both no-rollout and joint video-action inference, DreamWAM consistently improves the matched RGB-only baselines on LIBERO, from 97.30\\% to 98.40\\% and from 98.00\\% to 98.90\\%, respectively.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "https://github.com/hustvl/DreamWAM",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.04996v1",
+              "https://github.com/hustvl/DreamWAM"
+            ]
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": [
+            "Shared attention between VideoDiT and ActionDiT allows the action branch to learn from these future-state predictions, while all beyond-RGB supervision branches are disabled at inference and deployment remains RGB-only."
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ]
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "Shanglin Yuan",
+            "Weiheng Zhao",
+            "Xin Shi"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7201914890"
+          ]
+        },
+        "lab": {
+          "value": [
+            "Tongji Hospital",
+            "Huazhong University of Science and Technology"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7201914890"
+          ]
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914890"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7201914890"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7201914890"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准、开源证据；OpenAlex 作者/机构元数据包含Tongji Hospital、Huazhong University of Science and Technology。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.04996v1",
+            "https://openalex.org/W7201914890"
+          ]
+        },
+        "rankScore": 62,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.04996v1",
+            "https://openalex.org/W7201914890",
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "embodiment": [],
+          "datasetTrainingScale": [],
+          "benchmark": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [
+            "https://arxiv.org/abs/2608.04996v1",
+            "https://github.com/hustvl/DreamWAM"
+          ],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [
+            "https://arxiv.org/abs/2608.04996v1"
+          ],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7201914890"
+          ],
+          "lab": [
+            "https://openalex.org/W7201914890"
+          ],
+          "openAlex.match": [
+            "https://openalex.org/W7201914890"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7201914890"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7201914890"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.04996v1",
+            "https://openalex.org/W7201914890"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 16,
+          "unknownFields": 8,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
@@ -186,7 +627,218 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-06",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "84d803ee8b094f55",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05970v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7202006267",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006267"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05970v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。",
+            "仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "embodiment": {
+          "value": [
+            "真实机器人"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "baselineDelta": {
+          "value": "Extensive experiments on the simulation benchmark and real-world manipulation tasks demonstrate that SkillMemo consistently enhances both DP and VLA backbones, achieving state-of-the-art performance and outperforming $π_{0.5}$, while exhibiting strong compositional generalization to unseen task configurations.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": [
+            "However, their potential remains fundamentally constrained by the scarcity of large-scale embodied trajectory datasets, leading to insufficient compositional generalization in out-of-distribution (OOD) scenarios with limited capability to capture reusable skill structures."
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ]
+        },
+        "reproducibilityCost": {
+          "value": "high",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "rationale": "However, their potential remains fundamentally constrained by the scarcity of large-scale embodied trajectory datasets, leading to insufficient compositional generalization in out-of-distribution (OOD) scenarios with limited capability to capture reusable skill structures."
+        },
+        "author": {
+          "value": [
+            "Changyuan Wang",
+            "Chubin Zhang",
+            "Zhenyu Wu"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7202006267"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006267"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7202006267"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006267"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05970v1",
+            "https://openalex.org/W7202006267"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.05970v1",
+            "https://openalex.org/W7202006267",
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "embodiment": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "datasetTrainingScale": [],
+          "benchmark": [],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "reproducibilityCost": [
+            "https://arxiv.org/abs/2608.05970v1"
+          ],
+          "author": [
+            "https://openalex.org/W7202006267"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7202006267"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7202006267"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7202006267"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.05970v1",
+            "https://openalex.org/W7202006267"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 15,
+          "unknownFields": 9,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准",
@@ -195,7 +847,205 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-06",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "7e18442fe90c9cfc",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05948v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7202006968",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006968"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05948v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。",
+            "对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ]
+        },
+        "task": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "We benchmark Isaac Sim, Genesis, and Newton on 14 task families using generalized trajectory errors, and evaluate 6 image-to-video models on 5 rigid-body tasks by testing physical-law consistency and the temporal stability of inferred parameters.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ]
+        },
+        "benchmark": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "baselineDelta": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": [
+            "However, existing evaluations of physical fidelity are often conducted in isolation and rely heavily on perceptual similarity or human judgments, providing limited insight into which physical principles or parameters are violated."
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ]
+        },
+        "reproducibilityCost": {
+          "value": "high",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "rationale": "Physics engines facilitate large-scale training and evaluation for embodied intelligence, while generative video world models are emerging as implicit simulators of future states and interactions."
+        },
+        "author": {
+          "value": [
+            "Shuai Wang",
+            "Yaxin Feng"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7202006968"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006968"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7202006968"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006968"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05948v1",
+            "https://openalex.org/W7202006968"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.05948v1",
+            "https://openalex.org/W7202006968",
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "task": [],
+          "embodiment": [],
+          "datasetTrainingScale": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "benchmark": [],
+          "baselineDelta": [],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "reproducibilityCost": [
+            "https://arxiv.org/abs/2608.05948v1"
+          ],
+          "author": [
+            "https://openalex.org/W7202006968"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7202006968"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7202006968"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7202006968"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.05948v1",
+            "https://openalex.org/W7202006968"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 13,
+          "unknownFields": 11,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
@@ -204,7 +1054,207 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-06",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "8c419dab7bc8d2c0",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05674v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7202006027",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006027"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05674v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。",
+            "真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ]
+        },
+        "embodiment": {
+          "value": [
+            "真实机器人"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ]
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "baselineDelta": {
+          "value": "An inner-outer-loop reinforcement stage then pairs efficient task adaptation with foundation-policy improvement.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "JoyAI-RA Team",
+            "RA Team"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7202006027"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006027"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7202006027"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7202006027"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05674v1",
+            "https://openalex.org/W7202006027"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.05674v1",
+            "https://openalex.org/W7202006027",
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "embodiment": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "datasetTrainingScale": [],
+          "benchmark": [],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.05674v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7202006027"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7202006027"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7202006027"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7202006027"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.05674v1",
+            "https://openalex.org/W7202006027"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 13,
+          "unknownFields": 11,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架",
@@ -213,7 +1263,208 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-05",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "a69b824bb1a59cee",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05042v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7196955926",
+            "evidenceUrls": [
+              "https://openalex.org/W7196955926"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.05042v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。",
+            "它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ]
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "baselineDelta": {
+          "value": "Our previous work, BridgeVLA, improves data efficiency and generalization by preserving the input--output alignment of a pre-trained VLM during 3D action learning: raw point clouds are projected into multi-view images, and intermediate heatmaps are predicted before generating robot actions.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": [
+            "However, existing 3D VLA methods remain data-hungry, exhibit limited generalization under distribution shifts, and lack explicit memory of past observations."
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ]
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "Peiyan Li",
+            "Yuze Zhu",
+            "Yixiang Chen"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7196955926"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7196955926"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7196955926"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7196955926"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05042v1",
+            "https://openalex.org/W7196955926"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.05042v1",
+            "https://openalex.org/W7196955926",
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "embodiment": [],
+          "datasetTrainingScale": [],
+          "benchmark": [],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [
+            "https://arxiv.org/abs/2608.05042v1"
+          ],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7196955926"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7196955926"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7196955926"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7196955926"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.05042v1",
+            "https://openalex.org/W7196955926"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 13,
+          "unknownFields": 11,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     }
   ],
   "researchGraph": [
@@ -228,13 +1479,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
-      "companies": [
-        "Google DeepMind",
-        "NVIDIA",
-        "Ambi Robotics",
-        "Dexterity"
-      ],
-      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、Ambi Robotics、Dexterity 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     },
     {
       "paper": {
@@ -247,12 +1494,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "世界模型与空间智能",
-      "companies": [
-        "NVIDIA",
-        "World Labs",
-        "自变量机器人"
-      ],
-      "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     },
     {
       "paper": {
@@ -265,13 +1509,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
-      "companies": [
-        "Google DeepMind",
-        "NVIDIA",
-        "Ambi Robotics",
-        "Dexterity"
-      ],
-      "connection": "该研究对应「VLA 与具身模型」路线；当前可关联观察 Google DeepMind、NVIDIA、Ambi Robotics、Dexterity 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     },
     {
       "paper": {
@@ -284,12 +1524,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "世界模型与空间智能",
-      "companies": [
-        "NVIDIA",
-        "World Labs",
-        "自变量机器人"
-      ],
-      "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     },
     {
       "paper": {
@@ -302,12 +1539,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "世界模型与空间智能",
-      "companies": [
-        "NVIDIA",
-        "World Labs",
-        "自变量机器人"
-      ],
-      "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     },
     {
       "paper": {
@@ -320,12 +1554,9 @@
         "source": "arXiv · Robotics"
       },
       "route": "世界模型与空间智能",
-      "companies": [
-        "NVIDIA",
-        "World Labs",
-        "自变量机器人"
-      ],
-      "connection": "该研究对应「世界模型与空间智能」路线；当前可关联观察 NVIDIA、World Labs、自变量机器人 的路线进展，产品与部署仍以独立事件证据为准。"
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
     }
   ],
   "companyRadar": [
@@ -357,7 +1588,9 @@
       "updatedAt": "2026-08-01T15:25:09.571Z",
       "momentumScore": 34,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 1
+      "recentSignals": 1,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Google DeepMind",
@@ -387,7 +1620,9 @@
       "updatedAt": "2026-08-01T16:02:57.199Z",
       "momentumScore": 34,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 1
+      "recentSignals": 1,
+      "claimCompleteness": 0.6818,
+      "staleClaims": 0
     },
     {
       "name": "NVIDIA",
@@ -418,7 +1653,9 @@
       "updatedAt": "2026-08-01T16:02:57.199Z",
       "momentumScore": 34,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 1
+      "recentSignals": 1,
+      "claimCompleteness": 0.6818,
+      "staleClaims": 0
     },
     {
       "name": "1X",
@@ -435,7 +1672,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Ambi Robotics",
@@ -452,7 +1691,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "ANYbotics",
@@ -469,7 +1710,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Apptronik",
@@ -486,7 +1729,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Boston Dynamics",
@@ -503,7 +1748,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Dexterity",
@@ -520,7 +1767,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "DYNA Robotics",
@@ -537,7 +1786,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "Field AI",
@@ -554,366 +1805,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Figure",
-      "officialUrl": "https://www.figure.ai/",
-      "region": "北美",
-      "stage": "成长公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "人形本体、端到端机器人智能与工作场景。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "GrayMatter Robotics",
-      "officialUrl": "https://graymatter-robotics.com/",
-      "region": "北美",
-      "stage": "成长公司",
-      "routes": [
-        "VLA 与具身模型",
-        "部署与商业化"
-      ],
-      "thesis": "面向表面处理等复杂制造工序的机器人智能。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Hugging Face",
-      "officialUrl": "https://huggingface.co/lerobot",
-      "region": "北美/欧洲",
-      "stage": "平台公司",
-      "routes": [
-        "数据与训练",
-        "VLA 与具身模型"
-      ],
-      "thesis": "开放机器人模型、数据集、硬件配方与社区协作基础设施。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Humanoid",
-      "officialUrl": "https://thehumanoid.ai/",
-      "region": "欧洲",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "面向产业与服务场景的通用人形机器人。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Intrinsic",
-      "officialUrl": "https://www.intrinsic.ai/",
-      "region": "北美",
-      "stage": "平台公司",
-      "routes": [
-        "数据与训练",
-        "部署与商业化"
-      ],
-      "thesis": "工业机器人软件、感知与自动化开发平台。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Mentee Robotics",
-      "officialUrl": "https://www.menteebot.com/",
-      "region": "以色列",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件"
-      ],
-      "thesis": "端到端智能与人形机器人协同研发。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Meta",
-      "officialUrl": "https://ai.meta.com/",
-      "region": "北美",
-      "stage": "平台公司",
-      "routes": [
-        "VLA 与具身模型",
-        "数据与训练"
-      ],
-      "thesis": "开放模型、感知与具身研究生态。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "NEURA Robotics",
-      "officialUrl": "https://neura-robotics.com/",
-      "region": "欧洲",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "VLA 与具身模型"
-      ],
-      "thesis": "认知机器人与工业服务场景。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "PAL Robotics",
-      "officialUrl": "https://pal-robotics.com/",
-      "region": "欧洲",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "服务、人形和移动机器人产品与研究平台。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Physical Intelligence",
-      "officialUrl": "https://www.physicalintelligence.company/",
-      "region": "北美",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "数据与训练"
-      ],
-      "thesis": "多平台真实数据与生成式动作策略。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Pickle Robot",
-      "officialUrl": "https://www.picklerobot.com/",
-      "region": "北美",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "面向物流装卸的具身自动化系统。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Robust AI",
-      "officialUrl": "https://www.robust.ai/",
-      "region": "北美",
-      "stage": "成长公司",
-      "routes": [
-        "VLA 与具身模型",
-        "部署与商业化"
-      ],
-      "thesis": "面向仓储和工业协作的自主移动机器人。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Sanctuary AI",
-      "officialUrl": "https://www.sanctuary.ai/",
-      "region": "北美",
-      "stage": "成长公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件"
-      ],
-      "thesis": "通用机器人智能与灵巧操作。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Skild AI",
-      "officialUrl": "https://www.skild.ai/",
-      "region": "北美",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "数据与训练"
-      ],
-      "thesis": "面向不同机器人本体的通用智能。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Standard Bots",
-      "officialUrl": "https://standardbots.com/",
-      "region": "北美",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "软硬件一体的协作机器人与工业自动化。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Stanford Robotics Center",
-      "officialUrl": "https://src.stanford.edu/",
-      "region": "北美",
-      "stage": "公司",
-      "routes": [
-        "VLA 与具身模型",
-        "数据与训练",
-        "本体与硬件"
-      ],
-      "thesis": "跨学科机器人研究与真实系统验证。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Tesla",
-      "officialUrl": "https://www.tesla.com/AI",
-      "region": "北美",
-      "stage": "平台公司",
-      "routes": [
-        "数据与训练",
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "视觉、端到端智能、本体工程与制造闭环。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Toyota Research Institute",
-      "officialUrl": "https://www.tri.global/",
-      "region": "北美/日本",
-      "stage": "平台公司",
-      "routes": [
-        "数据与训练",
-        "VLA 与具身模型"
-      ],
-      "thesis": "大规模机器人行为学习与家庭操作研究。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "Wandercraft",
-      "officialUrl": "https://www.wandercraft.eu/",
-      "region": "欧洲/北美",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "动态行走控制、外骨骼与工业人形机器人。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "World Labs",
-      "officialUrl": "https://www.worldlabs.ai/",
-      "region": "北美",
-      "stage": "创业公司",
-      "routes": [
-        "世界模型与空间智能"
-      ],
-      "thesis": "可生成、理解与交互三维世界的空间智能。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "乐聚机器人",
-      "officialUrl": "https://www.lejurobot.com/",
-      "region": "中国",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "人形机器人与教育、行业应用。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "云深处科技",
@@ -930,7 +1824,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "众擎机器人",
@@ -946,41 +1842,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "优必选",
-      "officialUrl": "https://www.ubtrobot.com/",
-      "region": "中国",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "人形机器人产品与行业应用。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "傅利叶智能",
-      "officialUrl": "https://www.fftai.com/",
-      "region": "中国/新加坡",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "人形机器人与康复机器人本体。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "加速进化",
@@ -997,112 +1861,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "北京人形机器人创新中心",
-      "officialUrl": "https://www.x-humanoid.com/",
-      "region": "中国",
-      "stage": "平台公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件",
-        "数据与训练"
-      ],
-      "thesis": "通用具身智能平台、人形本体与公共数据基础设施。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "宇树科技",
-      "officialUrl": "https://www.unitree.com/",
-      "region": "中国",
-      "stage": "成长公司",
-      "routes": [
-        "本体与硬件",
-        "数据与训练"
-      ],
-      "thesis": "高性能机器人本体与开发者生态。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "小鹏机器人",
-      "officialUrl": "https://www.xpeng.com/",
-      "region": "中国",
-      "stage": "平台公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "汽车智能体系延伸的人形机器人软硬件平台。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "开普勒机器人",
-      "officialUrl": "https://www.keplerbot.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "通用人形机器人本体与工业场景应用。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "星动纪元",
-      "officialUrl": "https://www.robotera.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件"
-      ],
-      "thesis": "软硬件全栈人形机器人与灵巧操作。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "星海图",
-      "officialUrl": "https://galaxea-ai.com/cn/about",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "本体与硬件",
-        "数据与训练"
-      ],
-      "thesis": "具身智能基础模型、机器人整机与真实数据闭环。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "星海图官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     },
     {
       "name": "智元机器人",
@@ -1120,92 +1881,9 @@
       "identitySource": "公司官网",
       "momentumScore": 15,
       "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "松延动力",
-      "officialUrl": "https://www.noetixrobotics.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件"
-      ],
-      "thesis": "人形机器人本体与运动控制。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "自变量机器人",
-      "officialUrl": "https://x2robot.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "世界模型与空间智能",
-        "本体与硬件"
-      ],
-      "thesis": "世界统一模型与通用具身智能机器人。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "逐际动力",
-      "officialUrl": "https://www.limxdynamics.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件",
-        "VLA 与具身模型"
-      ],
-      "thesis": "具身智能机器人本体与运动能力。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "银河通用",
-      "officialUrl": "https://galbot.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "VLA 与具身模型",
-        "部署与商业化"
-      ],
-      "thesis": "具身智能模型与通用操作。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
-    },
-    {
-      "name": "魔法原子",
-      "officialUrl": "https://www.magicrobot.com/",
-      "region": "中国",
-      "stage": "创业公司",
-      "routes": [
-        "本体与硬件",
-        "部署与商业化"
-      ],
-      "thesis": "通用机器人本体与场景应用。",
-      "capitalStatus": "证据不足",
-      "validationStage": "证据不足",
-      "identitySource": "公司官网",
-      "momentumScore": 15,
-      "momentumLabel": "长期跟踪",
-      "recentSignals": 0
+      "recentSignals": 0,
+      "claimCompleteness": 0.4545,
+      "staleClaims": 0
     }
   ],
   "routes": [

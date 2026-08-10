@@ -37,6 +37,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 机器人AI 8月7日 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOSTc3RzU3RkNFanJGbkFSb3FENWhlbTF0cnQ4Mm96UlRLYmRwTF8teVEyZnVja1ZRU2dGTUYyWURXNkZIVzc0ejBZRU52X3B6eFpJVmVhNzJyMTlWbGhnTjNLVjJwRU5oZTJTUkZXenZ1UjBUcXJCUENhYW91enpJZlhQS1Q3U1VK?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%208%E6%9C%887%E6%97%A5%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAAI%208%E6%9C%887%E6%97%A5%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 复旦95后团队研发机器人“大脑”，眸深智能 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[36 Kr](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%9B%A2%E9%98%9F%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E5%9B%A2%E9%98%9F%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 蚂蚁灵波 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -98,6 +112,34 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 江苏89年小伙放弃2000万收入，做机器人操作系统 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[t.cj.sina.cn](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%B1%9F%E8%8B%8F89%E5%B9%B4%E5%B0%8F%E4%BC%99%E6%94%BE%E5%BC%832000%E4%B8%87%E6%94%B6%E5%85%A5%EF%BC%8C%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%B1%9F%E8%8B%8F89%E5%B9%B4%E5%B0%8F%E4%BC%99%E6%94%BE%E5%BC%832000%E4%B8%87%E6%94%B6%E5%85%A5%EF%BC%8C%E5%81%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## RoboStrategy 增发股份 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[en.bloomingbit.io](https://news.google.com/rss/articles/CBMiVEFVX3lxTE5iNTY0UDVxMUFFaUU2X0RKTXBJNFZwaHpILTVkVnR0ek9UcV90eHB5TUZxUXBXQWhsZy1VRUtWMjZCZXNJWDlSS0gzTk9LMHFGUVExVw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E8%82%A1%E4%BB%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22RoboStrategy%20%E5%A2%9E%E5%8F%91%E8%82%A1%E4%BB%BD%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 橡木果机器人 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪网](https://news.google.com/rss/articles/CBMiYkFVX3lxTFBDOUl2aFN1X1Y2c3I3SjdRblhhUGtTcVhHeUl3TDRva003Nnhfb2YzbWZFRk1fXy1CMnRpRWo3M1ZhbUdqSHZHcEN3Mkp3anlCSllTQ0p2TlZJdGcxYjBDTXV3?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 消费硬件热度降温，AI与具身智能成新趋势 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[blog.csdn.net](https://news.google.com/rss/articles/CBMia0FVX3lxTFB1emp0Vk1mSFJaSXlpSFFESlEtQXlDX3dCTHpSLVFyVkd1TDBIQmRkQVY4QnFSNU5KaG9HM3NBUVltaXpSRnZzajd2UFpBTzN1SzlRTkRCQzFaOXowUGdabUh1NFZQblJITVFz?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%B6%88%E8%B4%B9%E7%A1%AC%E4%BB%B6%E7%83%AD%E5%BA%A6%E9%99%8D%E6%B8%A9%EF%BC%8CAI%E4%B8%8E%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%88%90%E6%96%B0%E8%B6%8B%E5%8A%BF%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%B6%88%E8%B4%B9%E7%A1%AC%E4%BB%B6%E7%83%AD%E5%BA%A6%E9%99%8D%E6%B8%A9%EF%BC%8CAI%E4%B8%8E%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%88%90%E6%96%B0%E8%B6%8B%E5%8A%BF%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 梁文锋1.4亿押注宇树，DeepSeek · 候选 · 22/100
