@@ -44,3 +44,36 @@ a,button,input,select,textarea,[tabindex]{scroll-margin:96px}a:focus-visible,but
 @media(prefers-contrast:more){:root{--muted:#c5d3de;--line:rgba(220,240,255,.48);--line-strong:rgba(230,246,255,.78)}.grid-glow{opacity:.35}.evidence-badge,[data-evidence],.status-item,.status-chip{background:#07111f}.key-card,.lane,.route-card,.company-card,.company-board,.decision-card{backdrop-filter:none}}
 @media print{*{box-shadow:none!important;text-shadow:none!important}body{background:#fff;color:#111;font-family:system-ui,sans-serif}.grid-glow,nav,.hero-actions,.context-actions,.detail-actions,.drawer-close,.skip-link{display:none!important}.shell{width:100%}.hero{min-height:0;padding:12px 0}.hero h1,.section h2{color:#111}.section{padding-top:28px}.key-card,.lane,.route-card,.company-card,.company-board,.decision-card,.briefing,.briefing-panel,.empty,.empty-state,.honest-empty{break-inside:avoid;background:#fff;color:#111;border-color:#888}.drawer,.detail-drawer{position:static;width:100%;height:auto;overflow:visible;border:0;padding:0;background:#fff;color:#111}.drawer-backdrop,.detail-backdrop{display:none}.muted,.lede,p,small{color:#333!important}a{color:#111;text-decoration:underline}}
 @supports not (backdrop-filter:blur(1px)){.key-card,.lane,.route-card,.drawer-backdrop,.detail-backdrop,.tabs,.segment-control,[role="tablist"]{background-color:#0b1b2d}}
+
+/* Mobile briefing density: keep the first verified signal inside the first useful viewport. */
+@media(max-width:800px){
+  .briefing-hero{min-height:0;padding:16px 0 18px}
+  .briefing-hero nav{margin-top:12px}
+  .briefing-hero nav a{padding:5px 9px;min-height:38px}
+  .briefing-hero .hero-copy{margin-top:18px}
+  .briefing-hero .eyebrow{margin-bottom:6px;font-size:.65rem}
+  .briefing-hero h1{font-size:clamp(2.05rem,10.5vw,3.4rem);line-height:1.01;margin-bottom:10px}
+  .briefing-hero .lede{font-size:.82rem;line-height:1.45}
+  .briefing-hero .hero-actions{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .briefing-hero .hero-actions a{min-height:40px;padding:7px 9px;font-size:.66rem;justify-content:center;text-align:center}
+  .briefing-hero .terminal{margin-top:11px;font-size:.58rem;gap:6px}
+  main>.metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:10px 0}
+  main>.metrics div,main>.metrics div:nth-child(3){padding:0 5px;border-left:1px solid var(--line);text-align:center}
+  main>.metrics div:first-child{border-left:0}
+  main>.metrics strong{font-size:1rem;line-height:1.2}
+  main>.metrics span{display:block;font-size:.55rem;line-height:1.25}
+  #briefing.section{padding-top:24px}
+  #briefing>.section-head{margin-bottom:10px;padding-bottom:10px}
+  #briefing>.section-head .eyebrow,#briefing>.section-note{display:none}
+  #briefing>.section-head h2{font-size:1.55rem}
+  #briefing>.briefing-tier>.section-head{margin-bottom:5px;padding-bottom:7px}
+  #briefing>.briefing-tier>.section-head .eyebrow{margin-bottom:2px}
+  #briefing>.briefing-tier>.section-head h3{margin:0;font-size:1rem}
+  #briefing>.briefing-tier>.section-note{margin:0 0 8px;font-size:.72rem;line-height:1.4}
+  #briefing .top-signal{padding:16px 0}
+}
+@media(max-width:520px){
+  .briefing-hero .hero-actions{grid-template-columns:1fr}
+  .briefing-hero .hero-actions a{min-height:38px}
+  #briefing>.section-head>a{display:none}
+}
