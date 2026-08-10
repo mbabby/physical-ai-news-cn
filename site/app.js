@@ -51,6 +51,163 @@ const formattedCount = (value) => {
   return number === null ? "—" : new Intl.NumberFormat("zh-CN", { notation: number >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(number);
 };
 
+const evidenceStates = {
+  official: { label: "官方确认", tone: "verified" },
+  verified: { label: "官方确认", tone: "verified" },
+  confirmed: { label: "官方确认", tone: "verified" },
+  multi_source: { label: "多源确认", tone: "verified" },
+  corroborated: { label: "多源确认", tone: "verified" },
+  developing: { label: "补证中", tone: "developing" },
+  pending: { label: "补证中", tone: "developing" },
+  conflict: { label: "存在冲突", tone: "conflict" },
+  disputed: { label: "存在冲突", tone: "conflict" },
+  unknown: { label: "未知", tone: "unknown" },
+  retracted: { label: "已撤回", tone: "retracted" },
+  withdrawn: { label: "已撤回", tone: "retracted" },
+  stale: { label: "已过期", tone: "stale" },
+  expired: { label: "已过期", tone: "stale" },
+};
+const detailItems = new Map();
+let lastDetailTrigger = null;
+
+function evidenceState(item = {}, fallbackState = "unknown") {
+  const raw = text(item.evidenceState || item.verificationState || item.verificationStatus || item.status || fallbackState).trim();
+  const normalized = raw.toLowerCase().replace(/[\s-]+/g, "_");
+  if (evidenceStates[normalized]) return evidenceStates[normalized];
+  if (/官方|official/.test(raw)) return evidenceStates.official;
+  if (/多源|多方|交叉|corroborat/.test(raw)) return evidenceStates.multi_source;
+  if (/补证|进行|develop|pending/.test(raw)) return evidenceStates.developing;
+  if (/冲突|争议|conflict|disput/.test(raw)) return evidenceStates.conflict;
+  if (/撤回|retract|withdraw/.test(raw)) return evidenceStates.retracted;
+  if (/过期|失效|stale|expir/.test(raw)) return evidenceStates.stale;
+  return { label: raw && raw !== "unknown" ? raw : "未知", tone: "unknown" };
+}
+
+function evidenceBadge(item, fallbackState) {
+  const state = evidenceState(item, fallbackState);
+  return `<span class="evidence-status evidence-status--${safe(state.tone)}" data-evidence-state="${safe(state.tone)}">${safe(state.label)}</span>`;
+}
+
+function signalId(item, index = 0) {
+  const raw = text(item.id || item.slug || item.eventId || item.link || item.title || `signal-${index}`);
+  let hash = 0;
+  for (let position = 0; position < raw.length; position += 1) hash = ((hash << 5) - hash + raw.charCodeAt(position)) | 0;
+  return text(item.id || item.slug || `signal-${Math.abs(hash)}`).replace(/[^a-zA-Z0-9_-]/g, "-");
+}
+
+function rememberDetail(item, index) {
+  const id = signalId(item, index);
+  detailItems.set(id, item);
+  return id;
+}
+
+function sourceList(item) {
+  const candidates = [...list(item.sources), ...list(item.evidence), item.link ? [{ title: item.source, url: item.link }] : []];
+  const seen = new Set();
+  return candidates.map((source) => typeof source === "string" ? { title: source, url: source } : (source || {})).filter((source) => {
+    const url = text(source.url || source.link || source.href);
+    if (!url || safeUrl(url) === "#" || seen.has(url)) return false;
+    seen.add(url);
+    return true;
+  });
+}
+
+function ensureDetailDrawer() {
+  let drawer = byId("signal-detail-drawer");
+  if (drawer) return drawer;
+  drawer = document.createElement("aside");
+  drawer.id = "signal-detail-drawer";
+  drawer.className = "signal-detail-drawer";
+  drawer.hidden = true;
+  drawer.setAttribute("role", "dialog");
+  drawer.setAttribute("aria-modal", "true");
+  drawer.setAttribute("aria-labelledby", "signal-detail-title");
+  drawer.innerHTML = '<button class="drawer-backdrop" type="button" data-close-detail aria-label="关闭详情"></button><div class="drawer-panel" tabindex="-1"><header><span>证据详情</span><button type="button" data-close-detail aria-label="关闭详情">×</button></header><div id="signal-detail-content"></div></div>';
+  document.body.append(drawer);
+  drawer.addEventListener("click", (event) => {
+    if (event.target.closest("[data-close-detail]")) closeDetail();
+  });
+  return drawer;
+}
+
+function issueUrl(item) {
+  const title = `补充证据：${text(item.title, "未命名信号")}`;
+  const body = [`## 对应信号`, text(item.title, "未命名信号"), ``, `## 待补证内容`, text(item.missingEvidence || item.unknowns || "请填写需要补充或纠正的字段"), ``, `## 来源`, `请粘贴可公开核验的原始来源链接。`].join("\n");
+  return `https://github.com/mbabby/physical-ai-news-cn/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+}
+
+function detailMarkup(item) {
+  const state = evidenceState(item);
+  const sources = sourceList(item);
+  const unknowns = list(item.unknowns).length ? list(item.unknowns).join("、") : text(item.missingEvidence || item.unknown || "暂无额外未知项记录");
+  const occurredAt = item.eventDate || item.date || item.publishedAt;
+  const verifiedAt = item.verifiedAt || item.reviewedAt || item.updatedAt;
+  return `<div class="drawer-status">${evidenceBadge(item)}<span>事件 ${date(occurredAt)}</span><span>核验 ${date(verifiedAt)}</span></div>
+    <h2 id="signal-detail-title">${safe(item.title || "未命名信号")}</h2>
+    <section><h3>事实</h3><p>${safe(item.summary || item.fact || "该信号的事实摘要尚未补全。")}</p></section>
+    <section><h3>为什么重要</h3><p>${safe(item.whyItMatters || item.why || "影响判断仍在补全，不做超出证据的推断。")}</p></section>
+    <section><h3>证据</h3>${sources.length ? `<ol>${sources.map((source) => `<li><a href="${safeUrl(source.url || source.link || source.href)}" target="_blank" rel="noopener noreferrer">${safe(source.title || source.name || source.publisher || "原始来源")}</a></li>`).join("")}</ol>` : '<p class="empty">尚无可公开跳转的原始来源。</p>'}</section>
+    <section><h3>未知 / 冲突</h3><p>${safe(state.tone === "conflict" ? (item.conflict || unknowns) : unknowns)}</p></section>
+    <section><h3>下一观察点</h3><p>${safe(item.nextWatch || item.nextObservation || item.watchFor || "等待主体公告、第二个独立来源或后续落地证据。")}</p></section>
+    <div class="drawer-actions"><button type="button" data-share-detail>分享</button><button type="button" data-copy-detail>复制链接</button><a href="${safe(issueUrl(item))}" target="_blank" rel="noopener noreferrer">补充证据</a>${sources[0] ? `<a href="${safeUrl(sources[0].url || sources[0].link || sources[0].href)}" target="_blank" rel="noopener noreferrer">原始来源 ↗</a>` : ""}</div>`;
+}
+
+function closeDetail({ updateUrl = true } = {}) {
+  const drawer = byId("signal-detail-drawer");
+  if (!drawer || drawer.hidden) return;
+  drawer.hidden = true;
+  document.body.classList.remove("detail-open");
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("signal")) {
+      url.searchParams.delete("signal");
+      history.replaceState({}, "", url);
+    }
+  }
+  if (lastDetailTrigger?.isConnected) lastDetailTrigger.focus();
+}
+
+function openDetail(id, trigger = null, { updateUrl = true } = {}) {
+  const item = detailItems.get(id);
+  if (!item) return;
+  lastDetailTrigger = trigger;
+  const drawer = ensureDetailDrawer();
+  byId("signal-detail-content").innerHTML = detailMarkup(item);
+  drawer.hidden = false;
+  document.body.classList.add("detail-open");
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("signal", id);
+    history.pushState({ signal: id }, "", url);
+  }
+  drawer.querySelector(".drawer-panel").focus();
+}
+
+document.addEventListener("click", async (event) => {
+  const trigger = event.target.closest("[data-signal-detail]");
+  if (trigger) {
+    event.preventDefault();
+    openDetail(trigger.dataset.signalDetail, trigger);
+    return;
+  }
+  const drawer = event.target.closest("#signal-detail-drawer");
+  if (!drawer) return;
+  const id = new URL(window.location.href).searchParams.get("signal");
+  const item = detailItems.get(id);
+  if (!item) return;
+  if (event.target.closest("[data-copy-detail]")) await navigator.clipboard?.writeText(window.location.href);
+  if (event.target.closest("[data-share-detail]")) {
+    if (navigator.share) await navigator.share({ title: item.title || "Physical AI 信号", text: item.summary || "", url: window.location.href }).catch(() => {});
+    else await navigator.clipboard?.writeText(window.location.href);
+  }
+});
+document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeDetail(); });
+window.addEventListener("popstate", () => {
+  const id = new URL(window.location.href).searchParams.get("signal");
+  if (id && detailItems.has(id)) openDetail(id, null, { updateUrl: false });
+  else closeDetail({ updateUrl: false });
+});
+
 function itemCard(item, compact = false) {
   return `<a class="${compact ? "feed-item" : "key-card"}" href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">
     <div class="item-meta"><span>${safe(item.type || "已验证信号")}</span><time datetime="${safe(item.date)}">${date(item.date)}</time></div>
@@ -60,11 +217,12 @@ function itemCard(item, compact = false) {
 }
 
 function signalCard(item, index) {
+  const id = rememberDetail(item, index);
   return `<article class="top-signal">
     <div class="signal-rank">${String(index + 1).padStart(2, "0")}</div>
     <div class="signal-copy">
-      <div class="signal-badges"><span>${safe(item.verificationStatus || (item.evidenceGrade === "A" ? "官方确认" : "多方证实"))}</span><span>${safe(item.type || "已验证信号")}</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span>${item.score != null ? `<span>影响分 ${safe(item.score)}</span>` : ""}</div>
-      <h3><a href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">${safe(item.title || "未命名信号")}</a></h3>
+      <div class="signal-badges">${evidenceBadge(item, item.evidenceGrade === "A" ? "official" : "multi_source")}<span>${safe(item.type || "已验证信号")}</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span></div>
+      <h3><a href="?signal=${safe(id)}" data-signal-detail="${safe(id)}">${safe(item.title || "未命名信号")}</a></h3>
       <p>${safe(item.summary || "查看原始证据了解详情。")}</p>
       <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entity || item.source || "公开来源")} · 事件 ${date(item.date)}${item.verifiedAt ? ` · 核验 ${date(item.verifiedAt)}` : ""}</i></footer>
     </div>
@@ -72,18 +230,22 @@ function signalCard(item, index) {
 }
 
 function developingCard(item) {
+  const id = rememberDetail(item, detailItems.size);
   return `<article class="developing-signal">
-    <div class="signal-badges"><span>正在发生</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span><span>${safe(item.type || "产业信号")}</span></div>
-    <h3><a href="${safeUrl(item.link)}" target="_blank" rel="noopener noreferrer">${safe(item.title || "未命名信号")}</a></h3>
+    <div class="signal-badges">${evidenceBadge(item, "developing")}<span>${safe(item.evidenceCount || 1)} 个独立证据</span><span>${safe(item.type || "产业信号")}</span></div>
+    <h3><a href="?signal=${safe(id)}" data-signal-detail="${safe(id)}">${safe(item.title || "未命名信号")}</a></h3>
     <p>${safe(item.summary || "查看原始证据了解详情。")}</p>
     <footer><strong>仍待补证</strong> ${safe(item.missingEvidence || "缺少官方公告或第二个独立可信来源")}<i>${safe(item.entity || item.source || "主体已识别")} · ${date(item.date)}</i></footer>
   </article>`;
 }
 
 function renderFeed(id, items) {
+  const emptyMessage = id === "capital"
+    ? "近 30 天没有满足公开证据门槛的资本事件；这不代表没有发生融资。"
+    : "等待下一条已验证信号";
   byId(id).innerHTML = list(items).length
     ? list(items).map((item) => itemCard(item, true)).join("")
-    : '<p class="empty">等待下一条已验证信号</p>';
+    : `<p class="empty">${safe(emptyMessage)}</p>`;
 }
 
 function decisionValue(field, fallbackValue = "未知") {
@@ -145,6 +307,50 @@ function normalizedCompany(item) {
   };
 }
 
+function boardCapital(capital) {
+  if (!capital || capital.state !== "verified") return "融资：证据不足（不代表未融资）";
+  const value = capital.value === "unknown" || !capital.value ? "字段未知" : capital.value;
+  return `融资：${value}${capital.eventDate && capital.eventDate !== "unknown" ? ` · 事件 ${date(capital.eventDate)}` : ""}`;
+}
+
+function boardEntryCard(item, mode) {
+  const breakdown = list(item.scoreBreakdown);
+  const evidenceDates = list(item.evidenceDates).filter((value) => /^\d{4}-\d{2}-\d{2}/.test(text(value)));
+  const unknowns = list(item.unknowns).filter(Boolean);
+  const rank = mode === "ranked" && Number.isFinite(Number(item.rank)) ? `#${safe(item.rank)}` : "观察";
+  const scoreLabel = mode === "ranked" && finiteNumber(item.score) !== null ? `综合分 ${safe(Math.round(Number(item.score)))}` : "不展示精确分";
+  return `<article class="board-entry">
+    <div class="board-entry-head"><span class="board-rank">${rank}</span><div><h4><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.companyName || "待识别公司")}</a></h4><small>${scoreLabel}</small></div></div>
+    <div class="board-score" aria-label="公开评分依据">${breakdown.length ? breakdown.map((part) => `<div><span>${safe(part.label || part.key || "评分项")}</span><b>${finiteNumber(part.points) !== null && mode === "ranked" ? safe(Math.round(Number(part.points))) : "已观察"}</b><small>${safe(part.basis || "依据待补全")}</small></div>`).join("") : '<span class="radar-muted">评分依据待补全</span>'}</div>
+    <p class="board-capital ${item.capital?.state === "verified" ? "verified" : ""}">${safe(boardCapital(item.capital))}</p>
+    <footer>证据日期：${evidenceDates.length ? evidenceDates.map(date).join(" · ") : "未知"}${unknowns.length ? ` · 未知项：${unknowns.map(safe).join("、")}` : ""}</footer>
+  </article>`;
+}
+
+function renderCompanyBoards(value) {
+  const container = byId("company-boards");
+  const grid = byId("company-board-grid");
+  if (!container || !grid || !value || typeof value !== "object") {
+    if (container) container.hidden = true;
+    return;
+  }
+  const boards = [value.momentum, value.strategic].filter((board) => board && typeof board === "object");
+  if (!boards.length) {
+    container.hidden = true;
+    return;
+  }
+  grid.innerHTML = boards.map((board) => {
+    const entries = list(board.entries).slice(0, 5);
+    const mode = board.mode === "ranked" ? "ranked" : "watchlist";
+    return `<section class="company-board" aria-label="${safe(board.title || "公司观察榜")}">
+      <header><div><p class="eyebrow">${mode === "ranked" ? "RANKED TOP 5" : "UNRANKED WATCHLIST"}</p><h3>${safe(board.title || "公司观察榜")}</h3></div><span>${mode === "ranked" ? `样本 ${safe(board.sampleSize ?? entries.length)}` : "样本不足 · 无名次"}</span></header>
+      <p class="board-reason">${safe(board.reason || (mode === "ranked" ? "已达到公开排名样本门槛。" : "样本不足，降级为无序观察清单。"))}</p>
+      <div class="board-entries">${entries.length ? entries.map((item) => boardEntryCard(item, mode)).join("") : '<p class="empty">当前没有达到证据门槛的公司。</p>'}</div>
+    </section>`;
+  }).join("");
+  container.hidden = false;
+}
+
 function renderCompanyRadar(items) {
   const route = byId("route-filter").value;
   const region = byId("region-filter").value;
@@ -152,7 +358,7 @@ function renderCompanyRadar(items) {
   const visible = list(items).filter((item) => (!route || item.routes.includes(route)) && (!region || item.region === region) && (!status || item.capitalStatus === status));
   byId("company-radar").innerHTML = visible.length ? visible.map((item) => `<article class="company-card">
     <div class="company-card-head"><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer"><h3>${safe(item.name || "待识别公司")}</h3></a><span>${safe(item.region)} · ${safe(item.stage)}</span></div>
-    <div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.momentumScore}%"></span><small>${item.momentumScore}/100 · 30D ${safe(item.recentSignals)} 条信号</small></div>
+    <div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.recentSignals ? item.momentumScore : 0}%"></span><small>${item.recentSignals ? `近 30 天 ${safe(item.recentSignals)} 条信号` : "样本不足 · 不展示精确分"}</small></div>
     <p>${safe(item.thesis || "公司技术路线与产业定位仍在补全。")}</p>
     <div class="route-tags">${item.routes.length ? item.routes.map((name) => `<span>${safe(name)}</span>`).join("") : "<span>路线待补全</span>"}</div>
     <dl><div><dt>资本</dt><dd class="${item.capitalStatus === "已证实" ? "verified" : ""}">${safe(item.capitalStatus === "证据不足" ? "证据不足（不代表未融资）" : item.capitalStatus)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div></dl>
@@ -181,13 +387,17 @@ function researchGraph(data) {
 }
 
 function renderResearchGraph(items) {
-  byId("research-graph-grid").innerHTML = list(items).length ? list(items).map((item) => `<article class="research-link">
+  byId("research-graph-grid").innerHTML = list(items).length ? list(items).map((item) => {
+    const verifiedRelations = list(item.relations).filter((relation) => relation?.state === "verified");
+    const hasVerifiedConnection = verifiedRelations.length > 0 || (list(item.companies).length > 0 && !list(item.relations).length && item.connectionState === "verified");
+    return `<article class="research-link">
     <p class="eyebrow">${safe(item.route || "机器人学习")}</p>
     <h3><a href="${safeUrl(item.paper?.link)}" target="_blank" rel="noopener noreferrer">${safe(item.paper?.title || "未命名论文")}</a></h3>
     <p>${safe(item.paper?.summary || "查看论文原文了解研究方法与实验结论。")}</p>
-    <div class="graph-line"><span>论文</span><i aria-hidden="true">→</i><span>${safe(item.route || "机器人学习")}</span><i aria-hidden="true">→</i><span>${list(item.companies).length ? list(item.companies).map(safe).join(" · ") : "产业关联待补证"}</span></div>
-    <small>${safe(item.connection || "持续追踪工程化与商业验证。")}${list(item.relations).length ? ` · ${list(item.relations).filter((relation) => relation.state === "verified").length} 条已核验关系` : ""}</small>
-  </article>`).join("") : '<p class="empty">等待完整中文研究卡与产业路线建立连接。</p>';
+    ${hasVerifiedConnection ? `<div class="graph-line"><span>论文</span><i aria-hidden="true">→</i><span>${safe(item.route || "机器人学习")}</span><i aria-hidden="true">→</i><span>${list(item.companies).map(safe).join(" · ")}</span></div>` : `<div class="graph-line graph-line--unverified"><span>产业关系尚未核验 · 不绘制连线</span></div>`}
+    <small>${safe(item.connection || "持续追踪工程化与商业验证。")}${verifiedRelations.length ? ` · ${verifiedRelations.length} 条已核验关系` : ""}</small>
+  </article>`;
+  }).join("") : '<p class="empty">当前没有达到核验门槛的研究—产业关系；不绘制推断连线。</p>';
 }
 
 function setupCompanyRadar(items) {
@@ -199,6 +409,7 @@ function setupCompanyRadar(items) {
 }
 
 function render(data) {
+  detailItems.clear();
   const stats = data.stats || fallback.stats;
   byId("event-count").textContent = text(stats.events, "0");
   byId("company-count").textContent = text(stats.companies, "0");
@@ -209,15 +420,19 @@ function render(data) {
 
   const topSignals = list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents));
   byId("top-signals").innerHTML = topSignals.length ? topSignals.slice(0, 10).map(signalCard).join("") : '<p class="empty">正在接收满足公开门槛的验证信号…</p>';
-  const developingSignals = list(data.developingSignals).slice(0, 5);
+  const renderedFacts = new Set(topSignals.map((item, index) => signalId(item, index)));
+  const developingSignals = list(data.developingSignals).filter((item, index) => !renderedFacts.has(signalId(item, index))).slice(0, 5);
   byId("developing-signals").innerHTML = developingSignals.length ? developingSignals.map(developingCard).join("") : '<p class="empty">当前没有主体明确、达到单一可信来源门槛的新线索。</p>';
   renderFeed("capital", data.capital);
   renderFeed("industry", data.industry);
   renderResearchFeed(data.research);
+  renderCompanyBoards(data.companyBoards);
   setupCompanyRadar(data.companyRadar);
   renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);
   byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
+  const deepLinkedSignal = new URL(window.location.href).searchParams.get("signal");
+  if (deepLinkedSignal && detailItems.has(deepLinkedSignal)) openDetail(deepLinkedSignal, null, { updateUrl: false });
 }
 
 function renderCommunity(data) {

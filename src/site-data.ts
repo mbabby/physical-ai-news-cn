@@ -9,6 +9,8 @@ import type { CompanyClaimLedger } from "./company-claim-ledger.js";
 import type { ResearchDecisionCard } from "./research-decision-card.js";
 import { researchIndustryCompanyId } from "./research-industry-relations.js";
 import type { ResearchIndustryRelationEdge } from "./research-industry-relations.js";
+import { buildCompanyBoards } from "./company-boards.js";
+import type { CompanyBoards } from "./company-boards.js";
 
 export interface DashboardItem {
   title: string;
@@ -76,6 +78,8 @@ export interface DashboardData {
   research: DashboardResearchItem[];
   researchGraph: ResearchIndustryLink[];
   companyRadar: CompanyRadarItem[];
+  /** Evidence-gated recent momentum and an independent strategic watchlist. */
+  companyBoards?: CompanyBoards;
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
 }
 
@@ -403,6 +407,14 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
       return { paper: articleItem(article), route, companies: verifiedCompanies, connection, relations };
     }),
     companyRadar,
+    companyBoards: buildCompanyBoards(companies, store.events, {
+      now: generatedAt,
+      claimLedger: context.companyClaimLedger,
+      // Production ranking is deliberately stricter than unit-test defaults.
+      // Below ten qualifying companies the UI must remain an unranked watchlist.
+      minimumSampleSize: 10,
+      limit: 5,
+    }),
     routes: routeNames.map((name) => ({ name, focus: routeFocus[name], companies: companies.filter((company) => company.routes.includes(name as CompanyProfile["routes"][number])).slice(0, 4).map((company) => company.name) })),
   };
 }

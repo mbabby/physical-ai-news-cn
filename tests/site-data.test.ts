@@ -29,6 +29,10 @@ test("builds compact dashboard data from verified events and research", () => {
   assert.equal(dashboard.topSignals[0]?.evidenceCount, 1);
   assert.match(dashboard.topSignals[0]?.whyItMatters ?? "", /资本/);
   assert.equal(dashboard.companyRadar[0]?.momentumLabel, "持续推进");
+  assert.equal(dashboard.companyBoards?.policy.minimumSampleSize, 10);
+  assert.equal(dashboard.companyBoards?.momentum.mode, "watchlist");
+  assert.equal(dashboard.companyBoards?.momentum.entries[0]?.rank, null);
+  assert.equal(dashboard.companyBoards?.momentum.entries[0]?.companyName, "Example");
   assert.equal(dashboard.researchGraph[0]?.route, "VLA 与具身模型");
   assert.deepEqual(dashboard.researchGraph[0]?.companies, []);
 });

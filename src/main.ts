@@ -38,6 +38,19 @@ import { buildCompanyClaimLedger } from "./company-claim-ledger.js";
 import { selectTopResearchDecisionCards } from "./research-decision-card.js";
 import { buildResearchIndustryRelationEdges } from "./research-industry-relations.js";
 import type { RelationEvidenceCandidate } from "./research-industry-relations.js";
+import {
+  buildDecisionUnitArtifact,
+  claimDecisionReference,
+  decisionUnitId,
+  eventDecisionReference,
+  researchDecisionCardReference,
+} from "./decision-units.js";
+import type { DecisionFunnelTransition, DecisionUnitArtifact, DecisionUnitSeed } from "./decision-units.js";
+import { buildReviewAssignmentArtifact } from "./review-assignment.js";
+import type { ReviewAssignmentArtifact, ReviewOwner } from "./review-assignment.js";
+import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
+import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
+import { buildDomainHealth } from "./domain-health.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -417,9 +430,63 @@ async function generate(): Promise<void> {
     generatedAt: candidateVerification.generatedAt,
     seeds: verificationIssueSeeds(candidateVerification),
   }, null, 2) + "\n", "utf8");
+  const previousEnrichment = await readJsonStrict<EvidenceEnrichmentArtifact>(join(reviewDir, "evidence-enrichment.json"), {
+    optional: true,
+    label: "定向取证计划",
+    validate: (value): value is EvidenceEnrichmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.plans),
+  });
+  const evidenceEnrichment = buildEvidenceEnrichmentPlan({
+    verification: candidateVerification,
+    companies,
+    sources: registrySources,
+    evidencePool: verificationEvidencePool,
+    previous: previousEnrichment,
+  }, {
+    maxPlansPerRun: 20,
+    maxProbesPerPlan: 6,
+    maxCandidateEvidencePerPlan: 5,
+  }, now);
+  // This output is review-only. Planner findings can never publish or upgrade
+  // evidence automatically; they must re-enter entity, independence and
+  // human-review gates first.
+  await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
   // Build public data after verification so “正在发生” reflects evidence
   // found in this run instead of the previous review artifact.
   const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now });
+  const decisionSeeds: DecisionUnitSeed[] = [
+    ...eventStore.events
+      .filter((event) => event.status !== "已归档" && event.status !== "待复核")
+      .map((event) => ({ actorId: "public-intelligence", decisionKey: `event:${event.id}`, references: [eventDecisionReference(event.id)] })),
+    ...researchDecisionCards
+      .filter((card) => card.eligibleForTopResearch && card.identity.paperId.value !== "unknown")
+      .map((card) => ({
+        actorId: "public-intelligence",
+        decisionKey: `research:${card.identity.paperId.value}`,
+        references: [researchDecisionCardReference(String(card.identity.paperId.value))],
+      })),
+    ...companyClaimLedger.companies.flatMap((company) => company.claims
+      .filter((claim) => claim.evidenceState === "verified" && claim.evidenceIds.length > 0)
+      .map((claim) => ({
+        actorId: "public-intelligence",
+        decisionKey: `claim:${company.companyId}:${claim.claimType}`,
+        references: [claimDecisionReference({ companyId: company.companyId, claimType: claim.claimType, evidenceIds: claim.evidenceIds })],
+      }))),
+  ];
+  const decisionTransitions: DecisionFunnelTransition[] = decisionSeeds.map((seed) => ({
+    unitId: decisionUnitId(seed.actorId, seed.decisionKey),
+    eventId: `${decisionUnitId(seed.actorId, seed.decisionKey)}:public-shortlist`,
+    toStage: "shortlisted",
+    actorId: "daily-pipeline",
+    at: now.toISOString(),
+    detail: "Qualified fact reference entered the public decision shortlist",
+  }));
+  const previousDecisionUnits = await readJsonStrict<DecisionUnitArtifact>(join(reviewDir, "decision-units.json"), {
+    optional: true,
+    label: "用户决策单元",
+    validate: (value): value is DecisionUnitArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.units),
+  });
+  const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
+  await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
@@ -496,6 +563,18 @@ async function generate(): Promise<void> {
     alerts: reviewCases.alerts,
   }, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "cases.md"), formatReviewCasesMarkdown(reviewCases), "utf8");
+  const ownerConfig = await readJsonStrict<{ owners: ReviewOwner[] }>(join(reviewDir, "owners-config.json"), {
+    optional: true,
+    label: "审查负责人配置",
+    validate: (value): value is { owners: ReviewOwner[] } => isObject(value) && Array.isArray(value.owners),
+  });
+  const previousAssignments = await readJsonStrict<ReviewAssignmentArtifact>(join(reviewDir, "assignments.json"), {
+    optional: true,
+    label: "审查分派结果",
+    validate: (value): value is ReviewAssignmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.assignments),
+  });
+  const reviewAssignments = buildReviewAssignmentArtifact(reviewCases.cases, ownerConfig?.owners ?? [], previousAssignments, now);
+  await writeFile(join(reviewDir, "assignments.json"), JSON.stringify(reviewAssignments, null, 2) + "\n", "utf8");
   // The claim ledger reads only already-public A/B-evidence events. Candidate
   // verification stays out of this input, so an unknown financing item remains
   // unknown rather than being promoted into a company capital assertion.
@@ -524,7 +603,7 @@ async function generate(): Promise<void> {
     status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
     quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
     services: statuses,
-    outputs: transaction.size + 3,
+    outputs: transaction.size + 4,
   };
   const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
     optional: true,
@@ -533,9 +612,27 @@ async function generate(): Promise<void> {
   });
   const runHistory = updateRunHistory(previousRunHistory, runManifest);
   const pipelineHealth = buildPipelineHealth(runHistory, finishedAt);
+  const domainHealth = buildDomainHealth({
+    articles: archiveArticles,
+    events: eventStore.events,
+    candidateVerification,
+    companies,
+    runtimeStatuses: statuses,
+    runHistory,
+    expectations: [
+      { domain: "industry", expected: 1 },
+      { domain: "funding", expected: 1 },
+      { domain: "product-deployment", expected: 1 },
+      { domain: "research", expected: 6 },
+      { domain: "llm", expected: 1 },
+      { domain: "openalex", expected: 1 },
+      { domain: "release", expected: 1 },
+    ],
+  }, finishedAt);
   await writeFile(join(reviewDir, "run-manifest.json"), JSON.stringify(runManifest, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "run-history.json"), JSON.stringify(runHistory, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "pipeline-health.json"), JSON.stringify(pipelineHealth, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "domain-health.json"), JSON.stringify(domainHealth, null, 2) + "\n", "utf8");
   await transaction.commit();
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
 }
