@@ -123,7 +123,7 @@ function ensureDetailDrawer() {
   drawer.setAttribute("aria-modal", "true");
   drawer.setAttribute("aria-labelledby", "signal-detail-title");
   drawer.innerHTML = '<button class="drawer-backdrop" type="button" data-close-detail aria-label="关闭详情"></button><div class="drawer-panel" tabindex="-1"><header><span>证据详情</span><button type="button" data-close-detail aria-label="关闭详情">×</button></header><div id="signal-detail-content"></div></div>';
-  document.body.append(drawer);
+  (byId("detail-drawer-root") || document.body).append(drawer);
   drawer.addEventListener("click", (event) => {
     if (event.target.closest("[data-close-detail]")) closeDetail();
   });
