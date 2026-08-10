@@ -70,7 +70,9 @@ function aliases(companyName: string, profile?: CompanyProfile): string[] {
     .map(compact).filter((value) => value.length >= 3);
 }
 function containsEntity(article: Article, names: string[]): boolean {
-  const text = compact(`${article.title} ${article.titleZh ?? ""} ${article.summaryZh ?? ""} ${article.excerpt}`);
+  // Body/abstract mentions are not subject identity. Restrict evidence joins
+  // to headlines so unrelated papers cannot be attached to company events.
+  const text = compact(`${article.title} ${article.titleZh ?? ""}`);
   return names.some((name) => text.includes(name));
 }
 function nearbyEvent(article: Article, leads: Article[]): boolean {
@@ -81,8 +83,9 @@ function nearbyEvent(article: Article, leads: Article[]): boolean {
   });
 }
 function compatibleKind(article: Article, kind: CandidateEnrichmentRequest["kind"]): boolean {
-  if (article.kind === kind) return true;
   const text = `${article.title} ${article.titleZh ?? ""}`;
+  // Classification alone is insufficient: a noisy upstream kind must not
+  // turn an unrelated research paper into financing/product evidence.
   return kind === "投融资" ? /fund|financ|invest|rais|融资|投资|收购/i.test(text)
     : kind === "产品发布" ? /launch|release|unveil|发布|推出/i.test(text)
       : /deploy|customer|pilot|部署|客户|试点|交付/i.test(text);

@@ -111,7 +111,9 @@ function profileDomains(profile: CompanyProfile): string[] {
 }
 
 function profileMatches(article: Article, profiles: CompanyProfile[]): CompanyProfile[] {
-  const text = compact(`${article.title} ${article.titleZh ?? ""} ${article.summaryZh ?? ""}`);
+  // Subject identity is resolved from headlines only. A company mentioned in
+  // an abstract/body can be an investor, customer, lab or comparison target.
+  const text = compact(`${article.title} ${article.titleZh ?? ""}`);
   return profiles.filter((profile) => [profile.name, ...(profile.aliases ?? []), profile.legalName ?? ""]
     .filter((name) => compact(name).length >= 3)
     .some((name) => text.includes(compact(name))));
@@ -131,11 +133,19 @@ function extractedEntity(article: Article): string | undefined {
 }
 
 export function resolveCandidateCompany(article: Article, profiles: CompanyProfile[]): { name?: string; entityId?: string; error?: string } {
+  const extracted = extractedEntity(article);
+  if (extracted) {
+    const identity = compact(extracted);
+    const exact = profiles.filter((profile) => [profile.name, ...(profile.aliases ?? []), profile.legalName ?? ""]
+      .filter(Boolean).some((name) => compact(name) === identity));
+    if (exact.length > 1) return { error: `标题主体同时匹配多个公司实体：${exact.map((item) => item.name).join("、")}` };
+    if (exact.length === 1) return { name: exact[0].name, entityId: exact[0].entityId };
+    return { name: extracted };
+  }
   const matches = profileMatches(article, profiles);
   if (matches.length > 1) return { error: `标题或简介同时匹配多个公司实体：${matches.map((item) => item.name).join("、")}` };
   if (matches.length === 1) return { name: matches[0].name, entityId: matches[0].entityId };
-  const name = extractedEntity(article);
-  return name ? { name } : { error: "无法唯一识别公司主体" };
+  return { error: "无法唯一识别公司主体" };
 }
 
 function grade(article: Article, profile?: CompanyProfile): VerificationGrade {
@@ -373,7 +383,7 @@ export function buildCandidateVerificationArtifact(
       fieldVerification: { amount: amountVerification, round: roundVerification, eventDate: dateVerification },
       reviewSeed: eligible ? {
         title: `[证据复核] ${companyName} · ${best.kind} · ${facts.eventDate ?? "日期待确认"}`,
-        body: [`候选主体：${companyName}`, `事件：${best.titleZh ?? best.title}`, `金额/轮次：${facts.amount ?? "待确认"} / ${facts.round ?? "待确认"}`, "", "证据：", ...publicEvidence.map((item) => `- [${item.grade}] ${item.source} · ${item.link}`), "", "该记录可按证据等级进入首页信号层；人工确认前不得写入规范事件库或公司资本档案。"].join("\n"),
+        body: [`候选主体：${companyName}`, `事件：${best.titleZh ?? best.title}`, `金额/轮次：${facts.amount ?? "待确认"} / ${facts.round ?? "待确认"}`, "", "证据：", ...publicEvidence.map((item) => `- [${item.grade}] ${item.source} · ${item.link}`), "", "该记录仅进入人工审核队列；必须显式晋升为规范事件后，才可进入 README 或 Pages。"].join("\n"),
         labels: ["evidence-review", best.kind === "投融资" ? "funding" : "product-deployment"],
       } : undefined,
     });
@@ -382,7 +392,7 @@ export function buildCandidateVerificationArtifact(
 }
 
 export function formatCandidateVerificationReview(artifact: CandidateVerificationArtifact): string {
-  const lines = ["# 高价值公司 / 融资候选二次核验", "", "审阅与分级发布层：线索发现源永不直接晋升；主体明确且有可信证据的记录可分级进入首页，但人工确认前不会写入规范事件中心或公司资本档案。", ""];
+  const lines = ["# 高价值公司 / 融资候选二次核验", "", "内部审核层：线索发现源与候选记录永不直接进入公开页面；主体明确且证据充分的记录仍须显式晋升到规范事件中心。", ""];
   if (!artifact.records.length) return [...lines, "暂无高价值候选。", ""].join("\n");
   for (const record of artifact.records) lines.push(`## ${record.companyName} · ${record.kind} · ${record.status}`, "", `- 公开等级：${record.publicStatus} · 可信分 ${record.confidenceScore} · 影响分 ${record.impactScore}`, `- 尝试：${record.attempts}${record.nextReviewAt ? `；下次复核 ${record.nextReviewAt.slice(0, 10)}` : ""}`, `- 主动补证：${record.enrichmentAttempts.at(-1)?.outcome ?? "尚未执行"}${record.enrichmentAttempts.at(-1)?.failureReasons.length ? `（${record.enrichmentAttempts.at(-1)!.failureReasons.join("；")}）` : ""}`, `- 事实：${record.facts.amount ?? "金额待确认"}（${record.fieldVerification.amount.status}） · ${record.facts.round ?? "轮次待确认"}（${record.fieldVerification.round.status}） · ${record.facts.eventDate ?? "日期待确认"}（${record.fieldVerification.eventDate.status}）`, `- 证据：${record.evidence.map((item) => `[${item.grade} · ${item.source} · ${item.score}分](${item.link})`).join(" · ")}`, `- 结论：${record.failureReasons.join("；") || "证据包已达到人工审核门槛，尚未公开。"}`, "");
   return lines.join("\n");

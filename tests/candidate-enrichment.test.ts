@@ -89,6 +89,23 @@ test("a retry searches targets but never counts already-known evidence as new", 
   assert.ok(result.attempt.targets.length >= 3);
 });
 
+test("does not join unrelated research abstracts that merely mention the company", () => {
+  const lead = article("lead");
+  const unrelatedPaper = article("paper", {
+    title: "Evaluating investment logic in language models",
+    titleZh: "评估大语言模型的投资逻辑",
+    summaryZh: "论文作者感谢 Nova Robotics 提供讨论。",
+    excerpt: "Nova Robotics appears only in the abstract",
+    link: "https://arxiv.org/abs/2608.00001",
+    source: "arXiv · Robotics", sourceWeight: 10, sourceTier: "官方公司与实验室", kind: "投融资",
+  });
+  const result = enrichCandidateEvidence({
+    companyName: profile.name, entityId: profile.entityId, kind: "投融资", leads: [lead], evidencePool: [lead, unrelatedPaper],
+    profile, sources, previousEvidenceLinks: [], previousAttempts: [], now: new Date("2026-08-09T00:00:00Z"), trigger: "首次补证",
+  });
+  assert.deepEqual(result.matchedEvidence, []);
+});
+
 test("impact score prioritizes large financing over routine product announcements", () => {
   const financing = candidateImpactScore("投融资", [article("funding", { title: "Nova raises $1 billion Series C" })]);
   const product = candidateImpactScore("产品发布", [article("product", { title: "Nova releases controller", kind: "产品发布" })]);

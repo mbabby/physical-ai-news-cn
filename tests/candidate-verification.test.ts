@@ -102,6 +102,32 @@ test("ambiguous or unnamed company subjects are rejected, not fabricated", () =>
   assert.equal(isCandidateEligibleForPublicLayer(artifact.records[0]), false);
 });
 
+test("headline subject wins over companies mentioned only in body copy", () => {
+  const toyota: CompanyProfile = {
+    entityId: "toyota-research-institute", name: "Toyota Research Institute", aliases: ["TRI"],
+    region: "北美", stage: "研究机构", routes: ["数据与训练"], thesis: "机器人研究", officialUrl: "https://www.tri.global/",
+  };
+  const result = resolveCandidateCompany(candidate("avatar", {
+    title: "Avatar Robotics raises $6.5 million seed funding",
+    titleZh: "Avatar Robotics 获 650 万美元种子轮融资",
+    summaryZh: "Toyota Research Institute 曾参与相关机器人生态建设。",
+  }), [toyota]);
+  assert.deepEqual(result, { name: "Avatar Robotics" });
+});
+
+test("generic humanoid mentions do not replace an explicit acquisition subject", () => {
+  const humanoid: CompanyProfile = {
+    entityId: "humanoid", name: "Humanoid", aliases: [], region: "欧洲", stage: "创业公司",
+    routes: ["本体与硬件"], thesis: "人形机器人", officialUrl: "https://thehumanoid.ai/",
+  };
+  const result = resolveCandidateCompany(candidate("realbotix", {
+    title: "Onconetix signs Realbotix acquisition agreement",
+    titleZh: "Onconetix 收购标的 Realbotix 签约，其人形机器人将亮相剧集",
+    summaryZh: "该交易涉及 humanoid robotics 产品。",
+  }), [humanoid]);
+  assert.deepEqual(result, { name: "Onconetix" });
+});
+
 test("explicit event dates are verified without inferring them from publication time", () => {
   const unknown = buildCandidateVerificationArtifact(undefined, [candidate("one")], profiles, new Date("2026-08-09T01:00:00Z"));
   assert.equal(unknown.records[0].facts.eventDate, undefined);

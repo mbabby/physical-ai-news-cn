@@ -490,7 +490,6 @@ async function generate(): Promise<void> {
   await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
-    candidateVerificationRecords: candidateVerification.records,
     companyClaimLedger,
     researchDecisionCards,
     researchIndustryEdges: researchIndustryRelations.edges,

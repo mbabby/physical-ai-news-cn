@@ -201,7 +201,7 @@ test("never exposes subject conflicts or financing with an unidentified entity",
   assert.equal(dashboard.stats.events, 0);
 });
 
-test("can expose a structured developing verification record without leaking unresolved candidates", () => {
+test("keeps every candidate verification record out of the public dashboard", () => {
   const baseRecord = {
     id: "verify-one", companyName: "FreshCo", kind: "投融资" as const, title: "FreshCo 完成新一轮融资", status: "等待重试" as const,
     publicStatus: "developing" as const, confidenceScore: 30, firstSeenAt: "2026-08-08T00:00:00Z", lastAttemptAt: "2026-08-09T00:00:00Z",
@@ -216,14 +216,12 @@ test("can expose a structured developing verification record without leaking unr
   const unresolved = { ...baseRecord, id: "verify-unknown", companyName: "待识别公司" };
   const conflicting = { ...baseRecord, id: "verify-conflict", companyName: "ConflictCo", conflicts: ["金额冲突"], publicStatus: "candidate" as const };
   const dashboard = buildDashboard({ updatedAt: "2026-08-09", events: [] }, [], [], new Date("2026-08-09"), { candidateVerificationRecords: [baseRecord, unresolved, conflicting] });
-  assert.equal(dashboard.developingSignals.length, 1);
-  assert.equal(dashboard.developingSignals[0]?.entity, "FreshCo");
-  assert.equal(dashboard.developingSignals[0]?.evidenceCount, 1);
-  assert.match(dashboard.developingSignals[0]?.summary ?? "", /尚待官方或第二来源确认/);
-  assert.match(dashboard.developingSignals[0]?.missingEvidence ?? "", /A 级|独立 B/);
+  assert.deepEqual(dashboard.developingSignals, []);
+  assert.deepEqual(dashboard.confirmedSignals, []);
+  assert.deepEqual(dashboard.topSignals, []);
 });
 
-test("promotes scored official candidate evidence into the confirmed dashboard lane", () => {
+test("requires an EventStore promotion even for an official candidate record", () => {
   const officialRecord = {
     id: "verify-official", companyName: "OfficialCo", companyEntityId: "official-co", kind: "产品发布" as const,
     title: "OfficialCo 发布新一代具身机器人", status: "可人工审核" as const,
@@ -242,8 +240,7 @@ test("promotes scored official candidate evidence into the confirmed dashboard l
       title: "OfficialCo 发布新一代具身机器人", eventDate: "2026-08-08" }],
   };
   const dashboard = buildDashboard({ updatedAt: "2026-08-09", events: [] }, [], [], new Date("2026-08-09"), { candidateVerificationRecords: [officialRecord] });
-  assert.equal(dashboard.confirmedSignals.length, 1);
-  assert.equal(dashboard.confirmedSignals[0]?.verificationStatus, "官方确认");
-  assert.equal(dashboard.confirmedSignals[0]?.link, "https://official.example/product");
+  assert.deepEqual(dashboard.confirmedSignals, []);
+  assert.deepEqual(dashboard.topSignals, []);
   assert.deepEqual(dashboard.developingSignals, []);
 });
