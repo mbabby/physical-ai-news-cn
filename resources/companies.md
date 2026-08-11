@@ -23,10 +23,10 @@
 - 地域 / 阶段：北美 / 平台公司
 - 技术路线：数据与训练 · 世界模型与空间智能 · VLA 与具身模型
 - 核心押注：机器人训练、仿真、计算与基础模型平台。
-- 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
+- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
 - 主体证据：[公司官网](https://www.nvidia.com/en-us/ai-robotics/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-07-16）
+- 产品 / 部署：免费的 NVIDIA Isaac Sim 网络安全扩展 Vi（[证据](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/)，2026-08-10）；产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-07-16）
 
 ## [Hugging Face](https://huggingface.co/lerobot)
 

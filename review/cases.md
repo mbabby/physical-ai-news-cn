@@ -1,20 +1,20 @@
-# 审查工作项 · 2026-08-10
+# 审查工作项 · 2026-08-11
 
 内部审查队列；候选进入本文件不等于获准公开，也不会自动写入事件中心、公司档案或首页。
 
 ## 队列
 
 - 工作项：40（活跃 40）
-- 已超时：28
+- 已超时：40
 - 无 owner：40
 - 无 nextAction：0
 
 ## SLO
 
 - 首次响应 P90：无样本
-- 首次响应 SLO 达标：0/28（0%）
+- 首次响应 SLO 达标：0/40（0%）
 - 到期 Top 20 探查覆盖：0/20（0%）
-- 活跃积压年龄 P50 / P90 / 最大：4.66 小时 / 28.42 小时 / 196.32 小时
+- 活跃积压年龄 P50 / P90 / 最大：18.13 小时 / 41.9 小时 / 209.79 小时
 
 ## 告警
 
@@ -74,15 +74,27 @@
 - **critical · unowned**：review-article-bb126d2af7df5431 has no explicit owner
 - **critical · overdue**：review-article-46c15e80739088dd missed its first-response SLO at 2026-08-10T11:18:54.274Z
 - **critical · unowned**：review-article-46c15e80739088dd has no explicit owner
+- **critical · overdue**：review-article-0cb87efc0de96fb8 missed its first-response SLO at 2026-08-10T12:13:44.563Z
 - **critical · unowned**：review-article-0cb87efc0de96fb8 has no explicit owner
+- **critical · overdue**：review-article-16f1c8063ae2986b missed its first-response SLO at 2026-08-10T12:13:44.563Z
 - **critical · unowned**：review-article-16f1c8063ae2986b has no explicit owner
+- **critical · overdue**：review-article-dad48f921c6f721d missed its first-response SLO at 2026-08-10T12:13:44.563Z
 - **critical · unowned**：review-article-dad48f921c6f721d has no explicit owner
+- **critical · overdue**：review-article-76de556958722c8a missed its first-response SLO at 2026-08-10T12:13:45.403Z
 - **critical · unowned**：review-article-76de556958722c8a has no explicit owner
+- **critical · overdue**：review-article-cae393ca764e6792 missed its first-response SLO at 2026-08-10T12:13:45.403Z
 - **critical · unowned**：review-article-cae393ca764e6792 has no explicit owner
+- **critical · overdue**：review-article-0cfa91675c86b03c missed its first-response SLO at 2026-08-10T12:20:23.001Z
 - **critical · unowned**：review-article-0cfa91675c86b03c has no explicit owner
+- **critical · overdue**：review-article-9b12b728652c8b87 missed its first-response SLO at 2026-08-10T12:20:23.001Z
 - **critical · unowned**：review-article-9b12b728652c8b87 has no explicit owner
+- **critical · overdue**：review-article-e570efd81e7664ab missed its first-response SLO at 2026-08-10T12:20:23.001Z
 - **critical · unowned**：review-article-e570efd81e7664ab has no explicit owner
+- **critical · overdue**：review-article-3ef856a33b85789e missed its first-response SLO at 2026-08-10T15:44:36.399Z
 - **critical · unowned**：review-article-3ef856a33b85789e has no explicit owner
+- **critical · overdue**：review-article-55407bb11aab76d7 missed its first-response SLO at 2026-08-10T15:44:36.399Z
 - **critical · unowned**：review-article-55407bb11aab76d7 has no explicit owner
+- **critical · overdue**：review-article-e9cf29def4c031da missed its first-response SLO at 2026-08-10T15:44:36.399Z
 - **critical · unowned**：review-article-e9cf29def4c031da has no explicit owner
+- **critical · overdue**：review-article-0956b2365f7c1ee2 missed its first-response SLO at 2026-08-10T15:44:37.260Z
 - **critical · unowned**：review-article-0956b2365f7c1ee2 has no explicit owner

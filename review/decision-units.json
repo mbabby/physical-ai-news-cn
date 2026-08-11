@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T11:48:46.705Z",
+  "generatedAt": "2026-08-11T01:17:10.261Z",
   "units": [
     {
       "unitId": "decision-11dadecc97b99204",
@@ -80,6 +80,47 @@
           "detail": "Qualified fact reference entered the public decision shortlist",
           "referenceIds": [
             "research-decision-card:a69b824bb1a59cee"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-20c356ec6cbcf002",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-4bc58917ee51",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-4bc58917ee51"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-11T01:17:10.261Z",
+      "updatedAt": "2026-08-11T01:17:10.261Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-20c356ec6cbcf002:created",
+          "at": "2026-08-11T01:17:10.261Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-4bc58917ee51"
+          ]
+        },
+        {
+          "eventId": "decision-20c356ec6cbcf002:public-shortlist",
+          "at": "2026-08-11T01:17:10.261Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-4bc58917ee51"
           ]
         }
       ]
@@ -619,19 +660,19 @@
     }
   ],
   "funnel": {
-    "totalUnits": 15,
+    "totalUnits": 16,
     "byStage": {
       "discovered": 0,
-      "shortlisted": 15,
+      "shortlisted": 16,
       "evaluating": 0,
       "decided": 0,
       "acted": 0,
       "dismissed": 0
     },
-    "active": 15,
+    "active": 16,
     "converted": 0,
     "rejected": 0,
-    "transitionEvents": 15,
+    "transitionEvents": 16,
     "conversionRate": 0
   }
 }

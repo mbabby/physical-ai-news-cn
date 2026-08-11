@@ -27,9 +27,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-10 | 3 | 49 | 49 | 13 / 28 |
+| 2026-08-11 | 4 | 49 | 49 | 13 / 28 |
 
-**运行健康**：近 30 天日历覆盖 10/30（33%） · 已归档运行成功 10/10（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 11/30（37%） · 已归档运行成功 11/11（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -53,13 +53,17 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-10 · 最近确证产业事件 2026-07-28 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
+> 数据刷新至 2026-08-11 · 最近确证产业事件 2026-08-10 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>事件 07-28</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
-- [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>事件 07-16</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
+- [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-10</sub><br>VicOne 推出免费的 Radeis Extension 扩展，让开发者能在 NVIDIA Isaac Sim 中于部署前测试机器人的网络安全性。摘要未提供真实机器人、基准或开源证据。
 - [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>事件 07-17</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
+
+### 最新动态
+
+- [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>事件 07-16</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
 
 
 <!-- EVENT_CENTER_END -->
@@ -75,7 +79,7 @@
 ### 近 30 天产品 / 部署
 
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 事件 07-28
-- **NVIDIA** · [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) · 世界模型与空间智能 / 部署与商业化 · 事件 07-16
+- **NVIDIA** · [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) · 部署与商业化 <kbd>本周新增</kbd> · 事件 08-10
 - **Agility Robotics** · [ 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) · 数据与训练 · 事件 07-17
 
 > [查看 49 家公司的完整档案、技术路线与资本证据](resources/companies.md)
@@ -86,7 +90,7 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
+> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-10）的完整研究卡。
 
 - [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：来自 UC Berkeley / 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang · UC Berkeley / 清华大学</sub>
 
@@ -94,11 +98,11 @@
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
+- [TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架](https://arxiv.org/abs/2608.07314v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。<br>值得关注：提供真实机器人、基准证据。
+
+- [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：提供真实机器人、基准证据。
+
 - [GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准](https://arxiv.org/abs/2608.05948v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Shuai Wang</sub>
-
-- [JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习](https://arxiv.org/abs/2608.05674v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：RA Team</sub>
-
-- [BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架](https://arxiv.org/abs/2608.05042v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yuze Zhu</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 
