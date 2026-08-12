@@ -263,10 +263,10 @@
 - 地域 / 阶段：欧洲 / 创业公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：面向产业与服务场景的通用人形机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
+- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
 - 主体证据：[公司官网](https://thehumanoid.ai/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)，2026-08-11）
 
 ## [Mentee Robotics](https://www.menteebot.com/)
 

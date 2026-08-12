@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-11T01:22:48.251Z",
+  "generatedAt": "2026-08-12T01:30:50.121Z",
   "domains": {
     "industry": {
       "expected": 1,
-      "observed": 71,
+      "observed": 80,
       "evidenceReady": 2,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0.0282,
+      "evidenceReadyRate": 0.025,
       "status": "degraded",
       "gaps": [
-        "69 个观测尚未达到证据门槛",
+        "78 个观测尚未达到证据门槛",
         "事件缺少 A 级或两个独立 B 级证据",
         "仅有线索或未分层来源",
         "尚缺一条 A 级一手证据，或两个独立 B 级来源",
@@ -21,14 +21,14 @@
     },
     "funding": {
       "expected": 1,
-      "observed": 44,
+      "observed": 50,
       "evidenceReady": 0,
       "failureCount": 0,
       "coverageRate": 1,
       "evidenceReadyRate": 0,
       "status": "degraded",
       "gaps": [
-        "44 个观测尚未达到证据门槛",
+        "50 个观测尚未达到证据门槛",
         "尚缺一条 A 级一手证据，或两个独立 B 级来源",
         "无法唯一识别公司主体",
         "现有材料全部来自线索发现层，不能作为公开证据"
@@ -36,14 +36,14 @@
     },
     "product-deployment": {
       "expected": 1,
-      "observed": 27,
+      "observed": 30,
       "evidenceReady": 2,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0.0741,
+      "evidenceReadyRate": 0.0667,
       "status": "degraded",
       "gaps": [
-        "25 个观测尚未达到证据门槛",
+        "28 个观测尚未达到证据门槛",
         "事件缺少 A 级或两个独立 B 级证据",
         "仅有线索或未分层来源",
         "尚缺一条 A 级一手证据，或两个独立 B 级来源",
@@ -62,14 +62,14 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 9,
-      "evidenceReady": 9,
-      "failureCount": 3,
+      "observed": 10,
+      "evidenceReady": 10,
+      "failureCount": 2,
       "coverageRate": 1,
       "evidenceReadyRate": 1,
       "status": "degraded",
       "gaps": [
-        "3 个采集或服务失败",
+        "2 个采集或服务失败",
         "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
       ]
     },
@@ -199,25 +199,25 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 16,
+          "observed": 17,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "16 个观测尚未达到证据门槛",
+            "17 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
         "funding": {
           "expected": 0,
-          "observed": 2,
+          "observed": 3,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "3 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
@@ -236,23 +236,112 @@
       },
       "total": {
         "expected": 0,
-        "observed": 32,
+        "observed": 34,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "14 个观测尚未达到证据门槛",
-          "16 个观测尚未达到证据门槛",
-          "2 个观测尚未达到证据门槛",
-          "32 个观测尚未达到证据门槛",
+          "17 个观测尚未达到证据门槛",
+          "3 个观测尚未达到证据门槛",
+          "34 个观测尚未达到证据门槛",
           "无法唯一识别公司主体"
         ]
       }
     },
     {
       "dimension": "company",
+      "key": "防务无人机开发商 Cambridge Aerospace",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "观瑞慧途机器人",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "广汽旗下人形机器人公司",
       "domains": {
         "industry": {
           "expected": 0,
@@ -896,6 +985,49 @@
     },
     {
       "dimension": "company",
+      "key": "网络研讨会探讨仓库机器人车队的安全与规模化",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "卧安机器人",
       "domains": {
         "industry": {
@@ -1218,6 +1350,52 @@
     },
     {
       "dimension": "company",
+      "key": "中科芯知",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "中科院系农业机器人公司",
       "domains": {
         "industry": {
@@ -1399,6 +1577,52 @@
     },
     {
       "dimension": "company",
+      "key": "Alloy Robotics",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "Avatar Robotics",
       "domains": {
         "industry": {
@@ -1535,6 +1759,52 @@
     {
       "dimension": "company",
       "key": "DISCOVER Robotics 与 PokeBot 各",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "Eurobotics",
       "domains": {
         "industry": {
           "expected": 0,
@@ -1752,39 +2022,45 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 4,
+        "observed": 8,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "2 个观测尚未达到证据门槛",
           "4 个观测尚未达到证据门槛",
+          "8 个观测尚未达到证据门槛",
+          "事件缺少 A 级或两个独立 B 级证据",
+          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
@@ -1841,43 +2117,40 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 3,
+          "observed": 2,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.3333,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源"
+            "1 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 3,
+          "observed": 2,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.3333,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源"
+            "1 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 6,
+        "observed": 4,
         "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0.3333,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
+          "1 个观测尚未达到证据门槛",
           "2 个观测尚未达到证据门槛",
-          "4 个观测尚未达到证据门槛",
-          "事件缺少 A 级或两个独立 B 级证据",
-          "仅有线索或未分层来源"
+          "事件缺少 A 级或两个独立 B 级证据"
         ]
       }
     },
@@ -1970,6 +2243,49 @@
           "2 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "PlusAI 在自动驾驶卡车",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
     },
@@ -2470,21 +2786,6 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 6,
-          "evidenceReady": 1,
-          "failureCount": 0,
-          "evidenceReadyRate": 0.1667,
-          "status": "degraded",
-          "gaps": [
-            "5 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "product-deployment": {
-          "expected": 0,
           "observed": 5,
           "evidenceReady": 1,
           "failureCount": 0,
@@ -2493,7 +2794,20 @@
           "gaps": [
             "4 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源"
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 4,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 0.25,
+          "status": "degraded",
+          "gaps": [
+            "3 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据"
           ]
         },
         "funding": {
@@ -2512,18 +2826,17 @@
       },
       "total": {
         "expected": 0,
-        "observed": 12,
+        "observed": 10,
         "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0.1667,
+        "evidenceReadyRate": 0.2,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
-          "10 个观测尚未达到证据门槛",
+          "3 个观测尚未达到证据门槛",
           "4 个观测尚未达到证据门槛",
-          "5 个观测尚未达到证据门槛",
+          "8 个观测尚未达到证据门槛",
           "事件缺少 A 级或两个独立 B 级证据",
-          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
@@ -2611,39 +2924,45 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 4,
+        "observed": 8,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "2 个观测尚未达到证据门槛",
           "4 个观测尚未达到证据门槛",
+          "8 个观测尚未达到证据门槛",
+          "事件缺少 A 级或两个独立 B 级证据",
+          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
@@ -2700,28 +3019,30 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 4,
+          "observed": 6,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "4 个观测尚未达到证据门槛",
+            "6 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 3,
+          "observed": 5,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "3 个观测尚未达到证据门槛",
+            "5 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
@@ -2741,17 +3062,18 @@
       },
       "total": {
         "expected": 0,
-        "observed": 8,
+        "observed": 12,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
-          "3 个观测尚未达到证据门槛",
-          "4 个观测尚未达到证据门槛",
-          "8 个观测尚未达到证据门槛",
+          "12 个观测尚未达到证据门槛",
+          "5 个观测尚未达到证据门槛",
+          "6 个观测尚未达到证据门槛",
           "事件缺少 A 级或两个独立 B 级证据",
+          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
@@ -2763,42 +3085,45 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 4,
+          "observed": 5,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.25,
+          "evidenceReadyRate": 0.2,
           "status": "degraded",
           "gaps": [
-            "3 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 4,
+          "observed": 5,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.25,
+          "evidenceReadyRate": 0.2,
           "status": "degraded",
           "gaps": [
-            "3 个观测尚未达到证据门槛",
+            "4 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 8,
+        "observed": 10,
         "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0.25,
+        "evidenceReadyRate": 0.2,
         "status": "degraded",
         "gaps": [
-          "3 个观测尚未达到证据门槛",
-          "6 个观测尚未达到证据门槛",
+          "4 个观测尚未达到证据门槛",
+          "8 个观测尚未达到证据门槛",
           "事件缺少 A 级或两个独立 B 级证据",
+          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
@@ -2809,20 +3134,6 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 3,
-          "evidenceReady": 1,
-          "failureCount": 0,
-          "evidenceReadyRate": 0.3333,
-          "status": "degraded",
-          "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "仅有线索或未分层来源",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "product-deployment": {
-          "expected": 0,
           "observed": 2,
           "evidenceReady": 1,
           "failureCount": 0,
@@ -2830,8 +3141,18 @@
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
-            "仅有线索或未分层来源"
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
           ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
         },
         "funding": {
           "expected": 0,
@@ -2849,16 +3170,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 6,
+        "observed": 4,
         "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0.3333,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
           "2 个观测尚未达到证据门槛",
-          "4 个观测尚未达到证据门槛",
-          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
@@ -2870,21 +3189,6 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 4,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "4 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "product-deployment": {
-          "expected": 0,
           "observed": 3,
           "evidenceReady": 0,
           "failureCount": 0,
@@ -2893,7 +3197,20 @@
           "gaps": [
             "3 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 2,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "2 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
@@ -2913,18 +3230,17 @@
       },
       "total": {
         "expected": 0,
-        "observed": 8,
+        "observed": 6,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
           "3 个观测尚未达到证据门槛",
-          "4 个观测尚未达到证据门槛",
-          "8 个观测尚未达到证据门槛",
+          "6 个观测尚未达到证据门槛",
           "事件缺少 A 级或两个独立 B 级证据",
-          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
@@ -2936,42 +3252,39 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 3,
+          "observed": 2,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.3333,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "仅有线索或未分层来源",
+            "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 3,
+          "observed": 2,
           "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0.3333,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "仅有线索或未分层来源",
+            "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 6,
+        "observed": 4,
         "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0.3333,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
+          "1 个观测尚未达到证据门槛",
           "2 个观测尚未达到证据门槛",
-          "4 个观测尚未达到证据门槛",
-          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
@@ -2982,26 +3295,26 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 12,
+          "observed": 13,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "12 个观测尚未达到证据门槛",
+            "13 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 12,
+          "observed": 13,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "12 个观测尚未达到证据门槛",
+            "13 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
@@ -3009,14 +3322,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 24,
+        "observed": 26,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "12 个观测尚未达到证据门槛",
-          "24 个观测尚未达到证据门槛",
+          "13 个观测尚未达到证据门槛",
+          "26 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体"
         ]
@@ -3036,7 +3349,6 @@
           "gaps": [
             "11 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
@@ -3051,7 +3363,6 @@
           "gaps": [
             "11 个观测尚未达到证据门槛",
             "事件缺少 A 级或两个独立 B 级证据",
-            "仅有线索或未分层来源",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
@@ -3068,7 +3379,6 @@
           "11 个观测尚未达到证据门槛",
           "22 个观测尚未达到证据门槛",
           "事件缺少 A 级或两个独立 B 级证据",
-          "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体"
         ]
@@ -3080,40 +3390,43 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据"
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 2,
+          "observed": 4,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "事件缺少 A 级或两个独立 B 级证据"
+            "4 个观测尚未达到证据门槛",
+            "事件缺少 A 级或两个独立 B 级证据",
+            "仅有线索或未分层来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 4,
+        "observed": 8,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "2 个观测尚未达到证据门槛",
           "4 个观测尚未达到证据门槛",
-          "事件缺少 A 级或两个独立 B 级证据"
+          "8 个观测尚未达到证据门槛",
+          "事件缺少 A 级或两个独立 B 级证据",
+          "仅有线索或未分层来源"
         ]
       }
     },
@@ -3123,13 +3436,13 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 44,
+          "observed": 50,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "44 个观测尚未达到证据门槛",
+            "50 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3137,13 +3450,13 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 44,
+          "observed": 50,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "44 个观测尚未达到证据门槛",
+            "50 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3152,14 +3465,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 88,
+        "observed": 100,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "44 个观测尚未达到证据门槛",
-          "88 个观测尚未达到证据门槛",
+          "100 个观测尚未达到证据门槛",
+          "50 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体",
           "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3248,6 +3561,20 @@
       "domains": {
         "industry": {
           "expected": 0,
+          "observed": 22,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "22 个观测尚未达到证据门槛",
+            "仅有线索或未分层来源",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "无法唯一识别公司主体"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
           "observed": 19,
           "evidenceReady": 0,
           "failureCount": 0,
@@ -3260,45 +3587,31 @@
             "无法唯一识别公司主体"
           ]
         },
-        "product-deployment": {
-          "expected": 0,
-          "observed": 17,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "17 个观测尚未达到证据门槛",
-            "仅有线索或未分层来源",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "无法唯一识别公司主体"
-          ]
-        },
         "funding": {
           "expected": 0,
-          "observed": 2,
+          "observed": 3,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "2 个观测尚未达到证据门槛",
+            "3 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 38,
+        "observed": 44,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "17 个观测尚未达到证据门槛",
           "19 个观测尚未达到证据门槛",
-          "2 个观测尚未达到证据门槛",
-          "38 个观测尚未达到证据门槛",
+          "22 个观测尚未达到证据门槛",
+          "3 个观测尚未达到证据门槛",
+          "44 个观测尚未达到证据门槛",
           "仅有线索或未分层来源",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体"
@@ -3311,13 +3624,13 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 42,
+          "observed": 47,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "42 个观测尚未达到证据门槛",
+            "47 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3325,13 +3638,13 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 42,
+          "observed": 47,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "42 个观测尚未达到证据门槛",
+            "47 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3340,14 +3653,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 84,
+        "observed": 94,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "42 个观测尚未达到证据门槛",
-          "84 个观测尚未达到证据门槛",
+          "47 个观测尚未达到证据门槛",
+          "94 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体",
           "现有材料全部来自线索发现层，不能作为公开证据"
@@ -3366,6 +3679,6 @@
       "openalex",
       "release"
     ],
-    "coverageGapCount": 67
+    "coverageGapCount": 74
   }
 }

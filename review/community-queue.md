@@ -23,12 +23,12 @@
 
 ## 待评估信源
 
-- **marcusoft.net** · 连续成功 2 次 · 样例：[Are AI agents our industry's industrial robots?](https://www.marcusoft.net/2026/08/ai-robots.html) · [提交信源建议](../../issues/new/choose)
-- **hackaday.com** · 连续成功 4 次 · 样例：[Chernobyl's Robots, or the Hackathon from Hell](https://hackaday.com/2026/08/07/chernobyls-robots-or-the-hackathon-from-hell/) · [提交信源建议](../../issues/new/choose)
-- **electrek.co** · 连续成功 4 次 · 样例：[Mitsubishi joins the humanoid robot race, at a 1k unit per month pace](https://electrek.co/2026/08/07/mitsubishi-joins-the-humanoid-robot-race-at-a-1000-unit-per-month-pace/) · [提交信源建议](../../issues/new/choose)
-- **github.com** · 连续成功 9 次 · 样例：[Show HN: Rodeo – a robot that earns its own electricity](https://github.com/IERoboticsAILab/RODEO) · [提交信源建议](../../issues/new/choose)
-- **huggingface.co** · 连续成功 9 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
-- **covingtonblogs.com** · 连续成功 7 次 · 样例：[FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices](https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 10 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
+- **marcusoft.net** · 连续成功 3 次 · 样例：[Are AI agents our industry's industrial robots?](https://www.marcusoft.net/2026/08/ai-robots.html) · [提交信源建议](../../issues/new/choose)
+- **hackaday.com** · 连续成功 5 次 · 样例：[Chernobyl's Robots, or the Hackathon from Hell](https://hackaday.com/2026/08/07/chernobyls-robots-or-the-hackathon-from-hell/) · [提交信源建议](../../issues/new/choose)
+- **electrek.co** · 连续成功 5 次 · 样例：[Mitsubishi joins the humanoid robot race, at a 1k unit per month pace](https://electrek.co/2026/08/07/mitsubishi-joins-the-humanoid-robot-race-at-a-1000-unit-per-month-pace/) · [提交信源建议](../../issues/new/choose)
+- **huggingface.co** · 连续成功 10 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
+- **covingtonblogs.com** · 连续成功 8 次 · 样例：[FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices](https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

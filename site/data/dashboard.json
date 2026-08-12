@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-11T01:17:10.261Z",
+  "generatedAt": "2026-08-12T01:25:08.608Z",
   "periodLabel": "本周 2026-W33 · 近 30 天滚动证据池",
   "stats": {
-    "events": 4,
+    "events": 5,
     "companies": 49,
     "research": 6,
     "sources": 41
@@ -25,7 +25,7 @@
       "evidenceCount": 2,
       "verifiedAt": "2026-08-01T16:02:57.199Z",
       "whyItMatters": "产品能力或工程边界出现可核验推进；当前由一手证据支持。",
-      "score": 64
+      "score": 63
     },
     {
       "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
@@ -66,7 +66,27 @@
       "missingEvidence": "后续是否有一手技术细节、客户或复现证据？",
       "verifiedAt": "2026-08-11T01:17:10.261Z",
       "whyItMatters": "产品能力或工程边界出现可核验推进；当前由独立可信来源支持。",
-      "score": 70
+      "score": 69
+    },
+    {
+      "title": "3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场",
+      "summary": "文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。",
+      "link": "https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/",
+      "type": "公司商业",
+      "route": "本体与硬件",
+      "date": "2026-08-11",
+      "source": "The Robot Report",
+      "isThisWeek": true,
+      "lastVerifiedAt": "2026-08-12T01:25:08.608Z",
+      "lastMaterialChangeAt": "2026-08-12T01:25:08.608Z",
+      "entity": "Humanoid",
+      "evidenceGrade": "B",
+      "verificationStatus": "正在发生",
+      "evidenceCount": 1,
+      "missingEvidence": "后续是否有一手技术细节、客户或复现证据？",
+      "verifiedAt": "2026-08-12T01:25:08.608Z",
+      "whyItMatters": "公司商业化、合作或组织进程发生变化；当前由独立可信来源支持。",
+      "score": 62
     }
   ],
   "topSignals": [
@@ -87,7 +107,7 @@
       "evidenceCount": 2,
       "verifiedAt": "2026-08-01T16:02:57.199Z",
       "whyItMatters": "产品能力或工程边界出现可核验推进；当前由一手证据支持。",
-      "score": 64
+      "score": 63
     },
     {
       "title": "日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿",
@@ -396,52 +416,56 @@
       }
     },
     {
-      "title": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
-      "summary": "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。",
-      "link": "https://arxiv.org/abs/2608.03682v2",
+      "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
+      "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
+      "link": "https://arxiv.org/abs/2608.06729v1",
       "type": "研究论文",
       "route": "研究",
-      "date": "2026-08-04",
+      "date": "2026-08-07",
       "source": "arXiv · Robotics",
       "decisionCard": {
         "identity": {
           "paperId": {
-            "value": "7e4a09414f545820",
+            "value": "842989b9ed1ce602",
             "evidenceUrls": [
-              "https://arxiv.org/abs/2608.03682v2"
+              "https://arxiv.org/abs/2608.06729v1"
             ]
           },
           "openAlexWorkId": {
-            "value": "https://openalex.org/W7201914260",
+            "value": "https://openalex.org/W7202125387",
             "evidenceUrls": [
-              "https://openalex.org/W7201914260"
+              "https://openalex.org/W7202125387"
             ]
           },
           "version": {
-            "value": 2,
+            "value": 1,
             "evidenceUrls": [
-              "https://arxiv.org/abs/2608.03682v2"
+              "https://arxiv.org/abs/2608.06729v1"
             ]
           }
         },
         "titleZh": {
-          "value": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
+          "value": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ]
         },
         "factsZh": {
           "value": [
-            "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。",
-            "其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
+            "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。",
+            "在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。"
           ],
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ]
         },
         "task": {
-          "value": "unknown",
-          "evidenceUrls": []
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06729v1"
+          ]
         },
         "embodiment": {
           "value": "unknown",
@@ -453,16 +477,17 @@
         },
         "benchmark": {
           "value": [
-            "LIBERO"
+            "LIBERO",
+            "RLBench"
           ],
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ]
         },
         "baselineDelta": {
-          "value": "Detailed profiles reveal why different models need different execution policies: on a Hopper-series GPU at batch size one, the pi0.5 action expert accounts for 8.8% of FLOPs but 57.2% of latency; at batch size 32 its share drops to 13.5% and throughput reaches about 100 samples/s.",
+          "value": "Remarkably, it decisively outperforms multi-view baselines, yielding absolute success rate improvements of 9.4% on LIBERO-Long and 17.5% in real-world long-horizon tasks.",
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ]
         },
         "realRobotTrials": {
@@ -471,11 +496,8 @@
         },
         "artifacts": {
           "code": {
-            "value": "https://github.com/mingti-org/phyai",
-            "evidenceUrls": [
-              "https://arxiv.org/abs/2608.03682v2",
-              "https://github.com/mingti-org/phyai"
-            ]
+            "value": "unknown",
+            "evidenceUrls": []
           },
           "weights": {
             "value": "unknown",
@@ -496,10 +518,10 @@
         },
         "limitations": {
           "value": [
-            "Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16."
+            "While Vision-Language-Action (VLA) models have advanced embodied AI, their fundamentally reactive paradigm severely limits performance in partially observable and long-horizon tasks."
           ],
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ]
         },
         "reproducibilityCost": {
@@ -509,110 +531,102 @@
         },
         "author": {
           "value": [
-            "Chenghua Wang",
-            "Daliang Xu",
-            "Dongqi Cai"
+            "Guiyu Zhao",
+            "Y. Mei"
           ],
           "evidenceUrls": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ]
         },
         "lab": {
           "value": [
-            "Beijing University of Posts and Telecommunications",
-            "Nanjing University",
-            "Ming Chi University of Technology",
-            "Tsinghua University",
-            "Peking University",
-            "University of Macau",
-            "University of Cambridge",
-            "Suzhou University of Science and Technology",
-            "清华大学"
+            "Lawrence Berkeley National Laboratory",
+            "University of Chinese Academy of Sciences",
+            "UC Berkeley"
           ],
           "evidenceUrls": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ]
         },
         "openAlex": {
           "match": {
             "value": "matched",
             "evidenceUrls": [
-              "https://openalex.org/W7201914260"
+              "https://openalex.org/W7202125387"
             ]
           },
           "retraction": {
             "value": false,
             "evidenceUrls": [
-              "https://openalex.org/W7201914260"
+              "https://openalex.org/W7202125387"
             ]
           },
           "freshness": {
             "value": "fresh",
             "evidenceUrls": [
-              "https://openalex.org/W7201914260"
+              "https://openalex.org/W7202125387"
             ]
           }
         },
         "whyWorthAttention": {
-          "value": "原文摘要明确出现基准、开源证据；OpenAlex 作者/机构元数据包含Beijing University of Posts and Telecommunications、Nanjing University。",
+          "value": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Lawrence Berkeley National Laboratory、University of Chinese Academy of Sciences。",
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.03682v2",
-            "https://openalex.org/W7201914260"
+            "https://arxiv.org/abs/2608.06729v1",
+            "https://openalex.org/W7202125387"
           ]
         },
-        "rankScore": 81,
+        "rankScore": 71,
         "fieldEvidence": {
           "identity": [
-            "https://arxiv.org/abs/2608.03682v2",
-            "https://openalex.org/W7201914260",
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1",
+            "https://openalex.org/W7202125387",
+            "https://arxiv.org/abs/2608.06729v1"
           ],
           "title": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ],
           "facts": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ],
-          "task": [],
+          "task": [
+            "https://arxiv.org/abs/2608.06729v1"
+          ],
           "embodiment": [],
           "datasetTrainingScale": [],
           "benchmark": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ],
           "baselineDelta": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ],
           "realRobotTrials": [],
-          "artifacts.code": [
-            "https://arxiv.org/abs/2608.03682v2",
-            "https://github.com/mingti-org/phyai"
-          ],
+          "artifacts.code": [],
           "artifacts.weights": [],
           "artifacts.data": [],
           "artifacts.projectPage": [],
           "artifacts.license": [],
           "limitations": [
-            "https://arxiv.org/abs/2608.03682v2"
+            "https://arxiv.org/abs/2608.06729v1"
           ],
           "reproducibilityCost": [],
           "author": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ],
           "lab": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ],
           "openAlex.match": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ],
           "openAlex.retraction": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ],
           "openAlex.freshness": [
-            "https://openalex.org/W7201914260"
+            "https://openalex.org/W7202125387"
           ],
           "whyWorthAttention": [
-            "https://arxiv.org/abs/2608.03682v2",
-            "https://openalex.org/W7201914260"
+            "https://arxiv.org/abs/2608.06729v1",
+            "https://openalex.org/W7202125387"
           ]
         },
         "completeness": {
@@ -642,9 +656,9 @@
             ]
           },
           "openAlexWorkId": {
-            "value": "https://openalex.org/W7201914890",
+            "value": "https://openalex.org/W7196941218",
             "evidenceUrls": [
-              "https://openalex.org/W7201914890"
+              "https://openalex.org/W7196941218"
             ]
           },
           "version": {
@@ -748,36 +762,35 @@
             "Xin Shi"
           ],
           "evidenceUrls": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ]
         },
         "lab": {
           "value": [
             "Tongji Hospital",
-            "Huazhong University of Science and Technology",
-            "Robotics Research (United States)"
+            "Huazhong University of Science and Technology"
           ],
           "evidenceUrls": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ]
         },
         "openAlex": {
           "match": {
             "value": "matched",
             "evidenceUrls": [
-              "https://openalex.org/W7201914890"
+              "https://openalex.org/W7196941218"
             ]
           },
           "retraction": {
             "value": false,
             "evidenceUrls": [
-              "https://openalex.org/W7201914890"
+              "https://openalex.org/W7196941218"
             ]
           },
           "freshness": {
             "value": "fresh",
             "evidenceUrls": [
-              "https://openalex.org/W7201914890"
+              "https://openalex.org/W7196941218"
             ]
           }
         },
@@ -785,14 +798,14 @@
           "value": "原文摘要明确出现真实机器人、基准、开源证据；OpenAlex 作者/机构元数据包含Tongji Hospital、Huazhong University of Science and Technology。",
           "evidenceUrls": [
             "https://arxiv.org/abs/2608.04996v1",
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ]
         },
         "rankScore": 62,
         "fieldEvidence": {
           "identity": [
             "https://arxiv.org/abs/2608.04996v1",
-            "https://openalex.org/W7201914890",
+            "https://openalex.org/W7196941218",
             "https://arxiv.org/abs/2608.04996v1"
           ],
           "title": [
@@ -826,23 +839,23 @@
           ],
           "reproducibilityCost": [],
           "author": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ],
           "lab": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ],
           "openAlex.match": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ],
           "openAlex.retraction": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ],
           "openAlex.freshness": [
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ],
           "whyWorthAttention": [
             "https://arxiv.org/abs/2608.04996v1",
-            "https://openalex.org/W7201914890"
+            "https://openalex.org/W7196941218"
           ]
         },
         "completeness": {
@@ -862,16 +875,411 @@
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-07",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "611ca23c3519ac3a",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.07314v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7202113411",
+            "evidenceUrls": [
+              "https://openalex.org/W7202113411"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.07314v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。",
+            "在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人操作"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ]
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": [
+            "CALVIN"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ]
+        },
+        "baselineDelta": {
+          "value": "Experiments on the CALVIN benchmark and real-world manipulation tasks demonstrate that TEMPO consistently outperforms both pretrained state-of-the-art VLA models and the RL post-training baseline, while reaching and maintaining higher evaluation rewards on two real-world tasks.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "Ziheng Liu",
+            "Quantao Yang"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7202113411"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7202113411"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7202113411"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7202113411"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.07314v1",
+            "https://openalex.org/W7202113411"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.07314v1",
+            "https://openalex.org/W7202113411",
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "embodiment": [],
+          "datasetTrainingScale": [],
+          "benchmark": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.07314v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7202113411"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7202113411"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7202113411"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7202113411"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.07314v1",
+            "https://openalex.org/W7202113411"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 13,
+          "unknownFields": 11,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
-      "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
-      "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
-      "link": "https://arxiv.org/abs/2608.06729v1",
+      "title": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
+      "summary": "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。",
+      "link": "https://arxiv.org/abs/2608.06688v1",
       "type": "研究论文",
       "route": "研究",
       "date": "2026-08-07",
-      "source": "arXiv · Robotics"
+      "source": "arXiv · Robotics",
+      "decisionCard": {
+        "identity": {
+          "paperId": {
+            "value": "f9309069f9884cab",
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.06688v1"
+            ]
+          },
+          "openAlexWorkId": {
+            "value": "https://openalex.org/W7202145315",
+            "evidenceUrls": [
+              "https://openalex.org/W7202145315"
+            ]
+          },
+          "version": {
+            "value": 1,
+            "evidenceUrls": [
+              "https://arxiv.org/abs/2608.06688v1"
+            ]
+          }
+        },
+        "titleZh": {
+          "value": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ]
+        },
+        "factsZh": {
+          "value": [
+            "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。",
+            "该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ]
+        },
+        "task": {
+          "value": [
+            "机器人导航"
+          ],
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ]
+        },
+        "embodiment": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "datasetTrainingScale": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "benchmark": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "baselineDelta": {
+          "value": "CrossTracer achieves a total score of 45.68, outperforming the strongest evaluated general-purpose baseline, Gemini-2.5-Pro, by 10.01 points, corresponding to a 28.1% relative improvement.",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ]
+        },
+        "realRobotTrials": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "artifacts": {
+          "code": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "weights": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "data": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "projectPage": {
+            "value": "unknown",
+            "evidenceUrls": []
+          },
+          "license": {
+            "value": "unknown",
+            "evidenceUrls": []
+          }
+        },
+        "limitations": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "reproducibilityCost": {
+          "value": "unknown",
+          "evidenceUrls": [],
+          "rationale": "unknown"
+        },
+        "author": {
+          "value": [
+            "Yao Wang",
+            "Siyuan Wang",
+            "Zhirui Sun"
+          ],
+          "evidenceUrls": [
+            "https://openalex.org/W7202145315"
+          ]
+        },
+        "lab": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "openAlex": {
+          "match": {
+            "value": "matched",
+            "evidenceUrls": [
+              "https://openalex.org/W7202145315"
+            ]
+          },
+          "retraction": {
+            "value": false,
+            "evidenceUrls": [
+              "https://openalex.org/W7202145315"
+            ]
+          },
+          "freshness": {
+            "value": "fresh",
+            "evidenceUrls": [
+              "https://openalex.org/W7202145315"
+            ]
+          }
+        },
+        "whyWorthAttention": {
+          "value": "原文摘要明确出现真实机器人、基准证据。",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06688v1",
+            "https://openalex.org/W7202145315"
+          ]
+        },
+        "rankScore": 54,
+        "fieldEvidence": {
+          "identity": [
+            "https://arxiv.org/abs/2608.06688v1",
+            "https://openalex.org/W7202145315",
+            "https://arxiv.org/abs/2608.06688v1"
+          ],
+          "title": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ],
+          "facts": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ],
+          "task": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ],
+          "embodiment": [],
+          "datasetTrainingScale": [],
+          "benchmark": [],
+          "baselineDelta": [
+            "https://arxiv.org/abs/2608.06688v1"
+          ],
+          "realRobotTrials": [],
+          "artifacts.code": [],
+          "artifacts.weights": [],
+          "artifacts.data": [],
+          "artifacts.projectPage": [],
+          "artifacts.license": [],
+          "limitations": [],
+          "reproducibilityCost": [],
+          "author": [
+            "https://openalex.org/W7202145315"
+          ],
+          "lab": [],
+          "openAlex.match": [
+            "https://openalex.org/W7202145315"
+          ],
+          "openAlex.retraction": [
+            "https://openalex.org/W7202145315"
+          ],
+          "openAlex.freshness": [
+            "https://openalex.org/W7202145315"
+          ],
+          "whyWorthAttention": [
+            "https://arxiv.org/abs/2608.06688v1",
+            "https://openalex.org/W7202145315"
+          ]
+        },
+        "completeness": {
+          "totalFields": 24,
+          "knownFields": 12,
+          "unknownFields": 12,
+          "completeOrUnknown": true
+        },
+        "gates": [],
+        "eligibleForTopResearch": true
+      }
     },
     {
       "title": "GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准",
@@ -1100,12 +1508,12 @@
     },
     {
       "paper": {
-        "title": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
-        "summary": "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。",
-        "link": "https://arxiv.org/abs/2608.03682v2",
+        "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
+        "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
+        "link": "https://arxiv.org/abs/2608.06729v1",
         "type": "研究论文",
         "route": "研究",
-        "date": "2026-08-04",
+        "date": "2026-08-07",
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
@@ -1145,9 +1553,9 @@
     },
     {
       "paper": {
-        "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
-        "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
-        "link": "https://arxiv.org/abs/2608.06729v1",
+        "title": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
+        "summary": "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。",
+        "link": "https://arxiv.org/abs/2608.06688v1",
         "type": "研究论文",
         "route": "研究",
         "date": "2026-08-07",
@@ -1502,7 +1910,7 @@
     }
   ],
   "companyBoards": {
-    "generatedAt": "2026-08-11T01:17:10.261Z",
+    "generatedAt": "2026-08-12T01:25:08.608Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -1528,7 +1936,7 @@
             "世界模型与空间智能",
             "数据与训练"
           ],
-          "score": 45,
+          "score": 44,
           "scoreBreakdown": [
             {
               "key": "material-events",
@@ -1544,7 +1952,7 @@
             {
               "key": "recency",
               "label": "事件新近度",
-              "points": 4,
+              "points": 3,
               "maxPoints": 30,
               "basis": "最新真实事件日期 2026-07-16",
               "evidenceDates": [
