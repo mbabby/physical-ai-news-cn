@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-13T01:27:08.249Z",
+  "updatedAt": "2026-08-13T15:08:41.266Z",
   "windowDays": 30,
   "sources": [
     {
@@ -8,26 +8,25 @@
       "type": "rss",
       "role": "学术索引",
       "tier": "官方公司与实验室",
-      "status": "观察",
+      "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 9,
-      "successfulRuns": 9,
-      "failedRuns": 4,
+      "effectiveWeight": 8,
+      "successfulRuns": 10,
+      "failedRuns": 3,
       "selectedArticles": 64,
-      "reliability": 0.69,
-      "fetchedArticles": 550,
-      "relatedHits": 135,
+      "reliability": 0.77,
+      "fetchedArticles": 700,
+      "relatedHits": 141,
       "correctionCount": 0,
       "health": {
-        "successRate": 0.69,
-        "hitRate": 0.25,
-        "inclusionRate": 0.47,
+        "successRate": 0.77,
+        "hitRate": 0.2,
+        "inclusionRate": 0.45,
         "correctionRate": 0,
-        "score": 59.35
+        "score": 61.05
       },
-      "statusReason": "一手端点成功率偏低，继续观察",
-      "recommendation": "观察"
+      "recommendation": "保留"
     },
     {
       "id": "official-nvidia-newsroom",
@@ -235,17 +234,17 @@
       "effectiveWeight": 6,
       "successfulRuns": 6,
       "failedRuns": 0,
-      "selectedArticles": 4,
+      "selectedArticles": 3,
       "reliability": 1,
       "fetchedArticles": 90,
-      "relatedHits": 18,
+      "relatedHits": 17,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
-        "hitRate": 0.2,
-        "inclusionRate": 0.22,
+        "hitRate": 0.19,
+        "inclusionRate": 0.18,
         "correctionRate": 0,
-        "score": 64.5
+        "score": 63.3
       },
       "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
@@ -265,7 +264,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 900,
-      "relatedHits": 38,
+      "relatedHits": 40,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -292,7 +291,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 900,
-      "relatedHits": 42,
+      "relatedHits": 41,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -884,7 +883,7 @@
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "fetchedArticles": 14,
+      "fetchedArticles": 16,
       "relatedHits": 0,
       "correctionCount": 0,
       "health": {
@@ -909,7 +908,7 @@
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
-      "fetchedArticles": 2,
+      "fetchedArticles": 4,
       "relatedHits": 0,
       "correctionCount": 0,
       "health": {

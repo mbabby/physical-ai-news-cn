@@ -1,33 +1,33 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-13-2026-08-13T01-27-08-249Z",
+  "runId": "2026-08-13-2026-08-13T15-08-41-266Z",
   "date": "2026-08-13",
-  "startedAt": "2026-08-13T01:27:08.249Z",
-  "finishedAt": "2026-08-13T01:32:34.350Z",
+  "startedAt": "2026-08-13T15:08:41.266Z",
+  "finishedAt": "2026-08-13T15:11:58.838Z",
   "status": "degraded",
   "quality": {
-    "publicIndustryItems": 2,
+    "publicIndustryItems": 1,
     "publicResearchItems": 6,
-    "candidates": 12,
-    "sourceFailures": 2
+    "candidates": 19,
+    "sourceFailures": 1
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 10,
-      "succeeded": 8,
+      "attempted": 6,
+      "succeeded": 4,
       "failed": 2,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
     {
       "component": "OpenAlex",
-      "status": "部分降级",
+      "status": "成功",
       "attempted": 36,
-      "succeeded": 35,
-      "failed": 1,
-      "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
+      "succeeded": 36,
+      "failed": 0,
+      "detail": "论文引用与作者机构元数据已刷新。"
     }
   ],
-  "outputs": 54
+  "outputs": 56
 }

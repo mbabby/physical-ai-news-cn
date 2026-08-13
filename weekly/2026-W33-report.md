@@ -4,6 +4,7 @@
 
 ## 新增事件
 
+- **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)：文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
@@ -15,6 +16,7 @@
 
 ## 产品与部署
 
+- **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)：文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
@@ -31,16 +33,16 @@
 
 ## 信源质量变化
 
-- 已启用 11 个；观察 30 个；暂停 2 个；达到晋升条件 0 个。
+- 已启用 12 个；观察 29 个；暂停 2 个；达到晋升条件 1 个。
 
 ## 项目指标
 
 - 日历覆盖：13/30（43%）；已归档运行成功：13/13（100%）
-- 首页有效条目：7；A/B 级证据比例：100%；公司档案覆盖：5 家。
+- 首页有效条目：8；A/B 级证据比例：100%；公司档案覆盖：5 家。
 
 ## 待验证候选
 
-- 有 18 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。
+- 有 20 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。
 
 ---
 

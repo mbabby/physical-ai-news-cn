@@ -27,7 +27,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-13 | 7 | 49 | 49 | 11 / 30 |
+| 2026-08-13 | 8 | 49 | 57 | 12 / 29 |
 
 **运行健康**：近 30 天日历覆盖 13/30（43%） · 已归档运行成功 13/13（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
@@ -53,7 +53,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-13 · 最近确证产业事件 2026-08-12 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
+> 数据刷新至 2026-08-13 · 最近确证产业事件 2026-08-13 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
@@ -63,8 +63,8 @@
 
 ### 最新动态
 
+- [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-13</sub><br>RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
-- [3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-11</sub><br>文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
 - [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>事件 07-17</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
 - [日本机器人与制造业领军企业基于NVIDIA Cosmos推进物理AI前沿](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier) <kbd>产品发布</kbd> <kbd>世界模型与空间智能</kbd> <kbd>部署与商业化</kbd> <sub>事件 07-16</sub><br>英伟达宣布，日本物理AI领军企业正基于其Cosmos、Isaac、Metropolis和Jetson平台，加速在制造、出行、基础设施及机器人领域部署智能机器。
 
@@ -93,11 +93,11 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-12）的完整研究卡。
+> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
 - [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：来自 UC Berkeley；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Y. Mei · UC Berkeley</sub>
 
-- [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai</sub>
+- [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：来自 清华大学；提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai · 清华大学</sub>
 
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
@@ -105,7 +105,7 @@
 
 - [CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架](https://arxiv.org/abs/2608.06688v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yao Wang</sub>
 
-- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：来自 UC Berkeley / 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang · UC Berkeley / 清华大学</sub>
+- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

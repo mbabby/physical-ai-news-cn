@@ -16,6 +16,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Hadrian%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Hadrian%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
+## 西湖机器人 · 观察中 · 67/100
+
+- 路线：部署与商业化
+- 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5) · [新浪财经](https://news.google.com/rss/articles/CBMicEFVX3lxTE03Mi1lZklkN2V2RHY3dEdpbFhTTUdGd1lWa1FaWlROQk9KZEdhQjFBY0xvbm8zdHdQSEhsOEs5bmFwYllZMVYwb1Bkb3hiNW9NY1F1QnN0V3UtT2xZQmYzVHJTbExOOEhaTHhpcGpndVg?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
+## Alloy Robotics · 观察中 · 57/100
+
+- 路线：部署与商业化
+- 证据：[IT Brief Australia](https://news.google.com/rss/articles/CBMihAFBVV95cUxQcGU3aGZxNDI2d1BScjM3WDVGR28tOFFXNEdmdVhPcE9QLUxIVURpXzJzbjRVRnAzTDNPck9rYmY3eTdjVTQ2WVlXczN6TFNKb3RsUU0zR3FaRlFiZC1nVjdIRjB0cVkzeHNUcEpsTUxiWFVoUUQwZmRjOXktcm5YSlFSdW0?oc=5) · [PR Newswire](https://news.google.com/rss/articles/CBMizAFBVV95cUxNZkRJOWtrN2VFV3JtV1l5OVVuZkljTE44TnloTUZ5YnAyY2NlemgxdEx4b2Q4dHVoaV9QZUdYYXEyemFqSVJqQ2VvdGJKOUZHcHRsVm4tekY1RGFmU0dvTXVVTzZOT3p3ZkpuVEktSG5iZnZsdXNFYktsOTdRM0NjRXV3Q25ETTBvcXNnT0hybGd6LUVKdDJFOUY3ZGZsMkEtWEh0QnJkNHpmWXBnT0prNmlJMG1aNXpTb2thWldBeWpzTGFiZGpENHBVdFk?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
 ## 橡木果机器人 · 观察中 · 57/100
 
 - 路线：部署与商业化
@@ -156,6 +170,34 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## Westlake Robotics · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[AI Insider](https://news.google.com/rss/articles/CBMitgFBVV95cUxNTlF3QzRyZUZ1am1qTDZWMlpNeENWM3Y2MFVfeHctSXdrMlNNWmg3TzJ6RzNYalMtY3J4WXVNMFpYR3B6NFBrNkJTS1ljZG1jNXJtYlQtNTF4aWtuU3E5MUY3bkQxQ0hkVmZsRDd6aDY2VVNsNkJncnVSWVdVaFg2dmp2UGR6dXRjQXZNdFltdXRBX2dTdnotOWRNWWFSa3NqUEx3Q1lleDRfXzljOHpjWXdlR0hFZw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Westlake%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Westlake%20Robotics%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 灵猴机器人 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMib0FVX3lxTE5sWHU0MjAwMDlRQjVlZ0RtM1lpWHJFY0JoSW5MS0k1WjBzQzU5WXhHdEE1cnY0TXRTODVKMWhkTjNzRmxaS3Zmb2FCZDJqUGo1bjg1eUhlQVAzZUs5R3RjbXBoUjRRem1WbVBSdDF4dw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E7%81%B5%E7%8C%B4%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E7%81%B5%E7%8C%B4%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 万机易租再 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMickFVX3lxTE1uMGk1MC15NDN3b1Zqa1NGSWRwSEpJeEV0cFhhck9sTzNHWGJNQjVXd09mUzZGektqSi0wejVQWnhjeHdZUGctb2U0VjlUclFtSEpEQ3NRVVBQTnlHblFwaDFMTXR0Mm5TQWZLTlVjVkhodw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%87%E6%9C%BA%E6%98%93%E7%A7%9F%E5%86%8D%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%87%E6%9C%BA%E6%98%93%E7%A7%9F%E5%86%8D%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 具身数据来了实战派！40天2轮 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[智源社区](https://news.google.com/rss/articles/CBMiSEFVX3lxTE1Bb3ZUam5zT3pkUUlFM0hCRlFYUVVMal84LUJ6UFEtUHJiTk5xZDljcTlnQjNLeE5oSzIwQ2ZEUFA2bW5mZmhGbA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%85%B7%E8%BA%AB%E6%95%B0%E6%8D%AE%E6%9D%A5%E4%BA%86%E5%AE%9E%E6%88%98%E6%B4%BE%EF%BC%8140%E5%A4%A92%E8%BD%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%85%B7%E8%BA%AB%E6%95%B0%E6%8D%AE%E6%9D%A5%E4%BA%86%E5%AE%9E%E6%88%98%E6%B4%BE%EF%BC%8140%E5%A4%A92%E8%BD%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 人形机器人进厂成本需降60%：汽车产业链 · 候选 · 22/100
 
 - 路线：本体与硬件
@@ -168,13 +210,6 @@
 - 路线：本体与硬件
 - 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTFA4WFM1VEhOZV9Yemkyb0JDOFBnd2xEVlZncXhPQTJUX2JjRlM3Tm9ZazJYakJwOXFmNnJCX3IyWVEtRnM?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 西湖机器人 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 高盛研判AI · 候选 · 22/100
@@ -203,13 +238,6 @@
 - 路线：本体与硬件
 - 证据：[新浪网](https://news.google.com/rss/articles/CBMiYkFVX3lxTFB4Mmt3QWl5THpEc3ZXbUgyWm9RUS0xX3pIc3BYbDZyZlJlVWdyYnUtazBtUUdsdFZtcFVla2FncmpZRHBKNDZhRGdBVEhJUlVEQ0FOLUdCbkp4TmphMi1SRDFB?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80%E5%B0%86%E6%88%90A%E8%82%A1%E2%80%9C%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%AC%AC%E4%B8%80%E8%82%A1%E2%80%9D%EF%BC%8C%E6%97%A9%E6%9C%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%AE%87%E6%A0%91%E7%A7%91%E6%8A%80%E5%B0%86%E6%88%90A%E8%82%A1%E2%80%9C%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%AC%AC%E4%B8%80%E8%82%A1%E2%80%9D%EF%BC%8C%E6%97%A9%E6%9C%9F%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## Alloy Robotics · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[IT Brief Australia](https://news.google.com/rss/articles/CBMihAFBVV95cUxQcGU3aGZxNDI2d1BScjM3WDVGR28tOFFXNEdmdVhPcE9QLUxIVURpXzJzbjRVRnAzTDNPck9rYmY3eTdjVTQ2WVlXczN6TFNKb3RsUU0zR3FaRlFiZC1nVjdIRjB0cVkzeHNUcEpsTUxiWFVoUUQwZmRjOXktcm5YSlFSdW0?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Holiday Robotics · 候选 · 22/100

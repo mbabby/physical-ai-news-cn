@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-13T01:27:08.249Z",
+  "updatedAt": "2026-08-13T15:08:41.266Z",
   "records": [
     {
       "id": "842989b9ed1ce602",
@@ -37,8 +37,20 @@
           ],
           "authors": [
             {
+              "name": "Guiyu Zhao",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Longteng Guo",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
               "name": "Y. Mei",
-              "totalCitations": 1819,
+              "totalCitations": 1820,
               "hIndex": 19,
               "institutions": [
                 "Lawrence Berkeley National Laboratory",
@@ -46,12 +58,12 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.205Z"
+          "checkedAt": "2026-08-13T15:11:54.522Z"
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "8e17a6e7562542c8",
       "status": "里程碑精读候选",
@@ -61,7 +73,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -85,6 +97,484 @@
           "date": "2026-08-13T01:27:08.249Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "ba2a303f203b1ff5",
+      "article": {
+        "id": "ba2a303f203b1ff5",
+        "title": "DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation",
+        "link": "https://arxiv.org/abs/2608.12308v1",
+        "publishedAt": "2026-08-12T17:54:33.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Aerial vision-language navigation (VLN) requires an embodied agent to integrate visual evidence over time, plan future actions, and determine when it has reached a navigation goal under partial observability. Although recent VLA models offer a promising perception-to-action paradigm, adapting them to aerial navigation remains challenging due to limited historical context, short planning horizons, and unreliable implicit termination. To address these challenges, we propose DreamFly, a diffusion-based aerial VLN framework built on Dream-VLA. DreamFly introduces a causally aligned historical memory that augments the current visual representation using only observations preceding the current decision step, enabling temporal reasoning without future information leakage. We further formulate navigation as receding-horizon diffusion planning, where the policy predicts a $K$-step action chunk but executes only the first action before replanning. This plan-$K$, execute-one strategy uses future actions as auxiliary planning targets while preserving closed-loop visual feedback. Finally, LiteStop estimates the stop probability directly from action logits at the initial all-mask state, decoupling explicit termination from action generation. Experiments on the OpenFly benchmark demonstrate consistent improvements in seen and unseen environments. DreamFly achieves 32.04%/29.46% SR and 28.22%/23.54% SPL on the test-seen/test-unseen splits, respectively, outperforming all compared methods on both metrics while attaining the lowest navigation error. These results demonstrate the effectiveness of jointly modeling historical context, future action structure, and explicit termination for aerial VLN.",
+        "tags": [
+          "研究",
+          "embodied",
+          "vla"
+        ],
+        "authors": [
+          "Yan Deng"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 92,
+        "titleZh": "DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "9e731c83f4c4d04d",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "01ceff838e07f605",
+      "article": {
+        "id": "01ceff838e07f605",
+        "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
+        "link": "https://arxiv.org/abs/2607.26337v1",
+        "publishedAt": "2026-07-28T23:20:51.000Z",
+        "fetchedAt": "2026-08-02T07:29:40.051Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
+        "tags": [
+          "研究",
+          "robot",
+          "manipulation"
+        ],
+        "authors": [
+          "Emma Huang"
+        ],
+        "kind": "研究与数据",
+        "score": 126,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7172068454",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "Carnegie Mellon University"
+          ],
+          "authors": [
+            {
+              "name": "Emma Huang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Zih-Yun Chiu",
+              "totalCitations": 276,
+              "hIndex": 8,
+              "institutions": []
+            },
+            {
+              "name": "Neelay Joglekar",
+              "totalCitations": 15,
+              "hIndex": 2,
+              "institutions": [
+                "Carnegie Mellon University"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-13T15:11:58.023Z"
+        },
+        "titleZh": "利用缝线操控实现自主缝合中的缝针拾取",
+        "summaryZh": "该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。"
+      },
+      "firstSeenAt": "2026-08-05T09:37:22.609Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-08T15:04:22.013Z",
+      "arxivVersion": 1,
+      "factHash": "022c479acd7a50ec",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-05",
+        "2026-08-08",
+        "2026-08-09",
+        "2026-08-10",
+        "2026-08-11",
+        "2026-08-12",
+        "2026-08-13"
+      ],
+      "appearances": 41,
+      "evidenceTags": [
+        "真实机器人"
+      ],
+      "authorityLabels": [
+        "CMU"
+      ],
+      "notableAuthor": "Zih-Yun Chiu",
+      "changes": [
+        {
+          "date": "2026-08-05T09:37:22.609Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-07T02:35:05.321Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        },
+        {
+          "date": "2026-08-08T08:02:23.088Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        },
+        {
+          "date": "2026-08-08T08:38:38.944Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "081d4923f561e391",
+      "article": {
+        "id": "081d4923f561e391",
+        "title": "Autonomous Telerehabilitation via Skeletal Motion Prediction and Joint-Level Performance Assessment",
+        "link": "https://arxiv.org/abs/2608.12145v1",
+        "publishedAt": "2026-08-12T15:06:51.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Autonomous rehabilitation systems must not only recognize human motion but also provide structured feedback to support users without continuous therapist supervision. This paper presents a telerehabilitation pipeline that integrates skeleton-based exercise quality assessment and short-term motion prediction into a two-module system operating on marker-free RGB video. A self-attentive Bidirectional LSTM performs exercise quality classification using MMD-NCA metric learning, while a graph-based motion prediction module computes per-joint position errors between predicted and observed poses, generating spatially localized deviation signals. Each module is evaluated independently on established benchmarks: the classifier achieves 96.45% mean-class accuracy on squat sequences from the PROZIS dataset, and the adopted STARS predictor achieves a mean MPJPE of 75.8 mm at 560 ms on Human3.6M, outperforming graph and recurrent baselines across all prediction horizons. The framework is designed for eventual deployment in assistive robotics and home-based rehabilitation contexts; end-to-end integration and clinical validation are important directions for future work. By combining motion recognition and prediction in a single system, this work contributes a step toward autonomous, feedback-driven telerehabilitation, for more accessible and scalable rehabilitation solutions.",
+        "tags": [
+          "研究",
+          "robot",
+          "robotics"
+        ],
+        "authors": [
+          "Lara Pereira"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 92,
+        "titleZh": "Autonomous Telerehabilitation via Skeletal Motion Prediction and Joint-Level Performance Assessment",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "138b3373de21de43",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "34f2ac12797ead77",
+      "article": {
+        "id": "34f2ac12797ead77",
+        "title": "HandEdit: A Unified Benchmark for Egocentric Human-to-Robot Dexterous Hand Image Editing",
+        "link": "https://arxiv.org/abs/2608.12122v1",
+        "publishedAt": "2026-08-12T14:41:53.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Robotic manipulation with dexterous hands is a cornerstone of Embodied AI, yet its progress is stifled by the high cost of collecting embodiment-aware teleoperation data. While abundant egocentric videos of human hands offer a scalable alternative, the profound discrepancies in appearance, articulation, and camera viewpoints between human and robotic data raise significant challenges for co-training. Though existing general image-editing models demonstrate strong capabilities, they lack necessary embodiment-specific priors to fully bridge this gap. In this work, we present HandEdit, a unified large-scale embodiment-aware image-editing dataset and benchmark specifically designed to transform human hands and arms into various dexterous robotic embodiments within egocentric frames. HandEdit comprises over 200M editing instances derived from five diverse source datasets, covering 26 distinct URDFs, including 13 hand-only and 13 hand-arm configurations. Alongside the dataset, we establish a unified benchmark protocol with two tracks: Hand-only and Hand-Arm, supporting URDF-conditioned evaluation. We conduct extensive evaluations of 11 representative image-editing baselines using a multi-dimensional metric suite, including generic similarity metrics, VLM-based judgment, and embodiment-aware metrics. HandEdit serves as a critical resource at the intersection of image editing and robotics: it advances embodiment-aware editing models while enabling scalable dexterous robotic learning from abundant human video data, paving the way for more generalizable Embodied AI.",
+        "tags": [
+          "研究",
+          "robot",
+          "robotics",
+          "embodied"
+        ],
+        "authors": [
+          "Zhenjie Yang"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 100,
+        "titleZh": "HandEdit: A Unified Benchmark for Egocentric Human-to-Robot Dexterous Hand Image Editing",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "e686be94ea3d0789",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "51f7ffc2fcaf735a",
+      "article": {
+        "id": "51f7ffc2fcaf735a",
+        "title": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
+        "link": "https://arxiv.org/abs/2608.11739v1",
+        "publishedAt": "2026-08-12T07:26:47.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "The prevailing recipe for Vision-Language-Action (VLA) models couples a pretrained VLM with a separately trained flow-matching action expert. This makes the VLM a context encoder rather than a decision-maker. We introduce G0.5, a pretrained autoregressive VLA in which a single transformer decoder emits reasoning and action tokens under a single objective. Three components make this tractable at foundation-model scale: a learnable cross-embodiment action tokenizer that maps heterogeneous robot actions into a shared vocabulary; a native chain-of-thought stream interleaving task decomposition, object grounding, and action hints with action tokens; and a visual memory module that injects multi-second history through the vision encoder. Because reasoning and action share a single set of weights, the pretrained VLM's capabilities carry over to physical behavior: the model follows instructions closely, and prompts directly steer action granularity, task horizon, and out-of-distribution scene handling without further training. Pretrained on a large collection of robot datasets together with VQA samples, G0.5 surpasses state-of-the-art models across 7 independent regimes: real-world fine-tuning on R1lite and R1pro robots (76.7\\% vs.\\ 53.3\\% for $π_{0.5}$ and 24.4\\% for GR00T-N1.7), the 2025 BEHAVIOR Challenge on 50 long-horizon household mobile manipulation tasks using a generalist policy (31.4\\% vs.\\ 26.3\\% for $π_{0.5}$ and 26.1\\% for the challenge winner), DROID post-training followed by zero-shot transfer to an unseen environment and objects (82.5\\%), a language-following Pick-and-Place benchmark, LIBERO (98.9\\%), RoboTwin 2.0 (93.3\\%), and SimplerEnv-Bridge (87.3\\%).",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Yicheng Liu"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 100,
+        "titleZh": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "3327b33190e20cbf",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "447cd15cdea0fc39",
+      "article": {
+        "id": "447cd15cdea0fc39",
+        "title": "StellaVLA: In-Context Structured Demonstration for Generalizable Vision-Language-Action Models",
+        "link": "https://arxiv.org/abs/2608.11671v1",
+        "publishedAt": "2026-08-12T05:30:53.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Vision-Language-Action (VLA) models can follow instructions and manipulate objects, but their performance often collapses out of distribution (OOD), when the scene, viewpoint, or object differs from training. Adapting to each new situation typically requires collecting more data and fine-tuning. We present StellaVLA, a framework that instead adapts at test time by conditioning on a single retrieved demonstration. The key idea is to move beyond imitating what an expert did and instead convey why: an automated offline pipeline converts each raw trajectory into a structured demonstration, e.g., a task plan, sub-goal descriptions, and verbalized 3D motion, at zero human-annotation cost. Provided as in-context guidance, this structured demonstration lets the policy reason about the task rather than mimic a pixel trajectory, which also makes it transferable across embodiments (real-robot, human-hand, or XR demonstrations). A parallel dual-training design internalizes this reasoning during training through a joint action-and-language objective, while inference uses the action expert alone, preserving real-time, high-frequency control with no added latency. On the VLA-Arena leaderboard(Aug 1, 2026), StellaVLA ranks first with an overall score of 0.63, versus 0.44 and 0.22 for the strong prior models ($π_{0.5}$ and LingBot-VLA), and it further leads on LIBERO with 98.8% average success rate and LIBERO-Plus with 85.1% success rate. Our real-robot benchmark demonstrates that StellaVLA can use both human/robot demos and human-to-robot (XR) demos as in-context structured demonstration to help VLA model adapt to OOD tasks.",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Siyu Xu"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 96,
+        "titleZh": "StellaVLA: In-Context Structured Demonstration for Generalizable Vision-Language-Action Models",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "5f608f6a6eb82464",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "f1d43e90a629cee1",
+      "article": {
+        "id": "f1d43e90a629cee1",
+        "title": "ComBodied Agents: a New Paradigm of Human-Centric Agentic AI",
+        "link": "https://arxiv.org/abs/2608.10915v2",
+        "publishedAt": "2026-08-11T13:35:58.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "After an older adult misses a medication dose, a software agent can send another reminder and an embodied agent can bring the medication. Yet neither explains whether the person forgot, is confused, has side effects, or deliberately refused, nor what support is appropriate. This reveals a structural gap in Agentic AI: Digital Agents primarily transform software states, while Embodied Agents transform physical states; neither makes a person's evolving state and agency the primary object of modeling, intervention, and evaluation. We introduce Combodied Agents, a human-centered paradigm that perceives, models, predicts, and supports individual human-state trajectories over time, using software tools, sensors, wearables, robots, and human services as action channels rather than end goals. We unify fragmented capabilities across personal assistants, health agents, AI companions, and adaptive human--AI systems into a closed loop: event-based multimodal perception reconstructs meaningful personal events; longitudinal, correctable memory provides temporal context; Personal World Models estimate future personal states and outcomes under alternative decisions and interventions; and an admissible intervention policy selects proportionate support under consent, uncertainty, safety, reversibility, and user control. Feedback from the person and environment updates the loop. Rather than requiring an exhaustive Human Digital Twin, the framework uses purpose-bounded, uncertainty-aware, user-correctable representations. We organize the design space by human-state targets, relational contexts, and agent roles, and propose scenario-centered evaluation, agency-preservation metrics, benchmark requirements, edge-native personal models, and governance directions. Combodied Agents shift Agentic AI from external task completion toward sustained human benefit.",
+        "tags": [
+          "研究",
+          "robot",
+          "embodied",
+          "world model"
+        ],
+        "authors": [
+          "Qianggang Ding"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 96,
+        "titleZh": "ComBodied Agents: a New Paradigm of Human-Centric Agentic AI",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 2,
+      "factHash": "e686c197f3e8e3a7",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "98b4b3634d9a3656",
+      "article": {
+        "id": "98b4b3634d9a3656",
+        "title": "DriveVLA-M0: Failure-Aware Memory Augmentation for Autonomous Driving",
+        "link": "https://arxiv.org/abs/2608.10413v1",
+        "publishedAt": "2026-08-11T03:01:46.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Vision-Language-Action (VLA) models have recently emerged as a promising paradigm for end-to-end autonomous driving by enabling unified reasoning across perception, language, and planning. However, existing approaches lack mechanisms to exploit past failures or adapt to distribution shifts, causing the model to persistently underperform on similar scenarios where it has previously failed. In this paper, we propose DriveVLA-M0, a retrieval-augmented VLA with failure-aware latent memory. We construct a latent memory pool that stores failure cases along with their structure scene representations and expert trajectory labels, and design a dedicated Retrieve Model that decouples static road structure and dynamic agent interactions to enable structurally grounded retrieval. At inference time, retrieved cases are injected into the model via a lightweight decoupled LoRA-based test-time training (TTT) mechanism, allowing targeted and scenario-specific correction without modifying the backbone. Extensive experiments on NAVSIMv1 and NAVSIMv2 benchmark demonstrate that our approach consistently outperforms prior methods, achieving 94.1 PDMS on Navtest and 47.0 EPDMS on Navhard with only 26.44 ms TTT backward latency overhead. Furthermore, we show that DriveVLA-M0 scales effectively with additional memory, enabling training-free performance gains through memory expansion. The code is available at https://github.com/ZebinX/DriveVLA-M0.",
+        "tags": [
+          "研究",
+          "vla",
+          "vision-language-action",
+          "autonomous driving"
+        ],
+        "authors": [
+          "Zebin Xing"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 96,
+        "titleZh": "DriveVLA-M0: Failure-Aware Memory Augmentation for Autonomous Driving",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "7ff1a42bc7c42cc9",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准",
+        "开源"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "5f1cef5377d8322f",
+      "article": {
+        "id": "5f1cef5377d8322f",
+        "title": "Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models",
+        "link": "https://arxiv.org/abs/2608.10278v1",
+        "publishedAt": "2026-08-10T22:20:07.000Z",
+        "fetchedAt": "2026-08-13T15:08:43.911Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 8,
+        "excerpt": "Spatial understanding is fundamental to embodied intelligence, underpinning applications such as robotic manipulation, embodied navigation, and autonomous driving. Although recent vision-language models (VLMs) have achieved impressive performance on spatial reasoning benchmarks, state-of-the-art approaches typically rely on additional spatial encoders or architectural modifications during inference, increasing computational cost. We introduce Space Tokens, a lightweight, architecture-agnostic framework that equips VLMs with explicit continuous spatial representations without requiring additional inference-time modules. By distilling scene-level 3D geometry and object-centric spatial attributes into continuous latent tokens, our method enables these modalities to be directly incorporated into a chain-of-thought reasoning process, thereby improving the VLM's spatial reasoning capabilities. At the same time, the learned representations can be explicitly decoded to verify that they encode meaningful geometric information, while the unified token interface remains extensible to additional modalities. Experiments on VSI-Bench improve Qwen3-VL-8B by 4.3% and SenseNova-SI-1.3 by 1.3%, while achieving state-of-the-art performance on object size (79.2%) and room size estimation (75.7%). These results demonstrate that continuous spatial tokens provide an effective, interpretable, and computationally efficient mechanism for integrating geometric reasoning into large vision-language models.",
+        "tags": [
+          "研究",
+          "robot",
+          "embodied",
+          "manipulation"
+        ],
+        "authors": [
+          "Hunter Schofield"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 100,
+        "titleZh": "Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-13T15:08:41.266Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "arxivVersion": 1,
+      "factHash": "fd7cb486baf18e6b",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-13"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "基准"
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-13T15:08:41.266Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
         }
       ]
     },
@@ -151,13 +641,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:28.826Z"
+          "checkedAt": "2026-08-13T15:11:54.012Z"
         },
         "titleZh": "LAWM-3D: Learning 3D-Aware Latent Actions from Human Videos for Generalizable Robot World Models",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "ba345674e1e0c0fd",
       "status": "待复核",
@@ -167,7 +657,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -180,108 +670,6 @@
           "date": "2026-08-10T07:09:17.273Z",
           "kind": "新收录",
           "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "01ceff838e07f605",
-      "article": {
-        "id": "01ceff838e07f605",
-        "title": "Reeling It In: Flexible Needle Pick Up via Thread Manipulation for Autonomous Suturing",
-        "link": "https://arxiv.org/abs/2607.26337v1",
-        "publishedAt": "2026-07-28T23:20:51.000Z",
-        "fetchedAt": "2026-08-02T07:29:40.051Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Suture-needle pickup is necessary for autonomous suturing, as a needle can be unexpectedly dropped or strategically released to adjust the grasping configuration. Current methods for autonomous needle pickup typically guide a robot to move straight toward the needle and grasp it, limited to conditions where the needle is observable and directly approachable. In addition, grasping the needle lying on tissue can lead to the robot pinching nearby tissue or the needle jumping around due to its slippery surface, posing potential safety issues. This work proposes an autonomous framework that uses a suture thread as an assistive tool for indirect needle pickup, avoiding unnecessary tool-tissue contact and enabling pickup even when the needle is occluded or inaccessible. The framework spans the entire workflow, including thread and tissue reconstruction, safe grasp-point selection, stable thread lifting, and bimanual thread-following until securing needle grasping. The robot policies account for visual uncertainty to maximize robustness in real-world environments. We evaluate the proposed framework on a da Vinci Research Kit under various real-world conditions. The results demonstrate robust performance even with a challenging thread configuration or a non-approachable needle, closing the gap in applying autonomous robot policies to unstructured suturing environments.",
-        "tags": [
-          "研究",
-          "robot",
-          "manipulation"
-        ],
-        "authors": [
-          "Emma Huang"
-        ],
-        "kind": "研究与数据",
-        "score": 126,
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7172068454",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [
-            "Carnegie Mellon University"
-          ],
-          "authors": [
-            {
-              "name": "Emma Huang",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            },
-            {
-              "name": "Zih-Yun Chiu",
-              "totalCitations": 276,
-              "hIndex": 8,
-              "institutions": []
-            },
-            {
-              "name": "Neelay Joglekar",
-              "totalCitations": 15,
-              "hIndex": 2,
-              "institutions": [
-                "Carnegie Mellon University"
-              ]
-            }
-          ],
-          "checkedAt": "2026-08-13T01:32:32.946Z"
-        },
-        "titleZh": "利用缝线操控实现自主缝合中的缝针拾取",
-        "summaryZh": "该自主缝合框架以缝线为辅助间接拾取缝针，避免器械接触组织，即使缝针被遮挡也能完成抓取，并在 da Vinci Research Kit 多种真实条件下验证表现稳健。"
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-08T15:04:22.013Z",
-      "arxivVersion": 1,
-      "factHash": "022c479acd7a50ec",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-05",
-        "2026-08-08",
-        "2026-08-09",
-        "2026-08-10",
-        "2026-08-11",
-        "2026-08-12",
-        "2026-08-13"
-      ],
-      "appearances": 40,
-      "evidenceTags": [
-        "真实机器人"
-      ],
-      "authorityLabels": [
-        "CMU"
-      ],
-      "notableAuthor": "Zih-Yun Chiu",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-07T02:35:05.321Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        },
-        {
-          "date": "2026-08-08T08:02:23.088Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        },
-        {
-          "date": "2026-08-08T08:38:38.944Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
         }
       ]
     },
@@ -342,7 +730,7 @@
             },
             {
               "name": "Dongqi Cai",
-              "totalCitations": 737,
+              "totalCitations": 738,
               "hIndex": 13,
               "institutions": [
                 "Beijing University of Posts and Telecommunications",
@@ -353,14 +741,14 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:28.668Z"
+          "checkedAt": "2026-08-13T15:11:53.950Z"
         },
         "titleZh": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
         "summaryZh": "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 2,
       "factHash": "804c12275805a1e9",
       "status": "里程碑精读候选",
@@ -372,7 +760,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准",
         "开源"
@@ -459,7 +847,7 @@
             },
             {
               "name": "Aaron D. Ames",
-              "totalCitations": 15668,
+              "totalCitations": 15669,
               "hIndex": 58,
               "institutions": [
                 "California Institute of Technology",
@@ -467,13 +855,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:28.929Z"
+          "checkedAt": "2026-08-13T15:11:54.058Z"
         },
         "titleZh": "PAC-MAN：结合机载感知的 CBF-RL 人形机器人全身安全躲避球框架",
         "summaryZh": "该框架将控制屏障安全与机载感知结合，仅凭头部相机的分割深度即可躲避来球，在 Unitree G1 上零样本部署，真实环境成功率达 95%。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T09:39:26.923Z",
       "arxivVersion": 1,
       "factHash": "6f66111117bcda27",
@@ -487,7 +875,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -562,12 +950,12 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:28.815Z"
+          "checkedAt": "2026-08-13T15:11:54.165Z"
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "d8493bd02a81880b",
       "status": "候选资源",
@@ -577,7 +965,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -631,23 +1019,29 @@
           "authors": [
             {
               "name": "Yao Wang",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             },
             {
               "name": "Siyuan Wang",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             },
             {
               "name": "Zhirui Sun",
+              "totalCitations": 0,
+              "hIndex": 0,
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.366Z"
+          "checkedAt": "2026-08-13T15:11:54.586Z"
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "a47d44a73eb71263",
       "status": "候选资源",
@@ -657,7 +1051,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -733,11 +1127,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.551Z"
+          "checkedAt": "2026-08-13T15:11:54.891Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-09T08:43:57.688Z",
       "arxivVersion": 1,
       "factHash": "2c80f17802bc34a2",
@@ -750,7 +1144,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -820,7 +1214,7 @@
             },
             {
               "name": "Omar Hashash",
-              "totalCitations": 386,
+              "totalCitations": 387,
               "hIndex": 11,
               "institutions": [
                 "Worcester Polytechnic Institute",
@@ -836,13 +1230,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.610Z"
+          "checkedAt": "2026-08-13T15:11:54.844Z"
         },
         "titleZh": "From Passive Mirrors to Active Agents: Holonic Digital Twins for Physical AI over Networks",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "a6b6ea5bb904a39d",
       "status": "待复核",
@@ -852,7 +1246,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -926,11 +1320,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.844Z"
+          "checkedAt": "2026-08-13T15:11:55.214Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T15:04:22.013Z",
       "arxivVersion": 1,
       "factHash": "cf839058c1d43b82",
@@ -943,7 +1337,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "基准"
       ],
@@ -1033,12 +1427,12 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:29.936Z"
+          "checkedAt": "2026-08-13T15:11:55.161Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "4e63ba499ae83fb1",
       "status": "候选资源",
@@ -1050,7 +1444,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1129,13 +1523,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:30.527Z"
+          "checkedAt": "2026-08-13T15:11:55.827Z"
         },
         "titleZh": "GAUGE：衡量仿真引擎与视频世界模型物理保真度的实测基准",
         "summaryZh": "研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-12T01:25:08.608Z",
       "arxivVersion": 1,
       "factHash": "58bce87a50133253",
@@ -1148,7 +1542,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1222,11 +1616,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:30.318Z"
+          "checkedAt": "2026-08-13T15:11:55.699Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "f8e92df08fb88bd1",
       "status": "待复核",
@@ -1238,7 +1632,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1295,13 +1689,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:30.443Z"
+          "checkedAt": "2026-08-13T15:11:55.828Z"
         },
         "titleZh": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
         "summaryZh": "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-10T11:48:46.705Z",
       "arxivVersion": 1,
       "factHash": "52fbdf575151ef1f",
@@ -1314,7 +1708,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1376,17 +1770,23 @@
               "institutions": []
             },
             {
+              "name": "Lang Qin",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
               "name": "Zechuan Tian",
               "totalCitations": 8,
               "hIndex": 2,
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:30.614Z"
+          "checkedAt": "2026-08-13T15:11:55.885Z"
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "02cafcb52d635cd1",
       "status": "待复核",
@@ -1396,7 +1796,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1470,13 +1870,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:30.920Z"
+          "checkedAt": "2026-08-13T15:11:56.305Z"
         },
         "titleZh": "BridgeVLA++：面向三维操作的数据高效、可泛化且记忆增强的视觉-语言-动作框架",
         "summaryZh": "该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-10T11:48:46.705Z",
       "arxivVersion": 1,
       "factHash": "c49a225a140aa68e",
@@ -1489,7 +1889,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1558,13 +1958,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.008Z"
+          "checkedAt": "2026-08-13T15:11:56.525Z"
         },
         "titleZh": "RORA: Realistic Object Reconstruction with Articulation",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "5dc860587a8f967c",
       "status": "待复核",
@@ -1576,7 +1976,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1642,7 +2042,7 @@
             },
             {
               "name": "Kento Kawaharazuka",
-              "totalCitations": 1304,
+              "totalCitations": 1305,
               "hIndex": 18,
               "institutions": [
                 "The University of Tokyo"
@@ -1655,11 +2055,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.021Z"
+          "checkedAt": "2026-08-13T15:11:56.358Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "68319b7f46db9731",
       "status": "待复核",
@@ -1671,7 +2071,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1746,11 +2146,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.192Z"
+          "checkedAt": "2026-08-13T15:11:56.470Z"
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "73b51cd87c38a454",
       "status": "待复核",
@@ -1762,7 +2162,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "基准"
       ],
@@ -1807,7 +2207,7 @@
         "summaryZh": "AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T02:26:12.468Z",
       "arxivVersion": 1,
       "factHash": "b1fc4b62a70542e8",
@@ -1821,7 +2221,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1893,11 +2293,11 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.595Z"
+          "checkedAt": "2026-08-13T15:11:57.113Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T08:02:23.088Z",
       "arxivVersion": 1,
       "factHash": "0d2d8a4628688df9",
@@ -1911,7 +2311,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1994,11 +2394,11 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.939Z"
+          "checkedAt": "2026-08-13T15:11:57.135Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T08:02:23.088Z",
       "arxivVersion": 1,
       "factHash": "1343c65378f38f85",
@@ -2012,7 +2412,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "基准"
       ],
@@ -2074,11 +2474,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:31.806Z"
+          "checkedAt": "2026-08-13T15:11:57.204Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-08T08:02:23.088Z",
       "arxivVersion": 1,
       "factHash": "6f98d7709c853ebb",
@@ -2092,7 +2492,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准",
@@ -2165,11 +2565,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:32.002Z"
+          "checkedAt": "2026-08-13T15:11:57.476Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "f2bdda75bba17380",
       "status": "待复核",
@@ -2182,7 +2582,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2267,11 +2667,11 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:32.204Z"
+          "checkedAt": "2026-08-13T15:11:57.893Z"
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-09T08:48:23.760Z",
       "arxivVersion": 1,
       "factHash": "1de8a2ebc09cd1dd",
@@ -2285,7 +2685,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2363,13 +2763,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:32.375Z"
+          "checkedAt": "2026-08-13T15:11:57.863Z"
         },
         "titleZh": "DLAM：带时序约束的分布式潜在动作模型",
         "summaryZh": "DLAM以高斯分布表示潜在动作转移，通过组合与反转施加时序约束，并用流匹配策略联合生成动作，在多个基准及真实操作任务上提升性能。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "ac894e38439ccf4a",
       "status": "待复核",
@@ -2382,7 +2782,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2453,12 +2853,12 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-13T01:32:32.547Z"
+          "checkedAt": "2026-08-13T15:11:58.072Z"
         }
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
-      "lastShownAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
+      "lastShownAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "3374d714ffa4c5ee",
       "status": "候选资源",
@@ -2471,7 +2871,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 36,
+      "appearances": 37,
       "evidenceTags": [
         "真实机器人",
         "基准",
@@ -2547,6 +2947,12 @@
           ],
           "authors": [
             {
+              "name": "Yuehao Huang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
               "name": "Yunzi Wu",
               "totalCitations": 0,
               "hIndex": 0,
@@ -2554,7 +2960,7 @@
             },
             {
               "name": "Xiaotao Zhang",
-              "totalCitations": 16972,
+              "totalCitations": 16988,
               "hIndex": 61,
               "institutions": [
                 "Tianjin University of Technology",
@@ -2564,11 +2970,11 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-13T01:32:32.809Z"
+          "checkedAt": "2026-08-13T15:11:58.583Z"
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "934ff7636a128577",
       "status": "待复核",
@@ -2578,7 +2984,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Xiaotao Zhang",
@@ -2646,7 +3052,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "914f046edbb7dca3",
       "status": "待复核",
@@ -2656,7 +3062,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -2748,7 +3154,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "a0813510b47bc26d",
       "status": "待复核",
@@ -2760,7 +3166,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2862,7 +3268,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "3227b1458315a205",
       "status": "待复核",
@@ -2874,7 +3280,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -2939,7 +3345,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "f24015ebc1c0cbe9",
       "status": "待复核",
@@ -2949,7 +3355,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Harisankar Babu",
@@ -3012,7 +3418,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "0c7f779899042941",
       "status": "待复核",
@@ -3022,7 +3428,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 9,
+      "appearances": 10,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Fuyuan Liu",
@@ -3106,7 +3512,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "e8c23fae4e5d19d5",
       "status": "待复核",
@@ -3118,7 +3524,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -3168,7 +3574,7 @@
         "score": 110
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "18b84d59ad8051b1",
       "status": "待复核",
@@ -3180,7 +3586,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -3220,7 +3626,7 @@
         "summaryZh": "文章评估人形与四足机器人在硬件、运动、自主、数据与应用方面的现状，梳理关键进展与开放挑战，并展望其伦理、经济与政策影响。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "5a1c03879fc95517",
       "status": "待复核",
@@ -3233,7 +3639,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -3314,7 +3720,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "ea4506ab07e451f6",
       "status": "待复核",
@@ -3326,7 +3732,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "基准"
       ],
@@ -3423,7 +3829,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "47d9aaffe06127ad",
       "status": "待复核",
@@ -3435,7 +3841,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 31,
+      "appearances": 32,
       "evidenceTags": [
         "基准"
       ],
@@ -3481,7 +3887,7 @@
         "summaryZh": "综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "lastShownAt": "2026-08-07T02:35:05.321Z",
       "arxivVersion": 1,
       "factHash": "897d13a34880b35d",
@@ -3495,7 +3901,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -3562,7 +3968,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "69fa2e48141df53a",
       "status": "待复核",
@@ -3575,7 +3981,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Beom Jun Kim",
@@ -3667,7 +4073,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "b1b7fcc0a5d6d60b",
       "status": "待复核",
@@ -3680,7 +4086,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -3781,7 +4187,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "4ab8cabc8bbdf723",
       "status": "待复核",
@@ -3794,7 +4200,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Hyunjong Song",
@@ -3836,7 +4242,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "8d8438266f306e25",
       "status": "待复核",
@@ -3848,7 +4254,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -3884,7 +4290,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "68a7a3070d23aacb",
       "status": "待复核",
@@ -3896,7 +4302,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -3968,7 +4374,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "9b1b36ac3003fdb1",
       "status": "待复核",
@@ -3980,7 +4386,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准"
       ],
@@ -4034,7 +4440,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-10T01:19:16.896Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "603c7d9ec7742fe2",
       "status": "待复核",
@@ -4044,7 +4450,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 10,
+      "appearances": 11,
       "evidenceTags": [
         "基准"
       ],
@@ -4104,7 +4510,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T07:15:30.021Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "edc2236e59ac537e",
       "status": "待复核",
@@ -4116,7 +4522,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 26,
+      "appearances": 27,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -4157,7 +4563,7 @@
         "summaryZh": "新研究提出 AAAI 框架，将硬件健康融入推理、规划与任务执行，让自主系统感知自身衰老并自适应调整，延长寿命、提升安全性。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "6148972143a078a2",
       "status": "待复核",
@@ -4170,7 +4576,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "changes": [
@@ -4237,7 +4643,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-13T01:27:08.249Z",
+      "lastCheckedAt": "2026-08-13T15:08:41.266Z",
       "arxivVersion": 1,
       "factHash": "d63ef9b3a274eec1",
       "status": "待复核",
@@ -4250,7 +4656,7 @@
         "2026-08-12",
         "2026-08-13"
       ],
-      "appearances": 40,
+      "appearances": 41,
       "evidenceTags": [],
       "authorityLabels": [],
       "notableAuthor": "Kyeonghyun Yoo",
