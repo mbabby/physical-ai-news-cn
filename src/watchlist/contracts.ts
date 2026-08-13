@@ -39,8 +39,19 @@ export interface WatchlistSnapshot {
 }
 
 const isoTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
-const validTimestamp = (value: unknown): value is string => typeof value === "string" && isoTimestampPattern.test(value) && new Date(value).toISOString() === (value.length === 20 ? value.replace("Z", ".000Z") : value);
-const validDate = (value: unknown): value is string => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) === value;
+const validTimestamp = (value: unknown): value is string => {
+  if (typeof value !== "string" || !isoTimestampPattern.test(value)) return false;
+  const ms = Date.parse(value);
+  if (!Number.isFinite(ms)) return false;
+  const normalized = new Date(ms).toISOString();
+  return normalized === value || normalized === value.replace("Z", ".000Z");
+};
+const validDate = (value: unknown): value is string => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const ms = Date.parse(`${value}T00:00:00Z`);
+  if (!Number.isFinite(ms)) return false;
+  return new Date(ms).toISOString().slice(0, 10) === value;
+};
 const nonEmptyString = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
 const nonEmptyArray = (value: unknown): value is unknown[] => Array.isArray(value) && value.length > 0;
 const unique = <T>(values: T[]): boolean => new Set(values).size === values.length;

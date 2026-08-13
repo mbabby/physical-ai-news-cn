@@ -127,3 +127,46 @@ test("rejects non-string and non-canonical timestamps and dates", () => {
     false,
   );
 });
+
+test("rejects invalid calendar timestamps without throwing", () => {
+  const thesis = {
+    thesisId: "thesis-company-alpha-2026-W33-v1",
+    companyId: "company-alpha",
+    track: "forward-radar",
+    lifecycle: "new",
+    thesisVersion: 1,
+    whyNow: "Alpha 本期新增一项可追溯合作信号。",
+    routeAndDependencies: "路线依赖真实机器人数据。",
+    nextValidationPoints: [{ text: "确认客户试点", dueAt: "2026-10-01" }],
+    falsifiers: [{ text: "合作方撤回公告" }],
+    factReferenceIds: ["event-alpha"],
+    inferenceLabels: ["AI 研究判断"],
+    confidence: "medium",
+    generatedAt: "2026-08-13T01:00:00Z",
+    expiresAt: "2026-10-12T01:00:00Z",
+    modelVersion: "model",
+    promptVersion: "v1",
+    methodologyVersion: "v1",
+  };
+
+  let thesisResult = true;
+  assert.doesNotThrow(() => {
+    thesisResult = validateCompanyThesisShape({ ...thesis, generatedAt: "2026-13-01T00:00:00Z" });
+  });
+  assert.equal(thesisResult, false);
+
+  let leapSecondResult = true;
+  assert.doesNotThrow(() => {
+    leapSecondResult = validateCompanyThesisShape({ ...thesis, generatedAt: "2026-01-01T00:00:60Z" });
+  });
+  assert.equal(leapSecondResult, false);
+
+  let dueAtResult = true;
+  assert.doesNotThrow(() => {
+    dueAtResult = validateCompanyThesisShape({
+      ...thesis,
+      nextValidationPoints: [{ text: "确认客户试点", dueAt: "2026-02-31" }],
+    });
+  });
+  assert.equal(dueAtResult, false);
+});

@@ -22,7 +22,7 @@
 
 ## Commit
 
-- Commit hash: `bb97e7808c03d3b51bbb639a1dfeff912bef2e2e`
+- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
 
 ## Self-review
 
@@ -34,6 +34,34 @@
 ## Concerns
 
 - The repo’s default `pnpm test` runner is IPC-restricted in this sandbox, so the failing red command had to be corroborated with the direct `node --import tsx --test` invocation.
+
+---
+
+# Fix round 2 — make invalid timestamps non-throwing
+
+## RED
+
+- New test added: `rejects invalid calendar timestamps without throwing`
+- Confirmed red evidence: `node --import tsx --test tests/watchlist-contracts.test.ts`
+  - Result before fix: failed with `RangeError: Invalid time value` when validating `2026-13-01T00:00:00Z`.
+
+## GREEN
+
+- Command: `node --import tsx --test tests/watchlist-contracts.test.ts`
+- Result: passed with 6/6 tests
+- Command: `pnpm run check`
+- Result: passed
+
+## Coverage added
+
+- Non-string timestamps return false and do not throw.
+- Natural-language timestamps return false and do not throw.
+- Invalid calendar timestamps such as month 13 and leap second values return false and do not throw.
+- Invalid `dueAt` dates on validation points return false and do not throw.
+
+## Commit
+
+- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
 
 ---
 
@@ -61,4 +89,4 @@
 
 ## Commit
 
-- Commit hash: `284bbe294dbbc8c8ec367ce7de3de11727dab18e`
+- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
