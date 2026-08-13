@@ -117,6 +117,49 @@ test("invalid prose and collection bounds return invalid-shape", async () => {
   }
 });
 
+const investmentLanguageScenarios: Array<{ name: string; payload: () => string }> = [
+  { name: "whyNow 推荐", payload: () => validPayload({
+    whyNow: "AI 研究判断：推荐关注 Alpha Robotics、Atlas-X 与 Gemini Robotics 的公开进展。",
+  }) },
+  { name: "routeAndDependencies 投资建议", payload: () => validPayload({
+    routeAndDependencies: "AI 研究判断：Alpha Robotics 的 Atlas-X 与 Gemini Robotics 路线构成投资建议。",
+  }) },
+  { name: "nextValidationPoints 预计收益", payload: () => validPayload({
+    nextValidationPoints: [{ text: "预计收益来自 Alpha Robotics 的 Atlas-X 与 Gemini Robotics 部署", dueAt: "2026-09-30" }],
+  }) },
+  { name: "falsifiers 投资回报", payload: () => validPayload({
+    falsifiers: [{ text: "Alpha Robotics 的 Atlas-X 与 Gemini Robotics 未产生投资回报" }],
+  }) },
+  { name: "whyNow 有望获得回报", payload: () => validPayload({
+    whyNow: "AI 研究判断：Alpha Robotics 的 Atlas-X 与 Gemini Robotics 有望获得回报。",
+  }) },
+  { name: "routeAndDependencies 预期回报", payload: () => validPayload({
+    routeAndDependencies: "AI 研究判断：Alpha Robotics 的 Atlas-X 与 Gemini Robotics 具备预期回报。",
+  }) },
+  { name: "nextValidationPoints 预计将获得收益", payload: () => validPayload({
+    nextValidationPoints: [{ text: "Alpha Robotics 的 Atlas-X 与 Gemini Robotics 预计将获得收益", dueAt: "2026-09-30" }],
+  }) },
+  { name: "falsifiers 或将带来回报", payload: () => validPayload({
+    falsifiers: [{ text: "Alpha Robotics 的 Atlas-X 与 Gemini Robotics 或将带来回报" }],
+  }) },
+];
+
+for (const scenario of investmentLanguageScenarios) {
+  test(`rejects investment recommendation or return forecast in ${scenario.name}`, async () => {
+    const subject = generator(async () => completion(scenario.payload()));
+
+    assert.deepEqual(await subject.generate(seed), { ok: false, code: "invalid-shape" });
+  });
+}
+
+test("allows technical recommendation terminology without investment advice", async () => {
+  const subject = generator(async () => completion(validPayload({
+    routeAndDependencies: "AI 研究判断：Alpha Robotics 的 Atlas-X 依赖 Gemini Robotics 推荐算法与工厂数据。",
+  })));
+
+  assert.equal((await subject.generate(seed)).ok, true);
+});
+
 test("extra output fields and unsupported fact references return invalid-shape", async () => {
   const extraField = generator(async () => completion(validPayload({ recommendation: "关注" })));
   const unsupportedReference = generator(async () => completion(validPayload({ factReferenceIds: ["event-extra"] })));

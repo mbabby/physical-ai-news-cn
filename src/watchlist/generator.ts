@@ -6,7 +6,7 @@ import type { SelectedThesisSeed } from "./scoring.js";
 const PROMPT_VERSION = "watchlist-thesis-v1";
 const METHODOLOGY_VERSION = "v1";
 const EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
-const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|回报率|收益率|建议配置|\bbuy\b|\bsell\b|target price|\breturns?\b/i;
+const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|投资建议|建议配置|推荐(?!算法|系统|模型|引擎|机制)|回报率|收益率|投资(?:收益|回报)|(?:预计|预期|预估|有望|或将|可能)(?:将)?(?:获得|实现|带来|产生|达到|取得)?(?:投资)?(?:收益|回报)|\bbuy\b|\bsell\b|target price|\breturns?\b/i;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export type CompanyThesisDraft = Omit<CompanyThesis, "thesisId" | "lifecycle" | "thesisVersion">;
@@ -143,7 +143,7 @@ function systemPrompt(): string {
     "nextValidationPoints 为 1–3 条，每条只有 text 与 YYYY-MM-DD dueAt；falsifiers 为 1–3 条，每条只有 text。",
     "factReferenceIds 只能使用输入列出的引用 ID；confidence 只能是 high、medium 或 low。",
     "公司、产品和模型名称必须保留输入中的官方拼写及大小写，不得翻译、音译或改名。",
-    "禁止买入、卖出、目标价、建议配置、回报率、收益率或任何投资回报预测。",
+    "禁止推荐、投资建议、买入、卖出、目标价、建议配置、预计收益、投资回报或任何回报预测。",
   ].join("\n");
 }
 
