@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
-import { migrateThesisSeeds } from "../src/watchlist/migration.js";
+import { buildThesisSeedArtifact, migrateThesisSeeds, validateThesisDraftArtifact } from "../src/watchlist/migration.js";
+import { readJsonStrict } from "../src/runtime/storage.js";
+import type { ThesisDraftArtifact } from "../src/watchlist/migration.js";
 import type { ThesisSeed } from "../src/watchlist/seeds.js";
 
 const FIRST_RUN = { generatedAt: "2026-08-13T01:00:00.000Z", methodologyVersion: "v1" };
@@ -47,4 +52,37 @@ test("sorts drafts stably and removes seeds that are no longer present", () => {
   assert.deepEqual(first.drafts.map((draft) => draft.seed.companyId), ["company-beta", "company-alpha"]);
   assert.deepEqual(second.drafts.map((draft) => draft.seed.companyId), ["company-alpha"]);
   assert.equal(second.drafts[0]?.updatedAt, FIRST_RUN.generatedAt);
+});
+
+test("rejects semantically corrupt previous draft artifacts", () => {
+  const valid = migrateThesisSeeds(undefined, [seed], FIRST_RUN);
+  const corruptions: ThesisDraftArtifact[] = [
+    { ...valid, generatedAt: "2026-08-13" },
+    { ...valid, drafts: [{ ...valid.drafts[0]!, inputHash: "0".repeat(64) }] },
+    { ...valid, drafts: [{ ...valid.drafts[0]!, seed: { ...valid.drafts[0]!.seed, routes: ["not-a-route" as never] } }] },
+    { ...valid, drafts: [{ ...valid.drafts[0]!, seed: { ...valid.drafts[0]!.seed, factReferenceIds: ["candidate-verification-123"] } }] },
+  ];
+
+  for (const artifact of corruptions) assert.equal(validateThesisDraftArtifact(artifact), false);
+});
+
+test("readJsonStrict blocks a draft artifact whose stored hash was tampered with", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "watchlist-draft-"));
+  const path = join(directory, "drafts.json");
+  const valid = migrateThesisSeeds(undefined, [seed], FIRST_RUN);
+  await writeFile(path, JSON.stringify({ ...valid, drafts: [{ ...valid.drafts[0]!, inputHash: "0".repeat(64) }] }), "utf8");
+
+  await assert.rejects(
+    () => readJsonStrict(path, { optional: true, label: "内部观察名单草稿", validate: validateThesisDraftArtifact }),
+    /结构不合法.*保留上一版/,
+  );
+});
+
+test("same-input seed artifacts remain byte-stable across later runs", () => {
+  const firstDrafts = migrateThesisSeeds(undefined, [seed], FIRST_RUN);
+  const laterDrafts = migrateThesisSeeds(firstDrafts, [seed], LATER_RUN);
+  const first = JSON.stringify(buildThesisSeedArtifact(firstDrafts, [seed]), null, 2) + "\n";
+  const second = JSON.stringify(buildThesisSeedArtifact(laterDrafts, [seed]), null, 2) + "\n";
+
+  assert.equal(second, first);
 });
