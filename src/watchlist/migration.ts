@@ -81,6 +81,7 @@ function validateSeed(value: unknown): value is ThesisSeed {
   if (!uniqueStrings(value.routes) || !value.routes.every((route) => TECHNICAL_ROUTES.has(route as TechnicalRoute))) return false;
   if (!uniqueStrings(value.factReferenceIds, { nonEmpty: true }) || value.factReferenceIds.some((id) => INTERNAL_REFERENCE_PATTERN.test(id))) return false;
   if (value.evidenceGrade !== "A" && value.evidenceGrade !== "B+B" && value.evidenceGrade !== "B") return false;
+  if (value.track === "validated-momentum" && value.evidenceGrade === "B") return false;
   if (!uniqueStrings(value.verifiedSensitiveFields) || !value.verifiedSensitiveFields.every((field) => SENSITIVE_FIELDS.has(field))) return false;
   if (!uniqueStrings(value.unknownSensitiveFields) || !value.unknownSensitiveFields.every((field) => SENSITIVE_FIELDS.has(field))) return false;
   const unknownSensitiveFields = value.unknownSensitiveFields;

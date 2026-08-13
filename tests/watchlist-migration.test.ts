@@ -86,3 +86,13 @@ test("same-input seed artifacts remain byte-stable across later runs", () => {
 
   assert.equal(second, first);
 });
+
+test("validated momentum rejects B but accepts A and B+B evidence grades", () => {
+  const singleB = migrateThesisSeeds(undefined, [{ ...seed, evidenceGrade: "B" }], FIRST_RUN);
+  const officialA = migrateThesisSeeds(undefined, [{ ...seed, evidenceGrade: "A" }], FIRST_RUN);
+  const independentB = migrateThesisSeeds(undefined, [{ ...seed, evidenceGrade: "B+B" }], FIRST_RUN);
+
+  assert.equal(validateThesisDraftArtifact(singleB), false);
+  assert.equal(validateThesisDraftArtifact(officialA), true);
+  assert.equal(validateThesisDraftArtifact(independentB), true);
+});

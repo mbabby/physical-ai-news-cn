@@ -100,3 +100,28 @@ test("strategic seeds require an independent B+B canonical event and retain unkn
   assert.deepEqual(seeds[0]?.verifiedSensitiveFields, []);
   assert.deepEqual(seeds[0]?.unknownSensitiveFields, ["amount", "valuation", "customer", "revenue", "order"]);
 });
+
+test("a single independent B event creates a forward-radar seed", () => {
+  const beta = company("Company Beta");
+  const singleB = event(beta.name, {
+    id: "event-beta-single-b", status: "持续跟踪",
+    evidence: [{ link: "https://media-one.example/beta", source: "媒体一", grade: "B", publishedAt: "2026-08-05T00:00:00.000Z", supports: "部署" }],
+  });
+  const boards = buildCompanyBoards([beta], [singleB], { now: NOW });
+
+  const seeds = buildThesisSeeds({ companies: [beta], events: [singleB], boards, generatedAt: NOW.toISOString() });
+
+  assert.deepEqual(seeds.map((item) => [item.companyId, item.track, item.evidenceGrade]), [["company-beta", "forward-radar", "B"]]);
+  assert.deepEqual(seeds[0]?.factReferenceIds, ["event-beta-single-b"]);
+});
+
+test("watchlist seeds require an explicit canonical company entityId", () => {
+  const legacy = company("Legacy Company", { entityId: undefined });
+  const verifiedEvent = event(legacy.name, { id: "event-legacy" });
+  const boards = buildCompanyBoards([legacy], [verifiedEvent], { now: NOW });
+  assert.equal(boards.momentum.entries.length, 1);
+
+  const seeds = buildThesisSeeds({ companies: [legacy], events: [verifiedEvent], boards, generatedAt: NOW.toISOString() });
+
+  assert.deepEqual(seeds, []);
+});

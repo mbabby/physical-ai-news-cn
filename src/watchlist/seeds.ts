@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { derivePublication } from "../facts-contract.js";
 import type { EvidenceState } from "../facts-contract.js";
 import type { CompanyBoards } from "../company-boards.js";
@@ -35,10 +34,6 @@ export interface ThesisSeedInput {
 type EventWithLifecycle = EventRecord & { evidenceState?: EvidenceState };
 type EvidenceWithLifecycle = EventEvidence & { withdrawn?: boolean };
 
-function stableCompanyId(company: CompanyProfile): string {
-  return company.entityId ?? `company-${createHash("sha256").update(`${company.name}\n${company.officialUrl}`).digest("hex").slice(0, 12)}`;
-}
-
 function evidenceOrigin(evidence: EventEvidence): string {
   try { return new URL(evidence.link).hostname.replace(/^www\./, "").toLowerCase(); }
   catch { return evidence.source.trim().toLowerCase(); }
@@ -50,10 +45,11 @@ function qualifyingEvidence(event: EventRecord): EventEvidence[] {
     && !DISCOVERY_PATTERN.test(`${item.source} ${item.link}`));
 }
 
-function eventEvidenceGrade(event: EventRecord): "A" | "B+B" | undefined {
+function eventEvidenceGrade(event: EventRecord): "A" | "B+B" | "B" | undefined {
   const evidence = qualifyingEvidence(event);
   if (evidence.some((item) => item.grade === "A")) return "A";
-  return new Set(evidence.filter((item) => item.grade === "B").map(evidenceOrigin)).size >= 2 ? "B+B" : undefined;
+  const independentBCount = new Set(evidence.filter((item) => item.grade === "B").map(evidenceOrigin)).size;
+  return independentBCount >= 2 ? "B+B" : independentBCount === 1 ? "B" : undefined;
 }
 
 function isCanonicalIndependentBEvent(event: EventRecord): boolean {
@@ -62,7 +58,7 @@ function isCanonicalIndependentBEvent(event: EventRecord): boolean {
   if (event.type === "投融资" && event.funding?.entityStatus !== "已确认") return false;
   if (lifecycle.evidenceState && TERMINAL_STATES.has(lifecycle.evidenceState)) return false;
   if (TERMINAL_STATES.has(derivePublication({ evidence: event.evidence, evidenceState: lifecycle.evidenceState }).evidenceState)) return false;
-  return eventEvidenceGrade(event) === "B+B";
+  return eventEvidenceGrade(event) !== undefined;
 }
 
 function claimMatchesEvent(claim: CompanyClaim, eventId: string): boolean {
@@ -109,7 +105,9 @@ function seedFor(
  * Candidate records are intentionally absent from this input boundary.
  */
 export function buildThesisSeeds(input: ThesisSeedInput): ThesisSeed[] {
-  const companyById = new Map(input.companies.map((company) => [stableCompanyId(company), company]));
+  const companyById = new Map(input.companies
+    .filter((company): company is CompanyProfile & { entityId: string } => typeof company.entityId === "string" && company.entityId.trim().length > 0)
+    .map((company) => [company.entityId, company]));
   const eventsById = new Map(input.events.map((event) => [event.id, event]));
   const momentum = input.boards.momentum.entries.flatMap((entry) => {
     if (!companyById.has(entry.companyId)) return [];
