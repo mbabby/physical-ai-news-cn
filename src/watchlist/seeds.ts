@@ -113,7 +113,7 @@ export function buildThesisSeeds(input: ThesisSeedInput): ThesisSeed[] {
     if (!companyById.has(entry.companyId)) return [];
     const events = entry.qualifyingEvents.map((reference) => eventsById.get(reference.eventId)).filter((event): event is EventRecord => Boolean(event));
     const seed = seedFor(entry.companyId, entry.companyName, "validated-momentum", entry.routes, events, input.claimLedger);
-    return seed ? [seed] : [];
+    return seed && seed.evidenceGrade !== "B" ? [seed] : [];
   });
   const momentumIds = new Set(momentum.map((seed) => seed.companyId));
   const strategic = input.boards.strategic.entries.flatMap((entry) => {

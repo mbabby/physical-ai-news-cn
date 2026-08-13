@@ -125,3 +125,30 @@ test("watchlist seeds require an explicit canonical company entityId", () => {
 
   assert.deepEqual(seeds, []);
 });
+
+test("rejects a stale momentum board that points at only single-B evidence", () => {
+  const alpha = company("Company Alpha");
+  const singleB = event(alpha.name, {
+    id: "event-alpha-single-b", status: "持续跟踪",
+    evidence: [{ link: "https://media-one.example/alpha", source: "媒体一", grade: "B", publishedAt: "2026-08-05T00:00:00.000Z", supports: "部署" }],
+  });
+  const boards = buildCompanyBoards([alpha], [singleB], { now: NOW });
+  const staleMomentumBoards = {
+    ...boards,
+    strategic: { ...boards.strategic, entries: [] },
+    momentum: {
+      ...boards.momentum,
+      entries: [{
+        ...boards.strategic.entries[0]!,
+        qualifyingEvents: [{
+          eventId: singleB.id, title: singleB.title, eventDate: singleB.occurredAt!, evidenceState: "corroborated" as const,
+          evidenceGrade: "B+B" as const, evidenceCount: 1, evidenceUrls: singleB.evidence.map((item) => item.link),
+        }],
+      }],
+    },
+  };
+
+  const seeds = buildThesisSeeds({ companies: [alpha], events: [singleB], boards: staleMomentumBoards, generatedAt: NOW.toISOString() });
+
+  assert.deepEqual(seeds, []);
+});
