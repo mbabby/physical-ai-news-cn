@@ -51,6 +51,10 @@ import type { ReviewAssignmentArtifact, ReviewOwner } from "./review-assignment.
 import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
 import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
 import { buildDomainHealth } from "./domain-health.js";
+import { buildCompanyBoards } from "./company-boards.js";
+import { buildThesisSeeds } from "./watchlist/seeds.js";
+import { migrateThesisSeeds } from "./watchlist/migration.js";
+import type { ThesisDraftArtifact } from "./watchlist/migration.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -80,6 +84,24 @@ async function readCandidateRegistry(path: string): Promise<CandidateSourceRegis
   return readJsonStrict<CandidateSourceRegistry>(path, { optional: true, label: "候选信源注册表", validate: (value): value is CandidateSourceRegistry => isObject(value) && Array.isArray(value.sources) });
 }
 async function readJson<T>(path: string): Promise<T | undefined> { return readJsonStrict<T>(path, { optional: true }); }
+
+function isThesisDraftArtifact(value: unknown): value is ThesisDraftArtifact {
+  if (!isObject(value) || value.schemaVersion !== 1 || typeof value.generatedAt !== "string" || !Array.isArray(value.drafts)) return false;
+  return value.drafts.every((draft) => {
+    if (!isObject(draft) || !isObject(draft.seed)) return false;
+    const seed = draft.seed;
+    const stringArray = (item: unknown): item is string[] => Array.isArray(item) && item.every((entry) => typeof entry === "string");
+    return typeof seed.companyId === "string" && typeof seed.companyName === "string"
+      && (seed.track === "forward-radar" || seed.track === "validated-momentum")
+      && stringArray(seed.routes) && stringArray(seed.factReferenceIds)
+      && (seed.evidenceGrade === "A" || seed.evidenceGrade === "B+B" || seed.evidenceGrade === "B")
+      && stringArray(seed.verifiedSensitiveFields) && stringArray(seed.unknownSensitiveFields) && stringArray(seed.evidenceSummary)
+      && typeof draft.inputHash === "string" && /^[a-f0-9]{64}$/.test(draft.inputHash)
+      && typeof draft.draftVersion === "number" && Number.isInteger(draft.draftVersion) && draft.draftVersion > 0
+      && draft.draftStatus === "needs-generation"
+      && typeof draft.createdAt === "string" && typeof draft.updatedAt === "string";
+  });
+}
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
   const results = await Promise.allSettled(sources.map((source) => {
@@ -453,6 +475,34 @@ async function generate(): Promise<void> {
   // Build public data after verification so “正在发生” reflects evidence
   // found in this run instead of the previous review artifact.
   const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now });
+  const companyBoards = buildCompanyBoards(companies, eventStore.events, {
+    now,
+    claimLedger: companyClaimLedger,
+    minimumSampleSize: 10,
+    limit: 5,
+  });
+  const watchlistSeeds = buildThesisSeeds({
+    companies,
+    events: eventStore.events,
+    boards: companyBoards,
+    claimLedger: companyClaimLedger,
+    generatedAt: now.toISOString(),
+  });
+  const previousWatchlistDrafts = await readJsonStrict<ThesisDraftArtifact>(join(reviewDir, "watchlist-drafts.json"), {
+    optional: true,
+    label: "内部观察名单草稿",
+    validate: isThesisDraftArtifact,
+  });
+  const watchlistDrafts = migrateThesisSeeds(previousWatchlistDrafts, watchlistSeeds, {
+    generatedAt: now.toISOString(),
+    methodologyVersion: "v1",
+  });
+  await writeFile(join(reviewDir, "watchlist-seeds.json"), JSON.stringify({
+    schemaVersion: 1,
+    generatedAt: now.toISOString(),
+    seeds: watchlistSeeds,
+  }, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "watchlist-drafts.json"), JSON.stringify(watchlistDrafts, null, 2) + "\n", "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
     ...eventStore.events
       .filter((event) => event.status !== "已归档" && event.status !== "待复核")
