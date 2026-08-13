@@ -24,6 +24,8 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /pnpm run validate:release/);
   assert.match(workflow, /review\/pipeline-health\.json/);
   assert.match(workflow, /package-manager-cache:\s*false/);
+  assert.match(workflow, /git add[^\n]*\breview\b/);
+  assert.doesNotMatch(workflow, /watchlist-(?:seeds|drafts)\.json/);
 });
 
 test("Pages deployment follows a completed digest and checks out latest main", async () => {

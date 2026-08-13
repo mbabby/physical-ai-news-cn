@@ -51,6 +51,10 @@ import type { ReviewAssignmentArtifact, ReviewOwner } from "./review-assignment.
 import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
 import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
 import { buildDomainHealth } from "./domain-health.js";
+import { buildCompanyBoards } from "./company-boards.js";
+import { buildThesisSeeds } from "./watchlist/seeds.js";
+import { buildThesisSeedArtifact, migrateThesisSeeds, validateThesisDraftArtifact } from "./watchlist/migration.js";
+import type { ThesisDraftArtifact } from "./watchlist/migration.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -453,6 +457,30 @@ async function generate(): Promise<void> {
   // Build public data after verification so “正在发生” reflects evidence
   // found in this run instead of the previous review artifact.
   const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now });
+  const companyBoards = buildCompanyBoards(companies, eventStore.events, {
+    now,
+    claimLedger: companyClaimLedger,
+    minimumSampleSize: 10,
+    limit: 5,
+  });
+  const watchlistSeeds = buildThesisSeeds({
+    companies,
+    events: eventStore.events,
+    boards: companyBoards,
+    claimLedger: companyClaimLedger,
+    generatedAt: now.toISOString(),
+  });
+  const previousWatchlistDrafts = await readJsonStrict<ThesisDraftArtifact>(join(reviewDir, "watchlist-drafts.json"), {
+    optional: true,
+    label: "内部观察名单草稿",
+    validate: validateThesisDraftArtifact,
+  });
+  const watchlistDrafts = migrateThesisSeeds(previousWatchlistDrafts, watchlistSeeds, {
+    generatedAt: now.toISOString(),
+    methodologyVersion: "v1",
+  });
+  await writeFile(join(reviewDir, "watchlist-seeds.json"), JSON.stringify(buildThesisSeedArtifact(watchlistDrafts, watchlistSeeds), null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "watchlist-drafts.json"), JSON.stringify(watchlistDrafts, null, 2) + "\n", "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
     ...eventStore.events
       .filter((event) => event.status !== "已归档" && event.status !== "待复核")
