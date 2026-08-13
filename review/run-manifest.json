@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-12-2026-08-12T01-25-08-608Z",
-  "date": "2026-08-12",
-  "startedAt": "2026-08-12T01:25:08.608Z",
-  "finishedAt": "2026-08-12T01:30:50.121Z",
+  "runId": "2026-08-13-2026-08-13T01-27-08-249Z",
+  "date": "2026-08-13",
+  "startedAt": "2026-08-13T01:27:08.249Z",
+  "finishedAt": "2026-08-13T01:32:34.350Z",
   "status": "degraded",
   "quality": {
-    "publicIndustryItems": 1,
+    "publicIndustryItems": 2,
     "publicResearchItems": 6,
-    "candidates": 13,
+    "candidates": 12,
     "sourceFailures": 2
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 12,
-      "succeeded": 10,
+      "attempted": 10,
+      "succeeded": 8,
       "failed": 2,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },

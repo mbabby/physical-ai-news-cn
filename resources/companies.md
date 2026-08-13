@@ -243,10 +243,10 @@
 - 地域 / 阶段：北美/日本 / 平台公司
 - 技术路线：数据与训练 · VLA 与具身模型
 - 核心押注：大规模机器人行为学习与家庭操作研究。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
+- 档案状态：资本 证据不足（不代表未融资）；验证 客户试点
 - 主体证据：[公司官网](https://www.tri.global/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)，2026-08-12）；公司商业（[证据](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)，2026-08-12）
 
 ## [Stanford Robotics Center](https://src.stanford.edu/)
 

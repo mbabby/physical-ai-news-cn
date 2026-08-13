@@ -58,6 +58,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 西湖机器人半年内 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[创业邦](https://news.google.com/rss/articles/CBMiUEFVX3lxTE5wTnpYWGxZX3JFaGQyZHJNOGZFLXJMQnlQQ05jd2Z5aEdoc0ptSjBkT2I4eVJzcUo0dkRSeUFEcFFuS3pjUjhNdUx0Nm84ZGtR?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8D%8A%E5%B9%B4%E5%86%85%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8D%8A%E5%B9%B4%E5%86%85%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 又一华为天才少年的具身公司 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -147,6 +154,27 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 人形机器人进厂成本需降60%：汽车产业链 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[网通社](https://news.google.com/rss/articles/CBMiXEFVX3lxTE9XMGRVMTRIRFhNbG12WG1PRXpjWDZNd3BoWlZ0R2RoenYwbzAtMXVMZnhpYjB0MGZXYndIN2Rzb1l0bUVIc2hqV2d1RktUdWtKV2RqWTlvNWVfWWND?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%BF%9B%E5%8E%82%E6%88%90%E6%9C%AC%E9%9C%80%E9%99%8D60%25%EF%BC%9A%E6%B1%BD%E8%BD%A6%E4%BA%A7%E4%B8%9A%E9%93%BE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%BF%9B%E5%8E%82%E6%88%90%E6%9C%AC%E9%9C%80%E9%99%8D60%25%EF%BC%9A%E6%B1%BD%E8%BD%A6%E4%BA%A7%E4%B8%9A%E9%93%BE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 慧仑科技 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTFA4WFM1VEhOZV9Yemkyb0JDOFBnd2xEVlZncXhPQTJUX2JjRlM3Tm9ZazJYakJwOXFmNnJCX3IyWVEtRnM?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 西湖机器人 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 高盛研判AI · 候选 · 22/100
