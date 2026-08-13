@@ -118,8 +118,10 @@ function momentumComponents(seed: ThesisSeed): ThesisScoreComponent[] {
       hasCapitalSignal ? "存在字段级核验的资本事实" : "种子未提供字段级核验的资本事实", !hasCapitalSignal),
     component(MOMENTUM_COMPONENTS.continuity, 0, "种子未提供可比较的 30/90 天时间序列", true),
     component(MOMENTUM_COMPONENTS.evidence, evidencePoints(seed.evidenceGrade, 15), `${seed.evidenceGrade} 级种子证据`, false),
-    component(MOMENTUM_COMPONENTS.diversity, routeCount >= 2 ? 5 : 0,
-      routeCount >= 2 ? "已记录多条技术路线" : "仅记录一条技术路线；种子未提供地域字段", false),
+    component(MOMENTUM_COMPONENTS.diversity, 0,
+      routeCount
+        ? `已记录 ${routeCount} 条技术路线；种子未提供地域字段，无法完成路线与地域多样性判断`
+        : "种子未提供技术路线和地域字段，无法完成路线与地域多样性判断", true),
   ];
 }
 
@@ -132,10 +134,17 @@ function eligibility(seed: ThesisSeed): string[] {
   return reasons;
 }
 
+function neutralComponents(seed: ThesisSeed, reason: string): ThesisScoreComponent[] {
+  const descriptors = seed.track === "forward-radar" ? Object.values(FORWARD_COMPONENTS) : Object.values(MOMENTUM_COMPONENTS);
+  return descriptors.map((descriptor) => component(descriptor, 0, `资格门槛未通过；未评分：${reason}`, true));
+}
+
 /** Deterministically score a canonical seed without interpreting missing data as a negative fact. */
 export function scoreThesisSeed(seed: ThesisSeed, _context: ThesisScoringContext = {}): ScoredThesisSeed {
-  const components = seed.track === "forward-radar" ? forwardComponents(seed) : momentumComponents(seed);
   const ineligibilityReasons = eligibility(seed);
+  const components = ineligibilityReasons.length
+    ? neutralComponents(seed, ineligibilityReasons.join("；"))
+    : seed.track === "forward-radar" ? forwardComponents(seed) : momentumComponents(seed);
   return {
     ...seed,
     routes: [...seed.routes].sort(),
@@ -144,7 +153,7 @@ export function scoreThesisSeed(seed: ThesisSeed, _context: ThesisScoringContext
     unknownSensitiveFields: [...seed.unknownSensitiveFields].sort(),
     evidenceSummary: [...seed.evidenceSummary].sort(),
     components,
-    score: components.reduce((sum, item) => sum + item.points, 0),
+    score: ineligibilityReasons.length ? 0 : components.reduce((sum, item) => sum + item.points, 0),
     eligible: ineligibilityReasons.length === 0,
     ineligibilityReasons,
     primaryRoute: primaryRoute(seed),

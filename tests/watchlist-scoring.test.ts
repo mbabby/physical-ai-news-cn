@@ -43,9 +43,12 @@ test("scores only structurally supported components and records unknowns", () =>
   assert.equal(result.components.find((component) => component.key === "capital-partnership-talent")?.points, 15);
 });
 
-test("momentum cannot pass with one B source", () => {
+test("momentum gates a single-B source before it can receive a substantive score", () => {
   const result = scoreThesisSeed(seed("single-b", "validated-momentum", { evidenceGrade: "B" }));
   assert.equal(result.eligible, false);
+  assert.equal(result.score, 0);
+  assert.ok(result.components.every((component) => component.points === 0 && component.unknown));
+  assert.ok(result.components.every((component) => component.basis.startsWith("资格门槛未通过；未评分：")));
   assert.match(result.ineligibilityReasons.join(" "), /B\+B/);
 });
 
@@ -67,6 +70,10 @@ test("momentum uses confirmed weights and never turns absent continuity into a n
   });
   assert.equal(result.components.find((component) => component.key === "customer-deployment-revenue-production")?.points, 30);
   assert.equal(result.components.find((component) => component.key === "evidence-strength")?.points, 12);
+  assert.deepEqual(result.components.find((component) => component.key === "diversity"), {
+    key: "diversity", label: "路线与地域多样性", points: 0, maxPoints: 5,
+    basis: "已记录 2 条技术路线；种子未提供地域字段，无法完成路线与地域多样性判断", unknown: true,
+  });
 });
 
 test("selection is elastic, mutually exclusive, route-diverse, and stable", () => {
