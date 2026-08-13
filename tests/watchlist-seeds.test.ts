@@ -48,6 +48,22 @@ test("a company is assigned to only one track and momentum wins", () => {
   assert.deepEqual(seeds.map((seed) => seed.track), ["validated-momentum"]);
 });
 
+test("rejects stale board company IDs even when the names match in both tracks", () => {
+  const alpha = company("Company Alpha");
+  const verifiedEvent = event(alpha.name, { id: "event-alpha" });
+  const boards = buildCompanyBoards([alpha], [verifiedEvent], { now: NOW });
+  const staleId = "company-alpha-stale";
+  const staleBoards = {
+    ...boards,
+    momentum: { ...boards.momentum, entries: boards.momentum.entries.map((entry) => ({ ...entry, companyId: staleId })) },
+    strategic: { ...boards.strategic, entries: boards.strategic.entries.map((entry) => ({ ...entry, companyId: staleId })) },
+  };
+
+  const seeds = buildThesisSeeds({ companies: [alpha], events: [verifiedEvent], boards: staleBoards, generatedAt: NOW.toISOString() });
+
+  assert.deepEqual(seeds, []);
+});
+
 test("strategic seeds require an independent B+B canonical event and retain unknown sensitive fields", () => {
   const alpha = company("Company Alpha");
   const beta = company("Company Beta");

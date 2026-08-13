@@ -109,8 +109,10 @@ function seedFor(
  * Candidate records are intentionally absent from this input boundary.
  */
 export function buildThesisSeeds(input: ThesisSeedInput): ThesisSeed[] {
+  const companyById = new Map(input.companies.map((company) => [stableCompanyId(company), company]));
   const eventsById = new Map(input.events.map((event) => [event.id, event]));
   const momentum = input.boards.momentum.entries.flatMap((entry) => {
+    if (!companyById.has(entry.companyId)) return [];
     const events = entry.qualifyingEvents.map((reference) => eventsById.get(reference.eventId)).filter((event): event is EventRecord => Boolean(event));
     const seed = seedFor(entry.companyId, entry.companyName, "validated-momentum", entry.routes, events, input.claimLedger);
     return seed ? [seed] : [];
@@ -118,7 +120,7 @@ export function buildThesisSeeds(input: ThesisSeedInput): ThesisSeed[] {
   const momentumIds = new Set(momentum.map((seed) => seed.companyId));
   const strategic = input.boards.strategic.entries.flatMap((entry) => {
     if (momentumIds.has(entry.companyId)) return [];
-    const company = input.companies.find((item) => stableCompanyId(item) === entry.companyId || item.name === entry.companyName);
+    const company = companyById.get(entry.companyId);
     if (!company) return [];
     const events = input.events.filter((event) => event.primaryEntity === company.name && isCanonicalIndependentBEvent(event));
     const seed = seedFor(entry.companyId, entry.companyName, "forward-radar", entry.routes, events, input.claimLedger);
