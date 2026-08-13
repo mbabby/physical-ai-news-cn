@@ -1,5 +1,3 @@
-import type { TechnicalRoute } from "../types.js";
-
 export type WatchlistTrack = "forward-radar" | "validated-momentum";
 
 export type ThesisLifecycle = "new" | "strengthening" | "awaiting-validation" | "downgraded" | "falsified" | "expired";
@@ -40,8 +38,9 @@ export interface WatchlistSnapshot {
   changesSinceLastWeek: Array<{ companyId: string; change: string }>;
 }
 
-const validTimestamp = (value: string): boolean => Number.isFinite(Date.parse(value));
-const validDate = (value: string): boolean => /^\d{4}-\d{2}-\d{2}$/.test(value) && validTimestamp(`${value}T00:00:00Z`);
+const isoTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+const validTimestamp = (value: unknown): value is string => typeof value === "string" && isoTimestampPattern.test(value) && new Date(value).toISOString() === (value.length === 20 ? value.replace("Z", ".000Z") : value);
+const validDate = (value: unknown): value is string => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) === value;
 const nonEmptyString = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
 const nonEmptyArray = (value: unknown): value is unknown[] => Array.isArray(value) && value.length > 0;
 const unique = <T>(values: T[]): boolean => new Set(values).size === values.length;
@@ -58,16 +57,12 @@ function isValidLifecycle(value: unknown): value is ThesisLifecycle {
   return value === "new" || value === "strengthening" || value === "awaiting-validation" || value === "downgraded" || value === "falsified" || value === "expired";
 }
 
-function isValidRoute(value: unknown): value is TechnicalRoute {
-  return value === "数据与训练" || value === "VLA 与具身模型" || value === "世界模型与空间智能" || value === "本体与硬件" || value === "部署与商业化";
-}
-
 function isNonEmptyStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.length > 0 && value.every(nonEmptyString);
 }
 
 function isNextValidationPoint(value: unknown): value is { text: string; dueAt: string } {
-  return isObject(value) && nonEmptyString(value.text) && validDate(String(value.dueAt));
+  return isObject(value) && nonEmptyString(value.text) && validDate(value.dueAt);
 }
 
 function isFalsifier(value: unknown): value is { text: string } {
@@ -115,11 +110,8 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
   if (!isNonEmptyStringArray(factReferenceIds) || !unique(factReferenceIds)) return false;
   if (!Array.isArray(inferenceLabels) || !inferenceLabels.every(nonEmptyString)) return false;
   if (confidence !== "high" && confidence !== "medium" && confidence !== "low") return false;
-  if (!validTimestamp(String(generatedAt)) || !validTimestamp(String(expiresAt))) return false;
+  if (!validTimestamp(generatedAt) || !validTimestamp(expiresAt)) return false;
   if (!nonEmptyString(modelVersion) || !nonEmptyString(promptVersion) || !nonEmptyString(methodologyVersion)) return false;
-  if (!isValidRoute((value as Record<string, unknown>).route as unknown)) {
-    // The route is encoded in the freeform field; the contract remains future-proof by validating the typed field only when present.
-  }
   return true;
 }
 
@@ -128,7 +120,7 @@ export function validateWatchlistSnapshotShape(value: unknown): value is Watchli
   const { week, snapshotVersion, methodologyVersion, generatedAt, forwardRadar, validatedMomentum, changesSinceLastWeek } = value;
   if (!/^\d{4}-W\d{2}$/.test(String(week))) return false;
   if (typeof snapshotVersion !== "number" || !Number.isInteger(snapshotVersion) || snapshotVersion < 1) return false;
-  if (!nonEmptyString(methodologyVersion) || !validTimestamp(String(generatedAt))) return false;
+  if (!nonEmptyString(methodologyVersion) || !validTimestamp(generatedAt)) return false;
   if (!Array.isArray(forwardRadar) || !Array.isArray(validatedMomentum) || !Array.isArray(changesSinceLastWeek)) return false;
   if (!forwardRadar.every(isSnapshotEntry) || !validatedMomentum.every(isSnapshotEntry) || !changesSinceLastWeek.every(isChange)) return false;
   const thesisIds = [...forwardRadar, ...validatedMomentum].map((entry) => entry.thesisId);
