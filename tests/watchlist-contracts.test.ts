@@ -155,6 +155,12 @@ test("rejects invalid calendar timestamps without throwing", () => {
   });
   assert.equal(thesisResult, false);
 
+  let plainDateResult = true;
+  assert.doesNotThrow(() => {
+    plainDateResult = validateCompanyThesisShape({ ...thesis, generatedAt: "2026-13-01" });
+  });
+  assert.equal(plainDateResult, false);
+
   let leapSecondResult = true;
   assert.doesNotThrow(() => {
     leapSecondResult = validateCompanyThesisShape({ ...thesis, generatedAt: "2026-01-01T00:00:60Z" });

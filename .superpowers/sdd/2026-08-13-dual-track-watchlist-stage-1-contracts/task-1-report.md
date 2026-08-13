@@ -22,7 +22,32 @@
 
 ## Commit
 
-- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
+- Commit hash: `dea66888dff59f8a3291470dc86951bdc7db1d37`
+
+---
+
+# Fix round 3 — add explicit raw-input assertions for invalid timestamps
+
+## RED
+
+- New tests added: raw-input assertions for `2026-13-01` and `2026-01-01T00:00:60Z`
+- Confirmed red evidence: none in production code; the existing validator already returned `false` and did not throw for these inputs.
+
+## GREEN
+
+- Command: `node --import tsx --test tests/watchlist-contracts.test.ts`
+- Result: passed with 6/6 tests
+- Command: `pnpm run check`
+- Result: passed
+
+## Coverage added
+
+- Explicit raw string `2026-13-01` is rejected without throwing.
+- Explicit raw string `2026-01-01T00:00:60Z` is rejected without throwing.
+
+## Commit
+
+- Commit hash: `dea66888dff59f8a3291470dc86951bdc7db1d37`
 
 ## Self-review
 
@@ -61,7 +86,7 @@
 
 ## Commit
 
-- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
+- Commit hash: `dea66888dff59f8a3291470dc86951bdc7db1d37`
 
 ---
 
@@ -89,4 +114,4 @@
 
 ## Commit
 
-- Commit hash: `a2f40e999e1909279834ce3a99d8c362ac69d1f1`
+- Commit hash: `dea66888dff59f8a3291470dc86951bdc7db1d37`
