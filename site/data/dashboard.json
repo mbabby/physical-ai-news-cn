@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-14T04:03:52.281Z",
+  "generatedAt": "2026-08-14T04:16:11.640Z",
   "periodLabel": "本周 2026-W33 · 近 30 天滚动证据池",
   "stats": {
     "events": 9,
     "companies": 49,
     "research": 6,
-    "sources": 40
+    "sources": 41
   },
   "confirmedSignals": [
     {
@@ -77,14 +77,14 @@
       "date": "2026-08-13",
       "source": "The Robot Report",
       "isThisWeek": true,
-      "lastVerifiedAt": "2026-08-14T04:03:52.281Z",
+      "lastVerifiedAt": "2026-08-14T04:16:11.640Z",
       "lastMaterialChangeAt": "2026-08-13T15:08:41.266Z",
       "entity": "Humanoid",
       "evidenceGrade": "B",
       "verificationStatus": "正在发生",
       "evidenceCount": 1,
       "missingEvidence": "后续是否有一手技术细节、客户或复现证据？",
-      "verifiedAt": "2026-08-14T04:03:52.281Z",
+      "verifiedAt": "2026-08-14T04:16:11.640Z",
       "whyItMatters": "公司商业化、合作或组织进程发生变化；当前由独立可信来源支持。",
       "score": 62
     },
@@ -97,14 +97,14 @@
       "date": "2026-08-13",
       "source": "The Robot Report",
       "isThisWeek": true,
-      "lastVerifiedAt": "2026-08-14T04:03:52.281Z",
+      "lastVerifiedAt": "2026-08-14T04:16:11.640Z",
       "lastMaterialChangeAt": "2026-08-14T01:26:39.396Z",
       "entity": "Humanoid",
       "evidenceGrade": "B",
       "verificationStatus": "正在发生",
       "evidenceCount": 1,
       "missingEvidence": "后续是否有一手技术细节、客户或复现证据？",
-      "verifiedAt": "2026-08-14T04:03:52.281Z",
+      "verifiedAt": "2026-08-14T04:16:11.640Z",
       "whyItMatters": "公司商业化、合作或组织进程发生变化；当前由独立可信来源支持。",
       "score": 62
     },
@@ -929,6 +929,15 @@
       }
     },
     {
+      "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
+      "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
+      "link": "https://arxiv.org/abs/2608.12860v1",
+      "type": "研究论文",
+      "route": "研究",
+      "date": "2026-08-13",
+      "source": "arXiv · Robotics"
+    },
+    {
       "title": "TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架",
       "summary": "提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。",
       "link": "https://arxiv.org/abs/2608.07314v1",
@@ -1340,226 +1349,6 @@
         "gates": [],
         "eligibleForTopResearch": true
       }
-    },
-    {
-      "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-      "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-      "link": "https://arxiv.org/abs/2608.05970v1",
-      "type": "研究论文",
-      "route": "研究",
-      "date": "2026-08-06",
-      "source": "arXiv · Robotics",
-      "decisionCard": {
-        "identity": {
-          "paperId": {
-            "value": "84d803ee8b094f55",
-            "evidenceUrls": [
-              "https://arxiv.org/abs/2608.05970v1"
-            ]
-          },
-          "openAlexWorkId": {
-            "value": "https://openalex.org/W7201879442",
-            "evidenceUrls": [
-              "https://openalex.org/W7201879442"
-            ]
-          },
-          "version": {
-            "value": 1,
-            "evidenceUrls": [
-              "https://arxiv.org/abs/2608.05970v1"
-            ]
-          }
-        },
-        "titleZh": {
-          "value": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "factsZh": {
-          "value": [
-            "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。",
-            "仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。"
-          ],
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "task": {
-          "value": [
-            "机器人操作"
-          ],
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "embodiment": {
-          "value": [
-            "真实机器人"
-          ],
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "datasetTrainingScale": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "benchmark": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "baselineDelta": {
-          "value": "Extensive experiments on the simulation benchmark and real-world manipulation tasks demonstrate that SkillMemo consistently enhances both DP and VLA backbones, achieving state-of-the-art performance and outperforming $π_{0.5}$, while exhibiting strong compositional generalization to unseen task configurations.",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "realRobotTrials": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "artifacts": {
-          "code": {
-            "value": "unknown",
-            "evidenceUrls": []
-          },
-          "weights": {
-            "value": "unknown",
-            "evidenceUrls": []
-          },
-          "data": {
-            "value": "unknown",
-            "evidenceUrls": []
-          },
-          "projectPage": {
-            "value": "unknown",
-            "evidenceUrls": []
-          },
-          "license": {
-            "value": "unknown",
-            "evidenceUrls": []
-          }
-        },
-        "limitations": {
-          "value": [
-            "However, their potential remains fundamentally constrained by the scarcity of large-scale embodied trajectory datasets, leading to insufficient compositional generalization in out-of-distribution (OOD) scenarios with limited capability to capture reusable skill structures."
-          ],
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ]
-        },
-        "reproducibilityCost": {
-          "value": "high",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "rationale": "However, their potential remains fundamentally constrained by the scarcity of large-scale embodied trajectory datasets, leading to insufficient compositional generalization in out-of-distribution (OOD) scenarios with limited capability to capture reusable skill structures."
-        },
-        "author": {
-          "value": [
-            "Changyuan Wang",
-            "Chubin Zhang",
-            "Zhenyu Wu"
-          ],
-          "evidenceUrls": [
-            "https://openalex.org/W7201879442"
-          ]
-        },
-        "lab": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "openAlex": {
-          "match": {
-            "value": "matched",
-            "evidenceUrls": [
-              "https://openalex.org/W7201879442"
-            ]
-          },
-          "retraction": {
-            "value": false,
-            "evidenceUrls": [
-              "https://openalex.org/W7201879442"
-            ]
-          },
-          "freshness": {
-            "value": "fresh",
-            "evidenceUrls": [
-              "https://openalex.org/W7201879442"
-            ]
-          }
-        },
-        "whyWorthAttention": {
-          "value": "原文摘要明确出现真实机器人、基准证据。",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05970v1",
-            "https://openalex.org/W7201879442"
-          ]
-        },
-        "rankScore": 50,
-        "fieldEvidence": {
-          "identity": [
-            "https://arxiv.org/abs/2608.05970v1",
-            "https://openalex.org/W7201879442",
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "title": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "facts": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "task": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "embodiment": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "datasetTrainingScale": [],
-          "benchmark": [],
-          "baselineDelta": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "realRobotTrials": [],
-          "artifacts.code": [],
-          "artifacts.weights": [],
-          "artifacts.data": [],
-          "artifacts.projectPage": [],
-          "artifacts.license": [],
-          "limitations": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "reproducibilityCost": [
-            "https://arxiv.org/abs/2608.05970v1"
-          ],
-          "author": [
-            "https://openalex.org/W7201879442"
-          ],
-          "lab": [],
-          "openAlex.match": [
-            "https://openalex.org/W7201879442"
-          ],
-          "openAlex.retraction": [
-            "https://openalex.org/W7201879442"
-          ],
-          "openAlex.freshness": [
-            "https://openalex.org/W7201879442"
-          ],
-          "whyWorthAttention": [
-            "https://arxiv.org/abs/2608.05970v1",
-            "https://openalex.org/W7201879442"
-          ]
-        },
-        "completeness": {
-          "totalFields": 24,
-          "knownFields": 15,
-          "unknownFields": 9,
-          "completeOrUnknown": true
-        },
-        "gates": [],
-        "eligibleForTopResearch": true
-      }
     }
   ],
   "researchGraph": [
@@ -1610,6 +1399,21 @@
     },
     {
       "paper": {
+        "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
+        "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
+        "link": "https://arxiv.org/abs/2608.12860v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-13",
+        "source": "arXiv · Robotics"
+      },
+      "route": "本体与硬件",
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
+    },
+    {
+      "paper": {
         "title": "TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架",
         "summary": "提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。",
         "link": "https://arxiv.org/abs/2608.07314v1",
@@ -1631,21 +1435,6 @@
         "type": "研究论文",
         "route": "研究",
         "date": "2026-08-07",
-        "source": "arXiv · Robotics"
-      },
-      "route": "VLA 与具身模型",
-      "companies": [],
-      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
-      "relations": []
-    },
-    {
-      "paper": {
-        "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-        "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-        "link": "https://arxiv.org/abs/2608.05970v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-06",
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
@@ -1982,7 +1771,7 @@
     }
   ],
   "companyBoards": {
-    "generatedAt": "2026-08-14T04:03:52.281Z",
+    "generatedAt": "2026-08-14T04:16:11.640Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-14T04:03:52.281Z",
+  "updatedAt": "2026-08-14T04:16:11.640Z",
   "windowDays": 30,
   "sources": [
     {
@@ -8,26 +8,25 @@
       "type": "rss",
       "role": "学术索引",
       "tier": "官方公司与实验室",
-      "status": "观察",
+      "status": "已启用",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 9,
-      "effectiveWeight": 9,
-      "successfulRuns": 10,
-      "failedRuns": 4,
+      "effectiveWeight": 8,
+      "successfulRuns": 11,
+      "failedRuns": 3,
       "selectedArticles": 70,
-      "reliability": 0.71,
-      "fetchedArticles": 700,
-      "relatedHits": 157,
+      "reliability": 0.79,
+      "fetchedArticles": 850,
+      "relatedHits": 155,
       "correctionCount": 0,
       "health": {
-        "successRate": 0.71,
-        "hitRate": 0.22,
+        "successRate": 0.79,
+        "hitRate": 0.18,
         "inclusionRate": 0.45,
         "correctionRate": 0,
-        "score": 59.05
+        "score": 61.45
       },
-      "statusReason": "一手端点成功率偏低，继续观察",
-      "recommendation": "观察"
+      "recommendation": "保留"
     },
     {
       "id": "official-nvidia-newsroom",
@@ -743,12 +742,12 @@
       ],
       "role": "实验室官网",
       "tier": "官方公司与实验室",
-      "status": "观察",
+      "status": "已暂停",
       "publicationPolicy": "可作为一手证据",
       "configuredWeight": 10,
-      "effectiveWeight": 10,
+      "effectiveWeight": 9,
       "successfulRuns": 0,
-      "failedRuns": 6,
+      "failedRuns": 7,
       "selectedArticles": 0,
       "reliability": 0,
       "fetchedArticles": 0,
@@ -759,8 +758,8 @@
         "correctionRate": 0,
         "score": 37.5
       },
-      "statusReason": "一手端点成功率偏低，继续观察",
-      "recommendation": "观察"
+      "statusReason": "一手端点连续不可用，已停止自动抓取",
+      "recommendation": "排查"
     },
     {
       "id": "official-booster-news",
