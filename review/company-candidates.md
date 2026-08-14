@@ -184,6 +184,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 产业资本和国资联手押注，恒璇科技半年内再 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[36Kr](https://news.google.com/rss/articles/CBMiU0FVX3lxTE5Cai1mYzk0dzdTelRadV93M0RyUnFrb3RGeUNIbnJCSkx3eF9oVVQ5Qi02M1FnaVVfQjdWaHM1Y2piQ185b0RHNVZVdkhPdnNpM2hN?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%A7%E4%B8%9A%E8%B5%84%E6%9C%AC%E5%92%8C%E5%9B%BD%E8%B5%84%E8%81%94%E6%89%8B%E6%8A%BC%E6%B3%A8%EF%BC%8C%E6%81%92%E7%92%87%E7%A7%91%E6%8A%80%E5%8D%8A%E5%B9%B4%E5%86%85%E5%86%8D%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%A7%E4%B8%9A%E8%B5%84%E6%9C%AC%E5%92%8C%E5%9B%BD%E8%B5%84%E8%81%94%E6%89%8B%E6%8A%BC%E6%B3%A8%EF%BC%8C%E6%81%92%E7%92%87%E7%A7%91%E6%8A%80%E5%8D%8A%E5%B9%B4%E5%86%85%E5%86%8D%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 橡木果机器人发布Natus具身本能模型 · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -196,13 +203,6 @@
 - 路线：本体与硬件
 - 证据：[东方财富](https://news.google.com/rss/articles/CBMiZkFVX3lxTE5sWkNkU2Vlbm1jdHpmWDlpWEtsVmZheUdnbU5MZ3lMTlpkd1dvVjlKazZhZ0M2Y2dRcHdvVmZHVlNXY2ZsVTRBWUhFZ1lFSVI5cTl5b1NyMTBTOFRnZ180ZjNRRTJVdw?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%228%E6%9C%8814%E6%97%A5%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%228%E6%9C%8814%E6%97%A5%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 产业资本和国资联手押注，恒璇科技半年内再 · 候选 · 22/100
-
-- 路线：本体与硬件
-- 证据：[36Kr](https://news.google.com/rss/articles/CBMiU0FVX3lxTE5Cai1mYzk0dzdTelRadV93M0RyUnFrb3RGeUNIbnJCSkx3eF9oVVQ5Qi02M1FnaVVfQjdWaHM1Y2piQ185b0RHNVZVdkhPdnNpM2hN?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%A7%E4%B8%9A%E8%B5%84%E6%9C%AC%E5%92%8C%E5%9B%BD%E8%B5%84%E8%81%94%E6%89%8B%E6%8A%BC%E6%B3%A8%EF%BC%8C%E6%81%92%E7%92%87%E7%A7%91%E6%8A%80%E5%8D%8A%E5%B9%B4%E5%86%85%E5%86%8D%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%A7%E4%B8%9A%E8%B5%84%E6%9C%AC%E5%92%8C%E5%9B%BD%E8%B5%84%E8%81%94%E6%89%8B%E6%8A%BC%E6%B3%A8%EF%BC%8C%E6%81%92%E7%92%87%E7%A7%91%E6%8A%80%E5%8D%8A%E5%B9%B4%E5%86%85%E5%86%8D%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 硅谷 · 候选 · 22/100
