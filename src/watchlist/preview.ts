@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { derivePublication } from "../facts-contract.js";
-import type { CompanyClaimLedger } from "../company-claim-ledger.js";
+import type { CompanyClaim, CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { FileTransaction } from "../runtime/storage.js";
 import type { CompanyProfile, EventRecord, RuntimeStatus } from "../types.js";
 import { validateCompanyThesisShape, type CompanyThesis } from "./contracts.js";
@@ -78,6 +78,73 @@ interface EvidenceSubject {
   factReferenceIds: string[];
 }
 
+type SensitiveField = "amount" | "valuation" | "customer" | "revenue" | "order";
+
+function sensitiveFieldsInThesis(thesis: CompanyThesis, events: EventRecord[]): SensitiveField[] {
+  const text = [
+    thesis.whyNow,
+    thesis.routeAndDependencies,
+    ...thesis.nextValidationPoints.map((point) => point.text),
+    ...thesis.falsifiers.map((item) => item.text),
+  ].join(" ");
+  const fields = new Set<SensitiveField>();
+  const amounts = events.flatMap((event) => event.funding?.amount ? [event.funding.amount] : []);
+  const valuations = events.flatMap((event) => event.funding?.valuation ? [event.funding.valuation] : []);
+  const customers = events.flatMap((event) => event.productDeployment?.customers ?? []);
+  if (/融资金额|funding amount|(?:融资|募资|融得|完成)[^。！？!?]{0,30}(?:元|美元|欧元|人民币)/i.test(text)
+    || amounts.some((value) => text.includes(value))) fields.add("amount");
+  if (/估值|valuation/i.test(text) || valuations.some((value) => text.includes(value))) fields.add("valuation");
+  if (/客户\s*(?:包括|包含|为|是|：|:)|customer\s+(?:includes?|is|was|named)/i.test(text)
+    || customers.some((value) => text.includes(value))) fields.add("customer");
+  if (/收入|营收|revenue/i.test(text)) fields.add("revenue");
+  if (/订单|\border(?:s|ed)?\b/i.test(text)) fields.add("order");
+  return [...fields];
+}
+
+function claimEventIds(claim: CompanyClaim): string[] {
+  return [...new Set(claim.evidenceIds.map((id) => id.replace(/:evidence:\d+$/, "")))];
+}
+
+function claimSupportsField(claim: CompanyClaim, field: SensitiveField): boolean {
+  if (field === "amount" || field === "valuation") return claim.claimType === "funding";
+  if (field === "customer") return ["pilot", "deployment", "commercialization"].includes(claim.claimType);
+  return claim.claimType === "commercialization";
+}
+
+function eventContainsField(event: EventRecord, field: SensitiveField): boolean {
+  if (field === "amount") return Boolean(event.funding?.amount);
+  if (field === "valuation") return Boolean(event.funding?.valuation);
+  if (field === "customer") return Boolean(event.productDeployment?.customers.length);
+  const text = `${event.title} ${event.facts.join(" ")} ${event.productDeployment?.deployment ?? ""}`;
+  return field === "revenue" ? /收入|营收|revenue/i.test(text) : /订单|order/i.test(text);
+}
+
+function priorSensitiveFieldsRemainVerified(thesis: CompanyThesis, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
+  const eventById = new Map(events.map((event) => [event.id, event]));
+  const selectedEvents = thesis.factReferenceIds.flatMap((referenceId) => {
+    const event = eventById.get(referenceId);
+    return event ? [event] : [];
+  });
+  const fields = sensitiveFieldsInThesis(thesis, selectedEvents);
+  if (!fields.length) return true;
+  const claims = ledger?.companies.find((entry) => entry.companyId === thesis.companyId)?.claims ?? [];
+  const priorReferences = new Set(thesis.factReferenceIds);
+  return fields.every((field) => claims.some((claim) => {
+    const mappedEvents = claimEventIds(claim);
+    return claim.evidenceState === "verified"
+      && claim.value !== "unknown"
+      && claim.freshness.state === "fresh"
+      && !claim.unresolvedQuestions.some((question) => CONFLICT_PATTERN.test(question))
+      && claimSupportsField(claim, field)
+      && mappedEvents.length > 0
+      && mappedEvents.every((eventId) => eventById.has(eventId))
+      && mappedEvents.some((eventId) => {
+        const event = eventById.get(eventId);
+        return priorReferences.has(eventId) && Boolean(event && eventContainsField(event, field));
+      });
+  }));
+}
+
 function evidenceAllowsReferences(subject: EvidenceSubject, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
   const selected = canonicalReferences(subject, events);
   if (!selected || !selected.length) return false;
@@ -111,7 +178,7 @@ function evidenceAllowsPrior(
     companyName: company.name,
     track: thesis.track,
     factReferenceIds: thesis.factReferenceIds,
-  }, events, ledger));
+  }, events, ledger) && priorSensitiveFieldsRemainVerified(thesis, events, ledger));
 }
 
 function hasMaterialSeedChange(
@@ -180,13 +247,14 @@ export function validateWatchlistPreviewRelease(input: WatchlistPreviewReleaseIn
     throw new Error("Watchlist Markdown 与 JSON 预览不一致");
   }
   const manifestStatus = input.manifestServices.find((status) => status.component === "Watchlist");
+  const archiveStatus = input.archiveServices.find((status) => status.component === "Watchlist");
   const legacyEmptyBootstrap = input.preview.theses.length === 0
-    && input.preview.generatedAt === input.manifestFinishedAt;
+    && input.preview.generatedAt === input.manifestFinishedAt
+    && !archiveStatus;
   if (!manifestStatus) {
     if (legacyEmptyBootstrap) return;
     throw new Error("运行清单缺少 Watchlist 状态");
   }
-  const archiveStatus = input.archiveServices.find((status) => status.component === "Watchlist");
   if (!archiveStatus
     || archiveStatus.status !== manifestStatus.status
     || archiveStatus.attempted !== manifestStatus.attempted

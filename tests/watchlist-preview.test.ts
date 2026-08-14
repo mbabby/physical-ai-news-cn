@@ -197,6 +197,27 @@ test("cooldown never retains a prior card whose own references became unsafe", a
   assert.equal(result.status.attempted, 1);
 });
 
+test("cooldown and outage cannot retain sensitive prose after ledger proof becomes stale or disappears", async () => {
+  const prior = thesis({
+    generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
+    whyNow: "AI 研究判断：Alpha Robotics 已公布融资金额 1200 万美元。",
+  });
+  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const fundingEvent = event({ type: "投融资", funding: { entityStatus: "已确认", amount: "1200 万美元", investors: [] } });
+  const staleLedger = ledger();
+  staleLedger.companies[0]!.claims = [{
+    ...staleLedger.companies[0]!.claims[0]!, claimType: "funding", value: "1200 万美元",
+    freshness: { ttlDays: 180, state: "stale", expiresAt: "2026-08-13T00:00:00.000Z", daysSinceVerified: 181 },
+  }];
+  for (const claimLedger of [staleLedger, { ...ledger(), companies: [] }]) {
+    const result = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, previous, {
+      canonicalEvents: [fundingEvent], claimLedger,
+    }));
+    assert.deepEqual(result.preview.theses, []);
+    assert.equal(result.status.attempted, 1);
+  }
+});
+
 test("corrupt previous preview fails closed before generation", async () => {
   const directory = await mkdtemp(join(tmpdir(), "watchlist-preview-corrupt-"));
   const path = join(directory, "watchlist-preview.json");
@@ -227,6 +248,10 @@ test("release validation binds JSON, Markdown, and Watchlist status for new runs
     preview: legacy, markdown: formatWatchlistPreviewMarkdown(legacy), manifestFinishedAt: GENERATED_AT,
     manifestServices: [], archiveServices: [],
   }));
+  assert.throws(() => validateWatchlistPreviewRelease({
+    preview: legacy, markdown: formatWatchlistPreviewMarkdown(legacy), manifestFinishedAt: GENERATED_AT,
+    manifestServices: [], archiveServices: [status],
+  }), /Watchlist/);
 });
 
 test("preview and companion status roll back together when transaction commit fails", async () => {
