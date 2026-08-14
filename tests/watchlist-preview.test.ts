@@ -133,6 +133,7 @@ test("invalid generated prose is absent instead of leaking a partial thesis", as
   const result = await buildWatchlistPreview(input({ ok: true, draft: invalid }));
   assert.deepEqual(result.preview.theses, []);
   assert.equal(result.status.failed, 1);
+  assert.match(result.status.detail, /validation-blocked 1/);
 });
 
 test("malformed generation keeps a still-valid previously validated card", async () => {
@@ -141,6 +142,7 @@ test("malformed generation keeps a still-valid previously validated card", async
   assert.deepEqual(result.preview.theses, previous.theses);
   assert.equal(result.status.failed, 1);
   assert.match(result.status.detail, /保留 1/);
+  assert.match(result.status.detail, /invalid-json 1/);
 });
 
 test("six-hour cooldown skips regeneration and preserves the prior card", async () => {

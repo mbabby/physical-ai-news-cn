@@ -264,6 +264,10 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
   let failed = 0;
   let retained = 0;
   let excluded = 0;
+  const failureReasons = new Map<string, number>();
+  const recordFailure = (reason: string): void => {
+    failureReasons.set(reason, (failureReasons.get(reason) ?? 0) + 1);
+  };
 
   for (const seed of sortedSelected(input.selected)) {
     const previous = previousByCompany.get(seed.companyId);
@@ -294,6 +298,7 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
     attempted += 1;
     const generated = await input.generator.generate(seed);
     if (!generated.ok) {
+      recordFailure(generated.code);
       const selected = selectLastKnownGood(fallback, generated, undefined, input.now);
       if (selected) { theses.push(selected); retained += 1; }
       else excluded += 1;
@@ -313,6 +318,7 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
       theses.push(selected);
       succeeded += 1;
     } else {
+      if (!validation.publishable) recordFailure("validation-blocked");
       if (selected) { theses.push(selected); retained += 1; }
       else excluded += 1;
       failed += 1;
@@ -332,7 +338,9 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
     attempted,
     succeeded,
     failed,
-    detail: `生成 ${succeeded} 张新判断卡；保留 ${retained} 张上一有效版本；排除 ${excluded} 家。`,
+    detail: `生成 ${succeeded} 张新判断卡；保留 ${retained} 张上一有效版本；排除 ${excluded} 家。${failureReasons.size
+      ? ` 失败原因：${[...failureReasons.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([reason, count]) => `${reason} ${count}`).join("，")}。`
+      : ""}`,
   };
   return { preview, markdown: formatWatchlistPreviewMarkdown(preview), status };
 }
