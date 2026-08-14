@@ -191,6 +191,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8F%91%E5%B8%83Natus%E5%85%B7%E8%BA%AB%E6%9C%AC%E8%83%BD%E6%A8%A1%E5%9E%8B%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8F%91%E5%B8%83Natus%E5%85%B7%E8%BA%AB%E6%9C%AC%E8%83%BD%E6%A8%A1%E5%9E%8B%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 广汽孵化慧仑科技 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[cb.com.cn](https://news.google.com/rss/articles/CBMiY0FVX3lxTFBNSlVUNjdkY1BsWk5qY0piR3VLTk85YlBFSFd0Z3p4U2QyZ0JsSnZSa3hfbUFJVno0Ql9COE4xbGFjNFlmVUc0VGM5cWRDMjlMWm9fNGNhYzlFSXNIVVRUSV9LUQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 硅谷 · 候选 · 22/100
 
 - 路线：部署与商业化
