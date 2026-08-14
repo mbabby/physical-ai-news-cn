@@ -45,6 +45,14 @@ test("watchlist preview remains review-only and is staged by the daily transacti
   for (const publicConsumer of publicConsumers) assert.doesNotMatch(publicConsumer, /watchlist-preview/);
 });
 
+test("release validation binds the watchlist JSON to Markdown and runtime receipts", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+  assert.match(source, /readFile\(join\(root, "review", "watchlist-preview\.md"\)/);
+  assert.match(source, /validateWatchlistPreviewRelease\(\{/);
+  assert.match(source, /manifestServices:\s*manifest\.services/);
+  assert.match(source, /archiveServices:\s*archive\.runtimeStatus/);
+});
+
 test("Pages deployment follows a completed digest and checks out latest main", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "deploy-pages.yml"), "utf8");
   assert.match(workflow, /workflow_run:/);

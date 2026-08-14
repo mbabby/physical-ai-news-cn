@@ -13,6 +13,11 @@ const COOLDOWN_MS = 6 * 60 * 60 * 1_000;
 const EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
 const CONFLICT_PATTERN = /冲突|矛盾|待复核|待识别|待核验|待确认|未确认|主体不明|归属不明|撤回|撤销|withdrawn|conflict|unverified/i;
 const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|投资建议|建议配置|回报率|收益率|\bbuy\b|\bsell\b|target price|\breturns?\b/i;
+const THESIS_KEYS = new Set([
+  "thesisId", "companyId", "track", "lifecycle", "thesisVersion", "whyNow", "routeAndDependencies",
+  "nextValidationPoints", "falsifiers", "factReferenceIds", "inferenceLabels", "confidence", "generatedAt",
+  "expiresAt", "modelVersion", "promptVersion", "methodologyVersion",
+]);
 
 export interface WatchlistPreviewArtifact {
   schemaVersion: 1;
@@ -59,27 +64,54 @@ function activeThesis(thesis: CompanyThesis | undefined, nowMs: number): thesis 
     && expiresAt > nowMs;
 }
 
-function canonicalReferences(seed: SelectedThesisSeed, events: EventRecord[]): EventRecord[] | undefined {
+function canonicalReferences(subject: Pick<EvidenceSubject, "factReferenceIds">, events: EventRecord[]): EventRecord[] | undefined {
   const byId = new Map(events.map((event) => [event.id, event]));
-  const selected = seed.factReferenceIds.map((referenceId) => byId.get(referenceId));
+  const selected = subject.factReferenceIds.map((referenceId) => byId.get(referenceId));
   if (selected.some((event) => !event)) return undefined;
   return selected as EventRecord[];
 }
 
-function evidenceAllowsPreview(seed: SelectedThesisSeed, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
-  const selected = canonicalReferences(seed, events);
-  if (!selected || !selected.length || seed.track === "validated-momentum" && seed.evidenceGrade === "B") return false;
+interface EvidenceSubject {
+  companyId: string;
+  companyName: string;
+  track: CompanyThesis["track"];
+  factReferenceIds: string[];
+}
+
+function evidenceAllowsReferences(subject: EvidenceSubject, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
+  const selected = canonicalReferences(subject, events);
+  if (!selected || !selected.length) return false;
   for (const event of selected) {
     const lifecycle = event as EventRecord & { evidenceState?: "candidate" | "developing" | "confirmed" | "conflicted" | "rejected" | "withdrawn" };
     const state = derivePublication({ evidence: event.evidence, evidenceState: lifecycle.evidenceState }).evidenceState;
-    if (event.primaryEntity !== seed.companyName || event.status === "待复核" || event.status === "已归档") return false;
+    if (event.primaryEntity !== subject.companyName || event.status === "待复核" || event.status === "已归档") return false;
     if (state === "conflicted" || state === "rejected" || state === "withdrawn") return false;
-    if (seed.track === "validated-momentum" && state !== "confirmed") return false;
+    if (subject.track === "validated-momentum" && state !== "confirmed") return false;
     if (event.funding?.entityStatus === "待识别" || event.evidence.some((item) => Boolean((item as typeof item & { withdrawn?: boolean }).withdrawn))) return false;
     if ([event.title, ...event.openQuestions].some((value) => CONFLICT_PATTERN.test(value))) return false;
   }
-  const claims = ledger?.companies.find((entry) => entry.companyId === seed.companyId)?.claims ?? [];
+  const claims = ledger?.companies.find((entry) => entry.companyId === subject.companyId)?.claims ?? [];
   return claims.every((claim) => !claim.unresolvedQuestions.some((question) => CONFLICT_PATTERN.test(question)));
+}
+
+function evidenceAllowsPreview(seed: SelectedThesisSeed, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
+  return !(seed.track === "validated-momentum" && seed.evidenceGrade === "B")
+    && evidenceAllowsReferences(seed, events, ledger);
+}
+
+function evidenceAllowsPrior(
+  thesis: CompanyThesis,
+  companies: CompanyProfile[],
+  events: EventRecord[],
+  ledger?: CompanyClaimLedger,
+): boolean {
+  const company = companies.find((candidate) => candidate.entityId === thesis.companyId && candidate.entityType === "公司");
+  return Boolean(company && evidenceAllowsReferences({
+    companyId: thesis.companyId,
+    companyName: company.name,
+    track: thesis.track,
+    factReferenceIds: thesis.factReferenceIds,
+  }, events, ledger));
 }
 
 function hasMaterialSeedChange(
@@ -112,10 +144,16 @@ export function validateWatchlistPreviewArtifact(value: unknown): value is Watch
   if (!isObject(value) || Object.keys(value).some((key) => !["schemaVersion", "generatedAt", "theses"].includes(key))) return false;
   if (value.schemaVersion !== 1 || typeof value.generatedAt !== "string" || timestamp(value.generatedAt) === undefined || !Array.isArray(value.theses)) return false;
   const companyIds = new Set<string>();
+  const thesisIds = new Set<string>();
+  if (value.theses.length > 10) return false;
   for (const candidate of value.theses) {
+    if (!isObject(candidate) || Object.keys(candidate).length !== THESIS_KEYS.size || Object.keys(candidate).some((key) => !THESIS_KEYS.has(key))) return false;
     if (!validateCompanyThesisShape(candidate) || candidate.lifecycle === "falsified" || candidate.lifecycle === "expired") return false;
-    if (companyIds.has(candidate.companyId)) return false;
+    if (candidate.nextValidationPoints.some((point) => Object.keys(point).length !== 2 || Object.keys(point).some((key) => key !== "text" && key !== "dueAt"))) return false;
+    if (candidate.falsifiers.some((item) => Object.keys(item).length !== 1 || Object.keys(item)[0] !== "text")) return false;
+    if (companyIds.has(candidate.companyId) || thesisIds.has(candidate.thesisId)) return false;
     companyIds.add(candidate.companyId);
+    thesisIds.add(candidate.thesisId);
     const generatedAt = timestamp(candidate.generatedAt);
     const expiresAt = timestamp(candidate.expiresAt);
     if (generatedAt === undefined || expiresAt === undefined || expiresAt - generatedAt !== EXPIRY_MS) return false;
@@ -127,6 +165,38 @@ export function validateWatchlistPreviewArtifact(value: unknown): value is Watch
     ].join("\n"))) return false;
   }
   return true;
+}
+
+export interface WatchlistPreviewReleaseInput {
+  preview: WatchlistPreviewArtifact;
+  markdown: string;
+  manifestFinishedAt: string;
+  manifestServices: RuntimeStatus[];
+  archiveServices: RuntimeStatus[];
+}
+
+export function validateWatchlistPreviewRelease(input: WatchlistPreviewReleaseInput): void {
+  if (input.markdown !== formatWatchlistPreviewMarkdown(input.preview)) {
+    throw new Error("Watchlist Markdown 与 JSON 预览不一致");
+  }
+  const manifestStatus = input.manifestServices.find((status) => status.component === "Watchlist");
+  const legacyEmptyBootstrap = input.preview.theses.length === 0
+    && input.preview.generatedAt === input.manifestFinishedAt;
+  if (!manifestStatus) {
+    if (legacyEmptyBootstrap) return;
+    throw new Error("运行清单缺少 Watchlist 状态");
+  }
+  const archiveStatus = input.archiveServices.find((status) => status.component === "Watchlist");
+  if (!archiveStatus
+    || archiveStatus.status !== manifestStatus.status
+    || archiveStatus.attempted !== manifestStatus.attempted
+    || archiveStatus.succeeded !== manifestStatus.succeeded
+    || archiveStatus.failed !== manifestStatus.failed) {
+    throw new Error("Watchlist 状态在运行清单与日报间不一致");
+  }
+  if (manifestStatus.attempted !== manifestStatus.succeeded + manifestStatus.failed) {
+    throw new Error("Watchlist 尝试计数与成功、失败之和不一致");
+  }
 }
 
 export function formatWatchlistPreviewMarkdown(preview: WatchlistPreviewArtifact): string {
@@ -176,11 +246,18 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
 
   for (const seed of sortedSelected(input.selected)) {
     const previous = previousByCompany.get(seed.companyId);
-    const fallback = activeThesis(previous, nowMs) ? previous : undefined;
+    const activePrevious = activeThesis(previous, nowMs) ? previous : undefined;
     if (!evidenceAllowsPreview(seed, input.canonicalEvents, input.claimLedger)) {
       excluded += 1;
       continue;
     }
+    if (activePrevious?.track === "validated-momentum" && seed.track === "forward-radar") {
+      excluded += 1;
+      continue;
+    }
+    const fallback = activePrevious
+      && evidenceAllowsPrior(activePrevious, input.companies, input.canonicalEvents, input.claimLedger)
+      ? activePrevious : undefined;
     if (!hasMaterialSeedChange(seed, fallback, input.canonicalEvents)) {
       if (fallback) { theses.push(fallback); retained += 1; }
       else excluded += 1;

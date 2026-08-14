@@ -15,6 +15,7 @@ import {
   formatWatchlistPreviewMarkdown,
   stageWatchlistPreview,
   validateWatchlistPreviewArtifact,
+  validateWatchlistPreviewRelease,
   type WatchlistPreviewArtifact,
 } from "../src/watchlist/preview.js";
 
@@ -163,12 +164,69 @@ test("conflict, expiry, falsification, and sensitive-ledger conflict cannot use 
   }
 });
 
+test("last-known-good revalidates its own references and cannot survive a momentum-to-forward weakening", async () => {
+  const prior = thesis({
+    generatedAt: "2026-08-13T00:00:00.000Z", expiresAt: "2026-10-12T00:00:00.000Z",
+    factReferenceIds: ["event-old"],
+  });
+  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const unsafeOldReferences = [
+    event({ id: "event-old", status: "待复核" }),
+    event({ id: "event-old", evidence: [{ ...event().evidence[0]!, withdrawn: true } as EventRecord["evidence"][number]] }),
+  ];
+  for (const oldReference of unsafeOldReferences) {
+    const changedSeedResult = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous, {
+      canonicalEvents: [event(), oldReference],
+    }));
+    assert.deepEqual(changedSeedResult.preview.theses, []);
+  }
+  const weakenedResult = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous, {
+    selected: { forwardRadar: [seed({ track: "forward-radar" })], validatedMomentum: [] },
+    canonicalEvents: [event({ id: "event-old" }), event()],
+  }));
+  assert.deepEqual(weakenedResult.preview.theses, []);
+});
+
+test("cooldown never retains a prior card whose own references became unsafe", async () => {
+  const prior = thesis({ generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z", factReferenceIds: ["event-old"] });
+  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const result = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous, {
+    canonicalEvents: [event(), event({ id: "event-old", status: "待复核" })],
+  }));
+  assert.deepEqual(result.preview.theses, []);
+  assert.equal(result.status.attempted, 1);
+});
+
 test("corrupt previous preview fails closed before generation", async () => {
   const directory = await mkdtemp(join(tmpdir(), "watchlist-preview-corrupt-"));
   const path = join(directory, "watchlist-preview.json");
   await writeFile(path, "{broken", "utf8");
   await assert.rejects(readJsonStrict(path, { optional: true, label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact }), /已损坏.*停止发布/);
   assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), whyNow: "not AI labelled" }] }), false);
+  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), apiKey: "must-not-survive" }] }), false);
+  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), nextValidationPoints: [{ ...thesis().nextValidationPoints[0]!, secret: "must-not-survive" }] }] }), false);
+});
+
+test("release validation binds JSON, Markdown, and Watchlist status for new runs", () => {
+  const preview = { schemaVersion: 1 as const, generatedAt: GENERATED_AT, theses: [thesis()] };
+  const status = { component: "Watchlist" as const, status: "成功" as const, attempted: 1, succeeded: 1, failed: 0, detail: "safe" };
+  assert.doesNotThrow(() => validateWatchlistPreviewRelease({
+    preview, markdown: formatWatchlistPreviewMarkdown(preview), manifestFinishedAt: "2026-08-14T08:01:00.000Z",
+    manifestServices: [status], archiveServices: [status],
+  }));
+  assert.throws(() => validateWatchlistPreviewRelease({
+    preview, markdown: "stale", manifestFinishedAt: "2026-08-14T08:01:00.000Z",
+    manifestServices: [status], archiveServices: [status],
+  }), /Markdown/);
+  assert.throws(() => validateWatchlistPreviewRelease({
+    preview, markdown: formatWatchlistPreviewMarkdown(preview), manifestFinishedAt: "2026-08-14T08:01:00.000Z",
+    manifestServices: [], archiveServices: [],
+  }), /Watchlist/);
+  const legacy = { schemaVersion: 1 as const, generatedAt: GENERATED_AT, theses: [] };
+  assert.doesNotThrow(() => validateWatchlistPreviewRelease({
+    preview: legacy, markdown: formatWatchlistPreviewMarkdown(legacy), manifestFinishedAt: GENERATED_AT,
+    manifestServices: [], archiveServices: [],
+  }));
 });
 
 test("preview and companion status roll back together when transaction commit fails", async () => {

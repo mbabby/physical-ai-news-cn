@@ -8,7 +8,7 @@ import { isPublishableResearch, rankResearchArticles } from "./event-center.js";
 import { SOURCES, X_SOURCES } from "./config.js";
 import { validateEntitySourceBindings } from "./entity-catalog.js";
 import type { CompanyProfile } from "./types.js";
-import { validateWatchlistPreviewArtifact, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
+import { validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -26,6 +26,14 @@ async function main(): Promise<void> {
   const companies = await readJsonStrict<CompanyProfile[]>(join(root, "events", "companies.json"), { label: "公司实体主表", validate: (value): value is CompanyProfile[] => Array.isArray(value) });
   const watchlistPreview = await readJsonStrict<WatchlistPreviewArtifact>(join(root, "review", "watchlist-preview.json"), { label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact });
   if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview) throw new Error("发布产物不完整");
+  const watchlistMarkdown = await readFile(join(root, "review", "watchlist-preview.md"), "utf8");
+  validateWatchlistPreviewRelease({
+    preview: watchlistPreview,
+    markdown: watchlistMarkdown,
+    manifestFinishedAt: manifest.finishedAt,
+    manifestServices: manifest.services,
+    archiveServices: archive.runtimeStatus ?? [],
+  });
   const entityErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (entityErrors.length) throw new Error(`实体—信源目录不一致：${entityErrors.join("；")}`);
   const readme = await readFile(join(root, "README.md"), "utf8");
