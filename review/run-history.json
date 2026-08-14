@@ -1,7 +1,48 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-14T04:38:52.438Z",
+  "updatedAt": "2026-08-14T04:45:20.432Z",
   "runs": [
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-14-2026-08-14T04-41-14-327Z",
+      "date": "2026-08-14",
+      "startedAt": "2026-08-14T04:41:14.327Z",
+      "finishedAt": "2026-08-14T04:45:20.432Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 2,
+        "publicResearchItems": 6,
+        "candidates": 16,
+        "sourceFailures": 0
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "部分降级",
+          "attempted": 10,
+          "succeeded": 8,
+          "failed": 2,
+          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "成功",
+          "attempted": 36,
+          "succeeded": 36,
+          "failed": 0,
+          "detail": "论文引用与作者机构元数据已刷新。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "部分降级",
+          "attempted": 1,
+          "succeeded": 0,
+          "failed": 1,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 1 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.0 1，validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@routeAndDependencies 1，validation:unsupported-sentence-claim@whyNow 1。"
+        }
+      ],
+      "outputs": 58
+    },
     {
       "schemaVersion": 1,
       "runId": "2026-08-14-2026-08-14T04-35-47-169Z",
@@ -1006,39 +1047,6 @@
         }
       ],
       "outputs": 36
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-08-2026-08-08T08-55-36-657Z",
-      "date": "2026-08-08",
-      "startedAt": "2026-08-08T08:55:36.657Z",
-      "finishedAt": "2026-08-08T08:59:59.133Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 0,
-        "publicResearchItems": 6,
-        "candidates": 19,
-        "sourceFailures": 0
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 14,
-          "succeeded": 12,
-          "failed": 2,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "部分降级",
-          "attempted": 36,
-          "succeeded": 33,
-          "failed": 3,
-          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
-        }
-      ],
-      "outputs": 34
     }
   ]
 }
