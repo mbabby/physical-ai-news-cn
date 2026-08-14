@@ -248,7 +248,6 @@ test("a genuine WatchlistGenerator result flows directly into validation", async
     falsifiers: draft().falsifiers,
     factReferenceIds: ["event-alpha"],
     confidence: "high",
-    sentenceCitations: citations(),
   };
   const generator = new WatchlistGenerator(
     { apiKey: "test-key", baseUrl: "https://llm.example/v1", model: "model-official" },

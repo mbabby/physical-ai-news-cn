@@ -64,7 +64,6 @@ interface GeneratedPayload {
   falsifiers: Array<{ text: string }>;
   factReferenceIds: string[];
   confidence: "high" | "medium" | "low";
-  sentenceCitations: ThesisSentenceCitation[];
 }
 
 const OUTPUT_KEYS = new Set([
@@ -74,7 +73,6 @@ const OUTPUT_KEYS = new Set([
   "falsifiers",
   "factReferenceIds",
   "confidence",
-  "sentenceCitations",
 ]);
 
 // Kimi K3 otherwise defaults to max reasoning and an output budget of 131k
@@ -113,27 +111,6 @@ const WATCHLIST_RESPONSE_SCHEMA = {
       },
       factReferenceIds: { type: "array", minItems: 1, items: { type: "string" } },
       confidence: { type: "string", enum: ["high", "medium", "low"] },
-      sentenceCitations: {
-        type: "array",
-        minItems: 4,
-        items: {
-          type: "object",
-          additionalProperties: false,
-          properties: {
-            path: { type: "string" },
-            sentenceIndex: { type: "integer", minimum: 0 },
-            text: { type: "string" },
-            claimKind: { type: "string", enum: ["analysis", "validation-point", "falsifier"] },
-            referenceIds: { type: "array", minItems: 1, items: { type: "string" } },
-            factAtomIds: { type: "array", minItems: 1, items: { type: "string" } },
-            sensitiveFields: {
-              type: "array",
-              items: { type: "string", enum: ["amount", "valuation", "customer", "revenue", "order"] },
-            },
-          },
-          required: ["path", "sentenceIndex", "text", "claimKind", "referenceIds", "factAtomIds", "sensitiveFields"],
-        },
-      },
     },
     required: [
       "whyNow",
@@ -142,7 +119,6 @@ const WATCHLIST_RESPONSE_SCHEMA = {
       "falsifiers",
       "factReferenceIds",
       "confidence",
-      "sentenceCitations",
     ],
   },
 } as const;
@@ -208,20 +184,6 @@ function expectedSentenceBindings(value: GeneratedPayload): Array<{ path: string
   return fields.flatMap(({ path, text }) => generatedSentences(text).map((sentence, sentenceIndex) => ({ path, sentenceIndex, text: sentence })));
 }
 
-function isSentenceCitation(value: unknown, allowedReferences: ReadonlySet<string>): value is ThesisSentenceCitation {
-  if (!isObject(value) || !hasExactKeys(value, new Set(["path", "sentenceIndex", "text", "claimKind", "referenceIds", "factAtomIds", "sensitiveFields"]))) return false;
-  if (!isNonEmptyString(value.path) || !Number.isInteger(value.sentenceIndex) || (value.sentenceIndex as number) < 0 || !isNonEmptyString(value.text)) return false;
-  if (value.claimKind !== "analysis" && value.claimKind !== "validation-point" && value.claimKind !== "falsifier") return false;
-  if (!Array.isArray(value.referenceIds) || !value.referenceIds.length || !value.referenceIds.every(isNonEmptyString)
-    || new Set(value.referenceIds).size !== value.referenceIds.length || value.referenceIds.some((reference) => !allowedReferences.has(reference))) return false;
-  if (!Array.isArray(value.factAtomIds) || !value.factAtomIds.length || !value.factAtomIds.every(isNonEmptyString)
-    || new Set(value.factAtomIds).size !== value.factAtomIds.length) return false;
-  const allowedSensitiveFields = new Set(["amount", "valuation", "customer", "revenue", "order"]);
-  return Array.isArray(value.sensitiveFields)
-    && new Set(value.sensitiveFields).size === value.sensitiveFields.length
-    && value.sensitiveFields.every((field) => typeof field === "string" && allowedSensitiveFields.has(field));
-}
-
 function isGeneratedPayload(
   value: unknown,
   seed: SelectedThesisSeed,
@@ -245,29 +207,9 @@ function isGeneratedPayload(
     || new Set(value.factReferenceIds).size !== value.factReferenceIds.length) return false;
   const allowedReferences = new Set(seed.factReferenceIds);
   if (value.factReferenceIds.some((referenceId) => !allowedReferences.has(referenceId))) return false;
-  const outputReferences = new Set(value.factReferenceIds);
-  const sentenceCitations = value.sentenceCitations;
-  if (!Array.isArray(sentenceCitations)
-    || !sentenceCitations.every((citation) => isSentenceCitation(citation, outputReferences))) return false;
   const typed = value as unknown as GeneratedPayload;
-  const expectedBindings = expectedSentenceBindings(typed);
-  if (typed.sentenceCitations.length !== expectedBindings.length
-    || expectedBindings.some((expected) => typed.sentenceCitations.filter((citation) => citation.path === expected.path
-      && citation.sentenceIndex === expected.sentenceIndex
-      && citation.text === expected.text).length !== 1)) return false;
-  const factAtomsById = new Map(facts.flatMap((fact) => fact.factAtoms).map((atom) => [atom.id, atom]));
-  for (const citation of typed.sentenceCitations) {
-    const expectedKind = citation.path.startsWith("nextValidationPoints.")
-      ? "validation-point" : citation.path.startsWith("falsifiers.") ? "falsifier" : "analysis";
-    if (citation.claimKind !== expectedKind) return false;
-    const scheduleId = citation.path.startsWith("nextValidationPoints.")
-      ? scheduleAtomId(citation.path, typed.nextValidationPoints[Number(citation.path.split(".")[1])]?.dueAt ?? "") : undefined;
-    if (citation.factAtomIds.some((atomId) => {
-      if (atomId === scheduleId) return false;
-      const atom = factAtomsById.get(atomId);
-      return !atom || !citation.referenceIds.includes(atom.referenceId);
-    })) return false;
-  }
+  const outputReferences = new Set(typed.factReferenceIds);
+  if (!facts.some((fact) => outputReferences.has(fact.referenceId) && fact.factAtoms.length > 0)) return false;
   const generatedProse = [
     directionalProse,
     ...value.nextValidationPoints.map((point) => point.text),
@@ -298,24 +240,59 @@ function systemPrompt(): string {
   return [
     "你是严谨的 Physical AI 公司研究编辑。只使用提供的规范事实，不得补充、猜测或引用外部信息。",
     "只输出一个 JSON 对象，不要 Markdown、代码围栏、解释或额外字段。",
-    "严格输出字段：whyNow、routeAndDependencies、nextValidationPoints、falsifiers、factReferenceIds、confidence、sentenceCitations。",
+    "严格输出字段：whyNow、routeAndDependencies、nextValidationPoints、falsifiers、factReferenceIds、confidence。",
     "whyNow 不超过 120 个字符；routeAndDependencies 不超过 160 个字符；两段方向性文字都以“AI 研究判断”开头。",
     "nextValidationPoints 为 1–3 条，每条只有 text 与 YYYY-MM-DD dueAt；falsifiers 为 1–3 条，每条只有 text。",
     "factReferenceIds 只能使用输入列出的引用 ID；confidence 只能是 high、medium 或 low。",
-    "sentenceCitations 必须逐句覆盖四个文案字段；每项含 path、sentenceIndex、原句 text、claimKind、referenceIds、factAtomIds、sensitiveFields。claimKind 只能是 analysis、validation-point、falsifier；factAtomIds 只能使用输入规范事实提供的 atom ID，验证点可额外使用 schedule:<path>:<dueAt>。",
     "公司、产品和模型名称必须保留输入中的官方拼写及大小写，不得翻译、音译或改名。",
+    "不要在文案中写融资金额、估值、客户、营收或订单；事实引用和逐句绑定由系统生成。",
     "禁止推荐、投资建议、买入、卖出、目标价、建议配置、预计收益、投资回报或任何回报预测。",
   ].join("\n");
 }
 
-function userPrompt(seed: SelectedThesisSeed, facts: Array<{ referenceId: string } & CanonicalFactExcerpt>): string {
+function isoDayAtOffset(now: Date, days: number): string {
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + days)).toISOString().slice(0, 10);
+}
+
+function userPrompt(seed: SelectedThesisSeed, facts: Array<{ referenceId: string } & CanonicalFactExcerpt>, now: Date): string {
   return JSON.stringify({
     companyId: seed.companyId,
     officialCompanyName: seed.companyName,
     track: seed.track,
     routes: seed.routes,
     allowedFactReferenceIds: seed.factReferenceIds,
+    validationDueAtWindow: { notBefore: isoDayAtOffset(now, 30), notAfter: isoDayAtOffset(now, 90) },
     canonicalFacts: facts,
+  });
+}
+
+function derivedSensitiveFields(text: string, atoms: CanonicalFactAtom[]): ThesisSentenceCitation["sensitiveFields"] {
+  const fields: ThesisSentenceCitation["sensitiveFields"] = [];
+  if (atoms.some((atom) => atom.kind === "funding-amount" && text.includes(atom.value))) fields.push("amount");
+  if (atoms.some((atom) => atom.kind === "valuation" && text.includes(atom.value))) fields.push("valuation");
+  if (atoms.some((atom) => atom.kind === "customer" && text.includes(atom.value))) fields.push("customer");
+  return fields;
+}
+
+function deriveSentenceCitations(
+  payload: GeneratedPayload,
+  facts: Array<{ referenceId: string } & CanonicalFactExcerpt>,
+): ThesisSentenceCitation[] {
+  const referenceIds = [...payload.factReferenceIds];
+  const atoms = facts.filter((fact) => referenceIds.includes(fact.referenceId)).flatMap((fact) => fact.factAtoms);
+  const atomIds = [...new Set(atoms.map((atom) => atom.id))];
+  return expectedSentenceBindings(payload).map((sentence) => {
+    const pointIndex = sentence.path.startsWith("nextValidationPoints.") ? Number(sentence.path.split(".")[1]) : undefined;
+    const scheduleId = pointIndex === undefined ? undefined
+      : scheduleAtomId(sentence.path, payload.nextValidationPoints[pointIndex]?.dueAt ?? "");
+    return {
+      ...sentence,
+      claimKind: sentence.path.startsWith("nextValidationPoints.")
+        ? "validation-point" : sentence.path.startsWith("falsifiers.") ? "falsifier" : "analysis",
+      referenceIds,
+      factAtomIds: scheduleId ? [...atomIds, scheduleId] : atomIds,
+      sensitiveFields: derivedSensitiveFields(sentence.text, atoms),
+    };
   });
 }
 
@@ -365,6 +342,8 @@ export class WatchlistGenerator {
     this.attempted += 1;
     const facts = selectedFacts(seed, this.factsByReferenceId);
     if (!facts) return this.failure("invalid-shape");
+    const now = (this.options.now ?? (() => new Date()))();
+    if (!Number.isFinite(now.getTime())) return this.failure("invalid-shape");
 
     let response: Response;
     try {
@@ -381,7 +360,7 @@ export class WatchlistGenerator {
           reasoning_effort: "low",
           messages: [
             { role: "system", content: systemPrompt() },
-            { role: "user", content: userPrompt(seed, facts) },
+            { role: "user", content: userPrompt(seed, facts, now) },
           ],
         }),
       }, {
@@ -411,8 +390,6 @@ export class WatchlistGenerator {
     }
     if (!isGeneratedPayload(payload, seed, facts)) return this.failure("invalid-shape");
 
-    const now = (this.options.now ?? (() => new Date()))();
-    if (!Number.isFinite(now.getTime())) return this.failure("invalid-shape");
     const generatedAt = now.toISOString();
     const draft: CompanyThesisDraft = {
       companyId: seed.companyId,
@@ -429,7 +406,7 @@ export class WatchlistGenerator {
       modelVersion: this.settings.model!,
       promptVersion: PROMPT_VERSION,
       methodologyVersion: METHODOLOGY_VERSION,
-      sentenceCitations: payload.sentenceCitations,
+      sentenceCitations: deriveSentenceCitations(payload, facts),
     };
     this.succeeded += 1;
     return { ok: true, draft };
