@@ -325,7 +325,10 @@ for (const scenario of sensitiveScenarios) {
     const result = validateThesisDraft(input({ claimLedger: ledger([claim(scenario.claimType)]), sentenceCitations }));
 
     assert.equal(result.publishable, true, JSON.stringify(result.issues));
-    assert.deepEqual(result.sensitiveFields, [{ field: scenario.field, verified: true, referenceIds: ["event-alpha"] }]);
+    assert.deepEqual(result.sensitiveFields.map(({ valueDigest: _valueDigest, ...field }) => field), [
+      { field: scenario.field, verified: true, referenceIds: ["event-alpha"] },
+    ]);
+    assert.match(result.sensitiveFields[0]!.valueDigest ?? "", /^[a-f0-9]{64}$/);
   });
 }
 

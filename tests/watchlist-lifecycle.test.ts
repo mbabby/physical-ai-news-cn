@@ -41,13 +41,13 @@ function thesis(overrides: Partial<CompanyThesis> = {}): CompanyThesis {
     thesisId: "thesis-existing",
     lifecycle: "new",
     thesisVersion: 1,
-    verifiedSensitiveFields: [],
+    verifiedSensitiveBindings: [],
     ...overrides,
   };
 }
 
 function candidate(lifecycle: ThesisLifecycleCandidate["lifecycle"], overrides: Partial<CompanyThesisDraft> = {}): ThesisLifecycleCandidate {
-  return { draft: draft(overrides), lifecycle, verifiedSensitiveFields: [] };
+  return { draft: draft(overrides), lifecycle, verifiedSensitiveBindings: [] };
 }
 
 const valid: ThesisValidationResult = {
@@ -71,10 +71,12 @@ test("allows new to strengthening and increments the system-owned version", () =
 test("only validation-owned sensitive fields enter a materialized thesis", () => {
   const validation: ThesisValidationResult = {
     ...valid,
-    sensitiveFields: [{ field: "customer", verified: true, referenceIds: ["event-alpha"] }],
+    sensitiveFields: [{ field: "customer", verified: true, referenceIds: ["event-alpha"], valueDigest: "a".repeat(64) }],
   };
   const selected = selectLastKnownGood(undefined, draft(), validation, NOW);
-  assert.deepEqual(selected?.verifiedSensitiveFields, ["customer"]);
+  assert.deepEqual(selected?.verifiedSensitiveBindings, [{
+    field: "customer", referenceIds: ["event-alpha"], valueDigest: "a".repeat(64),
+  }]);
 });
 
 test("allows new to awaiting-validation", () => {

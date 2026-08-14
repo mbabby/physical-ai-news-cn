@@ -1,13 +1,13 @@
 import { join } from "node:path";
 import { derivePublication } from "../facts-contract.js";
-import type { CompanyClaim, CompanyClaimLedger } from "../company-claim-ledger.js";
+import type { CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { FileTransaction } from "../runtime/storage.js";
 import type { CompanyProfile, EventRecord, RuntimeStatus } from "../types.js";
-import { validateCompanyThesisShape, type CompanyThesis, type ThesisSensitiveField } from "./contracts.js";
+import { validateCompanyThesisShape, type CompanyThesis } from "./contracts.js";
 import type { ThesisGenerationResult } from "./generator.js";
 import { selectLastKnownGood } from "./lifecycle.js";
 import type { SelectedThesisSeed, SelectedWatchlistSeeds } from "./scoring.js";
-import { validateThesisDraft } from "./validation.js";
+import { deriveVerifiedSensitiveBinding, validateThesisDraft } from "./validation.js";
 
 const COOLDOWN_MS = 6 * 60 * 60 * 1_000;
 const EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
@@ -16,11 +16,11 @@ const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|投资建议|建
 const THESIS_KEYS = new Set([
   "thesisId", "companyId", "track", "lifecycle", "thesisVersion", "whyNow", "routeAndDependencies",
   "nextValidationPoints", "falsifiers", "factReferenceIds", "inferenceLabels", "confidence", "generatedAt",
-  "expiresAt", "modelVersion", "promptVersion", "methodologyVersion", "verifiedSensitiveFields",
+  "expiresAt", "modelVersion", "promptVersion", "methodologyVersion", "verifiedSensitiveBindings",
 ]);
 
 export interface WatchlistPreviewArtifact {
-  schemaVersion: 1;
+  schemaVersion: 2;
   generatedAt: string;
   theses: CompanyThesis[];
 }
@@ -78,51 +78,23 @@ interface EvidenceSubject {
   factReferenceIds: string[];
 }
 
-function claimEventIds(claim: CompanyClaim): string[] {
-  return [...new Set(claim.evidenceIds.map((id) => id.replace(/:evidence:\d+$/, "")))];
-}
-
-function claimSupportsField(claim: CompanyClaim, field: ThesisSensitiveField): boolean {
-  if (field === "amount" || field === "valuation") return claim.claimType === "funding";
-  if (field === "customer") return ["pilot", "deployment", "commercialization"].includes(claim.claimType);
-  return claim.claimType === "commercialization";
-}
-
-function eventContainsField(event: EventRecord, field: ThesisSensitiveField): boolean {
-  if (field === "amount") return Boolean(event.funding?.amount);
-  if (field === "valuation") return Boolean(event.funding?.valuation);
-  if (field === "customer") return Boolean(event.productDeployment?.customers.length);
-  const text = `${event.title} ${event.facts.join(" ")} ${event.productDeployment?.deployment ?? ""}`;
-  return field === "revenue" ? /收入|营收|revenue/i.test(text) : /订单|order/i.test(text);
-}
-
 function priorSensitiveFieldsRemainVerified(
   thesis: CompanyThesis,
   events: EventRecord[],
   ledger?: CompanyClaimLedger,
 ): boolean {
-  const eventById = new Map(events.map((event) => [event.id, event]));
-  const selectedEvents = thesis.factReferenceIds.flatMap((referenceId) => {
-    const event = eventById.get(referenceId);
-    return event ? [event] : [];
+  return thesis.verifiedSensitiveBindings.every((stored) => {
+    const current = deriveVerifiedSensitiveBinding({
+      field: stored.field,
+      referenceIds: stored.referenceIds,
+      companyId: thesis.companyId,
+      claimLedger: ledger,
+      canonicalEvents: events,
+    });
+    return Boolean(current
+      && current.valueDigest === stored.valueDigest
+      && JSON.stringify(current.referenceIds) === JSON.stringify(stored.referenceIds));
   });
-  if (!thesis.verifiedSensitiveFields.length) return true;
-  const claims = ledger?.companies.find((entry) => entry.companyId === thesis.companyId)?.claims ?? [];
-  const priorReferences = new Set(thesis.factReferenceIds);
-  return thesis.verifiedSensitiveFields.every((field) => claims.some((claim) => {
-    const mappedEvents = claimEventIds(claim);
-    return claim.evidenceState === "verified"
-      && claim.value !== "unknown"
-      && claim.freshness.state === "fresh"
-      && !claim.unresolvedQuestions.some((question) => CONFLICT_PATTERN.test(question))
-      && claimSupportsField(claim, field)
-      && mappedEvents.length > 0
-      && mappedEvents.every((eventId) => eventById.has(eventId))
-      && mappedEvents.some((eventId) => {
-        const event = eventById.get(eventId);
-        return priorReferences.has(eventId) && Boolean(event && eventContainsField(event, field));
-      });
-  }));
 }
 
 function evidenceAllowsReferences(subject: EvidenceSubject, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
@@ -190,7 +162,7 @@ function sortedSelected(selected: SelectedWatchlistSeeds): SelectedThesisSeed[] 
 export function validateWatchlistPreviewArtifact(value: unknown): value is WatchlistPreviewArtifact {
   const rootKeys = ["schemaVersion", "generatedAt", "theses"];
   if (!isObject(value) || Object.keys(value).length !== rootKeys.length || Object.keys(value).some((key) => !rootKeys.includes(key))) return false;
-  if (value.schemaVersion !== 1 || typeof value.generatedAt !== "string" || timestamp(value.generatedAt) === undefined || !Array.isArray(value.theses)) return false;
+  if (value.schemaVersion !== 2 || typeof value.generatedAt !== "string" || timestamp(value.generatedAt) === undefined || !Array.isArray(value.theses)) return false;
   const companyIds = new Set<string>();
   const thesisIds = new Set<string>();
   if (value.theses.length > 10) return false;
@@ -350,7 +322,7 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
   theses.sort((left, right) => left.track.localeCompare(right.track) || left.companyId.localeCompare(right.companyId));
   const preview = input.previous && sameTheses(theses, input.previous.theses)
     ? input.previous
-    : { schemaVersion: 1 as const, generatedAt: input.now.toISOString(), theses };
+    : { schemaVersion: 2 as const, generatedAt: input.now.toISOString(), theses };
   const generatorStatus = input.generator.status();
   const statusValue: RuntimeStatus["status"] = generatorStatus.status === "未配置" && attempted > 0
     ? "未配置" : failed > 0 || excluded > 0 ? "部分降级" : "成功";

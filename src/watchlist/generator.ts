@@ -35,7 +35,7 @@ export function scheduleAtomId(path: string, dueAt: string): string {
   return `schedule:${path}:${dueAt}`;
 }
 
-export type CompanyThesisDraft = Omit<CompanyThesis, "thesisId" | "lifecycle" | "thesisVersion" | "verifiedSensitiveFields"> & {
+export type CompanyThesisDraft = Omit<CompanyThesis, "thesisId" | "lifecycle" | "thesisVersion" | "verifiedSensitiveBindings"> & {
   sentenceCitations: ThesisSentenceCitation[];
 };
 

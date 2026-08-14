@@ -3,7 +3,7 @@ import { derivePublication } from "../facts-contract.js";
 import type { EvidenceState } from "../facts-contract.js";
 import type { CompanyClaim, CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { CompanyProfile, EventRecord } from "../types.js";
-import type { CompanyThesis, ThesisSensitiveField } from "./contracts.js";
+import type { CompanyThesis, ThesisSensitiveBinding, ThesisSensitiveField } from "./contracts.js";
 import { scheduleAtomId } from "./generator.js";
 import type { CanonicalFactAtom, CompanyThesisDraft, FactAtomKind, ThesisSentenceCitation } from "./generator.js";
 import type { ThesisSeed } from "./seeds.js";
@@ -71,6 +71,7 @@ export interface SensitiveFieldValidation {
   field: SensitiveField;
   verified: boolean;
   referenceIds: string[];
+  valueDigest?: string;
 }
 
 export interface ThesisValidationResult {
@@ -413,18 +414,26 @@ function sentenceClaimsSupported(
   return true;
 }
 
-function verifySensitiveField(
+function sensitiveEventValues(event: EventRecord, field: SensitiveField): string[] {
+  if (field === "amount") return event.funding?.amount ? [event.funding.amount] : [];
+  if (field === "valuation") return event.funding?.valuation ? [event.funding.valuation] : [];
+  if (field === "customer") return event.productDeployment?.customers ?? [];
+  if (!eventContainsField(event, field)) return [];
+  return [canonicalEventText(event)];
+}
+
+function deriveSensitiveBinding(
   field: SensitiveField,
   referenceIds: string[],
   companyId: string,
   ledger: CompanyClaimLedger | undefined,
   canonicalEventsById: ReadonlyMap<string, EventRecord>,
-): boolean {
+): ThesisSensitiveBinding | undefined {
   const claims = ledger?.companies.find((entry) => entry.companyId === companyId)?.claims ?? [];
   const referenceSet = new Set(referenceIds);
-  return claims.some((claim) => {
+  const verifiedClaims = claims.flatMap((claim) => {
     const mappedEvents = claimEventIds(claim);
-    return claim.evidenceState === "verified"
+    const verified = claim.evidenceState === "verified"
       && claim.value !== "unknown"
       && claim.freshness.state === "fresh"
       && !claimHasConflict(claim)
@@ -435,7 +444,42 @@ function verifySensitiveField(
         const event = canonicalEventsById.get(eventId);
         return referenceSet.has(eventId) && Boolean(event && eventContainsField(event, field));
       });
+    return verified ? [{ claim, referenceIds: mappedEvents.filter((eventId) => referenceSet.has(eventId)).sort() }] : [];
   });
+  if (!verifiedClaims.length) return undefined;
+  const normalizedReferenceIds = [...new Set(referenceIds)].sort();
+  if (normalizedReferenceIds.some((referenceId) => !canonicalEventsById.has(referenceId))) return undefined;
+  const eventValues = normalizedReferenceIds.map((referenceId) => ({
+    referenceId,
+    values: [...new Set(sensitiveEventValues(canonicalEventsById.get(referenceId)!, field).map(normalizedMaterial))].sort(),
+  }));
+  const claimValues = verifiedClaims.map(({ claim, referenceIds: claimReferences }) => ({
+    referenceIds: claimReferences,
+    value: normalizedMaterial(claim.value),
+  })).sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+  const valueDigest = createHash("sha256").update(JSON.stringify({
+    schemaVersion: 1,
+    field,
+    references: eventValues,
+    claims: claimValues,
+  })).digest("hex");
+  return { field, referenceIds: normalizedReferenceIds, valueDigest };
+}
+
+export function deriveVerifiedSensitiveBinding(input: {
+  field: SensitiveField;
+  referenceIds: string[];
+  companyId: string;
+  claimLedger?: CompanyClaimLedger;
+  canonicalEvents: EventRecord[];
+}): ThesisSensitiveBinding | undefined {
+  return deriveSensitiveBinding(
+    input.field,
+    input.referenceIds,
+    input.companyId,
+    input.claimLedger,
+    new Map(input.canonicalEvents.map((event) => [event.id, event])),
+  );
 }
 
 function validateCitationCoverage(
@@ -537,9 +581,10 @@ function validateCitationCoverage(
     .sort((left, right) => SENSITIVE_FIELDS.indexOf(left.field) - SENSITIVE_FIELDS.indexOf(right.field))
     .map(({ field, references }) => {
       const referenceIds = [...references].sort();
-      const verified = verifySensitiveField(field, referenceIds, input.seed.companyId, input.claimLedger, canonicalEventsById);
+      const binding = deriveSensitiveBinding(field, referenceIds, input.seed.companyId, input.claimLedger, canonicalEventsById);
+      const verified = Boolean(binding);
       if (!verified) issues.push(issue("unverified-sensitive-field", `敏感字段 ${field} 缺少映射到规范事件的已核验新鲜声明。`));
-      return { field, verified, referenceIds };
+      return binding ? { field, verified, referenceIds, valueDigest: binding.valueDigest } : { field, verified, referenceIds };
     });
   const totalSentences = expectedSentences.length;
   return {

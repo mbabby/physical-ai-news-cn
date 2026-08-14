@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { CompanyThesis, ThesisLifecycle, ThesisSensitiveField, WatchlistTrack } from "./contracts.js";
+import type { CompanyThesis, ThesisLifecycle, ThesisSensitiveBinding, WatchlistTrack } from "./contracts.js";
 import type { CompanyThesisDraft, ThesisGenerationResult } from "./generator.js";
 import { thesisDraftDigest, type ThesisValidationResult } from "./validation.js";
 
@@ -24,7 +24,7 @@ const TRACK_TRANSITIONS: Record<WatchlistTrack, ReadonlySet<WatchlistTrack>> = {
 export interface ThesisLifecycleCandidate {
   draft: CompanyThesisDraft;
   lifecycle: ThesisLifecycle;
-  verifiedSensitiveFields: ThesisSensitiveField[];
+  verifiedSensitiveBindings: ThesisSensitiveBinding[];
 }
 
 export type ThesisLifecycleDecision =
@@ -88,7 +88,9 @@ function materializeThesis(
     nextValidationPoints: draft.nextValidationPoints,
     falsifiers: draft.falsifiers,
     factReferenceIds: draft.factReferenceIds,
-    verifiedSensitiveFields: [...candidate.verifiedSensitiveFields].sort(),
+    verifiedSensitiveBindings: candidate.verifiedSensitiveBindings
+      .map((binding) => ({ ...binding, referenceIds: [...binding.referenceIds].sort() }))
+      .sort((left, right) => left.field.localeCompare(right.field)),
     inferenceLabels: draft.inferenceLabels,
     confidence: draft.confidence,
     generatedAt: draft.generatedAt,
@@ -171,7 +173,9 @@ export function selectLastKnownGood(
     {
       draft: attempted,
       lifecycle: fallback ? "strengthening" : "new",
-      verifiedSensitiveFields: validation.sensitiveFields.filter((field) => field.verified).map((field) => field.field),
+      verifiedSensitiveBindings: validation.sensitiveFields.flatMap((field) => field.verified && field.valueDigest
+        ? [{ field: field.field, referenceIds: [...field.referenceIds].sort(), valueDigest: field.valueDigest }]
+        : []),
     },
     now,
   );
