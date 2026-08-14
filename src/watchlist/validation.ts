@@ -3,7 +3,7 @@ import { derivePublication } from "../facts-contract.js";
 import type { EvidenceState } from "../facts-contract.js";
 import type { CompanyClaim, CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { CompanyProfile, EventRecord } from "../types.js";
-import type { CompanyThesis } from "./contracts.js";
+import type { CompanyThesis, ThesisSensitiveField } from "./contracts.js";
 import { scheduleAtomId } from "./generator.js";
 import type { CanonicalFactAtom, CompanyThesisDraft, FactAtomKind, ThesisSentenceCitation } from "./generator.js";
 import type { ThesisSeed } from "./seeds.js";
@@ -15,7 +15,7 @@ const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|投资建议|建
 const SENSITIVE_FIELDS = ["amount", "valuation", "customer", "revenue", "order"] as const;
 const SENSITIVE_FIELD_SET = new Set<string>(SENSITIVE_FIELDS);
 
-export type SensitiveField = (typeof SENSITIVE_FIELDS)[number];
+export type SensitiveField = ThesisSensitiveField;
 
 export type ValidationIssueCode =
   | "unknown-company"

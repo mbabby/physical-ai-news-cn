@@ -77,7 +77,11 @@ function draft(overrides: Partial<CompanyThesisDraft> = {}): CompanyThesisDraft 
 
 function thesis(overrides: Partial<CompanyThesis> = {}): CompanyThesis {
   const { sentenceCitations: _citations, ...published } = draft();
-  return { thesisId: "thesis-alpha", lifecycle: "new", thesisVersion: 1, ...published, ...overrides };
+  return { thesisId: "thesis-alpha", lifecycle: "new", thesisVersion: 1, verifiedSensitiveFields: [], ...published, ...overrides };
+}
+
+function artifact(theses: CompanyThesis[], generatedAt = theses[0]?.generatedAt ?? GENERATED_AT) {
+  return { schemaVersion: 1 as const, generatedAt, theses };
 }
 
 function ledger(unresolvedQuestions: string[] = []): CompanyClaimLedger {
@@ -120,7 +124,7 @@ test("invalid generated prose is absent instead of leaking a partial thesis", as
 });
 
 test("malformed generation keeps a still-valid previously validated card", async () => {
-  const previous = { schemaVersion: 1 as const, generatedAt: "2026-08-14T01:00:00.000Z", theses: [thesis({ generatedAt: "2026-08-14T01:00:00.000Z", expiresAt: "2026-10-13T01:00:00.000Z" })] };
+  const previous = artifact([thesis({ generatedAt: "2026-08-14T01:00:00.000Z", expiresAt: "2026-10-13T01:00:00.000Z" })]);
   const result = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous));
   assert.deepEqual(result.preview.theses, previous.theses);
   assert.equal(result.status.failed, 1);
@@ -129,7 +133,7 @@ test("malformed generation keeps a still-valid previously validated card", async
 
 test("six-hour cooldown skips regeneration and preserves the prior card", async () => {
   const recent = thesis({ generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z" });
-  const previous = { schemaVersion: 1 as const, generatedAt: recent.generatedAt, theses: [recent] };
+  const previous = artifact([recent]);
   const result = await buildWatchlistPreview(input({ ok: true, draft: draft() }, previous));
   assert.deepEqual(result.preview, previous);
   assert.deepEqual({ attempted: result.status.attempted, succeeded: result.status.succeeded, failed: result.status.failed }, { attempted: 0, succeeded: 0, failed: 0 });
@@ -138,7 +142,7 @@ test("six-hour cooldown skips regeneration and preserves the prior card", async 
 test("unchanged fixed-clock generation is idempotent", async () => {
   const prior = thesis({ generatedAt: "2026-08-14T00:00:00.000Z", expiresAt: "2026-10-13T00:00:00.000Z" });
   const unchangedEvent = event({ lastMaterialChangeAt: "2026-08-13T23:00:00.000Z", lastUpdatedAt: "2026-08-13T23:00:00.000Z" });
-  const previous = { schemaVersion: 1 as const, generatedAt: "2026-08-14T00:00:00.000Z", theses: [prior] };
+  const previous = artifact([prior]);
   const first = await buildWatchlistPreview(input({ ok: true, draft: draft() }, previous, { canonicalEvents: [unchangedEvent] }));
   const second = await buildWatchlistPreview(input({ ok: true, draft: draft() }, first.preview, { canonicalEvents: [unchangedEvent] }));
   assert.deepEqual(first.preview, previous);
@@ -158,7 +162,7 @@ test("conflict, expiry, falsification, and sensitive-ledger conflict cannot use 
     { previousThesis: active, canonicalEvents: [event({ evidence: [{ ...event().evidence[0]!, grade: "B" }] })], claimLedger: ledger() },
   ];
   for (const scenario of cases) {
-    const previous = { schemaVersion: 1 as const, generatedAt: scenario.previousThesis.generatedAt, theses: [scenario.previousThesis] };
+    const previous = artifact([scenario.previousThesis]);
     const result = await buildWatchlistPreview(input({ ok: false, code: "invalid-shape" }, previous, scenario));
     assert.deepEqual(result.preview.theses, []);
   }
@@ -169,7 +173,7 @@ test("last-known-good revalidates its own references and cannot survive a moment
     generatedAt: "2026-08-13T00:00:00.000Z", expiresAt: "2026-10-12T00:00:00.000Z",
     factReferenceIds: ["event-old"],
   });
-  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const previous = artifact([prior]);
   const unsafeOldReferences = [
     event({ id: "event-old", status: "待复核" }),
     event({ id: "event-old", evidence: [{ ...event().evidence[0]!, withdrawn: true } as EventRecord["evidence"][number]] }),
@@ -189,7 +193,7 @@ test("last-known-good revalidates its own references and cannot survive a moment
 
 test("cooldown never retains a prior card whose own references became unsafe", async () => {
   const prior = thesis({ generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z", factReferenceIds: ["event-old"] });
-  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const previous = artifact([prior]);
   const result = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous, {
     canonicalEvents: [event(), event({ id: "event-old", status: "待复核" })],
   }));
@@ -202,7 +206,8 @@ test("cooldown and outage cannot retain sensitive prose after ledger proof becom
     generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
     whyNow: "AI 研究判断：Alpha Robotics 已公布融资金额 1200 万美元。",
   });
-  const amountPrevious = { schemaVersion: 1 as const, generatedAt: amountPrior.generatedAt, theses: [amountPrior] };
+  amountPrior.verifiedSensitiveFields = ["amount"];
+  const amountPrevious = artifact([amountPrior]);
   const fundingEvent = event({ type: "投融资", funding: { entityStatus: "已确认", amount: "1200 万美元", investors: [] } });
   const staleLedger = ledger();
   staleLedger.companies[0]!.claims = [{
@@ -225,7 +230,8 @@ test("cooldown and outage cannot retain sensitive prose after ledger proof becom
     generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
     whyNow: "AI 研究判断：Alpha Robotics 已公布客户 Acme Factory。",
   });
-  const customerPrevious = { schemaVersion: 1 as const, generatedAt: customerPrior.generatedAt, theses: [customerPrior] };
+  customerPrior.verifiedSensitiveFields = ["customer"];
+  const customerPrevious = artifact([customerPrior]);
   const customerEvent = event({ productDeployment: { product: "Atlas-X", customers: ["Acme Factory"], deployment: "工厂部署" } });
   const staleCustomerLedger = ledger();
   staleCustomerLedger.companies[0]!.claims[0]!.value = "Acme Factory";
@@ -236,16 +242,27 @@ test("cooldown and outage cannot retain sensitive prose after ledger proof becom
   assert.deepEqual(customerResult.preview.theses, []);
   assert.equal(customerResult.status.attempted, 1);
 
-  const correctedPrior = thesis({
+  for (const customerName of ["7-Eleven", "xAI", "BMW iFACTORY"]) {
+    const correctedPrior = thesis({
+      generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
+      whyNow: `AI 研究判断：Alpha Robotics 已在 ${customerName} 部署 Atlas-X。`,
+      verifiedSensitiveFields: ["customer"],
+    });
+    const correctedResult = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, artifact([correctedPrior]), {
+      canonicalEvents: [event()], claimLedger: ledger(),
+    }));
+    assert.deepEqual(correctedResult.preview.theses, []);
+    assert.equal(correctedResult.status.attempted, 1);
+  }
+
+  const productPrior = thesis({
     generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
-    whyNow: "AI 研究判断：Alpha Robotics 已向 Acme Factory 部署 Atlas-X。",
+    whyNow: "AI 研究判断：Alpha Robotics 为 Atlas-X 提供训练数据。",
   });
-  const correctedPrevious = { schemaVersion: 1 as const, generatedAt: correctedPrior.generatedAt, theses: [correctedPrior] };
-  const correctedResult = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, correctedPrevious, {
-    canonicalEvents: [event()], claimLedger: ledger(),
-  }));
-  assert.deepEqual(correctedResult.preview.theses, []);
-  assert.equal(correctedResult.status.attempted, 1);
+  const productPrevious = artifact([productPrior]);
+  const productResult = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, productPrevious));
+  assert.deepEqual(productResult.preview, productPrevious);
+  assert.equal(productResult.status.attempted, 0);
 });
 
 test("corrupt previous preview fails closed before generation", async () => {
@@ -253,13 +270,15 @@ test("corrupt previous preview fails closed before generation", async () => {
   const path = join(directory, "watchlist-preview.json");
   await writeFile(path, "{broken", "utf8");
   await assert.rejects(readJsonStrict(path, { optional: true, label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact }), /已损坏.*停止发布/);
-  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), whyNow: "not AI labelled" }] }), false);
-  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), apiKey: "must-not-survive" }] }), false);
-  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [{ ...thesis(), nextValidationPoints: [{ ...thesis().nextValidationPoints[0]!, secret: "must-not-survive" }] }] }), false);
+  assert.equal(validateWatchlistPreviewArtifact(artifact([{ ...thesis(), whyNow: "not AI labelled" }])), false);
+  assert.equal(validateWatchlistPreviewArtifact(artifact([{ ...thesis(), apiKey: "must-not-survive" } as CompanyThesis])), false);
+  assert.equal(validateWatchlistPreviewArtifact(artifact([{ ...thesis(), nextValidationPoints: [{ ...thesis().nextValidationPoints[0]!, secret: "must-not-survive" }] } as CompanyThesis])), false);
+  const { verifiedSensitiveFields: _verifiedSensitiveFields, ...legacyThesis } = thesis();
+  assert.equal(validateWatchlistPreviewArtifact({ schemaVersion: 1, generatedAt: GENERATED_AT, theses: [legacyThesis] }), false);
 });
 
 test("release validation binds JSON, Markdown, and Watchlist status for new runs", () => {
-  const preview = { schemaVersion: 1 as const, generatedAt: GENERATED_AT, theses: [thesis()] };
+  const preview = artifact([thesis()]);
   const status = { component: "Watchlist" as const, status: "成功" as const, attempted: 1, succeeded: 1, failed: 0, detail: "safe" };
   assert.doesNotThrow(() => validateWatchlistPreviewRelease({
     preview, markdown: formatWatchlistPreviewMarkdown(preview), manifestFinishedAt: "2026-08-14T08:01:00.000Z",
@@ -273,7 +292,7 @@ test("release validation binds JSON, Markdown, and Watchlist status for new runs
     preview, markdown: formatWatchlistPreviewMarkdown(preview), manifestFinishedAt: "2026-08-14T08:01:00.000Z",
     manifestServices: [], archiveServices: [],
   }), /Watchlist/);
-  const legacy = { schemaVersion: 1 as const, generatedAt: GENERATED_AT, theses: [] };
+  const legacy = artifact([]);
   assert.doesNotThrow(() => validateWatchlistPreviewRelease({
     preview: legacy, markdown: formatWatchlistPreviewMarkdown(legacy), manifestFinishedAt: GENERATED_AT,
     manifestServices: [], archiveServices: [],
@@ -293,7 +312,7 @@ test("preview and companion status roll back together when transaction commit fa
   await mkdir(reviewDir, { recursive: true });
   await Promise.all([writeFile(previewPath, "old-json", "utf8"), writeFile(markdownPath, "old-md", "utf8"), writeFile(statusPath, "old-status", "utf8")]);
   const transaction = new FileTransaction("watchlist-test", { failAfterSwaps: 2 });
-  stageWatchlistPreview(transaction, reviewDir, { schemaVersion: 1, generatedAt: GENERATED_AT, theses: [thesis()] });
+  stageWatchlistPreview(transaction, reviewDir, artifact([thesis()]));
   transaction.stage(statusPath, "new-status");
   await assert.rejects(transaction.commit(), /已回滚/);
   assert.deepEqual(await Promise.all([readFile(previewPath, "utf8"), readFile(markdownPath, "utf8"), readFile(statusPath, "utf8")]), ["old-json", "old-md", "old-status"]);

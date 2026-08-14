@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { CompanyThesis, ThesisLifecycle, WatchlistTrack } from "./contracts.js";
+import type { CompanyThesis, ThesisLifecycle, ThesisSensitiveField, WatchlistTrack } from "./contracts.js";
 import type { CompanyThesisDraft, ThesisGenerationResult } from "./generator.js";
 import { thesisDraftDigest, type ThesisValidationResult } from "./validation.js";
 
@@ -24,6 +24,7 @@ const TRACK_TRANSITIONS: Record<WatchlistTrack, ReadonlySet<WatchlistTrack>> = {
 export interface ThesisLifecycleCandidate {
   draft: CompanyThesisDraft;
   lifecycle: ThesisLifecycle;
+  verifiedSensitiveFields: ThesisSensitiveField[];
 }
 
 export type ThesisLifecycleDecision =
@@ -87,6 +88,7 @@ function materializeThesis(
     nextValidationPoints: draft.nextValidationPoints,
     falsifiers: draft.falsifiers,
     factReferenceIds: draft.factReferenceIds,
+    verifiedSensitiveFields: [...candidate.verifiedSensitiveFields].sort(),
     inferenceLabels: draft.inferenceLabels,
     confidence: draft.confidence,
     generatedAt: draft.generatedAt,
@@ -166,7 +168,11 @@ export function selectLastKnownGood(
 
   const decision = resolveThesisLifecycle(
     previous,
-    { draft: attempted, lifecycle: fallback ? "strengthening" : "new" },
+    {
+      draft: attempted,
+      lifecycle: fallback ? "strengthening" : "new",
+      verifiedSensitiveFields: validation.sensitiveFields.filter((field) => field.verified).map((field) => field.field),
+    },
     now,
   );
   return decision.outcome === "publish" ? decision.thesis : fallback;

@@ -3,7 +3,7 @@ import { derivePublication } from "../facts-contract.js";
 import type { CompanyClaim, CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { FileTransaction } from "../runtime/storage.js";
 import type { CompanyProfile, EventRecord, RuntimeStatus } from "../types.js";
-import { validateCompanyThesisShape, type CompanyThesis } from "./contracts.js";
+import { validateCompanyThesisShape, type CompanyThesis, type ThesisSensitiveField } from "./contracts.js";
 import type { ThesisGenerationResult } from "./generator.js";
 import { selectLastKnownGood } from "./lifecycle.js";
 import type { SelectedThesisSeed, SelectedWatchlistSeeds } from "./scoring.js";
@@ -16,7 +16,7 @@ const PROHIBITED_INVESTMENT_LANGUAGE = /买入|卖出|目标价|投资建议|建
 const THESIS_KEYS = new Set([
   "thesisId", "companyId", "track", "lifecycle", "thesisVersion", "whyNow", "routeAndDependencies",
   "nextValidationPoints", "falsifiers", "factReferenceIds", "inferenceLabels", "confidence", "generatedAt",
-  "expiresAt", "modelVersion", "promptVersion", "methodologyVersion",
+  "expiresAt", "modelVersion", "promptVersion", "methodologyVersion", "verifiedSensitiveFields",
 ]);
 
 export interface WatchlistPreviewArtifact {
@@ -78,46 +78,17 @@ interface EvidenceSubject {
   factReferenceIds: string[];
 }
 
-type SensitiveField = "amount" | "valuation" | "customer" | "revenue" | "order";
-
-function sensitiveFieldsInThesis(thesis: CompanyThesis, events: EventRecord[]): SensitiveField[] {
-  const text = [
-    thesis.whyNow,
-    thesis.routeAndDependencies,
-    ...thesis.nextValidationPoints.map((point) => point.text),
-    ...thesis.falsifiers.map((item) => item.text),
-  ].join(" ");
-  const fields = new Set<SensitiveField>();
-  const amounts = events.flatMap((event) => event.funding?.amount ? [event.funding.amount] : []);
-  const valuations = events.flatMap((event) => event.funding?.valuation ? [event.funding.valuation] : []);
-  const customers = events.flatMap((event) => event.productDeployment?.customers ?? []);
-  const latinCustomerRelationship = /(?:向|为)\s*[A-Z][A-Za-z0-9-]*(?:\s+[A-Z][A-Za-z0-9-]*)*\s*(?:部署|交付|销售|提供|试点)|\b[A-Z][A-Za-z0-9-]*(?:\s+[A-Z][A-Za-z0-9-]*)*\s*(?:采用|订购|购买)/;
-  const nonCustomerTargets = new Set(["后续", "未来", "实际", "真实", "规模化", "工厂", "现场"]);
-  const chineseCustomerRelationship = [
-    ...text.matchAll(/(?:向|为)\s*([\u3400-\u9fff]{2,16})(?=\s*(?:部署|交付|销售|提供|试点))/g),
-    ...text.matchAll(/(?:^|[：，。；\s])([\u3400-\u9fff]{2,16})(?=\s*(?:采用|订购|购买))/g),
-  ].some((match) => !nonCustomerTargets.has(match[1]!));
-  if (/融资金额|funding amount|(?:融资|募资|融得|完成)[^。！？!?]{0,30}(?:元|美元|欧元|人民币)/i.test(text)
-    || amounts.some((value) => text.includes(value))) fields.add("amount");
-  if (/估值|valuation/i.test(text) || valuations.some((value) => text.includes(value))) fields.add("valuation");
-  if (/客户|\bcustomer\b/i.test(text) || latinCustomerRelationship.test(text) || chineseCustomerRelationship
-    || customers.some((value) => text.includes(value))) fields.add("customer");
-  if (/收入|营收|revenue/i.test(text)) fields.add("revenue");
-  if (/订单|\border(?:s|ed)?\b/i.test(text)) fields.add("order");
-  return [...fields];
-}
-
 function claimEventIds(claim: CompanyClaim): string[] {
   return [...new Set(claim.evidenceIds.map((id) => id.replace(/:evidence:\d+$/, "")))];
 }
 
-function claimSupportsField(claim: CompanyClaim, field: SensitiveField): boolean {
+function claimSupportsField(claim: CompanyClaim, field: ThesisSensitiveField): boolean {
   if (field === "amount" || field === "valuation") return claim.claimType === "funding";
   if (field === "customer") return ["pilot", "deployment", "commercialization"].includes(claim.claimType);
   return claim.claimType === "commercialization";
 }
 
-function eventContainsField(event: EventRecord, field: SensitiveField): boolean {
+function eventContainsField(event: EventRecord, field: ThesisSensitiveField): boolean {
   if (field === "amount") return Boolean(event.funding?.amount);
   if (field === "valuation") return Boolean(event.funding?.valuation);
   if (field === "customer") return Boolean(event.productDeployment?.customers.length);
@@ -125,17 +96,20 @@ function eventContainsField(event: EventRecord, field: SensitiveField): boolean 
   return field === "revenue" ? /收入|营收|revenue/i.test(text) : /订单|order/i.test(text);
 }
 
-function priorSensitiveFieldsRemainVerified(thesis: CompanyThesis, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
+function priorSensitiveFieldsRemainVerified(
+  thesis: CompanyThesis,
+  events: EventRecord[],
+  ledger?: CompanyClaimLedger,
+): boolean {
   const eventById = new Map(events.map((event) => [event.id, event]));
   const selectedEvents = thesis.factReferenceIds.flatMap((referenceId) => {
     const event = eventById.get(referenceId);
     return event ? [event] : [];
   });
-  const fields = sensitiveFieldsInThesis(thesis, selectedEvents);
-  if (!fields.length) return true;
+  if (!thesis.verifiedSensitiveFields.length) return true;
   const claims = ledger?.companies.find((entry) => entry.companyId === thesis.companyId)?.claims ?? [];
   const priorReferences = new Set(thesis.factReferenceIds);
-  return fields.every((field) => claims.some((claim) => {
+  return thesis.verifiedSensitiveFields.every((field) => claims.some((claim) => {
     const mappedEvents = claimEventIds(claim);
     return claim.evidenceState === "verified"
       && claim.value !== "unknown"
@@ -214,7 +188,8 @@ function sortedSelected(selected: SelectedWatchlistSeeds): SelectedThesisSeed[] 
 }
 
 export function validateWatchlistPreviewArtifact(value: unknown): value is WatchlistPreviewArtifact {
-  if (!isObject(value) || Object.keys(value).some((key) => !["schemaVersion", "generatedAt", "theses"].includes(key))) return false;
+  const rootKeys = ["schemaVersion", "generatedAt", "theses"];
+  if (!isObject(value) || Object.keys(value).length !== rootKeys.length || Object.keys(value).some((key) => !rootKeys.includes(key))) return false;
   if (value.schemaVersion !== 1 || typeof value.generatedAt !== "string" || timestamp(value.generatedAt) === undefined || !Array.isArray(value.theses)) return false;
   const companyIds = new Set<string>();
   const thesisIds = new Set<string>();

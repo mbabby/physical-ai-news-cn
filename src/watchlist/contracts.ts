@@ -1,6 +1,7 @@
 export type WatchlistTrack = "forward-radar" | "validated-momentum";
 
 export type ThesisLifecycle = "new" | "strengthening" | "awaiting-validation" | "downgraded" | "falsified" | "expired";
+export type ThesisSensitiveField = "amount" | "valuation" | "customer" | "revenue" | "order";
 
 export interface CompanyThesis {
   thesisId: string;
@@ -13,6 +14,7 @@ export interface CompanyThesis {
   nextValidationPoints: Array<{ text: string; dueAt: string }>;
   falsifiers: Array<{ text: string }>;
   factReferenceIds: string[];
+  verifiedSensitiveFields: ThesisSensitiveField[];
   inferenceLabels: string[];
   confidence: "high" | "medium" | "low";
   generatedAt: string;
@@ -104,6 +106,7 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
     nextValidationPoints,
     falsifiers,
     factReferenceIds,
+    verifiedSensitiveFields,
     inferenceLabels,
     confidence,
     generatedAt,
@@ -119,6 +122,9 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
   if (!nonEmptyArray(nextValidationPoints) || !nextValidationPoints.every(isNextValidationPoint)) return false;
   if (!nonEmptyArray(falsifiers) || !falsifiers.every(isFalsifier)) return false;
   if (!isNonEmptyStringArray(factReferenceIds) || !unique(factReferenceIds)) return false;
+  const sensitiveFields = new Set(["amount", "valuation", "customer", "revenue", "order"]);
+  if (!Array.isArray(verifiedSensitiveFields) || !unique(verifiedSensitiveFields)
+    || !verifiedSensitiveFields.every((field) => typeof field === "string" && sensitiveFields.has(field))) return false;
   if (!Array.isArray(inferenceLabels) || !inferenceLabels.every(nonEmptyString)) return false;
   if (confidence !== "high" && confidence !== "medium" && confidence !== "low") return false;
   if (!validTimestamp(generatedAt) || !validTimestamp(expiresAt)) return false;
