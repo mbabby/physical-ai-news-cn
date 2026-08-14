@@ -73,6 +73,76 @@ const OUTPUT_KEYS = new Set([
   "sentenceCitations",
 ]);
 
+// Kimi K3 otherwise defaults to max reasoning and an output budget of 131k
+// tokens. This bounded schema keeps the daily job fast while the validators
+// below remain the authoritative publication gate.
+const WATCHLIST_RESPONSE_SCHEMA = {
+  name: "watchlist_thesis",
+  strict: true,
+  schema: {
+    type: "object",
+    additionalProperties: false,
+    properties: {
+      whyNow: { type: "string" },
+      routeAndDependencies: { type: "string" },
+      nextValidationPoints: {
+        type: "array",
+        minItems: 1,
+        maxItems: 3,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: { text: { type: "string" }, dueAt: { type: "string" } },
+          required: ["text", "dueAt"],
+        },
+      },
+      falsifiers: {
+        type: "array",
+        minItems: 1,
+        maxItems: 3,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: { text: { type: "string" } },
+          required: ["text"],
+        },
+      },
+      factReferenceIds: { type: "array", minItems: 1, items: { type: "string" } },
+      confidence: { type: "string", enum: ["high", "medium", "low"] },
+      sentenceCitations: {
+        type: "array",
+        minItems: 4,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            path: { type: "string" },
+            sentenceIndex: { type: "integer", minimum: 0 },
+            text: { type: "string" },
+            claimKind: { type: "string", enum: ["analysis", "validation-point", "falsifier"] },
+            referenceIds: { type: "array", minItems: 1, items: { type: "string" } },
+            factAtomIds: { type: "array", minItems: 1, items: { type: "string" } },
+            sensitiveFields: {
+              type: "array",
+              items: { type: "string", enum: ["amount", "valuation", "customer", "revenue", "order"] },
+            },
+          },
+          required: ["path", "sentenceIndex", "text", "claimKind", "referenceIds", "factAtomIds", "sensitiveFields"],
+        },
+      },
+    },
+    required: [
+      "whyNow",
+      "routeAndDependencies",
+      "nextValidationPoints",
+      "falsifiers",
+      "factReferenceIds",
+      "confidence",
+      "sentenceCitations",
+    ],
+  },
+} as const;
+
 export interface CanonicalFactExcerpt {
   excerpt: string;
   officialNames: string[];
@@ -295,7 +365,9 @@ export class WatchlistGenerator {
         },
         body: JSON.stringify({
           model: this.settings.model,
-          response_format: { type: "json_object" },
+          response_format: { type: "json_schema", json_schema: WATCHLIST_RESPONSE_SCHEMA },
+          max_completion_tokens: 4096,
+          reasoning_effort: "low",
           temperature: 0,
           messages: [
             { role: "system", content: systemPrompt() },

@@ -102,13 +102,35 @@ test("parses exact JSON, preserves official names, and sends only seed facts", a
   assert.equal(requestUrl, "https://llm.example/v1/chat/completions");
   assert.equal(requestInit?.method, "POST");
   assert.equal((requestInit?.headers as Record<string, string>).Authorization, `Bearer ${API_KEY}`);
-  const requestBody = JSON.parse(String(requestInit?.body)) as { messages: Array<{ content: string }> };
+  const requestBody = JSON.parse(String(requestInit?.body)) as {
+    messages: Array<{ content: string }>;
+    max_completion_tokens: number;
+    reasoning_effort: string;
+    response_format: {
+      type: string;
+      json_schema: { name: string; strict: boolean; schema: Record<string, unknown> };
+    };
+  };
   const prompt = requestBody.messages.map((message) => message.content).join("\n");
   assert.match(prompt, /只使用提供的规范事实/);
   assert.match(prompt, /Alpha Robotics/);
   assert.match(prompt, /Atlas-X/);
   assert.match(prompt, /Gemini Robotics/);
   assert.doesNotMatch(prompt, /未被种子引用/);
+  assert.equal(requestBody.max_completion_tokens, 4096);
+  assert.equal(requestBody.reasoning_effort, "low");
+  assert.equal(requestBody.response_format.type, "json_schema");
+  assert.equal(requestBody.response_format.json_schema.name, "watchlist_thesis");
+  assert.equal(requestBody.response_format.json_schema.strict, true);
+  assert.deepEqual(requestBody.response_format.json_schema.schema.required, [
+    "whyNow",
+    "routeAndDependencies",
+    "nextValidationPoints",
+    "falsifiers",
+    "factReferenceIds",
+    "confidence",
+    "sentenceCitations",
+  ]);
 });
 
 test("malformed JSON returns invalid-json without repairing markdown fences", async () => {
