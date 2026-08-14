@@ -1,9 +1,11 @@
 import { createHash } from "node:crypto";
 import type { CompanyThesis, ThesisLifecycle, WatchlistTrack } from "./contracts.js";
 import type { CompanyThesisDraft, ThesisGenerationResult } from "./generator.js";
-import type { ThesisValidationResult } from "./validation.js";
+import { thesisDraftDigest, type ThesisValidationResult } from "./validation.js";
 
 const TERMINAL_LIFECYCLES = new Set<ThesisLifecycle>(["falsified", "expired"]);
+const EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 
 const LIFECYCLE_TRANSITIONS: Record<ThesisLifecycle, ReadonlySet<ThesisLifecycle>> = {
   new: new Set(["strengthening", "awaiting-validation", "downgraded", "falsified", "expired"]),
@@ -43,8 +45,11 @@ function isFailedGeneration(
 }
 
 function timestamp(value: string): number | undefined {
+  if (!ISO_TIMESTAMP.test(value)) return undefined;
   const parsed = Date.parse(value);
-  return Number.isFinite(parsed) ? parsed : undefined;
+  if (!Number.isFinite(parsed)) return undefined;
+  const normalized = new Date(parsed).toISOString();
+  return normalized === value || normalized === value.replace("Z", ".000Z") ? parsed : undefined;
 }
 
 function isStillValid(thesis: CompanyThesis | undefined, nowMs: number): thesis is CompanyThesis {
@@ -95,13 +100,25 @@ export function resolveThesisLifecycle(
   now: Date,
 ): ThesisLifecycleDecision {
   const nowMs = now.getTime();
+  const generatedAt = timestamp(current.draft.generatedAt);
   const currentExpiresAt = timestamp(current.draft.expiresAt);
   const from = previous?.lifecycle ?? null;
-  if (!Number.isFinite(nowMs) || currentExpiresAt === undefined) {
+  if (!Number.isFinite(nowMs)) {
     return { outcome: "reject", from, to: current.lifecycle, reason: "invalid-timestamp" };
   }
   if (previous && previous.companyId !== current.draft.companyId) {
     return { outcome: "reject", from, to: current.lifecycle, reason: "company-mismatch" };
+  }
+  if (current.lifecycle === "falsified" || current.lifecycle === "expired") {
+    return {
+      outcome: "remove",
+      from,
+      to: current.lifecycle,
+      reason: current.lifecycle === "expired" ? "expired" : "terminal-lifecycle",
+    };
+  }
+  if (generatedAt === undefined || currentExpiresAt === undefined || currentExpiresAt - generatedAt !== EXPIRY_MS) {
+    return { outcome: "reject", from, to: current.lifecycle, reason: "invalid-timestamp" };
   }
   if (currentExpiresAt <= nowMs) {
     return { outcome: "remove", from, to: "expired", reason: "expired" };
@@ -119,14 +136,6 @@ export function resolveThesisLifecycle(
 
   if (previousIsActive && !TRACK_TRANSITIONS[previous.track].has(current.draft.track)) {
     return { outcome: "reject", from, to: current.lifecycle, reason: "track-regression" };
-  }
-  if (current.lifecycle === "falsified" || current.lifecycle === "expired") {
-    return {
-      outcome: "remove",
-      from,
-      to: current.lifecycle,
-      reason: current.lifecycle === "expired" ? "expired" : "terminal-lifecycle",
-    };
   }
 
   const thesisId = previousIsActive ? previous.thesisId : newThesisId(current.draft.companyId, now, previous);
@@ -148,7 +157,7 @@ export function selectLastKnownGood(
   const nowMs = now.getTime();
   const fallback = Number.isFinite(nowMs) && isStillValid(previous, nowMs) ? previous : undefined;
   if (isFailedGeneration(attempted)) return fallback;
-  if (!validation?.publishable) return fallback;
+  if (!validation?.publishable || validation.draftDigest !== thesisDraftDigest(attempted)) return fallback;
 
   const decision = resolveThesisLifecycle(
     previous,

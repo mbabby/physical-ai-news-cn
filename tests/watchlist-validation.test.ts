@@ -10,6 +10,7 @@ import {
   validateThesisDraft,
   validateTrackEvidence,
   buildCanonicalFactAtoms,
+  thesisDraftDigest,
   type SentenceCitation,
   type ThesisValidationInput,
 } from "../src/watchlist/validation.js";
@@ -168,6 +169,15 @@ test("publishes only a fully cited, canonical, fresh thesis", () => {
   assert.deepEqual(result.issues, []);
   assert.deepEqual(result.citationCoverage, { citedSentences: 4, totalSentences: 4, ratio: 1 });
   assert.deepEqual(result.sensitiveFields, []);
+  assert.equal(result.draftDigest, thesisDraftDigest(draft()));
+});
+
+test("validation binds its result to the exact draft contents", () => {
+  const first = draft();
+  const changed = draft({ whyNow: "AI 研究判断：Alpha Robotics 出现不同的公开验证节点。" });
+
+  assert.equal(validateThesisDraft(input({ draft: first })).draftDigest, thesisDraftDigest(first));
+  assert.notEqual(thesisDraftDigest(first), thesisDraftDigest(changed));
 });
 
 const blockedScenarios: Array<{ name: string; expectedCode: string; make: () => ThesisValidationInput }> = [

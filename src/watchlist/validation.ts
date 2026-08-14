@@ -78,6 +78,7 @@ export interface ThesisValidationResult {
   issues: ValidationIssue[];
   citationCoverage: CitationCoverage;
   sensitiveFields: SensitiveFieldValidation[];
+  draftDigest: string;
 }
 
 type EventWithLifecycle = EventRecord & { evidenceState?: EvidenceState };
@@ -87,6 +88,38 @@ interface DraftSentence {
   path: string;
   sentenceIndex: number;
   text: string;
+}
+
+export function thesisDraftDigest(draft: CompanyThesisDraft): string {
+  const payload = {
+    schemaVersion: 1,
+    companyId: draft.companyId,
+    track: draft.track,
+    whyNow: draft.whyNow,
+    routeAndDependencies: draft.routeAndDependencies,
+    nextValidationPoints: draft.nextValidationPoints.map((point) => ({ text: point.text, dueAt: point.dueAt })),
+    falsifiers: draft.falsifiers.map((falsifier) => ({ text: falsifier.text })),
+    factReferenceIds: [...draft.factReferenceIds],
+    inferenceLabels: [...draft.inferenceLabels],
+    confidence: draft.confidence,
+    generatedAt: draft.generatedAt,
+    expiresAt: draft.expiresAt,
+    modelVersion: draft.modelVersion,
+    promptVersion: draft.promptVersion,
+    methodologyVersion: draft.methodologyVersion,
+    sentenceCitations: Array.isArray(draft.sentenceCitations)
+      ? draft.sentenceCitations.map((citation) => ({
+        path: citation.path,
+        sentenceIndex: citation.sentenceIndex,
+        text: citation.text,
+        claimKind: citation.claimKind,
+        referenceIds: [...citation.referenceIds],
+        factAtomIds: [...citation.factAtomIds],
+        sensitiveFields: [...citation.sensitiveFields],
+      }))
+      : null,
+  };
+  return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
 }
 
 function issue(code: ValidationIssueCode, message: string, path?: string): ValidationIssue {
@@ -612,5 +645,6 @@ export function validateThesisDraft(input: ThesisValidationInput): ThesisValidat
     issues,
     citationCoverage: citations.coverage,
     sensitiveFields: citations.sensitiveFields,
+    draftDigest: thesisDraftDigest(input.draft),
   };
 }

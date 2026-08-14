@@ -7,7 +7,7 @@ import {
   selectLastKnownGood,
   type ThesisLifecycleCandidate,
 } from "../src/watchlist/lifecycle.js";
-import type { ThesisValidationResult } from "../src/watchlist/validation.js";
+import { thesisDraftDigest, type ThesisValidationResult } from "../src/watchlist/validation.js";
 
 const NOW = new Date("2026-08-14T01:00:00.000Z");
 const GENERATED_AT = "2026-08-14T00:00:00.000Z";
@@ -54,6 +54,7 @@ const valid: ThesisValidationResult = {
   issues: [],
   citationCoverage: { citedSentences: 4, totalSentences: 4, ratio: 1 },
   sensitiveFields: [],
+  draftDigest: thesisDraftDigest(draft()),
 };
 
 test("allows new to strengthening and increments the system-owned version", () => {
@@ -119,11 +120,41 @@ test("removes a falsified thesis from the current watchlist", () => {
   assert.deepEqual(result, { outcome: "remove", from: "new", to: "falsified", reason: "terminal-lifecycle" });
 });
 
+test("terminal removal is not blocked by an otherwise prohibited track regression", () => {
+  const previous = thesis({ track: "validated-momentum", lifecycle: "strengthening" });
+
+  const falsified = resolveThesisLifecycle(previous, candidate("falsified", { track: "forward-radar" }), NOW);
+  const expired = resolveThesisLifecycle(previous, candidate("expired", { track: "forward-radar" }), NOW);
+
+  assert.deepEqual(falsified, {
+    outcome: "remove", from: "strengthening", to: "falsified", reason: "terminal-lifecycle",
+  });
+  assert.deepEqual(expired, {
+    outcome: "remove", from: "strengthening", to: "expired", reason: "expired",
+  });
+});
+
 test("removes a thesis at the exact expiry instant", () => {
   const exactExpiry = new Date(EXPIRES_AT);
   const result = resolveThesisLifecycle(thesis(), candidate("strengthening"), exactExpiry);
 
   assert.deepEqual(result, { outcome: "remove", from: "new", to: "expired", reason: "expired" });
+});
+
+test("rejects noncanonical or non-60-day candidate timestamps", () => {
+  const noncanonical = resolveThesisLifecycle(
+    undefined,
+    candidate("new", { expiresAt: "October 13, 2026 00:00:00 UTC" }),
+    NOW,
+  );
+  const wrongDuration = resolveThesisLifecycle(
+    undefined,
+    candidate("new", { expiresAt: "2026-10-13T00:00:00.001Z" }),
+    NOW,
+  );
+
+  assert.deepEqual(noncanonical, { outcome: "reject", from: null, to: "new", reason: "invalid-timestamp" });
+  assert.deepEqual(wrongDuration, { outcome: "reject", from: null, to: "new", reason: "invalid-timestamp" });
 });
 
 test("a failed generation retains a still-valid previous thesis", () => {
@@ -143,6 +174,37 @@ test("a blocked draft retains a still-valid previous thesis", () => {
   };
 
   assert.deepEqual(selectLastKnownGood(previous, draft(), blocked, NOW), previous);
+});
+
+test("a validation result for one draft cannot authorize a different draft", () => {
+  const differentDraft = draft({ companyId: "company-beta", whyNow: "AI 研究判断：Beta 出现新的公开验证信号。" });
+
+  assert.equal(selectLastKnownGood(undefined, differentDraft, valid, NOW), undefined);
+});
+
+test("draft digests are stable and exclude untrusted extra fields", () => {
+  const canonical = draft();
+  const reordered: CompanyThesisDraft = {
+    sentenceCitations: [],
+    methodologyVersion: canonical.methodologyVersion,
+    promptVersion: canonical.promptVersion,
+    modelVersion: canonical.modelVersion,
+    expiresAt: canonical.expiresAt,
+    generatedAt: canonical.generatedAt,
+    confidence: canonical.confidence,
+    inferenceLabels: canonical.inferenceLabels,
+    factReferenceIds: canonical.factReferenceIds,
+    falsifiers: canonical.falsifiers,
+    nextValidationPoints: canonical.nextValidationPoints,
+    routeAndDependencies: canonical.routeAndDependencies,
+    whyNow: canonical.whyNow,
+    track: canonical.track,
+    companyId: canonical.companyId,
+  };
+  const withSecret = { ...canonical, providerApiKey: "must-not-enter-digest" } as CompanyThesisDraft;
+
+  assert.equal(thesisDraftDigest(reordered), thesisDraftDigest(canonical));
+  assert.equal(thesisDraftDigest(withSecret), thesisDraftDigest(canonical));
 });
 
 test("a falsified or expired thesis is never returned as last-known-good", () => {
