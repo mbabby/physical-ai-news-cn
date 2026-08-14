@@ -1,4 +1,4 @@
-import { fetchWithRetry } from "../runtime/http.js";
+import { fetchWithRetry, HttpRequestError } from "../runtime/http.js";
 import type { LlmSettings, RuntimeStatus } from "../types.js";
 import type { CompanyThesis } from "./contracts.js";
 import type { SelectedThesisSeed } from "./scoring.js";
@@ -41,7 +41,11 @@ export type CompanyThesisDraft = Omit<CompanyThesis, "thesisId" | "lifecycle" | 
 
 export type ThesisGenerationResult =
   | { ok: true; draft: CompanyThesisDraft }
-  | { ok: false; code: "llm-unavailable" | "invalid-json" | "invalid-shape" };
+  | { ok: false; code: "llm-unavailable" | ProviderFailureCode | "provider-response" | "invalid-json" | "invalid-shape" };
+
+type ProviderFailureCode =
+  | "provider-timeout" | "provider-rate-limit" | "provider-auth" | "provider-payment-required"
+  | "provider-server" | "provider-client" | "provider-network";
 
 export interface WatchlistGeneratorOptions {
   now?: () => Date;
@@ -315,6 +319,13 @@ function userPrompt(seed: SelectedThesisSeed, facts: Array<{ referenceId: string
   });
 }
 
+function providerFailureCode(error: unknown): ProviderFailureCode {
+  if (!(error instanceof HttpRequestError)) return "provider-network";
+  if (error.kind === "rate_limit") return "provider-rate-limit";
+  if (error.kind === "payment_required") return "provider-payment-required";
+  return `provider-${error.kind}`;
+}
+
 export class WatchlistGenerator {
   private attempted = 0;
   private succeeded = 0;
@@ -368,7 +379,6 @@ export class WatchlistGenerator {
           response_format: { type: "json_schema", json_schema: WATCHLIST_RESPONSE_SCHEMA },
           max_completion_tokens: 4096,
           reasoning_effort: "low",
-          temperature: 0,
           messages: [
             { role: "system", content: systemPrompt() },
             { role: "user", content: userPrompt(seed, facts) },
@@ -380,18 +390,18 @@ export class WatchlistGenerator {
         fetchImpl: this.options.fetchImpl,
         sleep: this.options.sleep,
       });
-    } catch {
-      return this.failure("llm-unavailable");
+    } catch (error) {
+      return this.failure(providerFailureCode(error));
     }
 
     let envelope: CompletionResponse;
     try {
       envelope = await response.json() as CompletionResponse;
     } catch {
-      return this.failure("llm-unavailable");
+      return this.failure("provider-response");
     }
     const content = envelope.choices?.[0]?.message?.content;
-    if (typeof content !== "string" || !content.trim()) return this.failure("llm-unavailable");
+    if (typeof content !== "string" || !content.trim()) return this.failure("provider-response");
 
     let payload: unknown;
     try {

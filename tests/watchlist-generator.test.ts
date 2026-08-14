@@ -106,6 +106,7 @@ test("parses exact JSON, preserves official names, and sends only seed facts", a
     messages: Array<{ content: string }>;
     max_completion_tokens: number;
     reasoning_effort: string;
+    temperature?: number;
     response_format: {
       type: string;
       json_schema: { name: string; strict: boolean; schema: Record<string, unknown> };
@@ -119,6 +120,7 @@ test("parses exact JSON, preserves official names, and sends only seed facts", a
   assert.doesNotMatch(prompt, /未被种子引用/);
   assert.equal(requestBody.max_completion_tokens, 4096);
   assert.equal(requestBody.reasoning_effort, "low");
+  assert.equal(requestBody.temperature, undefined);
   assert.equal(requestBody.response_format.type, "json_schema");
   assert.equal(requestBody.response_format.json_schema.name, "watchlist_thesis");
   assert.equal(requestBody.response_format.json_schema.strict, true);
@@ -246,7 +248,7 @@ test("preserves explicit single-token and non-Latin official product or model na
   assert.deepEqual(await altered.generate(seed), { ok: false, code: "invalid-shape" });
 });
 
-test("unavailable configuration or provider returns llm-unavailable and safe status", async () => {
+test("unavailable configuration and provider failures return safe typed reasons", async () => {
   const unconfigured = new WatchlistGenerator({}, FACTS, { now: () => new Date(NOW) });
   assert.deepEqual(await unconfigured.generate(seed), { ok: false, code: "llm-unavailable" });
   assert.deepEqual(unconfigured.status(), {
@@ -255,12 +257,21 @@ test("unavailable configuration or provider returns llm-unavailable and safe sta
   });
 
   const unavailable = generator(async () => { throw new Error(`provider failed ${API_KEY} ${FACTS["event-alpha"].excerpt}`); });
-  assert.deepEqual(await unavailable.generate(seed), { ok: false, code: "llm-unavailable" });
+  assert.deepEqual(await unavailable.generate(seed), { ok: false, code: "provider-network" });
   assert.deepEqual(unavailable.status(), {
     component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1,
     detail: "观察名单生成未全部完成；失败项保留在内部审核层。",
   });
   assert.doesNotMatch(JSON.stringify(unavailable.status()), new RegExp(`${API_KEY}|Atlas-X|event-alpha`));
+});
+
+test("provider HTTP failures expose only a fixed safe category", async () => {
+  const clientFailure = generator(async () => new Response("private provider detail", { status: 400 }));
+  const rateLimit = generator(async () => new Response("private provider detail", { status: 429 }));
+
+  assert.deepEqual(await clientFailure.generate(seed), { ok: false, code: "provider-client" });
+  assert.deepEqual(await rateLimit.generate(seed), { ok: false, code: "provider-rate-limit" });
+  assert.doesNotMatch(JSON.stringify([clientFailure.status(), rateLimit.status()]), /private provider detail/);
 });
 
 test("generatedAt is injected once and expiresAt is exactly sixty days later", async () => {
