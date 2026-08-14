@@ -319,7 +319,10 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
       succeeded += 1;
     } else {
       if (!validation.publishable) {
-        const issueCodes = [...new Set(validation.issues.map((item) => item.code))].sort();
+        const issueCodes = [...new Set(validation.issues.map((item) => {
+          const safePath = item.path?.match(/^(?:draft\.)?(?:whyNow|routeAndDependencies|nextValidationPoints\.\d+|falsifiers\.\d+)$/)?.[0];
+          return safePath ? `${item.code}@${safePath}` : item.code;
+        }))].sort();
         if (issueCodes.length === 0) recordFailure("validation-blocked");
         else issueCodes.forEach((code) => recordFailure(`validation:${code}`));
       }
