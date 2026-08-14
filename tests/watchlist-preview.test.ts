@@ -133,7 +133,9 @@ test("invalid generated prose is absent instead of leaking a partial thesis", as
   const result = await buildWatchlistPreview(input({ ok: true, draft: invalid }));
   assert.deepEqual(result.preview.theses, []);
   assert.equal(result.status.failed, 1);
-  assert.match(result.status.detail, /validation-blocked 1/);
+  assert.match(result.status.detail, /validation:missing-chinese-copy 1/);
+  assert.match(result.status.detail, /validation:prohibited-investment-language 1/);
+  assert.doesNotMatch(result.status.detail, /guaranteed return/);
 });
 
 test("malformed generation keeps a still-valid previously validated card", async () => {

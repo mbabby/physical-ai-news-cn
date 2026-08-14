@@ -318,7 +318,11 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
       theses.push(selected);
       succeeded += 1;
     } else {
-      if (!validation.publishable) recordFailure("validation-blocked");
+      if (!validation.publishable) {
+        const issueCodes = [...new Set(validation.issues.map((item) => item.code))].sort();
+        if (issueCodes.length === 0) recordFailure("validation-blocked");
+        else issueCodes.forEach((code) => recordFailure(`validation:${code}`));
+      }
       if (selected) { theses.push(selected); retained += 1; }
       else excluded += 1;
       failed += 1;
