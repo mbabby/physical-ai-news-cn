@@ -138,6 +138,23 @@ test("invalid generated prose is absent instead of leaking a partial thesis", as
   assert.doesNotMatch(result.status.detail, /guaranteed return/);
 });
 
+test("unsupported analytical prose is repaired into an evidence-bound card and revalidated", async () => {
+  const unsupportedFields = {
+    whyNow: "AI 研究判断：Alpha Robotics 的 Phantom-X 已形成量子控制优势。",
+    routeAndDependencies: "AI 研究判断：Alpha Robotics 依赖 Phantom Cloud 扩张。",
+    nextValidationPoints: [{ text: "未来 60 天内核验 Alpha Robotics 的 Phantom Cloud 交付。", dueAt: "2026-10-13" }],
+    falsifiers: [{ text: "若 Phantom-X 未完成量子控制部署，则降低判断置信度。" }],
+  };
+  const unsupported = draft({ ...unsupportedFields, sentenceCitations: citationsFor(unsupportedFields) });
+  const result = await buildWatchlistPreview(input({ ok: true, draft: unsupported }));
+  assert.equal(result.status.succeeded, 1);
+  assert.equal(result.status.failed, 0);
+  assert.match(result.status.detail, /证据约束修复 1/);
+  assert.equal(result.preview.theses.length, 1);
+  assert.match(result.preview.theses[0]!.whyNow, /Alpha Robotics/);
+  assert.doesNotMatch(JSON.stringify(result.preview.theses[0]), /Phantom|量子/);
+});
+
 test("malformed generation keeps a still-valid previously validated card", async () => {
   const previous = artifact([thesis({ generatedAt: "2026-08-14T01:00:00.000Z", expiresAt: "2026-10-13T01:00:00.000Z" })]);
   const result = await buildWatchlistPreview(input({ ok: false, code: "invalid-json" }, previous));

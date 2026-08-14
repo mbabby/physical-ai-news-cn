@@ -4,10 +4,10 @@ import type { CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { FileTransaction } from "../runtime/storage.js";
 import type { CompanyProfile, EventRecord, RuntimeStatus } from "../types.js";
 import { validateCompanyThesisShape, type CompanyThesis } from "./contracts.js";
-import type { ThesisGenerationResult } from "./generator.js";
+import { scheduleAtomId, type CompanyThesisDraft, type ThesisGenerationResult, type ThesisSentenceCitation } from "./generator.js";
 import { selectLastKnownGood } from "./lifecycle.js";
 import type { SelectedThesisSeed, SelectedWatchlistSeeds } from "./scoring.js";
-import { deriveVerifiedSensitiveBinding, validateThesisDraft } from "./validation.js";
+import { buildCanonicalFactAtoms, deriveVerifiedSensitiveBinding, validateThesisDraft } from "./validation.js";
 
 const COOLDOWN_MS = 6 * 60 * 60 * 1_000;
 const EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
@@ -116,6 +116,43 @@ function evidenceAllowsReferences(subject: EvidenceSubject, events: EventRecord[
 function evidenceAllowsPreview(seed: SelectedThesisSeed, events: EventRecord[], ledger?: CompanyClaimLedger): boolean {
   return !(seed.track === "validated-momentum" && seed.evidenceGrade === "B")
     && evidenceAllowsReferences(seed, events, ledger);
+}
+
+function repairUnsupportedDraft(
+  draft: CompanyThesisDraft,
+  seed: SelectedThesisSeed,
+  events: EventRecord[],
+): CompanyThesisDraft | undefined {
+  const selectedEvents = canonicalReferences(draft, events);
+  const generatedAt = Date.parse(draft.generatedAt);
+  const route = selectedEvents?.flatMap((event) => event.routes).find((candidate) => seed.routes.includes(candidate));
+  if (!selectedEvents?.length || !route || !Number.isFinite(generatedAt)) return undefined;
+
+  const dueAt = new Date(generatedAt + 60 * 24 * 60 * 60 * 1_000).toISOString().slice(0, 10);
+  const fields = {
+    whyNow: `AI 研究判断：${seed.companyName} 当前已有与“${route}”相关的可追溯规范事实。`,
+    routeAndDependencies: `AI 研究判断：${seed.companyName} 当前沿“${route}”路线观察，暂不外推未披露信息。`,
+    nextValidationPoints: [{ text: `未来 60 天内核验 ${seed.companyName} 是否出现新的可追溯规范事实。`, dueAt }],
+    falsifiers: [{ text: `若 ${seed.companyName} 后续未出现新的可追溯规范事实，则降低当前判断置信度。` }],
+  };
+  const referenceIds = [...draft.factReferenceIds];
+  const atomIds = buildCanonicalFactAtoms(selectedEvents)
+    .filter((atom) => referenceIds.includes(atom.referenceId))
+    .map((atom) => atom.id);
+  if (!atomIds.length) return undefined;
+  const sentenceCitations: ThesisSentenceCitation[] = [
+    { path: "whyNow", sentenceIndex: 0, text: fields.whyNow, claimKind: "analysis", referenceIds, factAtomIds: atomIds, sensitiveFields: [] },
+    { path: "routeAndDependencies", sentenceIndex: 0, text: fields.routeAndDependencies, claimKind: "analysis", referenceIds, factAtomIds: atomIds, sensitiveFields: [] },
+    { path: "nextValidationPoints.0", sentenceIndex: 0, text: fields.nextValidationPoints[0].text, claimKind: "validation-point", referenceIds, factAtomIds: [...atomIds, scheduleAtomId("nextValidationPoints.0", dueAt)], sensitiveFields: [] },
+    { path: "falsifiers.0", sentenceIndex: 0, text: fields.falsifiers[0].text, claimKind: "falsifier", referenceIds, factAtomIds: atomIds, sensitiveFields: [] },
+  ];
+  return {
+    ...draft,
+    ...fields,
+    promptVersion: `${draft.promptVersion}+evidence-repair-v1`,
+    methodologyVersion: `${draft.methodologyVersion}+evidence-repair-v1`,
+    sentenceCitations,
+  };
 }
 
 function evidenceAllowsPrior(
@@ -264,6 +301,7 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
   let failed = 0;
   let retained = 0;
   let excluded = 0;
+  let repaired = 0;
   const failureReasons = new Map<string, number>();
   const recordFailure = (reason: string): void => {
     failureReasons.set(reason, (failureReasons.get(reason) ?? 0) + 1);
@@ -305,15 +343,36 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
       failed += 1;
       continue;
     }
-    const validation = validateThesisDraft({
-      draft: generated.draft,
+    let candidateDraft = generated.draft;
+    let validation = validateThesisDraft({
+      draft: candidateDraft,
       seed,
       companies: input.companies,
       canonicalEvents: input.canonicalEvents,
       claimLedger: input.claimLedger,
       priorThesis: fallback,
     });
-    const selected = selectLastKnownGood(fallback, generated.draft, validation, input.now);
+    if (!validation.publishable
+      && validation.issues.length > 0
+      && validation.issues.every((item) => item.code === "unsupported-sentence-claim")) {
+      const repairedDraft = repairUnsupportedDraft(candidateDraft, seed, input.canonicalEvents);
+      if (repairedDraft) {
+        const repairedValidation = validateThesisDraft({
+          draft: repairedDraft,
+          seed,
+          companies: input.companies,
+          canonicalEvents: input.canonicalEvents,
+          claimLedger: input.claimLedger,
+          priorThesis: fallback,
+        });
+        if (repairedValidation.publishable) {
+          candidateDraft = repairedDraft;
+          validation = repairedValidation;
+          repaired += 1;
+        }
+      }
+    }
+    const selected = selectLastKnownGood(fallback, candidateDraft, validation, input.now);
     if (validation.publishable && selected && selected !== fallback) {
       theses.push(selected);
       succeeded += 1;
@@ -345,7 +404,7 @@ export async function buildWatchlistPreview(input: WatchlistPreviewInput): Promi
     attempted,
     succeeded,
     failed,
-    detail: `生成 ${succeeded} 张新判断卡；保留 ${retained} 张上一有效版本；排除 ${excluded} 家。${failureReasons.size
+    detail: `生成 ${succeeded} 张新判断卡；保留 ${retained} 张上一有效版本；排除 ${excluded} 家。${repaired ? ` 证据约束修复 ${repaired} 张。` : ""}${failureReasons.size
       ? ` 失败原因：${[...failureReasons.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([reason, count]) => `${reason} ${count}`).join("，")}。`
       : ""}`,
   };
