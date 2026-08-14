@@ -4,13 +4,13 @@
 
 ## 信源
 
-- 成功 · 本轮已启用信源均完成抓取。
+- 失败 · 北京人形机器人创新中心：网络请求失败
 
 ## 服务
 
-- LLM · **部分降级** · 请求 10，成功 8，失败 2。摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。
+- LLM · **部分降级** · 请求 6，成功 4，失败 2。摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。
 - OpenAlex · **成功** · 请求 36，成功 36，失败 0。论文引用与作者机构元数据已刷新。
-- Watchlist · **部分降级** · 请求 1，成功 0，失败 1。生成 0 张新判断卡；保留 0 张上一有效版本；排除 1 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.0 1，validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@routeAndDependencies 1，validation:unsupported-sentence-claim@whyNow 1。
+- Watchlist · **成功** · 请求 1，成功 1，失败 0。生成 1 张新判断卡；保留 0 张上一有效版本；排除 0 家。 证据约束修复 1 张。
 
 ## 提交
 
