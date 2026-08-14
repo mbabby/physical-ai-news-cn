@@ -235,6 +235,17 @@ test("cooldown and outage cannot retain sensitive prose after ledger proof becom
   }));
   assert.deepEqual(customerResult.preview.theses, []);
   assert.equal(customerResult.status.attempted, 1);
+
+  const correctedPrior = thesis({
+    generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
+    whyNow: "AI 研究判断：Alpha Robotics 已向 Acme Factory 部署 Atlas-X。",
+  });
+  const correctedPrevious = { schemaVersion: 1 as const, generatedAt: correctedPrior.generatedAt, theses: [correctedPrior] };
+  const correctedResult = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, correctedPrevious, {
+    canonicalEvents: [event()], claimLedger: ledger(),
+  }));
+  assert.deepEqual(correctedResult.preview.theses, []);
+  assert.equal(correctedResult.status.attempted, 1);
 });
 
 test("corrupt previous preview fails closed before generation", async () => {

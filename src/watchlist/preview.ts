@@ -91,10 +91,16 @@ function sensitiveFieldsInThesis(thesis: CompanyThesis, events: EventRecord[]): 
   const amounts = events.flatMap((event) => event.funding?.amount ? [event.funding.amount] : []);
   const valuations = events.flatMap((event) => event.funding?.valuation ? [event.funding.valuation] : []);
   const customers = events.flatMap((event) => event.productDeployment?.customers ?? []);
+  const latinCustomerRelationship = /(?:向|为)\s*[A-Z][A-Za-z0-9-]*(?:\s+[A-Z][A-Za-z0-9-]*)*\s*(?:部署|交付|销售|提供|试点)|\b[A-Z][A-Za-z0-9-]*(?:\s+[A-Z][A-Za-z0-9-]*)*\s*(?:采用|订购|购买)/;
+  const nonCustomerTargets = new Set(["后续", "未来", "实际", "真实", "规模化", "工厂", "现场"]);
+  const chineseCustomerRelationship = [
+    ...text.matchAll(/(?:向|为)\s*([\u3400-\u9fff]{2,16})(?=\s*(?:部署|交付|销售|提供|试点))/g),
+    ...text.matchAll(/(?:^|[：，。；\s])([\u3400-\u9fff]{2,16})(?=\s*(?:采用|订购|购买))/g),
+  ].some((match) => !nonCustomerTargets.has(match[1]!));
   if (/融资金额|funding amount|(?:融资|募资|融得|完成)[^。！？!?]{0,30}(?:元|美元|欧元|人民币)/i.test(text)
     || amounts.some((value) => text.includes(value))) fields.add("amount");
   if (/估值|valuation/i.test(text) || valuations.some((value) => text.includes(value))) fields.add("valuation");
-  if (/客户\s*(?:包括|包含|为|是|：|:)|customer\s+(?:includes?|is|was|named)/i.test(text)
+  if (/客户|\bcustomer\b/i.test(text) || latinCustomerRelationship.test(text) || chineseCustomerRelationship
     || customers.some((value) => text.includes(value))) fields.add("customer");
   if (/收入|营收|revenue/i.test(text)) fields.add("revenue");
   if (/订单|\border(?:s|ed)?\b/i.test(text)) fields.add("order");
