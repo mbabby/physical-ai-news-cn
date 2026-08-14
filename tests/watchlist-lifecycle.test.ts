@@ -182,6 +182,13 @@ test("a validation result for one draft cannot authorize a different draft", () 
   assert.equal(selectLastKnownGood(undefined, differentDraft, valid, NOW), undefined);
 });
 
+test("a validated draft cannot fall back to another company's prior thesis", () => {
+  const differentDraft = draft({ companyId: "company-beta", whyNow: "AI 研究判断：Beta 出现新的公开验证信号。" });
+  const differentValidation = { ...valid, draftDigest: thesisDraftDigest(differentDraft) };
+
+  assert.equal(selectLastKnownGood(thesis(), differentDraft, differentValidation, NOW), undefined);
+});
+
 test("draft digests are stable and exclude untrusted extra fields", () => {
   const canonical = draft();
   const reordered: CompanyThesisDraft = {
@@ -212,6 +219,13 @@ test("a falsified or expired thesis is never returned as last-known-good", () =>
 
   assert.equal(selectLastKnownGood(thesis({ lifecycle: "falsified" }), failure, undefined, NOW), undefined);
   assert.equal(selectLastKnownGood(thesis({ expiresAt: NOW.toISOString() }), failure, undefined, NOW), undefined);
+});
+
+test("a prior thesis with invalid or non-60-day timestamps is never last-known-good", () => {
+  const failure = { ok: false, code: "llm-unavailable" } as const;
+
+  assert.equal(selectLastKnownGood(thesis({ generatedAt: "not-a-timestamp" }), failure, undefined, NOW), undefined);
+  assert.equal(selectLastKnownGood(thesis({ expiresAt: "2026-10-13T00:00:00.001Z" }), failure, undefined, NOW), undefined);
 });
 
 test("re-entry after falsification starts a new deterministic identity at version one", () => {

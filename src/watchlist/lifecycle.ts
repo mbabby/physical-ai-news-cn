@@ -54,8 +54,11 @@ function timestamp(value: string): number | undefined {
 
 function isStillValid(thesis: CompanyThesis | undefined, nowMs: number): thesis is CompanyThesis {
   if (!thesis || TERMINAL_LIFECYCLES.has(thesis.lifecycle)) return false;
+  const generatedAt = timestamp(thesis.generatedAt);
   const expiresAt = timestamp(thesis.expiresAt);
-  return expiresAt !== undefined && expiresAt > nowMs;
+  return generatedAt !== undefined && expiresAt !== undefined
+    && expiresAt - generatedAt === EXPIRY_MS
+    && expiresAt > nowMs;
 }
 
 function newThesisId(companyId: string, now: Date, previous: CompanyThesis | undefined): string {
@@ -155,8 +158,10 @@ export function selectLastKnownGood(
   now: Date,
 ): CompanyThesis | undefined {
   const nowMs = now.getTime();
-  const fallback = Number.isFinite(nowMs) && isStillValid(previous, nowMs) ? previous : undefined;
-  if (isFailedGeneration(attempted)) return fallback;
+  const generationFailed = isFailedGeneration(attempted);
+  const sameCompany = generationFailed || previous?.companyId === attempted.companyId;
+  const fallback = Number.isFinite(nowMs) && sameCompany && isStillValid(previous, nowMs) ? previous : undefined;
+  if (generationFailed) return fallback;
   if (!validation?.publishable || validation.draftDigest !== thesisDraftDigest(attempted)) return fallback;
 
   const decision = resolveThesisLifecycle(
