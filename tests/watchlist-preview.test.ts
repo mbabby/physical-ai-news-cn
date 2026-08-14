@@ -198,24 +198,43 @@ test("cooldown never retains a prior card whose own references became unsafe", a
 });
 
 test("cooldown and outage cannot retain sensitive prose after ledger proof becomes stale or disappears", async () => {
-  const prior = thesis({
+  const amountPrior = thesis({
     generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
     whyNow: "AI 研究判断：Alpha Robotics 已公布融资金额 1200 万美元。",
   });
-  const previous = { schemaVersion: 1 as const, generatedAt: prior.generatedAt, theses: [prior] };
+  const amountPrevious = { schemaVersion: 1 as const, generatedAt: amountPrior.generatedAt, theses: [amountPrior] };
   const fundingEvent = event({ type: "投融资", funding: { entityStatus: "已确认", amount: "1200 万美元", investors: [] } });
   const staleLedger = ledger();
   staleLedger.companies[0]!.claims = [{
     ...staleLedger.companies[0]!.claims[0]!, claimType: "funding", value: "1200 万美元",
     freshness: { ttlDays: 180, state: "stale", expiresAt: "2026-08-13T00:00:00.000Z", daysSinceVerified: 181 },
   }];
-  for (const claimLedger of [staleLedger, { ...ledger(), companies: [] }]) {
-    const result = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, previous, {
+  const insufficientLedger = ledger();
+  insufficientLedger.companies[0]!.claims = [{
+    ...insufficientLedger.companies[0]!.claims[0]!, claimType: "funding", value: "unknown", evidenceState: "evidence_insufficient",
+  }];
+  for (const claimLedger of [staleLedger, insufficientLedger, { ...ledger(), companies: [] }]) {
+    const result = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, amountPrevious, {
       canonicalEvents: [fundingEvent], claimLedger,
     }));
     assert.deepEqual(result.preview.theses, []);
     assert.equal(result.status.attempted, 1);
   }
+
+  const customerPrior = thesis({
+    generatedAt: "2026-08-14T04:00:00.000Z", expiresAt: "2026-10-13T04:00:00.000Z",
+    whyNow: "AI 研究判断：Alpha Robotics 已公布客户 Acme Factory。",
+  });
+  const customerPrevious = { schemaVersion: 1 as const, generatedAt: customerPrior.generatedAt, theses: [customerPrior] };
+  const customerEvent = event({ productDeployment: { product: "Atlas-X", customers: ["Acme Factory"], deployment: "工厂部署" } });
+  const staleCustomerLedger = ledger();
+  staleCustomerLedger.companies[0]!.claims[0]!.value = "Acme Factory";
+  staleCustomerLedger.companies[0]!.claims[0]!.freshness = { ttlDays: 90, state: "stale", expiresAt: "2026-08-13T00:00:00.000Z", daysSinceVerified: 91 };
+  const customerResult = await buildWatchlistPreview(input({ ok: false, code: "llm-unavailable" }, customerPrevious, {
+    canonicalEvents: [customerEvent], claimLedger: staleCustomerLedger,
+  }));
+  assert.deepEqual(customerResult.preview.theses, []);
+  assert.equal(customerResult.status.attempted, 1);
 });
 
 test("corrupt previous preview fails closed before generation", async () => {
