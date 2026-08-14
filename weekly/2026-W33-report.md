@@ -1,9 +1,10 @@
 # 物理 AI 周报 · 2026-W33
 
-> 截止 2026-08-13。只纳入主体明确、中文事实简介完整、且具 A/B 级非线索证据的公开条目。
+> 截止 2026-08-14。只纳入主体明确、中文事实简介完整、且具 A/B 级非线索证据的公开条目。
 
 ## 新增事件
 
+- **Humanoid** · [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)：这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
@@ -16,6 +17,7 @@
 
 ## 产品与部署
 
+- **Humanoid** · [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)：这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
@@ -33,12 +35,12 @@
 
 ## 信源质量变化
 
-- 已启用 12 个；观察 29 个；暂停 2 个；达到晋升条件 1 个。
+- 已启用 12 个；观察 28 个；暂停 3 个；达到晋升条件 1 个。
 
 ## 项目指标
 
-- 日历覆盖：13/30（43%）；已归档运行成功：13/13（100%）
-- 首页有效条目：8；A/B 级证据比例：100%；公司档案覆盖：5 家。
+- 日历覆盖：14/30（47%）；已归档运行成功：14/14（100%）
+- 首页有效条目：9；A/B 级证据比例：100%；公司档案覆盖：5 家。
 
 ## 待验证候选
 

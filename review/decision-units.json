@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T15:08:41.266Z",
+  "generatedAt": "2026-08-14T01:26:39.396Z",
   "units": [
     {
       "unitId": "decision-11dadecc97b99204",
@@ -944,22 +944,63 @@
           ]
         }
       ]
+    },
+    {
+      "unitId": "decision-f3d13b117a6b85cc",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-1c57c9f34588",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-1c57c9f34588"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-14T01:26:39.396Z",
+      "updatedAt": "2026-08-14T01:26:39.396Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-f3d13b117a6b85cc:created",
+          "at": "2026-08-14T01:26:39.396Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-1c57c9f34588"
+          ]
+        },
+        {
+          "eventId": "decision-f3d13b117a6b85cc:public-shortlist",
+          "at": "2026-08-14T01:26:39.396Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-1c57c9f34588"
+          ]
+        }
+      ]
     }
   ],
   "funnel": {
-    "totalUnits": 23,
+    "totalUnits": 24,
     "byStage": {
       "discovered": 0,
-      "shortlisted": 23,
+      "shortlisted": 24,
       "evaluating": 0,
       "decided": 0,
       "acted": 0,
       "dismissed": 0
     },
-    "active": 23,
+    "active": 24,
     "converted": 0,
     "rejected": 0,
-    "transitionEvents": 23,
+    "transitionEvents": 24,
     "conversionRate": 0
   }
 }

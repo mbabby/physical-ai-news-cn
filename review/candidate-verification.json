@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T15:08:41.266Z",
+  "generatedAt": "2026-08-14T01:26:39.396Z",
   "records": [
     {
       "id": "verify-41a29bdf48f1e7",
@@ -360,6 +360,107 @@
           "publishedAt": "2026-08-12T06:03:27.000Z",
           "title": "西湖机器人完成A轮融资，系具身智能通用大脑公司",
           "round": "A轮"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-8aa070a171a84f",
+      "companyName": "独家丨国科投资领投ChatGPT核心贡献者，亮源新创",
+      "kind": "投融资",
+      "title": "独家丨国科投资领投ChatGPT核心贡献者，亮源新创获数亿元Pre-A轮融资|具身智能|大模型|姜旭|模型|训练_手机新浪网 - 新浪财经",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 98,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNX1ZVVFlsZWY1bTluOHR4X0tGS05zMjRwSkFpNzZUZVdDTVlqYkxZXzNISDdxMWVrb1lHWGIzRGRxUjF6R2U5dE96NHhxOXlCZnRUMGRfSlVLNEgwWU9tVlBYMEF2Y1hjanFkeDZhLWZTMDJLUXdpUjNIc2VVcm41c3lGd3FtZUdwOXlEWmoxaHNvZw?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "新浪财经",
+          "publisherUrl": "https://finance.sina.cn"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-14T01:26:39.396Z",
+          "trigger": "首次补证",
+          "priority": 98,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"独家丨国科投资领投ChatGPT核心贡献者，亮源新创\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"独家丨国科投资领投ChatGPT核心贡献者，亮源新创\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"独家丨国科投资领投ChatGPT核心贡献者，亮源新创\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://finance.sina.cn",
+              "query": "\"独家丨国科投资领投ChatGPT核心贡献者，亮源新创\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1607,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-14T01:26:39.396Z",
+      "lastAttemptAt": "2026-08-14T01:26:39.396Z",
+      "nextReviewAt": "2026-08-15T01:26:39.396Z",
+      "attempts": 1,
+      "evidenceHash": "9690945e80afb4c7d5fd",
+      "evidence": [
+        {
+          "articleId": "d0d0a604d128fc2f",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNX1ZVVFlsZWY1bTluOHR4X0tGS05zMjRwSkFpNzZUZVdDTVlqYkxZXzNISDdxMWVrb1lHWGIzRGRxUjF6R2U5dE96NHhxOXlCZnRUMGRfSlVLNEgwWU9tVlBYMEF2Y1hjanFkeDZhLWZTMDJLUXdpUjNIc2VVcm41c3lGd3FtZUdwOXlEWmoxaHNvZw?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T01:02:20.000Z",
+          "title": "独家丨国科投资领投ChatGPT核心贡献者，亮源新创获数亿元Pre-A轮融资|具身智能|大模型|姜旭|模型|训练_手机新浪网 - 新浪财经",
+          "round": "Pre-A轮"
         }
       ],
       "facts": {},
@@ -2937,7 +3038,7 @@
       "id": "verify-733621abae8608",
       "companyName": "Alloy Robotics",
       "kind": "投融资",
-      "title": "Alloy Robotics 获 800 万美元融资，用 AI 智能体帮助工程师调试机器人集群",
+      "title": "Alloy Robotics Raises $8M in New Funding to Help Engineers Debug Robot Fleets With AI Agents - AI Insider",
       "status": "等待重试",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -2956,6 +3057,12 @@
           "discoverySource": "Google News · Robotics Capital",
           "publisher": "PR Newswire",
           "publisherUrl": "https://www.prnewswire.com"
+        },
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPeW9UM08tTkJCSHBoOVJnMjl5cEFFR2liZVhDQXdfNjduM002R3hPRlMtOVNHSEkxaXpkYWFpSTA4S3puS3JCcTNERVhNRDFTdm5GaldJUlZJQ0JPN1NSYXAyakdYZG5KRy1xVWNEY2hnZjNaaXhnaHFUdjVqd0lNU3ZiMjB3dFpLVEFnOF9jT3JDdWI4czRBTXBLZ09Pa3kxTktRdER5djRfazhLQXNoT29ORWhYSElfVkJhNUdobHJXNXJ2X3NfQw?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "AI Insider",
+          "publisherUrl": "https://theaiinsider.tech"
         }
       ],
       "enrichmentAttempts": [
@@ -3075,14 +3182,75 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-14T01:26:39.396Z",
+          "trigger": "新证据触发",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "IT Brief Australia",
+              "value": "https://itbrief.com.au",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "PR Newswire",
+              "value": "https://www.prnewswire.com",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "AI Insider",
+              "value": "https://theaiinsider.tech",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1607,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-20T15:08:41.266Z",
-      "attempts": 3,
-      "evidenceHash": "92b17d5ff604dfae35c0",
+      "lastAttemptAt": "2026-08-14T01:26:39.396Z",
+      "nextReviewAt": "2026-09-13T01:26:39.396Z",
+      "attempts": 4,
+      "evidenceHash": "db4494c4f0ef5f2393f8",
       "evidence": [
+        {
+          "articleId": "5a9f52cd8fcc1c18",
+          "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPeW9UM08tTkJCSHBoOVJnMjl5cEFFR2liZVhDQXdfNjduM002R3hPRlMtOVNHSEkxaXpkYWFpSTA4S3puS3JCcTNERVhNRDFTdm5GaldJUlZJQ0JPN1NSYXAyakdYZG5KRy1xVWNEY2hnZjNaaXhnaHFUdjVqd0lNU3ZiMjB3dFpLVEFnOF9jT3JDdWI4czRBTXBLZ09Pa3kxTktRdER5djRfazhLQXNoT29ORWhYSElfVkJhNUdobHJXNXJ2X3NfQw?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-13T15:39:30.000Z",
+          "title": "Alloy Robotics Raises $8M in New Funding to Help Engineers Debug Robot Fleets With AI Agents - AI Insider",
+          "amount": "$8M"
+        },
         {
           "articleId": "d3f0af26a463fe81",
           "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNZkRJOWtrN2VFV3JtV1l5OVVuZkljTE44TnloTUZ5YnAyY2NlemgxdEx4b2Q4dHVoaV9QZUdYYXEyemFqSVJqQ2VvdGJKOUZHcHRsVm4tekY1RGFmU0dvTXVVTzZOT3p3ZkpuVEktSG5iZnZsdXNFYktsOTdRM0NjRXV3Q25ETTBvcXNnT0hybGd6LUVKdDJFOUY3ZGZsMkEtWEh0QnJkNHpmWXBnT0prNmlJMG1aNXpTb2thWldBeWpzTGFiZGpENHBVdFk?oc=5",
@@ -5673,6 +5841,106 @@
       }
     },
     {
+      "id": "verify-f7468df6d08cad",
+      "companyName": "半年4轮5亿",
+      "kind": "投融资",
+      "title": "半年4轮5亿融资，西湖机器人具身智能路径贴近产业落地",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "AgeClub",
+          "publisherUrl": "https://www.ageclub.net"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-14T01:26:39.396Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"半年4轮5亿\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"半年4轮5亿\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"半年4轮5亿\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "AgeClub",
+              "value": "https://www.ageclub.net",
+              "query": "\"半年4轮5亿\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1607,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-14T01:26:39.396Z",
+      "lastAttemptAt": "2026-08-14T01:26:39.396Z",
+      "nextReviewAt": "2026-08-15T01:26:39.396Z",
+      "attempts": 1,
+      "evidenceHash": "04522d8d90229aaae8b1",
+      "evidence": [
+        {
+          "articleId": "3905f1be19bf9ab1",
+          "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T01:13:35.000Z",
+          "title": "半年4轮5亿融资，西湖机器人具身智能路径贴近产业落地"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-8fe9257a2a95c2",
       "companyName": "待识别公司",
       "kind": "投融资",
@@ -5745,6 +6013,104 @@
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-12T00:31:30.000Z",
           "title": "高盛研判AI投资主线将切换到人形机器人 - 搜狐网"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-64d31f50bd7e83",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "硅谷投资人拖着行李箱，奔赴华强北的机器人供应链 - 新浪财经",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQMXloLVB4M0c0TngwNno4VHFMQXo0NkVKVTRQRmJTV0ZHeTZxeDdrQ2J6RXZxeE9OR3JUSnl2cGxKbWJFYkpxQ2t1ZkJQdUJoU1EtVUlxRjZCR0lnSkV1cE9WOWNRMDc3a2VIUFlVU0wxMDJOSnpKZTJjTFpaVU1DdVJfS2xNUmsxckQ4ME1kdWsteFdNTURYSTlIMEZQOXlOS0RCNUlYRXlTVnV6VDNRSHRqTjdPMGg1YzVlbg?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "新浪财经",
+          "publisherUrl": "https://finance.sina.cn"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-14T01:26:39.396Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://finance.sina.cn",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1607,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-14T01:26:39.396Z",
+      "lastAttemptAt": "2026-08-14T01:26:39.396Z",
+      "attempts": 1,
+      "evidenceHash": "d8d8540bb2782503d787",
+      "evidence": [
+        {
+          "articleId": "9d9d2105f2760b92",
+          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQMXloLVB4M0c0TngwNno4VHFMQXo0NkVKVTRQRmJTV0ZHeTZxeDdrQ2J6RXZxeE9OR3JUSnl2cGxKbWJFYkpxQ2t1ZkJQdUJoU1EtVUlxRjZCR0lnSkV1cE9WOWNRMDc3a2VIUFlVU0wxMDJOSnpKZTJjTFpaVU1DdVJfS2xNUmsxckQ4ME1kdWsteFdNTURYSTlIMEZQOXlOS0RCNUlYRXlTVnV6VDNRSHRqTjdPMGg1YzVlbg?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T01:17:25.000Z",
+          "title": "硅谷投资人拖着行李箱，奔赴华强北的机器人供应链 - 新浪财经"
         }
       ],
       "facts": {},
@@ -6326,6 +6692,107 @@
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-05T13:56:06.000Z",
           "title": "卧安机器人：完成境外直接投资备案手续 - 东方财富"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-8c15d16428a263",
+      "companyName": "橡木果机器人发布Natus具身本能模型",
+      "kind": "投融资",
+      "title": "橡木果机器人发布Natus具身本能模型 获招商局创投、蔚来资本天使轮投资 - 新浪财经",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBKOS05WmMzS1hyMnlCZ0Z3cWxNVWlqUlN5M1BSWEducXhQZjVwcmN4X2VnRFV5N3Nyb2pwbUlxNGZRbkU0V2NnUGs4WGs5MjJMQTJVSlZLVlRIR01leWx3aDB4UGZwV3V3aGo3b3VR?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "新浪财经",
+          "publisherUrl": "https://cj.sina.cn"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-14T01:26:39.396Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://cj.sina.cn",
+              "query": "\"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1607,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-14T01:26:39.396Z",
+      "lastAttemptAt": "2026-08-14T01:26:39.396Z",
+      "nextReviewAt": "2026-08-15T01:26:39.396Z",
+      "attempts": 1,
+      "evidenceHash": "80e738469565b91aa630",
+      "evidence": [
+        {
+          "articleId": "9a1655fe0b5062af",
+          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBKOS05WmMzS1hyMnlCZ0Z3cWxNVWlqUlN5M1BSWEducXhQZjVwcmN4X2VnRFV5N3Nyb2pwbUlxNGZRbkU0V2NnUGs4WGs5MjJMQTJVSlZLVlRIR01leWx3aDB4UGZwV3V3aGo3b3VR?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-13T12:27:59.000Z",
+          "title": "橡木果机器人发布Natus具身本能模型 获招商局创投、蔚来资本天使轮投资 - 新浪财经",
+          "round": "天使轮"
         }
       ],
       "facts": {},

@@ -6,8 +6,8 @@
 
 - **Avatar Robotics** · 观察中 · 79/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **Hadrian** · 观察中 · 79/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
+- **Alloy Robotics** · 观察中 · 67/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **西湖机器人** · 观察中 · 67/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
-- **Alloy Robotics** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **橡木果机器人** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **宇树科技IPO：会翻跟头的机器人能否吸引** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **Solinas Integrity** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
@@ -25,12 +25,12 @@
 
 ## 待评估信源
 
-- **github.com** · 连续成功 11 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
-- **marcusoft.net** · 连续成功 4 次 · 样例：[Are AI agents our industry's industrial robots?](https://www.marcusoft.net/2026/08/ai-robots.html) · [提交信源建议](../../issues/new/choose)
-- **hackaday.com** · 连续成功 6 次 · 样例：[Chernobyl's Robots, or the Hackathon from Hell](https://hackaday.com/2026/08/07/chernobyls-robots-or-the-hackathon-from-hell/) · [提交信源建议](../../issues/new/choose)
-- **electrek.co** · 连续成功 6 次 · 样例：[Mitsubishi joins the humanoid robot race, at a 1k unit per month pace](https://electrek.co/2026/08/07/mitsubishi-joins-the-humanoid-robot-race-at-a-1000-unit-per-month-pace/) · [提交信源建议](../../issues/new/choose)
-- **huggingface.co** · 连续成功 11 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
-- **covingtonblogs.com** · 连续成功 9 次 · 样例：[FCC Restricts Imports of New Foreign Power Inverters and Robotic Devices](https://www.covingtonblogs.com/2026/07/31/fcc-restricts-imports-of-new-foreign-produced-power-inverters-and-advanced-robotic-devices-with-additions-to-its-covered-list/) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 12 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
+- **lesswrong.com** · 连续成功 2 次 · 样例：[Misaligned AIs could use killer robots to take over](https://www.lesswrong.com/posts/9jKhqmFjMzdAvHANr/misaligned-ais-could-use-killer-robots-to-take-over) · [提交信源建议](../../issues/new/choose)
+- **marcusoft.net** · 连续成功 5 次 · 样例：[Are AI agents our industry's industrial robots?](https://www.marcusoft.net/2026/08/ai-robots.html) · [提交信源建议](../../issues/new/choose)
+- **hackaday.com** · 连续成功 7 次 · 样例：[Chernobyl's Robots, or the Hackathon from Hell](https://hackaday.com/2026/08/07/chernobyls-robots-or-the-hackathon-from-hell/) · [提交信源建议](../../issues/new/choose)
+- **electrek.co** · 连续成功 7 次 · 样例：[Mitsubishi joins the humanoid robot race, at a 1k unit per month pace](https://electrek.co/2026/08/07/mitsubishi-joins-the-humanoid-robot-race-at-a-1000-unit-per-month-pace/) · [提交信源建议](../../issues/new/choose)
+- **huggingface.co** · 连续成功 12 次 · 样例：[Nvidia releases Cosmos 3 Edge for robotics](https://huggingface.co/blog/nvidia/cosmos3edge) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 
