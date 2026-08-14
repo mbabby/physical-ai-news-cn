@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { WatchlistGenerator } from "../src/watchlist/generator.js";
+import { scheduleAtomId, WatchlistGenerator, type CanonicalFactExcerpt } from "../src/watchlist/generator.js";
 import type { SelectedThesisSeed } from "../src/watchlist/scoring.js";
 
 const NOW = new Date("2026-08-13T01:00:00.000Z");
@@ -9,8 +9,17 @@ const FACTS = {
   "event-alpha": {
     excerpt: "Alpha Robotics 官方宣布 Atlas-X 使用 Gemini Robotics 完成工厂试点。",
     officialNames: ["Alpha Robotics", "Atlas-X", "Gemini Robotics"],
+    factAtoms: [
+      { id: "event-alpha:company", referenceId: "event-alpha", kind: "company" as const, value: "Alpha Robotics" },
+      { id: "event-alpha:product", referenceId: "event-alpha", kind: "product" as const, value: "Atlas-X" },
+      { id: "event-alpha:model", referenceId: "event-alpha", kind: "official-name" as const, value: "Gemini Robotics" },
+      { id: "event-alpha:deployment", referenceId: "event-alpha", kind: "action" as const, value: "deployment" },
+    ],
   },
-  "event-extra": { excerpt: "这条未被种子引用的事实不得进入提示词。", officialNames: [] },
+  "event-extra": {
+    excerpt: "这条未被种子引用的事实不得进入提示词。", officialNames: [],
+    factAtoms: [{ id: "event-extra:company", referenceId: "event-extra", kind: "company" as const, value: "Other" }],
+  },
 };
 
 const seed: SelectedThesisSeed = {
@@ -39,7 +48,7 @@ function completion(content: string): Response {
 }
 
 function validPayload(overrides: Record<string, unknown> = {}): string {
-  return JSON.stringify({
+  const payload = {
     whyNow: "AI 研究判断：Alpha Robotics 的 Atlas-X 工厂试点为 Gemini Robotics 提供了新的公开验证节点。",
     routeAndDependencies: "AI 研究判断：Atlas-X 路线依赖 Gemini Robotics、真实工厂数据及后续客户验证。",
     nextValidationPoints: [{ text: "核验 Alpha Robotics 是否公布 Atlas-X 后续试点结果", dueAt: "2026-09-30" }],
@@ -47,10 +56,20 @@ function validPayload(overrides: Record<string, unknown> = {}): string {
     factReferenceIds: ["event-alpha"],
     confidence: "high",
     ...overrides,
-  });
+  };
+  const sentenceCitations = [
+    { path: "whyNow", sentenceIndex: 0, text: payload.whyNow, claimKind: "analysis", referenceIds: payload.factReferenceIds, factAtomIds: FACTS["event-alpha"].factAtoms.map((atom) => atom.id), sensitiveFields: [] },
+    { path: "routeAndDependencies", sentenceIndex: 0, text: payload.routeAndDependencies, claimKind: "analysis", referenceIds: payload.factReferenceIds, factAtomIds: FACTS["event-alpha"].factAtoms.map((atom) => atom.id), sensitiveFields: [] },
+    ...payload.nextValidationPoints.map((point, index) => {
+      const path = `nextValidationPoints.${index}`;
+      return { path, sentenceIndex: 0, text: point.text, claimKind: "validation-point", referenceIds: payload.factReferenceIds, factAtomIds: [...FACTS["event-alpha"].factAtoms.map((atom) => atom.id), scheduleAtomId(path, point.dueAt)], sensitiveFields: [] };
+    }),
+    ...payload.falsifiers.map((falsifier, index) => ({ path: `falsifiers.${index}`, sentenceIndex: 0, text: falsifier.text, claimKind: "falsifier", referenceIds: payload.factReferenceIds, factAtomIds: FACTS["event-alpha"].factAtoms.map((atom) => atom.id), sensitiveFields: [] })),
+  ];
+  return JSON.stringify({ ...payload, sentenceCitations: overrides.sentenceCitations ?? sentenceCitations });
 }
 
-function generator(fetchImpl: typeof fetch, facts = FACTS): WatchlistGenerator {
+function generator(fetchImpl: typeof fetch, facts: Readonly<Record<string, CanonicalFactExcerpt>> = FACTS): WatchlistGenerator {
   return new WatchlistGenerator(
     { apiKey: API_KEY, baseUrl: "https://llm.example/v1/", model: "model-official" },
     facts,
@@ -78,6 +97,7 @@ test("parses exact JSON, preserves official names, and sends only seed facts", a
   assert.match(result.draft.whyNow, /Atlas-X/);
   assert.match(result.draft.whyNow, /Gemini Robotics/);
   assert.deepEqual(result.draft.inferenceLabels, ["AI 研究判断"]);
+  assert.equal(result.draft.sentenceCitations.length, 4);
   assert.equal(result.draft.modelVersion, "model-official");
   assert.equal(requestUrl, "https://llm.example/v1/chat/completions");
   assert.equal(requestInit?.method, "POST");
@@ -163,9 +183,24 @@ test("allows technical recommendation terminology without investment advice", as
 test("extra output fields and unsupported fact references return invalid-shape", async () => {
   const extraField = generator(async () => completion(validPayload({ recommendation: "关注" })));
   const unsupportedReference = generator(async () => completion(validPayload({ factReferenceIds: ["event-extra"] })));
+  const missingSentenceBindings = generator(async () => completion(validPayload({ sentenceCitations: [] })));
 
   assert.deepEqual(await extraField.generate(seed), { ok: false, code: "invalid-shape" });
   assert.deepEqual(await unsupportedReference.generate(seed), { ok: false, code: "invalid-shape" });
+  assert.deepEqual(await missingSentenceBindings.generate(seed), { ok: false, code: "invalid-shape" });
+});
+
+test("sentence citations must be a subset of the draft fact references, not merely the seed", async () => {
+  const broaderSeed = { ...seed, factReferenceIds: ["event-alpha", "event-extra"] };
+  const base = JSON.parse(validPayload()) as Record<string, unknown> & { sentenceCitations: Array<Record<string, unknown>> };
+  const payload = JSON.stringify({
+    ...base,
+    factReferenceIds: ["event-alpha"],
+    sentenceCitations: base.sentenceCitations.map((citation) => ({ ...citation, referenceIds: ["event-extra"] })),
+  });
+  const subject = generator(async () => completion(payload));
+
+  assert.deepEqual(await subject.generate(broaderSeed), { ok: false, code: "invalid-shape" });
 });
 
 test("preserves explicit single-token and non-Latin official product or model names", async () => {
@@ -173,6 +208,7 @@ test("preserves explicit single-token and non-Latin official product or model na
     "event-alpha": {
       excerpt: "Alpha Robotics 宣布 Tesla 与 宇树科技 参与 Atlas-X 工厂试点。",
       officialNames: ["Alpha Robotics", "Tesla", "宇树科技", "Atlas-X"],
+      factAtoms: FACTS["event-alpha"].factAtoms,
     },
   };
   const preserved = generator(async () => completion(validPayload({
