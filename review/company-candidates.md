@@ -23,11 +23,11 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Alloy%20Robotics%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
-## 西湖机器人半年内 · 观察中 · 67/100
+## 半年4轮5亿 · 观察中 · 67/100
 
 - 路线：部署与商业化
 - 证据：[创业邦](https://news.google.com/rss/articles/CBMiUEFVX3lxTE5wTnpYWGxZX3JFaGQyZHJNOGZFLXJMQnlQQ05jd2Z5aEdoc0ptSjBkT2I4eVJzcUo0dkRSeUFEcFFuS3pjUjhNdUx0Nm84ZGtR?oc=5) · [AgeClub](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8D%8A%E5%B9%B4%E5%86%85%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8D%8A%E5%B9%B4%E5%86%85%22%20official%20investors%20funding)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%8D%8A%E5%B9%B44%E8%BD%AE5%E4%BA%BF%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%8D%8A%E5%B9%B44%E8%BD%AE5%E4%BA%BF%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
 ## 西湖机器人 · 观察中 · 67/100
@@ -182,20 +182,6 @@
 - 路线：部署与商业化
 - 证据：[新浪财经](https://news.google.com/rss/articles/CBMibkFVX3lxTFBKOS05WmMzS1hyMnlCZ0Z3cWxNVWlqUlN5M1BSWEducXhQZjVwcmN4X2VnRFV5N3Nyb2pwbUlxNGZRbkU0V2NnUGs4WGs5MjJMQTJVSlZLVlRIR01leWx3aDB4UGZwV3V3aGo3b3VR?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8F%91%E5%B8%83Natus%E5%85%B7%E8%BA%AB%E6%9C%AC%E8%83%BD%E6%A8%A1%E5%9E%8B%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%A9%A1%E6%9C%A8%E6%9E%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8F%91%E5%B8%83Natus%E5%85%B7%E8%BA%AB%E6%9C%AC%E8%83%BD%E6%A8%A1%E5%9E%8B%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 广汽孵化的慧仑科技 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[cb.com.cn](https://news.google.com/rss/articles/CBMiY0FVX3lxTFBNSlVUNjdkY1BsWk5qY0piR3VLTk85YlBFSFd0Z3p4U2QyZ0JsSnZSa3hfbUFJVno0Ql9COE4xbGFjNFlmVUc0VGM5cWRDMjlMWm9fNGNhYzlFSXNIVVRUSV9LUQ?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E7%9A%84%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E5%AD%B5%E5%8C%96%E7%9A%84%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 半年4轮5亿 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[AgeClub](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%8D%8A%E5%B9%B44%E8%BD%AE5%E4%BA%BF%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%8D%8A%E5%B9%B44%E8%BD%AE5%E4%BA%BF%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 广汽孵化慧仑科技 · 候选 · 22/100

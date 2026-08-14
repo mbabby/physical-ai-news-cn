@@ -27,7 +27,7 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-14 | 9 | 49 | 62 | 13 / 27 |
+| 2026-08-14 | 9 | 49 | 62 | 12 / 29 |
 
 **运行健康**：近 30 天日历覆盖 14/30（47%） · 已归档运行成功 14/14（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
@@ -93,7 +93,7 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
+> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-14）的完整研究卡。
 
 - [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：来自 UC Berkeley；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Y. Mei · UC Berkeley</sub>
 
