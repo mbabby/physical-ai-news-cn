@@ -128,7 +128,7 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxPVjFQUFdVRnZwMlk2ZFVZU2RiMDc0cGZRZl9sRFpHWUlRRW5wRGtWVjVoaFNBbnpCOGZYMmttN1U3TU51dDdXeTkyajh3QUdoMWJHekdqclhwRWpxSUgwRWFkVU03VVdqRW5IVW4zbW9EU3Z2QW1ycThaTnA5dXREdEV3LXNUNnFJ?oc=5)
 - 结论：无法唯一识别公司主体
 
-## 广汽孵化慧仑科技 · 投融资 · 等待重试
+## 广汽孵化的慧仑科技 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
 - 尝试：1；下次复核 2026-08-15
@@ -212,7 +212,7 @@
 ## Alloy Robotics · 投融资 · 停止自动重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
-- 尝试：5
+- 尝试：6
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiyAFBVV95cUxPeW9UM08tTkJCSHBoOVJnMjl5cEFFR2liZVhDQXdfNjduM002R3hPRlMtOVNHSEkxaXpkYWFpSTA4S3puS3JCcTNERVhNRDFTdm5GaldJUlZJQ0JPN1NSYXAyakdYZG5KRy1xVWNEY2hnZjNaaXhnaHFUdjVqd0lNU3ZiMjB3dFpLVEFnOF9jT3JDdWI4czRBTXBLZ09Pa3kxTktRdER5djRfazhLQXNoT29ORWhYSElfVkJhNUdobHJXNXJ2X3NfQw?oc=5) · [线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMizAFBVV95cUxNZkRJOWtrN2VFV3JtV1l5OVVuZkljTE44TnloTUZ5YnAyY2NlemgxdEx4b2Q4dHVoaV9QZUdYYXEyemFqSVJqQ2VvdGJKOUZHcHRsVm4tekY1RGFmU0dvTXVVTzZOT3p3ZkpuVEktSG5iZnZsdXNFYktsOTdRM0NjRXV3Q25ETTBvcXNnT0hybGd6LUVKdDJFOUY3ZGZsMkEtWEh0QnJkNHpmWXBnT0prNmlJMG1aNXpTb2thWldBeWpzTGFiZGpENHBVdFk?oc=5) · [线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMihAFBVV95cUxQcGU3aGZxNDI2d1BScjM3WDVGR28tOFFXNEdmdVhPcE9QLUxIVURpXzJzbjRVRnAzTDNPck9rYmY3eTdjVTQ2WVlXczN6TFNKb3RsUU0zR3FaRlFiZC1nVjdIRjB0cVkzeHNUcEpsTUxiWFVoUUQwZmRjOXktcm5YSlFSdW0?oc=5)
@@ -389,15 +389,6 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTE43XzZfdE1saGhxUFdYaVdQNl9Ra2lIOHBoYjlEYzFtRTRRMFFKZzV6TWVPSDkwcjAtUGhLSnRVbk1KdWthMDVodVJrOEc3Wkxp?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 半年4轮5亿 · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-08-15
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
 ## 待识别公司 · 投融资 · 已拒绝
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -477,6 +468,15 @@
 - 主动补证：尚未执行
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiZkFVX3lxTE81Q3lDVUhEaFhyeVNXUmhudHNUdDlMazd2ejJOV080aHllTGVIWXZHYXJ5M3oxeE1ibm40eWNKNnRoX2NFY1ZFQTZtR2ZQODZYU0N5UFRsSnpVRHljLW45ZlF4QlZTdw?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 西湖机器人半年 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-08-15
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 橡木果机器人发布Natus具身本能模型 · 投融资 · 等待重试
