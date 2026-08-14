@@ -415,7 +415,7 @@ export interface CandidateArticle extends Article {
 }
 
 export interface RuntimeStatus {
-  component: "LLM" | "OpenAlex";
+  component: "LLM" | "OpenAlex" | "Watchlist";
   status: "成功" | "部分降级" | "未配置";
   attempted: number;
   succeeded: number;

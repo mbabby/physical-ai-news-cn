@@ -8,6 +8,7 @@ import { isPublishableResearch, rankResearchArticles } from "./event-center.js";
 import { SOURCES, X_SOURCES } from "./config.js";
 import { validateEntitySourceBindings } from "./entity-catalog.js";
 import type { CompanyProfile } from "./types.js";
+import { validateWatchlistPreviewArtifact, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -23,7 +24,8 @@ async function main(): Promise<void> {
   const history = await readJsonStrict<RunHistory>(join(root, "review", "run-history.json"), { label: "运行历史", validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs) });
   const health = await readJsonStrict<PipelineHealth>(join(root, "review", "pipeline-health.json"), { label: "流水线健康状态", validate: (value): value is PipelineHealth => isObject(value) && value.schemaVersion === 1 && typeof value.latestRunId === "string" });
   const companies = await readJsonStrict<CompanyProfile[]>(join(root, "events", "companies.json"), { label: "公司实体主表", validate: (value): value is CompanyProfile[] => Array.isArray(value) });
-  if (!archive || !events || !research || !history || !health || !companies) throw new Error("发布产物不完整");
+  const watchlistPreview = await readJsonStrict<WatchlistPreviewArtifact>(join(root, "review", "watchlist-preview.json"), { label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact });
+  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview) throw new Error("发布产物不完整");
   const entityErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (entityErrors.length) throw new Error(`实体—信源目录不一致：${entityErrors.join("；")}`);
   const readme = await readFile(join(root, "README.md"), "utf8");
