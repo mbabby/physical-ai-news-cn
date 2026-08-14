@@ -55,6 +55,10 @@ import { buildCompanyBoards } from "./company-boards.js";
 import { buildThesisSeeds } from "./watchlist/seeds.js";
 import { buildThesisSeedArtifact, migrateThesisSeeds, validateThesisDraftArtifact } from "./watchlist/migration.js";
 import type { ThesisDraftArtifact } from "./watchlist/migration.js";
+import { scoreThesisSeed, selectWatchlistSeeds } from "./watchlist/scoring.js";
+import { WatchlistGenerator, type CanonicalFactExcerpt } from "./watchlist/generator.js";
+import { buildCanonicalFactAtoms } from "./watchlist/validation.js";
+import { buildWatchlistPreview, stageWatchlistPreview, validateWatchlistPreviewArtifact, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -284,7 +288,8 @@ async function generate(): Promise<void> {
   const researchFallbackDate = !liveResearch.length && arxivFailed ? latestCachedResearchDate : undefined;
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
-  const summarizer = new CompatibleSummarizer({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL });
+  const llmSettings = { apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL };
+  const summarizer = new CompatibleSummarizer(llmSettings);
   const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles);
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough
@@ -385,11 +390,9 @@ async function generate(): Promise<void> {
   // homepage: incomplete or unverified material belongs only in candidates.
   const archiveArticles = uniqueArticles([...publicArticles, ...publicResearch]);
   const candidates = uniqueArticles([...heldArticles, ...heldPulse, ...heldResearch]).map((article) => article as CandidateArticle);
-  const statuses = [summarizer.status(), openAlex.status];
+  const statuses: RuntimeStatus[] = [summarizer.status(), openAlex.status];
   const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => change.date.slice(0, 10) === now.toISOString().slice(0, 10) && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: now.toISOString().slice(0, 10) })));
   const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
-  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
-  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const archives = [...recentArchives.filter((item) => item.date !== archive.date), archive].sort((a, b) => a.date.localeCompare(b.date));
   const weeklyArticles = archives.flatMap((item) => item.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
   const weekly = selectWeekly(weeklyArticles, 10);
@@ -481,6 +484,35 @@ async function generate(): Promise<void> {
   });
   await writeFile(join(reviewDir, "watchlist-seeds.json"), JSON.stringify(buildThesisSeedArtifact(watchlistDrafts, watchlistSeeds), null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "watchlist-drafts.json"), JSON.stringify(watchlistDrafts, null, 2) + "\n", "utf8");
+  const selectedWatchlistSeeds = selectWatchlistSeeds(watchlistSeeds.map((seed) => scoreThesisSeed(seed, { now })), {
+    totalLimit: 10,
+    perTrackTarget: 5,
+    maxRouteShare: 0.4,
+  });
+  const previousWatchlistPreview = await readJsonStrict<WatchlistPreviewArtifact>(join(reviewDir, "watchlist-preview.json"), {
+    optional: true,
+    label: "内部观察名单预览",
+    validate: validateWatchlistPreviewArtifact,
+  });
+  const canonicalWatchlistFacts = Object.fromEntries(eventStore.events.map((event): [string, CanonicalFactExcerpt] => [event.id, {
+    excerpt: [event.title, ...event.facts].join("；"),
+    officialNames: [...new Set([event.primaryEntity, event.productDeployment?.product].filter((value): value is string => Boolean(value)))],
+    factAtoms: buildCanonicalFactAtoms([event]),
+  }]));
+  const watchlistGenerator = new WatchlistGenerator(llmSettings, canonicalWatchlistFacts, { now: () => now });
+  const watchlistPreview = await buildWatchlistPreview({
+    selected: selectedWatchlistSeeds,
+    companies,
+    canonicalEvents: eventStore.events,
+    claimLedger: companyClaimLedger,
+    previous: previousWatchlistPreview,
+    generator: watchlistGenerator,
+    now,
+  });
+  stageWatchlistPreview(transaction, reviewDir, watchlistPreview.preview);
+  statuses.push(watchlistPreview.status);
+  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
     ...eventStore.events
       .filter((event) => event.status !== "已归档" && event.status !== "待复核")

@@ -1,6 +1,13 @@
 export type WatchlistTrack = "forward-radar" | "validated-momentum";
 
 export type ThesisLifecycle = "new" | "strengthening" | "awaiting-validation" | "downgraded" | "falsified" | "expired";
+export type ThesisSensitiveField = "amount" | "valuation" | "customer" | "revenue" | "order";
+
+export interface ThesisSensitiveBinding {
+  field: ThesisSensitiveField;
+  referenceIds: string[];
+  valueDigest: string;
+}
 
 export interface CompanyThesis {
   thesisId: string;
@@ -13,6 +20,7 @@ export interface CompanyThesis {
   nextValidationPoints: Array<{ text: string; dueAt: string }>;
   falsifiers: Array<{ text: string }>;
   factReferenceIds: string[];
+  verifiedSensitiveBindings: ThesisSensitiveBinding[];
   inferenceLabels: string[];
   confidence: "high" | "medium" | "low";
   generatedAt: string;
@@ -80,6 +88,16 @@ function isFalsifier(value: unknown): value is { text: string } {
   return isObject(value) && nonEmptyString(value.text);
 }
 
+function isSensitiveBinding(value: unknown, factReferenceIds: string[]): value is ThesisSensitiveBinding {
+  if (!isObject(value) || Object.keys(value).length !== 3
+    || Object.keys(value).some((key) => key !== "field" && key !== "referenceIds" && key !== "valueDigest")) return false;
+  const sensitiveFields = new Set(["amount", "valuation", "customer", "revenue", "order"]);
+  return typeof value.field === "string" && sensitiveFields.has(value.field)
+    && isNonEmptyStringArray(value.referenceIds) && unique(value.referenceIds)
+    && value.referenceIds.every((referenceId) => factReferenceIds.includes(referenceId))
+    && typeof value.valueDigest === "string" && /^[a-f0-9]{64}$/.test(value.valueDigest);
+}
+
 function isSnapshotEntry(value: unknown): value is { thesisId: string; thesisVersion: number } {
   if (!isObject(value)) return false;
   const thesisId = value.thesisId;
@@ -104,6 +122,7 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
     nextValidationPoints,
     falsifiers,
     factReferenceIds,
+    verifiedSensitiveBindings,
     inferenceLabels,
     confidence,
     generatedAt,
@@ -119,6 +138,9 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
   if (!nonEmptyArray(nextValidationPoints) || !nextValidationPoints.every(isNextValidationPoint)) return false;
   if (!nonEmptyArray(falsifiers) || !falsifiers.every(isFalsifier)) return false;
   if (!isNonEmptyStringArray(factReferenceIds) || !unique(factReferenceIds)) return false;
+  if (!Array.isArray(verifiedSensitiveBindings)
+    || !verifiedSensitiveBindings.every((binding) => isSensitiveBinding(binding, factReferenceIds))
+    || !unique(verifiedSensitiveBindings.map((binding) => binding.field))) return false;
   if (!Array.isArray(inferenceLabels) || !inferenceLabels.every(nonEmptyString)) return false;
   if (confidence !== "high" && confidence !== "medium" && confidence !== "low") return false;
   if (!validTimestamp(generatedAt) || !validTimestamp(expiresAt)) return false;

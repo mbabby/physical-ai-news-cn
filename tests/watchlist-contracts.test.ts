@@ -14,6 +14,7 @@ test("accepts a complete versioned thesis and rejects missing falsifiers", () =>
     nextValidationPoints: [{ text: "确认客户试点", dueAt: "2026-10-01" }],
     falsifiers: [{ text: "合作方撤回公告" }],
     factReferenceIds: ["event-alpha"],
+    verifiedSensitiveBindings: [],
     inferenceLabels: ["AI 研究判断"],
     confidence: "medium",
     generatedAt: "2026-08-13T01:00:00Z",
@@ -25,6 +26,14 @@ test("accepts a complete versioned thesis and rejects missing falsifiers", () =>
 
   assert.equal(validateCompanyThesisShape(thesis), true);
   assert.equal(validateCompanyThesisShape({ ...thesis, falsifiers: [] }), false);
+  const { verifiedSensitiveBindings: _verifiedSensitiveBindings, ...legacy } = thesis;
+  assert.equal(validateCompanyThesisShape(legacy), false);
+  assert.equal(validateCompanyThesisShape({ ...thesis, verifiedSensitiveBindings: [{
+    field: "customer", referenceIds: ["event-alpha"], valueDigest: "a".repeat(64), secret: "must-not-survive",
+  }] }), false);
+  assert.equal(validateCompanyThesisShape({ ...thesis, verifiedSensitiveBindings: [{
+    field: "customer", referenceIds: ["event-other"], valueDigest: "a".repeat(64),
+  }] }), false);
 });
 
 test("snapshot contains references, not copied thesis prose", () => {
@@ -54,6 +63,7 @@ test("rejects theses without version strings, dates, or references", () => {
     nextValidationPoints: [{ text: "确认客户试点", dueAt: "2026-10-01" }],
     falsifiers: [{ text: "合作方撤回公告" }],
     factReferenceIds: ["event-alpha"],
+    verifiedSensitiveBindings: [],
     inferenceLabels: ["AI 研究判断"],
     confidence: "medium",
     generatedAt: "2026-08-13T01:00:00Z",
@@ -95,6 +105,7 @@ test("rejects non-string and non-canonical timestamps and dates", () => {
     nextValidationPoints: [{ text: "确认客户试点", dueAt: "2026-10-01" }],
     falsifiers: [{ text: "合作方撤回公告" }],
     factReferenceIds: ["event-alpha"],
+    verifiedSensitiveBindings: [],
     inferenceLabels: ["AI 研究判断"],
     confidence: "medium",
     generatedAt: "2026-08-13T01:00:00Z",

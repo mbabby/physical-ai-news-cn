@@ -25,7 +25,32 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /review\/pipeline-health\.json/);
   assert.match(workflow, /package-manager-cache:\s*false/);
   assert.match(workflow, /git add[^\n]*\breview\b/);
+  assert.match(workflow, /### Watchlist/);
+  assert.match(workflow, /select\(\.component == "Watchlist"\)/);
   assert.doesNotMatch(workflow, /watchlist-(?:seeds|drafts)\.json/);
+});
+
+test("watchlist preview remains review-only and is staged by the daily transaction", async () => {
+  const [main, ...publicConsumers] = await Promise.all([
+    readFile(join(root, "src", "main.ts"), "utf8"),
+    readFile(join(root, "src", "site-data.ts"), "utf8"),
+    readFile(join(root, "README.md"), "utf8"),
+    readFile(join(root, "site", "app.js"), "utf8"),
+    readFile(join(root, "site", "share-pages.js"), "utf8"),
+    readFile(join(root, "site", "data", "dashboard.json"), "utf8"),
+    readFile(join(root, "weekly", "shareable-summary.md"), "utf8"),
+  ]);
+  assert.match(main, /stageWatchlistPreview\(transaction, reviewDir/);
+  assert.match(main, /statuses\.push\(watchlistPreview\.status\)/);
+  for (const publicConsumer of publicConsumers) assert.doesNotMatch(publicConsumer, /watchlist-preview/);
+});
+
+test("release validation binds the watchlist JSON to Markdown and runtime receipts", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+  assert.match(source, /readFile\(join\(root, "review", "watchlist-preview\.md"\)/);
+  assert.match(source, /validateWatchlistPreviewRelease\(\{/);
+  assert.match(source, /manifestServices:\s*manifest\.services/);
+  assert.match(source, /archiveServices:\s*archive\.runtimeStatus/);
 });
 
 test("Pages deployment follows a completed digest and checks out latest main", async () => {
