@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-14-2026-08-14T04-50-35-315Z",
-  "date": "2026-08-14",
-  "startedAt": "2026-08-14T04:50:35.315Z",
-  "finishedAt": "2026-08-14T04:53:28.627Z",
+  "runId": "2026-08-15-2026-08-15T00-56-36-655Z",
+  "date": "2026-08-15",
+  "startedAt": "2026-08-15T00:56:36.655Z",
+  "finishedAt": "2026-08-15T01:00:58.733Z",
   "status": "degraded",
   "quality": {
-    "publicIndustryItems": 2,
+    "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 16,
-    "sourceFailures": 1
+    "candidates": 17,
+    "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 6,
-      "succeeded": 4,
-      "failed": 2,
+      "attempted": 12,
+      "succeeded": 9,
+      "failed": 3,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
     {
@@ -31,10 +31,10 @@
     {
       "component": "Watchlist",
       "status": "成功",
-      "attempted": 1,
-      "succeeded": 1,
+      "attempted": 0,
+      "succeeded": 0,
       "failed": 0,
-      "detail": "生成 1 张新判断卡；保留 0 张上一有效版本；排除 0 家。 证据约束修复 1 张。"
+      "detail": "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。"
     }
   ],
   "outputs": 58

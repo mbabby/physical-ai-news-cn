@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T04:50:35.315Z",
+  "generatedAt": "2026-08-15T00:56:36.655Z",
   "records": [
     {
       "id": "verify-41a29bdf48f1e7",
@@ -1733,6 +1733,106 @@
       }
     },
     {
+      "id": "verify-0b52795fbff99c",
+      "companyName": "艾欧智能",
+      "kind": "投融资",
+      "title": "艾欧智能完成数亿元融资，加速推动机器人与具身智能走向规模化应用",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTHBhVk1QNXJ0Sjd4eTBkV3ZuZjFzQ1dhd2VwMHJ1VnR5QlMyN2xYa3A0b2NTOVRFZXJoYmxIN0Z0QnZMNmwyM29HSW1hdHdQTC1YbUk3R004LVFKVXRyWGQ3ZHBZVndEdjJEdG9zVER0Q2pZZFkyTkNSU0FmWlpGYVlFcm15STQz?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "sohu.com",
+          "publisherUrl": "https://m.sohu.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"艾欧智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"艾欧智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"艾欧智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "sohu.com",
+              "value": "https://m.sohu.com",
+              "query": "\"艾欧智能\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-15T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-16T00:56:36.655Z",
+      "attempts": 1,
+      "evidenceHash": "a760d49710a28516ed15",
+      "evidence": [
+        {
+          "articleId": "fd69ced7c00ab8a7",
+          "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTHBhVk1QNXJ0Sjd4eTBkV3ZuZjFzQ1dhd2VwMHJ1VnR5QlMyN2xYa3A0b2NTOVRFZXJoYmxIN0Z0QnZMNmwyM29HSW1hdHdQTC1YbUk3R004LVFKVXRyWGQ3ZHBZVndEdjJEdG9zVER0Q2pZZFkyTkNSU0FmWlpGYVlFcm15STQz?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T12:05:07.000Z",
+          "title": "艾欧智能完成数亿元融资，加速推动机器人与具身智能走向规模化应用"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-d21872b3f25ffa",
       "companyName": "待识别公司",
       "kind": "投融资",
@@ -2222,12 +2322,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "定时重试",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"灵猴机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"灵猴机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"灵猴机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://cj.sina.cn",
+              "query": "\"灵猴机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-14T15:08:41.266Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-18T00:56:36.655Z",
+      "attempts": 2,
       "evidenceHash": "15c7587a837302ace612",
       "evidence": [
         {
@@ -2953,6 +3090,12 @@
           "discoverySource": "Google News · Robotics Capital",
           "publisher": "citybiz",
           "publisherUrl": "https://www.citybiz.co"
+        },
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOVXF1M3JkTTlRUVFiOFFCM0hKa1hpN0tEVW91RWdCVFBxcHZvMFVvRHYwS1ZFUVBWLWVvSGp6RTU1aEdKQVloMUtyMkFobDc3aGhVWjFWMVpLay03U2NnX2s5dGJHY1VranVQZ05LeXZCaW9rVmNkOFlUdWhrZ2xHMHNqaVBuMnpTbDRpQ2xEVTRNQjJLalBSeW1EZGxEZWRud3hSSWE1Y1B3ZWIyVzd0WmEwS29nVVV1RjJfcENDMGVOQdIBxwFBVV95cUxNbW1ydTBjdE1UNTA5Zi1CYnU1MGgxV0dPQUFLOFFHc0FPUWRSZ2NUenJ4eDNMSDhRVnhLNkJWeVFveExDcDVSZVh3TXQxd1JwTlpqa1hDczY1Y2lqbVQtaUVWZnViMHJrNkpvQXlib1FNQXVubXM4dHcyWk40S2RqRndlTkxHRDBhUHkzMkxBeHJHZmdUSjFtOEJNdWpEWldRUWNxU2wtanZSRHliV2lYQzd0cm9BVklLV1NKZlRPYmx3emtqWGlZ?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "pulse2.com",
+          "publisherUrl": "https://pulse2.com"
         }
       ],
       "enrichmentAttempts": [
@@ -3016,14 +3159,93 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "新证据触发",
+          "priority": 83,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "AI Insider",
+              "value": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNeUtOVzlNTE1scmtMaW1ZT1oyaUtJMnFSUnprYldPRkVrZWVzY1ZMQUxDWnFUOHdQOURSbFJlalZWY3hIOWE5cU1TQTlySEp6a0Nsc1R5SjZQeHlxa1E5MXBrbkhWUTVTMXNjOHNLbFJuZHZROE1kM0hwRGppQmw1b1RCVTgwRmIyM1pyT0dUWWZPZ3R4QXhEa0diRE5kT3JYdmJTbmJsQWJZX2JLRUIzdlpPaDZsS3ZDbFlj?oc=5",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "FinSMEs",
+              "value": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPNmN5dGhnVDY5aENFTm5PdWFFYzc5RlBzM1ZLd3FiYUlzMUJfU1dOdlBON09wMWdEclJDRUtmN3l1YzYyN3FveDMxLWY2ajlSMUxYOW5FeVNMVWNoeHg4RjM5LUttbUdGV1UtSnJpUTBMTWc0QWdwSU11MTZvLXJCMDB4aDNxWlE?oc=5",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "PR Newswire",
+              "value": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQdGxSc2hFb1NsbmpTUVZJYk1HeU1FSkNQZFlyOUNwVWNUZWdFS2RPMzdmWkxmVTNNSVJzcFRaanp1cEVESFMtUnh6N1I5QnVoX3FiZllPWXlmRjdjcmNTbzVzdUtqeVU1QS1IMjVpR1FDMXpyaGE1T1QtLXloTDBsd3ZGN21RS2ZFdzNwWHhIZnNRazVRcnBiZDlReDMxb2lRMmVEdWxKQS04SVprQWxueURPQThSZHNVVnZta29YeHFhVjhCOHhyTnR6X3o1Vk5lZEhiOENR?oc=5",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Dealroom",
+              "value": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPOEo3Zm83a0NwSEtLRDlwVGtrNllpSVpDQjJWajFiQmV4ZTNrdHgwMGxJS1RCMlJENDQ0SklmMGpZcWR0Q0xDZzZCVDliYnRqWVFxeHJlNG1YSmpveWx1bEd4T0g0X1p0NXJjNVpVUS12a3dyanFfbWZobVpER3pWM1hTYjB0NkZWWHA2bHR3UTBEb0poVHlmUW5HYWtaclNiTTJ1REtEQ2Zxdw?oc=5",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "citybiz",
+              "value": "https://www.citybiz.co",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "pulse2.com",
+              "value": "https://pulse2.com",
+              "query": "\"Avatar Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-09T07:23:19.554Z",
-      "lastAttemptAt": "2026-08-10T11:44:36.399Z",
-      "nextReviewAt": "2026-08-17T11:44:36.399Z",
-      "attempts": 3,
-      "evidenceHash": "8934013acfb6f572a1ee",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-09-14T00:56:36.655Z",
+      "attempts": 4,
+      "evidenceHash": "f1d55b838596ae6d252b",
       "evidence": [
+        {
+          "articleId": "6d648f03593f2739",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOVXF1M3JkTTlRUVFiOFFCM0hKa1hpN0tEVW91RWdCVFBxcHZvMFVvRHYwS1ZFUVBWLWVvSGp6RTU1aEdKQVloMUtyMkFobDc3aGhVWjFWMVpLay03U2NnX2s5dGJHY1VranVQZ05LeXZCaW9rVmNkOFlUdWhrZ2xHMHNqaVBuMnpTbDRpQ2xEVTRNQjJLalBSeW1EZGxEZWRud3hSSWE1Y1B3ZWIyVzd0WmEwS29nVVV1RjJfcENDMGVOQdIBxwFBVV95cUxNbW1ydTBjdE1UNTA5Zi1CYnU1MGgxV0dPQUFLOFFHc0FPUWRSZ2NUenJ4eDNMSDhRVnhLNkJWeVFveExDcDVSZVh3TXQxd1JwTlpqa1hDczY1Y2lqbVQtaUVWZnViMHJrNkpvQXlib1FNQXVubXM4dHcyWk40S2RqRndlTkxHRDBhUHkzMkxBeHJHZmdUSjFtOEJNdWpEWldRUWNxU2wtanZSRHliV2lYQzd0cm9BVklLV1NKZlRPYmx3emtqWGlZ?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T14:04:54.000Z",
+          "title": "Avatar Robotics 融资 650 万美元，为仓库与工厂打造全天候人形机器人劳动力",
+          "amount": "650 万美元"
+        },
         {
           "articleId": "dc7beb874aefa61f",
           "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQSTBUZE02b3VSVHZfM1h4UTBpNnRaTW00N3MwLTFmVTZmZHdxTnBrOHZFeWNWXzlyZzR4OVFxUlJkeGlERkh0SGkyS284YVBtbTFjTmxHWU5fODBocm1xN1k0ZkZvMjFIUGJaNVhqN19lMUswcFdhNFNLa0JrSWVXU2JtOWdQUmRUQi1tY05paW91RjB5Umkya09SWjFONWxHS2FMVkszaw?oc=5",
@@ -3138,7 +3360,7 @@
       "id": "verify-733621abae8608",
       "companyName": "Alloy Robotics",
       "kind": "投融资",
-      "title": "Alloy Robotics Raises $8M in New Funding to Help Engineers Debug Robot Fleets With AI Agents - AI Insider",
+      "title": "Alloy Robotics 获800万美元融资，助力机器人调试",
       "status": "停止自动重试",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -3163,6 +3385,12 @@
           "discoverySource": "Google News · Robotics Capital",
           "publisher": "AI Insider",
           "publisherUrl": "https://theaiinsider.tech"
+        },
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOUk1Yek1PaXgxMWtmOUM5UzVud3lubWxKSlZDaG1YYTNkR2MxTGxyWDdqaFR3amdqWWNzcDk3NDJJdWxaSmtWcU05Vm5qTXY1TjlEWHNqRGhZQzAyZzU0VDVZY0QxOFBGVXkyZjN4VWNZT25oMUhNcmNXRmNOZlhRTl9QbDZOM2syd2VjTw?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "citybiz.co",
+          "publisherUrl": "https://www.citybiz.co"
         }
       ],
       "enrichmentAttempts": [
@@ -3331,13 +3559,80 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "新证据触发",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "IT Brief Australia",
+              "value": "https://itbrief.com.au",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "PR Newswire",
+              "value": "https://www.prnewswire.com",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "AI Insider",
+              "value": "https://theaiinsider.tech",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "citybiz.co",
+              "value": "https://www.citybiz.co",
+              "query": "\"Alloy Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-14T04:50:35.315Z",
-      "attempts": 10,
-      "evidenceHash": "db4494c4f0ef5f2393f8",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "attempts": 11,
+      "evidenceHash": "f9ada2a933179aa2f1cb",
       "evidence": [
+        {
+          "articleId": "ad912a0f09788ba5",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOUk1Yek1PaXgxMWtmOUM5UzVud3lubWxKSlZDaG1YYTNkR2MxTGxyWDdqaFR3amdqWWNzcDk3NDJJdWxaSmtWcU05Vm5qTXY1TjlEWHNqRGhZQzAyZzU0VDVZY0QxOFBGVXkyZjN4VWNZT25oMUhNcmNXRmNOZlhRTl9QbDZOM2syd2VjTw?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T09:57:27.000Z",
+          "title": "Alloy Robotics 获800万美元融资，助力机器人调试",
+          "amount": "800万美元"
+        },
         {
           "articleId": "5a9f52cd8fcc1c18",
           "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPeW9UM08tTkJCSHBoOVJnMjl5cEFFR2liZVhDQXdfNjduM002R3hPRlMtOVNHSEkxaXpkYWFpSTA4S3puS3JCcTNERVhNRDFTdm5GaldJUlZJQ0JPN1NSYXAyakdYZG5KRy1xVWNEY2hnZjNaaXhnaHFUdjVqd0lNU3ZiMjB3dFpLVEFnOF9jT3JDdWI4czRBTXBLZ09Pa3kxTktRdER5djRfazhLQXNoT29ORWhYSElfVkJhNUdobHJXNXJ2X3NfQw?oc=5",
@@ -3374,6 +3669,205 @@
           "title": "Alloy Robotics 完成 800 万美元种子轮融资",
           "amount": "800 万美元",
           "round": "种子轮"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-4905afa180ee66",
+      "companyName": "Exclaim Robotics",
+      "kind": "投融资",
+      "title": "Exclaim Robotics 完成 500 万美元种子前轮融资，开发 AI 数据中心维护机器人",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 80,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Startupticker.ch"
+        },
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQSXlyZlZSS29VMmFDNFJZdG9vNlBRMjhHVkJ3X3J4UEJpb2kySE1xMFktblA3VDd0U2VOLTJCVHhib2hvOFhCRjgzS2d2djRxMjl3Yy0zOEhCdmVLU0MzSDV1eFFLNWs1R0gtd25ZMmlqRVJhUF9mcXp6NGpfYnVMLTV0LWlsdXJ1V1gtSzRiX1VCMXVkeFladG5tM0lMUW1QYWMtQk56TVpOaDV0dlp1UzVMczlFYjk5eGl30gG7AUFVX3lxTFBJeXJmVlJLb1UyYUM0Ull0b282UFEyOEdWQndfcnhQQmlvaTJITXEwWS1uUDdUN3RTZU4tMkJUeGJvaG84WEJGODNLZ3Z2NHEyOXdjLTM4SEJ2ZUtTQzNINXV4UUs1azVHSC13blkyaWpFUmFQX2Zxeno0al9idUwtNXQtaWx1cnVXWC1LNGJfVUIxdWR4WVp0bm0zSUxRbVBhYy1CTnpNWk5oNXR2WnVTNUxzOUViOTl4aXc?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "pulse2.com",
+          "publisherUrl": "https://pulse2.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-10T08:13:44.563Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Startupticker.ch",
+              "value": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1686,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        },
+        {
+          "attemptedAt": "2026-08-13T15:08:41.266Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Startupticker.ch",
+              "value": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1744,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "新证据触发",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Startupticker.ch",
+              "value": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "pulse2.com",
+              "value": "https://pulse2.com",
+              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-09T07:23:19.554Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-09-14T00:56:36.655Z",
+      "attempts": 4,
+      "evidenceHash": "33a539a59a3a15c545e6",
+      "evidence": [
+        {
+          "articleId": "8ffe7a6d258a25b8",
+          "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQSXlyZlZSS29VMmFDNFJZdG9vNlBRMjhHVkJ3X3J4UEJpb2kySE1xMFktblA3VDd0U2VOLTJCVHhib2hvOFhCRjgzS2d2djRxMjl3Yy0zOEhCdmVLU0MzSDV1eFFLNWs1R0gtd25ZMmlqRVJhUF9mcXp6NGpfYnVMLTV0LWlsdXJ1V1gtSzRiX1VCMXVkeFladG5tM0lMUW1QYWMtQk56TVpOaDV0dlp1UzVMczlFYjk5eGl30gG7AUFVX3lxTFBJeXJmVlJLb1UyYUM0Ull0b282UFEyOEdWQndfcnhQQmlvaTJITXEwWS1uUDdUN3RTZU4tMkJUeGJvaG84WEJGODNLZ3Z2NHEyOXdjLTM4SEJ2ZUtTQzNINXV4UUs1azVHSC13blkyaWpFUmFQX2Zxeno0al9idUwtNXQtaWx1cnVXWC1LNGJfVUIxdWR4WVp0bm0zSUxRbVBhYy1CTnpNWk5oNXR2WnVTNUxzOUViOTl4aXc?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T13:22:00.000Z",
+          "title": "Exclaim Robotics 完成 500 万美元种子前轮融资，开发 AI 数据中心维护机器人",
+          "amount": "500 万美元",
+          "round": "Pre-Seed"
+        },
+        {
+          "articleId": "b99f62a9eedc9037",
+          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-05T11:01:55.000Z",
+          "title": "Exclaim Robotics raises USD 4.95 million for data centre repair robots - Startupticker.ch",
+          "amount": "USD 4.95 million"
         }
       ],
       "facts": {},
@@ -3593,12 +4087,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"具身数据来了实战派！40天2轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"具身数据来了实战派！40天2轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"具身数据来了实战派！40天2轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "智源社区",
+              "value": "https://hub.baai.ac.cn",
+              "query": "\"具身数据来了实战派！40天2轮\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-14T15:08:41.266Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-18T00:56:36.655Z",
+      "attempts": 2,
       "evidenceHash": "0cce1d2548911bdd8bf1",
       "evidence": [
         {
@@ -3749,6 +4280,107 @@
           "publishedAt": "2026-08-10T18:23:21.000Z",
           "title": "自主焊接初创公司 TetraGen Robotics 完成 180 万美元融资",
           "amount": "180 万美元"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-03cd4717101968",
+      "companyName": "Alloy Robotics 以 8000 万美元",
+      "kind": "投融资",
+      "title": "Alloy Robotics 以 8000 万美元估值融资 800 万美元，用 AI 智能体助工程师调试机器人集群",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 80,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPeURvUFhMaTk1ekhaS1pGUEQzbldGMzhpOHd2NXlMSjZ5YmZDMmxCVkFrRmFSemREMFRaM1FNRHZVdzVJUmdfMGNrZDZGdHcyODFwaTdCWUpKODFrNGpEaThzbnlYSW8tTE51alFWZXIyRFNzN1J6amxKSDhyd29qU1lENmJvUkNfTDZ3LVRxTVpUX0s0QnJYVWtvNzlmMnI4YS1yY0cyWjVITThWeENNYkFONkFvTWNOZFNLYXhOVzlGWENFUVHSAcsBQVVfeXFMTmlWNlpGMndLZy1FbDN6NGdISWJxRDZIZVBMR2Rua1g2UXBjTUxLWUp5VS1MbHRMQURiTlNFTi0yYXRIa2s0QkRMTE85S1VkVWFTSVFVdENkenh6NGZSQ09EcU1zY0Rkc0FodjRkUF9HY3paSFB5YmdrZC1UdkpHdG4zMDkzdm94blE0Um42WjN3RFlHZFZaVTdiX2w1clpIdGR2bXlMcGoyMDd4S1RmWk1pMkl2SmhYbWFtdkw0eW1MRW1xSXlKNko2M00?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "pulse2.com",
+          "publisherUrl": "https://pulse2.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "首次补证",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Alloy Robotics 以 8000 万美元\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Alloy Robotics 以 8000 万美元\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Alloy Robotics 以 8000 万美元\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "pulse2.com",
+              "value": "https://pulse2.com",
+              "query": "\"Alloy Robotics 以 8000 万美元\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-15T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-16T00:56:36.655Z",
+      "attempts": 1,
+      "evidenceHash": "2414d6156f7b98a4e79d",
+      "evidence": [
+        {
+          "articleId": "74971fcb43f504d6",
+          "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPeURvUFhMaTk1ekhaS1pGUEQzbldGMzhpOHd2NXlMSjZ5YmZDMmxCVkFrRmFSemREMFRaM1FNRHZVdzVJUmdfMGNrZDZGdHcyODFwaTdCWUpKODFrNGpEaThzbnlYSW8tTE51alFWZXIyRFNzN1J6amxKSDhyd29qU1lENmJvUkNfTDZ3LVRxTVpUX0s0QnJYVWtvNzlmMnI4YS1yY0cyWjVITThWeENNYkFONkFvTWNOZFNLYXhOVzlGWENFUVHSAcsBQVVfeXFMTmlWNlpGMndLZy1FbDN6NGdISWJxRDZIZVBMR2Rua1g2UXBjTUxLWUp5VS1MbHRMQURiTlNFTi0yYXRIa2s0QkRMTE85S1VkVWFTSVFVdENkenh6NGZSQ09EcU1zY0Rkc0FodjRkUF9HY3paSFB5YmdrZC1UdkpHdG4zMDkzdm94blE0Um42WjN3RFlHZFZaVTdiX2w1clpIdGR2bXlMcGoyMDd4S1RmWk1pMkl2SmhYbWFtdkw0eW1MRW1xSXlKNko2M00?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T14:26:06.000Z",
+          "title": "Alloy Robotics 以 8000 万美元估值融资 800 万美元，用 AI 智能体助工程师调试机器人集群",
+          "amount": "8000 万美元"
         }
       ],
       "facts": {},
@@ -4023,143 +4655,6 @@
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-05T11:38:00.000Z",
           "title": "Chinese Robotics Startup PokeBot Raises Hundreds of Millions of Dollars - Caixin Global"
-        }
-      ],
-      "facts": {},
-      "conflicts": [],
-      "failureReasons": [
-        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-        "现有材料全部来自线索发现层，不能作为公开证据"
-      ],
-      "fieldVerification": {
-        "amount": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "round": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "eventDate": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        }
-      }
-    },
-    {
-      "id": "verify-4905afa180ee66",
-      "companyName": "Exclaim Robotics",
-      "kind": "投融资",
-      "title": "Exclaim Robotics raises USD 4.95 million for data centre repair robots - Startupticker.ch",
-      "status": "等待重试",
-      "publicStatus": "candidate",
-      "publicationState": "candidate",
-      "confidenceScore": 0,
-      "independentEvidenceCount": 0,
-      "impactScore": 80,
-      "discoveryOrigins": [
-        {
-          "discoveryLink": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
-          "discoverySource": "Google News · Robotics Capital",
-          "publisher": "Startupticker.ch"
-        }
-      ],
-      "enrichmentAttempts": [
-        {
-          "attemptedAt": "2026-08-10T08:13:44.563Z",
-          "trigger": "定时重试",
-          "priority": 80,
-          "targets": [
-            {
-              "kind": "权威产业媒体",
-              "label": "IEEE Spectrum · Robotics",
-              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "TechCrunch · Robotics",
-              "value": "https://techcrunch.com/category/robotics/feed/",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "The Robot Report",
-              "value": "https://www.therobotreport.com/feed/",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "原始媒体",
-              "label": "Startupticker.ch",
-              "value": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            }
-          ],
-          "scannedArticles": 1686,
-          "newEvidenceLinks": [],
-          "outcome": "未发现新证据",
-          "failureReasons": [
-            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
-          ]
-        },
-        {
-          "attemptedAt": "2026-08-13T15:08:41.266Z",
-          "trigger": "定时重试",
-          "priority": 80,
-          "targets": [
-            {
-              "kind": "权威产业媒体",
-              "label": "IEEE Spectrum · Robotics",
-              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "TechCrunch · Robotics",
-              "value": "https://techcrunch.com/category/robotics/feed/",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "The Robot Report",
-              "value": "https://www.therobotreport.com/feed/",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "原始媒体",
-              "label": "Startupticker.ch",
-              "value": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
-              "query": "\"Exclaim Robotics\" funding financing investment raises 融资 投资"
-            }
-          ],
-          "scannedArticles": 1744,
-          "newEvidenceLinks": [],
-          "outcome": "未发现新证据",
-          "failureReasons": [
-            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-08-09T07:23:19.554Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-20T15:08:41.266Z",
-      "attempts": 3,
-      "evidenceHash": "97a66aeaefead127a4ef",
-      "evidence": [
-        {
-          "articleId": "b99f62a9eedc9037",
-          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbjY0Qi1sdnp4Q3VUeEdiLUQ0aWkwVVhLYkxxRW5McjZhV0RZR2NuM3NIX2NjZ1UtVDRMRDlsU21KNXN4S0NsclBIWHM1dVNmeXRUWV8ta3RmZnVHRWpzUXBlMTBuYVFaLWpYbTZoQjFnMEtGazQyZ0lQRUlpQzJ0ay1zZGpYcV9pT3pHVVVDYjBCWF9DX1FCdG1JU0Y4eF9sTU1nR3JLQzNkRGc?oc=5",
-          "source": "Google News · Robotics Capital",
-          "grade": "线索",
-          "sourceClass": "discovery",
-          "score": 0,
-          "independentOrigin": "news.google.com",
-          "publishedAt": "2026-08-05T11:01:55.000Z",
-          "title": "Exclaim Robotics raises USD 4.95 million for data centre repair robots - Startupticker.ch",
-          "amount": "USD 4.95 million"
         }
       ],
       "facts": {},
@@ -4518,12 +5013,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Westlake Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Westlake Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Westlake Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "AI Insider",
+              "value": "https://theaiinsider.tech",
+              "query": "\"Westlake Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-14T15:08:41.266Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-18T00:56:36.655Z",
+      "attempts": 2,
       "evidenceHash": "4411771018ee03aecfb3",
       "evidence": [
         {
@@ -4551,6 +5083,98 @@
           "status": "unknown",
           "independentSourceCount": 0,
           "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-1f45046997b33e",
+      "companyName": "Neros Technologies",
+      "kind": "投融资",
+      "title": "Neros Technologies raises $250M to deploy its defense drones by the end of 2026",
+      "status": "等待重试",
+      "publicStatus": "developing",
+      "publicationState": "developing",
+      "confidenceScore": 30,
+      "independentEvidenceCount": 1,
+      "impactScore": 72,
+      "discoveryOrigins": [],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "首次补证",
+          "priority": 72,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Neros Technologies\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Neros Technologies\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Neros Technologies\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-15T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-16T00:56:36.655Z",
+      "attempts": 1,
+      "evidenceHash": "05cb58979f4e794f2307",
+      "evidence": [
+        {
+          "articleId": "916f03029acf8d69",
+          "link": "https://www.therobotreport.com/neros-technologies-raises-250m-to-deploy-its-defense-drones-by-the-end-of-2026/",
+          "source": "The Robot Report",
+          "grade": "B",
+          "sourceClass": "authoritative-media",
+          "score": 30,
+          "independentOrigin": "therobotreport.com",
+          "publishedAt": "2026-08-14T17:38:49.000Z",
+          "title": "Neros Technologies raises $250M to deploy its defense drones by the end of 2026",
+          "amount": "$250M"
+        }
+      ],
+      "facts": {
+        "amount": "$250M"
+      },
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "single-source",
+          "value": "$250M",
+          "independentSourceCount": 1,
+          "evidenceArticleIds": [
+            "916f03029acf8d69"
+          ]
         },
         "round": {
           "status": "unknown",
@@ -6179,6 +6803,104 @@
       }
     },
     {
+      "id": "verify-3f4a2893b75ba0",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "以智能车为鉴挖掘人形机器人投资机会：本体百家争鸣，零部件率先兑现",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9FYTRwUEJ3ekxCYlliT2dhUDJuUDY0enFFaWtEeTZuX2RvdUVsTWtVSmh6eU9oU0VTelRsT0ctS25scko1dVllZDJDazlEYWtO?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "发现报告",
+          "publisherUrl": "https://www.fxbaogao.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "发现报告",
+              "value": "https://www.fxbaogao.com",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-15T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "attempts": 1,
+      "evidenceHash": "f4e87ed6e08648a0f300",
+      "evidence": [
+        {
+          "articleId": "2baa979b0d576647",
+          "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9FYTRwUEJ3ekxCYlliT2dhUDJuUDY0enFFaWtEeTZuX2RvdUVsTWtVSmh6eU9oU0VTelRsT0ctS25scko1dVllZDJDazlEYWtO?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T10:46:02.000Z",
+          "title": "以智能车为鉴挖掘人形机器人投资机会：本体百家争鸣，零部件率先兑现"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-9fe8f5575ec85c",
       "companyName": "机器人公司融资600万美元用于开发新型血管成像平台 Robotics company",
       "kind": "投融资",
@@ -6656,11 +7378,49 @@
           "publisherUrl": "https://t.cj.sina.cn"
         }
       ],
-      "enrichmentAttempts": [],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "定时重试",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"万机易租再\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"万机易租再\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"万机易租再\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://t.cj.sina.cn",
+              "query": "\"万机易租再\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-14T15:08:41.266Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-18T00:56:36.655Z",
+      "attempts": 2,
       "evidenceHash": "25d5509b5116d50e370d",
       "evidence": [
         {
@@ -7396,6 +8156,106 @@
           "publishedAt": "2026-08-05T12:30:00.000Z",
           "title": "Shelfmark 获 350 万美元融资，扩展物理 AI 并在匹兹堡招聘",
           "amount": "350 万美元"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-e54371803fea36",
+      "companyName": "Wetour Robotics",
+      "kind": "投融资",
+      "title": "Wetour Robotics 获融资并安排反向拆股表决，股价上涨",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1kSHdLUTFZbkw2YWJPSFpoZGNDTWFicGJEQ1h4VF9FSW55UWZLQnVZbDA3MnpUeEJoaHhfR24zMF9pVVBnanFCM1ZDaFBhcVBoTERHbWtoTHVuTDZlY3ZXcVo1bXM1UnY0bHRNWllXeW9HdTJHNnc?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "finance.biggo.com",
+          "publisherUrl": "https://finance.biggo.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-15T00:56:36.655Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Wetour Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Wetour Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Wetour Robotics\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "finance.biggo.com",
+              "value": "https://finance.biggo.com",
+              "query": "\"Wetour Robotics\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1792,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-15T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
+      "nextReviewAt": "2026-08-16T00:56:36.655Z",
+      "attempts": 1,
+      "evidenceHash": "88e8ab9e73822800a33f",
+      "evidence": [
+        {
+          "articleId": "b604735a25244f8a",
+          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1kSHdLUTFZbkw2YWJPSFpoZGNDTWFicGJEQ1h4VF9FSW55UWZLQnVZbDA3MnpUeEJoaHhfR24zMF9pVVBnanFCM1ZDaFBhcVBoTERHbWtoTHVuTDZlY3ZXcVo1bXM1UnY0bHRNWllXeW9HdTJHNnc?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-14T18:38:00.000Z",
+          "title": "Wetour Robotics 获融资并安排反向拆股表决，股价上涨"
         }
       ],
       "facts": {},
