@@ -54,6 +54,44 @@ test("collects privileged traffic and accepted evidence contributors when a toke
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: ["alice", "bob"], count: 2 });
 });
 
+test("treats incomplete or malformed successful traffic responses as unavailable but preserves explicit zeroes", async () => {
+  const trafficCases: Array<{ name: string; views: unknown; clones: unknown; referrers: unknown }> = [
+    { name: "missing views counts", views: {}, clones: { count: 0, uniques: 0 }, referrers: [] },
+    { name: "non-finite clone count", views: { count: 0, uniques: 0 }, clones: "non-finite", referrers: [] },
+    { name: "wrong referrer container", views: { count: 0, uniques: 0 }, clones: { count: 0, uniques: 0 }, referrers: {} },
+    { name: "incomplete referrer entry", views: { count: 0, uniques: 0 }, clones: { count: 0, uniques: 0 }, referrers: [{ referrer: "github.com", count: 0 }] },
+  ];
+  for (const trafficCase of trafficCases) {
+    const fetchImpl = async (input: string | URL | Request) => {
+      const url = String(input);
+      if (url.endsWith("/contributors?per_page=100&anon=false")) return response([]);
+      if (url.endsWith("/repos/example/project")) return response({ stargazers_count: 2, forks_count: 1, subscribers_count: 0, open_issues_count: 0 });
+      if (url.endsWith("/traffic/views")) return response(trafficCase.views);
+      if (url.endsWith("/traffic/clones")) {
+        if (trafficCase.clones === "non-finite") return new Response("{\"count\":1e999,\"uniques\":0}", { headers: { "content-type": "application/json" } });
+        return response(trafficCase.clones);
+      }
+      if (url.endsWith("/traffic/popular/referrers")) return response(trafficCase.referrers);
+      if (url.includes("labels=")) return response([]);
+      return response({}, 404);
+    };
+    const metrics = await collectCommunityMetrics({ repository: "example/project", token: "secret-token", fetchImpl });
+    assert.deepEqual(metrics.traffic, { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null }, trafficCase.name);
+  }
+
+  const zeroFetch = async (input: string | URL | Request) => {
+    const url = String(input);
+    if (url.endsWith("/contributors?per_page=100&anon=false")) return response([]);
+    if (url.endsWith("/repos/example/project")) return response({ stargazers_count: 2, forks_count: 1, subscribers_count: 0, open_issues_count: 0 });
+    if (url.endsWith("/traffic/views") || url.endsWith("/traffic/clones")) return response({ count: 0, uniques: 0 });
+    if (url.endsWith("/traffic/popular/referrers")) return response([]);
+    if (url.includes("labels=")) return response([]);
+    return response({}, 404);
+  };
+  const metrics = await collectCommunityMetrics({ repository: "example/project", token: "secret-token", fetchImpl: zeroFetch });
+  assert.deepEqual(metrics.traffic, { status: "available", views14d: 0, uniqueVisitors14d: 0, clones14d: 0, uniqueCloners14d: 0, referrers: [] });
+});
+
 test("degrades privileged failures and preserves last public metrics when GitHub is temporarily unavailable", async () => {
   const previous = {
     repository: { stars: 21, forks: 4, subscribers: 3, openIssues: 2 },

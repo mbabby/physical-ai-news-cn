@@ -42,6 +42,21 @@ function unavailableTraffic() {
   };
 }
 
+function isCount(value) {
+  return typeof value === "number" && Number.isFinite(value) && Number.isInteger(value) && value >= 0;
+}
+
+function validTrafficSummary(value) {
+  return value && typeof value === "object" && !Array.isArray(value)
+    && isCount(value.count) && isCount(value.uniques);
+}
+
+function validReferrers(value) {
+  return Array.isArray(value) && value.every((item) => item && typeof item === "object" && !Array.isArray(item)
+    && typeof item.referrer === "string" && item.referrer.trim().length > 0
+    && isCount(item.count) && isCount(item.uniques));
+}
+
 function normalizeExisting(value, generatedAt) {
   const fallback = fallbackMetrics(generatedAt);
   if (!value || typeof value !== "object") return fallback;
@@ -89,15 +104,14 @@ async function collectTraffic(fetchImpl, apiBase, repository, token) {
       githubJson(fetchImpl, `${apiBase}/repos/${repository}/traffic/clones`, token),
       githubJson(fetchImpl, `${apiBase}/repos/${repository}/traffic/popular/referrers`, token),
     ]);
+    if (!validTrafficSummary(views) || !validTrafficSummary(clones) || !validReferrers(referrers)) return unavailableTraffic();
     return {
       status: "available",
-      views14d: Number(views.count) || 0,
-      uniqueVisitors14d: Number(views.uniques) || 0,
-      clones14d: Number(clones.count) || 0,
-      uniqueCloners14d: Number(clones.uniques) || 0,
-      referrers: Array.isArray(referrers)
-        ? referrers.map((item) => ({ referrer: String(item.referrer || ""), count: Number(item.count) || 0, uniques: Number(item.uniques) || 0 })).filter((item) => item.referrer)
-        : [],
+      views14d: views.count,
+      uniqueVisitors14d: views.uniques,
+      clones14d: clones.count,
+      uniqueCloners14d: clones.uniques,
+      referrers: referrers.map((item) => ({ referrer: item.referrer, count: item.count, uniques: item.uniques })),
     };
   } catch {
     return unavailableTraffic();
