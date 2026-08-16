@@ -12,6 +12,7 @@ import {
   validateWatchlistRelease,
 } from "../src/watchlist/release-validation.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
+import type { WatchlistChangePage } from "../src/watchlist/change-page.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
 const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
@@ -88,6 +89,17 @@ function view(overrides: Partial<WatchlistPublicView> = {}): WatchlistPublicView
   };
 }
 
+function changePage(overrides: Partial<WatchlistChangePage> = {}): WatchlistChangePage {
+  return {
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 1, generatedAt: GENERATED_AT },
+    baseline: null,
+    emptyBaseline: true,
+    changes: [],
+    ...overrides,
+  };
+}
+
 function readme(): string {
   return [
     "> 观察名单快照：2026-W34 · v1",
@@ -109,6 +121,7 @@ function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[
     theses: artifact(),
     dashboard: { watchlist: view() },
     readme: readme(),
+    changePage: changePage(),
     ...overrides,
   };
 }
@@ -136,6 +149,15 @@ test("release validation requires the current immutable history file with identi
 
 test("rejects a week mismatch across snapshot, dashboard and README", () => {
   assert.throws(() => validateWatchlistRelease(release({ dashboard: { watchlist: view({ week: "2026-W33" }) } })), /周.*不一致/);
+});
+
+test("requires the change-page baseline to be the immediate immutable predecessor", () => {
+  const prior = snapshot({ week: "2026-W33" });
+  assert.throws(() => validateWatchlistRelease(release({ history: [prior] })), /基线|相邻/);
+  assert.throws(() => validateWatchlistRelease(release({
+    history: [snapshot({ week: "2026-W32" }), prior],
+    changePage: changePage({ baseline: { week: "2026-W32", snapshotVersion: 1, generatedAt: GENERATED_AT }, emptyBaseline: false }),
+  })), /基线|相邻/);
 });
 
 test("rejects a broken exact thesis reference and methodology version mismatch", () => {
@@ -287,6 +309,17 @@ test("refuses to stage a Watchlist release without its required feeds", async ()
   }
 });
 
+test("refuses to stage a Watchlist release without its required period-change artifact", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-required-changes-"));
+  try {
+    const transaction = new FileTransaction("watchlist-required-changes");
+    await assert.rejects(() => stageWatchlistRelease({ transaction, root, ...release({ changePage: undefined }), feeds: FEEDS } as unknown as Parameters<typeof stageWatchlistRelease>[0]), /变化.*必需|change.*required/i);
+    assert.equal(transaction.size, 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("stages snapshot-identified feeds and their manifest in the release transaction", async () => {
   const root = await mkdtemp(join(tmpdir(), "watchlist-release-feeds-"));
   try {
@@ -297,8 +330,9 @@ test("stages snapshot-identified feeds and their manifest in the release transac
       ...release(),
       feeds: FEEDS,
     });
-    assert.equal(transaction.size, 12);
+    assert.equal(transaction.size, 13);
     await transaction.commit();
+    assert.deepEqual(JSON.parse(await readFile(join(root, "site", "data", "watchlist-changes.json"), "utf8")), changePage());
     assert.deepEqual(JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8")), {
       schemaVersion: 1,
       snapshotWeek: "2026-W34",
@@ -325,6 +359,7 @@ test("failure injection rolls back the whole Watchlist public group", async () =
     "watchlist/theses.json",
     "watchlist/history/2026-W34-v1.json",
     "site/data/dashboard.json",
+    "site/data/watchlist-changes.json",
     "README.md",
   ];
   const newHistoryPath = "watchlist/history/2026-W34-v2.json";
@@ -342,6 +377,7 @@ test("failure injection rolls back the whole Watchlist public group", async () =
         snapshot: snapshot({ snapshotVersion: 2 }),
         dashboard: { watchlist: view({ snapshotVersion: 2 }) },
         readme: readme().replace("v1", "v2"),
+        changePage: changePage({ current: { week: "2026-W34", snapshotVersion: 2, generatedAt: GENERATED_AT } }),
       }),
       feeds: FEEDS,
     });
@@ -367,17 +403,18 @@ test("immutable history rejects different bytes and accepts identical bytes idem
       "watchlist/theses.json",
       "watchlist/history/2026-W34-v1.json",
       "site/data/dashboard.json",
+      "site/data/watchlist-changes.json",
       "README.md",
     ];
     const first = new FileTransaction("history-first-cycle");
     await stageWatchlistRelease({ transaction: first, root, ...release(), feeds: FEEDS });
-    assert.equal(first.size, 12);
+    assert.equal(first.size, 13);
     await first.commit();
     const firstBytes = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
 
     const second = new FileTransaction("history-second-cycle");
     await stageWatchlistRelease({ transaction: second, root, ...release(), feeds: FEEDS });
-    assert.equal(second.size, 11);
+    assert.equal(second.size, 12);
     await second.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), firstBytes);
     assert.equal(await readFile(historyPath, "utf8"), json(snapshot()));

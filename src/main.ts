@@ -60,6 +60,7 @@ import { WatchlistGenerator, type CanonicalFactExcerpt } from "./watchlist/gener
 import { buildCanonicalFactAtoms } from "./watchlist/validation.js";
 import { buildWatchlistPreview, formatWatchlistPreviewMarkdown, stageWatchlistPreview, validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 import { buildWatchlistPublicView, type WatchlistPublicView } from "./watchlist/public-view.js";
+import { buildWatchlistChangePage } from "./watchlist/change-page.js";
 import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
@@ -594,6 +595,19 @@ async function generate(): Promise<void> {
     companies,
     events: eventStore.events,
   });
+  const watchlistChangePage = buildWatchlistChangePage({
+    current: watchlistSnapshot,
+    snapshots: [...watchlistHistory, watchlistSnapshot],
+    views: [
+      watchlistView,
+      ...watchlistHistory.map((snapshot) => buildWatchlistPublicView({
+        snapshot,
+        thesisArtifact: watchlistTheses,
+        companies,
+        events: eventStore.events,
+      })),
+    ],
+  });
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
@@ -734,7 +748,7 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, history: watchlistHistory };
+  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, history: watchlistHistory };
   validatePublication({
     archive,
     events: eventStore,

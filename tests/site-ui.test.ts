@@ -90,11 +90,29 @@ async function loadShareCompanyRenderer() {
     window: { location: { protocol: "https:", href: "https://example.test/companies.html" } },
   };
   const instrumented = source.replace(
-    /loadDashboard\(\)\.then\([\s\S]*$/,
+    /const views = \{ weekly, companies, research \};[\s\S]*$/,
     "globalThis.__siteUi = { companies };",
   );
   vm.runInNewContext(instrumented, context);
   return { root, companies: (context as typeof context & { __siteUi: { companies: (data: unknown) => void } }).__siteUi.companies };
+}
+
+async function loadChangePageRenderer() {
+  const source = await readSite("share-pages.js");
+  const root = mount();
+  const context = {
+    console,
+    URL,
+    Date,
+    document: { getElementById: () => root, body: { dataset: { view: "changes" } } },
+    window: { location: { protocol: "https:", href: "https://example.test/watchlist-changes.html" } },
+  };
+  const instrumented = source.replace(
+    /const views = \{ weekly, companies, research \};[\s\S]*$/,
+    "globalThis.__siteUi = { changes };",
+  );
+  vm.runInNewContext(instrumented, context);
+  return { root, changes: (context as typeof context & { __siteUi: { changes: (data: unknown) => void } }).__siteUi.changes };
 }
 
 const publicWatchlist = {
@@ -206,6 +224,42 @@ test("company share page places watchlist and changes before score-free legacy d
   assert.match(root.innerHTML, /Legacy fallback/);
   assert.match(root.innerHTML, /93\/100/);
   assert.doesNotMatch(root.innerHTML, /公司 Watchlist|本周变化/);
+});
+
+test("period-change page renders only validated public deltas with snapshot identities", async () => {
+  const html = await readSite("watchlist-changes.html");
+  assert.match(html, /data-view="changes"/);
+  assert.match(html, /share-pages\.js/);
+
+  const { root, changes } = await loadChangePageRenderer();
+  changes({
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 2, generatedAt: "2026-08-17T01:00:00.000Z" },
+    baseline: { week: "2026-W34", snapshotVersion: 1, generatedAt: "2026-08-16T01:00:00.000Z" },
+    emptyBaseline: false,
+    changes: [{
+      companyId: "company-alpha", companyName: "Alpha Robotics", kind: "correction",
+      whatChanged: "Alpha Robotics：公开判断修正。", why: "AI 研究判断：修正后的规范事实。",
+      evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 官方发布", url: "https://alpha.example/release", source: "Alpha 官方", grade: "A" }],
+    }],
+  });
+  assert.match(root.innerHTML, /2026-W34 · v2/);
+  assert.match(root.innerHTML, /基线：2026-W34 · v1/);
+  assert.match(root.innerHTML, /公开判断修正/);
+  assert.match(root.innerHTML, /https:\/\/alpha\.example\/release/);
+  assert.doesNotMatch(root.innerHTML, /score|rank|综合分/);
+
+  changes({});
+  assert.match(root.innerHTML, /变化数据未通过公开契约校验/);
+
+  changes({
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 2, generatedAt: "2026-08-17T01:00:00.000Z" },
+    baseline: { week: "2026-W34", snapshotVersion: 1, generatedAt: "2026-08-16T01:00:00.000Z" },
+    emptyBaseline: false,
+    changes: [{ companyId: "company-alpha", companyName: "Alpha Robotics", kind: "correction", whatChanged: "分数变化。", why: "internal score changed", evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 官方发布", url: "https://alpha.example/release", source: "Alpha 官方", grade: "A" }] }],
+  });
+  assert.match(root.innerHTML, /变化数据未通过公开契约校验/);
 });
 
 test("watchlist styles preserve focus, long Chinese copy and a single-column 390px layout", async () => {
