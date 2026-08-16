@@ -235,6 +235,18 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
       await writeFile(join(root, "watchlist", "history", "2026-W33-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
     }, { status: "failed", code: "corrupt-watchlist-history" });
+    await fault("history-week-identity-mismatch", async (root) => {
+      const path = join(root, "watchlist", "history", "2026-W33-v1.json");
+      const snapshot = JSON.parse(await readFile(path, "utf8")) as WatchlistSnapshot;
+      await writeFile(path, `${JSON.stringify({ ...snapshot, week: "2026-W32" }, null, 2)}\n`);
+      return async () => runFixedGeneration(root);
+    }, { status: "failed", code: "corrupt-watchlist-history" });
+    await fault("history-version-identity-mismatch", async (root) => {
+      const path = join(root, "watchlist", "history", "2026-W33-v1.json");
+      const snapshot = JSON.parse(await readFile(path, "utf8")) as WatchlistSnapshot;
+      await writeFile(path, `${JSON.stringify({ ...snapshot, snapshotVersion: 2 }, null, 2)}\n`);
+      return async () => runFixedGeneration(root);
+    }, { status: "failed", code: "corrupt-watchlist-history" });
     await fault("corrupt-current-json", async (root) => {
       await writeFile(join(root, "watchlist", "current.json"), "{not-json\n");
       return async () => runFixedGeneration(root);

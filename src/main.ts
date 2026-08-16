@@ -131,17 +131,23 @@ async function readWatchlistHistory(directory: string): Promise<WatchlistSnapsho
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
     throw error;
   }
-  const snapshots = await Promise.all(files.filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort().map(async (file) => {
+  const snapshots = await Promise.all(files.filter((file) => file.endsWith(".json")).sort().map(async (file) => {
     try {
-      return await readJsonStrict<WatchlistSnapshot>(join(directory, file), {
+      const identity = /^(\d{4}-W(?:0[1-9]|[1-4]\d|5[0-3]))-v([1-9]\d*)\.json$/.exec(file);
+      if (!identity) throw new Error("Watchlist 历史快照文件名不符合规范身份");
+      const snapshot = await readJsonStrict<WatchlistSnapshot>(join(directory, file), {
         label: `Watchlist 历史快照 ${file}`,
         validate: validateWatchlistSnapshotShape,
       });
+      if (!snapshot || snapshot.week !== identity[1] || snapshot.snapshotVersion !== Number(identity[2])) {
+        throw new Error("Watchlist 历史快照文件名与 payload 身份不一致");
+      }
+      return snapshot;
     } catch (error) {
       throw new DailyGenerationError("corrupt-watchlist-history", "Watchlist 历史快照损坏；已停止发布并保留上一版。", { cause: error });
     }
   }));
-  return snapshots.filter((snapshot): snapshot is WatchlistSnapshot => Boolean(snapshot));
+  return snapshots;
 }
 
 function hasWithdrawnWatchlistEvidence(theses: CompanyThesisArtifact, snapshots: WatchlistSnapshot[], events: EventRecord[]): boolean {
