@@ -1,14 +1,16 @@
 import { derivePublication } from "../facts-contract.js";
 import type { CompanyProfile, EventRecord } from "../types.js";
-import type {
-  CompanyThesis,
-  CompanyThesisArtifact,
-  ThesisLifecycle,
-  WatchlistChange,
-  WatchlistPublicGroup,
-  WatchlistSnapshot,
-  WatchlistSnapshotEntry,
-  WatchlistTrack,
+import {
+  isCanonicalTimestamp,
+  isValidIsoWeek,
+  type CompanyThesis,
+  type CompanyThesisArtifact,
+  type ThesisLifecycle,
+  type WatchlistChange,
+  type WatchlistPublicGroup,
+  type WatchlistSnapshot,
+  type WatchlistSnapshotEntry,
+  type WatchlistTrack,
 } from "./contracts.js";
 
 export interface WatchlistPublicEvidenceLink {
@@ -73,6 +75,106 @@ const LIFECYCLE_LABELS: Record<Exclude<ThesisLifecycle, "falsified" | "expired">
   "awaiting-validation": "等待验证",
   downgraded: "判断降级",
 };
+
+const VIEW_KEYS = new Set(["week", "snapshotVersion", "methodologyVersion", "lastSuccessfulAt", "companyIds", "forwardRadar", "validatedMomentum", "changes"]);
+const CARD_KEYS = new Set(["companyId", "companyName", "thesisId", "thesisVersion", "track", "group", "lifecycle", "lifecycleLabel", "whyNow", "routeAndDependencies", "nextValidationPoints", "falsifiers", "evidenceLinks", "capital"]);
+const EVIDENCE_KEYS = new Set(["eventId", "title", "url", "source", "grade"]);
+const CAPITAL_KEYS = new Set(["status", "summary"]);
+const CHANGE_KEYS = new Set(["companyId", "companyName", "change"]);
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasExactKeys(value: Record<string, unknown>, keys: Set<string>): boolean {
+  const actual = Object.keys(value);
+  return actual.length === keys.size && actual.every((key) => keys.has(key));
+}
+
+function nonEmpty(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function validDate(value: unknown): value is string {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const timestamp = Date.parse(`${value}T00:00:00.000Z`);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value;
+}
+
+function validPublicUrl(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  try {
+    const url = new URL(value);
+    return (url.protocol === "https:" || url.protocol === "http:") && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function validValidationPoint(value: unknown): boolean {
+  return isObject(value) && hasExactKeys(value, new Set(["text", "dueAt"]))
+    && nonEmpty(value.text) && validDate(value.dueAt);
+}
+
+function validFalsifier(value: unknown): boolean {
+  return isObject(value) && hasExactKeys(value, new Set(["text"])) && nonEmpty(value.text);
+}
+
+function validEvidenceLink(value: unknown): boolean {
+  return isObject(value) && hasExactKeys(value, EVIDENCE_KEYS)
+    && nonEmpty(value.eventId) && nonEmpty(value.title) && validPublicUrl(value.url) && nonEmpty(value.source)
+    && (value.grade === "A" || value.grade === "B");
+}
+
+function validCapital(value: unknown): boolean {
+  if (!isObject(value) || !hasExactKeys(value, CAPITAL_KEYS) || !nonEmpty(value.summary)) return false;
+  if (value.status === "evidence-insufficient") return value.summary === "证据不足（不代表未融资）";
+  return value.status === "verified";
+}
+
+function validCard(value: unknown, expectedTrack: WatchlistTrack): value is WatchlistPublicCard {
+  if (!isObject(value) || !hasExactKeys(value, CARD_KEYS)) return false;
+  const lifecycle = value.lifecycle;
+  if (lifecycle !== "new" && lifecycle !== "strengthening" && lifecycle !== "awaiting-validation" && lifecycle !== "downgraded") return false;
+  return nonEmpty(value.companyId) && nonEmpty(value.companyName) && nonEmpty(value.thesisId)
+    && typeof value.thesisVersion === "number" && Number.isInteger(value.thesisVersion) && value.thesisVersion > 0
+    && value.track === expectedTrack
+    && (value.group === "priority-focus" || value.group === "continued-observation")
+    && value.lifecycleLabel === LIFECYCLE_LABELS[lifecycle]
+    && nonEmpty(value.whyNow) && nonEmpty(value.routeAndDependencies)
+    && Array.isArray(value.nextValidationPoints) && value.nextValidationPoints.length > 0 && value.nextValidationPoints.every(validValidationPoint)
+    && Array.isArray(value.falsifiers) && value.falsifiers.length > 0 && value.falsifiers.every(validFalsifier)
+    && Array.isArray(value.evidenceLinks) && value.evidenceLinks.length > 0 && value.evidenceLinks.every(validEvidenceLink)
+    && validCapital(value.capital);
+}
+
+function validChange(value: unknown): value is WatchlistPublicChange {
+  return isObject(value) && hasExactKeys(value, CHANGE_KEYS)
+    && nonEmpty(value.companyId) && nonEmpty(value.companyName)
+    && (value.change === "added" || value.change === "strengthened" || value.change === "downgraded" || value.change === "exited");
+}
+
+/** Strict runtime boundary for serialized dashboard Watchlist data. */
+export function validateWatchlistPublicViewShape(value: unknown): value is WatchlistPublicView {
+  if (!isObject(value) || !hasExactKeys(value, VIEW_KEYS)) return false;
+  if (!isValidIsoWeek(value.week)
+    || typeof value.snapshotVersion !== "number" || !Number.isInteger(value.snapshotVersion) || value.snapshotVersion < 1
+    || !nonEmpty(value.methodologyVersion) || !isCanonicalTimestamp(value.lastSuccessfulAt)
+    || !Array.isArray(value.companyIds) || !value.companyIds.every(nonEmpty)
+    || !Array.isArray(value.forwardRadar) || !value.forwardRadar.every((card) => validCard(card, "forward-radar"))
+    || !Array.isArray(value.validatedMomentum) || !value.validatedMomentum.every((card) => validCard(card, "validated-momentum"))
+    || !Array.isArray(value.changes) || !value.changes.every(validChange)) return false;
+  const cards = [...value.forwardRadar, ...value.validatedMomentum];
+  const companyIds = cards.map((card) => card.companyId);
+  const thesisVersions = cards.map((card) => `${card.thesisId}\0${card.thesisVersion}`);
+  const changeIds = value.changes.map((change) => change.companyId);
+  return new Set(companyIds).size === companyIds.length
+    && new Set(thesisVersions).size === thesisVersions.length
+    && new Set(value.companyIds).size === value.companyIds.length
+    && value.companyIds.length === companyIds.length
+    && value.companyIds.every((companyId, index) => companyId === companyIds[index])
+    && new Set(changeIds).size === changeIds.length;
+}
 
 function uniqueIndex<T>(items: T[], keyFor: (item: T) => string | undefined, duplicateMessage: string): Map<string, T> {
   const indexed = new Map<string, T>();

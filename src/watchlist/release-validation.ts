@@ -12,7 +12,7 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
-import type { WatchlistPublicCard, WatchlistPublicView } from "./public-view.js";
+import { validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
 
 export interface WatchlistReleaseValidationInput {
@@ -69,15 +69,10 @@ function validateThesisArtifact(value: CompanyThesisArtifact): void {
 }
 
 function publicView(value: unknown): WatchlistPublicView {
-  if (!isObject(value) || !isObject(value.watchlist)) throw new Error("Watchlist dashboard 缺少公开视图");
-  const view = value.watchlist;
-  if (typeof view.week !== "string" || !Number.isInteger(view.snapshotVersion)
-    || typeof view.methodologyVersion !== "string" || typeof view.lastSuccessfulAt !== "string"
-    || !Array.isArray(view.companyIds) || !view.companyIds.every((item) => typeof item === "string")
-    || !Array.isArray(view.forwardRadar) || !Array.isArray(view.validatedMomentum)) {
+  if (!isObject(value) || !validateWatchlistPublicViewShape(value.watchlist)) {
     throw new Error("Watchlist dashboard 公开视图结构不合法");
   }
-  return view as unknown as WatchlistPublicView;
+  return value.watchlist;
 }
 
 function entries(snapshot: WatchlistSnapshot): Array<WatchlistSnapshotEntry & { track: WatchlistTrack }> {
@@ -127,8 +122,8 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   assertNoPrivateKeys(input.snapshot, "snapshot");
   assertNoPrivateKeys(input.history ?? [], "history");
   assertNoPrivateKeys(input.theses, "theses");
+  if (isObject(input.dashboard)) assertNoPrivateKeys(input.dashboard.watchlist, "dashboard.watchlist");
   const dashboardView = publicView(input.dashboard);
-  assertNoPrivateKeys(dashboardView, "dashboard.watchlist");
   if (PRIVATE_TEXT.test(input.readme)) throw new Error("Watchlist README 包含私有诊断、分数或排名");
   if (!validateWatchlistSnapshotShape(input.snapshot)) throw new Error("Watchlist 公开快照结构不合法");
   validateThesisArtifact(input.theses);
@@ -152,7 +147,13 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
     if (theses.has(key)) throw new Error(`Watchlist 公开判断版本重复：${thesis.thesisId}@${thesis.thesisVersion}`);
     theses.set(key, thesis);
   }
-  for (const releaseSnapshot of [...(input.history ?? []), input.snapshot]) {
+  const releaseSnapshots = [...(input.history ?? []), input.snapshot];
+  const requiredThesisKeys = new Set(releaseSnapshots.flatMap((releaseSnapshot) => entries(releaseSnapshot)
+    .map((entry) => exactKey(entry.thesisId, entry.thesisVersion))));
+  if (!sameSet(theses.keys(), requiredThesisKeys)) {
+    throw new Error("Watchlist 公开判断版本集合与 current/history 快照引用不一致");
+  }
+  for (const releaseSnapshot of releaseSnapshots) {
     if (!validateWatchlistSnapshotShape(releaseSnapshot)) throw new Error("Watchlist 历史快照结构不合法");
     const snapshotAt = Date.parse(releaseSnapshot.generatedAt);
     for (const entry of entries(releaseSnapshot)) {
@@ -182,6 +183,15 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
     if (!card || card.companyId !== entry.companyId || card.track !== entry.track || card.group !== entry.group) {
       throw new Error(`Watchlist dashboard 缺少匹配的判断版本：${entry.thesisId}@${entry.thesisVersion}`);
     }
+  }
+  if (dashboardView.changes.length !== input.snapshot.changesSinceLastWeek.length
+    || dashboardView.changes.some((change, index) => {
+      const canonical = input.snapshot.changesSinceLastWeek[index];
+      if (!canonical || change.companyId !== canonical.companyId || change.change !== canonical.change) return true;
+      const currentCard = publicCards.find((card) => card.companyId === change.companyId);
+      return Boolean(currentCard && currentCard.companyName !== change.companyName);
+    })) {
+    throw new Error("Watchlist dashboard 变更与快照 changesSinceLastWeek 不一致");
   }
   const companyIds = selectedEntries.map((entry) => entry.companyId);
   if (!sameSet(companyIds, dashboardView.companyIds)

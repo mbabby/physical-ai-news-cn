@@ -142,8 +142,62 @@ test("rejects a broken exact thesis reference and methodology version mismatch",
 });
 
 test("rejects company-set mismatches in dashboard and README", () => {
-  assert.throws(() => validateWatchlistRelease(release({ dashboard: { watchlist: view({ companyIds: [] }) } })), /公司集合/);
+  assert.throws(() => validateWatchlistRelease(release({ dashboard: { watchlist: view({ companyIds: [] }) } })), /公司集合|公开视图结构/);
   assert.throws(() => validateWatchlistRelease(release({ readme: readme().replace("#company-alpha", "#company-beta") })), /公司集合/);
+});
+
+test("rejects malformed public cards and cards without qualifying evidence links", () => {
+  const baseCard = view().forwardRadar[0]!;
+  const malformedCards = [
+    { ...baseCard, evidenceLinks: [] },
+    { ...baseCard, evidenceLinks: [{ ...baseCard.evidenceLinks[0]!, url: "javascript:alert(1)" }] },
+    { ...baseCard, evidenceLinks: [{ ...baseCard.evidenceLinks[0]!, grade: "C" }] },
+    { ...baseCard, track: "validated-momentum" },
+    { ...baseCard, group: "private" },
+    { ...baseCard, lifecycle: "falsified" },
+    { ...baseCard, nextValidationPoints: [] },
+    { ...baseCard, falsifiers: [] },
+    { ...baseCard, capital: { status: "evidence-insufficient", summary: "unknown" } },
+    { ...baseCard, capital: { status: "verified", summary: "" } },
+  ];
+  for (const card of malformedCards) {
+    assert.throws(
+      () => validateWatchlistRelease(release({ dashboard: { watchlist: view({ forwardRadar: [card] as typeof baseCard[] }) } })),
+      /dashboard.*公开视图结构不合法/,
+    );
+  }
+  assert.throws(() => validateWatchlistRelease(release({
+    dashboard: { watchlist: { ...view(), companyIds: ["company-alpha", "company-alpha"], forwardRadar: [baseCard, baseCard] } },
+  })), /dashboard.*公开视图结构不合法/);
+  const { companyName: _companyName, ...missingCompanyName } = baseCard;
+  assert.throws(() => validateWatchlistRelease(release({
+    dashboard: { watchlist: view({ forwardRadar: [missingCompanyName as typeof baseCard] }) },
+  })), /dashboard.*公开视图结构不合法/);
+});
+
+test("dashboard changes exactly match canonical snapshot changes", () => {
+  const canonicalChange = [{ companyId: "company-alpha", change: "added" as const }];
+  const publicChange = [{ companyId: "company-alpha", companyName: "Alpha Robotics", change: "added" as const }];
+  assert.doesNotThrow(() => validateWatchlistRelease(release({
+    snapshot: snapshot({ changesSinceLastWeek: canonicalChange }),
+    dashboard: { watchlist: view({ changes: publicChange }) },
+  })));
+
+  for (const changes of [
+    [],
+    [...publicChange, { companyId: "company-beta", companyName: "Beta Robotics", change: "added" as const }],
+    [{ ...publicChange[0]!, change: "downgraded" as const }],
+    [{ ...publicChange[0]!, companyId: "company-beta" }],
+    [{ ...publicChange[0]!, companyName: "Forged Robotics" }],
+  ]) {
+    assert.throws(() => validateWatchlistRelease(release({
+      snapshot: snapshot({ changesSinceLastWeek: canonicalChange }),
+      dashboard: { watchlist: view({ changes }) },
+    })), /dashboard.*变更.*快照.*不一致/);
+  }
+  assert.throws(() => validateWatchlistRelease(release({
+    dashboard: { watchlist: { ...view(), changes: undefined } },
+  })), /dashboard.*公开视图结构不合法/);
 });
 
 test("rejects public score, rank, candidate id and private diagnostics leakage", () => {
@@ -163,6 +217,20 @@ test("rejects public score, rank, candidate id and private diagnostics leakage",
 test("rejects falsified and expired selected theses", () => {
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ lifecycle: "falsified" })]) })), /不可公开/);
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ expiresAt: GENERATED_AT })]) })), /已过期/);
+});
+
+test("public theses contain exactly the versions referenced by current and history", () => {
+  const extras = [
+    thesis({ thesisId: "thesis-beta", companyId: "company-beta" }),
+    thesis({ thesisId: "thesis-beta", companyId: "company-beta", lifecycle: "falsified" }),
+    thesis({ thesisId: "thesis-beta", companyId: "company-beta", lifecycle: "expired", expiresAt: GENERATED_AT }),
+  ];
+  for (const extra of extras) {
+    assert.throws(
+      () => validateWatchlistRelease(release({ theses: artifact([thesis(), extra]) })),
+      /判断版本集合.*快照引用不一致/,
+    );
+  }
 });
 
 test("requires a visible AI research judgment disclosure", () => {

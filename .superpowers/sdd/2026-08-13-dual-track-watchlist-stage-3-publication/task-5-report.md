@@ -45,10 +45,19 @@ GREEN：
 
 Fix round 聚焦测试 33/33 通过；最终全量测试 422/422 通过。
 
+## Final whole-branch review fix
+
+Whole-branch review reported two remaining release-gate false negatives. Both were reproduced before implementation:
+
+- RED: appending an unreferenced otherwise-valid, falsified, or expired thesis to `watchlist/theses.json` passed because validation was one-way. GREEN: the public thesis exact-key set must now equal the union of every `(thesisId, thesisVersion)` referenced by current and all immutable histories; missing and extra versions both fail closed.
+- RED: a dashboard card with empty/invalid evidence and forged or missing changes passed. GREEN: `validateWatchlistPublicViewShape` is now the shared TypeScript runtime contract for the complete serialized public view. It validates exact root/card/evidence/capital/change fields, active lifecycle and label, track/group, non-empty validation points and falsifiers, public HTTP(S) A/B evidence, unique company/thesis/change identities, and company ID projection. The release gate additionally requires dashboard changes to match `snapshot.changesSinceLastWeek` exactly by order, company ID and change label, with current-company names matching their cards.
+
+Final-fix focused tests passed 21/21; final full suite passed 425/425.
+
 ## Required verification
 
 - `pnpm run check`：通过。
-- `pnpm test`：422 passed，0 failed。
+- `pnpm test`：425 passed，0 failed。
 - `pnpm run validate:release`：通过；2026-08-16 公开 6 条，运行状态 degraded。
 - `pnpm run validate:health`：通过；状态 degraded，最近成功率 100%，连续成功发布 30 次；唯一原因是最近运行存在外部服务或信源降级。
 - GitHub Actions YAML 由 Ruby Psych 成功解析。
