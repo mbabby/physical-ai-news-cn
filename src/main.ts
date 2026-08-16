@@ -59,12 +59,17 @@ import { scoreThesisSeed, selectWatchlistSeeds } from "./watchlist/scoring.js";
 import { WatchlistGenerator, type CanonicalFactExcerpt } from "./watchlist/generator.js";
 import { buildCanonicalFactAtoms } from "./watchlist/validation.js";
 import { buildWatchlistPreview, stageWatchlistPreview, validateWatchlistPreviewArtifact, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
+import type { WatchlistPublicView } from "./watchlist/public-view.js";
+import { formatWatchlistReadme } from "./watchlist/markdown.js";
+import { loadWatchlistPublicView } from "./watchlist/publication.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
 const companyEnd = "<!-- COMPANY_RADAR_END -->";
+const watchlistStart = "<!-- WATCHLIST_START -->";
+const watchlistEnd = "<!-- WATCHLIST_END -->";
 const researchStart = "<!-- RESEARCH_UPDATES_START -->";
 const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
 const statusStart = "<!-- PROJECT_STATUS_START -->";
@@ -76,9 +81,12 @@ function replaceSection(readme: string, start: string, end: string, content: str
   if (!expression.test(readme)) throw new Error(`README 缺少占位标记：${start}`);
   return readme.replace(expression, `${start}\n\n${content}\n\n${end}`);
 }
-function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], researchPoolSize: number, metrics: ReturnType<typeof buildProjectMetrics>, refreshedAt: Date, researchFallbackDate?: string): string {
+function updateReadme(readme: string, events: EventStore, companies: CompanyProfile[], research: ResearchRegistry["records"], researchPoolSize: number, metrics: ReturnType<typeof buildProjectMetrics>, refreshedAt: Date, researchFallbackDate?: string, watchlist?: WatchlistPublicView): string {
   const withStatus = replaceSection(readme, statusStart, statusEnd, formatHomepageStatus(metrics, companies.length, researchPoolSize));
-  return replaceSection(replaceSection(replaceSection(withStatus, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt)), companyStart, companyEnd, formatCompanyRadar(companies, events.events, refreshedAt)), researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
+  const withEvents = replaceSection(withStatus, eventsStart, eventsEnd, formatRecentEvents(events.events, refreshedAt));
+  const withWatchlist = replaceSection(withEvents, watchlistStart, watchlistEnd, watchlist ? formatWatchlistReadme(watchlist) : "");
+  const withCompanies = replaceSection(withWatchlist, companyStart, companyEnd, formatCompanyRadar(companies, events.events, refreshedAt));
+  return replaceSection(withCompanies, researchStart, researchEnd, formatResearchCards(research, researchFallbackDate));
 }
 
 async function readRegistry(path: string): Promise<SourceRegistry | undefined> {
@@ -547,13 +555,16 @@ async function generate(): Promise<void> {
   });
   const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
   await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
-  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(buildDashboard(eventStore, companies, publicResearch, now, {
+  const watchlistView = await loadWatchlistPublicView(root, companies, eventStore.events);
+  const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
     companyClaimLedger,
     researchDecisionCards,
     researchIndustryEdges: researchIndustryRelations.edges,
-  }), null, 2) + "\n", "utf8");
+    watchlist: watchlistView,
+  });
+  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(dashboard, null, 2) + "\n", "utf8");
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "event-anomalies.md"), [
@@ -649,7 +660,7 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
-  const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate);
+  const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
   validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousPublicRecords.length });
   await writeFile(readmePath, readme, "utf8");
   const finishedAt = new Date();

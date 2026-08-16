@@ -10,6 +10,7 @@ import { researchIndustryCompanyId } from "./research-industry-relations.js";
 import type { ResearchIndustryRelationEdge } from "./research-industry-relations.js";
 import { buildCompanyBoards } from "./company-boards.js";
 import type { CompanyBoards } from "./company-boards.js";
+import type { WatchlistPublicView } from "./watchlist/public-view.js";
 
 export interface DashboardItem {
   title: string;
@@ -79,6 +80,8 @@ export interface DashboardData {
   companyRadar: CompanyRadarItem[];
   /** Evidence-gated recent momentum and an independent strategic watchlist. */
   companyBoards?: CompanyBoards;
+  /** Versioned public view resolved from the immutable Watchlist snapshot. */
+  watchlist?: WatchlistPublicView;
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
 }
 
@@ -90,6 +93,7 @@ export interface DashboardContext {
   companyClaimLedger?: CompanyClaimLedger;
   researchDecisionCards?: ResearchDecisionCard[];
   researchIndustryEdges?: ResearchIndustryRelationEdge[];
+  watchlist?: WatchlistPublicView;
 }
 
 function eventFact(event: EventRecord): string {
@@ -364,6 +368,7 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
       minimumSampleSize: 10,
       limit: 5,
     }),
+    watchlist: context.watchlist,
     routes: routeNames.map((name) => ({ name, focus: routeFocus[name], companies: companies.filter((company) => company.routes.includes(name as CompanyProfile["routes"][number])).slice(0, 4).map((company) => company.name) })),
   };
 }

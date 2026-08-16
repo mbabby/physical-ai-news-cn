@@ -19,6 +19,12 @@ test("README has shareable core entry points and a consistent evidence promise",
   assert.match(readme, /releases\/latest/);
   assert.doesNotMatch(readme, /weekly\/\d{4}-W\d{2}-report\.md/);
   assert.doesNotMatch(readme, /全覆盖|实时数据库|权威认证/);
+  const watchlistStart = readme.indexOf("<!-- WATCHLIST_START -->");
+  const watchlistEnd = readme.indexOf("<!-- WATCHLIST_END -->");
+  const companyRadarStart = readme.indexOf("<!-- COMPANY_RADAR_START -->");
+  assert.ok(watchlistStart > readme.indexOf("## 公司与资本地图"));
+  assert.ok(watchlistEnd > watchlistStart);
+  assert.ok(companyRadarStart > watchlistEnd);
 });
 
 test("public Markdown surfaces contain no failed-summary placeholders", async () => {
