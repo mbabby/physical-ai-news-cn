@@ -1,6 +1,216 @@
 {
-  "generatedAt": "2026-08-16T06:29:51.606Z",
+  "generatedAt": "2026-08-16T16:09:52.482Z",
   "cards": [
+    {
+      "identity": {
+        "paperId": {
+          "value": "67bc274b4c9fcfb0",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05706v1"
+          ]
+        },
+        "openAlexWorkId": {
+          "value": "https://openalex.org/W7202006149",
+          "evidenceUrls": [
+            "https://openalex.org/W7202006149"
+          ]
+        },
+        "version": {
+          "value": 1,
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.05706v1"
+          ]
+        }
+      },
+      "titleZh": {
+        "value": "LAWM-3D：从人类视频学习三维感知潜在动作，构建可泛化机器人世界模型",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ]
+      },
+      "factsZh": {
+        "value": [
+          "LAWM-3D以多视角统一动作标记、几何对齐和RGB-D重建，从人类视频学习三维感知潜在动作。",
+          "实验显示其生成质量、物理一致性和泛化能力达到SOTA，但摘要未提供真实机器人、具体基准或开源证据。"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ]
+      },
+      "task": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "embodiment": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "datasetTrainingScale": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "benchmark": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "baselineDelta": {
+        "value": "Built upon a two-stage paradigm of large-scale human video pretraining followed by robot fine-tuning, extensive experiments demonstrate that the proposed 3D-aware latent actions significantly improve world model performance, achieving SOTA results in generation quality, physical consistency, and generalization ability.",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ]
+      },
+      "realRobotTrials": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "artifacts": {
+        "code": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "weights": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "data": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "projectPage": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "license": {
+          "value": "unknown",
+          "evidenceUrls": []
+        }
+      },
+      "limitations": {
+        "value": [
+          "However, their application in open-world embodied intelligence remains limited by the high cost of action annotations and the heterogeneity of action spaces across platforms."
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ]
+      },
+      "reproducibilityCost": {
+        "value": "high",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "rationale": "Built upon a two-stage paradigm of large-scale human video pretraining followed by robot fine-tuning, extensive experiments demonstrate that the proposed 3D-aware latent actions significantly improve world model performance, achieving SOTA results in generation quality, physical consistency, and generalization ability."
+      },
+      "author": {
+        "value": [
+          "Jiarui Yang",
+          "Jiale Zhange",
+          "Jiawei Li"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7202006149"
+        ]
+      },
+      "lab": {
+        "value": [
+          "Nankai University",
+          "Tsinghua University",
+          "École Polytechnique Fédérale de Lausanne",
+          "Harbin Institute of Technology",
+          "Future Academy",
+          "清华大学"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7202006149"
+        ]
+      },
+      "openAlex": {
+        "match": {
+          "value": "matched",
+          "evidenceUrls": [
+            "https://openalex.org/W7202006149"
+          ]
+        },
+        "retraction": {
+          "value": false,
+          "evidenceUrls": [
+            "https://openalex.org/W7202006149"
+          ]
+        },
+        "freshness": {
+          "value": "fresh",
+          "evidenceUrls": [
+            "https://openalex.org/W7202006149"
+          ]
+        }
+      },
+      "whyWorthAttention": {
+        "value": "原文摘要明确出现真实机器人、基准、开源证据；OpenAlex 作者/机构元数据包含Nankai University、Tsinghua University。",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.05706v1",
+          "https://openalex.org/W7202006149"
+        ]
+      },
+      "rankScore": 85,
+      "fieldEvidence": {
+        "identity": [
+          "https://arxiv.org/abs/2608.05706v1",
+          "https://openalex.org/W7202006149",
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "title": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "facts": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "task": [],
+        "embodiment": [],
+        "datasetTrainingScale": [],
+        "benchmark": [],
+        "baselineDelta": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "realRobotTrials": [],
+        "artifacts.code": [],
+        "artifacts.weights": [],
+        "artifacts.data": [],
+        "artifacts.projectPage": [],
+        "artifacts.license": [],
+        "limitations": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "reproducibilityCost": [
+          "https://arxiv.org/abs/2608.05706v1"
+        ],
+        "author": [
+          "https://openalex.org/W7202006149"
+        ],
+        "lab": [
+          "https://openalex.org/W7202006149"
+        ],
+        "openAlex.match": [
+          "https://openalex.org/W7202006149"
+        ],
+        "openAlex.retraction": [
+          "https://openalex.org/W7202006149"
+        ],
+        "openAlex.freshness": [
+          "https://openalex.org/W7202006149"
+        ],
+        "whyWorthAttention": [
+          "https://arxiv.org/abs/2608.05706v1",
+          "https://openalex.org/W7202006149"
+        ]
+      },
+      "completeness": {
+        "totalFields": 24,
+        "knownFields": 14,
+        "unknownFields": 10,
+        "completeOrUnknown": true
+      },
+      "gates": [],
+      "eligibleForTopResearch": true
+    },
     {
       "identity": {
         "paperId": {
@@ -547,19 +757,16 @@
       "author": {
         "value": [
           "Quan-Dung Pham",
-          "Anh Dao"
+          "Anh Dao",
+          "The-Anh Nguyen"
         ],
         "evidenceUrls": [
           "https://openalex.org/W7203460915"
         ]
       },
       "lab": {
-        "value": [
-          "Hong Kong University of Science and Technology"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7203460915"
-        ]
+        "value": "unknown",
+        "evidenceUrls": []
       },
       "openAlex": {
         "match": {
@@ -582,7 +789,7 @@
         }
       },
       "whyWorthAttention": {
-        "value": "原文摘要明确出现真实机器人、基准、开源证据；OpenAlex 作者/机构元数据包含Hong Kong University of Science and Technology。",
+        "value": "原文摘要明确出现真实机器人、基准、开源证据。",
         "evidenceUrls": [
           "https://arxiv.org/abs/2608.12860v1",
           "https://openalex.org/W7203460915"
@@ -625,9 +832,7 @@
         "author": [
           "https://openalex.org/W7203460915"
         ],
-        "lab": [
-          "https://openalex.org/W7203460915"
-        ],
+        "lab": [],
         "openAlex.match": [
           "https://openalex.org/W7203460915"
         ],
@@ -644,8 +849,8 @@
       },
       "completeness": {
         "totalFields": 24,
-        "knownFields": 15,
-        "unknownFields": 9,
+        "knownFields": 14,
+        "unknownFields": 10,
         "completeOrUnknown": true
       },
       "gates": [],
@@ -1914,9 +2119,9 @@
           ]
         },
         "openAlexWorkId": {
-          "value": "https://openalex.org/W7201833363",
+          "value": "https://openalex.org/W7202006968",
           "evidenceUrls": [
-            "https://openalex.org/W7201833363"
+            "https://openalex.org/W7202006968"
           ]
         },
         "version": {
@@ -2011,50 +2216,45 @@
           "Xuekun Jiang"
         ],
         "evidenceUrls": [
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ]
       },
       "lab": {
-        "value": [
-          "The University of Queensland",
-          "Blue Yonder (United States)"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7201833363"
-        ]
+        "value": "unknown",
+        "evidenceUrls": []
       },
       "openAlex": {
         "match": {
           "value": "matched",
           "evidenceUrls": [
-            "https://openalex.org/W7201833363"
+            "https://openalex.org/W7202006968"
           ]
         },
         "retraction": {
           "value": false,
           "evidenceUrls": [
-            "https://openalex.org/W7201833363"
+            "https://openalex.org/W7202006968"
           ]
         },
         "freshness": {
           "value": "fresh",
           "evidenceUrls": [
-            "https://openalex.org/W7201833363"
+            "https://openalex.org/W7202006968"
           ]
         }
       },
       "whyWorthAttention": {
-        "value": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含The University of Queensland、Blue Yonder (United States)。",
+        "value": "原文摘要明确出现真实机器人、基准证据。",
         "evidenceUrls": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ]
       },
       "rankScore": 50,
       "fieldEvidence": {
         "identity": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7201833363",
+          "https://openalex.org/W7202006968",
           "https://arxiv.org/abs/2608.05948v1"
         ],
         "title": [
@@ -2083,29 +2283,27 @@
           "https://arxiv.org/abs/2608.05948v1"
         ],
         "author": [
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ],
-        "lab": [
-          "https://openalex.org/W7201833363"
-        ],
+        "lab": [],
         "openAlex.match": [
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ],
         "openAlex.retraction": [
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ],
         "openAlex.freshness": [
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ],
         "whyWorthAttention": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7201833363"
+          "https://openalex.org/W7202006968"
         ]
       },
       "completeness": {
         "totalFields": 24,
-        "knownFields": 14,
-        "unknownFields": 10,
+        "knownFields": 13,
+        "unknownFields": 11,
         "completeOrUnknown": true
       },
       "gates": [],
@@ -2306,201 +2504,6 @@
         "totalFields": 24,
         "knownFields": 13,
         "unknownFields": 11,
-        "completeOrUnknown": true
-      },
-      "gates": [],
-      "eligibleForTopResearch": true
-    },
-    {
-      "identity": {
-        "paperId": {
-          "value": "c790d1fd225d306f",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.13362v1"
-          ]
-        },
-        "openAlexWorkId": {
-          "value": "https://openalex.org/W7203495443",
-          "evidenceUrls": [
-            "https://openalex.org/W7203495443"
-          ]
-        },
-        "version": {
-          "value": 1,
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.13362v1"
-          ]
-        }
-      },
-      "titleZh": {
-        "value": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ]
-      },
-      "factsZh": {
-        "value": [
-          "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。",
-          "真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ]
-      },
-      "task": {
-        "value": [
-          "机器人操作"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ]
-      },
-      "embodiment": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "datasetTrainingScale": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "benchmark": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "baselineDelta": {
-        "value": "Across real-world dexterous manipulation experiments, NestDex improves demonstration reliability and efficiency, and the resulting empirical evaluations support effective autonomous policy learning.",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ]
-      },
-      "realRobotTrials": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "artifacts": {
-        "code": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "weights": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "data": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "projectPage": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "license": {
-          "value": "unknown",
-          "evidenceUrls": []
-        }
-      },
-      "limitations": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "reproducibilityCost": {
-        "value": "unknown",
-        "evidenceUrls": [],
-        "rationale": "unknown"
-      },
-      "author": {
-        "value": [
-          "James Zhao",
-          "Jinhe Tang",
-          "Mingyuan Ba"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7203495443"
-        ]
-      },
-      "lab": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "openAlex": {
-        "match": {
-          "value": "matched",
-          "evidenceUrls": [
-            "https://openalex.org/W7203495443"
-          ]
-        },
-        "retraction": {
-          "value": false,
-          "evidenceUrls": [
-            "https://openalex.org/W7203495443"
-          ]
-        },
-        "freshness": {
-          "value": "fresh",
-          "evidenceUrls": [
-            "https://openalex.org/W7203495443"
-          ]
-        }
-      },
-      "whyWorthAttention": {
-        "value": "原文摘要明确出现真实机器人证据。",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.13362v1",
-          "https://openalex.org/W7203495443"
-        ]
-      },
-      "rankScore": 46,
-      "fieldEvidence": {
-        "identity": [
-          "https://arxiv.org/abs/2608.13362v1",
-          "https://openalex.org/W7203495443",
-          "https://arxiv.org/abs/2608.13362v1"
-        ],
-        "title": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ],
-        "facts": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ],
-        "task": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ],
-        "embodiment": [],
-        "datasetTrainingScale": [],
-        "benchmark": [],
-        "baselineDelta": [
-          "https://arxiv.org/abs/2608.13362v1"
-        ],
-        "realRobotTrials": [],
-        "artifacts.code": [],
-        "artifacts.weights": [],
-        "artifacts.data": [],
-        "artifacts.projectPage": [],
-        "artifacts.license": [],
-        "limitations": [],
-        "reproducibilityCost": [],
-        "author": [
-          "https://openalex.org/W7203495443"
-        ],
-        "lab": [],
-        "openAlex.match": [
-          "https://openalex.org/W7203495443"
-        ],
-        "openAlex.retraction": [
-          "https://openalex.org/W7203495443"
-        ],
-        "openAlex.freshness": [
-          "https://openalex.org/W7203495443"
-        ],
-        "whyWorthAttention": [
-          "https://arxiv.org/abs/2608.13362v1",
-          "https://openalex.org/W7203495443"
-        ]
-      },
-      "completeness": {
-        "totalFields": 24,
-        "knownFields": 12,
-        "unknownFields": 12,
         "completeOrUnknown": true
       },
       "gates": [],

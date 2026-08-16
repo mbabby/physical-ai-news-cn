@@ -109,6 +109,8 @@
 
 > 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
+- [LAWM-3D：从人类视频学习三维感知潜在动作，构建可泛化机器人世界模型](https://arxiv.org/abs/2608.05706v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>LAWM-3D以多视角统一动作标记、几何对齐和RGB-D重建，从人类视频学习三维感知潜在动作。实验显示其生成质量、物理一致性和泛化能力达到SOTA，但摘要未提供真实机器人、具体基准或开源证据。<br>值得关注：来自 清华大学；提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Jiarui Yang · 清华大学</sub>
+
 - [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：来自 UC Berkeley；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Y. Mei · UC Berkeley</sub>
 
 - [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：来自 清华大学；提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai · 清华大学</sub>
@@ -118,8 +120,6 @@
 - [DreamWAM：超越RGB未来预测的世界动作模型](https://arxiv.org/abs/2608.04996v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>DreamWAM将未来预测从RGB空间重构为外观、运动、几何与语义的结构化表示，训练时联合建模而推理仅保留RGB分支。该方法在LIBERO与LIBERO-Plus扰动下均超越RGB基线，真实机器人操作平均成功率达74.4%，代码与模型已开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Weiheng Zhao</sub>
 
 - [TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架](https://arxiv.org/abs/2608.07314v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Ziheng Liu</sub>
-
-- [CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架](https://arxiv.org/abs/2608.06688v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yao Wang</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

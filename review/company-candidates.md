@@ -86,18 +86,18 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 复旦95后研发机器人“大脑”，眸深智能 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[36 Kr](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%A4%8D%E6%97%A695%E5%90%8E%E7%A0%94%E5%8F%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%A4%A7%E8%84%91%E2%80%9D%EF%BC%8C%E7%9C%B8%E6%B7%B1%E6%99%BA%E8%83%BD%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 中国创企Infiforce · 候选 · 32/100
 
 - 路线：世界模型与空间智能
 - 证据：[AI Insider](https://news.google.com/rss/articles/CBMiyAFBVV95cUxNRjhWNkR2a19lSkphT296X1FvTVRKOS11SzNWc29HbUhXUl9oSGk5Wm4yNEtFcWxHVWh2Y3pBaFllNFQtQ0FyYm1NeFNEM2RyQVJJNXpyNTJGYWpBWUNiVjBCMmlRR0FBRUZ0dkw1cndSRjZlX0VKZEFiaFNMZDFqdFctNWRPNllwbXJJZmVBbU9MT3BfTjZ5d1RkajROdFVYTHJlZWlDNG91YWJaMGJJV0d1VF9WZXhPNHJMVmZKUWJFMTRnS3VOdA?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%88%9B%E4%BC%81Infiforce%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%88%9B%E4%BC%81Infiforce%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 中国公司Infiforce · 候选 · 32/100
-
-- 路线：世界模型与空间智能
-- 证据：[AI Insider](https://news.google.com/rss/articles/CBMiyAFBVV95cUxNRjhWNkR2a19lSkphT296X1FvTVRKOS11SzNWc29HbUhXUl9oSGk5Wm4yNEtFcWxHVWh2Y3pBaFllNFQtQ0FyYm1NeFNEM2RyQVJJNXpyNTJGYWpBWUNiVjBCMmlRR0FBRUZ0dkw1cndSRjZlX0VKZEFiaFNMZDFqdFctNWRPNllwbXJJZmVBbU9MT3BfTjZ5d1RkajROdFVYTHJlZWlDNG91YWJaMGJJV0d1VF9WZXhPNHJMVmZKUWJFMTRnS3VOdA?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%85%AC%E5%8F%B8Infiforce%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%85%AC%E5%8F%B8Infiforce%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 医疗机器人企业Vexev · 候选 · 32/100
@@ -198,6 +198,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 地瓜机器人举办机器人DemoDay：40多家 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMipwFBVV95cUxOb3d1a3loMmdVM00zR1V3OVV0OFphSnNaM3htN1F3X0M3bThRUUxQTEZmM2twaDBUcXBmNjgwQU5xZkNLUExFS2FOdzZGandULTNJVWo2U1ZuMktmTmVFMnR0UnczUjBRdHRIbXNOVWNZQVVSeDJhcndRWXJUV1UzdDloYTFzUzZDN0JkVWJKZnJsZ3J6bXVsMTJSM1Z0cV9PX3NQWC1COA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%9A40%E5%A4%9A%E5%AE%B6%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%9A40%E5%A4%9A%E5%AE%B6%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 宇树科技IPO超额认购逾5000倍，人形机器人赛道引爆 · 候选 · 22/100
 
 - 路线：本体与硬件
@@ -210,20 +217,6 @@
 - 路线：部署与商业化
 - 证据：[新浪财经](https://news.google.com/rss/articles/CBMimAFBVV95cUxQWWlIWEVPV2hBLWEtYTFVQVVUSEVNQ2RvZ3o3V0ZFZHJSQllTMlVRZVI0VDk2d3htNDh1N2R0c2pzSG9mZUZ2Q1RLN2o0Tk1wVGxkSlhKM1d0eE1MY2F0RUlyYUFYWjJjN1R6aHRXQnFjM0NmUlVFdmlhUGd5UTNsN1JEU1dRMjVzdGkxS1BlZUVZVWZEUGVmNg?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%9F%83%E6%96%AF%E9%A1%BFH%E8%82%A1%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%9F%83%E6%96%AF%E9%A1%BFH%E8%82%A1%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 地瓜机器人举办机器人DemoDay：40多家 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[新浪财经](https://news.google.com/rss/articles/CBMipwFBVV95cUxOb3d1a3loMmdVM00zR1V3OVV0OFphSnNaM3htN1F3X0M3bThRUUxQTEZmM2twaDBUcXBmNjgwQU5xZkNLUExFS2FOdzZGandULTNJVWo2U1ZuMktmTmVFMnR0UnczUjBRdHRIbXNOVWNZQVVSeDJhcndRWXJUV1UzdDloYTFzUzZDN0JkVWJKZnJsZ3J6bXVsMTJSM1Z0cV9PX3NQWC1COA?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%9A40%E5%A4%9A%E5%AE%B6%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%9A40%E5%A4%9A%E5%AE%B6%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 地瓜机器人举办机器人DemoDay，40多家 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[新浪财经](https://news.google.com/rss/articles/CBMipwFBVV95cUxOb3d1a3loMmdVM00zR1V3OVV0OFphSnNaM3htN1F3X0M3bThRUUxQTEZmM2twaDBUcXBmNjgwQU5xZkNLUExFS2FOdzZGandULTNJVWo2U1ZuMktmTmVFMnR0UnczUjBRdHRIbXNOVWNZQVVSeDJhcndRWXJUV1UzdDloYTFzUzZDN0JkVWJKZnJsZ3J6bXVsMTJSM1Z0cV9PX3NQWC1COA?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%8C40%E5%A4%9A%E5%AE%B6%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%9C%B0%E7%93%9C%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%BE%E5%8A%9E%E6%9C%BA%E5%99%A8%E4%BA%BADemoDay%EF%BC%8C40%E5%A4%9A%E5%AE%B6%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Wetour Robotics · 候选 · 22/100

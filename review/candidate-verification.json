@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T06:29:51.606Z",
+  "generatedAt": "2026-08-16T16:09:52.482Z",
   "records": [
     {
       "id": "verify-41a29bdf48f1e7",
@@ -328,12 +328,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-16T16:09:52.482Z",
+          "trigger": "定时重试",
+          "priority": 98,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"西湖机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"西湖机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"西湖机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "新浪财经",
+              "value": "https://t.cj.sina.cn",
+              "query": "\"西湖机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 992,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-13T01:27:08.249Z",
-      "lastAttemptAt": "2026-08-13T15:08:41.266Z",
-      "nextReviewAt": "2026-08-16T15:08:41.266Z",
-      "attempts": 2,
+      "lastAttemptAt": "2026-08-16T16:09:52.482Z",
+      "nextReviewAt": "2026-08-23T16:09:52.482Z",
+      "attempts": 3,
       "evidenceHash": "62edbda9742273413df6",
       "evidence": [
         {
@@ -2103,6 +2140,205 @@
       }
     },
     {
+      "id": "verify-762441c08e6d8d",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "Archer to shape physical AI future of aerospace and defense with acquisition of Boeing’s Wisk Aero, Insitu and SkyGrid subsidiaries - Zawya",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPY0hhMEpKcjlVTTlyaWZmUWd0NHl1dDgtQnRDNkF4UjBfc3hKVlczVUIzclV4X0g1a3BlUlUzd3B1NFc2dHU0OTNnQkJCUWNvNDByYmpBMGJ5SEtRQkF3eXBmNEd0a3YxTVlBcEliYlJISGFkNDFEWFg4azZxRmptc3NRbzZLUXdTa0hOU1diWHNxV19OeDNDQjA3ZXlDQzZHc1FKSkFwOXF4dHJrcXBUZjVraWxoV0EweVFCeUh0RXlXUFAzNngxRmdna1VBSUZ0cDhEbHdMLUw4amdoX1Z5WXdmSG5heUxMYUpaN042TUVWOGVqX0pUT3IzTHpYRjJiRm1uVzVhNWxpTExiTFZaRkZFRnNrMnFDZHc?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Zawya",
+          "publisherUrl": "https://www.zawya.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-16T16:09:52.482Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Zawya",
+              "value": "https://www.zawya.com",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 992,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-16T16:09:52.482Z",
+      "lastAttemptAt": "2026-08-16T16:09:52.482Z",
+      "attempts": 1,
+      "evidenceHash": "6c55a8c6aa313e447651",
+      "evidence": [
+        {
+          "articleId": "caf2ef448964f220",
+          "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPY0hhMEpKcjlVTTlyaWZmUWd0NHl1dDgtQnRDNkF4UjBfc3hKVlczVUIzclV4X0g1a3BlUlUzd3B1NFc2dHU0OTNnQkJCUWNvNDByYmpBMGJ5SEtRQkF3eXBmNEd0a3YxTVlBcEliYlJISGFkNDFEWFg4azZxRmptc3NRbzZLUXdTa0hOU1diWHNxV19OeDNDQjA3ZXlDQzZHc1FKSkFwOXF4dHJrcXBUZjVraWxoV0EweVFCeUh0RXlXUFAzNngxRmdna1VBSUZ0cDhEbHdMLUw4amdoX1Z5WXdmSG5heUxMYUpaN042TUVWOGVqX0pUT3IzTHpYRjJiRm1uVzVhNWxpTExiTFZaRkZFRnNrMnFDZHc?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-16T07:40:12.000Z",
+          "title": "Archer to shape physical AI future of aerospace and defense with acquisition of Boeing’s Wisk Aero, Insitu and SkyGrid subsidiaries - Zawya"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-e654b1740790cd",
+      "companyName": "复旦95后研发机器人“大脑”，眸深智能",
+      "kind": "投融资",
+      "title": "复旦95后研发机器人“大脑”，眸深智能融资3亿元",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "36 Kr",
+          "publisherUrl": "https://m.36kr.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-16T16:09:52.482Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"复旦95后研发机器人“大脑”，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"复旦95后研发机器人“大脑”，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"复旦95后研发机器人“大脑”，眸深智能\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "36 Kr",
+              "value": "https://m.36kr.com",
+              "query": "\"复旦95后研发机器人“大脑”，眸深智能\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 992,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-08-16T16:09:52.482Z",
+      "lastAttemptAt": "2026-08-16T16:09:52.482Z",
+      "nextReviewAt": "2026-08-17T16:09:52.482Z",
+      "attempts": 1,
+      "evidenceHash": "ada43dd6aa3f6e740f5c",
+      "evidence": [
+        {
+          "articleId": "2bb8276ec8238ac8",
+          "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1SSEh4QkRJbVRPMktCNDloNlhacmJxMGg4dkl0cWM1V3czMXZqNy1DczN3Mi1rWm9Zb290UjhkQS01OGNOdzRJbHBla3p4dw?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-08-16T12:48:15.000Z",
+          "title": "复旦95后研发机器人“大脑”，眸深智能融资3亿元",
+          "amount": "3亿元"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-ee3b5b828d2ac8",
       "companyName": "广汽孵化慧仑科技",
       "kind": "投融资",
@@ -3149,107 +3385,6 @@
           "publishedAt": "2026-08-14T01:13:35.000Z",
           "title": "西湖机器人半年完成4轮共5亿元融资，具身智能路径贴近产业落地",
           "amount": "5亿元"
-        }
-      ],
-      "facts": {},
-      "conflicts": [],
-      "failureReasons": [
-        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-        "现有材料全部来自线索发现层，不能作为公开证据"
-      ],
-      "fieldVerification": {
-        "amount": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "round": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "eventDate": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        }
-      }
-    },
-    {
-      "id": "verify-345122fa626d54",
-      "companyName": "中国创企Infiforce",
-      "kind": "投融资",
-      "title": "中国创企Infiforce融资近1.5亿美元，研发面向机器人的Ego Native World Model",
-      "status": "等待重试",
-      "publicStatus": "candidate",
-      "publicationState": "candidate",
-      "confidenceScore": 0,
-      "independentEvidenceCount": 0,
-      "impactScore": 88,
-      "discoveryOrigins": [
-        {
-          "discoveryLink": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNRjhWNkR2a19lSkphT296X1FvTVRKOS11SzNWc29HbUhXUl9oSGk5Wm4yNEtFcWxHVWh2Y3pBaFllNFQtQ0FyYm1NeFNEM2RyQVJJNXpyNTJGYWpBWUNiVjBCMmlRR0FBRUZ0dkw1cndSRjZlX0VKZEFiaFNMZDFqdFctNWRPNllwbXJJZmVBbU9MT3BfTjZ5d1RkajROdFVYTHJlZWlDNG91YWJaMGJJV0d1VF9WZXhPNHJMVmZKUWJFMTRnS3VOdA?oc=5",
-          "discoverySource": "Google News · Robotics Capital",
-          "publisher": "AI Insider",
-          "publisherUrl": "https://theaiinsider.tech"
-        }
-      ],
-      "enrichmentAttempts": [
-        {
-          "attemptedAt": "2026-08-16T06:29:51.606Z",
-          "trigger": "首次补证",
-          "priority": 88,
-          "targets": [
-            {
-              "kind": "权威产业媒体",
-              "label": "IEEE Spectrum · Robotics",
-              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
-              "query": "\"中国创企Infiforce\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "TechCrunch · Robotics",
-              "value": "https://techcrunch.com/category/robotics/feed/",
-              "query": "\"中国创企Infiforce\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "The Robot Report",
-              "value": "https://www.therobotreport.com/feed/",
-              "query": "\"中国创企Infiforce\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "原始媒体",
-              "label": "AI Insider",
-              "value": "https://theaiinsider.tech",
-              "query": "\"中国创企Infiforce\" funding financing investment raises 融资 投资"
-            }
-          ],
-          "scannedArticles": 984,
-          "newEvidenceLinks": [],
-          "outcome": "未发现新证据",
-          "failureReasons": [
-            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-08-16T06:29:51.606Z",
-      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
-      "nextReviewAt": "2026-08-17T06:29:51.606Z",
-      "attempts": 1,
-      "evidenceHash": "69a26b0fcbd2ef094660",
-      "evidence": [
-        {
-          "articleId": "3b096d74b8a31347",
-          "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNRjhWNkR2a19lSkphT296X1FvTVRKOS11SzNWc29HbUhXUl9oSGk5Wm4yNEtFcWxHVWh2Y3pBaFllNFQtQ0FyYm1NeFNEM2RyQVJJNXpyNTJGYWpBWUNiVjBCMmlRR0FBRUZ0dkw1cndSRjZlX0VKZEFiaFNMZDFqdFctNWRPNllwbXJJZmVBbU9MT3BfTjZ5d1RkajROdFVYTHJlZWlDNG91YWJaMGJJV0d1VF9WZXhPNHJMVmZKUWJFMTRnS3VOdA?oc=5",
-          "source": "Google News · Robotics Capital",
-          "grade": "线索",
-          "sourceClass": "discovery",
-          "score": 0,
-          "independentOrigin": "news.google.com",
-          "publishedAt": "2026-08-15T14:05:17.000Z",
-          "title": "中国创企Infiforce融资近1.5亿美元，研发面向机器人的Ego Native World Model",
-          "amount": "1.5亿美元"
         }
       ],
       "facts": {},
@@ -6415,7 +6550,7 @@
       "companyName": "宇树科技",
       "companyEntityId": "unitree",
       "kind": "投融资",
-      "title": "宇树科技IPO超额认购逾5000倍，人形机器人赛道引爆投资热情",
+      "title": "宇树科技将成A股“人形机器人第一股”，早期投资人账面回报超百倍",
       "status": "停止自动重试",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -7378,68 +7513,6 @@
       }
     },
     {
-      "id": "verify-eb3556c6649031",
-      "companyName": "埃斯顿H股",
-      "kind": "投融资",
-      "title": "埃斯顿H股融资后9倍溢价收购大股东亏损机器人资产",
-      "status": "等待重试",
-      "publicStatus": "candidate",
-      "publicationState": "candidate",
-      "confidenceScore": 0,
-      "independentEvidenceCount": 0,
-      "impactScore": 70,
-      "discoveryOrigins": [
-        {
-          "discoveryLink": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWWlIWEVPV2hBLWEtYTFVQVVUSEVNQ2RvZ3o3V0ZFZHJSQllTMlVRZVI0VDk2d3htNDh1N2R0c2pzSG9mZUZ2Q1RLN2o0Tk1wVGxkSlhKM1d0eE1MY2F0RUlyYUFYWjJjN1R6aHRXQnFjM0NmUlVFdmlhUGd5UTNsN1JEU1dRMjVzdGkxS1BlZUVZVWZEUGVmNg?oc=5",
-          "discoverySource": "Google News · 中国具身融资",
-          "publisher": "新浪财经",
-          "publisherUrl": "https://finance.sina.cn"
-        }
-      ],
-      "enrichmentAttempts": [],
-      "firstSeenAt": "2026-08-16T00:59:26.984Z",
-      "lastAttemptAt": "2026-08-16T00:59:26.984Z",
-      "nextReviewAt": "2026-08-17T00:59:26.984Z",
-      "attempts": 1,
-      "evidenceHash": "3975662258a439d1467d",
-      "evidence": [
-        {
-          "articleId": "7d78a4ae35b76eee",
-          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWWlIWEVPV2hBLWEtYTFVQVVUSEVNQ2RvZ3o3V0ZFZHJSQllTMlVRZVI0VDk2d3htNDh1N2R0c2pzSG9mZUZ2Q1RLN2o0Tk1wVGxkSlhKM1d0eE1MY2F0RUlyYUFYWjJjN1R6aHRXQnFjM0NmUlVFdmlhUGd5UTNsN1JEU1dRMjVzdGkxS1BlZUVZVWZEUGVmNg?oc=5",
-          "source": "Google News · 中国具身融资",
-          "grade": "线索",
-          "sourceClass": "discovery",
-          "score": 0,
-          "independentOrigin": "news.google.com",
-          "publishedAt": "2026-08-15T09:30:44.000Z",
-          "title": "埃斯顿H股融资后9倍溢价收购大股东亏损机器人资产"
-        }
-      ],
-      "facts": {},
-      "conflicts": [],
-      "failureReasons": [
-        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-        "现有材料全部来自线索发现层，不能作为公开证据"
-      ],
-      "fieldVerification": {
-        "amount": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "round": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "eventDate": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        }
-      }
-    },
-    {
       "id": "verify-8fe9257a2a95c2",
       "companyName": "待识别公司",
       "kind": "投融资",
@@ -7737,7 +7810,7 @@
       "id": "verify-ac907907940df5",
       "companyName": "待识别公司",
       "kind": "投融资",
-      "title": "地瓜机器人举办机器人DemoDay：40多家投资机构与10支创业团队参与",
+      "title": "地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与",
       "status": "已拒绝",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -7767,7 +7840,7 @@
           "score": 0,
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-15T19:04:18.000Z",
-          "title": "地瓜机器人举办机器人DemoDay：40多家投资机构与10支创业团队参与"
+          "title": "地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与"
         }
       ],
       "facts": {},
@@ -10866,65 +10939,6 @@
           "independentOrigin": "arxiv.org",
           "publishedAt": "2026-08-04T13:53:48.000Z",
           "title": "PhyAI: Real-Time Physical AI at the Edge, Scalable Rollouts in the Cloud"
-        }
-      ],
-      "facts": {},
-      "conflicts": [],
-      "failureReasons": [
-        "无法唯一识别公司主体"
-      ],
-      "fieldVerification": {
-        "amount": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "round": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "eventDate": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        }
-      }
-    },
-    {
-      "id": "verify-3330f0420d02ff",
-      "companyName": "待识别公司",
-      "kind": "产品发布",
-      "title": "Learning new facts can change LLM behaviour",
-      "status": "已拒绝",
-      "publicStatus": "candidate",
-      "publicationState": "candidate",
-      "confidenceScore": 0,
-      "independentEvidenceCount": 0,
-      "impactScore": 52,
-      "discoveryOrigins": [
-        {
-          "discoveryLink": "https://www.lesswrong.com/posts/9BNHJqyai2EZAtrRM/learning-new-facts-can-change-llm-behaviour",
-          "discoverySource": "自动发现 · lesswrong.com",
-          "landingLink": "https://www.lesswrong.com/posts/9BNHJqyai2EZAtrRM/learning-new-facts-can-change-llm-behaviour"
-        }
-      ],
-      "enrichmentAttempts": [],
-      "firstSeenAt": "2026-08-16T00:59:26.984Z",
-      "lastAttemptAt": "2026-08-16T00:59:26.984Z",
-      "attempts": 1,
-      "evidenceHash": "207eed1f5cd63940d648",
-      "evidence": [
-        {
-          "articleId": "c54020c1faf33402",
-          "link": "https://www.lesswrong.com/posts/9BNHJqyai2EZAtrRM/learning-new-facts-can-change-llm-behaviour",
-          "source": "自动发现 · lesswrong.com",
-          "grade": "线索",
-          "sourceClass": "discovery",
-          "score": 0,
-          "independentOrigin": "lesswrong.com",
-          "publishedAt": "2026-08-15T13:46:14.000Z",
-          "title": "Learning new facts can change LLM behaviour"
         }
       ],
       "facts": {},

@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-16-2026-08-16T06-29-51-606Z",
+  "runId": "2026-08-16-2026-08-16T16-09-52-482Z",
   "date": "2026-08-16",
-  "startedAt": "2026-08-16T06:29:51.606Z",
-  "finishedAt": "2026-08-16T06:33:28.539Z",
+  "startedAt": "2026-08-16T16:09:52.482Z",
+  "finishedAt": "2026-08-16T16:13:24.197Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 15,
+    "candidates": 13,
     "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 10,
+      "attempted": 9,
       "succeeded": 7,
-      "failed": 3,
+      "failed": 2,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
     {
@@ -37,5 +37,5 @@
       "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 1 家。 失败原因：invalid-shape 1。"
     }
   ],
-  "outputs": 60
+  "outputs": 69
 }

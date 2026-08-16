@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T06:29:51.606Z",
+  "generatedAt": "2026-08-16T16:09:52.482Z",
   "cases": [
     {
       "caseId": "review-article-34d3abc4251cd1b5",
@@ -728,10 +728,9 @@
       "firstActionAt": null,
       "dueAt": "2026-08-10T11:09:18.065Z",
       "lastActionAt": null,
-      "nextAction": "缺少完整中文事实简介",
+      "nextAction": "线索来源尚未完成二次核验",
       "missingEvidence": [
         "公司主体未确认",
-        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验"
       ],
       "decision": null,
@@ -743,6 +742,11 @@
           "at": "2026-08-10T07:09:17.273Z",
           "action": "created",
           "detail": "Generated from article:2bb8276ec8238ac8"
+        },
+        {
+          "at": "2026-08-16T16:09:52.482Z",
+          "action": "updated",
+          "detail": "missingEvidence,nextAction"
         }
       ]
     },
@@ -1779,9 +1783,9 @@
     },
     "backlogAgeHours": {
       "cases": 40,
-      "p50": 143.34,
-      "p90": 167.11,
-      "max": 335
+      "p50": 153.01,
+      "p90": 176.78,
+      "max": 344.67
     },
     "sloComplianceRate": {
       "eligible": 40,

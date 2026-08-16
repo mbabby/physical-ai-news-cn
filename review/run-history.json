@@ -1,7 +1,48 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-16T06:33:28.539Z",
+  "updatedAt": "2026-08-16T16:13:24.197Z",
   "runs": [
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-16-2026-08-16T16-09-52-482Z",
+      "date": "2026-08-16",
+      "startedAt": "2026-08-16T16:09:52.482Z",
+      "finishedAt": "2026-08-16T16:13:24.197Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 0,
+        "publicResearchItems": 6,
+        "candidates": 13,
+        "sourceFailures": 0
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "部分降级",
+          "attempted": 9,
+          "succeeded": 7,
+          "failed": 2,
+          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "成功",
+          "attempted": 36,
+          "succeeded": 36,
+          "failed": 0,
+          "detail": "论文引用与作者机构元数据已刷新。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "部分降级",
+          "attempted": 1,
+          "succeeded": 0,
+          "failed": 1,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 1 家。 失败原因：invalid-shape 1。"
+        }
+      ],
+      "outputs": 69
+    },
     {
       "schemaVersion": 1,
       "runId": "2026-08-16-2026-08-16T06-29-51-606Z",
@@ -1033,39 +1074,6 @@
           "status": "部分降级",
           "attempted": 10,
           "succeeded": 8,
-          "failed": 2,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "部分降级",
-          "attempted": 36,
-          "succeeded": 33,
-          "failed": 3,
-          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
-        }
-      ],
-      "outputs": 37
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-08-2026-08-08T10-30-29-794Z",
-      "date": "2026-08-08",
-      "startedAt": "2026-08-08T10:30:29.794Z",
-      "finishedAt": "2026-08-08T10:34:08.931Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 0,
-        "publicResearchItems": 6,
-        "candidates": 18,
-        "sourceFailures": 1
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 8,
-          "succeeded": 6,
           "failed": 2,
           "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
         },
