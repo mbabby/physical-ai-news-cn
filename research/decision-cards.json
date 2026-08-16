@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T00:56:36.655Z",
+  "generatedAt": "2026-08-16T00:59:26.984Z",
   "cards": [
     {
       "identity": {
@@ -427,6 +427,219 @@
         "whyWorthAttention": [
           "https://arxiv.org/abs/2608.03682v2",
           "https://openalex.org/W7201914260"
+        ]
+      },
+      "completeness": {
+        "totalFields": 24,
+        "knownFields": 15,
+        "unknownFields": 9,
+        "completeOrUnknown": true
+      },
+      "gates": [],
+      "eligibleForTopResearch": true
+    },
+    {
+      "identity": {
+        "paperId": {
+          "value": "da3b393a8a0b1c93",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.12860v1"
+          ]
+        },
+        "openAlexWorkId": {
+          "value": "https://openalex.org/W7203460915",
+          "evidenceUrls": [
+            "https://openalex.org/W7203460915"
+          ]
+        },
+        "version": {
+          "value": 1,
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.12860v1"
+          ]
+        }
+      },
+      "titleZh": {
+        "value": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "factsZh": {
+        "value": [
+          "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。",
+          "四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "task": {
+        "value": [
+          "机器人导航",
+          "机器人运动"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "embodiment": {
+        "value": [
+          "人形机器人"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "datasetTrainingScale": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "benchmark": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "baselineDelta": {
+        "value": "Across four models and four embodiments, JanusVLN achieves the highest mean success rate of 43.55% and nDTW of 48.38.",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "realRobotTrials": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "artifacts": {
+        "code": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "weights": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "data": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "projectPage": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "license": {
+          "value": "unknown",
+          "evidenceUrls": []
+        }
+      },
+      "limitations": {
+        "value": [
+          "Vision-Language Navigation (VLN) for humanoid robots poses challenges existing benchmarks fail to address: bipedal locomotion imposes physical constraints absent from wheeled agents, humanoid morphologies vary across platforms, and egocentric observations are distorted by locomotion-induced camera dynamics."
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ]
+      },
+      "reproducibilityCost": {
+        "value": "unknown",
+        "evidenceUrls": [],
+        "rationale": "unknown"
+      },
+      "author": {
+        "value": [
+          "Quan-Dung Pham",
+          "Anh Dao"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7203460915"
+        ]
+      },
+      "lab": {
+        "value": [
+          "Hong Kong University of Science and Technology"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7203460915"
+        ]
+      },
+      "openAlex": {
+        "match": {
+          "value": "matched",
+          "evidenceUrls": [
+            "https://openalex.org/W7203460915"
+          ]
+        },
+        "retraction": {
+          "value": false,
+          "evidenceUrls": [
+            "https://openalex.org/W7203460915"
+          ]
+        },
+        "freshness": {
+          "value": "fresh",
+          "evidenceUrls": [
+            "https://openalex.org/W7203460915"
+          ]
+        }
+      },
+      "whyWorthAttention": {
+        "value": "原文摘要明确出现真实机器人、基准、开源证据；OpenAlex 作者/机构元数据包含Hong Kong University of Science and Technology。",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.12860v1",
+          "https://openalex.org/W7203460915"
+        ]
+      },
+      "rankScore": 62,
+      "fieldEvidence": {
+        "identity": [
+          "https://arxiv.org/abs/2608.12860v1",
+          "https://openalex.org/W7203460915",
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "title": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "facts": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "task": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "embodiment": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "datasetTrainingScale": [],
+        "benchmark": [],
+        "baselineDelta": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "realRobotTrials": [],
+        "artifacts.code": [],
+        "artifacts.weights": [],
+        "artifacts.data": [],
+        "artifacts.projectPage": [],
+        "artifacts.license": [],
+        "limitations": [
+          "https://arxiv.org/abs/2608.12860v1"
+        ],
+        "reproducibilityCost": [],
+        "author": [
+          "https://openalex.org/W7203460915"
+        ],
+        "lab": [
+          "https://openalex.org/W7203460915"
+        ],
+        "openAlex.match": [
+          "https://openalex.org/W7203460915"
+        ],
+        "openAlex.retraction": [
+          "https://openalex.org/W7203460915"
+        ],
+        "openAlex.freshness": [
+          "https://openalex.org/W7203460915"
+        ],
+        "whyWorthAttention": [
+          "https://arxiv.org/abs/2608.12860v1",
+          "https://openalex.org/W7203460915"
         ]
       },
       "completeness": {
@@ -1701,9 +1914,9 @@
           ]
         },
         "openAlexWorkId": {
-          "value": "https://openalex.org/W7202006968",
+          "value": "https://openalex.org/W7201833363",
           "evidenceUrls": [
-            "https://openalex.org/W7202006968"
+            "https://openalex.org/W7201833363"
           ]
         },
         "version": {
@@ -1798,45 +2011,50 @@
           "Xuekun Jiang"
         ],
         "evidenceUrls": [
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ]
       },
       "lab": {
-        "value": "unknown",
-        "evidenceUrls": []
+        "value": [
+          "The University of Queensland",
+          "Blue Yonder (United States)"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7201833363"
+        ]
       },
       "openAlex": {
         "match": {
           "value": "matched",
           "evidenceUrls": [
-            "https://openalex.org/W7202006968"
+            "https://openalex.org/W7201833363"
           ]
         },
         "retraction": {
           "value": false,
           "evidenceUrls": [
-            "https://openalex.org/W7202006968"
+            "https://openalex.org/W7201833363"
           ]
         },
         "freshness": {
           "value": "fresh",
           "evidenceUrls": [
-            "https://openalex.org/W7202006968"
+            "https://openalex.org/W7201833363"
           ]
         }
       },
       "whyWorthAttention": {
-        "value": "原文摘要明确出现真实机器人、基准证据。",
+        "value": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含The University of Queensland、Blue Yonder (United States)。",
         "evidenceUrls": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ]
       },
       "rankScore": 50,
       "fieldEvidence": {
         "identity": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7202006968",
+          "https://openalex.org/W7201833363",
           "https://arxiv.org/abs/2608.05948v1"
         ],
         "title": [
@@ -1865,27 +2083,29 @@
           "https://arxiv.org/abs/2608.05948v1"
         ],
         "author": [
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ],
-        "lab": [],
+        "lab": [
+          "https://openalex.org/W7201833363"
+        ],
         "openAlex.match": [
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ],
         "openAlex.retraction": [
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ],
         "openAlex.freshness": [
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ],
         "whyWorthAttention": [
           "https://arxiv.org/abs/2608.05948v1",
-          "https://openalex.org/W7202006968"
+          "https://openalex.org/W7201833363"
         ]
       },
       "completeness": {
         "totalFields": 24,
-        "knownFields": 13,
-        "unknownFields": 11,
+        "knownFields": 14,
+        "unknownFields": 10,
         "completeOrUnknown": true
       },
       "gates": [],
@@ -2094,56 +2314,50 @@
     {
       "identity": {
         "paperId": {
-          "value": "d827be18151f4e34",
+          "value": "c790d1fd225d306f",
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.06375v1"
+            "https://arxiv.org/abs/2608.13362v1"
           ]
         },
         "openAlexWorkId": {
-          "value": "https://openalex.org/W7201888151",
+          "value": "https://openalex.org/W7203495443",
           "evidenceUrls": [
-            "https://openalex.org/W7201888151"
+            "https://openalex.org/W7203495443"
           ]
         },
         "version": {
           "value": 1,
           "evidenceUrls": [
-            "https://arxiv.org/abs/2608.06375v1"
+            "https://arxiv.org/abs/2608.13362v1"
           ]
         }
       },
       "titleZh": {
-        "value": "ω-0：实现人形机器人移动与操作并行的潜在预测世界动作模型",
+        "value": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
         "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ]
       },
       "factsZh": {
         "value": [
-          "提出 ω-0，一个全身潜在预测世界动作模型，直接由语言指令、视觉与本体状态生成可执行的全身动作隐变量。",
-          "在 11 项真实家庭任务上，单一模型即优于模仿学习、VLA 与人形基线。"
+          "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。",
+          "真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。"
         ],
         "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ]
       },
       "task": {
         "value": [
-          "机器人操作",
-          "机器人运动"
+          "机器人操作"
         ],
         "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ]
       },
       "embodiment": {
-        "value": [
-          "真实机器人",
-          "人形机器人"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1"
-        ]
+        "value": "unknown",
+        "evidenceUrls": []
       },
       "datasetTrainingScale": {
         "value": "unknown",
@@ -2154,9 +2368,9 @@
         "evidenceUrls": []
       },
       "baselineDelta": {
-        "value": "Real-world experiments on 11 household tasks demonstrate that a single $ω$-0 model can produce smooth manipulate-while-moving behaviors and consistently outperform representative imitation learning, VLA, humanoid, and WAM baselines.",
+        "value": "Across real-world dexterous manipulation experiments, NestDex improves demonstration reliability and efficiency, and the resulting empirical evaluations support effective autonomous policy learning.",
         "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ]
       },
       "realRobotTrials": {
@@ -2196,12 +2410,12 @@
       },
       "author": {
         "value": [
-          "Zhe Li",
-          "Zhenzhe Zhang",
-          "Yangyang Wei"
+          "James Zhao",
+          "Jinhe Tang",
+          "Mingyuan Ba"
         ],
         "evidenceUrls": [
-          "https://openalex.org/W7201888151"
+          "https://openalex.org/W7203495443"
         ]
       },
       "lab": {
@@ -2212,52 +2426,50 @@
         "match": {
           "value": "matched",
           "evidenceUrls": [
-            "https://openalex.org/W7201888151"
+            "https://openalex.org/W7203495443"
           ]
         },
         "retraction": {
           "value": false,
           "evidenceUrls": [
-            "https://openalex.org/W7201888151"
+            "https://openalex.org/W7203495443"
           ]
         },
         "freshness": {
           "value": "fresh",
           "evidenceUrls": [
-            "https://openalex.org/W7201888151"
+            "https://openalex.org/W7203495443"
           ]
         }
       },
       "whyWorthAttention": {
         "value": "原文摘要明确出现真实机器人证据。",
         "evidenceUrls": [
-          "https://arxiv.org/abs/2608.06375v1",
-          "https://openalex.org/W7201888151"
+          "https://arxiv.org/abs/2608.13362v1",
+          "https://openalex.org/W7203495443"
         ]
       },
-      "rankScore": 42,
+      "rankScore": 46,
       "fieldEvidence": {
         "identity": [
-          "https://arxiv.org/abs/2608.06375v1",
-          "https://openalex.org/W7201888151",
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1",
+          "https://openalex.org/W7203495443",
+          "https://arxiv.org/abs/2608.13362v1"
         ],
         "title": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ],
         "facts": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ],
         "task": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ],
-        "embodiment": [
-          "https://arxiv.org/abs/2608.06375v1"
-        ],
+        "embodiment": [],
         "datasetTrainingScale": [],
         "benchmark": [],
         "baselineDelta": [
-          "https://arxiv.org/abs/2608.06375v1"
+          "https://arxiv.org/abs/2608.13362v1"
         ],
         "realRobotTrials": [],
         "artifacts.code": [],
@@ -2268,234 +2480,27 @@
         "limitations": [],
         "reproducibilityCost": [],
         "author": [
-          "https://openalex.org/W7201888151"
+          "https://openalex.org/W7203495443"
         ],
         "lab": [],
         "openAlex.match": [
-          "https://openalex.org/W7201888151"
+          "https://openalex.org/W7203495443"
         ],
         "openAlex.retraction": [
-          "https://openalex.org/W7201888151"
+          "https://openalex.org/W7203495443"
         ],
         "openAlex.freshness": [
-          "https://openalex.org/W7201888151"
+          "https://openalex.org/W7203495443"
         ],
         "whyWorthAttention": [
-          "https://arxiv.org/abs/2608.06375v1",
-          "https://openalex.org/W7201888151"
+          "https://arxiv.org/abs/2608.13362v1",
+          "https://openalex.org/W7203495443"
         ]
       },
       "completeness": {
         "totalFields": 24,
-        "knownFields": 13,
-        "unknownFields": 11,
-        "completeOrUnknown": true
-      },
-      "gates": [],
-      "eligibleForTopResearch": true
-    },
-    {
-      "identity": {
-        "paperId": {
-          "value": "b49c381c4969fe7b",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05999v1"
-          ]
-        },
-        "openAlexWorkId": {
-          "value": "https://openalex.org/W7201839465",
-          "evidenceUrls": [
-            "https://openalex.org/W7201839465"
-          ]
-        },
-        "version": {
-          "value": 1,
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.05999v1"
-          ]
-        }
-      },
-      "titleZh": {
-        "value": "HiRoC：面向机器人操作的分层后训练框架",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ]
-      },
-      "factsZh": {
-        "value": [
-          "研究提出分层后训练框架HiRoC，将高层任务规划与低层动作执行解耦，规划器生成子目标，执行器经子目标对齐后通过强化学习持续改进。",
-          "在多个机器人操作基准上，HiRoC持续优于强基线。"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ]
-      },
-      "task": {
-        "value": [
-          "机器人操作"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ]
-      },
-      "embodiment": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "datasetTrainingScale": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "benchmark": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "baselineDelta": {
-        "value": "Although hierarchical approaches introduce task decomposition, they mainly rely on supervised learning from offline demonstrations and cannot effectively improve execution through online interaction.",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ]
-      },
-      "realRobotTrials": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "artifacts": {
-        "code": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "weights": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "data": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "projectPage": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "license": {
-          "value": "unknown",
-          "evidenceUrls": []
-        }
-      },
-      "limitations": {
-        "value": [
-          "Although hierarchical approaches introduce task decomposition, they mainly rely on supervised learning from offline demonstrations and cannot effectively improve execution through online interaction."
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ]
-      },
-      "reproducibilityCost": {
-        "value": "unknown",
-        "evidenceUrls": [],
-        "rationale": "unknown"
-      },
-      "author": {
-        "value": [
-          "He Kong",
-          "Zengjue Chen",
-          "Qi Wang"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7201839465"
-        ]
-      },
-      "lab": {
-        "value": [
-          "Artificial Intelligence Research Institute"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7201839465"
-        ]
-      },
-      "openAlex": {
-        "match": {
-          "value": "matched",
-          "evidenceUrls": [
-            "https://openalex.org/W7201839465"
-          ]
-        },
-        "retraction": {
-          "value": false,
-          "evidenceUrls": [
-            "https://openalex.org/W7201839465"
-          ]
-        },
-        "freshness": {
-          "value": "fresh",
-          "evidenceUrls": [
-            "https://openalex.org/W7201839465"
-          ]
-        }
-      },
-      "whyWorthAttention": {
-        "value": "原文摘要明确出现基准证据；OpenAlex 作者/机构元数据包含Artificial Intelligence Research Institute。",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.05999v1",
-          "https://openalex.org/W7201839465"
-        ]
-      },
-      "rankScore": 42,
-      "fieldEvidence": {
-        "identity": [
-          "https://arxiv.org/abs/2608.05999v1",
-          "https://openalex.org/W7201839465",
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "title": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "facts": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "task": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "embodiment": [],
-        "datasetTrainingScale": [],
-        "benchmark": [],
-        "baselineDelta": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "realRobotTrials": [],
-        "artifacts.code": [],
-        "artifacts.weights": [],
-        "artifacts.data": [],
-        "artifacts.projectPage": [],
-        "artifacts.license": [],
-        "limitations": [
-          "https://arxiv.org/abs/2608.05999v1"
-        ],
-        "reproducibilityCost": [],
-        "author": [
-          "https://openalex.org/W7201839465"
-        ],
-        "lab": [
-          "https://openalex.org/W7201839465"
-        ],
-        "openAlex.match": [
-          "https://openalex.org/W7201839465"
-        ],
-        "openAlex.retraction": [
-          "https://openalex.org/W7201839465"
-        ],
-        "openAlex.freshness": [
-          "https://openalex.org/W7201839465"
-        ],
-        "whyWorthAttention": [
-          "https://arxiv.org/abs/2608.05999v1",
-          "https://openalex.org/W7201839465"
-        ]
-      },
-      "completeness": {
-        "totalFields": 24,
-        "knownFields": 14,
-        "unknownFields": 10,
+        "knownFields": 12,
+        "unknownFields": 12,
         "completeOrUnknown": true
       },
       "gates": [],
