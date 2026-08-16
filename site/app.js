@@ -399,7 +399,7 @@ function validWatchlistCard(item, track) {
 
 function validWatchlist(value) {
   const week = typeof value?.week === "string" ? /^\d{4}-W(\d{2})$/.exec(value.week) : null;
-  return Boolean(value) && typeof value === "object"
+  const structurallyValid = Boolean(value) && typeof value === "object"
     && Boolean(week) && Number(week[1]) >= 1 && Number(week[1]) <= 53
     && typeof value.snapshotVersion === "number" && Number.isInteger(value.snapshotVersion) && value.snapshotVersion > 0
     && nonEmpty(value.methodologyVersion)
@@ -408,6 +408,12 @@ function validWatchlist(value) {
     && Array.isArray(value.forwardRadar) && value.forwardRadar.every((item) => validWatchlistCard(item, "forward-radar"))
     && Array.isArray(value.validatedMomentum) && value.validatedMomentum.every((item) => validWatchlistCard(item, "validated-momentum"))
     && Array.isArray(value.changes) && value.changes.every((item) => item && typeof item === "object" && nonEmpty(item.companyId) && nonEmpty(item.companyName) && ["added", "strengthened", "downgraded", "exited"].includes(item.change));
+  if (!structurallyValid) return false;
+  const cardIds = [...value.forwardRadar, ...value.validatedMomentum].map((card) => card.companyId);
+  return new Set(cardIds).size === cardIds.length
+    && new Set(value.companyIds).size === value.companyIds.length
+    && value.companyIds.length === cardIds.length
+    && value.companyIds.every((companyId, index) => companyId === cardIds[index]);
 }
 
 const unsafeWatchlistValue = (value) => value.length === 0 || value !== value.trim() || /[\u0000-\u001F\u007F<>"'&]/.test(value);
@@ -476,10 +482,9 @@ function decodeWatchlistConfig(value, catalog) {
 
 function watchlistCatalog(value) {
   const cards = [...list(value?.forwardRadar), ...list(value?.validatedMomentum)];
-  const cardIds = cards.map((card) => card?.companyId);
   const usedRoutes = new Set(cards.flatMap((card) => list(card?.routes)));
   return {
-    companyIds: stableWatchlistValues([...list(value?.companyIds), ...cardIds]),
+    companyIds: stableWatchlistValues(cards.map((card) => card?.companyId)),
     routes: watchlistRouteSlugs.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug),
   };
 }

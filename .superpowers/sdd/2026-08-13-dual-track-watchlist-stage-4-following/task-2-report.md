@@ -19,3 +19,14 @@ Verification:
 - VM accessibility/self-check — passed through `tests/site-ui.test.ts` (semantic controls, live feedback, focus styling and 44px controls).
 
 Concerns: none.
+
+## Fix round 1/5
+
+Status: fixed
+
+- Root cause: the browser accepted any non-empty `companyIds` array and merged it into the selector catalog, unlike the serialized public-view contract.
+- RED: VM regressions showed that extra, missing, duplicate and reordered `companyIds` still rendered public cards.
+- GREEN: `validWatchlist` now requires the ordered, unique IDs of the current forward-radar and validated-momentum cards exactly; invalid data fails closed. `watchlistCatalog` now derives company IDs solely from cards.
+- Regression checks: `node --import tsx --test tests/watchlist-config.test.ts tests/site-ui.test.ts` — 15 passed; `pnpm run check` — passed; `pnpm test` — 440 passed; `git diff --check` — passed.
+
+Concerns: none.

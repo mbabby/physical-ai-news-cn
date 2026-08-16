@@ -104,7 +104,7 @@ const publicWatchlist = {
   lastSuccessfulAt: "2026-08-17T01:00:00.000Z",
   companyIds: ["company-alpha", "company-beta"],
   forwardRadar: [{
-    companyId: 'company-alpha\" onclick=\"alert(1)', companyName: "Alpha <Robotics>", thesisId: "thesis-alpha", thesisVersion: 1,
+    companyId: "company-alpha", companyName: "Alpha <Robotics>", thesisId: "thesis-alpha", thesisVersion: 1,
     track: "forward-radar", group: "continued-observation", lifecycle: "awaiting-validation", lifecycleLabel: "等待验证",
     routes: ["VLA 与具身模型"],
     whyNow: "一段很长的中文研究判断，用于确认内容不会被截断并且能够在窄屏内自然换行。", routeAndDependencies: "依赖后续部署验证。",
@@ -141,7 +141,7 @@ test("homepage renders the public watchlist without leaking private scores and o
   assert.match(html, /最后成功快照.*2026-W34.*v2.*2026-08-17/);
   assert.match(html, /aria-label="打开 Beta Robotics 证据：Beta 发布产品（Beta 官方，A级）"/);
   assert.match(html, /href="https:\/\/beta\.example\/product"/);
-  assert.match(html, /data-company-id="company-alpha&quot; onclick=&quot;alert\(1\)"/);
+  assert.match(html, /data-company-id="company-alpha"/);
   assert.match(html, /href="#"/);
   assert.doesNotMatch(html, /综合分|#1|#2|99|98|score|rank|Legacy/);
 });
@@ -174,6 +174,20 @@ test("homepage distinguishes absent, malformed and intentionally empty watchlist
   assert.equal(empty.mounts["company-watchlist"].hidden, false);
   assert.match(empty.mounts["watchlist-forward"].innerHTML, /2026-W34.*最后成功快照中，前瞻雷达暂无公开公司/);
   assert.match(empty.mounts["watchlist-changes"].innerHTML, /本周没有公开的名单变化/);
+});
+
+test("homepage fails closed unless companyIds exactly match the ordered current Watchlist cards", async () => {
+  for (const companyIds of [
+    ["company-alpha", "company-beta", "company-stale"],
+    ["company-alpha"],
+    ["company-alpha", "company-alpha", "company-beta"],
+    ["company-beta", "company-alpha"],
+  ]) {
+    const site = await loadAppCompanyRenderer();
+    site.renderCompanySection({ watchlist: { ...publicWatchlist, companyIds } });
+    assert.match(site.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/, companyIds.join(","));
+    assert.doesNotMatch(site.mounts["watchlist-forward"].innerHTML, /Alpha Robotics|Beta Robotics|company-stale/, companyIds.join(","));
+  }
 });
 
 test("company share page places watchlist and changes before score-free legacy dossiers", async () => {
@@ -229,5 +243,5 @@ test("shareable Watchlist controls filter the current snapshot and mirror TypeSc
 
   const cards = [...publicWatchlist.forwardRadar, ...publicWatchlist.validatedMomentum];
   const filtered = site.filterWatchlistCards(cards, { companyIds: ["company-beta"], routes: ["vla-and-embodied-models"] }) as Array<{ companyId: string }>;
-  assert.deepEqual(filtered.map((card) => card.companyId), ['company-alpha" onclick="alert(1)', "company-beta"]);
+  assert.deepEqual(filtered.map((card) => card.companyId), ["company-alpha", "company-beta"]);
 });
