@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { FileTransaction } from "../src/runtime/storage.js";
-import { buildCompanyFeed, buildRouteFeed, stageWatchlistFeeds } from "../src/watchlist/feeds.js";
+import { buildCompanyFeed, buildRouteFeed, stageWatchlistFeeds, validateWatchlistFeedManifest } from "../src/watchlist/feeds.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
 
 const BASE_URL = "https://example.test/physical-ai-news-cn";
@@ -98,6 +98,11 @@ test("feeds reject unsafe URL inputs and malformed public state", () => {
   assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, evidenceLinks: [{ ...view().forwardRadar[0]!.evidenceLinks[0]!, url: "http://alpha.example" }] }] }), "company-alpha", BASE_URL), /证据链接/);
   assert.throws(() => buildCompanyFeed({ ...view(), forwardRadar: [{ ...view().forwardRadar[0]!, candidateId: "candidate-secret" }] } as unknown as WatchlistPublicView, "company-alpha", BASE_URL), /公开视图/);
   assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, thesisId: "candidate-03950aa949fb" }] }), "company-alpha", BASE_URL), /候选标识/);
+  for (const candidateId of ["candidate-secret", "CANDIDATE_secret", "Candidate/secret-v2"]) {
+    assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, thesisId: candidateId }] }), "company-alpha", BASE_URL), /候选标识/);
+  }
+  assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: "AI 研究判断：Candidate/secret 尚未公开。" }] }), "company-alpha", BASE_URL), /候选标识/);
+  assert.doesNotThrow(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: "AI 研究判断：候选方案已完成公开验证。" }] }), "company-alpha", BASE_URL));
   assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: "AI 研究判断：score 99。" }] }), "company-alpha", BASE_URL), /私有诊断/);
   assert.throws(() => buildCompanyFeed(view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: `AI 研究判断：${String.fromCodePoint(0xFFFE)}` }] }), "company-alpha", BASE_URL), /XML/);
 });
@@ -111,6 +116,7 @@ test("stages the authoritative company and five-route feed manifest through one 
     await transaction.commit();
 
     const manifest = JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8"));
+    assert.doesNotThrow(() => validateWatchlistFeedManifest(view(), manifest));
     assert.deepEqual(manifest, {
       schemaVersion: 1,
       snapshotWeek: "2026-W34",
@@ -131,6 +137,14 @@ test("stages the authoritative company and five-route feed manifest through one 
     });
     assert.match(await readFile(join(root, "site", "feeds", "companies", "company-exited.xml"), "utf8"), /已退出/);
     assert.match(await readFile(join(root, "site", "feeds", "routes", "world-models-and-spatial-intelligence.xml"), "utf8"), /暂无公开公司/);
+    for (const item of [...manifest.companyFeeds, ...manifest.routeFeeds]) {
+      await readFile(join(root, "site", item.path), "utf8");
+    }
+    assert.throws(() => validateWatchlistFeedManifest(view(), { ...manifest, routeFeeds: manifest.routeFeeds.slice(1) }), /manifest/);
+    assert.throws(() => validateWatchlistFeedManifest(view(), {
+      ...manifest,
+      companyFeeds: [{ ...manifest.companyFeeds[0], path: "feeds/companies/wrong.xml" }, ...manifest.companyFeeds.slice(1)],
+    }), /manifest/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

@@ -84,6 +84,7 @@ const EVIDENCE_KEYS = new Set(["eventId", "title", "url", "source", "grade"]);
 const CAPITAL_KEYS = new Set(["status", "summary"]);
 const CHANGE_KEYS = new Set(["companyId", "companyName", "change"]);
 const PRIVATE_PUBLIC_TEXT = /\b(?:score|rank)\b|分数|排名|内部诊断|候选(?:ID|标识)/i;
+const INTERNAL_CANDIDATE_IDENTIFIER = /\bcandidate[-_.:/]+[a-z0-9][a-z0-9_.:/-]*/i;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -101,7 +102,7 @@ function nonEmpty(value: unknown): value is string {
 /** Reject private diagnostics from any value that crosses the public Watchlist boundary. */
 export function assertNoPrivateWatchlistContent(value: unknown): void {
   if (typeof value === "string") {
-    if (/\bcandidate-[a-f0-9]{8,}\b/i.test(value)) throw new Error("Watchlist 公开产物包含候选标识");
+    if (isInternalCandidateIdentifier(value)) throw new Error("Watchlist 公开产物包含候选标识");
     if (PRIVATE_PUBLIC_TEXT.test(value)) throw new Error("Watchlist 公开产物包含私有诊断、分数或排名");
     return;
   }
@@ -110,6 +111,11 @@ export function assertNoPrivateWatchlistContent(value: unknown): void {
     return;
   }
   if (isObject(value)) Object.values(value).forEach(assertNoPrivateWatchlistContent);
+}
+
+/** Internal candidates use a reserved `candidate` namespace; normal prose is not an identifier. */
+export function isInternalCandidateIdentifier(value: string): boolean {
+  return INTERNAL_CANDIDATE_IDENTIFIER.test(value);
 }
 
 function validDate(value: unknown): value is string {

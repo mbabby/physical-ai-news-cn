@@ -12,7 +12,7 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
-import { assertNoPrivateWatchlistContent, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
+import { assertNoPrivateWatchlistContent, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
 import { stageWatchlistFeeds } from "./feeds.js";
 
@@ -46,7 +46,7 @@ function sameSet(left: Iterable<string>, right: Iterable<string>): boolean {
 }
 
 function assertNoPrivateKeys(value: unknown, path: string): void {
-  if (typeof value === "string" && /\bcandidate-[a-f0-9]{8,}\b/i.test(value)) {
+  if (typeof value === "string" && isInternalCandidateIdentifier(value)) {
     throw new Error(`Watchlist 公开产物包含候选标识：${path}`);
   }
   if (Array.isArray(value)) {
@@ -250,11 +250,12 @@ export function mergeWatchlistThesisArtifact(input: MergeWatchlistThesisArtifact
 export interface StageWatchlistReleaseInput extends WatchlistReleaseValidationInput {
   transaction: Pick<FileTransaction, "stage">;
   root: string;
-  feeds?: { baseUrl: string };
+  feeds: { baseUrl: string };
 }
 
 export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): Promise<void> {
   validateWatchlistRelease(input);
+  if (!input.feeds) throw new Error("Watchlist 发布订阅配置为必需；已停止 staging");
   const paths = snapshotPath(input.snapshot);
   const historyPath = join(input.root, paths.history);
   const historyBytes = stableBytes(input.snapshot);
@@ -273,7 +274,5 @@ export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): 
   if (existingHistory === undefined) input.transaction.stage(historyPath, historyBytes);
   input.transaction.stage(join(input.root, "site", "data", "dashboard.json"), stableBytes(input.dashboard));
   input.transaction.stage(join(input.root, "README.md"), input.readme);
-  if (input.feeds) {
-    stageWatchlistFeeds({ transaction: input.transaction, root: input.root, view: publicView(input.dashboard), baseUrl: input.feeds.baseUrl });
-  }
+  stageWatchlistFeeds({ transaction: input.transaction, root: input.root, view: publicView(input.dashboard), baseUrl: input.feeds.baseUrl });
 }

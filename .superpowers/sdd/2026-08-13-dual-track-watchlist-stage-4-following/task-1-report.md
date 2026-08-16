@@ -16,12 +16,14 @@
 3. **RED:** browser validation accepted cards with empty routes; **GREEN:** both browser validators reject them and `tests/site-ui.test.ts` passed.
 4. **RED:** feeds accepted `candidate-*` thesis IDs, private score text, and XML-invalid characters; **GREEN:** shared public-boundary checks and XML 1.0 character validation made the regression tests pass.
 5. **RED:** release staging only contained five Stage 3 files when feeds were requested; **GREEN:** feed staging now happens within `stageWatchlistRelease`, with a twelve-file release-transaction integration assertion.
+6. **Review fix RED:** non-hexadecimal and separator/case-variant candidate namespace values could reach a Feed, and a valid release could omit feeds; **GREEN:** the shared public boundary rejects reserved `candidate` identifiers while preserving normal prose, and release staging requires feeds before staging any file.
+7. **Review fix RED:** manifest completeness had no focused validation path; **GREEN:** manifest validation rejects missing route paths and wrong feed paths, while the transaction test proves every listed path is staged.
 
 ## Verification
 
 - `node --import tsx --test tests/watchlist-feeds.test.ts tests/watchlist-public-view.test.ts tests/watchlist-release-validation.test.ts tests/site-ui.test.ts` — passed.
 - `pnpm run check` — passed.
-- `pnpm test` — passed: 429 tests.
+- `pnpm test` — passed: 431 tests.
 - `git diff --check` — passed.
 - Read-only review completed after fixes: no remaining critical or important findings.
 

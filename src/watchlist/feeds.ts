@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import type { FileTransaction } from "../runtime/storage.js";
 import type { TechnicalRoute } from "../types.js";
-import { assertNoPrivateWatchlistContent, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicChange, type WatchlistPublicView } from "./public-view.js";
+import { assertNoPrivateWatchlistContent, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicChange, type WatchlistPublicView } from "./public-view.js";
 import { CANONICAL_ROUTES, routeSlug } from "./routes.js";
 
 const COMPANY_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -66,7 +66,7 @@ function normalizeBaseUrl(value: string): string {
 }
 
 function assertCompanyId(companyId: string): void {
-  if (!COMPANY_ID.test(companyId) || /^candidate-/i.test(companyId)) throw new Error(`Watchlist Feed 公司标识不合法：${companyId}`);
+  if (!COMPANY_ID.test(companyId) || isInternalCandidateIdentifier(companyId)) throw new Error(`Watchlist Feed 公司标识不合法：${companyId}`);
 }
 
 function assertEvidenceUrl(value: string): void {
@@ -217,11 +217,21 @@ function manifest(view: WatchlistPublicView): WatchlistFeedManifest {
   };
 }
 
+/** Fail closed if the authoritative manifest no longer lists the complete current feed set. */
+export function validateWatchlistFeedManifest(view: WatchlistPublicView, value: unknown): asserts value is WatchlistFeedManifest {
+  assertPublicView(view);
+  const expected = manifest(view);
+  if (JSON.stringify(value) !== JSON.stringify(expected)) {
+    throw new Error("Watchlist Feed manifest 与当前公开快照路径或数量不一致");
+  }
+}
+
 /** Stage every current feed and its authoritative manifest into the daily transaction. */
 export function stageWatchlistFeeds(input: StageWatchlistFeedsInput): void {
   assertPublicView(input.view);
   const normalizedBaseUrl = normalizeBaseUrl(input.baseUrl);
   const output = manifest(input.view);
+  validateWatchlistFeedManifest(input.view, output);
   for (const companyId of output.companyFeedIds) {
     input.transaction.stage(join(input.root, "site", "feeds", "companies", `${companyId}.xml`), buildCompanyFeed(input.view, companyId, normalizedBaseUrl));
   }

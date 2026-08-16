@@ -14,6 +14,7 @@ import {
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
+const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
 
 function thesis(overrides: Partial<CompanyThesis> = {}): CompanyThesis {
   return {
@@ -266,9 +267,21 @@ test("an invalid staged snapshot leaves every public artifact unchanged", async 
       transaction,
       root,
       ...release({ dashboard: { watchlist: view({ week: "2026-W33" }) } }),
+      feeds: FEEDS,
     }), /周.*不一致/);
     await transaction.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("refuses to stage a Watchlist release without its required feeds", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-required-feeds-"));
+  try {
+    const transaction = new FileTransaction("watchlist-required-feeds");
+    await assert.rejects(() => stageWatchlistRelease({ transaction, root, ...release() } as unknown as Parameters<typeof stageWatchlistRelease>[0]), /feeds.*必需|订阅.*必需/);
+    assert.equal(transaction.size, 0);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -282,7 +295,7 @@ test("stages snapshot-identified feeds and their manifest in the release transac
       transaction,
       root,
       ...release(),
-      feeds: { baseUrl: "https://example.test/physical-ai-news-cn" },
+      feeds: FEEDS,
     });
     assert.equal(transaction.size, 12);
     await transaction.commit();
@@ -330,6 +343,7 @@ test("failure injection rolls back the whole Watchlist public group", async () =
         dashboard: { watchlist: view({ snapshotVersion: 2 }) },
         readme: readme().replace("v1", "v2"),
       }),
+      feeds: FEEDS,
     });
     await assert.rejects(() => transaction.commit(), /已回滚/);
     assert.deepEqual(await Promise.all(existingPaths.map((path) => readFile(join(root, path), "utf8"))), before);
@@ -345,7 +359,7 @@ test("immutable history rejects different bytes and accepts identical bytes idem
     const historyPath = join(root, "watchlist", "history", "2026-W34-v1.json");
     await mkdir(join(root, "watchlist", "history"), { recursive: true });
     await writeFile(historyPath, json({ ...snapshot(), generatedAt: "2026-08-17T00:00:00.000Z" }));
-    await assert.rejects(() => stageWatchlistRelease({ transaction: new FileTransaction("history-different"), root, ...release() }), /历史快照.*冲突/);
+    await assert.rejects(() => stageWatchlistRelease({ transaction: new FileTransaction("history-different"), root, ...release(), feeds: FEEDS }), /历史快照.*冲突/);
 
     await rm(historyPath);
     const paths = [
@@ -356,14 +370,14 @@ test("immutable history rejects different bytes and accepts identical bytes idem
       "README.md",
     ];
     const first = new FileTransaction("history-first-cycle");
-    await stageWatchlistRelease({ transaction: first, root, ...release() });
-    assert.equal(first.size, 5);
+    await stageWatchlistRelease({ transaction: first, root, ...release(), feeds: FEEDS });
+    assert.equal(first.size, 12);
     await first.commit();
     const firstBytes = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
 
     const second = new FileTransaction("history-second-cycle");
-    await stageWatchlistRelease({ transaction: second, root, ...release() });
-    assert.equal(second.size, 4);
+    await stageWatchlistRelease({ transaction: second, root, ...release(), feeds: FEEDS });
+    assert.equal(second.size, 11);
     await second.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), firstBytes);
     assert.equal(await readFile(historyPath, "utf8"), json(snapshot()));
