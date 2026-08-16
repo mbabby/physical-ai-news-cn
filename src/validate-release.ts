@@ -12,7 +12,6 @@ import { validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { validateCurrentWatchlistHistoryFiles, validateWatchlistRelease } from "./watchlist/release-validation.js";
 import { validateWatchlistChangePage, type WatchlistChangePage } from "./watchlist/change-page.js";
-import { buildWatchlistPublicView } from "./watchlist/public-view.js";
 import type { DashboardData } from "./site-data.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -49,12 +48,6 @@ async function main(): Promise<void> {
     validate: validateWatchlistSnapshotShape,
   })));
   if (watchlistHistory.some((item) => item === undefined)) throw new Error("Watchlist 历史快照不完整");
-  const watchlistChangePageViews = [...(watchlistHistory as WatchlistSnapshot[]), watchlistSnapshot].map((snapshot) => buildWatchlistPublicView({
-    snapshot,
-    thesisArtifact: watchlistTheses,
-    companies,
-    events: events.events,
-  }));
   const watchlistMarkdown = await readFile(join(root, "review", "watchlist-preview.md"), "utf8");
   validateWatchlistPreviewRelease({
     preview: watchlistPreview,
@@ -72,7 +65,8 @@ async function main(): Promise<void> {
     dashboard,
     readme,
     changePage: watchlistChangePage,
-    changePageViews: watchlistChangePageViews,
+    companies,
+    events: events.events,
     history: watchlistHistory as WatchlistSnapshot[],
   });
   const publicResearch = research.records.filter((record) => isPublishableResearch(record.article));

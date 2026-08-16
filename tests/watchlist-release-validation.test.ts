@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { FileTransaction } from "../src/runtime/storage.js";
+import type { CompanyProfile, EventRecord } from "../src/types.js";
 import type { CompanyThesis, CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import {
   validateCurrentWatchlistHistoryFiles,
@@ -11,7 +12,7 @@ import {
   stageWatchlistRelease,
   validateWatchlistRelease,
 } from "../src/watchlist/release-validation.js";
-import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
+import { buildWatchlistPublicView, type WatchlistPublicView } from "../src/watchlist/public-view.js";
 import { buildWatchlistChangePage, type WatchlistChangePage } from "../src/watchlist/change-page.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
@@ -100,6 +101,39 @@ function changePage(overrides: Partial<WatchlistChangePage> = {}): WatchlistChan
   };
 }
 
+const canonicalCompanies: CompanyProfile[] = [{
+  entityId: "company-alpha",
+  entityType: "公司",
+  name: "Alpha Robotics",
+  region: "美国",
+  routes: ["VLA 与具身模型"],
+  thesis: "测试公司。",
+  officialUrl: "https://alpha.example",
+}];
+
+function canonicalEvents(): EventRecord[] {
+  return [{
+    id: "event-alpha",
+    title: "Alpha Robotics 发布进展",
+    type: "产品发布",
+    entities: ["Alpha Robotics"],
+    primaryEntity: "Alpha Robotics",
+    routes: ["VLA 与具身模型"],
+    status: "已确证",
+    occurredAt: "2026-08-16T00:00:00.000Z",
+    eventDate: "2026-08-16",
+    firstSeenAt: "2026-08-16T00:00:00.000Z",
+    lastUpdatedAt: "2026-08-16T00:00:00.000Z",
+    lastMaterialChangeAt: "2026-08-16T00:00:00.000Z",
+    lastVerifiedAt: "2026-08-16T00:00:00.000Z",
+    facts: ["Alpha Robotics 发布进展。"],
+    openQuestions: [],
+    timeline: [],
+    productDeployment: { product: "Atlas-X", customers: [], deployment: "公开发布" },
+    evidence: [{ link: "https://alpha.example/release", source: "Alpha Robotics", grade: "A", publishedAt: "2026-08-16T00:00:00.000Z", supports: "Alpha Robotics 发布进展。" }],
+  }];
+}
+
 function readme(): string {
   return [
     "> 观察名单快照：2026-W34 · v1",
@@ -122,20 +156,24 @@ function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[
     dashboard: { watchlist: view() },
     readme: readme(),
     changePage: changePage(),
-    changePageViews: [view()],
+    companies: canonicalCompanies,
+    events: canonicalEvents(),
     ...overrides,
   };
 }
 
 function canonicalPeriodRelease() {
   const previous = snapshot({ week: "2026-W33", forwardRadar: [] });
-  const previousView = view({ week: "2026-W33", companyIds: [], forwardRadar: [] });
   const current = snapshot();
-  const currentView = view();
-  const canonical = buildWatchlistChangePage({ current, snapshots: [previous, current], views: [previousView, currentView] });
+  const canonical = artifact();
+  const events = canonicalEvents();
+  const previousView = buildWatchlistPublicView({ snapshot: previous, thesisArtifact: canonical, companies: canonicalCompanies, events });
+  const currentView = buildWatchlistPublicView({ snapshot: current, thesisArtifact: canonical, companies: canonicalCompanies, events });
+  const changePage = buildWatchlistChangePage({ current, snapshots: [previous, current], views: [previousView, currentView] });
   return {
-    ...release({ snapshot: current, dashboard: { watchlist: currentView }, history: [previous], changePage: canonical }),
-    changePageViews: [previousView, currentView],
+    ...release({ snapshot: current, theses: canonical, dashboard: { watchlist: currentView }, history: [previous], changePage }),
+    companies: canonicalCompanies,
+    events,
   };
 }
 
@@ -190,6 +228,21 @@ test("release validation rejects change items that differ from the canonical adj
       /变化.*规范|变化.*相邻|变化.*快照|变化.*证据/,
     );
   }
+});
+
+test("release validation rejects a change page rebuilt from synchronized forged public views", () => {
+  const canonical = canonicalPeriodRelease();
+  const previous = canonical.history![0]!;
+  const forgedCurrent = buildWatchlistPublicView({ snapshot: canonical.snapshot, thesisArtifact: canonical.theses, companies: canonical.companies, events: canonical.events });
+  forgedCurrent.forwardRadar[0]!.whyNow = "AI 研究判断：伪造的公开理由。";
+  forgedCurrent.forwardRadar[0]!.evidenceLinks[0] = { ...forgedCurrent.forwardRadar[0]!.evidenceLinks[0]!, eventId: "event-forged", title: "伪造事件", url: "https://forged.example/release", source: "Forged", grade: "B" };
+  const forgedPrevious = buildWatchlistPublicView({ snapshot: previous, thesisArtifact: canonical.theses, companies: canonical.companies, events: canonical.events });
+  const forgedPage = buildWatchlistChangePage({ current: canonical.snapshot, snapshots: [previous, canonical.snapshot], views: [forgedPrevious, forgedCurrent] });
+  forgedPage.changes[0]!.whatChanged = forgedPage.changes[0]!.whatChanged.replace("v1", "v99");
+  assert.throws(
+    () => validateWatchlistRelease({ ...canonical, changePageViews: [forgedPrevious, forgedCurrent], changePage: forgedPage } as Parameters<typeof validateWatchlistRelease>[0]),
+    /变化.*规范|变化.*相邻|变化.*快照|变化.*证据/,
+  );
 });
 
 test("rejects a broken exact thesis reference and methodology version mismatch", () => {
@@ -276,7 +329,7 @@ test("rejects public score, rank, candidate id and private diagnostics leakage",
 
 test("rejects falsified and expired selected theses", () => {
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ lifecycle: "falsified" })]) })), /不可公开/);
-  assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ expiresAt: GENERATED_AT })]) })), /已过期/);
+  assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ expiresAt: GENERATED_AT })]) })), /已过期|不可公开/);
 });
 
 test("public theses contain exactly the versions referenced by current and history", () => {
@@ -410,7 +463,6 @@ test("failure injection rolls back the whole Watchlist public group", async () =
         dashboard: { watchlist: view({ snapshotVersion: 2 }) },
         readme: readme().replace("v1", "v2"),
         changePage: changePage({ current: { week: "2026-W34", snapshotVersion: 2, generatedAt: GENERATED_AT } }),
-        changePageViews: [view({ snapshotVersion: 2 })],
       }),
       feeds: FEEDS,
     });

@@ -749,7 +749,7 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, changePageViews: watchlistChangePageViews, history: watchlistHistory };
+  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({
     archive,
     events: eventStore,

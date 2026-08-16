@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { FileTransaction } from "../runtime/storage.js";
 import { isObject } from "../runtime/storage.js";
+import type { CompanyProfile, EventRecord } from "../types.js";
 import {
   isCanonicalTimestamp,
   validateCompanyThesisShape,
@@ -12,7 +13,7 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
-import { assertNoPrivateWatchlistContent, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
+import { assertNoPrivateWatchlistContent, buildWatchlistPublicView, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
 import { stageWatchlistFeeds } from "./feeds.js";
 import { buildWatchlistChangePage, stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
@@ -23,7 +24,8 @@ export interface WatchlistReleaseValidationInput {
   dashboard: unknown;
   readme: string;
   changePage: WatchlistChangePage;
-  changePageViews: WatchlistPublicView[];
+  companies: CompanyProfile[];
+  events: EventRecord[];
   history?: WatchlistSnapshot[];
 }
 
@@ -176,7 +178,12 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   const canonicalChangePage = buildWatchlistChangePage({
     current: input.snapshot,
     snapshots: [...(input.history ?? []), input.snapshot],
-    views: input.changePageViews,
+    views: [...(input.history ?? []), input.snapshot].map((snapshot) => buildWatchlistPublicView({
+      snapshot,
+      thesisArtifact: input.theses,
+      companies: input.companies,
+      events: input.events,
+    })),
   });
   if (stableBytes(input.changePage) !== stableBytes(canonicalChangePage)) {
     throw new Error("Watchlist 变化页与相邻快照、精确判断版本或规范证据不一致");
