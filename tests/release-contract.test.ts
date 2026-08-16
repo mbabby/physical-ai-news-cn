@@ -34,6 +34,16 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.doesNotMatch(workflow, /watchlist-(?:seeds|drafts)\.json/);
 });
 
+test("generator status uses the generated manifest date across a Beijing midnight rollover", async () => {
+  const workflow = await readFile(join(root, ".github", "workflows", "daily-digest.yml"), "utf8");
+  const reportStep = workflow.split("- name: Report generator status")[1]?.split("- name: Commit updated digest")[0];
+  assert.ok(reportStep, "report generator status step must exist");
+
+  assert.match(reportStep, /digest_date="\$\(jq -er '\.date/);
+  assert.match(reportStep, /digest_date="\$\(jq -er[^\n]*review\/run-manifest\.json\)"/);
+  assert.doesNotMatch(reportStep, /digest_date="\$\(TZ=Asia\/Shanghai date \+%F\)"/);
+});
+
 test("watchlist preview remains review-only and is staged by the daily transaction", async () => {
   const [main, ...publicConsumers] = await Promise.all([
     readFile(join(root, "src", "main.ts"), "utf8"),
