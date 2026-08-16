@@ -1,6 +1,6 @@
 # Stage 4 Development Standards
 
-本文件把已批准的双轨 Watchlist 设计与 Stage 4 实施计划固化为项目开发标准。证据口径与贡献入口仍受 [FACTS_POLICY.md](./FACTS_POLICY.md) 和 [CONTRIBUTING.md](./CONTRIBUTING.md) 约束。若与旧有说明冲突，以本文件、[设计稿](./superpowers/specs/2026-08-13-dual-track-company-watchlist-design.md) 和 [Stage 4 计划](./superpowers/plans/2026-08-13-dual-track-watchlist-stage-4-following.md) 的组合约束为准。
+本文件把已批准的双轨 Watchlist 设计与 Stage 4 实施计划固化为项目开发标准。证据口径与贡献入口仍受 [FACTS_POLICY.md](../FACTS_POLICY.md) 和 [CONTRIBUTING.md](../CONTRIBUTING.md) 约束。若与旧有说明冲突，以本文件、[设计稿](./superpowers/specs/2026-08-13-dual-track-company-watchlist-design.md) 和 [Stage 4 计划](./superpowers/plans/2026-08-13-dual-track-watchlist-stage-4-following.md) 的组合约束为准。
 
 ## 1. Scope and source of truth
 
@@ -18,13 +18,12 @@
 
 ## 3. Route and configuration invariants
 
-- The five canonical `TechnicalRoute` names are fixed:
-  - `数据与训练`
-  - `VLA 与具身模型`
-  - `世界模型与空间智能`
-  - `本体与硬件`
-  - `部署与商业化`
-- Their ASCII slugs are fixed, one-to-one, and immutable.
+- The five canonical `TechnicalRoute` names and ASCII slugs are fixed one-to-one:
+  - `data-and-training` = `数据与训练`
+  - `vla-and-embodied-models` = `VLA 与具身模型`
+  - `world-models-and-spatial-intelligence` = `世界模型与空间智能`
+  - `embodiment-and-hardware` = `本体与硬件`
+  - `deployment-and-commercialization` = `部署与商业化`
 - Route URLs, feeds, and shareable configs MUST use the canonical slug table. They MUST NOT derive slugs from display copy or ad hoc normalization.
 - Canonical route membership MUST come from public company profiles or public cards only. AI prose MUST NOT invent route membership.
 - Stage 4 shareable Watchlist configs MAY contain only company IDs present in the current immutable public Watchlist snapshot and canonical route slugs.
