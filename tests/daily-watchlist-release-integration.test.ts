@@ -6,7 +6,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { generate } from "../src/main.js";
 import { FileTransaction } from "../src/runtime/storage.js";
-import type { DigestResult, EventStore, RunManifest } from "../src/types.js";
+import type { DailyArchive, DigestResult, EventStore, RunManifest } from "../src/types.js";
 import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
@@ -83,14 +83,13 @@ async function runFixedGeneration(root: string, options: {
   }
   delete process.env.OPENALEX_API_KEY;
   try {
-    await generate({
+    return await generate({
       root,
       now: options.now ?? FIXED_NOW,
       collect: options.collect ?? emptyCollection,
       collectX: emptyCollection,
       transaction: options.transaction,
     });
-    return JSON.parse(await readFile(join(root, "review", "run-manifest.json"), "utf8")) as RunManifest;
   } finally {
     globalThis.fetch = priorFetch;
     if (priorLlmKey === undefined) delete process.env.LLM_API_KEY;
@@ -153,10 +152,20 @@ async function capturePublicGroup(root: string): Promise<PublicGroup> {
   };
 }
 
-async function expectFailedWithoutPublicChange(root: string, before: PublicGroup, run: () => Promise<unknown>): Promise<void> {
-  let status: "failed" | undefined;
-  try { await run(); } catch { status = "failed"; }
-  assert.equal(status, "failed");
+async function expectFailedWithoutPublicChange(
+  root: string,
+  before: PublicGroup,
+  expectedCode: string,
+  run: () => Promise<unknown>,
+): Promise<void> {
+  await assert.rejects(run, (error: unknown) => {
+    const failure = error as { status?: unknown; code?: unknown; message?: unknown };
+    assert.equal(failure.status, "failed");
+    assert.equal(failure.code, expectedCode);
+    assert.equal(typeof failure.message, "string");
+    assert.doesNotMatch(String(failure.message), /fixture-secret|not-json/);
+    return true;
+  });
   assert.deepEqual(await capturePublicGroup(root), before);
 }
 
@@ -186,16 +195,20 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
     await runFixedGeneration(baselineRoot);
     const baseline = await capturePublicGroup(baselineRoot);
 
-    const fault = async (name: string, prepare: (root: string) => Promise<() => Promise<unknown>>, status: "degraded" | "failed") => {
+    const fault = async (
+      name: string,
+      prepare: (root: string) => Promise<() => Promise<unknown>>,
+      expected: { status: "degraded" } | { status: "failed"; code: string },
+    ) => {
       await t.test(name, async () => {
         const root = await mkdtemp(join(tmpdir(), `stage4-${name}-`));
         try {
           await cp(baselineRoot, root, { recursive: true });
           const run = await prepare(root);
-          if (status === "failed") await expectFailedWithoutPublicChange(root, baseline, run);
+          if (expected.status === "failed") await expectFailedWithoutPublicChange(root, baseline, expected.code, run);
           else {
             const manifest = await run() as RunManifest;
-            assert.equal(manifest.status, status);
+            assert.equal(manifest.status, expected.status);
             assert.deepEqual(await capturePublicGroup(root), baseline);
           }
         } finally {
@@ -217,18 +230,22 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
         detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
       });
       return manifest;
-    }, "degraded");
+    }, { status: "degraded" });
     await fault("corrupt-prior-json", async (root) => {
-      await writeFile(join(root, "sources", "registry.json"), "{not-json\n");
+      await writeFile(join(root, "watchlist", "history", "2026-W33-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
-    }, "failed");
+    }, { status: "failed", code: "corrupt-watchlist-history" });
+    await fault("corrupt-current-json", async (root) => {
+      await writeFile(join(root, "watchlist", "current.json"), "{not-json\n");
+      return async () => runFixedGeneration(root);
+    }, { status: "failed", code: "corrupt-watchlist-current" });
     await fault("invalid-company-id", async (root) => {
       const path = join(root, "events", "companies.json");
       const companies = JSON.parse(await readFile(path, "utf8")) as Array<{ entityId?: string }>;
       companies[0]!.entityId = "INVALID/company/id";
       await writeFile(path, `${JSON.stringify(companies, null, 2)}\n`);
       return async () => runFixedGeneration(root);
-    }, "failed");
+    }, { status: "failed", code: "invalid-company-id" });
     await fault("evidence-withdrawal", async (root) => {
       const theses = JSON.parse(await readFile(join(root, "watchlist", "theses.json"), "utf8")) as CompanyThesisArtifact;
       const withdrawn = new Set(theses.theses.flatMap((thesis) => thesis.factReferenceIds));
@@ -240,11 +257,23 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
       }
       await writeFile(path, `${JSON.stringify(store, null, 2)}\n`);
       return async () => runFixedGeneration(root);
-    }, "failed");
-    await fault("source-timeout", async (root) => async () => runFixedGeneration(root, { collect: timeoutCollection }), "degraded");
+    }, { status: "failed", code: "evidence-withdrawal" });
+    await fault("source-timeout", async (root) => async () => {
+      const manifest = await runFixedGeneration(root, { collect: timeoutCollection });
+      const archive = JSON.parse(await readFile(join(root, "daily", `${manifest.date}.json`), "utf8")) as DailyArchive;
+      assert.equal(manifest.status, "degraded");
+      assert.equal(manifest.quality.sourceFailures, 1);
+      assert.deepEqual(archive.sourceOutcomes?.find(({ source }) => source === "fixture-source"), {
+        source: "fixture-source",
+        status: "failure",
+        reason: "timeout",
+        fetchedArticles: 0,
+      });
+      return manifest;
+    }, { status: "degraded" });
     await fault("file-transaction-swap-failure", async (root) => async () => runFixedGeneration(root, {
       transaction: new FileTransaction("stage4-full-group-failure", { failAfterSwaps: 5 }),
-    }), "failed");
+    }), { status: "failed", code: "transaction-swap-failure" });
   } finally {
     await rm(baselineRoot, { recursive: true, force: true });
   }

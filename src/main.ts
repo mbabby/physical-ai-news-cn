@@ -22,7 +22,7 @@ import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./compan
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
-import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
@@ -52,6 +52,7 @@ import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
 import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
 import { buildDomainHealth } from "./domain-health.js";
 import { buildCompanyBoards } from "./company-boards.js";
+import { derivePublication } from "./facts-contract.js";
 import { buildThesisSeeds } from "./watchlist/seeds.js";
 import { buildThesisSeedArtifact, migrateThesisSeeds, validateThesisDraftArtifact } from "./watchlist/migration.js";
 import type { ThesisDraftArtifact } from "./watchlist/migration.js";
@@ -80,6 +81,25 @@ const researchStart = "<!-- RESEARCH_UPDATES_START -->";
 const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
 const statusStart = "<!-- PROJECT_STATUS_START -->";
 const statusEnd = "<!-- PROJECT_STATUS_END -->";
+
+export type DailyGenerationFailureCode =
+  | "corrupt-watchlist-current"
+  | "corrupt-watchlist-history"
+  | "invalid-company-id"
+  | "evidence-withdrawal"
+  | "transaction-swap-failure"
+  | "generation-failed";
+
+/** Stable production failure receipt. The raw cause stays private. */
+export class DailyGenerationError extends Error {
+  readonly status = "failed" as const;
+
+  constructor(readonly code: DailyGenerationFailureCode, message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = "DailyGenerationError";
+  }
+}
+
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
@@ -111,11 +131,41 @@ async function readWatchlistHistory(directory: string): Promise<WatchlistSnapsho
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
     throw error;
   }
-  const snapshots = await Promise.all(files.filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort().map((file) => readJsonStrict<WatchlistSnapshot>(join(directory, file), {
-    label: `Watchlist 历史快照 ${file}`,
-    validate: validateWatchlistSnapshotShape,
-  })));
+  const snapshots = await Promise.all(files.filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort().map(async (file) => {
+    try {
+      return await readJsonStrict<WatchlistSnapshot>(join(directory, file), {
+        label: `Watchlist 历史快照 ${file}`,
+        validate: validateWatchlistSnapshotShape,
+      });
+    } catch (error) {
+      throw new DailyGenerationError("corrupt-watchlist-history", "Watchlist 历史快照损坏；已停止发布并保留上一版。", { cause: error });
+    }
+  }));
   return snapshots.filter((snapshot): snapshot is WatchlistSnapshot => Boolean(snapshot));
+}
+
+function hasWithdrawnWatchlistEvidence(theses: CompanyThesisArtifact, snapshots: WatchlistSnapshot[], events: EventRecord[]): boolean {
+  const required = new Set(snapshots.flatMap((snapshot) => [...snapshot.forwardRadar, ...snapshot.validatedMomentum]
+    .map((entry) => `${entry.thesisId}\0${entry.thesisVersion}`)));
+  const eventById = new Map(events.map((event) => [event.id, event]));
+  return theses.theses
+    .filter((thesis) => required.has(`${thesis.thesisId}\0${thesis.thesisVersion}`))
+    .some((thesis) => thesis.factReferenceIds.some((eventId) => {
+      const event = eventById.get(eventId) as (EventRecord & { evidenceState?: "withdrawn" }) | undefined;
+      return Boolean(event && derivePublication({ evidence: event.evidence, evidenceState: event.evidenceState }).evidenceState === "withdrawn");
+    }));
+}
+
+async function restoreWatchlistCurrentFromHistory(root: string, history: WatchlistSnapshot[]): Promise<void> {
+  const latest = [...history].sort((left, right) => left.week.localeCompare(right.week) || left.snapshotVersion - right.snapshotVersion).at(-1);
+  if (!latest) return;
+  const recovery = new FileTransaction("watchlist-current-recovery");
+  recovery.stage(join(root, "watchlist", "current.json"), `${JSON.stringify(latest, null, 2)}\n`);
+  try {
+    await recovery.commit();
+  } catch (error) {
+    throw new DailyGenerationError("transaction-swap-failure", "Watchlist current 恢复事务失败；已保留不可变历史。", { cause: error });
+  }
 }
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
@@ -279,7 +329,7 @@ export interface GenerateOptions {
 }
 
 /** Production daily orchestration with fixture seams for deterministic release verification. */
-export async function generate(options: GenerateOptions = {}): Promise<void> {
+async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const now = options.now ?? new Date();
   const outputRoot = options.root ?? root;
   const startedAt = now;
@@ -294,7 +344,7 @@ export async function generate(options: GenerateOptions = {}): Promise<void> {
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
   const invalidCompany = companies.find((company) => !company.entityId || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(company.entityId));
-  if (invalidCompany) throw new Error(`公司档案包含不合法的规范 ID：${invalidCompany.entityId ?? "<missing>"}`);
+  if (invalidCompany) throw new DailyGenerationError("invalid-company-id", "公司档案包含不合法的规范 ID；已停止发布并保留上一版。");
   const catalogErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (catalogErrors.length) throw new Error(`实体与信源目录不一致：\n- ${catalogErrors.join("\n- ")}`);
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -563,17 +613,27 @@ export async function generate(options: GenerateOptions = {}): Promise<void> {
   });
   const watchlistDir = join(outputRoot, "watchlist");
   const watchlistHistory = await readWatchlistHistory(join(watchlistDir, "history"));
-  const previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
-    optional: true,
-    label: "公开 Watchlist 快照",
-    validate: validateWatchlistSnapshotShape,
-  });
+  let previousWatchlistSnapshot: WatchlistSnapshot | undefined;
+  try {
+    previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
+      optional: true,
+      label: "公开 Watchlist 快照",
+      validate: validateWatchlistSnapshotShape,
+    });
+  } catch (error) {
+    await restoreWatchlistCurrentFromHistory(outputRoot, watchlistHistory);
+    throw new DailyGenerationError("corrupt-watchlist-current", "Watchlist current 快照损坏；已停止发布并保留上一版。", { cause: error });
+  }
   const previousPublicTheses = await readJsonStrict<CompanyThesisArtifact>(join(watchlistDir, "theses.json"), {
     optional: true,
     label: "公开 Watchlist 判断",
   });
   if (Boolean(previousWatchlistSnapshot) !== Boolean(previousPublicTheses)) {
     throw new Error("Watchlist 公开工件不完整；已停止发布且保留上一版。");
+  }
+  if (previousWatchlistSnapshot && previousPublicTheses
+    && hasWithdrawnWatchlistEvidence(previousPublicTheses, [...watchlistHistory, previousWatchlistSnapshot], eventStore.events)) {
+    throw new DailyGenerationError("evidence-withdrawal", "Watchlist 规范证据已撤回；已停止发布并保留上一版。");
   }
   const methodologyVersions = [...new Set(watchlistPreview.preview.theses.map((thesis) => thesis.methodologyVersion))];
   if (methodologyVersions.length > 1) throw new Error("Watchlist 预览包含多个方法论版本");
@@ -827,12 +887,30 @@ export async function generate(options: GenerateOptions = {}): Promise<void> {
   await writeFile(join(reviewDir, "run-history.json"), JSON.stringify(runHistory, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "pipeline-health.json"), JSON.stringify(pipelineHealth, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "domain-health.json"), JSON.stringify(domainHealth, null, 2) + "\n", "utf8");
-  await transaction.commit();
+  try {
+    await transaction.commit();
+  } catch (error) {
+    throw new DailyGenerationError("transaction-swap-failure", "日报输出事务失败；已回滚并保留上一版。", { cause: error });
+  }
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
+  return runManifest;
+}
+
+export async function generate(options: GenerateOptions = {}): Promise<RunManifest> {
+  try {
+    return await generateDaily(options);
+  } catch (error) {
+    if (error instanceof DailyGenerationError) throw error;
+    throw new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。", { cause: error });
+  }
 }
 async function main(): Promise<void> {
   await withFileLock(join(root, ".daily-generation.lock"), generate);
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
-  main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
+  main().catch((error) => {
+    const failure = error instanceof DailyGenerationError ? error : new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。");
+    console.error(`运行失败：${failure.status}:${failure.code}`);
+    process.exitCode = 1;
+  });
 }
