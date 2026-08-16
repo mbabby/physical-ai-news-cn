@@ -143,3 +143,32 @@ test("change list resolves company names from the same canonical company boundar
   const view = buildWatchlistPublicView({ snapshot: snapshot(), thesisArtifact: artifact(), companies: [company], events: [event()] });
   assert.deepEqual(view.changes, [{ companyId: "company-alpha", companyName: "Alpha Robotics", change: "added" }]);
 });
+
+test("duplicate canonical inputs and duplicate snapshot selections block the view regardless of input order", () => {
+  const base = { snapshot: snapshot(), thesisArtifact: artifact(), companies: [company], events: [event()] };
+  const duplicateEvent = event({ title: "Conflicting Alpha event" });
+  const duplicateCompany = { ...company, name: "Conflicting Alpha" };
+  const duplicateThesis = thesis({ lifecycle: "falsified" });
+
+  for (const events of [[event(), duplicateEvent], [duplicateEvent, event()]]) {
+    assert.throws(() => buildWatchlistPublicView({ ...base, events }), /重复规范事件/);
+  }
+  for (const companies of [[company, duplicateCompany], [duplicateCompany, company]]) {
+    assert.throws(() => buildWatchlistPublicView({ ...base, companies }), /重复规范公司/);
+  }
+  assert.throws(() => buildWatchlistPublicView({ ...base, companies: [{ ...company, entityType: "实验室" }] }), /规范公司/);
+  for (const theses of [[thesis(), duplicateThesis], [duplicateThesis, thesis()]]) {
+    assert.throws(() => buildWatchlistPublicView({ ...base, thesisArtifact: artifact(theses) }), /重复判断版本/);
+  }
+  assert.throws(() => buildWatchlistPublicView({
+    ...base,
+    snapshot: snapshot({ validatedMomentum: [snapshot().validatedMomentum[0]!, snapshot().validatedMomentum[0]!] }),
+  }), /重复快照选择/);
+});
+
+test("each referenced event must emit a renderable qualifying evidence link", () => {
+  assert.throws(() => buildWatchlistPublicView({
+    snapshot: snapshot(), thesisArtifact: artifact(), companies: [company],
+    events: [event({ evidence: [{ ...event().evidence[0]!, link: "" }] })],
+  }), /公开证据/);
+});

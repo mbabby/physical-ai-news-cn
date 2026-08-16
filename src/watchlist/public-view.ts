@@ -74,18 +74,38 @@ const LIFECYCLE_LABELS: Record<Exclude<ThesisLifecycle, "falsified" | "expired">
   downgraded: "判断降级",
 };
 
-function indexById<T extends { id: string }>(items: T[]): Map<string, T> {
-  return new Map(items.map((item) => [item.id, item]));
+function uniqueIndex<T>(items: T[], keyFor: (item: T) => string | undefined, duplicateMessage: string): Map<string, T> {
+  const indexed = new Map<string, T>();
+  for (const item of items) {
+    const key = keyFor(item);
+    if (!key) continue;
+    if (indexed.has(key)) throw new Error(`${duplicateMessage}：${key}`);
+    indexed.set(key, item);
+  }
+  return indexed;
 }
 
-function resolveCompany(companyId: string, companies: CompanyProfile[]): CompanyProfile {
-  const company = companies.find((candidate) => candidate.entityId === companyId && candidate.entityType === "公司");
-  if (!company) throw new Error(`Watchlist 缺少规范公司：${companyId}`);
+function assertUniqueSnapshotSelections(snapshot: WatchlistSnapshot): void {
+  const companyIds = new Set<string>();
+  const thesisVersions = new Set<string>();
+  for (const entry of [...snapshot.forwardRadar, ...snapshot.validatedMomentum]) {
+    const thesisVersion = `${entry.thesisId}\0${entry.thesisVersion}`;
+    if (companyIds.has(entry.companyId) || thesisVersions.has(thesisVersion)) {
+      throw new Error(`Watchlist 重复快照选择：${entry.companyId}`);
+    }
+    companyIds.add(entry.companyId);
+    thesisVersions.add(thesisVersion);
+  }
+}
+
+function resolveCompany(companyId: string, companies: Map<string, CompanyProfile>): CompanyProfile {
+  const company = companies.get(companyId);
+  if (!company || company.entityType !== "公司") throw new Error(`Watchlist 缺少规范公司：${companyId}`);
   return company;
 }
 
-function resolveThesis(entry: WatchlistSnapshotEntry, track: WatchlistTrack, artifact: CompanyThesisArtifact, now: number): PublicThesis {
-  const thesis = artifact.theses.find((candidate) => candidate.thesisId === entry.thesisId && candidate.thesisVersion === entry.thesisVersion);
+function resolveThesis(entry: WatchlistSnapshotEntry, track: WatchlistTrack, theses: Map<string, CompanyThesis>, now: number): PublicThesis {
+  const thesis = theses.get(`${entry.thesisId}\0${entry.thesisVersion}`);
   if (!thesis || thesis.companyId !== entry.companyId || thesis.track !== track) {
     throw new Error(`Watchlist 缺少匹配的判断版本：${entry.thesisId}@${entry.thesisVersion}`);
   }
@@ -93,6 +113,11 @@ function resolveThesis(entry: WatchlistSnapshotEntry, track: WatchlistTrack, art
     throw new Error(`Watchlist 判断不可公开：${thesis.thesisId}`);
   }
   return thesis as PublicThesis;
+}
+
+function evidenceId(evidence: EventRecord["evidence"][number], index: number): string {
+  const item = evidence as typeof evidence & { id?: string; articleId?: string };
+  return item.id?.trim() || item.articleId?.trim() || evidence.link.trim() || `evidence-${index + 1}`;
 }
 
 function evidenceLinks(thesis: CompanyThesis, company: CompanyProfile, events: Map<string, EventRecord>): { links: WatchlistPublicEvidenceLink[]; references: EventRecord[] } {
@@ -105,11 +130,15 @@ function evidenceLinks(thesis: CompanyThesis, company: CompanyProfile, events: M
     const publication = derivePublication({ evidence: event.evidence });
     if (!publication.publicEligible) throw new Error(`Watchlist 缺少公开证据：${event.id}`);
     const qualifyingIds = new Set(publication.qualifyingEvidenceIds);
-    for (const evidence of event.evidence) {
-      if (!qualifyingIds.has(evidence.link)) continue;
+    const eventLinks: WatchlistPublicEvidenceLink[] = [];
+    for (const [index, evidence] of event.evidence.entries()) {
+      const url = evidence.link.trim();
+      if (!url || !qualifyingIds.has(evidenceId(evidence, index))) continue;
       if (evidence.grade !== "A" && evidence.grade !== "B") continue;
-      links.push({ eventId: event.id, title: event.title, url: evidence.link, source: evidence.source, grade: evidence.grade });
+      eventLinks.push({ eventId: event.id, title: event.title, url, source: evidence.source, grade: evidence.grade });
     }
+    if (!eventLinks.length) throw new Error(`Watchlist 缺少公开证据：${event.id}`);
+    links.push(...eventLinks);
   }
   return { links, references: canonical };
 }
@@ -127,12 +156,13 @@ function capital(references: EventRecord[]): WatchlistPublicCapital {
 function resolveCard(
   entry: WatchlistSnapshotEntry,
   track: WatchlistTrack,
-  input: BuildWatchlistPublicViewInput,
+  companies: Map<string, CompanyProfile>,
+  theses: Map<string, CompanyThesis>,
   events: Map<string, EventRecord>,
   now: number,
 ): WatchlistPublicCard {
-  const thesis = resolveThesis(entry, track, input.thesisArtifact, now);
-  const company = resolveCompany(entry.companyId, input.companies);
+  const thesis = resolveThesis(entry, track, theses, now);
+  const company = resolveCompany(entry.companyId, companies);
   const resolvedEvidence = evidenceLinks(thesis, company, events);
   return {
     companyId: entry.companyId,
@@ -152,7 +182,7 @@ function resolveCard(
   };
 }
 
-function changes(snapshot: WatchlistSnapshot, companies: CompanyProfile[]): WatchlistPublicChange[] {
+function changes(snapshot: WatchlistSnapshot, companies: Map<string, CompanyProfile>): WatchlistPublicChange[] {
   return snapshot.changesSinceLastWeek.map((item) => {
     const company = resolveCompany(item.companyId, companies);
     return { companyId: item.companyId, companyName: company.name, change: item.change };
@@ -163,9 +193,12 @@ function changes(snapshot: WatchlistSnapshot, companies: CompanyProfile[]): Watc
 export function buildWatchlistPublicView(input: BuildWatchlistPublicViewInput): WatchlistPublicView {
   const now = Date.parse(input.snapshot.generatedAt);
   if (!Number.isFinite(now)) throw new Error("Watchlist 快照缺少有效的最后成功时间");
-  const events = indexById(input.events);
-  const forwardRadar = input.snapshot.forwardRadar.map((entry) => resolveCard(entry, "forward-radar", input, events, now));
-  const validatedMomentum = input.snapshot.validatedMomentum.map((entry) => resolveCard(entry, "validated-momentum", input, events, now));
+  assertUniqueSnapshotSelections(input.snapshot);
+  const companies = uniqueIndex(input.companies, (company) => company.entityId, "Watchlist 重复规范公司");
+  const events = uniqueIndex(input.events, (event) => event.id, "Watchlist 重复规范事件");
+  const theses = uniqueIndex(input.thesisArtifact.theses, (thesis) => `${thesis.thesisId}\0${thesis.thesisVersion}`, "Watchlist 重复判断版本");
+  const forwardRadar = input.snapshot.forwardRadar.map((entry) => resolveCard(entry, "forward-radar", companies, theses, events, now));
+  const validatedMomentum = input.snapshot.validatedMomentum.map((entry) => resolveCard(entry, "validated-momentum", companies, theses, events, now));
   return {
     week: input.snapshot.week,
     snapshotVersion: input.snapshot.snapshotVersion,
@@ -174,6 +207,6 @@ export function buildWatchlistPublicView(input: BuildWatchlistPublicViewInput): 
     companyIds: [...forwardRadar, ...validatedMomentum].map((card) => card.companyId),
     forwardRadar,
     validatedMomentum,
-    changes: changes(input.snapshot, input.companies),
+    changes: changes(input.snapshot, companies),
   };
 }
