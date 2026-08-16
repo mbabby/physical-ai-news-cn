@@ -1,4 +1,6 @@
 export type WatchlistTrack = "forward-radar" | "validated-momentum";
+export type WatchlistPublicGroup = "priority-focus" | "continued-observation";
+export type WatchlistChange = "added" | "strengthened" | "downgraded" | "exited";
 
 export type ThesisLifecycle = "new" | "strengthening" | "awaiting-validation" | "downgraded" | "falsified" | "expired";
 export type ThesisSensitiveField = "amount" | "valuation" | "customer" | "revenue" | "order";
@@ -41,9 +43,17 @@ export interface WatchlistSnapshot {
   snapshotVersion: number;
   methodologyVersion: string;
   generatedAt: string;
-  forwardRadar: Array<{ thesisId: string; thesisVersion: number }>;
-  validatedMomentum: Array<{ thesisId: string; thesisVersion: number }>;
-  changesSinceLastWeek: Array<{ companyId: string; change: string }>;
+  forwardRadar: WatchlistSnapshotEntry[];
+  validatedMomentum: WatchlistSnapshotEntry[];
+  changesSinceLastWeek: Array<{ companyId: string; change: WatchlistChange }>;
+  routeShareException?: { route: string; share: number; reason: string };
+}
+
+export interface WatchlistSnapshotEntry {
+  companyId: string;
+  thesisId: string;
+  thesisVersion: number;
+  group: WatchlistPublicGroup;
 }
 
 const isoTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
@@ -98,15 +108,24 @@ function isSensitiveBinding(value: unknown, factReferenceIds: string[]): value i
     && typeof value.valueDigest === "string" && /^[a-f0-9]{64}$/.test(value.valueDigest);
 }
 
-function isSnapshotEntry(value: unknown): value is { thesisId: string; thesisVersion: number } {
+function isSnapshotEntry(value: unknown): value is WatchlistSnapshotEntry {
   if (!isObject(value)) return false;
-  const thesisId = value.thesisId;
-  const thesisVersion = value.thesisVersion;
-  return nonEmptyString(thesisId) && typeof thesisVersion === "number" && Number.isInteger(thesisVersion) && thesisVersion > 0;
+  if (Object.keys(value).length !== 4 || Object.keys(value).some((key) => !["companyId", "thesisId", "thesisVersion", "group"].includes(key))) return false;
+  return nonEmptyString(value.companyId) && nonEmptyString(value.thesisId)
+    && typeof value.thesisVersion === "number" && Number.isInteger(value.thesisVersion) && value.thesisVersion > 0
+    && (value.group === "priority-focus" || value.group === "continued-observation");
 }
 
-function isChange(value: unknown): value is { companyId: string; change: string } {
-  return isObject(value) && nonEmptyString(value.companyId) && nonEmptyString(value.change);
+function isChange(value: unknown): value is { companyId: string; change: WatchlistChange } {
+  return isObject(value) && Object.keys(value).length === 2
+    && nonEmptyString(value.companyId)
+    && (value.change === "added" || value.change === "strengthened" || value.change === "downgraded" || value.change === "exited");
+}
+
+function isRouteShareException(value: unknown): value is NonNullable<WatchlistSnapshot["routeShareException"]> {
+  return isObject(value) && Object.keys(value).length === 3
+    && nonEmptyString(value.route) && nonEmptyString(value.reason)
+    && typeof value.share === "number" && Number.isFinite(value.share) && value.share > 0.4 && value.share <= 1;
 }
 
 export function validateCompanyThesisShape(value: unknown): value is CompanyThesis {
@@ -150,13 +169,16 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
 
 export function validateWatchlistSnapshotShape(value: unknown): value is WatchlistSnapshot {
   if (!isObject(value)) return false;
-  const { week, snapshotVersion, methodologyVersion, generatedAt, forwardRadar, validatedMomentum, changesSinceLastWeek } = value;
+  if (Object.keys(value).some((key) => !["week", "snapshotVersion", "methodologyVersion", "generatedAt", "forwardRadar", "validatedMomentum", "changesSinceLastWeek", "routeShareException"].includes(key))) return false;
+  const { week, snapshotVersion, methodologyVersion, generatedAt, forwardRadar, validatedMomentum, changesSinceLastWeek, routeShareException } = value;
   if (!/^\d{4}-W\d{2}$/.test(String(week))) return false;
   if (typeof snapshotVersion !== "number" || !Number.isInteger(snapshotVersion) || snapshotVersion < 1) return false;
   if (!nonEmptyString(methodologyVersion) || !validTimestamp(generatedAt)) return false;
   if (!Array.isArray(forwardRadar) || !Array.isArray(validatedMomentum) || !Array.isArray(changesSinceLastWeek)) return false;
   if (!forwardRadar.every(isSnapshotEntry) || !validatedMomentum.every(isSnapshotEntry) || !changesSinceLastWeek.every(isChange)) return false;
   const thesisIds = [...forwardRadar, ...validatedMomentum].map((entry) => entry.thesisId);
-  if (!unique(thesisIds)) return false;
+  const companyIds = [...forwardRadar, ...validatedMomentum].map((entry) => entry.companyId);
+  if (!unique(thesisIds) || !unique(companyIds)) return false;
+  if (routeShareException !== undefined && !isRouteShareException(routeShareException)) return false;
   return true;
 }
