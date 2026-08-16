@@ -21,7 +21,7 @@ import { formatCandidateCompanyReview, updateCandidateCompanies } from "./compan
 import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./company-entities.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
-import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
+import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
@@ -744,6 +744,10 @@ async function generate(): Promise<void> {
     previousCompleteResearchCount: previousPublicRecords.length,
     watchlist: watchlistRelease,
   });
+  // This public-only artifact shares the Watchlist snapshot transaction. The
+  // older review/issue-seeds.json remains a private maintainer queue and is
+  // intentionally unreachable from GitHub Issue automation.
+  stageWatchlistReviewIssueSeeds({ transaction, root, view: watchlistView });
   await stageWatchlistRelease({ transaction, root, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
   const finishedAt = new Date();
   const runManifest: RunManifest = {

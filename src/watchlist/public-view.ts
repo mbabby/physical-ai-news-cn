@@ -83,7 +83,7 @@ const CARD_KEYS = new Set(["companyId", "companyName", "thesisId", "thesisVersio
 const EVIDENCE_KEYS = new Set(["eventId", "title", "url", "source", "grade"]);
 const CAPITAL_KEYS = new Set(["status", "summary"]);
 const CHANGE_KEYS = new Set(["companyId", "companyName", "change"]);
-const PRIVATE_PUBLIC_TEXT = /\b(?:score|rank)\b|分数|排名|内部诊断|候选(?:ID|标识)/i;
+const PRIVATE_PUBLIC_TEXT = /\b(?:score|rank)\b|(?:internal|selection|momentum)[_-]?(?:score|rank)\b|分数|排名|内部诊断|候选(?:ID|标识)/i;
 const INTERNAL_CANDIDATE_IDENTIFIER = /\bcandidate[-_.:/]+[a-z0-9][a-z0-9_.:/-]*/i;
 
 function isObject(value: unknown): value is Record<string, unknown> {

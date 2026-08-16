@@ -1,0 +1,46 @@
+name: Watchlist 公开事实纠错
+description: 纠正当前公开 Watchlist 的可核验事实（不会自动发布）
+title: "[Watchlist 纠错]: "
+labels: ["evidence-review", "correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        此 Issue 是公开 review 输入，不会自动发布或修改当前 Watchlist。即使证据被采纳，也必须在后续生成中完成规范化提升，才可能影响公开工件。
+  - type: input
+    id: original-url
+    attributes:
+      label: 原始 URL
+      description: 请提供可访问的原始纠错依据。
+      placeholder: https://example.com/source
+    validations:
+      required: true
+  - type: textarea
+    id: affected-fact
+    attributes:
+      label: 受影响的公开事实
+      description: 引用当前卡片中需要纠正的事实，并给出正确表述。
+    validations:
+      required: true
+  - type: input
+    id: canonical-company-id
+    attributes:
+      label: 规范公司 ID
+      description: 使用当前 Watchlist 卡片中的 canonical company ID。
+    validations:
+      required: true
+  - type: input
+    id: event-date
+    attributes:
+      label: 事件日期
+      description: 使用 YYYY-MM-DD；未知时请说明依据。
+      placeholder: "2026-08-16"
+    validations:
+      required: true
+  - type: textarea
+    id: explanation
+    attributes:
+      label: 说明
+      description: 说明为何现有公开事实不准确，以及该原始来源如何支持纠正。
+    validations:
+      required: true
