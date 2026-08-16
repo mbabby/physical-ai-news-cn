@@ -56,17 +56,96 @@ function normalizedCompany(item) {
   };
 }
 
-function companies(data) {
+const watchlistGroups = [
+  { value: "priority-focus", label: "重点关注" },
+  { value: "continued-observation", label: "持续观察" },
+];
+const watchlistChangeLabels = { added: "新进入名单", strengthened: "判断强化", downgraded: "判断降级", exited: "退出名单" };
+
+const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
+const validValidationDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+
+function validWatchlistCard(item, track) {
+  return Boolean(item) && typeof item === "object"
+    && nonEmpty(item.companyId) && nonEmpty(item.companyName) && item.track === track
+    && (item.group === "priority-focus" || item.group === "continued-observation")
+    && ["new", "strengthening", "awaiting-validation", "downgraded"].includes(item.lifecycle)
+    && nonEmpty(item.lifecycleLabel) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
+    && Array.isArray(item.nextValidationPoints) && item.nextValidationPoints.every((point) => point && typeof point === "object" && nonEmpty(point.text) && validValidationDate(point.dueAt))
+    && Array.isArray(item.falsifiers) && item.falsifiers.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.text))
+    && Array.isArray(item.evidenceLinks) && item.evidenceLinks.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.eventId) && nonEmpty(entry.title) && nonEmpty(entry.url) && nonEmpty(entry.source) && (entry.grade === "A" || entry.grade === "B"))
+    && item.capital && typeof item.capital === "object"
+    && (item.capital.status === "verified" || item.capital.status === "evidence-insufficient")
+    && nonEmpty(item.capital.summary);
+}
+
+function validWatchlist(value) {
+  const week = typeof value?.week === "string" ? /^\d{4}-W(\d{2})$/.exec(value.week) : null;
+  return Boolean(value) && typeof value === "object"
+    && Boolean(week) && Number(week[1]) >= 1 && Number(week[1]) <= 53
+    && typeof value.snapshotVersion === "number" && Number.isInteger(value.snapshotVersion) && value.snapshotVersion > 0
+    && nonEmpty(value.methodologyVersion)
+    && typeof value.lastSuccessfulAt === "string" && Number.isFinite(Date.parse(value.lastSuccessfulAt))
+    && Array.isArray(value.companyIds) && value.companyIds.every(nonEmpty)
+    && Array.isArray(value.forwardRadar) && value.forwardRadar.every((item) => validWatchlistCard(item, "forward-radar"))
+    && Array.isArray(value.validatedMomentum) && value.validatedMomentum.every((item) => validWatchlistCard(item, "validated-momentum"))
+    && Array.isArray(value.changes) && value.changes.every((item) => item && typeof item === "object" && nonEmpty(item.companyId) && nonEmpty(item.companyName) && ["added", "strengthened", "downgraded", "exited"].includes(item.change));
+}
+
+function watchlistEvidence(item, companyName) {
+  const evidence = list(item.evidenceLinks).filter((entry) => entry && typeof entry === "object");
+  if (!evidence.length) return '<span class="radar-muted">公开证据链接待同步</span>';
+  return evidence.map((entry) => {
+    const title = entry.title || "查看规范事件";
+    const source = entry.source || "公开来源";
+    const grade = entry.grade === "A" || entry.grade === "B" ? entry.grade : "B";
+    return `<a href="${safeUrl(entry.url)}" target="_blank" rel="noopener noreferrer" aria-label="${safe(`打开 ${companyName} 证据：${title}（${source}，${grade}级）`)}">${safe(title)} <small>${safe(source)} · ${safe(grade)}级</small></a>`;
+  }).join("");
+}
+
+function watchlistCard(item) {
+  const companyName = text(item.companyName, "待识别公司");
+  return `<article class="watchlist-card" data-company-id="${safe(item.companyId)}"><header><div><p class="eyebrow">AI 研究判断</p><h4>${safe(companyName)}</h4></div><span class="watchlist-badge">${safe(item.lifecycleLabel || "等待验证")}</span></header>
+    <dl class="watchlist-thesis"><div><dt>为什么现在值得看</dt><dd>${safe(item.whyNow || "公开判断正在同步。")}</dd></div><div><dt>路线与依赖</dt><dd>${safe(item.routeAndDependencies || "依赖关系正在补证。")}</dd></div><div><dt>下一验证点</dt><dd>${list(item.nextValidationPoints).length ? list(item.nextValidationPoints).map((point) => `<span>${safe(point.text || "待验证")}${point.dueAt ? ` <small>验证期限 ${safe(point.dueAt)}</small>` : ""}</span>`).join("") : "等待新的公开验证点"}</dd></div><div><dt>反证条件</dt><dd>${list(item.falsifiers).length ? list(item.falsifiers).map((entry) => `<span>${safe(entry.text || "待补充")}</span>`).join("") : "反证条件正在同步"}</dd></div><div><dt>资本证据</dt><dd>${safe(item.capital?.summary || "证据不足（不代表未融资）")}</dd></div></dl>
+    <div class="watchlist-evidence" aria-label="${safe(companyName)} 的规范证据">${watchlistEvidence(item, companyName)}</div></article>`;
+}
+
+function watchlistTrack(items, title, emptyMessage, identity) {
+  const cards = list(items).filter((item) => item && typeof item === "object");
+  if (!cards.length) return `<section class="watchlist-track"><header class="watchlist-track-head"><h3>${safe(title)}</h3><small>${safe(identity)}</small></header><p class="empty">${safe(emptyMessage)}</p></section>`;
+  return `<section class="watchlist-track"><header class="watchlist-track-head"><h3>${safe(title)}</h3><small>${safe(identity)}</small></header>${watchlistGroups.map((group) => ({ ...group, cards: cards.filter((card) => card.group === group.value) })).filter((group) => group.cards.length).map((group) => `<section class="watchlist-group" aria-label="${safe(group.label)}"><h4>${safe(group.label)}</h4><div class="watchlist-track-grid">${group.cards.map(watchlistCard).join("")}</div></section>`).join("")}</section>`;
+}
+
+function watchlistShare(value) {
+  if (!validWatchlist(value)) return '<section class="company-watchlist"><h2>公司 Watchlist</h2><p class="empty"><strong>Watchlist 数据未通过公开契约校验</strong>本次数据未被当作有效空快照展示，请等待下一次成功发布。</p></section>';
+  const identity = `最后成功快照：${value.week} · v${value.snapshotVersion} · ${text(value.lastSuccessfulAt).slice(0, 10)}`;
+  const changes = list(value.changes).filter((item) => item && typeof item === "object");
+  return `<section class="company-watchlist"><header class="watchlist-share-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h2>公司 Watchlist</h2></div><small>${safe(identity)}</small></header>
+    ${watchlistTrack(value.forwardRadar, "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无公开公司。`, identity)}
+    ${watchlistTrack(value.validatedMomentum, "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无公开公司。`, identity)}
+    <section class="watchlist-changes"><header class="watchlist-track-head"><h3>本周变化</h3><small>${safe(value.week)}</small></header>${changes.length ? `<ul>${changes.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}</section></section>`;
+}
+
+function companyDossiers(data, showMomentum) {
   const companies = list(data.companyRadar).map(normalizedCompany).sort((a, b) => b.momentumScore - a.momentumScore).slice(0, 18);
-  root.innerHTML = `<p class="share-intro">资本状态不明不等于未融资。这里按近 30 天可归属事件、资本证据与产品验证阶段计算动量。</p>
+  return `<p class="share-intro">资本状态不明不等于未融资。这里按近 30 天可归属事件、资本证据与产品验证阶段计算动量。</p>
     <div class="company-radar">${companies.map((item) => `<article class="company-card">
       <div class="company-card-head"><h3>${link(item.officialUrl, item.name || "待识别公司")}</h3><span>${safe(item.region || "区域待补全")} · ${safe(item.stage || "阶段待补全")}</span></div>
-      <div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.momentumScore}%"></span><small>${item.momentumScore}/100 · 30D ${safe(item.recentSignals)} 条</small></div>
+      ${showMomentum ? `<div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.momentumScore}%"></span><small>${item.momentumScore}/100 · 30D ${safe(item.recentSignals)} 条</small></div>` : ""}
       <p>${safe(item.thesis || "公司技术路线与产业定位仍在补全。")}</p>
       <div class="route-tags">${item.routes.length ? item.routes.map((route) => `<span>${safe(route)}</span>`).join("") : "<span>路线待补全</span>"}</div>
       <dl><div><dt>资本</dt><dd>${safe(item.capitalStatus === "证据不足" ? "证据不足（不代表未融资）" : item.capitalStatus)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage || "证据不足")}</dd></div></dl>
       <div class="company-facts"><div><small>最近资本事件</small>${item.funding?.link ? link(item.funding.link, item.funding.title) : '<span class="radar-muted">尚未收录可归属公开证据</span>'}</div><div><small>最近产品 / 部署</small>${item.progress?.link ? link(item.progress.link, item.progress.title) : '<span class="radar-muted">尚无满足门槛的事件</span>'}</div></div>
     </article>`).join("") || '<p class="empty">公司档案正在同步。</p>'}</div>`;
+}
+
+function companies(data) {
+  const hasWatchlist = Boolean(data) && typeof data === "object" && Object.prototype.hasOwnProperty.call(data, "watchlist");
+  if (!hasWatchlist) {
+    root.innerHTML = companyDossiers(data, true);
+    return;
+  }
+  root.innerHTML = `${watchlistShare(data.watchlist)}<section class="company-dossiers"><h2>公司档案</h2>${companyDossiers(data, false)}</section>`;
 }
 
 function inferredResearchRoute(paper) {

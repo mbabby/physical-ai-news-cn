@@ -351,6 +351,121 @@ function renderCompanyBoards(value) {
   container.hidden = false;
 }
 
+const watchlistGroups = [
+  { value: "priority-focus", label: "重点关注" },
+  { value: "continued-observation", label: "持续观察" },
+];
+const watchlistChangeLabels = {
+  added: "新进入名单",
+  strengthened: "判断强化",
+  downgraded: "判断降级",
+  exited: "退出名单",
+};
+
+const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
+const validValidationDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+
+function validWatchlistCard(item, track) {
+  return Boolean(item) && typeof item === "object"
+    && nonEmpty(item.companyId) && nonEmpty(item.companyName)
+    && item.track === track
+    && (item.group === "priority-focus" || item.group === "continued-observation")
+    && ["new", "strengthening", "awaiting-validation", "downgraded"].includes(item.lifecycle)
+    && nonEmpty(item.lifecycleLabel) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
+    && Array.isArray(item.nextValidationPoints) && item.nextValidationPoints.every((point) => point && typeof point === "object" && nonEmpty(point.text) && validValidationDate(point.dueAt))
+    && Array.isArray(item.falsifiers) && item.falsifiers.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.text))
+    && Array.isArray(item.evidenceLinks) && item.evidenceLinks.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.eventId) && nonEmpty(entry.title) && nonEmpty(entry.url) && nonEmpty(entry.source) && (entry.grade === "A" || entry.grade === "B"))
+    && item.capital && typeof item.capital === "object"
+    && (item.capital.status === "verified" || item.capital.status === "evidence-insufficient")
+    && nonEmpty(item.capital.summary);
+}
+
+function validWatchlist(value) {
+  const week = typeof value?.week === "string" ? /^\d{4}-W(\d{2})$/.exec(value.week) : null;
+  return Boolean(value) && typeof value === "object"
+    && Boolean(week) && Number(week[1]) >= 1 && Number(week[1]) <= 53
+    && typeof value.snapshotVersion === "number" && Number.isInteger(value.snapshotVersion) && value.snapshotVersion > 0
+    && nonEmpty(value.methodologyVersion)
+    && typeof value.lastSuccessfulAt === "string" && Number.isFinite(Date.parse(value.lastSuccessfulAt))
+    && Array.isArray(value.companyIds) && value.companyIds.every(nonEmpty)
+    && Array.isArray(value.forwardRadar) && value.forwardRadar.every((item) => validWatchlistCard(item, "forward-radar"))
+    && Array.isArray(value.validatedMomentum) && value.validatedMomentum.every((item) => validWatchlistCard(item, "validated-momentum"))
+    && Array.isArray(value.changes) && value.changes.every((item) => item && typeof item === "object" && nonEmpty(item.companyId) && nonEmpty(item.companyName) && ["added", "strengthened", "downgraded", "exited"].includes(item.change));
+}
+
+function watchlistEvidence(item, companyName) {
+  const links = list(item.evidenceLinks).filter((evidence) => evidence && typeof evidence === "object");
+  if (!links.length) return '<span class="radar-muted">公开证据链接待同步</span>';
+  return links.map((evidence) => {
+    const title = evidence.title || "查看规范事件";
+    const source = evidence.source || "公开来源";
+    const grade = evidence.grade === "A" || evidence.grade === "B" ? evidence.grade : "B";
+    const label = `打开 ${companyName} 证据：${title}（${source}，${grade}级）`;
+    return `<a href="${safeUrl(evidence.url)}" target="_blank" rel="noopener noreferrer" aria-label="${safe(label)}">${safe(title)} <small>${safe(source)} · ${safe(grade)}级</small></a>`;
+  }).join("");
+}
+
+function watchlistCard(item) {
+  const companyName = text(item.companyName, "待识别公司");
+  const validationPoints = list(item.nextValidationPoints);
+  const falsifiers = list(item.falsifiers);
+  return `<article class="watchlist-card" data-company-id="${safe(item.companyId)}">
+    <header><div><p class="eyebrow">AI 研究判断</p><h4>${safe(companyName)}</h4></div><span class="watchlist-badge">${safe(item.lifecycleLabel || "等待验证")}</span></header>
+    <dl class="watchlist-thesis">
+      <div><dt>为什么现在值得看</dt><dd>${safe(item.whyNow || "公开判断正在同步。")}</dd></div>
+      <div><dt>路线与依赖</dt><dd>${safe(item.routeAndDependencies || "依赖关系正在补证。")}</dd></div>
+      <div><dt>下一验证点</dt><dd>${validationPoints.length ? validationPoints.map((point) => `<span>${safe(point.text || "待验证")}${point.dueAt ? ` <small>验证期限 ${safe(point.dueAt)}</small>` : ""}</span>`).join("") : "等待新的公开验证点"}</dd></div>
+      <div><dt>反证条件</dt><dd>${falsifiers.length ? falsifiers.map((item) => `<span>${safe(item.text || "待补充")}</span>`).join("") : "反证条件正在同步"}</dd></div>
+      <div><dt>资本证据</dt><dd>${safe(item.capital?.summary || "证据不足（不代表未融资）")}</dd></div>
+    </dl>
+    <div class="watchlist-evidence" aria-label="${safe(companyName)} 的规范证据">${watchlistEvidence(item, companyName)}</div>
+  </article>`;
+}
+
+function renderWatchlistTrack(items, title, emptyMessage, identity) {
+  const cards = list(items).filter((item) => item && typeof item === "object");
+  const groups = watchlistGroups.map((group) => ({ ...group, cards: cards.filter((item) => item.group === group.value) }));
+  if (!cards.length) return `<header class="watchlist-track-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header><p class="empty">${safe(emptyMessage)}</p>`;
+  return `<header class="watchlist-track-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header>
+    ${groups.filter((group) => group.cards.length).map((group) => `<section class="watchlist-group" aria-label="${safe(group.label)}"><h4>${safe(group.label)}</h4><div class="watchlist-track-grid">${group.cards.map(watchlistCard).join("")}</div></section>`).join("")}`;
+}
+
+function renderWatchlist(value) {
+  const container = byId("company-watchlist");
+  const forward = byId("watchlist-forward");
+  const momentum = byId("watchlist-momentum");
+  const changes = byId("watchlist-changes");
+  if (!container || !forward || !momentum || !changes) return;
+  container.hidden = false;
+  if (!validWatchlist(value)) {
+    forward.innerHTML = '<p class="empty"><strong>Watchlist 数据未通过公开契约校验</strong>本次数据未被当作有效空快照展示，请等待下一次成功发布。</p>';
+    momentum.innerHTML = "";
+    changes.innerHTML = "";
+    return;
+  }
+  const lastSuccessfulDate = text(value.lastSuccessfulAt).slice(0, 10);
+  const identity = `最后成功快照：${value.week} · v${value.snapshotVersion} · ${lastSuccessfulDate}`;
+  forward.innerHTML = renderWatchlistTrack(value.forwardRadar, "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无公开公司。`, identity);
+  momentum.innerHTML = renderWatchlistTrack(value.validatedMomentum, "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无公开公司。`, identity);
+  const changeItems = list(value.changes).filter((item) => item && typeof item === "object");
+  changes.innerHTML = `<header class="watchlist-track-head"><div><p class="eyebrow">WEEKLY CHANGES</p><h3>本周变化</h3></div><small>${safe(value.week)}</small></header>${changeItems.length ? `<ul>${changeItems.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}`;
+}
+
+function renderCompanySection(data) {
+  const container = byId("company-watchlist");
+  const legacy = byId("company-boards");
+  const legacyGrid = byId("company-board-grid");
+  const hasWatchlist = Boolean(data) && typeof data === "object" && Object.prototype.hasOwnProperty.call(data, "watchlist");
+  if (!hasWatchlist) {
+    if (container) container.hidden = true;
+    renderCompanyBoards(data?.companyBoards);
+    return;
+  }
+  if (legacy) legacy.hidden = true;
+  if (legacyGrid) legacyGrid.innerHTML = "";
+  renderWatchlist(data.watchlist);
+}
+
 function renderCompanyRadar(items) {
   const route = byId("route-filter").value;
   const region = byId("region-filter").value;
@@ -426,7 +541,7 @@ function render(data) {
   renderFeed("capital", data.capital);
   renderFeed("industry", data.industry);
   renderResearchFeed(data.research);
-  renderCompanyBoards(data.companyBoards);
+  renderCompanySection(data);
   setupCompanyRadar(data.companyRadar);
   renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);
