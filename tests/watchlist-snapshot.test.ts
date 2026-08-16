@@ -108,10 +108,34 @@ test("a same-week correction keeps deltas relative to the prior ISO week", () =>
   assert.deepEqual(week34v2.changesSinceLastWeek, [{ companyId: "alpha", change: "added" }]);
 });
 
-test("requires an explicit prior-week baseline for a changed same-week revision", () => {
+test("requires an explicit prior-week baseline after the same-week snapshot has selected cards", () => {
   const week34v1 = buildWatchlistSnapshot(input([thesis("alpha")]));
   assert.throws(
     () => buildWatchlistSnapshot(input([thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" })], week34v1)),
+    /缺少上一周基线/,
+  );
+});
+
+test("an empty same-week bootstrap can publish its first selected cards without prior-week history", () => {
+  const bootstrap = buildWatchlistSnapshot(input([]));
+  const firstSelection = buildWatchlistSnapshot(input([thesis("alpha")], bootstrap));
+
+  assert.equal(firstSelection.snapshotVersion, 2);
+  assert.deepEqual(firstSelection.forwardRadar.map((entry) => entry.companyId), ["alpha"]);
+  assert.deepEqual(firstSelection.changesSinceLastWeek, [{ companyId: "alpha", change: "added" }]);
+});
+
+test("an empty later revision cannot erase the prior-week baseline requirement", () => {
+  const priorWeek = buildWatchlistSnapshot({ ...input([]), week: "2026-W33" });
+  const selectedV1 = buildWatchlistSnapshot({ ...input([thesis("alpha")], priorWeek), week: "2026-W34" });
+  const emptyV2 = buildWatchlistSnapshot({
+    ...input([], selectedV1),
+    previousWeekBaseline: priorWeek,
+  });
+
+  assert.equal(emptyV2.snapshotVersion, 2);
+  assert.throws(
+    () => buildWatchlistSnapshot(input([thesis("beta")], emptyV2)),
     /缺少上一周基线/,
   );
 });

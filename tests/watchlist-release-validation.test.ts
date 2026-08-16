@@ -6,6 +6,7 @@ import test from "node:test";
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { CompanyThesis, CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import {
+  validateCurrentWatchlistHistoryFiles,
   mergeWatchlistThesisArtifact,
   stageWatchlistRelease,
   validateWatchlistRelease,
@@ -112,6 +113,25 @@ function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[
 
 const json = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
 
+test("release validation requires the current immutable history file with identical bytes", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-current-history-"));
+  const currentPath = join(root, "watchlist", "current.json");
+  const historyPath = join(root, "watchlist", "history", "2026-W34-v1.json");
+  try {
+    await mkdir(join(root, "watchlist", "history"), { recursive: true });
+    await writeFile(currentPath, json(snapshot()));
+    await assert.rejects(() => validateCurrentWatchlistHistoryFiles(root, snapshot()), /缺少.*不可变历史/);
+
+    await writeFile(historyPath, json({ ...snapshot(), generatedAt: "2026-08-17T00:00:00.000Z" }));
+    await assert.rejects(() => validateCurrentWatchlistHistoryFiles(root, snapshot()), /字节.*不一致/);
+
+    await writeFile(historyPath, json(snapshot()));
+    await assert.doesNotReject(() => validateCurrentWatchlistHistoryFiles(root, snapshot()));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("rejects a week mismatch across snapshot, dashboard and README", () => {
   assert.throws(() => validateWatchlistRelease(release({ dashboard: { watchlist: view({ week: "2026-W33" }) } })), /周.*不一致/);
 });
@@ -147,6 +167,10 @@ test("rejects falsified and expired selected theses", () => {
 
 test("requires a visible AI research judgment disclosure", () => {
   assert.throws(() => validateWatchlistRelease(release({ readme: readme().replaceAll("AI 研究判断", "研究观察") })), /AI 研究判断/);
+  assert.throws(() => validateWatchlistRelease(release({
+    theses: artifact([thesis({ inferenceLabels: ["manual"] })]),
+    history: [snapshot()],
+  })), /判断标签.*AI 研究判断/);
 });
 
 test("an invalid staged snapshot leaves every public artifact unchanged", async () => {

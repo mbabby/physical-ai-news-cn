@@ -158,7 +158,11 @@ export function buildWatchlistSnapshot(input: BuildWatchlistSnapshotInput): Watc
   const selectedThesisIds = selected.map((thesis) => thesis.thesisId);
   if (new Set(selectedThesisIds).size !== selectedThesisIds.length) throw new Error("Watchlist 快照选择的 thesisId 重复");
   const sameWeekRevision = input.previous?.week === input.week;
-  const baseline = input.previousWeekBaseline ?? (sameWeekRevision ? undefined : input.previous);
+  const emptySameWeekBootstrap = sameWeekRevision
+    && input.previous!.snapshotVersion === 1
+    && input.previous!.forwardRadar.length === 0
+    && input.previous!.validatedMomentum.length === 0;
+  const baseline = input.previousWeekBaseline ?? (sameWeekRevision ? (emptySameWeekBootstrap ? input.previous : undefined) : input.previous);
   const snapshot: WatchlistSnapshot = {
     week: input.week,
     snapshotVersion: input.previous?.week === input.week ? input.previous.snapshotVersion + 1 : 1,

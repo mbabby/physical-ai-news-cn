@@ -10,7 +10,7 @@ import { validateEntitySourceBindings } from "./entity-catalog.js";
 import type { CompanyProfile } from "./types.js";
 import { validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
-import { validateWatchlistRelease } from "./watchlist/release-validation.js";
+import { validateCurrentWatchlistHistoryFiles, validateWatchlistRelease } from "./watchlist/release-validation.js";
 import type { DashboardData } from "./site-data.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -32,6 +32,7 @@ async function main(): Promise<void> {
   const watchlistTheses = await readJsonStrict<CompanyThesisArtifact>(join(root, "watchlist", "theses.json"), { label: "公开 Watchlist 判断" });
   const dashboard = await readJsonStrict<DashboardData>(join(root, "site", "data", "dashboard.json"), { label: "公开 dashboard", validate: (value): value is DashboardData => isObject(value) });
   if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard) throw new Error("发布产物不完整");
+  await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
   const watchlistHistory = await Promise.all(historyFiles.map((file) => readJsonStrict<WatchlistSnapshot>(join(root, "watchlist", "history", file), {
     label: `Watchlist 历史快照 ${file}`,

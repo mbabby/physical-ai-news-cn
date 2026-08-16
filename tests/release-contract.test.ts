@@ -58,6 +58,7 @@ test("release validation binds the watchlist JSON to Markdown and runtime receip
   assert.match(source, /join\(root, "watchlist", "current\.json"\)/);
   assert.match(source, /join\(root, "watchlist", "theses\.json"\)/);
   assert.match(source, /validateWatchlistRelease\(\{/);
+  assert.match(source, /validateCurrentWatchlistHistoryFiles\(root, watchlistSnapshot\)/);
   assert.match(source, /dashboard/);
   assert.match(source, /readme/);
 });

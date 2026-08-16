@@ -102,6 +102,27 @@ function readmeCompanyIds(readme: string): string[] {
   });
 }
 
+export async function validateCurrentWatchlistHistoryFiles(root: string, snapshot: WatchlistSnapshot): Promise<void> {
+  const paths = snapshotPath(snapshot);
+  const currentPath = join(root, paths.current);
+  const historyPath = join(root, paths.history);
+  let currentBytes: string;
+  let historyBytes: string;
+  try {
+    currentBytes = await readFile(currentPath, "utf8");
+  } catch (error) {
+    throw new Error(`Watchlist 缺少 current 公开快照：${paths.current}`, { cause: error });
+  }
+  try {
+    historyBytes = await readFile(historyPath, "utf8");
+  } catch (error) {
+    throw new Error(`Watchlist 缺少 current 对应的不可变历史：${paths.history}`, { cause: error });
+  }
+  if (currentBytes !== historyBytes) {
+    throw new Error(`Watchlist current 与不可变历史字节不一致：${paths.history}`);
+  }
+}
+
 export function validateWatchlistRelease(input: WatchlistReleaseValidationInput): void {
   assertNoPrivateKeys(input.snapshot, "snapshot");
   assertNoPrivateKeys(input.history ?? [], "history");
@@ -141,6 +162,9 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
       }
       if (selected.methodologyVersion !== releaseSnapshot.methodologyVersion) {
         throw new Error(`Watchlist 判断方法论版本不一致：${entry.thesisId}@${entry.thesisVersion}`);
+      }
+      if (!selected.inferenceLabels.includes("AI 研究判断")) {
+        throw new Error(`Watchlist 判断标签缺少“AI 研究判断”：${entry.thesisId}@${entry.thesisVersion}`);
       }
       if (selected.lifecycle === "falsified" || selected.lifecycle === "expired") {
         throw new Error(`Watchlist 判断不可公开：${entry.thesisId}@${entry.thesisVersion}`);

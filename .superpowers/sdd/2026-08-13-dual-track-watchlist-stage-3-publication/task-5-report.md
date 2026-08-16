@@ -33,12 +33,22 @@ GREEN：
 
 - Task 5 聚焦门禁 10/10 通过，包括 invalid-stage 零写入、`failAfterSwaps: 3` 全组回滚、异字节 history 碰撞、同字节 history 幂等及两轮连续事务字节稳定。
 - 聚焦集成测试 23/23 通过。
-- 全量测试 419/419 通过。
+- 初始全量测试 419/419 通过。
+
+## Fix round 1 — independent review
+
+审查结论为 `CHANGES_REQUESTED`。三项反馈均经代码路径复现后按 TDD 修复：
+
+- RED：空的同周 v1 bootstrap 在没有前一周 history 时首次加入卡片抛出“缺少上一周基线”。GREEN：仅当 previous 是同周、v1 且两条轨道都为空时，允许 previous 作为空基线并生成 v2/`added` delta；已有选择的同周修订仍要求 prior-week baseline。额外 RED/GREEN 证明曾经有选择、后续清空为 v2 后不能利用空状态绕过基线。
+- RED：current 对应 history 缺失时没有文件级断言，漂移字节也只会被解析为另一个合法对象。GREEN：`validateCurrentWatchlistHistoryFiles` 由 `validate:release` 调用，要求 `watchlist/history/<week>-v<version>.json` 存在并与 current 原始字节完全一致；缺失、漂移与成功路径均有回归。
+- RED：thesis 的文案仍含 `AI 研究判断` 但 `inferenceLabels` 漂移为 `manual` 时 release gate 通过。GREEN：current 和全部 history 引用的精确 thesis 版本都必须包含 canonical `AI 研究判断` 标签。
+
+Fix round 聚焦测试 33/33 通过；最终全量测试 422/422 通过。
 
 ## Required verification
 
 - `pnpm run check`：通过。
-- `pnpm test`：419 passed，0 failed。
+- `pnpm test`：422 passed，0 failed。
 - `pnpm run validate:release`：通过；2026-08-16 公开 6 条，运行状态 degraded。
 - `pnpm run validate:health`：通过；状态 degraded，最近成功率 100%，连续成功发布 30 次；唯一原因是最近运行存在外部服务或信源降级。
 - GitHub Actions YAML 由 Ruby Psych 成功解析。
@@ -61,7 +71,7 @@ GREEN：
 - 信源：既有最新运行记录 0 个失败信源；本任务未真实抓取。
 - LLM：既有运行部分降级（8/10 成功）；本任务按约束未调用真实 LLM。
 - OpenAlex：既有运行成功（36/36）；本任务按约束未调用真实 OpenAlex。
-- 提交：本任务使用提交信息 `feat: enforce watchlist release consistency`；最终 handoff 返回提交哈希。
+- 提交：初始提交 `295e71d feat: enforce watchlist release consistency`；fix round 使用独立修复提交并在最终 handoff 返回哈希。
 - Pages：未触发、未部署；任务明确禁止 deploy。工作流契约与 YAML 语法已验证。
 - 首页日期/身份：dashboard 生成时间与最新运行日期均为 2026-08-16；Watchlist README/dashboard/current 均为 2026-W33 v1。
 
