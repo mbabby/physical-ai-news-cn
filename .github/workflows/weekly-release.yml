@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       week:
-        description: "Optional ISO week to publish (YYYY-Www); defaults to the newest generated report"
+        description: "Optional ISO week to publish (YYYY-Www); must match watchlist/current.json"
         required: false
         type: string
 
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: main
-      - name: Resolve the current weekly report
+      - name: Resolve the immutable current Watchlist snapshot
         id: report
         shell: bash
         env:
@@ -35,13 +35,12 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ -n "${REQUESTED_WEEK}" ]]; then
-            week="${REQUESTED_WEEK}"
-          else
-            latest_report="$(find weekly -maxdepth 1 -type f -name '????-W??-report.md' -print | LC_ALL=C sort | tail -n 1)"
-            test -n "${latest_report}"
-            week="${latest_report#weekly/}"
-            week="${week%-report.md}"
+          week="$(jq -er '.week' watchlist/current.json)"
+          snapshot_version="$(jq -er '.snapshotVersion' watchlist/current.json)"
+
+          if [[ -n "${REQUESTED_WEEK}" && "${REQUESTED_WEEK}" != "${week}" ]]; then
+            echo "Requested week ${REQUESTED_WEEK} does not match current Watchlist snapshot ${week}." >&2
+            exit 1
           fi
 
           if [[ ! "${week}" =~ ^[0-9]{4}-W(0[1-9]|[1-4][0-9]|5[0-3])$ ]]; then
@@ -50,28 +49,42 @@ jobs:
           fi
 
           report="weekly/${week}-report.md"
+          snapshot="watchlist/history/${week}-v${snapshot_version}.json"
           test -s "$report"
+          test -s "$snapshot"
+          cmp -s watchlist/current.json "$snapshot"
           grep -Fq "# 物理 AI 周报 · ${week}" "$report"
           echo "week=$week" >> "$GITHUB_OUTPUT"
+          echo "snapshot_version=$snapshot_version" >> "$GITHUB_OUTPUT"
+          echo "snapshot=$snapshot" >> "$GITHUB_OUTPUT"
           echo "report=$report" >> "$GITHUB_OUTPUT"
       - name: Create or refresh the weekly GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
           WEEK: ${{ steps.report.outputs.week }}
+          SNAPSHOT_VERSION: ${{ steps.report.outputs.snapshot_version }}
+          SNAPSHOT: ${{ steps.report.outputs.snapshot }}
           REPORT: ${{ steps.report.outputs.report }}
         shell: bash
         run: |
           set -euo pipefail
-          tag="brief-${WEEK}"
-          title="Physical AI Intelligence Brief · ${WEEK}"
+          tag="brief-${WEEK}-v${SNAPSHOT_VERSION}"
+          title="Physical AI Intelligence Brief · ${WEEK} · Watchlist v${SNAPSHOT_VERSION}"
+          notes="$RUNNER_TEMP/weekly-release-notes.md"
+          {
+            echo "Watchlist snapshot: ${WEEK} · v${SNAPSHOT_VERSION}"
+            echo
+            cat "$REPORT"
+          } > "$notes"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release edit "$tag" --title "$title" --notes-file "$REPORT" --latest
+            gh release edit "$tag" --title "$title" --notes-file "$notes" --latest
             action="refreshed"
           else
-            gh release create "$tag" --target main --title "$title" --notes-file "$REPORT" --latest
+            gh release create "$tag" --target main --title "$title" --notes-file "$notes" --latest
             action="created"
           fi
           echo "## Weekly brief published" >> "$GITHUB_STEP_SUMMARY"
           echo "- Release: ${tag}" >> "$GITHUB_STEP_SUMMARY"
           echo "- Action: ${action}" >> "$GITHUB_STEP_SUMMARY"
           echo "- Source: ${REPORT}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Watchlist snapshot: ${WEEK} · v${SNAPSHOT_VERSION} (${SNAPSHOT})" >> "$GITHUB_STEP_SUMMARY"

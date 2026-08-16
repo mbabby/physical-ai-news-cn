@@ -2,6 +2,7 @@ import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "../publi
 import type { DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../types.js";
 import { validateHistoryContinuity } from "./health.js";
 import { validateFacts } from "../facts-contract.js";
+import { validateWatchlistRelease, type WatchlistReleaseValidationInput } from "../watchlist/release-validation.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -10,6 +11,7 @@ export interface PublicationValidationInput {
   readme: string;
   expectedDate: string;
   previousCompleteResearchCount?: number;
+  watchlist?: WatchlistReleaseValidationInput;
 }
 
 export function validatePublication(input: PublicationValidationInput): void {
@@ -46,6 +48,7 @@ export function validatePublication(input: PublicationValidationInput): void {
   }
   if (/暂无中文简介|暂未生成中文摘要|中文简介暂未生成/.test(input.readme)) errors.push("README 出现公开占位简介");
   if (errors.length) throw new Error(`发布质量门槛未通过：\n- ${errors.join("\n- ")}`);
+  if (input.watchlist) validateWatchlistRelease(input.watchlist);
 }
 
 const validIsoDate = (value: string): boolean => /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));

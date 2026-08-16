@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isObject, readJsonStrict } from "./runtime/storage.js";
@@ -9,6 +9,9 @@ import { SOURCES, X_SOURCES } from "./config.js";
 import { validateEntitySourceBindings } from "./entity-catalog.js";
 import type { CompanyProfile } from "./types.js";
 import { validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
+import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
+import { validateWatchlistRelease } from "./watchlist/release-validation.js";
+import type { DashboardData } from "./site-data.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -25,7 +28,16 @@ async function main(): Promise<void> {
   const health = await readJsonStrict<PipelineHealth>(join(root, "review", "pipeline-health.json"), { label: "流水线健康状态", validate: (value): value is PipelineHealth => isObject(value) && value.schemaVersion === 1 && typeof value.latestRunId === "string" });
   const companies = await readJsonStrict<CompanyProfile[]>(join(root, "events", "companies.json"), { label: "公司实体主表", validate: (value): value is CompanyProfile[] => Array.isArray(value) });
   const watchlistPreview = await readJsonStrict<WatchlistPreviewArtifact>(join(root, "review", "watchlist-preview.json"), { label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact });
-  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview) throw new Error("发布产物不完整");
+  const watchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(root, "watchlist", "current.json"), { label: "公开 Watchlist 快照", validate: validateWatchlistSnapshotShape });
+  const watchlistTheses = await readJsonStrict<CompanyThesisArtifact>(join(root, "watchlist", "theses.json"), { label: "公开 Watchlist 判断" });
+  const dashboard = await readJsonStrict<DashboardData>(join(root, "site", "data", "dashboard.json"), { label: "公开 dashboard", validate: (value): value is DashboardData => isObject(value) });
+  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard) throw new Error("发布产物不完整");
+  const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
+  const watchlistHistory = await Promise.all(historyFiles.map((file) => readJsonStrict<WatchlistSnapshot>(join(root, "watchlist", "history", file), {
+    label: `Watchlist 历史快照 ${file}`,
+    validate: validateWatchlistSnapshotShape,
+  })));
+  if (watchlistHistory.some((item) => item === undefined)) throw new Error("Watchlist 历史快照不完整");
   const watchlistMarkdown = await readFile(join(root, "review", "watchlist-preview.md"), "utf8");
   validateWatchlistPreviewRelease({
     preview: watchlistPreview,
@@ -37,6 +49,13 @@ async function main(): Promise<void> {
   const entityErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (entityErrors.length) throw new Error(`实体—信源目录不一致：${entityErrors.join("；")}`);
   const readme = await readFile(join(root, "README.md"), "utf8");
+  validateWatchlistRelease({
+    snapshot: watchlistSnapshot,
+    theses: watchlistTheses,
+    dashboard,
+    readme,
+    history: watchlistHistory as WatchlistSnapshot[],
+  });
   const publicResearch = research.records.filter((record) => isPublishableResearch(record.article));
   const rankedIds = new Set(rankResearchArticles(publicResearch.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))).slice(0, 6).map((article) => article.id));
   validatePublication({ archive, events, research: publicResearch.filter((record) => rankedIds.has(record.id)), readme, expectedDate: manifest.date });

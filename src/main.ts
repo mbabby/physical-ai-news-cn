@@ -1,4 +1,4 @@
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -58,10 +58,12 @@ import type { ThesisDraftArtifact } from "./watchlist/migration.js";
 import { scoreThesisSeed, selectWatchlistSeeds } from "./watchlist/scoring.js";
 import { WatchlistGenerator, type CanonicalFactExcerpt } from "./watchlist/generator.js";
 import { buildCanonicalFactAtoms } from "./watchlist/validation.js";
-import { buildWatchlistPreview, stageWatchlistPreview, validateWatchlistPreviewArtifact, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
-import type { WatchlistPublicView } from "./watchlist/public-view.js";
+import { buildWatchlistPreview, formatWatchlistPreviewMarkdown, stageWatchlistPreview, validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
+import { buildWatchlistPublicView, type WatchlistPublicView } from "./watchlist/public-view.js";
 import { formatWatchlistReadme } from "./watchlist/markdown.js";
-import { loadWatchlistPublicView } from "./watchlist/publication.js";
+import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
+import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
+import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const eventsStart = "<!-- EVENT_CENTER_START -->";
@@ -96,6 +98,21 @@ async function readCandidateRegistry(path: string): Promise<CandidateSourceRegis
   return readJsonStrict<CandidateSourceRegistry>(path, { optional: true, label: "候选信源注册表", validate: (value): value is CandidateSourceRegistry => isObject(value) && Array.isArray(value.sources) });
 }
 async function readJson<T>(path: string): Promise<T | undefined> { return readJsonStrict<T>(path, { optional: true }); }
+
+async function readWatchlistHistory(directory: string): Promise<WatchlistSnapshot[]> {
+  let files: string[];
+  try {
+    files = await readdir(directory);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
+  }
+  const snapshots = await Promise.all(files.filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort().map((file) => readJsonStrict<WatchlistSnapshot>(join(directory, file), {
+    label: `Watchlist 历史快照 ${file}`,
+    validate: validateWatchlistSnapshotShape,
+  })));
+  return snapshots.filter((snapshot): snapshot is WatchlistSnapshot => Boolean(snapshot));
+}
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
   const results = await Promise.allSettled(sources.map((source) => {
@@ -519,6 +536,63 @@ async function generate(): Promise<void> {
   });
   stageWatchlistPreview(transaction, reviewDir, watchlistPreview.preview);
   statuses.push(watchlistPreview.status);
+  if (!validateWatchlistPreviewArtifact(watchlistPreview.preview)) throw new Error("Watchlist 内部预览不符合发布前契约");
+  validateWatchlistPreviewRelease({
+    preview: watchlistPreview.preview,
+    markdown: formatWatchlistPreviewMarkdown(watchlistPreview.preview),
+    manifestFinishedAt: now.toISOString(),
+    manifestServices: statuses,
+    archiveServices: archive.runtimeStatus ?? [],
+  });
+  const watchlistDir = join(root, "watchlist");
+  const watchlistHistory = await readWatchlistHistory(join(watchlistDir, "history"));
+  const previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
+    optional: true,
+    label: "公开 Watchlist 快照",
+    validate: validateWatchlistSnapshotShape,
+  });
+  const previousPublicTheses = await readJsonStrict<CompanyThesisArtifact>(join(watchlistDir, "theses.json"), {
+    optional: true,
+    label: "公开 Watchlist 判断",
+  });
+  if (Boolean(previousWatchlistSnapshot) !== Boolean(previousPublicTheses)) {
+    throw new Error("Watchlist 公开工件不完整；已停止发布且保留上一版。");
+  }
+  const methodologyVersions = [...new Set(watchlistPreview.preview.theses.map((thesis) => thesis.methodologyVersion))];
+  if (methodologyVersions.length > 1) throw new Error("Watchlist 预览包含多个方法论版本");
+  const watchlistWeek = isoWeek(now);
+  const priorWeek = isoWeek(new Date(now.getTime() - 7 * 24 * 60 * 60 * 1_000));
+  const previousWeekBaseline = watchlistHistory
+    .filter((snapshot) => snapshot.week === priorWeek)
+    .sort((left, right) => right.snapshotVersion - left.snapshotVersion)[0];
+  const routeByCompanyId = new Map([...selectedWatchlistSeeds.forwardRadar, ...selectedWatchlistSeeds.validatedMomentum]
+    .map((seed) => [seed.companyId, seed.routes[0]] as const));
+  const watchlistSnapshot = buildWatchlistSnapshot({
+    theses: watchlistPreview.preview.theses,
+    previous: previousWatchlistSnapshot,
+    previousWeekBaseline,
+    week: watchlistWeek,
+    methodologyVersion: methodologyVersions[0] ?? previousWatchlistSnapshot?.methodologyVersion ?? "v1",
+    generatedAt: now.toISOString(),
+    primaryRouteByCompanyId: Object.fromEntries(watchlistPreview.preview.theses.map((thesis) => {
+      const route = routeByCompanyId.get(thesis.companyId);
+      if (!route) throw new Error(`Watchlist 缺少公司 ${thesis.companyId} 的主路线`);
+      return [thesis.companyId, route];
+    })),
+    routeShareExceptionReason: "当前达到公开门槛的样本量有限，暂保留路线集中度并在后续周次复核。",
+  });
+  const watchlistTheses = mergeWatchlistThesisArtifact({
+    snapshot: watchlistSnapshot,
+    histories: watchlistHistory,
+    previous: previousPublicTheses,
+    candidates: watchlistPreview.preview.theses,
+  });
+  const watchlistView = buildWatchlistPublicView({
+    snapshot: watchlistSnapshot,
+    thesisArtifact: watchlistTheses,
+    companies,
+    events: eventStore.events,
+  });
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
@@ -555,7 +629,6 @@ async function generate(): Promise<void> {
   });
   const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
   await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
-  const watchlistView = await loadWatchlistPublicView(root, companies, eventStore.events);
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
@@ -564,7 +637,6 @@ async function generate(): Promise<void> {
     researchIndustryEdges: researchIndustryRelations.edges,
     watchlist: watchlistView,
   });
-  await writeFile(join(root, "site", "data", "dashboard.json"), JSON.stringify(dashboard, null, 2) + "\n", "utf8");
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "event-anomalies.md"), [
@@ -661,8 +733,17 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  validatePublication({ archive, events: eventStore, research: publicResearchRecords, readme, expectedDate: archive.date, previousCompleteResearchCount: previousPublicRecords.length });
-  await writeFile(readmePath, readme, "utf8");
+  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, history: watchlistHistory };
+  validatePublication({
+    archive,
+    events: eventStore,
+    research: publicResearchRecords,
+    readme,
+    expectedDate: archive.date,
+    previousCompleteResearchCount: previousPublicRecords.length,
+    watchlist: watchlistRelease,
+  });
+  await stageWatchlistRelease({ transaction, root, ...watchlistRelease });
   const finishedAt = new Date();
   const runManifest: RunManifest = {
     schemaVersion: 1,

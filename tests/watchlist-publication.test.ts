@@ -176,3 +176,15 @@ test("README company fragments encode every Markdown-sensitive character", async
 
   assert.match(markdown, /#company-alpha%29%28%27%21%2A\)/);
 });
+
+test("README keeps the AI research judgment disclosure visible for an empty public snapshot", async () => {
+  const current = await fixtureView();
+  const markdown = formatWatchlistReadme({
+    ...current,
+    companyIds: [],
+    forwardRadar: [],
+    validatedMomentum: [],
+    changes: [],
+  });
+  assert.match(markdown, /AI 研究判断/);
+});

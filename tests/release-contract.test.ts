@@ -27,6 +27,10 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /git add[^\n]*\breview\b/);
   assert.match(workflow, /### Watchlist/);
   assert.match(workflow, /select\(\.component == "Watchlist"\)/);
+  assert.match(workflow, /watchlist\/current\.json/);
+  assert.match(workflow, /\.forwardRadar \| length/);
+  assert.match(workflow, /\.validatedMomentum \| length/);
+  assert.match(workflow, /git add[^\n]*\bwatchlist\b/);
   assert.doesNotMatch(workflow, /watchlist-(?:seeds|drafts)\.json/);
 });
 
@@ -51,6 +55,20 @@ test("release validation binds the watchlist JSON to Markdown and runtime receip
   assert.match(source, /validateWatchlistPreviewRelease\(\{/);
   assert.match(source, /manifestServices:\s*manifest\.services/);
   assert.match(source, /archiveServices:\s*archive\.runtimeStatus/);
+  assert.match(source, /join\(root, "watchlist", "current\.json"\)/);
+  assert.match(source, /join\(root, "watchlist", "theses\.json"\)/);
+  assert.match(source, /validateWatchlistRelease\(\{/);
+  assert.match(source, /dashboard/);
+  assert.match(source, /readme/);
+});
+
+test("daily generation promotes the current preview through one public transaction", async () => {
+  const source = await readFile(join(root, "src", "main.ts"), "utf8");
+  assert.match(source, /buildWatchlistSnapshot\(\{/);
+  assert.match(source, /buildWatchlistPublicView\(\{/);
+  assert.match(source, /mergeWatchlistThesisArtifact\(\{/);
+  assert.match(source, /stageWatchlistRelease\(\{/);
+  assert.doesNotMatch(source, /loadWatchlistPublicView\(root/);
 });
 
 test("Pages deployment follows a completed digest and checks out latest main", async () => {
@@ -74,12 +92,18 @@ test("weekly release publishes a stable evidence-backed brief", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
   assert.match(workflow, /cron: "0 13 \* \* 0"/);
   assert.match(workflow, /contents:\s*write/);
-  assert.match(workflow, /description: "Optional ISO week to publish \(YYYY-Www\)/);
-  assert.match(workflow, /find weekly .* -name '\?\?\?\?-W\?\?-report\.md'/);
+  assert.match(workflow, /description: "Optional ISO week to publish \(YYYY-Www\); must match watchlist\/current\.json"/);
+  assert.match(workflow, /jq -er '\.week' watchlist\/current\.json/);
+  assert.match(workflow, /jq -er '\.snapshotVersion' watchlist\/current\.json/);
+  assert.match(workflow, /watchlist\/history\/\$\{week\}-v\$\{snapshot_version\}\.json/);
+  assert.match(workflow, /cmp -s watchlist\/current\.json "\$snapshot"/);
   assert.match(workflow, /\^\[0-9\]\{4\}-W\(0\[1-9\]\|\[1-4\]\[0-9\]\|5\[0-3\]\)\$/);
   assert.match(workflow, /weekly\/\$\{week\}-report\.md/);
+  assert.match(workflow, /brief-\$\{WEEK\}-v\$\{SNAPSHOT_VERSION\}/);
+  assert.match(workflow, /Watchlist snapshot.*\$\{WEEK\}.*v\$\{SNAPSHOT_VERSION\}/);
   assert.match(workflow, /gh release view "\$tag"/);
-  assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$REPORT" --latest/);
-  assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$REPORT" --latest/);
+  assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes" --latest/);
+  assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$notes" --latest/);
   assert.doesNotMatch(workflow, /date \+%G-W%V/);
+  assert.doesNotMatch(workflow, /find weekly/);
 });

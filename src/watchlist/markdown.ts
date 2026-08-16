@@ -29,6 +29,7 @@ function formatTrack(title: string, cards: WatchlistPublicCard[]): string[] {
 export function formatWatchlistReadme(view: WatchlistPublicView): string {
   return [
     `> 观察名单快照：${view.week} · v${view.snapshotVersion}`,
+    "> 以下卡片均为 **AI 研究判断**，不是投资建议；事实与判断边界以公开证据和验证期限为准。",
     "",
     ...formatTrack("前瞻雷达", view.forwardRadar),
     "",
