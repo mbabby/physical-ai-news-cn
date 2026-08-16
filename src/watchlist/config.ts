@@ -1,3 +1,4 @@
+import type { WatchlistPublicView } from "./public-view.js";
 import { CANONICAL_ROUTES } from "./routes.js";
 
 const MAX_COMPANIES = 30;
@@ -19,6 +20,15 @@ export type WatchlistConfigResult = {
   config: WatchlistConfig;
   warnings: string[];
 };
+
+/** Derive the share-filter catalog exclusively from the current public view. */
+export function buildWatchlistConfigCatalog(view: WatchlistPublicView): WatchlistConfig {
+  const usedRoutes = new Set([...view.forwardRadar, ...view.validatedMomentum].flatMap((card) => card.routes));
+  return {
+    companyIds: stableUnique(view.companyIds),
+    routes: CANONICAL_ROUTES.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug),
+  };
+}
 
 const unsafeValue = (value: string) => value.length === 0
   || value !== value.trim()

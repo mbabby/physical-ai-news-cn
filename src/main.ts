@@ -1,5 +1,5 @@
 import { mkdir, readdir, readFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
@@ -270,18 +270,31 @@ function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
   return lines.join("\n");
 }
 
-async function generate(): Promise<void> {
-  const startedAt = new Date();
-  const transaction = new FileTransaction();
+export interface GenerateOptions {
+  root?: string;
+  now?: Date;
+  collect?: typeof collect;
+  collectX?: typeof collectX;
+  transaction?: FileTransaction;
+}
+
+/** Production daily orchestration with fixture seams for deterministic release verification. */
+export async function generate(options: GenerateOptions = {}): Promise<void> {
+  const now = options.now ?? new Date();
+  const outputRoot = options.root ?? root;
+  const startedAt = now;
+  const transaction = options.transaction ?? new FileTransaction();
   const writeFile = async (path: string, content: string, _encoding?: string): Promise<void> => { transaction.stage(path, content); };
   const windowHours = parseWindow(process.argv.slice(2));
-  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research"); const routesDir = join(root, "routes"); const metricsDir = join(root, "metrics");
+  const outputDir = join(outputRoot, "daily"); const weeklyDir = join(outputRoot, "weekly"); const sourcesDir = join(outputRoot, "sources"); const reviewDir = join(outputRoot, "review"); const resourcesDir = join(outputRoot, "resources"); const eventsDir = join(outputRoot, "events"); const researchDir = join(outputRoot, "research"); const routesDir = join(outputRoot, "routes"); const metricsDir = join(outputRoot, "metrics");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true }), mkdir(metricsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const companyEntityPath = join(eventsDir, "company-entities.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
+  const invalidCompany = companies.find((company) => !company.entityId || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(company.entityId));
+  if (invalidCompany) throw new Error(`公司档案包含不合法的规范 ID：${invalidCompany.entityId ?? "<missing>"}`);
   const catalogErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (catalogErrors.length) throw new Error(`实体与信源目录不一致：\n- ${catalogErrors.join("\n- ")}`);
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -291,8 +304,8 @@ async function generate(): Promise<void> {
   const activeSources = applyRegistryWeights(configuredSources, priorRegistry).filter((source) => source.status !== "已暂停");
   const activeXSources = applyRegistryWeights(X_SOURCES, priorRegistry).filter((source) => source.status !== "已暂停");
   await writeFile(join(resourcesDir, "entity-source-coverage.md"), formatEntityCoverage(buildEntityCoverage(companies, [...SOURCES, ...X_SOURCES]), now), "utf8");
-  const collected = await collect(activeSources, windowHours);
-  const xCollected = await collectX(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
+  const collected = await (options.collect ?? collect)(activeSources, windowHours);
+  const xCollected = await (options.collectX ?? collectX)(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
   // Research has its own public gate: it needs a complete Chinese factual
   // brief, not a company identity. Corporate facts remain strict because the
   // homepage must never invent a company behind a funding headline.
@@ -379,7 +392,7 @@ async function generate(): Promise<void> {
   await writeFile(join(routesDir, "competition.json"), JSON.stringify(routeMap, null, 2) + "\n", "utf8");
   await writeFile(join(routesDir, "corrections.json"), JSON.stringify(corrections, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "route-corrections.md"), ["# 路线图纠错记录", "", ...(corrections.length ? corrections.map((item) => `- ${item.date.slice(0, 10)} · ${item.route} · ${item.company} · ${item.kind}：${item.detail}`) : ["- 本轮没有路线结论变化。"]), ""].join("\n"), "utf8");
-  await mkdir(join(root, "site", "data"), { recursive: true });
+  await mkdir(join(outputRoot, "site", "data"), { recursive: true });
   await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "decision-cards.json"), JSON.stringify({ generatedAt: now.toISOString(), cards: researchDecisionCards }, null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "industry-relations.json"), JSON.stringify(researchIndustryRelations, null, 2) + "\n", "utf8");
@@ -548,7 +561,7 @@ async function generate(): Promise<void> {
     manifestServices: statuses,
     archiveServices: archive.runtimeStatus ?? [],
   });
-  const watchlistDir = join(root, "watchlist");
+  const watchlistDir = join(outputRoot, "watchlist");
   const watchlistHistory = await readWatchlistHistory(join(watchlistDir, "history"));
   const previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
     optional: true,
@@ -749,7 +762,7 @@ async function generate(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
-  const readmePath = join(root, "README.md");
+  const readmePath = join(outputRoot, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
@@ -772,9 +785,9 @@ async function generate(): Promise<void> {
   // This public-only artifact shares the Watchlist snapshot transaction. The
   // older review/issue-seeds.json remains a private maintainer queue and is
   // intentionally unreachable from GitHub Issue automation.
-  stageWatchlistReviewIssueSeeds({ transaction, root, view: watchlistView });
-  await stageWatchlistRelease({ transaction, root, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
-  const finishedAt = new Date();
+  stageWatchlistReviewIssueSeeds({ transaction, root: outputRoot, view: watchlistView });
+  await stageWatchlistRelease({ transaction, root: outputRoot, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
+  const finishedAt = options.now ?? new Date();
   const runManifest: RunManifest = {
     schemaVersion: 1,
     runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
@@ -820,4 +833,6 @@ async function generate(): Promise<void> {
 async function main(): Promise<void> {
   await withFileLock(join(root, ".daily-generation.lock"), generate);
 }
-main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
+}

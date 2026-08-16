@@ -1,0 +1,251 @@
+import assert from "node:assert/strict";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+import { generate } from "../src/main.js";
+import { FileTransaction } from "../src/runtime/storage.js";
+import type { DigestResult, EventStore, RunManifest } from "../src/types.js";
+import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
+import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
+import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
+import type { WatchlistPreviewArtifact } from "../src/watchlist/preview.js";
+
+const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
+const FIXTURE_PATHS = [
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
+];
+
+const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], failures: [], sourceOutcomes: [] });
+const timeoutCollection = async (): Promise<DigestResult> => ({
+  articles: [],
+  failures: [{ source: "fixture-source", reason: "timeout" }],
+  sourceOutcomes: [{ source: "fixture-source", status: "failure", reason: "timeout", fetchedArticles: 0 }],
+});
+
+async function copyFixture(target: string): Promise<void> {
+  await mkdir(target, { recursive: true });
+  for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+}
+
+async function seedNonEmptyPriorPreview(root: string): Promise<void> {
+  const generatedAt = FIXED_NOW.toISOString();
+  const preview: WatchlistPreviewArtifact = {
+    schemaVersion: 2,
+    generatedAt,
+    theses: [{
+      thesisId: "thesis-nvidia-stage4-fixture",
+      companyId: "nvidia",
+      track: "forward-radar",
+      lifecycle: "new",
+      thesisVersion: 1,
+      whyNow: "AI 研究判断：NVIDIA 已出现可追溯的规范事实。",
+      routeAndDependencies: "AI 研究判断：NVIDIA 当前沿世界模型与空间智能路线观察。",
+      nextValidationPoints: [{ text: "核验后续可追溯的产品或部署事实。", dueAt: "2026-10-15" }],
+      falsifiers: [{ text: "若规范事实被撤回，则停止当前判断。" }],
+      factReferenceIds: ["evt-9da8fb3e629b"],
+      verifiedSensitiveBindings: [],
+      inferenceLabels: ["AI 研究判断"],
+      confidence: "medium",
+      generatedAt: "2026-08-16T00:00:00.000Z",
+      expiresAt: "2026-10-15T00:00:00.000Z",
+      modelVersion: "fixture-lkg",
+      promptVersion: "fixture-v1",
+      methodologyVersion: "v1",
+    }],
+  };
+  await writeFile(join(root, "review", "watchlist-preview.json"), `${JSON.stringify(preview, null, 2)}\n`);
+}
+
+async function runFixedGeneration(root: string, options: {
+  collect?: typeof emptyCollection;
+  transaction?: FileTransaction;
+  now?: Date;
+  llmOutage?: boolean;
+} = {}): Promise<RunManifest> {
+  const priorLlmKey = process.env.LLM_API_KEY;
+  const priorLlmBaseUrl = process.env.LLM_BASE_URL;
+  const priorLlmModel = process.env.LLM_MODEL;
+  const priorOpenAlexKey = process.env.OPENALEX_API_KEY;
+  const priorFetch = globalThis.fetch;
+  if (options.llmOutage) {
+    process.env.LLM_API_KEY = "fixture-secret";
+    process.env.LLM_BASE_URL = "https://llm-outage.invalid/v1";
+    process.env.LLM_MODEL = "fixture-model";
+    globalThis.fetch = async () => { throw new TypeError("fixture provider outage"); };
+  } else {
+    delete process.env.LLM_API_KEY;
+    delete process.env.LLM_BASE_URL;
+    delete process.env.LLM_MODEL;
+  }
+  delete process.env.OPENALEX_API_KEY;
+  try {
+    await generate({
+      root,
+      now: options.now ?? FIXED_NOW,
+      collect: options.collect ?? emptyCollection,
+      collectX: emptyCollection,
+      transaction: options.transaction,
+    });
+    return JSON.parse(await readFile(join(root, "review", "run-manifest.json"), "utf8")) as RunManifest;
+  } finally {
+    globalThis.fetch = priorFetch;
+    if (priorLlmKey === undefined) delete process.env.LLM_API_KEY;
+    else process.env.LLM_API_KEY = priorLlmKey;
+    if (priorLlmBaseUrl === undefined) delete process.env.LLM_BASE_URL;
+    else process.env.LLM_BASE_URL = priorLlmBaseUrl;
+    if (priorLlmModel === undefined) delete process.env.LLM_MODEL;
+    else process.env.LLM_MODEL = priorLlmModel;
+    if (priorOpenAlexKey === undefined) delete process.env.OPENALEX_API_KEY;
+    else process.env.OPENALEX_API_KEY = priorOpenAlexKey;
+  }
+}
+
+type PublicGroup = { bytes: Record<string, string>; semantics: unknown };
+
+async function capturePublicGroup(root: string): Promise<PublicGroup> {
+  const snapshotBytes = await readFile(join(root, "watchlist", "current.json"), "utf8");
+  const snapshot = JSON.parse(snapshotBytes) as WatchlistSnapshot;
+  const manifest = JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8")) as WatchlistFeedManifest;
+  const paths = [
+    "watchlist/current.json",
+    `watchlist/history/${snapshot.week}-v${snapshot.snapshotVersion}.json`,
+    "watchlist/theses.json",
+    "review/watchlist-preview.json",
+    "review/watchlist-preview.md",
+    "review/watchlist-issue-seeds.json",
+    "site/feeds/manifest.json",
+    ...manifest.companyFeeds.map(({ path }) => `site/${path}`),
+    ...manifest.routeFeeds.map(({ path }) => `site/${path}`),
+    "site/data/watchlist-changes.json",
+    "metrics/watchlist.json",
+    "site/data/dashboard.json",
+    "README.md",
+  ];
+  const bytes = Object.fromEntries(await Promise.all(paths.map(async (path) => [path, await readFile(join(root, path), "utf8")] as const)));
+  const dashboard = JSON.parse(bytes["site/data/dashboard.json"]!) as { watchlist: Parameters<typeof buildWatchlistConfigCatalog>[0] };
+  const catalog = buildWatchlistConfigCatalog(dashboard.watchlist);
+  const configPayload = encodeWatchlistConfig(catalog);
+  bytes["@share/catalog.json"] = `${JSON.stringify(catalog, null, 2)}\n`;
+  bytes["@share/config.txt"] = `${configPayload}\n`;
+  const feedGuids = Object.entries(bytes)
+    .filter(([path]) => path.endsWith(".xml"))
+    .flatMap(([path, xml]) => [...xml.matchAll(/<guid isPermaLink="false">([^<]+)<\/guid>/g)].map((match) => `${path}\0${match[1]}`))
+    .sort();
+  const theses = JSON.parse(bytes["watchlist/theses.json"]!) as CompanyThesisArtifact;
+  const preview = JSON.parse(bytes["review/watchlist-preview.json"]!) as WatchlistPreviewArtifact;
+  return {
+    bytes,
+    semantics: {
+      snapshot: [snapshot.week, snapshot.snapshotVersion, snapshot.generatedAt],
+      thesisVersions: theses.theses.map(({ thesisId, thesisVersion }) => [thesisId, thesisVersion]),
+      previewVersions: preview.theses.map(({ thesisId, thesisVersion }) => [thesisId, thesisVersion]),
+      feedManifest: manifest,
+      feedGuids,
+      issueSeeds: JSON.parse(bytes["review/watchlist-issue-seeds.json"]!),
+      changes: JSON.parse(bytes["site/data/watchlist-changes.json"]!),
+      metrics: JSON.parse(bytes["metrics/watchlist.json"]!),
+      share: { catalog, payload: configPayload, decoded: decodeWatchlistConfig(configPayload, catalog) },
+    },
+  };
+}
+
+async function expectFailedWithoutPublicChange(root: string, before: PublicGroup, run: () => Promise<unknown>): Promise<void> {
+  let status: "failed" | undefined;
+  try { await run(); } catch { status = "failed"; }
+  assert.equal(status, "failed");
+  assert.deepEqual(await capturePublicGroup(root), before);
+}
+
+test("two fixed-input complete daily generations are byte- and semantics-idempotent", async () => {
+  const root = await mkdtemp(join(tmpdir(), "stage4-daily-idempotence-"));
+  try {
+    await copyFixture(root);
+    await seedNonEmptyPriorPreview(root);
+    await runFixedGeneration(root);
+    const first = await capturePublicGroup(root);
+    assert.ok((JSON.parse(first.bytes["watchlist/current.json"]!) as WatchlistSnapshot).forwardRadar.length > 0);
+
+    await runFixedGeneration(root);
+    const second = await capturePublicGroup(root);
+    assert.deepEqual(second.bytes, first.bytes);
+    assert.deepEqual(second.semantics, first.semantics);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("complete daily Watchlist group preserves LKG bytes across the Stage 4 fault matrix", async (t) => {
+  const baselineRoot = await mkdtemp(join(tmpdir(), "stage4-daily-fault-baseline-"));
+  try {
+    await copyFixture(baselineRoot);
+    await seedNonEmptyPriorPreview(baselineRoot);
+    await runFixedGeneration(baselineRoot);
+    const baseline = await capturePublicGroup(baselineRoot);
+
+    const fault = async (name: string, prepare: (root: string) => Promise<() => Promise<unknown>>, status: "degraded" | "failed") => {
+      await t.test(name, async () => {
+        const root = await mkdtemp(join(tmpdir(), `stage4-${name}-`));
+        try {
+          await cp(baselineRoot, root, { recursive: true });
+          const run = await prepare(root);
+          if (status === "failed") await expectFailedWithoutPublicChange(root, baseline, run);
+          else {
+            const manifest = await run() as RunManifest;
+            assert.equal(manifest.status, status);
+            assert.deepEqual(await capturePublicGroup(root), baseline);
+          }
+        } finally {
+          await rm(root, { recursive: true, force: true });
+        }
+      });
+    };
+
+    await fault("llm-outage", async (root) => async () => {
+      const manifest = await runFixedGeneration(root, {
+        llmOutage: true,
+      });
+      assert.deepEqual(manifest.services.find(({ component }) => component === "Watchlist"), {
+        component: "Watchlist",
+        status: "部分降级",
+        attempted: 1,
+        succeeded: 0,
+        failed: 1,
+        detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
+      });
+      return manifest;
+    }, "degraded");
+    await fault("corrupt-prior-json", async (root) => {
+      await writeFile(join(root, "sources", "registry.json"), "{not-json\n");
+      return async () => runFixedGeneration(root);
+    }, "failed");
+    await fault("invalid-company-id", async (root) => {
+      const path = join(root, "events", "companies.json");
+      const companies = JSON.parse(await readFile(path, "utf8")) as Array<{ entityId?: string }>;
+      companies[0]!.entityId = "INVALID/company/id";
+      await writeFile(path, `${JSON.stringify(companies, null, 2)}\n`);
+      return async () => runFixedGeneration(root);
+    }, "failed");
+    await fault("evidence-withdrawal", async (root) => {
+      const theses = JSON.parse(await readFile(join(root, "watchlist", "theses.json"), "utf8")) as CompanyThesisArtifact;
+      const withdrawn = new Set(theses.theses.flatMap((thesis) => thesis.factReferenceIds));
+      const path = join(root, "events", "index.json");
+      const store = JSON.parse(await readFile(path, "utf8")) as EventStore;
+      for (const event of store.events) if (withdrawn.has(event.id)) {
+        (event as typeof event & { evidenceState: string }).evidenceState = "withdrawn";
+        event.evidence = event.evidence.map((item) => ({ ...item, withdrawn: true }));
+      }
+      await writeFile(path, `${JSON.stringify(store, null, 2)}\n`);
+      return async () => runFixedGeneration(root);
+    }, "failed");
+    await fault("source-timeout", async (root) => async () => runFixedGeneration(root, { collect: timeoutCollection }), "degraded");
+    await fault("file-transaction-swap-failure", async (root) => async () => runFixedGeneration(root, {
+      transaction: new FileTransaction("stage4-full-group-failure", { failAfterSwaps: 5 }),
+    }), "failed");
+  } finally {
+    await rm(baselineRoot, { recursive: true, force: true });
+  }
+});

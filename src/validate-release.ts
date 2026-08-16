@@ -14,8 +14,7 @@ import { validateCurrentWatchlistHistoryFiles, validateWatchlistRelease } from "
 import { validateWatchlistChangePage, type WatchlistChangePage } from "./watchlist/change-page.js";
 import { validateWatchlistMetrics, type WatchlistMetrics } from "./watchlist/metrics.js";
 import { buildCompanyFeed, buildRouteFeed, validateWatchlistFeedManifest, type WatchlistFeedManifest } from "./watchlist/feeds.js";
-import { decodeWatchlistConfig, encodeWatchlistConfig } from "./watchlist/config.js";
-import { CANONICAL_ROUTES } from "./watchlist/routes.js";
+import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "./watchlist/config.js";
 import { buildWatchlistReviewIssueSeeds, validateWatchlistReviewIssueArtifact, type WatchlistReviewIssueArtifact } from "./project-insights.js";
 import type { WatchlistPublicView } from "./watchlist/public-view.js";
 import type { DashboardData } from "./site-data.js";
@@ -29,14 +28,6 @@ function stableBytes(value: unknown): string {
 function watchlistView(dashboard: DashboardData): WatchlistPublicView {
   if (!isObject(dashboard) || !isObject(dashboard.watchlist)) throw new Error("公开 dashboard 缺少 Watchlist 视图");
   return dashboard.watchlist as WatchlistPublicView;
-}
-
-function configCatalog(view: WatchlistPublicView): { companyIds: string[]; routes: string[] } {
-  const usedRoutes = new Set([...view.forwardRadar, ...view.validatedMomentum].flatMap((card) => card.routes));
-  return {
-    companyIds: [...view.companyIds].sort((left, right) => left < right ? -1 : left > right ? 1 : 0),
-    routes: CANONICAL_ROUTES.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug),
-  };
 }
 
 async function validateWatchlistFeeds(root: string, view: WatchlistPublicView, manifest: WatchlistFeedManifest): Promise<void> {
@@ -53,7 +44,7 @@ async function validateWatchlistFeeds(root: string, view: WatchlistPublicView, m
 }
 
 function validateWatchlistConfigCatalog(view: WatchlistPublicView): void {
-  const catalog = configCatalog(view);
+  const catalog = buildWatchlistConfigCatalog(view);
   const encoded = encodeWatchlistConfig(catalog);
   const decoded = decodeWatchlistConfig(encoded, catalog);
   if (decoded.warnings.length || JSON.stringify(decoded.config) !== JSON.stringify(catalog)) {
