@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { decodeWatchlistConfig as decodeTypeScriptConfig } from "../src/watchlist/config.js";
 
 const readSite = async (name: string) => readFile(new URL(`../site/${name}`, import.meta.url), "utf8");
 
@@ -9,7 +10,7 @@ test("homepage keeps data-engineering mount points while presenting one decision
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry", "research",
-    "company-watchlist", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
+    "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
     "company-boards", "company-board-grid", "company-radar", "research-graph-grid", "routes-grid",
     "detail-drawer-root",
   ];
@@ -44,6 +45,11 @@ async function loadAppCompanyRenderer() {
   const source = await readSite("app.js");
   const mounts: Record<string, Mount> = {
     "company-watchlist": mount(),
+    "watchlist-config-controls": mount(),
+    "watchlist-company-options": mount(),
+    "watchlist-route-options": mount(),
+    "watchlist-config-warning": mount(),
+    "watchlist-copy-feedback": mount(),
     "watchlist-forward": mount(),
     "watchlist-momentum": mount(),
     "watchlist-changes": mount(),
@@ -56,14 +62,21 @@ async function loadAppCompanyRenderer() {
     Intl,
     Date,
     document: { getElementById: (id: string) => mounts[id] ?? mount(), addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
-    window: { location: { href: "https://example.test/index.html" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
+    navigator: { clipboard: { writeText: async () => {} } },
+    window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
   };
   const instrumented = source.replace(
     /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
-    "globalThis.__siteUi = { renderCompanySection };",
+    "globalThis.__siteUi = { renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
   );
   vm.runInNewContext(instrumented, context);
-  return { mounts, renderCompanySection: (context as typeof context & { __siteUi: { renderCompanySection: (data: unknown) => void } }).__siteUi.renderCompanySection };
+  return { mounts, ...((context as typeof context & { __siteUi: {
+    renderCompanySection: (data: unknown) => void;
+    decodeWatchlistConfig: (value: unknown, catalog: unknown) => unknown;
+    encodeWatchlistConfig: (config: unknown) => string;
+    filterWatchlistCards: (cards: unknown[], config: unknown) => unknown[];
+    watchlistCatalog: (watchlist: unknown) => unknown;
+  } }).__siteUi) };
 }
 
 async function loadShareCompanyRenderer() {
@@ -77,11 +90,29 @@ async function loadShareCompanyRenderer() {
     window: { location: { protocol: "https:", href: "https://example.test/companies.html" } },
   };
   const instrumented = source.replace(
-    /loadDashboard\(\)\.then\([\s\S]*$/,
+    /const views = \{ weekly, companies, research \};[\s\S]*$/,
     "globalThis.__siteUi = { companies };",
   );
   vm.runInNewContext(instrumented, context);
   return { root, companies: (context as typeof context & { __siteUi: { companies: (data: unknown) => void } }).__siteUi.companies };
+}
+
+async function loadChangePageRenderer() {
+  const source = await readSite("share-pages.js");
+  const root = mount();
+  const context = {
+    console,
+    URL,
+    Date,
+    document: { getElementById: () => root, body: { dataset: { view: "changes" } } },
+    window: { location: { protocol: "https:", href: "https://example.test/watchlist-changes.html" } },
+  };
+  const instrumented = source.replace(
+    /const views = \{ weekly, companies, research \};[\s\S]*$/,
+    "globalThis.__siteUi = { changes };",
+  );
+  vm.runInNewContext(instrumented, context);
+  return { root, changes: (context as typeof context & { __siteUi: { changes: (data: unknown) => void } }).__siteUi.changes };
 }
 
 const publicWatchlist = {
@@ -91,8 +122,9 @@ const publicWatchlist = {
   lastSuccessfulAt: "2026-08-17T01:00:00.000Z",
   companyIds: ["company-alpha", "company-beta"],
   forwardRadar: [{
-    companyId: 'company-alpha\" onclick=\"alert(1)', companyName: "Alpha <Robotics>", thesisId: "thesis-alpha", thesisVersion: 1,
+    companyId: "company-alpha", companyName: "Alpha <Robotics>", thesisId: "thesis-alpha", thesisVersion: 1,
     track: "forward-radar", group: "continued-observation", lifecycle: "awaiting-validation", lifecycleLabel: "等待验证",
+    routes: ["VLA 与具身模型"],
     whyNow: "一段很长的中文研究判断，用于确认内容不会被截断并且能够在窄屏内自然换行。", routeAndDependencies: "依赖后续部署验证。",
     nextValidationPoints: [{ text: "核验客户部署。", dueAt: "2026-10-01" }], falsifiers: [{ text: "公开部署被撤回。" }],
     evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 发布产品", url: "javascript:alert(1)", source: "Alpha 官方", grade: "A" }],
@@ -100,6 +132,7 @@ const publicWatchlist = {
   }, {
     companyId: "company-beta", companyName: "Beta Robotics", thesisId: "thesis-beta", thesisVersion: 1,
     track: "forward-radar", group: "priority-focus", lifecycle: "new", lifecycleLabel: "新进入", whyNow: "出现新的规范事实。",
+    routes: ["部署与商业化"],
     routeAndDependencies: "依赖供应链。", nextValidationPoints: [{ text: "核验量产。", dueAt: "2026-09-01" }],
     falsifiers: [{ text: "项目终止。" }], evidenceLinks: [{ eventId: "event-beta", title: "Beta 发布产品", url: "https://beta.example/product", source: "Beta 官方", grade: "A" }],
     capital: { status: "verified", summary: "A 轮 · 金额未披露" }, score: 98, rank: 2,
@@ -126,7 +159,7 @@ test("homepage renders the public watchlist without leaking private scores and o
   assert.match(html, /最后成功快照.*2026-W34.*v2.*2026-08-17/);
   assert.match(html, /aria-label="打开 Beta Robotics 证据：Beta 发布产品（Beta 官方，A级）"/);
   assert.match(html, /href="https:\/\/beta\.example\/product"/);
-  assert.match(html, /data-company-id="company-alpha&quot; onclick=&quot;alert\(1\)"/);
+  assert.match(html, /data-company-id="company-alpha"/);
   assert.match(html, /href="#"/);
   assert.doesNotMatch(html, /综合分|#1|#2|99|98|score|rank|Legacy/);
 });
@@ -150,11 +183,29 @@ test("homepage distinguishes absent, malformed and intentionally empty watchlist
   assert.match(subtlyMalformed.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/);
   assert.doesNotMatch(subtlyMalformed.mounts["watchlist-forward"].innerHTML, /待识别公司/);
 
+  const missingRoutes = await loadAppCompanyRenderer();
+  missingRoutes.renderCompanySection({ watchlist: { ...publicWatchlist, forwardRadar: [{ ...publicWatchlist.forwardRadar[0], routes: [] }] } });
+  assert.match(missingRoutes.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/);
+
   const empty = await loadAppCompanyRenderer();
   empty.renderCompanySection({ watchlist: { ...publicWatchlist, companyIds: [], forwardRadar: [], validatedMomentum: [], changes: [] } });
   assert.equal(empty.mounts["company-watchlist"].hidden, false);
   assert.match(empty.mounts["watchlist-forward"].innerHTML, /2026-W34.*最后成功快照中，前瞻雷达暂无公开公司/);
   assert.match(empty.mounts["watchlist-changes"].innerHTML, /本周没有公开的名单变化/);
+});
+
+test("homepage fails closed unless companyIds exactly match the ordered current Watchlist cards", async () => {
+  for (const companyIds of [
+    ["company-alpha", "company-beta", "company-stale"],
+    ["company-alpha"],
+    ["company-alpha", "company-alpha", "company-beta"],
+    ["company-beta", "company-alpha"],
+  ]) {
+    const site = await loadAppCompanyRenderer();
+    site.renderCompanySection({ watchlist: { ...publicWatchlist, companyIds } });
+    assert.match(site.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/, companyIds.join(","));
+    assert.doesNotMatch(site.mounts["watchlist-forward"].innerHTML, /Alpha Robotics|Beta Robotics|company-stale/, companyIds.join(","));
+  }
 });
 
 test("company share page places watchlist and changes before score-free legacy dossiers", async () => {
@@ -175,10 +226,76 @@ test("company share page places watchlist and changes before score-free legacy d
   assert.doesNotMatch(root.innerHTML, /公司 Watchlist|本周变化/);
 });
 
+test("period-change page renders only validated public deltas with snapshot identities", async () => {
+  const html = await readSite("watchlist-changes.html");
+  assert.match(html, /data-view="changes"/);
+  assert.match(html, /share-pages\.js/);
+
+  const { root, changes } = await loadChangePageRenderer();
+  changes({
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 2, generatedAt: "2026-08-17T01:00:00.000Z" },
+    baseline: { week: "2026-W34", snapshotVersion: 1, generatedAt: "2026-08-16T01:00:00.000Z" },
+    emptyBaseline: false,
+    changes: [{
+      companyId: "company-alpha", companyName: "Alpha Robotics", kind: "correction",
+      whatChanged: "Alpha Robotics：公开判断修正。", why: "AI 研究判断：修正后的规范事实。",
+      evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 官方发布", url: "https://alpha.example/release", source: "Alpha 官方", grade: "A" }],
+    }],
+  });
+  assert.match(root.innerHTML, /2026-W34 · v2/);
+  assert.match(root.innerHTML, /基线：2026-W34 · v1/);
+  assert.match(root.innerHTML, /公开判断修正/);
+  assert.match(root.innerHTML, /https:\/\/alpha\.example\/release/);
+  assert.doesNotMatch(root.innerHTML, /score|rank|综合分/);
+
+  changes({});
+  assert.match(root.innerHTML, /变化数据未通过公开契约校验/);
+
+  changes({
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 2, generatedAt: "2026-08-17T01:00:00.000Z" },
+    baseline: { week: "2026-W34", snapshotVersion: 1, generatedAt: "2026-08-16T01:00:00.000Z" },
+    emptyBaseline: false,
+    changes: [{ companyId: "company-alpha", companyName: "Alpha Robotics", kind: "correction", whatChanged: "分数变化。", why: "internal score changed", evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 官方发布", url: "https://alpha.example/release", source: "Alpha 官方", grade: "A" }] }],
+  });
+  assert.match(root.innerHTML, /变化数据未通过公开契约校验/);
+});
+
 test("watchlist styles preserve focus, long Chinese copy and a single-column 390px layout", async () => {
   const styles = await readSite("styles.css");
   assert.match(styles, /\.watchlist-card[^{]*\{[^}]*overflow-wrap:anywhere/);
   assert.match(styles, /\.watchlist-evidence a[^{]*\{[^}]*min-height:44px/);
   assert.match(styles, /\.watchlist-evidence a:focus-visible/);
+  assert.match(styles, /\.watchlist-config-controls/);
+  assert.match(styles, /\.watchlist-config-controls button:focus-visible/);
+  assert.match(styles, /\.watchlist-option-grid input/);
+  assert.match(styles, /\.watchlist-config-actions button[^{]*\{[^}]*min-height:44px/);
   assert.match(styles, /@media\(max-width:520px\)[\s\S]*\.watchlist-track-grid[^{]*\{[^}]*grid-template-columns:1fr/);
+});
+
+test("shareable Watchlist controls filter the current snapshot and mirror TypeScript config decoding", async () => {
+  const site = await loadAppCompanyRenderer();
+  site.renderCompanySection({ watchlist: publicWatchlist });
+
+  assert.match(site.mounts["watchlist-company-options"].innerHTML, /当前公司/);
+  assert.match(site.mounts["watchlist-route-options"].innerHTML, /固定技术路线/);
+  const html = await readSite("index.html");
+  assert.match(html, /重置筛选/);
+  assert.match(html, /复制分享链接/);
+  assert.match(site.mounts["watchlist-company-options"].innerHTML, /company-alpha/);
+  assert.match(site.mounts["watchlist-route-options"].innerHTML, /vla-and-embodied-models/);
+
+  const catalog = site.watchlistCatalog(publicWatchlist) as { companyIds: string[]; routes: string[] };
+  for (const query of [
+    "watch=company-alpha,company-exited&routes=vla-and-embodied-models",
+    "wat%ZZch=company-alpha",
+    "routes=unapproved-route",
+    "watch=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+  ]) assert.deepEqual(JSON.parse(JSON.stringify(site.decodeWatchlistConfig(query, catalog))), decodeTypeScriptConfig(query, catalog), query);
+  assert.equal(site.encodeWatchlistConfig({ companyIds: ["company-beta", "company-alpha"], routes: [] }), "watch=company-alpha,company-beta");
+
+  const cards = [...publicWatchlist.forwardRadar, ...publicWatchlist.validatedMomentum];
+  const filtered = site.filterWatchlistCards(cards, { companyIds: ["company-beta"], routes: ["vla-and-embodied-models"] }) as Array<{ companyId: string }>;
+  assert.deepEqual(filtered.map((card) => card.companyId), ["company-alpha", "company-beta"]);
 });

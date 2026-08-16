@@ -63,6 +63,33 @@ test("release validation binds the watchlist JSON to Markdown and runtime receip
   assert.match(source, /readme/);
 });
 
+test("release validation reads the complete staged Watchlist public group from its canonical artifacts", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+
+  for (const path of [
+    ["site", "feeds", "manifest.json"],
+    ["review", "watchlist-issue-seeds.json"],
+    ["metrics", "community.json"],
+    ["site", "data", "community.json"],
+  ]) {
+    assert.match(source, new RegExp(`join\\(root, ${path.map((part) => `"${part}"`).join(", ")}\\)`));
+  }
+  assert.match(source, /validateWatchlistFeedManifest\(/);
+  assert.match(source, /validateWatchlistReviewIssueArtifact\(/);
+  assert.match(source, /decodeWatchlistConfig\(/);
+  assert.match(source, /communityMetricsBytes !== publicCommunityMetricsBytes/);
+});
+
+test("release validation rejects stale or forged Watchlist publication surfaces before a public release", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+
+  assert.match(source, /buildCompanyFeed\(/);
+  assert.match(source, /buildRouteFeed\(/);
+  assert.match(source, /artifact\.week.*view\.week/);
+  assert.match(source, /artifact\.snapshotVersion.*view\.snapshotVersion/);
+  assert.match(source, /communityMetricsBytes !== publicCommunityMetricsBytes/);
+});
+
 test("daily generation promotes the current preview through one public transaction", async () => {
   const source = await readFile(join(root, "src", "main.ts"), "utf8");
   assert.match(source, /buildWatchlistSnapshot\(\{/);

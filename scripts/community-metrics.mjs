@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -26,9 +26,35 @@ function fallbackMetrics(generatedAt) {
   return {
     generatedAt,
     repository: { stars: 0, forks: 0, subscribers: 0, openIssues: 0 },
-    traffic: { status: "unavailable", referrers: [] },
+    traffic: unavailableTraffic(),
     contributors: { codeContributors: [], acceptedEvidenceContributors: [], count: 0 },
   };
+}
+
+function unavailableTraffic() {
+  return {
+    status: "unavailable",
+    views14d: null,
+    uniqueVisitors14d: null,
+    clones14d: null,
+    uniqueCloners14d: null,
+    referrers: null,
+  };
+}
+
+function isCount(value) {
+  return typeof value === "number" && Number.isFinite(value) && Number.isInteger(value) && value >= 0;
+}
+
+function validTrafficSummary(value) {
+  return value && typeof value === "object" && !Array.isArray(value)
+    && isCount(value.count) && isCount(value.uniques);
+}
+
+function validReferrers(value) {
+  return Array.isArray(value) && value.every((item) => item && typeof item === "object" && !Array.isArray(item)
+    && typeof item.referrer === "string" && item.referrer.trim().length > 0
+    && isCount(item.count) && isCount(item.uniques));
 }
 
 function normalizeExisting(value, generatedAt) {
@@ -46,7 +72,7 @@ function normalizeExisting(value, generatedAt) {
       subscribers: Number.isFinite(repository.subscribers) ? repository.subscribers : 0,
       openIssues: Number.isFinite(repository.openIssues) ? repository.openIssues : 0,
     },
-    traffic: { status: "unavailable", referrers: [] },
+    traffic: unavailableTraffic(),
     contributors: {
       codeContributors,
       acceptedEvidenceContributors,
@@ -71,25 +97,24 @@ async function githubJson(fetchImpl, url, token) {
 }
 
 async function collectTraffic(fetchImpl, apiBase, repository, token) {
-  if (!token) return { status: "unavailable", referrers: [] };
+  if (!token) return unavailableTraffic();
   try {
     const [views, clones, referrers] = await Promise.all([
       githubJson(fetchImpl, `${apiBase}/repos/${repository}/traffic/views`, token),
       githubJson(fetchImpl, `${apiBase}/repos/${repository}/traffic/clones`, token),
       githubJson(fetchImpl, `${apiBase}/repos/${repository}/traffic/popular/referrers`, token),
     ]);
+    if (!validTrafficSummary(views) || !validTrafficSummary(clones) || !validReferrers(referrers)) return unavailableTraffic();
     return {
       status: "available",
-      views14d: Number(views.count) || 0,
-      uniqueVisitors14d: Number(views.uniques) || 0,
-      clones14d: Number(clones.count) || 0,
-      uniqueCloners14d: Number(clones.uniques) || 0,
-      referrers: Array.isArray(referrers)
-        ? referrers.map((item) => ({ referrer: String(item.referrer || ""), count: Number(item.count) || 0, uniques: Number(item.uniques) || 0 })).filter((item) => item.referrer)
-        : [],
+      views14d: views.count,
+      uniqueVisitors14d: views.uniques,
+      clones14d: clones.count,
+      uniqueCloners14d: clones.uniques,
+      referrers: referrers.map((item) => ({ referrer: item.referrer, count: item.count, uniques: item.uniques })),
     };
   } catch {
-    return { status: "unavailable", referrers: [] };
+    return unavailableTraffic();
   }
 }
 
@@ -155,11 +180,44 @@ async function readPrevious(path) {
   }
 }
 
-async function writeJsonAtomic(path, value) {
-  await mkdir(dirname(path), { recursive: true });
-  const temporaryPath = `${path}.tmp`;
-  await writeFile(temporaryPath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-  await rename(temporaryPath, path);
+async function publishMirrorPair({ canonicalPath, publicPath, content, renameImpl = rename, transactionId = `${process.pid}-${Date.now()}` }) {
+  const files = [canonicalPath, publicPath].map((path) => ({
+    path,
+    temp: `${path}.tmp-${transactionId}`,
+    backup: `${path}.bak-${transactionId}`,
+    existed: false,
+  }));
+  const swapped = [];
+  try {
+    for (const file of files) {
+      await mkdir(dirname(file.path), { recursive: true });
+      await writeFile(file.temp, content, "utf8");
+      try {
+        await readFile(file.path, "utf8");
+        file.existed = true;
+      } catch (error) {
+        if (error?.code !== "ENOENT") throw error;
+      }
+    }
+    for (const file of files) {
+      if (file.existed) await renameImpl(file.path, file.backup);
+      try {
+        await renameImpl(file.temp, file.path);
+        swapped.push(file);
+      } catch (error) {
+        if (file.existed) await renameImpl(file.backup, file.path).catch(() => undefined);
+        throw error;
+      }
+    }
+    await Promise.all(files.filter((file) => file.existed).map((file) => unlink(file.backup).catch(() => undefined)));
+  } catch (error) {
+    for (const file of [...swapped].reverse()) {
+      await unlink(file.path).catch(() => undefined);
+      if (file.existed) await renameImpl(file.backup, file.path).catch(() => undefined);
+    }
+    await Promise.all(files.flatMap((file) => [unlink(file.temp).catch(() => undefined), unlink(file.backup).catch(() => undefined)]));
+    throw new Error("Community metrics mirror publish failed; rolled back both public mirrors.", { cause: error });
+  }
 }
 
 export async function runCommunityMetrics({
@@ -172,7 +230,12 @@ export async function runCommunityMetrics({
   const siteOutputPath = resolve(root, siteOutput);
   const previous = options.previous ?? await readPrevious(outputPath);
   const metrics = await collectCommunityMetrics({ ...options, previous });
-  await Promise.all([writeJsonAtomic(outputPath, metrics), writeJsonAtomic(siteOutputPath, metrics)]);
+  await publishMirrorPair({
+    canonicalPath: outputPath,
+    publicPath: siteOutputPath,
+    content: `${JSON.stringify(metrics, null, 2)}\n`,
+    renameImpl: options.renameImpl,
+  });
   return metrics;
 }
 

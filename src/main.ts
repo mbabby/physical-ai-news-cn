@@ -1,5 +1,5 @@
 import { mkdir, readdir, readFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
 import { fetchAlgoliaSource } from "./fetchers/hn.js";
@@ -21,8 +21,8 @@ import { formatCandidateCompanyReview, updateCandidateCompanies } from "./compan
 import { formatCompanyEntityReview, updateCompanyEntityRegistry } from "./company-entities.js";
 import { formatSourceNetwork } from "./source-network.js";
 import { formatShareableSummary } from "./shareable-summary.js";
-import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport } from "./project-insights.js";
-import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
+import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
+import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
@@ -52,6 +52,7 @@ import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
 import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
 import { buildDomainHealth } from "./domain-health.js";
 import { buildCompanyBoards } from "./company-boards.js";
+import { derivePublication } from "./facts-contract.js";
 import { buildThesisSeeds } from "./watchlist/seeds.js";
 import { buildThesisSeedArtifact, migrateThesisSeeds, validateThesisDraftArtifact } from "./watchlist/migration.js";
 import type { ThesisDraftArtifact } from "./watchlist/migration.js";
@@ -60,12 +61,16 @@ import { WatchlistGenerator, type CanonicalFactExcerpt } from "./watchlist/gener
 import { buildCanonicalFactAtoms } from "./watchlist/validation.js";
 import { buildWatchlistPreview, formatWatchlistPreviewMarkdown, stageWatchlistPreview, validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type WatchlistPreviewArtifact } from "./watchlist/preview.js";
 import { buildWatchlistPublicView, type WatchlistPublicView } from "./watchlist/public-view.js";
+import { buildWatchlistChangePage } from "./watchlist/change-page.js";
+import { buildWatchlistMetrics } from "./watchlist/metrics.js";
+import { buildWatchlistFeedManifest } from "./watchlist/feeds.js";
 import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
@@ -76,6 +81,25 @@ const researchStart = "<!-- RESEARCH_UPDATES_START -->";
 const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
 const statusStart = "<!-- PROJECT_STATUS_START -->";
 const statusEnd = "<!-- PROJECT_STATUS_END -->";
+
+export type DailyGenerationFailureCode =
+  | "corrupt-watchlist-current"
+  | "corrupt-watchlist-history"
+  | "invalid-company-id"
+  | "evidence-withdrawal"
+  | "transaction-swap-failure"
+  | "generation-failed";
+
+/** Stable production failure receipt. The raw cause stays private. */
+export class DailyGenerationError extends Error {
+  readonly status = "failed" as const;
+
+  constructor(readonly code: DailyGenerationFailureCode, message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = "DailyGenerationError";
+  }
+}
+
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
@@ -107,11 +131,47 @@ async function readWatchlistHistory(directory: string): Promise<WatchlistSnapsho
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
     throw error;
   }
-  const snapshots = await Promise.all(files.filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort().map((file) => readJsonStrict<WatchlistSnapshot>(join(directory, file), {
-    label: `Watchlist 历史快照 ${file}`,
-    validate: validateWatchlistSnapshotShape,
-  })));
-  return snapshots.filter((snapshot): snapshot is WatchlistSnapshot => Boolean(snapshot));
+  const snapshots = await Promise.all(files.filter((file) => file.endsWith(".json")).sort().map(async (file) => {
+    try {
+      const identity = /^(\d{4}-W(?:0[1-9]|[1-4]\d|5[0-3]))-v([1-9]\d*)\.json$/.exec(file);
+      if (!identity) throw new Error("Watchlist 历史快照文件名不符合规范身份");
+      const snapshot = await readJsonStrict<WatchlistSnapshot>(join(directory, file), {
+        label: `Watchlist 历史快照 ${file}`,
+        validate: validateWatchlistSnapshotShape,
+      });
+      if (!snapshot || snapshot.week !== identity[1] || snapshot.snapshotVersion !== Number(identity[2])) {
+        throw new Error("Watchlist 历史快照文件名与 payload 身份不一致");
+      }
+      return snapshot;
+    } catch (error) {
+      throw new DailyGenerationError("corrupt-watchlist-history", "Watchlist 历史快照损坏；已停止发布并保留上一版。", { cause: error });
+    }
+  }));
+  return snapshots;
+}
+
+function hasWithdrawnWatchlistEvidence(theses: CompanyThesisArtifact, snapshots: WatchlistSnapshot[], events: EventRecord[]): boolean {
+  const required = new Set(snapshots.flatMap((snapshot) => [...snapshot.forwardRadar, ...snapshot.validatedMomentum]
+    .map((entry) => `${entry.thesisId}\0${entry.thesisVersion}`)));
+  const eventById = new Map(events.map((event) => [event.id, event]));
+  return theses.theses
+    .filter((thesis) => required.has(`${thesis.thesisId}\0${thesis.thesisVersion}`))
+    .some((thesis) => thesis.factReferenceIds.some((eventId) => {
+      const event = eventById.get(eventId) as (EventRecord & { evidenceState?: "withdrawn" }) | undefined;
+      return Boolean(event && derivePublication({ evidence: event.evidence, evidenceState: event.evidenceState }).evidenceState === "withdrawn");
+    }));
+}
+
+async function restoreWatchlistCurrentFromHistory(root: string, history: WatchlistSnapshot[]): Promise<void> {
+  const latest = [...history].sort((left, right) => left.week.localeCompare(right.week) || left.snapshotVersion - right.snapshotVersion).at(-1);
+  if (!latest) return;
+  const recovery = new FileTransaction("watchlist-current-recovery");
+  recovery.stage(join(root, "watchlist", "current.json"), `${JSON.stringify(latest, null, 2)}\n`);
+  try {
+    await recovery.commit();
+  } catch (error) {
+    throw new DailyGenerationError("transaction-swap-failure", "Watchlist current 恢复事务失败；已保留不可变历史。", { cause: error });
+  }
 }
 
 async function collect(sources: SourceConfig[], windowHours: number): Promise<DigestResult> {
@@ -266,18 +326,31 @@ function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
   return lines.join("\n");
 }
 
-async function generate(): Promise<void> {
-  const startedAt = new Date();
-  const transaction = new FileTransaction();
+export interface GenerateOptions {
+  root?: string;
+  now?: Date;
+  collect?: typeof collect;
+  collectX?: typeof collectX;
+  transaction?: FileTransaction;
+}
+
+/** Production daily orchestration with fixture seams for deterministic release verification. */
+async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
+  const now = options.now ?? new Date();
+  const outputRoot = options.root ?? root;
+  const startedAt = now;
+  const transaction = options.transaction ?? new FileTransaction();
   const writeFile = async (path: string, content: string, _encoding?: string): Promise<void> => { transaction.stage(path, content); };
   const windowHours = parseWindow(process.argv.slice(2));
-  const now = new Date(); const outputDir = join(root, "daily"); const weeklyDir = join(root, "weekly"); const sourcesDir = join(root, "sources"); const reviewDir = join(root, "review"); const resourcesDir = join(root, "resources"); const eventsDir = join(root, "events"); const researchDir = join(root, "research"); const routesDir = join(root, "routes"); const metricsDir = join(root, "metrics");
+  const outputDir = join(outputRoot, "daily"); const weeklyDir = join(outputRoot, "weekly"); const sourcesDir = join(outputRoot, "sources"); const reviewDir = join(outputRoot, "review"); const resourcesDir = join(outputRoot, "resources"); const eventsDir = join(outputRoot, "events"); const researchDir = join(outputRoot, "research"); const routesDir = join(outputRoot, "routes"); const metricsDir = join(outputRoot, "metrics");
   await Promise.all([mkdir(outputDir, { recursive: true }), mkdir(weeklyDir, { recursive: true }), mkdir(sourcesDir, { recursive: true }), mkdir(reviewDir, { recursive: true }), mkdir(resourcesDir, { recursive: true }), mkdir(eventsDir, { recursive: true }), mkdir(researchDir, { recursive: true }), mkdir(routesDir, { recursive: true }), mkdir(metricsDir, { recursive: true })]);
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const companyEntityPath = join(eventsDir, "company-entities.json");
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
+  const invalidCompany = companies.find((company) => !company.entityId || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(company.entityId));
+  if (invalidCompany) throw new DailyGenerationError("invalid-company-id", "公司档案包含不合法的规范 ID；已停止发布并保留上一版。");
   const catalogErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (catalogErrors.length) throw new Error(`实体与信源目录不一致：\n- ${catalogErrors.join("\n- ")}`);
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -287,8 +360,8 @@ async function generate(): Promise<void> {
   const activeSources = applyRegistryWeights(configuredSources, priorRegistry).filter((source) => source.status !== "已暂停");
   const activeXSources = applyRegistryWeights(X_SOURCES, priorRegistry).filter((source) => source.status !== "已暂停");
   await writeFile(join(resourcesDir, "entity-source-coverage.md"), formatEntityCoverage(buildEntityCoverage(companies, [...SOURCES, ...X_SOURCES]), now), "utf8");
-  const collected = await collect(activeSources, windowHours);
-  const xCollected = await collectX(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
+  const collected = await (options.collect ?? collect)(activeSources, windowHours);
+  const xCollected = await (options.collectX ?? collectX)(activeXSources, windowHours, process.env.X_BEARER_TOKEN);
   // Research has its own public gate: it needs a complete Chinese factual
   // brief, not a company identity. Corporate facts remain strict because the
   // homepage must never invent a company behind a funding headline.
@@ -375,7 +448,7 @@ async function generate(): Promise<void> {
   await writeFile(join(routesDir, "competition.json"), JSON.stringify(routeMap, null, 2) + "\n", "utf8");
   await writeFile(join(routesDir, "corrections.json"), JSON.stringify(corrections, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "route-corrections.md"), ["# 路线图纠错记录", "", ...(corrections.length ? corrections.map((item) => `- ${item.date.slice(0, 10)} · ${item.route} · ${item.company} · ${item.kind}：${item.detail}`) : ["- 本轮没有路线结论变化。"]), ""].join("\n"), "utf8");
-  await mkdir(join(root, "site", "data"), { recursive: true });
+  await mkdir(join(outputRoot, "site", "data"), { recursive: true });
   await writeFile(join(researchDir, "registry.json"), JSON.stringify(researchRegistry, null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "decision-cards.json"), JSON.stringify({ generatedAt: now.toISOString(), cards: researchDecisionCards }, null, 2) + "\n", "utf8");
   await writeFile(join(researchDir, "industry-relations.json"), JSON.stringify(researchIndustryRelations, null, 2) + "\n", "utf8");
@@ -544,19 +617,29 @@ async function generate(): Promise<void> {
     manifestServices: statuses,
     archiveServices: archive.runtimeStatus ?? [],
   });
-  const watchlistDir = join(root, "watchlist");
+  const watchlistDir = join(outputRoot, "watchlist");
   const watchlistHistory = await readWatchlistHistory(join(watchlistDir, "history"));
-  const previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
-    optional: true,
-    label: "公开 Watchlist 快照",
-    validate: validateWatchlistSnapshotShape,
-  });
+  let previousWatchlistSnapshot: WatchlistSnapshot | undefined;
+  try {
+    previousWatchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(watchlistDir, "current.json"), {
+      optional: true,
+      label: "公开 Watchlist 快照",
+      validate: validateWatchlistSnapshotShape,
+    });
+  } catch (error) {
+    await restoreWatchlistCurrentFromHistory(outputRoot, watchlistHistory);
+    throw new DailyGenerationError("corrupt-watchlist-current", "Watchlist current 快照损坏；已停止发布并保留上一版。", { cause: error });
+  }
   const previousPublicTheses = await readJsonStrict<CompanyThesisArtifact>(join(watchlistDir, "theses.json"), {
     optional: true,
     label: "公开 Watchlist 判断",
   });
   if (Boolean(previousWatchlistSnapshot) !== Boolean(previousPublicTheses)) {
     throw new Error("Watchlist 公开工件不完整；已停止发布且保留上一版。");
+  }
+  if (previousWatchlistSnapshot && previousPublicTheses
+    && hasWithdrawnWatchlistEvidence(previousPublicTheses, [...watchlistHistory, previousWatchlistSnapshot], eventStore.events)) {
+    throw new DailyGenerationError("evidence-withdrawal", "Watchlist 规范证据已撤回；已停止发布并保留上一版。");
   }
   const methodologyVersions = [...new Set(watchlistPreview.preview.theses.map((thesis) => thesis.methodologyVersion))];
   if (methodologyVersions.length > 1) throw new Error("Watchlist 预览包含多个方法论版本");
@@ -592,6 +675,20 @@ async function generate(): Promise<void> {
     thesisArtifact: watchlistTheses,
     companies,
     events: eventStore.events,
+  });
+  const watchlistChangePageViews = [
+    watchlistView,
+    ...watchlistHistory.map((snapshot) => buildWatchlistPublicView({
+      snapshot,
+      thesisArtifact: watchlistTheses,
+      companies,
+      events: eventStore.events,
+    })),
+  ];
+  const watchlistChangePage = buildWatchlistChangePage({
+    current: watchlistSnapshot,
+    snapshots: [...watchlistHistory, watchlistSnapshot],
+    views: watchlistChangePageViews,
   });
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
@@ -731,9 +828,17 @@ async function generate(): Promise<void> {
   await writeFile(join(weeklyDir, `${week}-report.md`), formatWeeklyReport(eventStore, researchRegistry.records, metrics, week, now), "utf8");
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
-  const readmePath = join(root, "README.md");
+  const readmePath = join(outputRoot, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, history: watchlistHistory };
+  const watchlistMetrics = buildWatchlistMetrics({
+    snapshot: watchlistSnapshot,
+    theses: watchlistTheses,
+    view: watchlistView,
+    changePage: watchlistChangePage,
+    feeds: buildWatchlistFeedManifest(watchlistView),
+    readme,
+  });
+  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, metrics: watchlistMetrics, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({
     archive,
     events: eventStore,
@@ -743,8 +848,12 @@ async function generate(): Promise<void> {
     previousCompleteResearchCount: previousPublicRecords.length,
     watchlist: watchlistRelease,
   });
-  await stageWatchlistRelease({ transaction, root, ...watchlistRelease });
-  const finishedAt = new Date();
+  // This public-only artifact shares the Watchlist snapshot transaction. The
+  // older review/issue-seeds.json remains a private maintainer queue and is
+  // intentionally unreachable from GitHub Issue automation.
+  stageWatchlistReviewIssueSeeds({ transaction, root: outputRoot, view: watchlistView });
+  await stageWatchlistRelease({ transaction, root: outputRoot, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
+  const finishedAt = options.now ?? new Date();
   const runManifest: RunManifest = {
     schemaVersion: 1,
     runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
@@ -784,10 +893,30 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "run-history.json"), JSON.stringify(runHistory, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "pipeline-health.json"), JSON.stringify(pipelineHealth, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "domain-health.json"), JSON.stringify(domainHealth, null, 2) + "\n", "utf8");
-  await transaction.commit();
+  try {
+    await transaction.commit();
+  } catch (error) {
+    throw new DailyGenerationError("transaction-swap-failure", "日报输出事务失败；已回滚并保留上一版。", { cause: error });
+  }
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
+  return runManifest;
+}
+
+export async function generate(options: GenerateOptions = {}): Promise<RunManifest> {
+  try {
+    return await generateDaily(options);
+  } catch (error) {
+    if (error instanceof DailyGenerationError) throw error;
+    throw new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。", { cause: error });
+  }
 }
 async function main(): Promise<void> {
   await withFileLock(join(root, ".daily-generation.lock"), generate);
 }
-main().catch((error) => { console.error("运行失败：", error); process.exitCode = 1; });
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main().catch((error) => {
+    const failure = error instanceof DailyGenerationError ? error : new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。");
+    console.error(`运行失败：${failure.status}:${failure.code}`);
+    process.exitCode = 1;
+  });
+}

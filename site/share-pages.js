@@ -61,16 +61,23 @@ const watchlistGroups = [
   { value: "continued-observation", label: "持续观察" },
 ];
 const watchlistChangeLabels = { added: "新进入名单", strengthened: "判断强化", downgraded: "判断降级", exited: "退出名单" };
+const periodChangeLabels = { addition: "新进入名单", strengthening: "判断强化", "awaiting-validation": "转为等待验证", downgrade: "判断降级", exit: "退出名单", correction: "公开判断修正" };
+const privateWatchlistText = /\b(?:score|rank)\b|(?:internal|selection|momentum)[_-]?(?:score|rank)\b|分数|排名|内部诊断|候选(?:ID|标识)/i;
 
 const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
 const validValidationDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+const watchlistRoutes = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
+const validWatchlistRoutes = (value) => Array.isArray(value) && value.length > 0
+  && value.every((route) => watchlistRoutes.includes(route))
+  && new Set(value).size === value.length
+  && value.every((route, index) => index === 0 || value[index - 1] < route);
 
 function validWatchlistCard(item, track) {
   return Boolean(item) && typeof item === "object"
     && nonEmpty(item.companyId) && nonEmpty(item.companyName) && item.track === track
     && (item.group === "priority-focus" || item.group === "continued-observation")
     && ["new", "strengthening", "awaiting-validation", "downgraded"].includes(item.lifecycle)
-    && nonEmpty(item.lifecycleLabel) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
+    && nonEmpty(item.lifecycleLabel) && validWatchlistRoutes(item.routes) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
     && Array.isArray(item.nextValidationPoints) && item.nextValidationPoints.every((point) => point && typeof point === "object" && nonEmpty(point.text) && validValidationDate(point.dueAt))
     && Array.isArray(item.falsifiers) && item.falsifiers.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.text))
     && Array.isArray(item.evidenceLinks) && item.evidenceLinks.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.eventId) && nonEmpty(entry.title) && nonEmpty(entry.url) && nonEmpty(entry.source) && (entry.grade === "A" || entry.grade === "B"))
@@ -148,6 +155,62 @@ function companies(data) {
   root.innerHTML = `${watchlistShare(data.watchlist)}<section class="company-dossiers"><h2>公司档案</h2>${companyDossiers(data, false)}</section>`;
 }
 
+function validChangeIdentity(value) {
+  const canonicalTimestamp = (timestamp) => {
+    if (typeof timestamp !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(timestamp)) return false;
+    const parsed = Date.parse(timestamp);
+    if (!Number.isFinite(parsed)) return false;
+    const normalized = new Date(parsed).toISOString();
+    return normalized === timestamp || normalized === timestamp.replace("Z", ".000Z");
+  };
+  return Boolean(value) && typeof value === "object" && Object.keys(value).length === 3
+    && typeof value.week === "string" && /^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(value.week)
+    && Number.isInteger(value.snapshotVersion) && value.snapshotVersion > 0
+    && canonicalTimestamp(value.generatedAt);
+}
+
+function validChangeEvidence(value) {
+  if (!value || typeof value !== "object" || Object.keys(value).length !== 5 || !nonEmpty(value.eventId) || !nonEmpty(value.title) || !nonEmpty(value.url) || !nonEmpty(value.source) || !["A", "B"].includes(value.grade)) return false;
+  try {
+    const url = new URL(value.url);
+    return url.protocol === "https:" && Boolean(url.hostname) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+function validChangePage(value) {
+  if (!value || typeof value !== "object" || Object.keys(value).length !== 5 || value.schemaVersion !== 1
+    || !validChangeIdentity(value.current) || (value.baseline !== null && !validChangeIdentity(value.baseline))
+    || typeof value.emptyBaseline !== "boolean" || value.emptyBaseline !== (value.baseline === null)
+    || !Array.isArray(value.changes) || (value.emptyBaseline && value.changes.length)) return false;
+  const ids = new Set();
+  return value.changes.every((item, index) => item && typeof item === "object" && Object.keys(item).length === 6
+    && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.companyId) && !ids.has(item.companyId) && (ids.add(item.companyId) || true)
+    && (!index || value.changes[index - 1].companyId < item.companyId)
+    && nonEmpty(item.companyName) && typeof item.kind === "string" && Object.hasOwn(periodChangeLabels, item.kind) && nonEmpty(item.whatChanged) && nonEmpty(item.why)
+    && Array.isArray(item.evidenceLinks) && item.evidenceLinks.length && item.evidenceLinks.every(validChangeEvidence)
+    && !privateWatchlistText.test(`${item.companyId}\n${item.companyName}\n${item.whatChanged}\n${item.why}\n${item.evidenceLinks.map((link) => `${link.eventId}\n${link.title}\n${link.url}\n${link.source}`).join("\n")}`));
+}
+
+function periodEvidence(links) {
+  return links.map((item) => `<li>${link(item.url, item.title)} <small>${safe(item.source)} · ${safe(item.grade)}级</small></li>`).join("");
+}
+
+function changes(data) {
+  if (!validChangePage(data)) {
+    root.innerHTML = '<p class="empty"><strong>变化数据未通过公开契约校验</strong>本次数据不会作为有效空状态展示，请等待下一次成功发布。</p>';
+    return;
+  }
+  const current = `${data.current.week} · v${data.current.snapshotVersion}`;
+  if (data.emptyBaseline) {
+    root.innerHTML = `<section class="watchlist-changes"><header class="watchlist-track-head"><h2>Watchlist 周期变化</h2><small>当前：${safe(current)}</small></header><p class="empty">这是首个公开 Watchlist 快照；没有可比较的上一期基线，因此暂无变化列表。</p></section>`;
+    return;
+  }
+  const baseline = `${data.baseline.week} · v${data.baseline.snapshotVersion}`;
+  root.innerHTML = `<section class="watchlist-changes"><header class="watchlist-track-head"><div><p class="eyebrow">ADJACENT IMMUTABLE SNAPSHOTS</p><h2>Watchlist 周期变化</h2></div><small>当前：${safe(current)}<br>基线：${safe(baseline)}</small></header>${data.changes.length ? `<div class="watchlist-track-grid">${data.changes.map((item) => `<article class="watchlist-card" data-company-id="${safe(item.companyId)}"><header><div><h3>${safe(item.companyName)}</h3><p class="eyebrow">${safe(periodChangeLabels[item.kind])}</p></div></header><dl class="watchlist-thesis"><div><dt>发生了什么变化</dt><dd>${safe(item.whatChanged)}</dd></div><div><dt>为什么变化</dt><dd>${safe(item.why)}</dd></div></dl><div class="watchlist-evidence"><strong>规范证据</strong><ul>${periodEvidence(item.evidenceLinks)}</ul></div></article>`).join("")}</div>` : '<p class="empty">相邻公开快照之间没有可由规范证据支持的变化。</p>'}</section>`;
+}
+
 function inferredResearchRoute(paper) {
   const content = `${text(paper.title)} ${text(paper.summary)}`.toLowerCase();
   if (/world model|世界模型|spatial|3d/.test(content)) return "世界模型与空间智能";
@@ -187,8 +250,19 @@ async function loadDashboard() {
   return response.json();
 }
 
+async function loadChanges() {
+  const localPath = "data/watchlist-changes.json";
+  const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/watchlist-changes.json";
+  const source = window.location.protocol === "file:" ? remotePath : localPath;
+  const response = await fetch(`${source}?v=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
 const views = { weekly, companies, research };
-loadDashboard().then((data) => (views[view] || weekly)(data)).catch((error) => {
+const load = view === "changes" ? loadChanges : loadDashboard;
+const renderer = view === "changes" ? changes : (views[view] || weekly);
+load().then(renderer).catch((error) => {
   console.warn("Share-page data unavailable.", error);
   root.innerHTML = '<p class="empty">数据暂时不可用。若正在本地预览，请检查网络后刷新；线上页面会在下一次日报成功后自动恢复。</p>';
 });

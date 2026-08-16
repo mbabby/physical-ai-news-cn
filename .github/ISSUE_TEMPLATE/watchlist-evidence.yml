@@ -1,0 +1,46 @@
+name: Watchlist 补充证据
+description: 为当前公开 Watchlist 判断补充可追溯的原始证据（不会自动发布）
+title: "[Watchlist 补证]: "
+labels: ["evidence-review", "needs-evidence"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        此 Issue 是公开 review 输入，不会自动发布或修改当前 Watchlist。即使证据被采纳，也必须在后续生成中完成规范化提升，才可能影响公开工件。
+  - type: input
+    id: original-url
+    attributes:
+      label: 原始 URL
+      description: 请提供官网、投资方、论文元数据或独立媒体的可访问原始链接。
+      placeholder: https://example.com/source
+    validations:
+      required: true
+  - type: textarea
+    id: affected-fact
+    attributes:
+      label: 受影响的公开事实
+      description: 说明该证据支持、补充或需要纠正的当前公开事实。
+    validations:
+      required: true
+  - type: input
+    id: canonical-company-id
+    attributes:
+      label: 规范公司 ID
+      description: 使用当前 Watchlist 卡片中的 canonical company ID。
+    validations:
+      required: true
+  - type: input
+    id: event-date
+    attributes:
+      label: 事件日期
+      description: 使用 YYYY-MM-DD；未知时请说明依据。
+      placeholder: "2026-08-16"
+    validations:
+      required: true
+  - type: textarea
+    id: explanation
+    attributes:
+      label: 说明
+      description: 简要说明事实、来源可信度及与当前公开判断的关系。
+    validations:
+      required: true

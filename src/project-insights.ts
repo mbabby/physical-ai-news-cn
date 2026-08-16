@@ -1,5 +1,9 @@
+import { createHash } from "node:crypto";
+import { join } from "node:path";
 import type { Article, CandidateCompanyRegistry, CandidateSourceRegistry, DailyArchive, EventRecord, EventStore, ProjectMetrics, ResearchRecord, SourceRegistry } from "./types.js";
 import { publicEventDate } from "./site-data.js";
+import type { FileTransaction } from "./runtime/storage.js";
+import { assertNoPrivateWatchlistContent, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./watchlist/public-view.js";
 
 export interface CommunityReviewSeed {
   id: string;
@@ -11,6 +15,201 @@ export interface CommunityReviewSeed {
   issueTemplate: string;
   issueTitle: string;
   issueBody: string;
+}
+
+export type WatchlistReviewIssueKind = "evidence" | "correction";
+
+/** A public-only, deterministic input for manual GitHub Issue materialization. */
+export interface WatchlistReviewIssueSeed {
+  id: string;
+  kind: WatchlistReviewIssueKind;
+  companyId: string;
+  companyName: string;
+  thesisId: string;
+  thesisVersion: number;
+  missingEvidenceType: string;
+  snapshotWeek: string;
+  snapshotVersion: number;
+  evidenceUrls: string[];
+  reviewTarget: string;
+  publicContext: string;
+  issueTitle: string;
+  issueBody: string;
+  labels: ["evidence-review", "needs-evidence" | "correction"];
+}
+
+export interface WatchlistReviewIssueArtifact {
+  schemaVersion: 1;
+  week: string;
+  snapshotVersion: number;
+  seeds: WatchlistReviewIssueSeed[];
+}
+
+const REVIEW_ARTIFACT_KEYS = new Set(["schemaVersion", "week", "snapshotVersion", "seeds"]);
+const REVIEW_SEED_KEYS = new Set([
+  "id", "kind", "companyId", "companyName", "thesisId", "thesisVersion", "missingEvidenceType", "snapshotWeek", "snapshotVersion",
+  "evidenceUrls", "reviewTarget", "publicContext", "issueTitle", "issueBody", "labels",
+]);
+
+function codeUnit(left: string, right: string): number { return left < right ? -1 : left > right ? 1 : 0; }
+function object(value: unknown): value is Record<string, unknown> { return Boolean(value) && typeof value === "object" && !Array.isArray(value); }
+function exactKeys(value: Record<string, unknown>, keys: Set<string>): boolean {
+  const actual = Object.keys(value);
+  return actual.length === keys.size && actual.every((key) => keys.has(key));
+}
+function string(value: unknown): value is string { return typeof value === "string" && value.trim().length > 0; }
+function https(value: unknown): value is string {
+  if (!string(value)) return false;
+  try { return new URL(value).protocol === "https:"; } catch { return false; }
+}
+
+function canonicalEvidenceUrls(card: WatchlistPublicCard): string[] {
+  return [...new Set(card.evidenceLinks.map((item) => item.url).filter(https))].sort(codeUnit);
+}
+
+function stableSeedId(
+  kind: WatchlistReviewIssueKind,
+  week: string,
+  snapshotVersion: number,
+  companyId: string,
+  thesisId: string,
+  thesisVersion: number,
+  missingEvidenceType: string,
+): string {
+  const key = [kind, week, String(snapshotVersion), companyId, thesisId, String(thesisVersion), missingEvidenceType].join("\0");
+  return `watchlist-${kind}-${createHash("sha256").update(key).digest("hex").slice(0, 20)}`;
+}
+
+function seedId(kind: WatchlistReviewIssueKind, view: WatchlistPublicView, card: WatchlistPublicCard, missingEvidenceType: string): string {
+  return stableSeedId(kind, view.week, view.snapshotVersion, card.companyId, card.thesisId, card.thesisVersion, missingEvidenceType);
+}
+
+function seedMarker(id: string): string { return `<!-- watchlist-review-seed:${id} -->`; }
+
+function issueBody(seed: Pick<WatchlistReviewIssueSeed, "id" | "kind" | "companyId" | "companyName" | "thesisId" | "thesisVersion" | "snapshotWeek" | "snapshotVersion" | "evidenceUrls" | "reviewTarget" | "publicContext">): string {
+  const action = seed.kind === "evidence" ? "补充证据" : "核对并纠正公开事实";
+  return [
+    seedMarker(seed.id),
+    "",
+    "这是公开 Review 输入，不会自动发布，也不会改变当前公开 Watchlist。已采纳证据仍须在后续生成中完成规范化提升后，才可能影响公开工件。",
+    "",
+    `- 当前快照：${seed.snapshotWeek} · v${seed.snapshotVersion}`,
+    `- 规范公司：${seed.companyName}（${seed.companyId}）`,
+    `- 当前判断：${seed.thesisId} v${seed.thesisVersion}`,
+    `- Review 目标：${seed.reviewTarget}`,
+    `- 公开上下文：${seed.publicContext}`,
+    "",
+    "当前已公开的规范证据：",
+    ...seed.evidenceUrls.map((url) => `- ${url}`),
+    "",
+    `请${action}时提供原始 URL、受影响的公开事实、规范公司 ID、事件日期和简要说明。`,
+  ].join("\n");
+}
+
+function createSeed(
+  kind: WatchlistReviewIssueKind,
+  view: WatchlistPublicView,
+  card: WatchlistPublicCard,
+  missingEvidenceType: string,
+  reviewTarget: string,
+  publicContext: string,
+): WatchlistReviewIssueSeed | undefined {
+  const evidenceUrls = canonicalEvidenceUrls(card);
+  if (!evidenceUrls.length) return undefined;
+  const id = seedId(kind, view, card, missingEvidenceType);
+  const labels: WatchlistReviewIssueSeed["labels"] = kind === "evidence"
+    ? ["evidence-review", "needs-evidence"]
+    : ["evidence-review", "correction"];
+  const seed = {
+    id, kind, companyId: card.companyId, companyName: card.companyName, thesisId: card.thesisId, thesisVersion: card.thesisVersion,
+    missingEvidenceType, snapshotWeek: view.week, snapshotVersion: view.snapshotVersion, evidenceUrls, reviewTarget, publicContext,
+    issueTitle: kind === "evidence"
+      ? `[Watchlist 补证] ${card.companyName} · ${reviewTarget}`
+      : `[Watchlist 纠错] ${card.companyName} · ${reviewTarget}`,
+    labels,
+  } as Omit<WatchlistReviewIssueSeed, "issueBody">;
+  return { ...seed, issueBody: issueBody(seed) };
+}
+
+function earliestValidationPoint(card: WatchlistPublicCard): { text: string; dueAt: string } {
+  return [...card.nextValidationPoints].sort((left, right) => codeUnit(left.dueAt, right.dueAt) || codeUnit(left.text, right.text))[0]!;
+}
+
+/**
+ * Build an issue artifact solely from the current public Watchlist view.
+ * No candidate, score, rank, unpublished evidence, or private review state is
+ * accepted as an input to this boundary.
+ */
+export function buildWatchlistReviewIssueSeeds(view: WatchlistPublicView): WatchlistReviewIssueArtifact {
+  if (!validateWatchlistPublicViewShape(view)) throw new Error("Watchlist 公开视图结构不合法；拒绝生成 Review Issue 种子");
+  assertNoPrivateWatchlistContent(view);
+  const seeds: WatchlistReviewIssueSeed[] = [];
+  for (const card of [...view.forwardRadar, ...view.validatedMomentum]) {
+    if (card.capital.status === "evidence-insufficient") {
+      const seed = createSeed("evidence", view, card, "capital-evidence", "资本信息的一手公开证据", card.capital.summary);
+      if (seed) seeds.push(seed);
+    } else {
+      const validation = earliestValidationPoint(card);
+      const seed = createSeed("evidence", view, card, "next-validation-point", `下一验证点：${validation.text}`, `当前公开验证点截至 ${validation.dueAt}`);
+      if (seed) seeds.push(seed);
+    }
+    if (card.lifecycle === "downgraded") {
+      const seed = createSeed("correction", view, card, "current-thesis-downgraded", "当前公开判断已降级", `当前公开生命周期：${card.lifecycleLabel}`);
+      if (seed) seeds.push(seed);
+    }
+  }
+  const sorted = seeds.sort((left, right) => codeUnit(left.kind, right.kind)
+    || codeUnit(left.companyId, right.companyId)
+    || codeUnit(left.thesisId, right.thesisId)
+    || codeUnit(left.missingEvidenceType, right.missingEvidenceType));
+  const ids = new Set<string>();
+  for (const seed of sorted) {
+    if (ids.has(seed.id)) throw new Error(`Watchlist Review Issue 种子 ID 重复：${seed.id}`);
+    ids.add(seed.id);
+  }
+  const artifact: WatchlistReviewIssueArtifact = { schemaVersion: 1, week: view.week, snapshotVersion: view.snapshotVersion, seeds: sorted };
+  if (!validateWatchlistReviewIssueArtifact(artifact)) throw new Error("Watchlist Review Issue 种子结构不合法");
+  return artifact;
+}
+
+/** Strict runtime schema for the public artifact consumed by Issue automation. */
+export function validateWatchlistReviewIssueArtifact(value: unknown): value is WatchlistReviewIssueArtifact {
+  if (!object(value) || !exactKeys(value, REVIEW_ARTIFACT_KEYS) || value.schemaVersion !== 1
+    || !string(value.week) || !/^\d{4}-W\d{2}$/.test(value.week)
+    || !Number.isInteger(value.snapshotVersion) || (value.snapshotVersion as number) < 1
+    || !Array.isArray(value.seeds)) return false;
+  const ids = new Set<string>();
+  let previous: WatchlistReviewIssueSeed | undefined;
+  for (const seed of value.seeds) {
+    if (!object(seed) || !exactKeys(seed, REVIEW_SEED_KEYS)
+      || !string(seed.id) || (seed.kind !== "evidence" && seed.kind !== "correction")
+      || !string(seed.companyId) || !string(seed.companyName) || !string(seed.thesisId)
+      || !Number.isInteger(seed.thesisVersion) || (seed.thesisVersion as number) < 1
+      || !string(seed.missingEvidenceType) || seed.snapshotWeek !== value.week || seed.snapshotVersion !== value.snapshotVersion
+      || !Array.isArray(seed.evidenceUrls) || !seed.evidenceUrls.length || !seed.evidenceUrls.every(https)
+      || !string(seed.reviewTarget) || !string(seed.publicContext) || !string(seed.issueTitle) || !string(seed.issueBody)
+      || !Array.isArray(seed.labels) || seed.labels.length !== 2 || seed.labels[0] !== "evidence-review"
+      || seed.labels[1] !== (seed.kind === "evidence" ? "needs-evidence" : "correction")
+      || !seed.issueBody.includes(seedMarker(seed.id))
+      || ids.has(seed.id)) return false;
+    const typed = seed as unknown as WatchlistReviewIssueSeed;
+    if (typed.id !== stableSeedId(typed.kind, typed.snapshotWeek, typed.snapshotVersion, typed.companyId, typed.thesisId, typed.thesisVersion, typed.missingEvidenceType)) return false;
+    if (previous && (codeUnit(previous.kind, typed.kind) > 0
+      || (previous.kind === typed.kind && (codeUnit(previous.companyId, typed.companyId) > 0
+        || (previous.companyId === typed.companyId && (codeUnit(previous.thesisId, typed.thesisId) > 0
+          || (previous.thesisId === typed.thesisId && codeUnit(previous.missingEvidenceType, typed.missingEvidenceType) > 0))))))) return false;
+    ids.add(seed.id);
+    previous = typed;
+  }
+  try { assertNoPrivateWatchlistContent(value); } catch { return false; }
+  return true;
+}
+
+/** Stage seeds alongside the snapshot in the caller's already-open transaction. */
+export function stageWatchlistReviewIssueSeeds(input: { transaction: Pick<FileTransaction, "stage">; root: string; view: WatchlistPublicView }): WatchlistReviewIssueArtifact {
+  const artifact = buildWatchlistReviewIssueSeeds(input.view);
+  input.transaction.stage(join(input.root, "review", "watchlist-issue-seeds.json"), `${JSON.stringify(artifact, null, 2)}\n`);
+  return artifact;
 }
 
 const DISCOVERY = /google news|hacker news|^x\s*·/i;

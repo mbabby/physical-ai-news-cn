@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { FileTransaction } from "../runtime/storage.js";
 import { isObject } from "../runtime/storage.js";
+import type { CompanyProfile, EventRecord } from "../types.js";
 import {
   isCanonicalTimestamp,
   validateCompanyThesisShape,
@@ -12,14 +13,21 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
-import { validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
+import { assertNoPrivateWatchlistContent, buildWatchlistPublicView, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
+import { buildWatchlistFeedManifest, stageWatchlistFeeds } from "./feeds.js";
+import { buildWatchlistChangePage, stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
+import { buildWatchlistMetrics, stageWatchlistMetrics, validateWatchlistMetrics, type WatchlistMetrics } from "./metrics.js";
 
 export interface WatchlistReleaseValidationInput {
   snapshot: WatchlistSnapshot;
   theses: CompanyThesisArtifact;
   dashboard: unknown;
   readme: string;
+  changePage: WatchlistChangePage;
+  metrics: WatchlistMetrics;
+  companies: CompanyProfile[];
+  events: EventRecord[];
   history?: WatchlistSnapshot[];
 }
 
@@ -44,8 +52,38 @@ function sameSet(left: Iterable<string>, right: Iterable<string>): boolean {
   return a.length === b.length && a.every((value, index) => value === b[index]);
 }
 
+function snapshotIdentity(snapshot: WatchlistSnapshot): string {
+  return `${snapshot.week}\0${String(snapshot.snapshotVersion).padStart(12, "0")}`;
+}
+
+function sameChangeIdentity(snapshot: WatchlistSnapshot, identity: NonNullable<WatchlistChangePage["baseline"]>): boolean {
+  return snapshot.week === identity.week
+    && snapshot.snapshotVersion === identity.snapshotVersion
+    && snapshot.generatedAt === identity.generatedAt;
+}
+
+function assertAdjacentChangeBaseline(input: WatchlistReleaseValidationInput): void {
+  const snapshots = new Map<string, WatchlistSnapshot>();
+  for (const snapshot of [...(input.history ?? []), input.snapshot]) {
+    const key = snapshotIdentity(snapshot);
+    const prior = snapshots.get(key);
+    if (prior && stableBytes(prior) !== stableBytes(snapshot)) throw new Error(`Watchlist 变化页不可变快照身份冲突：${key}`);
+    snapshots.set(key, snapshot);
+  }
+  const ordered = [...snapshots.values()].sort((left, right) => snapshotIdentity(left) < snapshotIdentity(right) ? -1 : snapshotIdentity(left) > snapshotIdentity(right) ? 1 : 0);
+  if (snapshotIdentity(ordered.at(-1)!) !== snapshotIdentity(input.snapshot)) throw new Error("Watchlist 变化页 current 不是最新不可变快照");
+  const baseline = ordered.length > 1 ? ordered.at(-2) : undefined;
+  if (!baseline) {
+    if (input.changePage.baseline !== null || !input.changePage.emptyBaseline) throw new Error("Watchlist 变化页首快照必须使用空基线");
+    return;
+  }
+  if (!input.changePage.baseline || input.changePage.emptyBaseline || !sameChangeIdentity(baseline, input.changePage.baseline)) {
+    throw new Error("Watchlist 变化页基线必须是紧邻不可变快照");
+  }
+}
+
 function assertNoPrivateKeys(value: unknown, path: string): void {
-  if (typeof value === "string" && /\bcandidate-[a-f0-9]{8,}\b/i.test(value)) {
+  if (typeof value === "string" && isInternalCandidateIdentifier(value)) {
     throw new Error(`Watchlist 公开产物包含候选标识：${path}`);
   }
   if (Array.isArray(value)) {
@@ -123,10 +161,35 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   assertNoPrivateKeys(input.history ?? [], "history");
   assertNoPrivateKeys(input.theses, "theses");
   if (isObject(input.dashboard)) assertNoPrivateKeys(input.dashboard.watchlist, "dashboard.watchlist");
+  assertNoPrivateWatchlistContent(input.snapshot);
+  assertNoPrivateWatchlistContent(input.history ?? []);
+  assertNoPrivateWatchlistContent(input.theses);
+  if (isObject(input.dashboard)) assertNoPrivateWatchlistContent(input.dashboard.watchlist);
   const dashboardView = publicView(input.dashboard);
+  if (!input.changePage) throw new Error("Watchlist 变化页工件为必需；已停止发布");
+  validateWatchlistChangePage(input.changePage);
+  if (input.changePage.current.week !== input.snapshot.week
+    || input.changePage.current.snapshotVersion !== input.snapshot.snapshotVersion
+    || input.changePage.current.generatedAt !== input.snapshot.generatedAt) {
+    throw new Error("Watchlist 变化页与 current 快照身份不一致");
+  }
   if (PRIVATE_TEXT.test(input.readme)) throw new Error("Watchlist README 包含私有诊断、分数或排名");
   if (!validateWatchlistSnapshotShape(input.snapshot)) throw new Error("Watchlist 公开快照结构不合法");
   validateThesisArtifact(input.theses);
+  assertAdjacentChangeBaseline(input);
+  const canonicalChangePage = buildWatchlistChangePage({
+    current: input.snapshot,
+    snapshots: [...(input.history ?? []), input.snapshot],
+    views: [...(input.history ?? []), input.snapshot].map((snapshot) => buildWatchlistPublicView({
+      snapshot,
+      thesisArtifact: input.theses,
+      companies: input.companies,
+      events: input.events,
+    })),
+  });
+  if (stableBytes(input.changePage) !== stableBytes(canonicalChangePage)) {
+    throw new Error("Watchlist 变化页与相邻快照、精确判断版本或规范证据不一致");
+  }
 
   const identity = readmeIdentity(input.readme);
   if (!identity || dashboardView.week !== input.snapshot.week || identity.week !== input.snapshot.week) {
@@ -203,6 +266,23 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
     || publicCards.some((card) => !card.whyNow.startsWith("AI 研究判断") || !card.routeAndDependencies.startsWith("AI 研究判断"))) {
     throw new Error("Watchlist 公开产物缺少可见的“AI 研究判断”披露");
   }
+  validateWatchlistMetrics(input.metrics);
+  if (input.metrics.snapshot.week !== input.snapshot.week
+    || input.metrics.snapshot.snapshotVersion !== input.snapshot.snapshotVersion
+    || input.metrics.snapshot.generatedAt !== input.snapshot.generatedAt) {
+    throw new Error("Watchlist 指标与快照身份不一致");
+  }
+  const expectedMetrics = buildWatchlistMetrics({
+    snapshot: input.snapshot,
+    theses: input.theses,
+    view: dashboardView,
+    changePage: input.changePage,
+    feeds: buildWatchlistFeedManifest(dashboardView),
+    readme: input.readme,
+  });
+  if (stableBytes(input.metrics) !== stableBytes(expectedMetrics)) {
+    throw new Error("Watchlist 指标未由规范公开工件确定性构建");
+  }
 }
 
 export interface MergeWatchlistThesisArtifactInput {
@@ -245,10 +325,12 @@ export function mergeWatchlistThesisArtifact(input: MergeWatchlistThesisArtifact
 export interface StageWatchlistReleaseInput extends WatchlistReleaseValidationInput {
   transaction: Pick<FileTransaction, "stage">;
   root: string;
+  feeds: { baseUrl: string };
 }
 
 export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): Promise<void> {
   validateWatchlistRelease(input);
+  if (!input.feeds) throw new Error("Watchlist 发布订阅配置为必需；已停止 staging");
   const paths = snapshotPath(input.snapshot);
   const historyPath = join(input.root, paths.history);
   const historyBytes = stableBytes(input.snapshot);
@@ -267,4 +349,7 @@ export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): 
   if (existingHistory === undefined) input.transaction.stage(historyPath, historyBytes);
   input.transaction.stage(join(input.root, "site", "data", "dashboard.json"), stableBytes(input.dashboard));
   input.transaction.stage(join(input.root, "README.md"), input.readme);
+  stageWatchlistFeeds({ transaction: input.transaction, root: input.root, view: publicView(input.dashboard), baseUrl: input.feeds.baseUrl });
+  stageWatchlistChangePage({ transaction: input.transaction, root: input.root, artifact: input.changePage });
+  stageWatchlistMetrics({ transaction: input.transaction, root: input.root, metrics: input.metrics });
 }

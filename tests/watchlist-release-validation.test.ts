@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { FileTransaction } from "../src/runtime/storage.js";
+import type { CompanyProfile, EventRecord } from "../src/types.js";
 import type { CompanyThesis, CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import {
   validateCurrentWatchlistHistoryFiles,
@@ -11,9 +12,13 @@ import {
   stageWatchlistRelease,
   validateWatchlistRelease,
 } from "../src/watchlist/release-validation.js";
-import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
+import { buildWatchlistPublicView, type WatchlistPublicView } from "../src/watchlist/public-view.js";
+import { buildWatchlistChangePage, type WatchlistChangePage } from "../src/watchlist/change-page.js";
+import { buildWatchlistMetrics } from "../src/watchlist/metrics.js";
+import { buildWatchlistFeedManifest } from "../src/watchlist/feeds.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
+const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
 
 function thesis(overrides: Partial<CompanyThesis> = {}): CompanyThesis {
   return {
@@ -66,6 +71,7 @@ function view(overrides: Partial<WatchlistPublicView> = {}): WatchlistPublicView
     group: "priority-focus",
     lifecycle: "new",
     lifecycleLabel: "新进入",
+    routes: ["VLA 与具身模型"],
     whyNow: "AI 研究判断：Alpha Robotics 出现新的规范事实。",
     routeAndDependencies: "AI 研究判断：路线依赖后续真实部署验证。",
     nextValidationPoints: [{ text: "核验后续真实部署。", dueAt: "2026-10-01" }],
@@ -86,6 +92,50 @@ function view(overrides: Partial<WatchlistPublicView> = {}): WatchlistPublicView
   };
 }
 
+function changePage(overrides: Partial<WatchlistChangePage> = {}): WatchlistChangePage {
+  return {
+    schemaVersion: 1,
+    current: { week: "2026-W34", snapshotVersion: 1, generatedAt: GENERATED_AT },
+    baseline: null,
+    emptyBaseline: true,
+    changes: [],
+    ...overrides,
+  };
+}
+
+const canonicalCompanies: CompanyProfile[] = [{
+  entityId: "company-alpha",
+  entityType: "公司",
+  name: "Alpha Robotics",
+  region: "美国",
+  routes: ["VLA 与具身模型"],
+  thesis: "测试公司。",
+  officialUrl: "https://alpha.example",
+}];
+
+function canonicalEvents(): EventRecord[] {
+  return [{
+    id: "event-alpha",
+    title: "Alpha Robotics 发布进展",
+    type: "产品发布",
+    entities: ["Alpha Robotics"],
+    primaryEntity: "Alpha Robotics",
+    routes: ["VLA 与具身模型"],
+    status: "已确证",
+    occurredAt: "2026-08-16T00:00:00.000Z",
+    eventDate: "2026-08-16",
+    firstSeenAt: "2026-08-16T00:00:00.000Z",
+    lastUpdatedAt: "2026-08-16T00:00:00.000Z",
+    lastMaterialChangeAt: "2026-08-16T00:00:00.000Z",
+    lastVerifiedAt: "2026-08-16T00:00:00.000Z",
+    facts: ["Alpha Robotics 发布进展。"],
+    openQuestions: [],
+    timeline: [],
+    productDeployment: { product: "Atlas-X", customers: [], deployment: "公开发布" },
+    evidence: [{ link: "https://alpha.example/release", source: "Alpha Robotics", grade: "A", publishedAt: "2026-08-16T00:00:00.000Z", supports: "Alpha Robotics 发布进展。" }],
+  }];
+}
+
 function readme(): string {
   return [
     "> 观察名单快照：2026-W34 · v1",
@@ -102,12 +152,52 @@ function readme(): string {
 }
 
 function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[0]> = {}) {
-  return {
+  const candidate = {
     snapshot: snapshot(),
     theses: artifact(),
     dashboard: { watchlist: view() },
     readme: readme(),
+    changePage: changePage(),
+    companies: canonicalCompanies,
+    events: canonicalEvents(),
     ...overrides,
+  };
+  let metrics = buildWatchlistMetrics({
+    snapshot: snapshot(),
+    theses: artifact(),
+    view: view(),
+    changePage: changePage(),
+    feeds: buildWatchlistFeedManifest(view()),
+    readme: readme(),
+  });
+  try {
+    metrics = buildWatchlistMetrics({
+      snapshot: candidate.snapshot,
+      theses: candidate.theses,
+      view: (candidate.dashboard as { watchlist: WatchlistPublicView }).watchlist,
+      changePage: candidate.changePage,
+      feeds: buildWatchlistFeedManifest((candidate.dashboard as { watchlist: WatchlistPublicView }).watchlist),
+      readme: candidate.readme,
+    });
+  } catch {
+    // Tests for invalid release inputs need the release validator to expose
+    // the targeted public-contract failure before metrics are considered.
+  }
+  return { ...candidate, metrics: overrides.metrics ?? metrics };
+}
+
+function canonicalPeriodRelease() {
+  const previous = snapshot({ week: "2026-W33", forwardRadar: [] });
+  const current = snapshot();
+  const canonical = artifact();
+  const events = canonicalEvents();
+  const previousView = buildWatchlistPublicView({ snapshot: previous, thesisArtifact: canonical, companies: canonicalCompanies, events });
+  const currentView = buildWatchlistPublicView({ snapshot: current, thesisArtifact: canonical, companies: canonicalCompanies, events });
+  const changePage = buildWatchlistChangePage({ current, snapshots: [previous, current], views: [previousView, currentView] });
+  return {
+    ...release({ snapshot: current, theses: canonical, dashboard: { watchlist: currentView }, history: [previous], changePage }),
+    companies: canonicalCompanies,
+    events,
   };
 }
 
@@ -136,6 +226,49 @@ test("rejects a week mismatch across snapshot, dashboard and README", () => {
   assert.throws(() => validateWatchlistRelease(release({ dashboard: { watchlist: view({ week: "2026-W33" }) } })), /周.*不一致/);
 });
 
+test("requires the change-page baseline to be the immediate immutable predecessor", () => {
+  const prior = snapshot({ week: "2026-W33" });
+  assert.throws(() => validateWatchlistRelease(release({ history: [prior] })), /基线|相邻/);
+  assert.throws(() => validateWatchlistRelease(release({
+    history: [snapshot({ week: "2026-W32" }), prior],
+    changePage: changePage({ baseline: { week: "2026-W32", snapshotVersion: 1, generatedAt: GENERATED_AT }, emptyBaseline: false }),
+  })), /基线|相邻/);
+});
+
+test("release validation rejects change items that differ from the canonical adjacent snapshot delta", () => {
+  const canonical = canonicalPeriodRelease();
+  assert.doesNotThrow(() => validateWatchlistRelease(canonical as Parameters<typeof validateWatchlistRelease>[0]));
+  const actual = canonical.changePage.changes[0]!;
+  const forged = [
+    { ...actual, companyId: "company-forged", companyName: "Forged Robotics" },
+    { ...actual, kind: "strengthening" as const },
+    { ...actual, evidenceLinks: [{ ...actual.evidenceLinks[0]!, url: "https://forged.example/release" }] },
+    { ...actual, evidenceLinks: [{ ...actual.evidenceLinks[0]!, eventId: "event-forged", title: "Forged release", source: "Forged", grade: "B" as const }] },
+    { ...actual, evidenceLinks: [{ url: "https://alpha.example/release" }] },
+  ];
+  for (const change of forged) {
+    assert.throws(
+      () => validateWatchlistRelease({ ...canonical, changePage: { ...canonical.changePage, changes: [change] } } as Parameters<typeof validateWatchlistRelease>[0]),
+      /变化.*规范|变化.*相邻|变化.*快照|变化.*证据/,
+    );
+  }
+});
+
+test("release validation rejects a change page rebuilt from synchronized forged public views", () => {
+  const canonical = canonicalPeriodRelease();
+  const previous = canonical.history![0]!;
+  const forgedCurrent = buildWatchlistPublicView({ snapshot: canonical.snapshot, thesisArtifact: canonical.theses, companies: canonical.companies, events: canonical.events });
+  forgedCurrent.forwardRadar[0]!.whyNow = "AI 研究判断：伪造的公开理由。";
+  forgedCurrent.forwardRadar[0]!.evidenceLinks[0] = { ...forgedCurrent.forwardRadar[0]!.evidenceLinks[0]!, eventId: "event-forged", title: "伪造事件", url: "https://forged.example/release", source: "Forged", grade: "B" };
+  const forgedPrevious = buildWatchlistPublicView({ snapshot: previous, thesisArtifact: canonical.theses, companies: canonical.companies, events: canonical.events });
+  const forgedPage = buildWatchlistChangePage({ current: canonical.snapshot, snapshots: [previous, canonical.snapshot], views: [forgedPrevious, forgedCurrent] });
+  forgedPage.changes[0]!.whatChanged = forgedPage.changes[0]!.whatChanged.replace("v1", "v99");
+  assert.throws(
+    () => validateWatchlistRelease({ ...canonical, changePageViews: [forgedPrevious, forgedCurrent], changePage: forgedPage } as Parameters<typeof validateWatchlistRelease>[0]),
+    /变化.*规范|变化.*相邻|变化.*快照|变化.*证据/,
+  );
+});
+
 test("rejects a broken exact thesis reference and methodology version mismatch", () => {
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ thesisVersion: 2 })]) })), /判断版本/);
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ methodologyVersion: "method-v2" })]) })), /方法论版本/);
@@ -155,6 +288,7 @@ test("rejects malformed public cards and cards without qualifying evidence links
     { ...baseCard, track: "validated-momentum" },
     { ...baseCard, group: "private" },
     { ...baseCard, lifecycle: "falsified" },
+    { ...baseCard, routes: [] },
     { ...baseCard, nextValidationPoints: [] },
     { ...baseCard, falsifiers: [] },
     { ...baseCard, capital: { status: "evidence-insufficient", summary: "unknown" } },
@@ -212,11 +346,14 @@ test("rejects public score, rank, candidate id and private diagnostics leakage",
     snapshot: snapshot({ forwardRadar: [{ ...snapshot().forwardRadar[0]!, companyId: "candidate-03950aa949fb" }] }),
   })), /候选标识/);
   assert.throws(() => validateWatchlistRelease(release({ readme: `${readme()}\n内部 rank: 1` })), /私有诊断|分数|排名/);
+  assert.throws(() => validateWatchlistRelease(release({
+    dashboard: { watchlist: view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: "AI 研究判断：score 99。" }] }) },
+  })), /私有诊断|分数|排名/);
 });
 
 test("rejects falsified and expired selected theses", () => {
   assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ lifecycle: "falsified" })]) })), /不可公开/);
-  assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ expiresAt: GENERATED_AT })]) })), /已过期/);
+  assert.throws(() => validateWatchlistRelease(release({ theses: artifact([thesis({ expiresAt: GENERATED_AT })]) })), /已过期|不可公开/);
 });
 
 test("public theses contain exactly the versions referenced by current and history", () => {
@@ -241,6 +378,20 @@ test("requires a visible AI research judgment disclosure", () => {
   })), /判断标签.*AI 研究判断/);
 });
 
+test("rejects a structurally valid metric artifact that was not derived from canonical public inputs", () => {
+  const valid = release();
+  assert.throws(() => validateWatchlistRelease({
+    ...valid,
+    metrics: {
+      ...valid.metrics,
+      productQuality: {
+        ...valid.metrics.productQuality,
+        citationCoverage: { numerator: 0, denominator: 1, value: 0 },
+      },
+    },
+  }), /指标.*规范|指标.*公开|指标.*不一致/);
+});
+
 test("an invalid staged snapshot leaves every public artifact unchanged", async () => {
   const root = await mkdtemp(join(tmpdir(), "watchlist-invalid-stage-"));
   const paths = [
@@ -261,9 +412,65 @@ test("an invalid staged snapshot leaves every public artifact unchanged", async 
       transaction,
       root,
       ...release({ dashboard: { watchlist: view({ week: "2026-W33" }) } }),
+      feeds: FEEDS,
     }), /周.*不一致/);
     await transaction.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("refuses to stage a Watchlist release without its required feeds", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-required-feeds-"));
+  try {
+    const transaction = new FileTransaction("watchlist-required-feeds");
+    await assert.rejects(() => stageWatchlistRelease({ transaction, root, ...release() } as unknown as Parameters<typeof stageWatchlistRelease>[0]), /feeds.*必需|订阅.*必需/);
+    assert.equal(transaction.size, 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("refuses to stage a Watchlist release without its required period-change artifact", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-required-changes-"));
+  try {
+    const transaction = new FileTransaction("watchlist-required-changes");
+    await assert.rejects(() => stageWatchlistRelease({ transaction, root, ...release({ changePage: undefined }), feeds: FEEDS } as unknown as Parameters<typeof stageWatchlistRelease>[0]), /变化.*必需|change.*required/i);
+    assert.equal(transaction.size, 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("stages snapshot-identified feeds and their manifest in the release transaction", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-release-feeds-"));
+  try {
+    const transaction = new FileTransaction("watchlist-release-feeds");
+    await stageWatchlistRelease({
+      transaction,
+      root,
+      ...release(),
+      feeds: FEEDS,
+    });
+    assert.equal(transaction.size, 14);
+    await transaction.commit();
+    assert.deepEqual(JSON.parse(await readFile(join(root, "site", "data", "watchlist-changes.json"), "utf8")), changePage());
+    assert.deepEqual(JSON.parse(await readFile(join(root, "metrics", "watchlist.json"), "utf8")), release().metrics);
+    assert.deepEqual(JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8")), {
+      schemaVersion: 1,
+      snapshotWeek: "2026-W34",
+      snapshotVersion: 1,
+      companyFeedIds: ["company-alpha"],
+      companyFeeds: [{ companyId: "company-alpha", path: "feeds/companies/company-alpha.xml" }],
+      routeFeeds: [
+        { route: "数据与训练", slug: "data-and-training", path: "feeds/routes/data-and-training.xml" },
+        { route: "VLA 与具身模型", slug: "vla-and-embodied-models", path: "feeds/routes/vla-and-embodied-models.xml" },
+        { route: "世界模型与空间智能", slug: "world-models-and-spatial-intelligence", path: "feeds/routes/world-models-and-spatial-intelligence.xml" },
+        { route: "本体与硬件", slug: "embodiment-and-hardware", path: "feeds/routes/embodiment-and-hardware.xml" },
+        { route: "部署与商业化", slug: "deployment-and-commercialization", path: "feeds/routes/deployment-and-commercialization.xml" },
+      ],
+    });
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -276,6 +483,8 @@ test("failure injection rolls back the whole Watchlist public group", async () =
     "watchlist/theses.json",
     "watchlist/history/2026-W34-v1.json",
     "site/data/dashboard.json",
+    "site/data/watchlist-changes.json",
+    "metrics/watchlist.json",
     "README.md",
   ];
   const newHistoryPath = "watchlist/history/2026-W34-v2.json";
@@ -293,7 +502,9 @@ test("failure injection rolls back the whole Watchlist public group", async () =
         snapshot: snapshot({ snapshotVersion: 2 }),
         dashboard: { watchlist: view({ snapshotVersion: 2 }) },
         readme: readme().replace("v1", "v2"),
+        changePage: changePage({ current: { week: "2026-W34", snapshotVersion: 2, generatedAt: GENERATED_AT } }),
       }),
+      feeds: FEEDS,
     });
     await assert.rejects(() => transaction.commit(), /已回滚/);
     assert.deepEqual(await Promise.all(existingPaths.map((path) => readFile(join(root, path), "utf8"))), before);
@@ -309,7 +520,7 @@ test("immutable history rejects different bytes and accepts identical bytes idem
     const historyPath = join(root, "watchlist", "history", "2026-W34-v1.json");
     await mkdir(join(root, "watchlist", "history"), { recursive: true });
     await writeFile(historyPath, json({ ...snapshot(), generatedAt: "2026-08-17T00:00:00.000Z" }));
-    await assert.rejects(() => stageWatchlistRelease({ transaction: new FileTransaction("history-different"), root, ...release() }), /历史快照.*冲突/);
+    await assert.rejects(() => stageWatchlistRelease({ transaction: new FileTransaction("history-different"), root, ...release(), feeds: FEEDS }), /历史快照.*冲突/);
 
     await rm(historyPath);
     const paths = [
@@ -317,17 +528,19 @@ test("immutable history rejects different bytes and accepts identical bytes idem
       "watchlist/theses.json",
       "watchlist/history/2026-W34-v1.json",
       "site/data/dashboard.json",
+      "site/data/watchlist-changes.json",
+      "metrics/watchlist.json",
       "README.md",
     ];
     const first = new FileTransaction("history-first-cycle");
-    await stageWatchlistRelease({ transaction: first, root, ...release() });
-    assert.equal(first.size, 5);
+    await stageWatchlistRelease({ transaction: first, root, ...release(), feeds: FEEDS });
+    assert.equal(first.size, 14);
     await first.commit();
     const firstBytes = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
 
     const second = new FileTransaction("history-second-cycle");
-    await stageWatchlistRelease({ transaction: second, root, ...release() });
-    assert.equal(second.size, 4);
+    await stageWatchlistRelease({ transaction: second, root, ...release(), feeds: FEEDS });
+    assert.equal(second.size, 13);
     await second.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), firstBytes);
     assert.equal(await readFile(historyPath, "utf8"), json(snapshot()));

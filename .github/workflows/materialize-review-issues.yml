@@ -33,6 +33,7 @@ jobs:
           set -euo pipefail
           gh label create evidence-review --repo "$REPO" --color "5319E7" --description "候选证据正在人工复核，不是公开事实" --force
           gh label create needs-evidence --repo "$REPO" --color "D4C5F9" --description "仍需补充一手来源或独立交叉证据" --force
+          gh label create correction --repo "$REPO" --color "B60205" --description "当前公开 Watchlist 事实或判断需要人工纠错复核" --force
           gh label create accepted-evidence --repo "$REPO" --color "0E8A16" --description "证据已被维护者采纳；不代表自动发布" --force
           gh label create contributor-credited --repo "$REPO" --color "1D76DB" --description "贡献者已进入可追溯署名入口" --force
           gh label create source-evidence --repo "$REPO" --color "C5DEF5" --description "信源复核" --force
@@ -72,28 +73,66 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           DRY_RUN: ${{ inputs.dry_run }}
           LIMIT: ${{ inputs.limit }}
+          REPO: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
-          test -f review/issue-seeds.json
-          echo "## Community review Issue materialization" >> "$GITHUB_STEP_SUMMARY"
-          jq -c ".seeds[:${LIMIT}][]" review/issue-seeds.json | while IFS= read -r seed; do
+          test -f review/watchlist-issue-seeds.json
+          [[ "$LIMIT" =~ ^[0-9]+$ ]] || { echo "LIMIT 必须是数字" >&2; exit 1; }
+          [[ ${#LIMIT} -le 3 ]] || { echo "LIMIT 过大" >&2; exit 1; }
+          LIMIT=$((10#$LIMIT))
+          MAX_LIMIT=20
+          (( LIMIT <= MAX_LIMIT )) || LIMIT=$MAX_LIMIT
+          [[ "$DRY_RUN" == "true" || "$DRY_RUN" == "false" ]] || { echo "dry_run 不合法" >&2; exit 1; }
+          jq -e '
+            . as $root
+            | type == "object"
+            and keys == ["schemaVersion", "seeds", "snapshotVersion", "week"]
+            and .schemaVersion == 1
+            and (.week | type == "string" and test("^[0-9]{4}-W[0-9]{2}$"))
+            and (.snapshotVersion | type == "number" and floor == . and . >= 1)
+            and (.seeds | type == "array")
+            and all(.seeds[];
+              type == "object"
+              and keys == ["companyId", "companyName", "evidenceUrls", "id", "issueBody", "issueTitle", "kind", "labels", "missingEvidenceType", "publicContext", "reviewTarget", "snapshotVersion", "snapshotWeek", "thesisId", "thesisVersion"]
+              and (.id | type == "string" and test("^watchlist-(evidence|correction)-[0-9a-f]{20}$"))
+              and (.kind == "evidence" or .kind == "correction")
+              and (.companyId | type == "string" and length > 0)
+              and (.companyName | type == "string" and length > 0)
+              and (.thesisId | type == "string" and length > 0)
+              and (.thesisVersion | type == "number" and floor == . and . >= 1)
+              and (.missingEvidenceType | type == "string" and length > 0)
+              and (.snapshotWeek == $root.week and .snapshotVersion == $root.snapshotVersion)
+              and (.evidenceUrls | type == "array" and length > 0 and all(.[]; type == "string" and test("^https://")))
+              and (.reviewTarget | type == "string" and length > 0)
+              and (.publicContext | type == "string" and length > 0)
+              and (.issueTitle | type == "string" and length > 0)
+              and (.id as $id | .issueBody | type == "string" and contains("<!-- watchlist-review-seed:" + $id + " -->"))
+              and (.labels == ["evidence-review", (if .kind == "evidence" then "needs-evidence" else "correction" end)])
+            )
+            and (([.seeds[].id]) | length == (unique | length))
+            and ([.seeds[] | [.kind, .companyId, .thesisId, .missingEvidenceType]] as $sort_keys
+              | all(range(1; $sort_keys | length); $sort_keys[. - 1] <= $sort_keys[.]))
+          ' review/watchlist-issue-seeds.json >/dev/null
+          echo "## Watchlist public-review Issue materialization" >> "$GITHUB_STEP_SUMMARY"
+          jq -c ".seeds[:${LIMIT}][]" review/watchlist-issue-seeds.json | while IFS= read -r seed; do
             id="$(jq -r '.id' <<< "$seed")"
             title="$(jq -r '.issueTitle' <<< "$seed")"
             body="$(jq -r '.issueBody' <<< "$seed")"
-            category="$(jq -r '.category' <<< "$seed")"
-            case "$category" in
-              "信源") category_label="source-evidence" ;;
-              "研究") category_label="research-evidence" ;;
-              *) category_label="company-evidence" ;;
+            kind="$(jq -r '.kind' <<< "$seed")"
+            case "$kind" in
+              evidence) kind_label="needs-evidence" ;;
+              correction) kind_label="correction" ;;
+              *) echo "未知 Watchlist Review 种子类型" >&2; exit 1 ;;
             esac
-            existing="$(gh issue list --state all --search "review-seed:${id} in:body" --json number --jq 'length')"
+            marker="<!-- watchlist-review-seed:${id} -->"
+            existing="$(gh issue list --repo "$REPO" --state all --search "\"${marker}\" in:body" --json number --jq 'length')"
             if [[ "$existing" != "0" ]]; then
               echo "- 跳过重复：${id}" >> "$GITHUB_STEP_SUMMARY"
             elif [[ "$DRY_RUN" == "true" ]]; then
               echo "- 预览：${title}" >> "$GITHUB_STEP_SUMMARY"
             else
-              gh issue create --title "$title" --body "$body" --label "evidence-review" --label "needs-evidence" --label "$category_label"
+              gh issue create --repo "$REPO" --title "$title" --body "$body" --label "evidence-review" --label "$kind_label"
               echo "- 已创建：${title}" >> "$GITHUB_STEP_SUMMARY"
             fi
           done
@@ -124,5 +163,5 @@ jobs:
 
           感谢 @$ISSUE_AUTHOR 补充可追溯证据。本 Issue 已标记为 \`accepted-evidence\`，贡献会出现在[证据贡献者入口](https://github.com/$REPO/issues?q=is%3Aissue+label%3Aaccepted-evidence)中。
 
-          该标签只表示证据被采纳，不会把候选自动写入日报、公司档案或公开页面；公开结论仍需经过数据校验与下一次生成流程。"
+          该标签只表示证据被采纳，不会把候选自动写入日报、公司档案或公开页面；accepted evidence requires canonical promotion in a later generation before any public artifact changes."
           fi

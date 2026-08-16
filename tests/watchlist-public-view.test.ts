@@ -96,6 +96,7 @@ test("resolves one public view with canonical company names and evidence links",
   assert.deepEqual(view.companyIds, ["company-alpha"]);
   assert.equal(view.validatedMomentum[0]?.companyName, "Alpha Robotics");
   assert.equal(view.validatedMomentum[0]?.lifecycleLabel, "新进入");
+  assert.deepEqual(view.validatedMomentum[0]?.routes, ["VLA 与具身模型"]);
   assert.deepEqual(view.validatedMomentum[0]?.evidenceLinks, [{
     eventId: "event-alpha",
     title: "Alpha Robotics 发布 Atlas-X",
