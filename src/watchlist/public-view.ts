@@ -1,5 +1,5 @@
 import { derivePublication } from "../facts-contract.js";
-import type { CompanyProfile, EventRecord } from "../types.js";
+import type { CompanyProfile, EventRecord, TechnicalRoute } from "../types.js";
 import {
   isCanonicalTimestamp,
   isValidIsoWeek,
@@ -12,6 +12,7 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
+import { isTechnicalRoute } from "./routes.js";
 
 export interface WatchlistPublicEvidenceLink {
   eventId: string;
@@ -35,6 +36,7 @@ export interface WatchlistPublicCard {
   group: WatchlistPublicGroup;
   lifecycle: Exclude<ThesisLifecycle, "falsified" | "expired">;
   lifecycleLabel: string;
+  routes: TechnicalRoute[];
   whyNow: string;
   routeAndDependencies: string;
   nextValidationPoints: Array<{ text: string; dueAt: string }>;
@@ -77,10 +79,11 @@ const LIFECYCLE_LABELS: Record<Exclude<ThesisLifecycle, "falsified" | "expired">
 };
 
 const VIEW_KEYS = new Set(["week", "snapshotVersion", "methodologyVersion", "lastSuccessfulAt", "companyIds", "forwardRadar", "validatedMomentum", "changes"]);
-const CARD_KEYS = new Set(["companyId", "companyName", "thesisId", "thesisVersion", "track", "group", "lifecycle", "lifecycleLabel", "whyNow", "routeAndDependencies", "nextValidationPoints", "falsifiers", "evidenceLinks", "capital"]);
+const CARD_KEYS = new Set(["companyId", "companyName", "thesisId", "thesisVersion", "track", "group", "lifecycle", "lifecycleLabel", "routes", "whyNow", "routeAndDependencies", "nextValidationPoints", "falsifiers", "evidenceLinks", "capital"]);
 const EVIDENCE_KEYS = new Set(["eventId", "title", "url", "source", "grade"]);
 const CAPITAL_KEYS = new Set(["status", "summary"]);
 const CHANGE_KEYS = new Set(["companyId", "companyName", "change"]);
+const PRIVATE_PUBLIC_TEXT = /\b(?:score|rank)\b|分数|排名|内部诊断|候选(?:ID|标识)/i;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -93,6 +96,20 @@ function hasExactKeys(value: Record<string, unknown>, keys: Set<string>): boolea
 
 function nonEmpty(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+/** Reject private diagnostics from any value that crosses the public Watchlist boundary. */
+export function assertNoPrivateWatchlistContent(value: unknown): void {
+  if (typeof value === "string") {
+    if (/\bcandidate-[a-f0-9]{8,}\b/i.test(value)) throw new Error("Watchlist 公开产物包含候选标识");
+    if (PRIVATE_PUBLIC_TEXT.test(value)) throw new Error("Watchlist 公开产物包含私有诊断、分数或排名");
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach(assertNoPrivateWatchlistContent);
+    return;
+  }
+  if (isObject(value)) Object.values(value).forEach(assertNoPrivateWatchlistContent);
 }
 
 function validDate(value: unknown): value is string {
@@ -132,6 +149,12 @@ function validCapital(value: unknown): boolean {
   return value.status === "verified";
 }
 
+function validRoutes(value: unknown): value is TechnicalRoute[] {
+  return Array.isArray(value) && value.length > 0 && value.every(isTechnicalRoute)
+    && new Set(value).size === value.length
+    && value.every((route, index) => index === 0 || value[index - 1]! < route);
+}
+
 function validCard(value: unknown, expectedTrack: WatchlistTrack): value is WatchlistPublicCard {
   if (!isObject(value) || !hasExactKeys(value, CARD_KEYS)) return false;
   const lifecycle = value.lifecycle;
@@ -141,6 +164,7 @@ function validCard(value: unknown, expectedTrack: WatchlistTrack): value is Watc
     && value.track === expectedTrack
     && (value.group === "priority-focus" || value.group === "continued-observation")
     && value.lifecycleLabel === LIFECYCLE_LABELS[lifecycle]
+    && validRoutes(value.routes)
     && nonEmpty(value.whyNow) && nonEmpty(value.routeAndDependencies)
     && Array.isArray(value.nextValidationPoints) && value.nextValidationPoints.length > 0 && value.nextValidationPoints.every(validValidationPoint)
     && Array.isArray(value.falsifiers) && value.falsifiers.length > 0 && value.falsifiers.every(validFalsifier)
@@ -266,6 +290,9 @@ function resolveCard(
   const thesis = resolveThesis(entry, track, theses, now);
   const company = resolveCompany(entry.companyId, companies);
   const resolvedEvidence = evidenceLinks(thesis, company, events);
+  const routes = [...new Set(company.routes)];
+  if (!routes.length || !routes.every(isTechnicalRoute)) throw new Error(`Watchlist 缺少规范技术路线：${company.entityId ?? company.name}`);
+  routes.sort((left, right) => left < right ? -1 : left > right ? 1 : 0);
   return {
     companyId: entry.companyId,
     companyName: company.name,
@@ -275,6 +302,7 @@ function resolveCard(
     group: entry.group,
     lifecycle: thesis.lifecycle,
     lifecycleLabel: LIFECYCLE_LABELS[thesis.lifecycle],
+    routes,
     whyNow: thesis.whyNow,
     routeAndDependencies: thesis.routeAndDependencies,
     nextValidationPoints: thesis.nextValidationPoints.map((point) => ({ ...point })),

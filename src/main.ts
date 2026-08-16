@@ -66,6 +66,7 @@ import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type Watchl
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
@@ -743,7 +744,7 @@ async function generate(): Promise<void> {
     previousCompleteResearchCount: previousPublicRecords.length,
     watchlist: watchlistRelease,
   });
-  await stageWatchlistRelease({ transaction, root, ...watchlistRelease });
+  await stageWatchlistRelease({ transaction, root, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
   const finishedAt = new Date();
   const runManifest: RunManifest = {
     schemaVersion: 1,

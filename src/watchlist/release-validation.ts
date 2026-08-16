@@ -12,8 +12,9 @@ import {
   type WatchlistSnapshotEntry,
   type WatchlistTrack,
 } from "./contracts.js";
-import { validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
+import { assertNoPrivateWatchlistContent, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
+import { stageWatchlistFeeds } from "./feeds.js";
 
 export interface WatchlistReleaseValidationInput {
   snapshot: WatchlistSnapshot;
@@ -123,6 +124,10 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   assertNoPrivateKeys(input.history ?? [], "history");
   assertNoPrivateKeys(input.theses, "theses");
   if (isObject(input.dashboard)) assertNoPrivateKeys(input.dashboard.watchlist, "dashboard.watchlist");
+  assertNoPrivateWatchlistContent(input.snapshot);
+  assertNoPrivateWatchlistContent(input.history ?? []);
+  assertNoPrivateWatchlistContent(input.theses);
+  if (isObject(input.dashboard)) assertNoPrivateWatchlistContent(input.dashboard.watchlist);
   const dashboardView = publicView(input.dashboard);
   if (PRIVATE_TEXT.test(input.readme)) throw new Error("Watchlist README 包含私有诊断、分数或排名");
   if (!validateWatchlistSnapshotShape(input.snapshot)) throw new Error("Watchlist 公开快照结构不合法");
@@ -245,6 +250,7 @@ export function mergeWatchlistThesisArtifact(input: MergeWatchlistThesisArtifact
 export interface StageWatchlistReleaseInput extends WatchlistReleaseValidationInput {
   transaction: Pick<FileTransaction, "stage">;
   root: string;
+  feeds?: { baseUrl: string };
 }
 
 export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): Promise<void> {
@@ -267,4 +273,7 @@ export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): 
   if (existingHistory === undefined) input.transaction.stage(historyPath, historyBytes);
   input.transaction.stage(join(input.root, "site", "data", "dashboard.json"), stableBytes(input.dashboard));
   input.transaction.stage(join(input.root, "README.md"), input.readme);
+  if (input.feeds) {
+    stageWatchlistFeeds({ transaction: input.transaction, root: input.root, view: publicView(input.dashboard), baseUrl: input.feeds.baseUrl });
+  }
 }

@@ -66,6 +66,7 @@ function view(overrides: Partial<WatchlistPublicView> = {}): WatchlistPublicView
     group: "priority-focus",
     lifecycle: "new",
     lifecycleLabel: "新进入",
+    routes: ["VLA 与具身模型"],
     whyNow: "AI 研究判断：Alpha Robotics 出现新的规范事实。",
     routeAndDependencies: "AI 研究判断：路线依赖后续真实部署验证。",
     nextValidationPoints: [{ text: "核验后续真实部署。", dueAt: "2026-10-01" }],
@@ -155,6 +156,7 @@ test("rejects malformed public cards and cards without qualifying evidence links
     { ...baseCard, track: "validated-momentum" },
     { ...baseCard, group: "private" },
     { ...baseCard, lifecycle: "falsified" },
+    { ...baseCard, routes: [] },
     { ...baseCard, nextValidationPoints: [] },
     { ...baseCard, falsifiers: [] },
     { ...baseCard, capital: { status: "evidence-insufficient", summary: "unknown" } },
@@ -212,6 +214,9 @@ test("rejects public score, rank, candidate id and private diagnostics leakage",
     snapshot: snapshot({ forwardRadar: [{ ...snapshot().forwardRadar[0]!, companyId: "candidate-03950aa949fb" }] }),
   })), /候选标识/);
   assert.throws(() => validateWatchlistRelease(release({ readme: `${readme()}\n内部 rank: 1` })), /私有诊断|分数|排名/);
+  assert.throws(() => validateWatchlistRelease(release({
+    dashboard: { watchlist: view({ forwardRadar: [{ ...view().forwardRadar[0]!, whyNow: "AI 研究判断：score 99。" }] }) },
+  })), /私有诊断|分数|排名/);
 });
 
 test("rejects falsified and expired selected theses", () => {
@@ -264,6 +269,37 @@ test("an invalid staged snapshot leaves every public artifact unchanged", async 
     }), /周.*不一致/);
     await transaction.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("stages snapshot-identified feeds and their manifest in the release transaction", async () => {
+  const root = await mkdtemp(join(tmpdir(), "watchlist-release-feeds-"));
+  try {
+    const transaction = new FileTransaction("watchlist-release-feeds");
+    await stageWatchlistRelease({
+      transaction,
+      root,
+      ...release(),
+      feeds: { baseUrl: "https://example.test/physical-ai-news-cn" },
+    });
+    assert.equal(transaction.size, 12);
+    await transaction.commit();
+    assert.deepEqual(JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8")), {
+      schemaVersion: 1,
+      snapshotWeek: "2026-W34",
+      snapshotVersion: 1,
+      companyFeedIds: ["company-alpha"],
+      companyFeeds: [{ companyId: "company-alpha", path: "feeds/companies/company-alpha.xml" }],
+      routeFeeds: [
+        { route: "数据与训练", slug: "data-and-training", path: "feeds/routes/data-and-training.xml" },
+        { route: "VLA 与具身模型", slug: "vla-and-embodied-models", path: "feeds/routes/vla-and-embodied-models.xml" },
+        { route: "世界模型与空间智能", slug: "world-models-and-spatial-intelligence", path: "feeds/routes/world-models-and-spatial-intelligence.xml" },
+        { route: "本体与硬件", slug: "embodiment-and-hardware", path: "feeds/routes/embodiment-and-hardware.xml" },
+        { route: "部署与商业化", slug: "deployment-and-commercialization", path: "feeds/routes/deployment-and-commercialization.xml" },
+      ],
+    });
   } finally {
     await rm(root, { recursive: true, force: true });
   }

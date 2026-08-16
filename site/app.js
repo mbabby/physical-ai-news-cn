@@ -364,6 +364,11 @@ const watchlistChangeLabels = {
 
 const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
 const validValidationDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+const watchlistRoutes = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
+const validWatchlistRoutes = (value) => Array.isArray(value) && value.length > 0
+  && value.every((route) => watchlistRoutes.includes(route))
+  && new Set(value).size === value.length
+  && value.every((route, index) => index === 0 || value[index - 1] < route);
 
 function validWatchlistCard(item, track) {
   return Boolean(item) && typeof item === "object"
@@ -371,7 +376,7 @@ function validWatchlistCard(item, track) {
     && item.track === track
     && (item.group === "priority-focus" || item.group === "continued-observation")
     && ["new", "strengthening", "awaiting-validation", "downgraded"].includes(item.lifecycle)
-    && nonEmpty(item.lifecycleLabel) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
+    && nonEmpty(item.lifecycleLabel) && validWatchlistRoutes(item.routes) && nonEmpty(item.whyNow) && nonEmpty(item.routeAndDependencies)
     && Array.isArray(item.nextValidationPoints) && item.nextValidationPoints.every((point) => point && typeof point === "object" && nonEmpty(point.text) && validValidationDate(point.dueAt))
     && Array.isArray(item.falsifiers) && item.falsifiers.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.text))
     && Array.isArray(item.evidenceLinks) && item.evidenceLinks.every((entry) => entry && typeof entry === "object" && nonEmpty(entry.eventId) && nonEmpty(entry.title) && nonEmpty(entry.url) && nonEmpty(entry.source) && (entry.grade === "A" || entry.grade === "B"))

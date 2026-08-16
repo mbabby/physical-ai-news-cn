@@ -93,6 +93,7 @@ const publicWatchlist = {
   forwardRadar: [{
     companyId: 'company-alpha\" onclick=\"alert(1)', companyName: "Alpha <Robotics>", thesisId: "thesis-alpha", thesisVersion: 1,
     track: "forward-radar", group: "continued-observation", lifecycle: "awaiting-validation", lifecycleLabel: "等待验证",
+    routes: ["VLA 与具身模型"],
     whyNow: "一段很长的中文研究判断，用于确认内容不会被截断并且能够在窄屏内自然换行。", routeAndDependencies: "依赖后续部署验证。",
     nextValidationPoints: [{ text: "核验客户部署。", dueAt: "2026-10-01" }], falsifiers: [{ text: "公开部署被撤回。" }],
     evidenceLinks: [{ eventId: "event-alpha", title: "Alpha 发布产品", url: "javascript:alert(1)", source: "Alpha 官方", grade: "A" }],
@@ -100,6 +101,7 @@ const publicWatchlist = {
   }, {
     companyId: "company-beta", companyName: "Beta Robotics", thesisId: "thesis-beta", thesisVersion: 1,
     track: "forward-radar", group: "priority-focus", lifecycle: "new", lifecycleLabel: "新进入", whyNow: "出现新的规范事实。",
+    routes: ["部署与商业化"],
     routeAndDependencies: "依赖供应链。", nextValidationPoints: [{ text: "核验量产。", dueAt: "2026-09-01" }],
     falsifiers: [{ text: "项目终止。" }], evidenceLinks: [{ eventId: "event-beta", title: "Beta 发布产品", url: "https://beta.example/product", source: "Beta 官方", grade: "A" }],
     capital: { status: "verified", summary: "A 轮 · 金额未披露" }, score: 98, rank: 2,
@@ -149,6 +151,10 @@ test("homepage distinguishes absent, malformed and intentionally empty watchlist
   subtlyMalformed.renderCompanySection({ watchlist: { ...publicWatchlist, snapshotVersion: "2", forwardRadar: [{ companyId: "company-alpha" }] } });
   assert.match(subtlyMalformed.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/);
   assert.doesNotMatch(subtlyMalformed.mounts["watchlist-forward"].innerHTML, /待识别公司/);
+
+  const missingRoutes = await loadAppCompanyRenderer();
+  missingRoutes.renderCompanySection({ watchlist: { ...publicWatchlist, forwardRadar: [{ ...publicWatchlist.forwardRadar[0], routes: [] }] } });
+  assert.match(missingRoutes.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/);
 
   const empty = await loadAppCompanyRenderer();
   empty.renderCompanySection({ watchlist: { ...publicWatchlist, companyIds: [], forwardRadar: [], validatedMomentum: [], changes: [] } });
