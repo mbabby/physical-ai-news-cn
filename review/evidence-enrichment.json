@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T00:59:26.984Z",
+  "generatedAt": "2026-08-16T06:29:51.606Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -67,7 +67,7 @@
   "budget": {
     "maxPlansPerRun": 20,
     "attemptedPlans": 20,
-    "deferredPlans": 16,
+    "deferredPlans": 11,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -745,10 +745,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -842,10 +842,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1529,6 +1529,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-fe45e50559f7d71eb254",
+      "recordId": "verify-345122fa626d54",
+      "companyName": "中国创企Infiforce",
+      "eventKind": "投融资",
+      "fingerprint": "4176f97ecf754edea9c9",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-9047bb403ce96964b7e9",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-20a2a448b053b731c735",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b40962cac1c349115ed1",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-c42436234c9585bb1406",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2146a33793258fee020d",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-52e2da77f2ca4cfb23f8",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"中国创企Infiforce\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-16T06:29:51.606Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-17T06:29:51.606Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-1a345afc7f8be2e03a25",
       "recordId": "verify-55772134962822",
       "companyName": "DISCOVER Robotics 与 PokeBot 各",
@@ -1715,10 +1812,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1913,103 +2010,6 @@
       "createdAt": "2026-08-10T11:44:36.399Z",
       "lastAttemptAt": "2026-08-16T00:59:26.984Z",
       "nextAttemptAt": "2026-08-23T00:59:26.984Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-230f35f46c80a2712065",
-      "recordId": "verify-9275145f3f8c6a",
-      "companyName": "中国公司Infiforce",
-      "eventKind": "投融资",
-      "fingerprint": "4176f97ecf754edea9c9",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 88,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-9772bd471487abf77044",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-8aea5c510e1567bf9abc",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-c8b71a8dc49494028e9e",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-0e75b9c93d414daaa975",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-654500eb9d161c6661b7",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-cb401ec33b90310da094",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"中国公司Infiforce\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-16T00:59:26.984Z",
-      "lastAttemptAt": "2026-08-16T00:59:26.984Z",
-      "nextAttemptAt": "2026-08-17T00:59:26.984Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2588,10 +2588,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
-      "nextAttemptAt": "2026-08-16T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-19T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2685,10 +2685,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2782,10 +2782,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-15T00:56:36.655Z",
-      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
-      "nextAttemptAt": "2026-08-16T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-19T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2879,10 +2879,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
-      "nextAttemptAt": "2026-08-16T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-19T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2976,10 +2976,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3073,10 +3073,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3170,10 +3170,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
-      "nextAttemptAt": "2026-08-16T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-19T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3267,10 +3267,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-11T01:17:10.261Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3558,10 +3558,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3655,10 +3655,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-11T01:17:10.261Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3752,10 +3752,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-15T00:56:36.655Z",
-      "lastAttemptAt": "2026-08-15T00:56:36.655Z",
-      "nextAttemptAt": "2026-08-16T00:56:36.655Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-19T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3849,10 +3849,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3946,10 +3946,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4041,10 +4041,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4138,10 +4138,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4235,10 +4235,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-13T01:27:08.249Z",
-      "nextAttemptAt": "2026-08-16T01:27:08.249Z",
+      "lastAttemptAt": "2026-08-16T06:29:51.606Z",
+      "nextAttemptAt": "2026-08-23T06:29:51.606Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4629,27 +4629,6 @@
       "nextAttemptAt": "2026-08-15T03:42:35.045Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-14c9bdb92f32b9de1540",
-      "recordId": "verify-565c964bb4ea50",
-      "companyName": "医疗机器人企业Vexev",
-      "eventKind": "投融资",
-      "fingerprint": "4d631183c7635f98d64a",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 70,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
-      "createdAt": "2026-08-16T00:59:26.984Z",
-      "nextAttemptAt": "2026-08-16T00:59:26.984Z",
-      "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
     },
     {
       "id": "plan-0b93238889b118ffdd8b",

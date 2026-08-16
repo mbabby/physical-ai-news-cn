@@ -41,7 +41,7 @@
 ## Eurobotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMigAFBVV95cUxNTHAwb2JkOU5uOVlHdzhLWVljdGJJRnFqdU9jdFp4dWJ6TTZwR2tmeXNzZWV3V2Jial9zVU1vUnF1UlA5SC1mMlFaMWpoWDRoMkVqdnppNHBqQV82OEJRQmFuQlJ1Sm1pU1h4Zng4cHRPcnFTa0tQTmRRb0t0aXlJdNIBlAFBVV95cUxNblZ2bUJZYmNhaEpFYnVwUjlDMzBVU2k1VDZ6d09LdGthb0lWLXZya1U0Sm1HRmZoTVVLQkUwR0NFdDBUTUZ2ZG1UZWR2c084T3pKNy1oR2ZXS0V5UWZWcTk5d3BMZVEyUnA3b2VzN3duTG5kTlg2aEFiUlhYWXRVQzNjNUhUNGNITHlCdkVCeHpjOW9T?oc=5)
@@ -68,7 +68,7 @@
 ## 防务无人机开发商 Cambridge Aerospace · 投融资 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 91
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：3亿美元（single-source） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/defense-drone-developer-cambridge-aerospace-raises-300m/)
@@ -149,7 +149,7 @@
 ## 广汽旗下人形机器人公司 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxPVmhPUnRhMDNsMW96VXlUMmQ5UnFVbGJMZXJIbU1jaUpuVTRKVlBIYkljVzNnS1VWSFFDd3hnQ2NfbG1pcTVSU284NXVXaHdHY2NrbVkxUjN5Snp3R1VSWUxqMjhDU0JwU05kQXFlZGowTlo4UzgzbU10RnA3VEQ3bUhxdk9CbVpaZHZvaA?oc=5)
@@ -200,7 +200,7 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 中国公司Infiforce · 投融资 · 等待重试
+## 中国创企Infiforce · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
 - 尝试：1；下次复核 2026-08-17
@@ -560,15 +560,6 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMieEFVX3lxTE1BX2VEblllbnEzanZxWGpvS3g3bk8wMHptOTRGc3FuODZKb1ZWQm04dGd3Y2hxXzJseHgxWUF2aWxaWGR2alhqRjBsQU1FZDh4bHNrSUtSb2ZQdld1WGdPYUs5NXZUaDB3bThneENrZzRGaGNjZjlYdg?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 医疗机器人企业Vexev · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-08-17
-- 主动补证：尚未执行
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMia0FVX3lxTE55UW82c0hTUjBhbl9McW0wY1VabXp3MVhkeG1hUkIzTVk3NjI0X21nMVpVaGtiYXRyUVlVYW1fX1VPVFBWc1FmSWlUOVdGcVdxTkNJRzFvNmtFVlRYVzdHbTNDckhRdzQtQWE0?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
 ## 用VR头显远程操控仓库机器人，Avatar Robotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -590,7 +581,7 @@
 ## 中科芯知 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxQYjJqQmFBOUN2VU9kWWoxNEdncXlXUy0waUEtaWo5Q25sMDhEbXpUMlV5a19QWkJGMDRlM3VjRnFlb1N0TTh3eWNnUFhwclRxTkVRSW9fRHd3STdpRUhqZ0F1bGUxMTluY3JUbV9vNTEwZkQ1elZwVzYzaS1JallXSTVqbDA4V3I5Y3JpWA?oc=5)
@@ -707,7 +698,7 @@
 ## 网络研讨会探讨仓库机器人车队的安全与规模化 · 部署案例 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 61
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/webinar-to-discuss-safety-scaling-robot-fleets-warehouse/)
@@ -779,7 +770,7 @@
 ## PlusAI 在自动驾驶卡车 · 产品发布 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 55
-- 尝试：2；下次复核 2026-08-16
+- 尝试：3；下次复核 2026-08-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/plusai-reaches-key-milestones-ahead-launch-autonomous-trucks/)

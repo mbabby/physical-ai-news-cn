@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T01:03:57.247Z",
+  "generatedAt": "2026-08-16T06:33:28.539Z",
   "domains": {
     "industry": {
       "expected": 1,
-      "observed": 103,
+      "observed": 102,
       "evidenceReady": 2,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0.0194,
+      "evidenceReadyRate": 0.0196,
       "status": "degraded",
       "gaps": [
-        "101 个观测尚未达到证据门槛",
+        "100 个观测尚未达到证据门槛",
         "事件缺少 A 级或两个独立 B 级证据",
         "尚缺一条 A 级一手证据，或两个独立 B 级来源",
         "无法唯一识别公司主体",
@@ -20,14 +20,14 @@
     },
     "funding": {
       "expected": 1,
-      "observed": 69,
+      "observed": 68,
       "evidenceReady": 0,
       "failureCount": 0,
       "coverageRate": 1,
       "evidenceReadyRate": 0,
       "status": "degraded",
       "gaps": [
-        "69 个观测尚未达到证据门槛",
+        "68 个观测尚未达到证据门槛",
         "尚缺一条 A 级一手证据，或两个独立 B 级来源",
         "无法唯一识别公司主体",
         "现有材料全部来自线索发现层，不能作为公开证据"
@@ -60,14 +60,14 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 8,
-      "evidenceReady": 8,
-      "failureCount": 2,
+      "observed": 7,
+      "evidenceReady": 7,
+      "failureCount": 3,
       "coverageRate": 1,
       "evidenceReadyRate": 1,
       "status": "degraded",
       "gaps": [
-        "2 个采集或服务失败",
+        "3 个采集或服务失败",
         "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
       ]
     },
@@ -1575,52 +1575,6 @@
     },
     {
       "dimension": "company",
-      "key": "医疗机器人企业Vexev",
-      "domains": {
-        "industry": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "funding": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        }
-      },
-      "total": {
-        "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
-        "failureCount": 0,
-        "evidenceReadyRate": 0,
-        "status": "degraded",
-        "gaps": [
-          "1 个观测尚未达到证据门槛",
-          "2 个观测尚未达到证据门槛",
-          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-          "现有材料全部来自线索发现层，不能作为公开证据"
-        ]
-      }
-    },
-    {
-      "dimension": "company",
       "key": "用VR头显远程操控仓库机器人，Avatar Robotics",
       "domains": {
         "industry": {
@@ -1759,7 +1713,7 @@
     },
     {
       "dimension": "company",
-      "key": "中国公司Infiforce",
+      "key": "中国创企Infiforce",
       "domains": {
         "industry": {
           "expected": 0,
@@ -4149,13 +4103,13 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 69,
+          "observed": 68,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "69 个观测尚未达到证据门槛",
+            "68 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -4163,13 +4117,13 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 69,
+          "observed": 68,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "69 个观测尚未达到证据门槛",
+            "68 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -4178,14 +4132,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 138,
+        "observed": 136,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "138 个观测尚未达到证据门槛",
-          "69 个观测尚未达到证据门槛",
+          "136 个观测尚未达到证据门槛",
+          "68 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体",
           "现有材料全部来自线索发现层，不能作为公开证据"
@@ -4334,20 +4288,6 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 65,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "65 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "无法唯一识别公司主体",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "funding": {
-          "expected": 0,
           "observed": 64,
           "evidenceReady": 0,
           "failureCount": 0,
@@ -4355,6 +4295,20 @@
           "status": "degraded",
           "gaps": [
             "64 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "无法唯一识别公司主体",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 63,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "63 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -4375,16 +4329,16 @@
       },
       "total": {
         "expected": 0,
-        "observed": 130,
+        "observed": 128,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
-          "130 个观测尚未达到证据门槛",
+          "128 个观测尚未达到证据门槛",
+          "63 个观测尚未达到证据门槛",
           "64 个观测尚未达到证据门槛",
-          "65 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体",
           "现有材料全部来自线索发现层，不能作为公开证据"
@@ -4402,6 +4356,6 @@
       "llm",
       "release"
     ],
-    "coverageGapCount": 89
+    "coverageGapCount": 88
   }
 }
