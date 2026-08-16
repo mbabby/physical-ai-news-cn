@@ -205,7 +205,7 @@ export function buildRouteFeed(view: WatchlistPublicView, route: TechnicalRoute,
   return rss(`${route} · Watchlist`, `${normalizedBaseUrl}/#watchlist-route-${slug}`, description, items);
 }
 
-function manifest(view: WatchlistPublicView): WatchlistFeedManifest {
+export function buildWatchlistFeedManifest(view: WatchlistPublicView): WatchlistFeedManifest {
   const ids = companyFeedIds(view);
   return {
     schemaVersion: 1,
@@ -220,7 +220,7 @@ function manifest(view: WatchlistPublicView): WatchlistFeedManifest {
 /** Fail closed if the authoritative manifest no longer lists the complete current feed set. */
 export function validateWatchlistFeedManifest(view: WatchlistPublicView, value: unknown): asserts value is WatchlistFeedManifest {
   assertPublicView(view);
-  const expected = manifest(view);
+  const expected = buildWatchlistFeedManifest(view);
   if (JSON.stringify(value) !== JSON.stringify(expected)) {
     throw new Error("Watchlist Feed manifest 与当前公开快照路径或数量不一致");
   }
@@ -230,7 +230,7 @@ export function validateWatchlistFeedManifest(view: WatchlistPublicView, value: 
 export function stageWatchlistFeeds(input: StageWatchlistFeedsInput): void {
   assertPublicView(input.view);
   const normalizedBaseUrl = normalizeBaseUrl(input.baseUrl);
-  const output = manifest(input.view);
+  const output = buildWatchlistFeedManifest(input.view);
   validateWatchlistFeedManifest(input.view, output);
   for (const companyId of output.companyFeedIds) {
     input.transaction.stage(join(input.root, "site", "feeds", "companies", `${companyId}.xml`), buildCompanyFeed(input.view, companyId, normalizedBaseUrl));

@@ -15,8 +15,9 @@ import {
 } from "./contracts.js";
 import { assertNoPrivateWatchlistContent, buildWatchlistPublicView, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
-import { stageWatchlistFeeds } from "./feeds.js";
+import { buildWatchlistFeedManifest, stageWatchlistFeeds } from "./feeds.js";
 import { buildWatchlistChangePage, stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
+import { buildWatchlistMetrics, stageWatchlistMetrics, validateWatchlistMetrics, type WatchlistMetrics } from "./metrics.js";
 
 export interface WatchlistReleaseValidationInput {
   snapshot: WatchlistSnapshot;
@@ -24,6 +25,7 @@ export interface WatchlistReleaseValidationInput {
   dashboard: unknown;
   readme: string;
   changePage: WatchlistChangePage;
+  metrics: WatchlistMetrics;
   companies: CompanyProfile[];
   events: EventRecord[];
   history?: WatchlistSnapshot[];
@@ -264,6 +266,23 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
     || publicCards.some((card) => !card.whyNow.startsWith("AI 研究判断") || !card.routeAndDependencies.startsWith("AI 研究判断"))) {
     throw new Error("Watchlist 公开产物缺少可见的“AI 研究判断”披露");
   }
+  validateWatchlistMetrics(input.metrics);
+  if (input.metrics.snapshot.week !== input.snapshot.week
+    || input.metrics.snapshot.snapshotVersion !== input.snapshot.snapshotVersion
+    || input.metrics.snapshot.generatedAt !== input.snapshot.generatedAt) {
+    throw new Error("Watchlist 指标与快照身份不一致");
+  }
+  const expectedMetrics = buildWatchlistMetrics({
+    snapshot: input.snapshot,
+    theses: input.theses,
+    view: dashboardView,
+    changePage: input.changePage,
+    feeds: buildWatchlistFeedManifest(dashboardView),
+    readme: input.readme,
+  });
+  if (stableBytes(input.metrics) !== stableBytes(expectedMetrics)) {
+    throw new Error("Watchlist 指标未由规范公开工件确定性构建");
+  }
 }
 
 export interface MergeWatchlistThesisArtifactInput {
@@ -332,4 +351,5 @@ export async function stageWatchlistRelease(input: StageWatchlistReleaseInput): 
   input.transaction.stage(join(input.root, "README.md"), input.readme);
   stageWatchlistFeeds({ transaction: input.transaction, root: input.root, view: publicView(input.dashboard), baseUrl: input.feeds.baseUrl });
   stageWatchlistChangePage({ transaction: input.transaction, root: input.root, artifact: input.changePage });
+  stageWatchlistMetrics({ transaction: input.transaction, root: input.root, metrics: input.metrics });
 }

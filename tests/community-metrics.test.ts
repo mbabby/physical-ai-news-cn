@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rename, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -22,7 +22,7 @@ test("collects public repository metrics without sending an authorization header
   const metrics = await collectCommunityMetrics({ repository: "example/project", token: "", fetchImpl, now: new Date("2026-08-09T00:00:00Z") });
 
   assert.deepEqual(metrics.repository, { stars: 42, forks: 7, subscribers: 5, openIssues: 3 });
-  assert.deepEqual(metrics.traffic, { status: "unavailable", referrers: [] });
+  assert.deepEqual(metrics.traffic, { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null });
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: [], count: 1 });
   assert.ok(requests.every((request) => request.authorization === undefined));
 });
@@ -63,7 +63,7 @@ test("degrades privileged failures and preserves last public metrics when GitHub
   const metrics = await collectCommunityMetrics({ repository: "example/project", token: "secret-token", fetchImpl, previous });
 
   assert.deepEqual(metrics.repository, previous.repository);
-  assert.deepEqual(metrics.traffic, { status: "unavailable", referrers: [] });
+  assert.deepEqual(metrics.traffic, { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null });
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: ["bob"], count: 2 });
 });
 
@@ -82,6 +82,39 @@ test("writes the same stable contract to metrics and public site data", async ()
   assert.deepEqual(canonical, metrics);
   assert.deepEqual(publicCopy, metrics);
   assert.deepEqual(Object.keys(metrics), ["generatedAt", "repository", "traffic", "contributors"]);
+});
+
+test("restores both community mirrors when the second public swap fails", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-metrics-rollback-"));
+  const canonicalPath = join(root, "metrics/community.json");
+  const publicPath = join(root, "site/data/community.json");
+  await Promise.all([mkdir(join(root, "metrics"), { recursive: true }), mkdir(join(root, "site/data"), { recursive: true })]);
+  await Promise.all([
+    writeFile(canonicalPath, "last-known-good:canonical\n", "utf8"),
+    writeFile(publicPath, "last-known-good:public\n", "utf8"),
+  ]);
+  const fetchImpl = async (input: string | URL | Request) => {
+    const url = String(input);
+    if (url.endsWith("/contributors?per_page=100&anon=false")) return response([]);
+    if (url.endsWith("/repos/example/project")) return response({ stargazers_count: 2, forks_count: 1, subscribers_count: 0, open_issues_count: 0 });
+    return response({}, 404);
+  };
+
+  await assert.rejects(
+    () => runCommunityMetrics({
+      root,
+      repository: "example/project",
+      token: "",
+      fetchImpl,
+      renameImpl: async (source: string, target: string) => {
+        if (target === publicPath && source.includes(".tmp-")) throw new Error("injected second swap failure");
+        await rename(source, target);
+      },
+    }),
+    /rolled back|回滚/i,
+  );
+  assert.equal(await readFile(canonicalPath, "utf8"), "last-known-good:canonical\n");
+  assert.equal(await readFile(publicPath, "utf8"), "last-known-good:public\n");
 });
 
 test("workflow schedules refreshes and explicitly deploys token-authored commits", async () => {

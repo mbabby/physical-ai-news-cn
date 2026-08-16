@@ -12,6 +12,7 @@ import { validateWatchlistPreviewArtifact, validateWatchlistPreviewRelease, type
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { validateCurrentWatchlistHistoryFiles, validateWatchlistRelease } from "./watchlist/release-validation.js";
 import { validateWatchlistChangePage, type WatchlistChangePage } from "./watchlist/change-page.js";
+import { validateWatchlistMetrics, type WatchlistMetrics } from "./watchlist/metrics.js";
 import type { DashboardData } from "./site-data.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -40,7 +41,15 @@ async function main(): Promise<void> {
       return false;
     }
   } });
-  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage) throw new Error("发布产物不完整");
+  const watchlistMetrics = await readJsonStrict<WatchlistMetrics>(join(root, "metrics", "watchlist.json"), { label: "公开 Watchlist 指标", validate: (value): value is WatchlistMetrics => {
+    try {
+      validateWatchlistMetrics(value);
+      return true;
+    } catch {
+      return false;
+    }
+  } });
+  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage || !watchlistMetrics) throw new Error("发布产物不完整");
   await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
   const watchlistHistory = await Promise.all(historyFiles.map((file) => readJsonStrict<WatchlistSnapshot>(join(root, "watchlist", "history", file), {
@@ -65,6 +74,7 @@ async function main(): Promise<void> {
     dashboard,
     readme,
     changePage: watchlistChangePage,
+    metrics: watchlistMetrics,
     companies,
     events: events.events,
     history: watchlistHistory as WatchlistSnapshot[],

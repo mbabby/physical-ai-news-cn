@@ -14,6 +14,8 @@ import {
 } from "../src/watchlist/release-validation.js";
 import { buildWatchlistPublicView, type WatchlistPublicView } from "../src/watchlist/public-view.js";
 import { buildWatchlistChangePage, type WatchlistChangePage } from "../src/watchlist/change-page.js";
+import { buildWatchlistMetrics } from "../src/watchlist/metrics.js";
+import { buildWatchlistFeedManifest } from "../src/watchlist/feeds.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
 const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
@@ -150,7 +152,7 @@ function readme(): string {
 }
 
 function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[0]> = {}) {
-  return {
+  const candidate = {
     snapshot: snapshot(),
     theses: artifact(),
     dashboard: { watchlist: view() },
@@ -160,6 +162,28 @@ function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[
     events: canonicalEvents(),
     ...overrides,
   };
+  let metrics = buildWatchlistMetrics({
+    snapshot: snapshot(),
+    theses: artifact(),
+    view: view(),
+    changePage: changePage(),
+    feeds: buildWatchlistFeedManifest(view()),
+    readme: readme(),
+  });
+  try {
+    metrics = buildWatchlistMetrics({
+      snapshot: candidate.snapshot,
+      theses: candidate.theses,
+      view: (candidate.dashboard as { watchlist: WatchlistPublicView }).watchlist,
+      changePage: candidate.changePage,
+      feeds: buildWatchlistFeedManifest((candidate.dashboard as { watchlist: WatchlistPublicView }).watchlist),
+      readme: candidate.readme,
+    });
+  } catch {
+    // Tests for invalid release inputs need the release validator to expose
+    // the targeted public-contract failure before metrics are considered.
+  }
+  return { ...candidate, metrics: overrides.metrics ?? metrics };
 }
 
 function canonicalPeriodRelease() {
@@ -354,6 +378,20 @@ test("requires a visible AI research judgment disclosure", () => {
   })), /判断标签.*AI 研究判断/);
 });
 
+test("rejects a structurally valid metric artifact that was not derived from canonical public inputs", () => {
+  const valid = release();
+  assert.throws(() => validateWatchlistRelease({
+    ...valid,
+    metrics: {
+      ...valid.metrics,
+      productQuality: {
+        ...valid.metrics.productQuality,
+        citationCoverage: { numerator: 0, denominator: 1, value: 0 },
+      },
+    },
+  }), /指标.*规范|指标.*公开|指标.*不一致/);
+});
+
 test("an invalid staged snapshot leaves every public artifact unchanged", async () => {
   const root = await mkdtemp(join(tmpdir(), "watchlist-invalid-stage-"));
   const paths = [
@@ -415,9 +453,10 @@ test("stages snapshot-identified feeds and their manifest in the release transac
       ...release(),
       feeds: FEEDS,
     });
-    assert.equal(transaction.size, 13);
+    assert.equal(transaction.size, 14);
     await transaction.commit();
     assert.deepEqual(JSON.parse(await readFile(join(root, "site", "data", "watchlist-changes.json"), "utf8")), changePage());
+    assert.deepEqual(JSON.parse(await readFile(join(root, "metrics", "watchlist.json"), "utf8")), release().metrics);
     assert.deepEqual(JSON.parse(await readFile(join(root, "site", "feeds", "manifest.json"), "utf8")), {
       schemaVersion: 1,
       snapshotWeek: "2026-W34",
@@ -445,6 +484,7 @@ test("failure injection rolls back the whole Watchlist public group", async () =
     "watchlist/history/2026-W34-v1.json",
     "site/data/dashboard.json",
     "site/data/watchlist-changes.json",
+    "metrics/watchlist.json",
     "README.md",
   ];
   const newHistoryPath = "watchlist/history/2026-W34-v2.json";
@@ -489,17 +529,18 @@ test("immutable history rejects different bytes and accepts identical bytes idem
       "watchlist/history/2026-W34-v1.json",
       "site/data/dashboard.json",
       "site/data/watchlist-changes.json",
+      "metrics/watchlist.json",
       "README.md",
     ];
     const first = new FileTransaction("history-first-cycle");
     await stageWatchlistRelease({ transaction: first, root, ...release(), feeds: FEEDS });
-    assert.equal(first.size, 13);
+    assert.equal(first.size, 14);
     await first.commit();
     const firstBytes = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
 
     const second = new FileTransaction("history-second-cycle");
     await stageWatchlistRelease({ transaction: second, root, ...release(), feeds: FEEDS });
-    assert.equal(second.size, 12);
+    assert.equal(second.size, 13);
     await second.commit();
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), firstBytes);
     assert.equal(await readFile(historyPath, "utf8"), json(snapshot()));
