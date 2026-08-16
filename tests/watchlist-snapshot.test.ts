@@ -116,6 +116,48 @@ test("requires an explicit prior-week baseline for a changed same-week revision"
   );
 });
 
+test("requires the prior ISO week as the same-week revision baseline, including across years", () => {
+  const week34 = buildWatchlistSnapshot(input([thesis("alpha")]));
+  for (const [baselineWeek, message] of [["2026-W34", /基线/], ["2026-W35", /紧邻前一周/], ["2026-W32", /紧邻前一周/]] as const) {
+    const baseline = buildWatchlistSnapshot({ ...input([thesis("beta")]), week: baselineWeek });
+    assert.throws(
+      () => buildWatchlistSnapshot({
+        ...input([thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" })], week34),
+        previousWeekBaseline: baseline,
+      }),
+      message,
+    );
+  }
+
+  const week53 = buildWatchlistSnapshot({ ...input([thesis("alpha")]), week: "2026-W53" });
+  const week1v1 = buildWatchlistSnapshot({ ...input([thesis("alpha")], week53), week: "2027-W01" });
+  const week1v2 = buildWatchlistSnapshot({
+    ...input([thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" })], week1v1),
+    previousWeekBaseline: week53,
+    week: "2027-W01",
+  });
+  assert.equal(week1v2.snapshotVersion, 2);
+});
+
+test("a corrected baseline increments a same-week snapshot even when entries are unchanged", () => {
+  const originalWeek33 = buildWatchlistSnapshot({ ...input([]), week: "2026-W33" });
+  const week34v1 = buildWatchlistSnapshot({
+    ...input([thesis("alpha")], originalWeek33),
+    week: "2026-W34",
+    primaryRouteByCompanyId: { alpha: "route-a" },
+  });
+  const correctedWeek33 = buildWatchlistSnapshot({ ...input([thesis("alpha")]), week: "2026-W33" });
+  const week34v2 = buildWatchlistSnapshot({
+    ...input([thesis("alpha")], week34v1),
+    previousWeekBaseline: correctedWeek33,
+    primaryRouteByCompanyId: { alpha: "route-a" },
+  });
+
+  assert.notEqual(week34v2, week34v1);
+  assert.equal(week34v2.snapshotVersion, 2);
+  assert.deepEqual(week34v2.changesSinceLastWeek, []);
+});
+
 test("fails closed when selected companies reuse a thesis id", () => {
   assert.throws(
     () => buildWatchlistSnapshot(input([

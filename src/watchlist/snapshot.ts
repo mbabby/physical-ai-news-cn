@@ -35,8 +35,18 @@ function assertInput(input: BuildWatchlistSnapshotInput): number {
   if (!isValidIsoWeek(input.week)) throw new Error("Watchlist 快照周格式无效");
   if (!input.methodologyVersion.trim()) throw new Error("Watchlist 快照缺少方法论版本");
   if (!isCanonicalTimestamp(input.generatedAt) || !Number.isFinite(generatedAt)) throw new Error("Watchlist 快照时间无效");
-  if (input.previousWeekBaseline?.week === input.week) throw new Error("Watchlist 同周修订基线必须来自上一周");
+  if (input.previousWeekBaseline?.week !== undefined && input.previousWeekBaseline.week !== priorIsoWeek(input.week)) {
+    throw new Error("Watchlist 同周修订基线必须是目标周的紧邻前一周");
+  }
   return generatedAt;
+}
+
+function priorIsoWeek(week: string): string {
+  const year = Number(week.slice(0, 4));
+  const weekNumber = Number(week.slice(-2));
+  if (weekNumber > 1) return `${week.slice(0, 4)}-W${String(weekNumber - 1).padStart(2, "0")}`;
+  const priorYear = String(year - 1).padStart(4, "0");
+  return `${priorYear}-W${isValidIsoWeek(`${priorYear}-W53`) ? "53" : "52"}`;
 }
 
 function codeUnitCompare(left: string, right: string): number {
@@ -134,6 +144,7 @@ function stableIdentity(snapshot: WatchlistSnapshot): string {
     methodologyVersion: snapshot.methodologyVersion,
     forwardRadar: snapshot.forwardRadar,
     validatedMomentum: snapshot.validatedMomentum,
+    changesSinceLastWeek: snapshot.changesSinceLastWeek,
     routeShareException: snapshot.routeShareException ?? null,
   });
 }
@@ -146,6 +157,8 @@ export function buildWatchlistSnapshot(input: BuildWatchlistSnapshotInput): Watc
   const selected = [...forward, ...momentum];
   const selectedThesisIds = selected.map((thesis) => thesis.thesisId);
   if (new Set(selectedThesisIds).size !== selectedThesisIds.length) throw new Error("Watchlist 快照选择的 thesisId 重复");
+  const sameWeekRevision = input.previous?.week === input.week;
+  const baseline = input.previousWeekBaseline ?? (sameWeekRevision ? undefined : input.previous);
   const snapshot: WatchlistSnapshot = {
     week: input.week,
     snapshotVersion: input.previous?.week === input.week ? input.previous.snapshotVersion + 1 : 1,
@@ -153,13 +166,14 @@ export function buildWatchlistSnapshot(input: BuildWatchlistSnapshotInput): Watc
     generatedAt: input.generatedAt,
     forwardRadar: forward.map(entryOf),
     validatedMomentum: momentum.map(entryOf),
-    changesSinceLastWeek: [],
+    changesSinceLastWeek: baseline
+      ? changes(baseline, selected)
+      : input.previous?.changesSinceLastWeek ?? [],
   };
   const exception = routeException(selected, input.primaryRouteByCompanyId, input.routeShareExceptionReason);
   if (exception) snapshot.routeShareException = exception;
   if (input.previous?.week === input.week && stableIdentity(input.previous) === stableIdentity(snapshot)) return input.previous;
-  if (input.previous?.week === input.week && !input.previousWeekBaseline) throw new Error("Watchlist 同周修订缺少上一周基线");
-  snapshot.changesSinceLastWeek = changes(input.previousWeekBaseline ?? input.previous, selected);
+  if (sameWeekRevision && !baseline) throw new Error("Watchlist 同周修订缺少上一周基线");
   if (!validateWatchlistSnapshotShape(snapshot)) throw new Error("Watchlist 快照不符合公开契约");
   return snapshot;
 }
