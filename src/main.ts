@@ -595,18 +595,19 @@ async function generate(): Promise<void> {
     companies,
     events: eventStore.events,
   });
+  const watchlistChangePageViews = [
+    watchlistView,
+    ...watchlistHistory.map((snapshot) => buildWatchlistPublicView({
+      snapshot,
+      thesisArtifact: watchlistTheses,
+      companies,
+      events: eventStore.events,
+    })),
+  ];
   const watchlistChangePage = buildWatchlistChangePage({
     current: watchlistSnapshot,
     snapshots: [...watchlistHistory, watchlistSnapshot],
-    views: [
-      watchlistView,
-      ...watchlistHistory.map((snapshot) => buildWatchlistPublicView({
-        snapshot,
-        thesisArtifact: watchlistTheses,
-        companies,
-        events: eventStore.events,
-      })),
-    ],
+    views: watchlistChangePageViews,
   });
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
@@ -748,7 +749,7 @@ async function generate(): Promise<void> {
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(root, "README.md");
   const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, history: watchlistHistory };
+  const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, changePageViews: watchlistChangePageViews, history: watchlistHistory };
   validatePublication({
     archive,
     events: eventStore,

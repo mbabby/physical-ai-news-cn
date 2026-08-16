@@ -12,7 +12,7 @@ import {
   validateWatchlistRelease,
 } from "../src/watchlist/release-validation.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
-import type { WatchlistChangePage } from "../src/watchlist/change-page.js";
+import { buildWatchlistChangePage, type WatchlistChangePage } from "../src/watchlist/change-page.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
 const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
@@ -122,7 +122,20 @@ function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[
     dashboard: { watchlist: view() },
     readme: readme(),
     changePage: changePage(),
+    changePageViews: [view()],
     ...overrides,
+  };
+}
+
+function canonicalPeriodRelease() {
+  const previous = snapshot({ week: "2026-W33", forwardRadar: [] });
+  const previousView = view({ week: "2026-W33", companyIds: [], forwardRadar: [] });
+  const current = snapshot();
+  const currentView = view();
+  const canonical = buildWatchlistChangePage({ current, snapshots: [previous, current], views: [previousView, currentView] });
+  return {
+    ...release({ snapshot: current, dashboard: { watchlist: currentView }, history: [previous], changePage: canonical }),
+    changePageViews: [previousView, currentView],
   };
 }
 
@@ -158,6 +171,25 @@ test("requires the change-page baseline to be the immediate immutable predecesso
     history: [snapshot({ week: "2026-W32" }), prior],
     changePage: changePage({ baseline: { week: "2026-W32", snapshotVersion: 1, generatedAt: GENERATED_AT }, emptyBaseline: false }),
   })), /基线|相邻/);
+});
+
+test("release validation rejects change items that differ from the canonical adjacent snapshot delta", () => {
+  const canonical = canonicalPeriodRelease();
+  assert.doesNotThrow(() => validateWatchlistRelease(canonical as Parameters<typeof validateWatchlistRelease>[0]));
+  const actual = canonical.changePage.changes[0]!;
+  const forged = [
+    { ...actual, companyId: "company-forged", companyName: "Forged Robotics" },
+    { ...actual, kind: "strengthening" as const },
+    { ...actual, evidenceLinks: [{ ...actual.evidenceLinks[0]!, url: "https://forged.example/release" }] },
+    { ...actual, evidenceLinks: [{ ...actual.evidenceLinks[0]!, eventId: "event-forged", title: "Forged release", source: "Forged", grade: "B" as const }] },
+    { ...actual, evidenceLinks: [{ url: "https://alpha.example/release" }] },
+  ];
+  for (const change of forged) {
+    assert.throws(
+      () => validateWatchlistRelease({ ...canonical, changePage: { ...canonical.changePage, changes: [change] } } as Parameters<typeof validateWatchlistRelease>[0]),
+      /变化.*规范|变化.*相邻|变化.*快照|变化.*证据/,
+    );
+  }
 });
 
 test("rejects a broken exact thesis reference and methodology version mismatch", () => {
@@ -378,6 +410,7 @@ test("failure injection rolls back the whole Watchlist public group", async () =
         dashboard: { watchlist: view({ snapshotVersion: 2 }) },
         readme: readme().replace("v1", "v2"),
         changePage: changePage({ current: { week: "2026-W34", snapshotVersion: 2, generatedAt: GENERATED_AT } }),
+        changePageViews: [view({ snapshotVersion: 2 })],
       }),
       feeds: FEEDS,
     });

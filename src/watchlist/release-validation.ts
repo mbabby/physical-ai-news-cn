@@ -15,7 +15,7 @@ import {
 import { assertNoPrivateWatchlistContent, isInternalCandidateIdentifier, validateWatchlistPublicViewShape, type WatchlistPublicCard, type WatchlistPublicView } from "./public-view.js";
 import { snapshotPath } from "./snapshot.js";
 import { stageWatchlistFeeds } from "./feeds.js";
-import { stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
+import { buildWatchlistChangePage, stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
 
 export interface WatchlistReleaseValidationInput {
   snapshot: WatchlistSnapshot;
@@ -23,6 +23,7 @@ export interface WatchlistReleaseValidationInput {
   dashboard: unknown;
   readme: string;
   changePage: WatchlistChangePage;
+  changePageViews: WatchlistPublicView[];
   history?: WatchlistSnapshot[];
 }
 
@@ -172,6 +173,14 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   if (!validateWatchlistSnapshotShape(input.snapshot)) throw new Error("Watchlist 公开快照结构不合法");
   validateThesisArtifact(input.theses);
   assertAdjacentChangeBaseline(input);
+  const canonicalChangePage = buildWatchlistChangePage({
+    current: input.snapshot,
+    snapshots: [...(input.history ?? []), input.snapshot],
+    views: input.changePageViews,
+  });
+  if (stableBytes(input.changePage) !== stableBytes(canonicalChangePage)) {
+    throw new Error("Watchlist 变化页与相邻快照、精确判断版本或规范证据不一致");
+  }
 
   const identity = readmeIdentity(input.readme);
   if (!identity || dashboardView.week !== input.snapshot.week || identity.week !== input.snapshot.week) {
