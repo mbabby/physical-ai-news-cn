@@ -365,6 +365,18 @@ const watchlistChangeLabels = {
 const nonEmpty = (value) => typeof value === "string" && value.trim().length > 0;
 const validValidationDate = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
 const watchlistRoutes = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
+const watchlistRouteSlugs = [
+  { route: "数据与训练", slug: "data-and-training" },
+  { route: "VLA 与具身模型", slug: "vla-and-embodied-models" },
+  { route: "世界模型与空间智能", slug: "world-models-and-spatial-intelligence" },
+  { route: "本体与硬件", slug: "embodiment-and-hardware" },
+  { route: "部署与商业化", slug: "deployment-and-commercialization" },
+];
+const watchlistRouteSlugByName = new Map(watchlistRouteSlugs.map(({ route, slug }) => [route, slug]));
+const canonicalWatchlistRouteSlugs = new Set(watchlistRouteSlugs.map(({ slug }) => slug));
+const watchlistMaxCompanies = 30;
+const watchlistMaxRoutes = 10;
+const watchlistMaxQueryLength = 2048;
 const validWatchlistRoutes = (value) => Array.isArray(value) && value.length > 0
   && value.every((route) => watchlistRoutes.includes(route))
   && new Set(value).size === value.length
@@ -396,6 +408,141 @@ function validWatchlist(value) {
     && Array.isArray(value.forwardRadar) && value.forwardRadar.every((item) => validWatchlistCard(item, "forward-radar"))
     && Array.isArray(value.validatedMomentum) && value.validatedMomentum.every((item) => validWatchlistCard(item, "validated-momentum"))
     && Array.isArray(value.changes) && value.changes.every((item) => item && typeof item === "object" && nonEmpty(item.companyId) && nonEmpty(item.companyName) && ["added", "strengthened", "downgraded", "exited"].includes(item.change));
+}
+
+const unsafeWatchlistValue = (value) => value.length === 0 || value !== value.trim() || /[\u0000-\u001F\u007F<>"'&]/.test(value);
+const stableWatchlistValues = (values) => [...new Set(list(values).filter((value) => typeof value === "string" && !unsafeWatchlistValue(value)))].sort();
+
+function safelyDecodeWatchlistValue(value) {
+  try {
+    const decoded = decodeURIComponent(value.replace(/\+/g, " "));
+    return unsafeWatchlistValue(decoded) ? null : decoded;
+  } catch {
+    return null;
+  }
+}
+
+function encodeWatchlistConfig(config = {}) {
+  const companies = stableWatchlistValues(config.companyIds).slice(0, watchlistMaxCompanies);
+  const routes = stableWatchlistValues(config.routes).slice(0, watchlistMaxRoutes);
+  return [companies.length ? `watch=${companies.map(encodeURIComponent).join(",")}` : "", routes.length ? `routes=${routes.map(encodeURIComponent).join(",")}` : ""].filter(Boolean).join("&");
+}
+
+function watchlistValuesFor(query, name, warnings) {
+  const values = [];
+  for (const pair of query.split("&")) {
+    const separator = pair.indexOf("=");
+    const rawName = separator === -1 ? pair : pair.slice(0, separator);
+    const rawValue = separator === -1 ? "" : pair.slice(separator + 1);
+    if (safelyDecodeWatchlistValue(rawName) !== name || rawValue === "") continue;
+    const decodedValue = safelyDecodeWatchlistValue(rawValue);
+    if (decodedValue === null) {
+      warnings.push("已忽略无效的观察名单配置值");
+      continue;
+    }
+    for (const item of decodedValue.split(",")) {
+      if (item === "") continue;
+      if (unsafeWatchlistValue(item)) warnings.push("已忽略无效的观察名单配置值");
+      else values.push(item);
+    }
+  }
+  return stableWatchlistValues(values);
+}
+
+function decodeWatchlistConfig(value, catalog) {
+  let query;
+  try {
+    query = (typeof value === "string" ? value.replace(/^\?/, "") : String(value));
+  } catch {
+    return { config: { companyIds: [], routes: [] }, warnings: ["观察名单配置过长，已忽略"] };
+  }
+  if (query.length > watchlistMaxQueryLength) return { config: { companyIds: [], routes: [] }, warnings: ["观察名单配置过长，已忽略"] };
+  const warnings = [];
+  if (/%(?![0-9a-fA-F]{2})/.test(query)) warnings.push("已忽略无效的观察名单配置值");
+  const companyCatalog = new Set(stableWatchlistValues(catalog?.companyIds));
+  const routeCatalog = new Set(stableWatchlistValues(catalog?.routes));
+  const requestedCompanies = watchlistValuesFor(query, "watch", warnings);
+  const requestedRoutes = watchlistValuesFor(query, "routes", warnings);
+  const companies = requestedCompanies.filter((id) => companyCatalog.has(id));
+  const routes = requestedRoutes.filter((slug) => canonicalWatchlistRouteSlugs.has(slug) && routeCatalog.has(slug));
+  const missingCompanies = requestedCompanies.filter((id) => !companyCatalog.has(id));
+  const missingRoutes = requestedRoutes.filter((slug) => !canonicalWatchlistRouteSlugs.has(slug) || !routeCatalog.has(slug));
+  if (missingCompanies.length) warnings.push(`已忽略未知或已退出当前观察名单的公司：${missingCompanies.join("、")}`);
+  if (companies.length > watchlistMaxCompanies) warnings.push(`公司选择超过 ${watchlistMaxCompanies} 个上限，已忽略其余项目`);
+  if (missingRoutes.length) warnings.push(`已忽略未知技术路线：${missingRoutes.join("、")}`);
+  if (routes.length > watchlistMaxRoutes) warnings.push(`路线选择超过 ${watchlistMaxRoutes} 个上限，已忽略其余项目`);
+  return { config: { companyIds: companies.slice(0, watchlistMaxCompanies), routes: routes.slice(0, watchlistMaxRoutes) }, warnings };
+}
+
+function watchlistCatalog(value) {
+  const cards = [...list(value?.forwardRadar), ...list(value?.validatedMomentum)];
+  const cardIds = cards.map((card) => card?.companyId);
+  const usedRoutes = new Set(cards.flatMap((card) => list(card?.routes)));
+  return {
+    companyIds: stableWatchlistValues([...list(value?.companyIds), ...cardIds]),
+    routes: watchlistRouteSlugs.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug),
+  };
+}
+
+function filterWatchlistCards(cards, config) {
+  const companies = new Set(list(config?.companyIds));
+  const routes = new Set(list(config?.routes));
+  if (!companies.size && !routes.size) return list(cards);
+  return list(cards).filter((card) => companies.has(card.companyId) || list(card.routes).some((route) => routes.has(watchlistRouteSlugByName.get(route))));
+}
+
+function watchlistControlMarkup(value, catalog, config) {
+  const cards = [...list(value.forwardRadar), ...list(value.validatedMomentum)];
+  const names = new Map(cards.map((card) => [card.companyId, card.companyName]));
+  const companies = catalog.companyIds;
+  const routes = watchlistRouteSlugs.filter(({ slug }) => catalog.routes.includes(slug));
+  if (!companies.length && !routes.length) return {
+    companies: '<p class="empty">当前快照没有可分享的公司或路线筛选；复制将保留当前页面。</p>',
+    routes: "",
+  };
+  return {
+    companies: `<fieldset><legend>当前公司</legend><div class="watchlist-option-grid">${companies.map((id, index) => `<label for="watchlist-company-${index}"><input id="watchlist-company-${index}" data-watchlist-company type="checkbox" value="${safe(id)}"${config.companyIds.includes(id) ? " checked" : ""}> ${safe(names.get(id) || id)}</label>`).join("")}</div></fieldset>`,
+    routes: `<fieldset><legend>固定技术路线</legend><div class="watchlist-option-grid">${routes.map(({ route, slug }, index) => `<label for="watchlist-route-${index}"><input id="watchlist-route-${index}" data-watchlist-route type="checkbox" value="${safe(slug)}"${config.routes.includes(slug) ? " checked" : ""}> ${safe(route)}</label>`).join("")}</div></fieldset>`,
+  };
+}
+
+function updateWatchlistUrl(config) {
+  const query = encodeWatchlistConfig(config);
+  window.history.replaceState({}, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
+}
+
+function bindWatchlistControls(value, catalog) {
+  const controls = byId("watchlist-config-controls");
+  if (!controls || controls.dataset?.watchlistBound) return;
+  if (controls.dataset) controls.dataset.watchlistBound = "true";
+  const selected = () => ({
+    companyIds: [...controls.querySelectorAll("[data-watchlist-company]:checked")].map((input) => input.value),
+    routes: [...controls.querySelectorAll("[data-watchlist-route]:checked")].map((input) => input.value),
+  });
+  controls.addEventListener("change", () => {
+    updateWatchlistUrl(selected());
+    renderWatchlist(value);
+  });
+  controls.addEventListener("click", (event) => {
+    if (event.target.closest("#watchlist-reset")) {
+      updateWatchlistUrl({ companyIds: [], routes: [] });
+      renderWatchlist(value);
+    }
+    if (event.target.closest("#watchlist-copy")) {
+      const feedback = byId("watchlist-copy-feedback");
+      const query = encodeWatchlistConfig(selected());
+      const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ""}`;
+      if (!navigator.clipboard?.writeText) {
+        if (feedback) feedback.textContent = "无法访问剪贴板；请复制地址栏中的链接。";
+        return;
+      }
+      Promise.resolve(navigator.clipboard?.writeText(url)).then(() => {
+        if (feedback) feedback.textContent = "分享链接已复制。";
+      }).catch(() => {
+        if (feedback) feedback.textContent = "无法访问剪贴板；请复制地址栏中的链接。";
+      });
+    }
+  });
 }
 
 function watchlistEvidence(item, companyName) {
@@ -437,10 +584,15 @@ function renderWatchlistTrack(items, title, emptyMessage, identity) {
 
 function renderWatchlist(value) {
   const container = byId("company-watchlist");
+  const controls = byId("watchlist-config-controls");
+  const companyOptions = byId("watchlist-company-options");
+  const routeOptions = byId("watchlist-route-options");
+  const warning = byId("watchlist-config-warning");
+  const copyFeedback = byId("watchlist-copy-feedback");
   const forward = byId("watchlist-forward");
   const momentum = byId("watchlist-momentum");
   const changes = byId("watchlist-changes");
-  if (!container || !forward || !momentum || !changes) return;
+  if (!container || !controls || !companyOptions || !routeOptions || !warning || !copyFeedback || !forward || !momentum || !changes) return;
   container.hidden = false;
   if (!validWatchlist(value)) {
     forward.innerHTML = '<p class="empty"><strong>Watchlist 数据未通过公开契约校验</strong>本次数据未被当作有效空快照展示，请等待下一次成功发布。</p>';
@@ -450,8 +602,17 @@ function renderWatchlist(value) {
   }
   const lastSuccessfulDate = text(value.lastSuccessfulAt).slice(0, 10);
   const identity = `最后成功快照：${value.week} · v${value.snapshotVersion} · ${lastSuccessfulDate}`;
-  forward.innerHTML = renderWatchlistTrack(value.forwardRadar, "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无公开公司。`, identity);
-  momentum.innerHTML = renderWatchlistTrack(value.validatedMomentum, "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无公开公司。`, identity);
+  const catalog = watchlistCatalog(value);
+  const decoded = decodeWatchlistConfig(window.location.search, catalog);
+  const markup = watchlistControlMarkup(value, catalog, decoded.config);
+  companyOptions.innerHTML = markup.companies;
+  routeOptions.innerHTML = markup.routes;
+  warning.textContent = decoded.warnings.join(" ");
+  copyFeedback.textContent = "";
+  bindWatchlistControls(value, catalog);
+  const hasSelection = decoded.config.companyIds.length > 0 || decoded.config.routes.length > 0;
+  forward.innerHTML = renderWatchlistTrack(filterWatchlistCards(value.forwardRadar, decoded.config), "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无${hasSelection ? "符合当前筛选的" : ""}公开公司。`, identity);
+  momentum.innerHTML = renderWatchlistTrack(filterWatchlistCards(value.validatedMomentum, decoded.config), "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无${hasSelection ? "符合当前筛选的" : ""}公开公司。`, identity);
   const changeItems = list(value.changes).filter((item) => item && typeof item === "object");
   changes.innerHTML = `<header class="watchlist-track-head"><div><p class="eyebrow">WEEKLY CHANGES</p><h3>本周变化</h3></div><small>${safe(value.week)}</small></header>${changeItems.length ? `<ul>${changeItems.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}`;
 }

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { decodeWatchlistConfig as decodeTypeScriptConfig } from "../src/watchlist/config.js";
 
 const readSite = async (name: string) => readFile(new URL(`../site/${name}`, import.meta.url), "utf8");
 
@@ -9,7 +10,7 @@ test("homepage keeps data-engineering mount points while presenting one decision
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry", "research",
-    "company-watchlist", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
+    "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
     "company-boards", "company-board-grid", "company-radar", "research-graph-grid", "routes-grid",
     "detail-drawer-root",
   ];
@@ -44,6 +45,11 @@ async function loadAppCompanyRenderer() {
   const source = await readSite("app.js");
   const mounts: Record<string, Mount> = {
     "company-watchlist": mount(),
+    "watchlist-config-controls": mount(),
+    "watchlist-company-options": mount(),
+    "watchlist-route-options": mount(),
+    "watchlist-config-warning": mount(),
+    "watchlist-copy-feedback": mount(),
     "watchlist-forward": mount(),
     "watchlist-momentum": mount(),
     "watchlist-changes": mount(),
@@ -56,14 +62,21 @@ async function loadAppCompanyRenderer() {
     Intl,
     Date,
     document: { getElementById: (id: string) => mounts[id] ?? mount(), addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
-    window: { location: { href: "https://example.test/index.html" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
+    navigator: { clipboard: { writeText: async () => {} } },
+    window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
   };
   const instrumented = source.replace(
     /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
-    "globalThis.__siteUi = { renderCompanySection };",
+    "globalThis.__siteUi = { renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
   );
   vm.runInNewContext(instrumented, context);
-  return { mounts, renderCompanySection: (context as typeof context & { __siteUi: { renderCompanySection: (data: unknown) => void } }).__siteUi.renderCompanySection };
+  return { mounts, ...((context as typeof context & { __siteUi: {
+    renderCompanySection: (data: unknown) => void;
+    decodeWatchlistConfig: (value: unknown, catalog: unknown) => unknown;
+    encodeWatchlistConfig: (config: unknown) => string;
+    filterWatchlistCards: (cards: unknown[], config: unknown) => unknown[];
+    watchlistCatalog: (watchlist: unknown) => unknown;
+  } }).__siteUi) };
 }
 
 async function loadShareCompanyRenderer() {
@@ -186,5 +199,35 @@ test("watchlist styles preserve focus, long Chinese copy and a single-column 390
   assert.match(styles, /\.watchlist-card[^{]*\{[^}]*overflow-wrap:anywhere/);
   assert.match(styles, /\.watchlist-evidence a[^{]*\{[^}]*min-height:44px/);
   assert.match(styles, /\.watchlist-evidence a:focus-visible/);
+  assert.match(styles, /\.watchlist-config-controls/);
+  assert.match(styles, /\.watchlist-config-controls button:focus-visible/);
+  assert.match(styles, /\.watchlist-option-grid input/);
+  assert.match(styles, /\.watchlist-config-actions button[^{]*\{[^}]*min-height:44px/);
   assert.match(styles, /@media\(max-width:520px\)[\s\S]*\.watchlist-track-grid[^{]*\{[^}]*grid-template-columns:1fr/);
+});
+
+test("shareable Watchlist controls filter the current snapshot and mirror TypeScript config decoding", async () => {
+  const site = await loadAppCompanyRenderer();
+  site.renderCompanySection({ watchlist: publicWatchlist });
+
+  assert.match(site.mounts["watchlist-company-options"].innerHTML, /当前公司/);
+  assert.match(site.mounts["watchlist-route-options"].innerHTML, /固定技术路线/);
+  const html = await readSite("index.html");
+  assert.match(html, /重置筛选/);
+  assert.match(html, /复制分享链接/);
+  assert.match(site.mounts["watchlist-company-options"].innerHTML, /company-alpha/);
+  assert.match(site.mounts["watchlist-route-options"].innerHTML, /vla-and-embodied-models/);
+
+  const catalog = site.watchlistCatalog(publicWatchlist) as { companyIds: string[]; routes: string[] };
+  for (const query of [
+    "watch=company-alpha,company-exited&routes=vla-and-embodied-models",
+    "wat%ZZch=company-alpha",
+    "routes=unapproved-route",
+    "watch=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+  ]) assert.deepEqual(JSON.parse(JSON.stringify(site.decodeWatchlistConfig(query, catalog))), decodeTypeScriptConfig(query, catalog), query);
+  assert.equal(site.encodeWatchlistConfig({ companyIds: ["company-beta", "company-alpha"], routes: [] }), "watch=company-alpha,company-beta");
+
+  const cards = [...publicWatchlist.forwardRadar, ...publicWatchlist.validatedMomentum];
+  const filtered = site.filterWatchlistCards(cards, { companyIds: ["company-beta"], routes: ["vla-and-embodied-models"] }) as Array<{ companyId: string }>;
+  assert.deepEqual(filtered.map((card) => card.companyId), ['company-alpha" onclick="alert(1)', "company-beta"]);
 });
