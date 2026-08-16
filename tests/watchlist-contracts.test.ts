@@ -93,6 +93,22 @@ test("rejects snapshots with duplicated thesis ids across tracks", () => {
   );
 });
 
+test("rejects invalid ISO week numbers in snapshots", () => {
+  const snapshot = {
+    snapshotVersion: 1,
+    methodologyVersion: "v1",
+    generatedAt: "2026-08-13T01:00:00Z",
+    forwardRadar: [{ companyId: "company-a", thesisId: "thesis-a", thesisVersion: 1, group: "priority-focus" }],
+    validatedMomentum: [],
+    changesSinceLastWeek: [],
+  };
+
+  for (const week of ["2026-W00", "2026-W54", "2025-W53"]) {
+    assert.equal(validateWatchlistSnapshotShape({ ...snapshot, week }), false);
+  }
+  assert.equal(validateWatchlistSnapshotShape({ ...snapshot, week: "2026-W53" }), true);
+});
+
 test("rejects non-string and non-canonical timestamps and dates", () => {
   const thesis = {
     thesisId: "thesis-company-alpha-2026-W33-v1",

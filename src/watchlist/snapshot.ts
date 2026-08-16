@@ -1,3 +1,4 @@
+import { isCanonicalTimestamp, isValidIsoWeek, validateWatchlistSnapshotShape } from "./contracts.js";
 import type {
   CompanyThesis,
   WatchlistChange,
@@ -12,11 +13,11 @@ const CONTINUED_LIFECYCLES = new Set(["awaiting-validation", "downgraded"]);
 const TRACK_LIMIT = 5;
 const CONTINUED_LIMIT = 2;
 const ROUTE_SHARE_LIMIT = 0.4;
-const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 
 export interface BuildWatchlistSnapshotInput {
   theses: CompanyThesis[];
   previous?: WatchlistSnapshot;
+  previousWeekBaseline?: WatchlistSnapshot;
   week: string;
   methodologyVersion: string;
   generatedAt: string;
@@ -31,10 +32,15 @@ export interface WatchlistSnapshotPaths {
 
 function assertInput(input: BuildWatchlistSnapshotInput): number {
   const generatedAt = Date.parse(input.generatedAt);
-  if (!/^\d{4}-W\d{2}$/.test(input.week)) throw new Error("Watchlist 快照周格式无效");
+  if (!isValidIsoWeek(input.week)) throw new Error("Watchlist 快照周格式无效");
   if (!input.methodologyVersion.trim()) throw new Error("Watchlist 快照缺少方法论版本");
-  if (!ISO_TIMESTAMP.test(input.generatedAt) || !Number.isFinite(generatedAt)) throw new Error("Watchlist 快照时间无效");
+  if (!isCanonicalTimestamp(input.generatedAt) || !Number.isFinite(generatedAt)) throw new Error("Watchlist 快照时间无效");
+  if (input.previousWeekBaseline?.week === input.week) throw new Error("Watchlist 同周修订基线必须来自上一周");
   return generatedAt;
+}
+
+function codeUnitCompare(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
 }
 
 function groupOf(thesis: CompanyThesis): WatchlistPublicGroup {
@@ -47,8 +53,8 @@ function candidateOrder(left: CompanyThesis, right: CompanyThesis): number {
   return leftGroup - rightGroup
     || right.thesisVersion - left.thesisVersion
     || Date.parse(right.generatedAt) - Date.parse(left.generatedAt)
-    || left.companyId.localeCompare(right.companyId)
-    || left.thesisId.localeCompare(right.thesisId);
+    || codeUnitCompare(left.companyId, right.companyId)
+    || codeUnitCompare(left.thesisId, right.thesisId);
 }
 
 function selectCanonicalTheses(theses: CompanyThesis[], nowMs: number): CompanyThesis[] {
@@ -100,7 +106,7 @@ function changes(previous: WatchlistSnapshot | undefined, current: CompanyThesis
     }
   }
   for (const companyId of prior.keys()) if (!next.has(companyId)) result.push({ companyId, change: "exited" });
-  return result.sort((left, right) => left.companyId.localeCompare(right.companyId) || left.change.localeCompare(right.change));
+  return result.sort((left, right) => codeUnitCompare(left.companyId, right.companyId) || codeUnitCompare(left.change, right.change));
 }
 
 function routeException(
@@ -115,7 +121,7 @@ function routeException(
     if (!route) throw new Error(`Watchlist 快照缺少公司 ${thesis.companyId} 的主路线`);
     counts.set(route, (counts.get(route) ?? 0) + 1);
   }
-  const [route, count] = [...counts.entries()].sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))[0]!;
+  const [route, count] = [...counts.entries()].sort((left, right) => right[1] - left[1] || codeUnitCompare(left[0], right[0]))[0]!;
   const share = count / theses.length;
   if (share <= ROUTE_SHARE_LIMIT) return undefined;
   if (!reason?.trim()) throw new Error("Watchlist 路线集中度超过 40%，必须记录路线集中度例外原因");
@@ -138,6 +144,8 @@ export function buildWatchlistSnapshot(input: BuildWatchlistSnapshotInput): Watc
   const forward = selectTrack(canonical, "forward-radar");
   const momentum = selectTrack(canonical, "validated-momentum");
   const selected = [...forward, ...momentum];
+  const selectedThesisIds = selected.map((thesis) => thesis.thesisId);
+  if (new Set(selectedThesisIds).size !== selectedThesisIds.length) throw new Error("Watchlist 快照选择的 thesisId 重复");
   const snapshot: WatchlistSnapshot = {
     week: input.week,
     snapshotVersion: input.previous?.week === input.week ? input.previous.snapshotVersion + 1 : 1,
@@ -145,11 +153,14 @@ export function buildWatchlistSnapshot(input: BuildWatchlistSnapshotInput): Watc
     generatedAt: input.generatedAt,
     forwardRadar: forward.map(entryOf),
     validatedMomentum: momentum.map(entryOf),
-    changesSinceLastWeek: changes(input.previous, selected),
+    changesSinceLastWeek: [],
   };
   const exception = routeException(selected, input.primaryRouteByCompanyId, input.routeShareExceptionReason);
   if (exception) snapshot.routeShareException = exception;
   if (input.previous?.week === input.week && stableIdentity(input.previous) === stableIdentity(snapshot)) return input.previous;
+  if (input.previous?.week === input.week && !input.previousWeekBaseline) throw new Error("Watchlist 同周修订缺少上一周基线");
+  snapshot.changesSinceLastWeek = changes(input.previousWeekBaseline ?? input.previous, selected);
+  if (!validateWatchlistSnapshotShape(snapshot)) throw new Error("Watchlist 快照不符合公开契约");
   return snapshot;
 }
 

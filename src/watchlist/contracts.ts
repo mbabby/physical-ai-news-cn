@@ -57,13 +57,30 @@ export interface WatchlistSnapshotEntry {
 }
 
 const isoTimestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
-const validTimestamp = (value: unknown): value is string => {
+export const isCanonicalTimestamp = (value: unknown): value is string => {
   if (typeof value !== "string" || !isoTimestampPattern.test(value)) return false;
   const ms = Date.parse(value);
   if (!Number.isFinite(ms)) return false;
   const normalized = new Date(ms).toISOString();
   return normalized === value || normalized === value.replace("Z", ".000Z");
 };
+
+function isoWeeksInYear(year: number): number {
+  const decemberTwentyEighth = new Date(0);
+  decemberTwentyEighth.setUTCFullYear(year, 11, 28);
+  const day = decemberTwentyEighth.getUTCDay() || 7;
+  return day <= 4 ? 53 : 52;
+}
+
+export function isValidIsoWeek(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const match = /^(\d{4})-W(\d{2})$/.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const week = Number(match[2]);
+  return week >= 1 && week <= isoWeeksInYear(year);
+}
+
 const validDate = (value: unknown): value is string => {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const ms = Date.parse(`${value}T00:00:00Z`);
@@ -162,7 +179,7 @@ export function validateCompanyThesisShape(value: unknown): value is CompanyThes
     || !unique(verifiedSensitiveBindings.map((binding) => binding.field))) return false;
   if (!Array.isArray(inferenceLabels) || !inferenceLabels.every(nonEmptyString)) return false;
   if (confidence !== "high" && confidence !== "medium" && confidence !== "low") return false;
-  if (!validTimestamp(generatedAt) || !validTimestamp(expiresAt)) return false;
+  if (!isCanonicalTimestamp(generatedAt) || !isCanonicalTimestamp(expiresAt)) return false;
   if (!nonEmptyString(modelVersion) || !nonEmptyString(promptVersion) || !nonEmptyString(methodologyVersion)) return false;
   return true;
 }
@@ -171,9 +188,9 @@ export function validateWatchlistSnapshotShape(value: unknown): value is Watchli
   if (!isObject(value)) return false;
   if (Object.keys(value).some((key) => !["week", "snapshotVersion", "methodologyVersion", "generatedAt", "forwardRadar", "validatedMomentum", "changesSinceLastWeek", "routeShareException"].includes(key))) return false;
   const { week, snapshotVersion, methodologyVersion, generatedAt, forwardRadar, validatedMomentum, changesSinceLastWeek, routeShareException } = value;
-  if (!/^\d{4}-W\d{2}$/.test(String(week))) return false;
+  if (!isValidIsoWeek(week)) return false;
   if (typeof snapshotVersion !== "number" || !Number.isInteger(snapshotVersion) || snapshotVersion < 1) return false;
-  if (!nonEmptyString(methodologyVersion) || !validTimestamp(generatedAt)) return false;
+  if (!nonEmptyString(methodologyVersion) || !isCanonicalTimestamp(generatedAt)) return false;
   if (!Array.isArray(forwardRadar) || !Array.isArray(validatedMomentum) || !Array.isArray(changesSinceLastWeek)) return false;
   if (!forwardRadar.every(isSnapshotEntry) || !validatedMomentum.every(isSnapshotEntry) || !changesSinceLastWeek.every(isChange)) return false;
   const thesisIds = [...forwardRadar, ...validatedMomentum].map((entry) => entry.thesisId);

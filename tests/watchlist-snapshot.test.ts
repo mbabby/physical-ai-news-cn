@@ -54,17 +54,29 @@ test("stable reruns return the exact prior snapshot without changing version or 
 });
 
 test("a correction increments the same-week version and records structured deltas", () => {
-  const prior = buildWatchlistSnapshot(input([
+  const baseline = buildWatchlistSnapshot({
+    ...input([
+      thesis("alpha"),
+      thesis("beta", { lifecycle: "awaiting-validation" }),
+      thesis("exit"),
+    ]),
+    week: "2026-W33",
+  });
+  const prior = buildWatchlistSnapshot({
+    ...input([
     thesis("alpha"),
     thesis("beta", { lifecycle: "awaiting-validation" }),
     thesis("exit"),
-  ]));
+    ], baseline),
+    primaryRouteByCompanyId: { alpha: "route-a", beta: "route-b", exit: "route-c" },
+  });
   const corrected = buildWatchlistSnapshot({
     ...input([
       thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" }),
       thesis("beta", { thesisVersion: 2, lifecycle: "downgraded" }),
       thesis("new-company"),
     ], prior),
+    previousWeekBaseline: baseline,
     primaryRouteByCompanyId: { alpha: "route-a", beta: "route-b", "new-company": "route-c" },
   });
   assert.equal(corrected.snapshotVersion, 2);
@@ -74,6 +86,62 @@ test("a correction increments the same-week version and records structured delta
     { companyId: "exit", change: "exited" },
     { companyId: "new-company", change: "added" },
   ]);
+});
+
+test("a same-week correction keeps deltas relative to the prior ISO week", () => {
+  const week33 = buildWatchlistSnapshot({
+    ...input([thesis("beta")]),
+    week: "2026-W33",
+  });
+  const week34v1 = buildWatchlistSnapshot({
+    ...input([thesis("alpha"), thesis("beta")], week33),
+    week: "2026-W34",
+    primaryRouteByCompanyId: { alpha: "route-a", beta: "route-b" },
+  });
+  const week34v2 = buildWatchlistSnapshot({
+    ...input([thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" }), thesis("beta")], week34v1),
+    previousWeekBaseline: week33,
+    primaryRouteByCompanyId: { alpha: "route-a", beta: "route-b" },
+  });
+
+  assert.equal(week34v2.snapshotVersion, 2);
+  assert.deepEqual(week34v2.changesSinceLastWeek, [{ companyId: "alpha", change: "added" }]);
+});
+
+test("requires an explicit prior-week baseline for a changed same-week revision", () => {
+  const week34v1 = buildWatchlistSnapshot(input([thesis("alpha")]));
+  assert.throws(
+    () => buildWatchlistSnapshot(input([thesis("alpha", { thesisVersion: 2, lifecycle: "strengthening" })], week34v1)),
+    /缺少上一周基线/,
+  );
+});
+
+test("fails closed when selected companies reuse a thesis id", () => {
+  assert.throws(
+    () => buildWatchlistSnapshot(input([
+      thesis("alpha", { thesisId: "shared-thesis" }),
+      thesis("beta", { thesisId: "shared-thesis" }),
+    ])),
+    /thesisId 重复/,
+  );
+});
+
+test("rejects non-canonical timestamps and invalid ISO weeks", () => {
+  assert.throws(
+    () => buildWatchlistSnapshot({ ...input([thesis("alpha")]), generatedAt: "2026-02-31T01:00:00Z" }),
+    /时间无效/,
+  );
+  for (const week of ["2026-W00", "2026-W54", "2025-W53"]) {
+    assert.throws(() => buildWatchlistSnapshot({ ...input([thesis("alpha")]), week }), /周格式无效/);
+  }
+});
+
+test("uses code-unit ordering for route ties", () => {
+  const snapshot = buildWatchlistSnapshot({
+    ...input([thesis("alpha"), thesis("beta"), thesis("gamma"), thesis("delta")]),
+    primaryRouteByCompanyId: { alpha: "ä-route", beta: "ä-route", gamma: "z-route", delta: "z-route" },
+  });
+  assert.equal(snapshot.routeShareException?.route, "z-route");
 });
 
 test("snapshot enforces mutual exclusion, ten entries, and at most two continued observations per track", () => {
