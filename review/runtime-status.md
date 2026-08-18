@@ -4,10 +4,7 @@
 
 ## 信源
 
-- 失败 · 自动发现 · humanoidanalytics.com：Unexpected close tag
-Line: 92
-Column: 7
-Char: >
+- 成功 · 本轮已启用信源均完成抓取。
 
 ## 服务
 

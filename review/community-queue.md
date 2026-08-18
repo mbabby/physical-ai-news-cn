@@ -29,9 +29,9 @@
 - **craigmod.com** · 连续成功 4 次 · 样例：[A Swarm of Blood Robots](https://craigmod.com/essays/robot_blood/) · [提交信源建议](../../issues/new/choose)
 - **hackaday.com** · 连续成功 10 次 · 样例：[ShieldFont: Bludgeoning AI Scrapers That Disrespect Robots.txt](https://hackaday.com/2026/08/14/shieldfont-bludgeoning-ai-scrapers-that-disrespect-robots-txt/) · [提交信源建议](../../issues/new/choose)
 - **phys.org** · 连续成功 2 次 · 样例：[Swarms of tiny robots remove microplastics from soil and water](https://phys.org/news/2026-08-swarms-tiny-robots-microplastics-soil.html) · [提交信源建议](../../issues/new/choose)
+- **humanoidanalytics.com** · 连续成功 2 次 · 样例：[The Global Humanoid Robotics Ecosystem Is Broader Than Robot Makers](https://humanoidanalytics.com/2026/08/13/the-global-humanoid-robotics-ecosystem-is-broader-than-robot-makers/) · [提交信源建议](../../issues/new/choose)
 - **github.com** · 连续成功 15 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
 - **lesswrong.com** · 连续成功 5 次 · 样例：[Misaligned AIs could use killer robots to take over](https://www.lesswrong.com/posts/9jKhqmFjMzdAvHANr/misaligned-ais-could-use-killer-robots-to-take-over) · [提交信源建议](../../issues/new/choose)
-- **marcusoft.net** · 连续成功 8 次 · 样例：[Are AI agents our industry's industrial robots?](https://www.marcusoft.net/2026/08/ai-robots.html) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T03:56:38.781Z",
+  "generatedAt": "2026-08-18T04:06:49.784Z",
   "domains": {
     "industry": {
       "expected": 1,
@@ -286,25 +286,25 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 23,
+          "observed": 22,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "23 个观测尚未达到证据门槛",
+            "22 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
         "funding": {
           "expected": 0,
-          "observed": 9,
+          "observed": 8,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "9 个观测尚未达到证据门槛",
+            "8 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
@@ -323,16 +323,16 @@
       },
       "total": {
         "expected": 0,
-        "observed": 46,
+        "observed": 44,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "14 个观测尚未达到证据门槛",
-          "23 个观测尚未达到证据门槛",
-          "46 个观测尚未达到证据门槛",
-          "9 个观测尚未达到证据门槛",
+          "22 个观测尚未达到证据门槛",
+          "44 个观测尚未达到证据门槛",
+          "8 个观测尚未达到证据门槛",
           "无法唯一识别公司主体"
         ]
       }
@@ -1164,7 +1164,7 @@
     },
     {
       "dimension": "company",
-      "key": "数字华夏",
+      "key": "融资丨数字华夏",
       "domains": {
         "industry": {
           "expected": 0,
@@ -1898,6 +1898,52 @@
     {
       "dimension": "company",
       "key": "中科院系农业机器人公司",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "自动化设备初创公司 Gravis Robotics",
       "domains": {
         "industry": {
           "expected": 0,
@@ -4431,6 +4477,6 @@
       "llm",
       "release"
     ],
-    "coverageGapCount": 90
+    "coverageGapCount": 91
   }
 }
