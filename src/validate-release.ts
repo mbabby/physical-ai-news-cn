@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isObject, readJsonStrict } from "./runtime/storage.js";
 import { validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
+import { validatePipelineHealthArtifact } from "./runtime/health.js";
 import type { DailyArchive, EventStore, PipelineHealth, ResearchRegistry, RunHistory, RunManifest } from "./types.js";
 import { isPublishableResearch, rankResearchArticles } from "./event-center.js";
 import { SOURCES, X_SOURCES } from "./config.js";
@@ -136,7 +137,8 @@ async function main(): Promise<void> {
   const rankedIds = new Set(rankResearchArticles(publicResearch.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))).slice(0, 6).map((article) => article.id));
   validatePublication({ archive, events, research: publicResearch.filter((record) => rankedIds.has(record.id)), readme, expectedDate: manifest.date });
   validatePublicationArtifacts(archive, manifest, history);
-  if (health.latestRunId !== manifest.runId || health.latestDate !== manifest.date) throw new Error("流水线健康状态没有指向最新运行");
+  const healthErrors = validatePipelineHealthArtifact(history, health);
+  if (healthErrors.length) throw new Error(`流水线健康状态未通过：\n- ${healthErrors.join("\n- ")}`);
   console.log(`发布校验通过：${manifest.date}，公开 ${archive.articles.length} 条，运行状态 ${manifest.status}。`);
 }
 

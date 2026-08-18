@@ -1,6 +1,6 @@
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "../publication.js";
 import type { DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../types.js";
-import { validateHistoryContinuity } from "./health.js";
+import { blockingHistoryContinuityErrors } from "./health.js";
 import { validateFacts } from "../facts-contract.js";
 import { validateWatchlistRelease, type WatchlistReleaseValidationInput } from "../watchlist/release-validation.js";
 
@@ -92,7 +92,7 @@ export function validatePublicationArtifacts(archive: DailyArchive, manifest: Ru
   }
   if (history) {
     if (history.schemaVersion !== 1 || history.runs[0]?.runId !== manifest.runId) errors.push("运行历史没有以当前清单为最新记录");
-    errors.push(...validateHistoryContinuity(history));
+    errors.push(...blockingHistoryContinuityErrors(history));
   }
   if (errors.length) throw new Error(`发布产物契约未通过：\n- ${errors.join("\n- ")}`);
 }

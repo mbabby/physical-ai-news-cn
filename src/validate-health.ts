@@ -1,6 +1,6 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildPipelineHealth, validateHistoryContinuity } from "./runtime/health.js";
+import { blockingHistoryContinuityErrors, buildPipelineHealth } from "./runtime/health.js";
 import { isObject, readJsonStrict } from "./runtime/storage.js";
 import type { RunHistory } from "./types.js";
 
@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
   });
   if (!history) throw new Error("缺少运行历史");
-  const continuityErrors = validateHistoryContinuity(history);
+  const continuityErrors = blockingHistoryContinuityErrors(history);
   if (continuityErrors.length) throw new Error(`运行连续性异常：\n- ${continuityErrors.join("\n- ")}`);
   const health = buildPipelineHealth(history, new Date());
   console.log(JSON.stringify(health, null, 2));

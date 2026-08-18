@@ -2,6 +2,11 @@ import type { PipelineHealth, RunHistory, RunManifest } from "../types.js";
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
 
+export interface HistoryContinuityIssue {
+  kind: "duplicate" | "order" | "gap";
+  message: string;
+}
+
 function isPublished(run: RunManifest): boolean {
   return run.status !== "failed" && run.quality.publicIndustryItems + run.quality.publicResearchItems > 0;
 }
@@ -33,6 +38,7 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
   if (latest.status === "degraded") reasons.push("最近一次运行存在外部服务或信源降级");
   if (!isPublished(latest)) reasons.push("最近一次运行没有产生可公开内容");
   if (recent.length >= 3 && successful / recent.length < 0.8) reasons.push("最近运行成功发布率低于 80%");
+  reasons.push(...inspectHistoryContinuity(history).filter((issue) => issue.kind === "gap").map((issue) => issue.message));
   const latestPublicItems = latest.quality.publicIndustryItems + latest.quality.publicResearchItems;
   return {
     schemaVersion: 1,
@@ -48,22 +54,53 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
   };
 }
 
-export function validateHistoryContinuity(history: RunHistory): string[] {
-  const errors: string[] = [];
+export function inspectHistoryContinuity(history: RunHistory): HistoryContinuityIssue[] {
+  const issues: HistoryContinuityIssue[] = [];
   const ids = history.runs.map((run) => run.runId);
-  if (new Set(ids).size !== ids.length) errors.push("运行历史含重复 runId");
+  if (new Set(ids).size !== ids.length) issues.push({ kind: "duplicate", message: "运行历史含重复 runId" });
   for (let index = 1; index < history.runs.length; index += 1) {
     const previous = Date.parse(history.runs[index - 1].finishedAt);
     const current = Date.parse(history.runs[index].finishedAt);
     if (!Number.isFinite(previous) || !Number.isFinite(current) || previous < current) {
-      errors.push("运行历史没有按完成时间倒序排列");
+      issues.push({ kind: "order", message: "运行历史没有按完成时间倒序排列" });
       break;
     }
   }
   const dates = [...new Set(history.runs.map((run) => run.date))].sort();
   for (let index = 1; index < dates.length; index += 1) {
     const gap = (Date.parse(`${dates[index]}T00:00:00Z`) - Date.parse(`${dates[index - 1]}T00:00:00Z`)) / DAY_MS;
-    if (gap > 1) errors.push(`运行历史存在 ${gap - 1} 天空档：${dates[index - 1]} → ${dates[index]}`);
+    if (gap > 1) issues.push({ kind: "gap", message: `运行历史存在 ${gap - 1} 天空档：${dates[index - 1]} → ${dates[index]}` });
   }
-  return errors;
+  return issues;
+}
+
+export const validateHistoryContinuity = (history: RunHistory): string[] => inspectHistoryContinuity(history).map((issue) => issue.message);
+
+/** Missing calendar days are an observable health degradation, not structural
+ * corruption. Blocking a later valid publication would make a single outage
+ * permanently prevent recovery. */
+export const blockingHistoryContinuityErrors = (history: RunHistory): string[] => inspectHistoryContinuity(history)
+  .filter((issue) => issue.kind !== "gap")
+  .map((issue) => issue.message);
+
+export function validatePipelineHealthArtifact(history: RunHistory, artifact: PipelineHealth): string[] {
+  if (!Number.isFinite(Date.parse(artifact.checkedAt))) return ["流水线健康状态检查时间无效"];
+  const latest = history.runs[0];
+  if (!latest || history.updatedAt !== latest.finishedAt) return ["运行历史更新时间没有绑定最新运行"];
+  if (artifact.checkedAt !== history.updatedAt) return ["流水线健康状态检查时间没有绑定最新运行"];
+  const expected = buildPipelineHealth(history, new Date(artifact.checkedAt));
+  const scalarKeys = [
+    "schemaVersion",
+    "checkedAt",
+    "status",
+    "latestRunId",
+    "latestDate",
+    "consecutiveSuccessfulPublications",
+    "recentRunCount",
+    "recentSuccessRate",
+    "latestPublicItems",
+  ] as const;
+  const differs = scalarKeys.some((key) => artifact[key] !== expected[key])
+    || JSON.stringify(artifact.reasons) !== JSON.stringify(expected.reasons);
+  return differs ? ["流水线健康状态没有由运行历史正确派生"] : [];
 }

@@ -34,3 +34,21 @@
 - [ ] **Step 3: Implement the minimal staging script and delegate to it from the workflow**
 - [ ] **Step 4: Run focused tests, type checking, the full suite, release validation, and health validation**
 - [ ] **Step 5: Commit, push, trigger two daily runs, and verify Pages deployment**
+
+### Task 2: Recover after a missed publication day
+
+**Files:**
+- Modify: `src/runtime/health.ts`
+- Modify: `src/runtime/validation.ts`
+- Modify: `src/validate-health.ts`
+- Modify: `tests/runtime-health.test.ts`
+- Modify: `tests/publication-robustness.test.ts`
+
+**Interfaces:**
+- Consumes: rolling `RunHistory` containing the current valid receipt and an older receipt separated by one or more calendar days.
+- Produces: a valid release with `PipelineHealth.status = "degraded"` and an explicit gap reason; duplicate IDs and invalid ordering remain blocking errors.
+
+- [ ] **Step 1: Add failing release and health tests for a one-day historical gap**
+- [ ] **Step 2: Classify continuity issues as structural or calendar-gap issues**
+- [ ] **Step 3: Block structural corruption while surfacing gaps as health degradation**
+- [ ] **Step 4: Run focused and full verification, then repeat the live daily release twice**

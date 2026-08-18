@@ -56,6 +56,25 @@ test("cross-file contract accepts matching archive, manifest and history", () =>
   assert.doesNotThrow(() => validatePublicationArtifacts(archive, manifest, history));
 });
 
+test("cross-file publication permits an explicit historical day gap while preserving the current receipt", () => {
+  const archive: DailyArchive = { date: "2026-08-18", articles: [article("ok")], candidates: [], runtimeStatus: [] };
+  const current: RunManifest = { schemaVersion: 1, runId: "2026-08-18-current", date: archive.date, startedAt: "2026-08-18T00:00:00Z", finishedAt: "2026-08-18T00:01:00Z", status: "success", quality: { publicIndustryItems: 1, publicResearchItems: 0, candidates: 0, sourceFailures: 0 }, services: [], outputs: 3 };
+  const beforeGap: RunManifest = { ...current, runId: "2026-08-16-prior", date: "2026-08-16", startedAt: "2026-08-16T00:00:00Z", finishedAt: "2026-08-16T00:01:00Z" };
+  const history: RunHistory = { schemaVersion: 1, updatedAt: current.finishedAt, runs: [current, beforeGap] };
+  assert.doesNotThrow(() => validatePublicationArtifacts(archive, current, history));
+});
+
+test("cross-file publication still blocks duplicate ids and invalid history ordering", () => {
+  const archive: DailyArchive = { date: "2026-08-18", articles: [article("ok")], candidates: [], runtimeStatus: [] };
+  const current: RunManifest = { schemaVersion: 1, runId: "2026-08-18-current", date: archive.date, startedAt: "2026-08-18T00:00:00Z", finishedAt: "2026-08-18T00:01:00Z", status: "success", quality: { publicIndustryItems: 1, publicResearchItems: 0, candidates: 0, sourceFailures: 0 }, services: [], outputs: 3 };
+  const duplicate: RunHistory = { schemaVersion: 1, updatedAt: current.finishedAt, runs: [current, { ...current }] };
+  assert.throws(() => validatePublicationArtifacts(archive, current, duplicate), /重复 runId/);
+
+  const laterSecond = { ...current, runId: "2026-08-17-later", date: "2026-08-17", startedAt: "2026-08-19T00:00:00Z", finishedAt: "2026-08-19T00:01:00Z" };
+  const invalidOrder: RunHistory = { schemaVersion: 1, updatedAt: current.finishedAt, runs: [current, laterSecond] };
+  assert.throws(() => validatePublicationArtifacts(archive, current, invalidOrder), /没有按完成时间倒序排列/);
+});
+
 test("cross-file contract rejects mismatched counts and service receipts", () => {
   const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")], candidates: [], runtimeStatus: [{ component: "LLM", status: "成功", attempted: 1, succeeded: 1, failed: 0, detail: "ok" }] };
   const manifest: RunManifest = { schemaVersion: 1, runId: "2026-08-08-test", date: archive.date, startedAt: "2026-08-08T00:00:00Z", finishedAt: "2026-08-08T00:01:00Z", status: "success", quality: { publicIndustryItems: 0, publicResearchItems: 0, candidates: 2, sourceFailures: 0 }, services: [{ component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "bad" }], outputs: 1 };
