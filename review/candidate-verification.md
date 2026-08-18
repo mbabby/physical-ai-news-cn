@@ -38,7 +38,7 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMicEFVX3lxTE03Mi1lZklkN2V2RHY3dEdpbFhTTUdGd1lWa1FaWlROQk9KZEdhQjFBY0xvbm8zdHdQSEhsOEs5bmFwYllZMVYwb1Bkb3hiNW9NY1F1QnN0V3UtT2xZQmYzVHJTbExOOEhaTHhpcGpndVg?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 融资丨数字华夏 · 投融资 · 等待重试
+## 数字华夏 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
 - 尝试：1；下次复核 2026-08-19
@@ -243,15 +243,6 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE1SWGg2OUkzeVFpTWFmQWE0c2h1RDFwV1pUUEJIUDRNUDJkcjJJc1UybjI0MDl0MG44S2F5VTEtdW1UOVFQcGJCSGgzZ01lUkpjUVFfV3VkMA?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
-## 自动化设备初创公司 Gravis Robotics · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：1；下次复核 2026-08-19
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUGpPOXl3UEMwNlBRVlhkRWlFNzZzM29hVnJRczVrbGRwN2t0Z1E0UzgxZDAwLXc1endqNWQzbFRBM3FtakUyOElib2M3OGxORjF1MFZPaFpUamxNcHVoLWl6T1hUVGFNSE9TMWdveE9GR2VudG1wTzN2N2IwU1gxODRRb21IX2kwSHNDOGJaaUJDMFcxNVhDSG5rTENPZktLOWN3cGlvVVU?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## DISCOVER Robotics 与 PokeBot 各 · 投融资 · 等待重试
@@ -522,6 +513,24 @@
 - 主动补证：尚未执行
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMipwFBVV95cUxOb3d1a3loMmdVM00zR1V3OVV0OFphSnNaM3htN1F3X0M3bThRUUxQTEZmM2twaDBUcXBmNjgwQU5xZkNLUExFS2FOdzZGandULTNJVWo2U1ZuMktmTmVFMnR0UnczUjBRdHRIbXNOVWNZQVVSeDJhcndRWXJUV1UzdDloYTFzUzZDN0JkVWJKZnJsZ3J6bXVsMTJSM1Z0cV9PX3NQWC1COA?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiYEFVX3lxTE45dFBHMjV4VUl3NnFrZ0tSTFB0dzZZTmJ0UldiX0phTTZUbWRKZjdaYlNmcHVPOHpWTVZKcGNIYTdYX0xpQjNNMTBEWWJOZnBQMkJaMFFoVnVmT1l1d0I0cw?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUGpPOXl3UEMwNlBRVlhkRWlFNzZzM29hVnJRczVrbGRwN2t0Z1E0UzgxZDAwLXc1endqNWQzbFRBM3FtakUyOElib2M3OGxORjF1MFZPaFpUamxNcHVoLWl6T1hUVGFNSE9TMWdveE9GR2VudG1wTzN2N2IwU1gxODRRb21IX2kwSHNDOGJaaUJDMFcxNVhDSG5rTENPZktLOWN3cGlvVVU?oc=5)
 - 结论：无法唯一识别公司主体
 
 ## 机器人公司融资600万美元用于开发新型血管成像平台 Robotics company · 投融资 · 等待重试
