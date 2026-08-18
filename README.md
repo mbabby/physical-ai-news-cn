@@ -27,9 +27,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-16 | 8 | 49 | 62 | 12 / 28 |
+| 2026-08-18 | 7 | 49 | 75 | 12 / 28 |
 
-**运行健康**：近 30 天日历覆盖 16/30（53%） · 已归档运行成功 16/16（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 17/30（57%） · 已归档运行成功 17/17（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -53,7 +53,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-16 · 最近确证产业事件 2026-08-13 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
+> 数据刷新至 2026-08-18 · 最近确证产业事件 2026-08-13 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
@@ -65,7 +65,6 @@
 
 - [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-13</sub><br>这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
 - [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
-- [Agility Robotics 在特斯拉“后院”插上旗帜](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/) <kbd>公司商业</kbd> <kbd>数据与训练</kbd> <sub>事件 07-17</sub><br>机器人公司 Agility Robotics 正在美国加利福尼亚州弗里蒙特开设一座新的训练中心，专门用于训练其 Digit 机器人。
 
 
 <!-- EVENT_CENTER_END -->
@@ -74,7 +73,7 @@
 
 <!-- WATCHLIST_START -->
 
-> 观察名单快照：2026-W33 · v1
+> 观察名单快照：2026-W34 · v1
 > 以下卡片均为 **AI 研究判断**，不是投资建议；事实与判断边界以公开证据和验证期限为准。
 
 ### 前瞻雷达
@@ -96,8 +95,8 @@
 ### 近 30 天产品 / 部署
 
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 事件 07-28
-- **NVIDIA** · [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) · 部署与商业化 <kbd>本周新增</kbd> · 事件 08-10
-- **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) · 部署与商业化 <kbd>本周新增</kbd> · 事件 08-12
+- **NVIDIA** · [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) · 部署与商业化 · 事件 08-10
+- **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) · 部署与商业化 · 事件 08-12
 
 > [查看 49 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 
