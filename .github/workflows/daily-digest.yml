@@ -128,11 +128,11 @@ jobs:
         if: steps.fallback.outputs.run == 'true'
         shell: bash
         run: |
-          # Dashboard data and Markdown are generated from the same digest.
-          # Stage both before rebasing, otherwise Git refuses to rebase with
-          # the dashboard JSON left unstaged and none of the refreshed pages
-          # reach main.
-          git add daily weekly sources review resources events research routes metrics watchlist site/data/dashboard.json FACTS_POLICY.md README.md README.en.md posts
+          # Keep the generated publication boundary in one executable script.
+          # It stages the dashboard, Watchlist change page and feeds together,
+          # then fails with exact paths if a future generator adds an output
+          # that this release transaction does not yet cover.
+          bash scripts/stage-generated-publication.sh
           if ! git diff --cached --quiet; then
             git config user.name "physical-ai-news-bot"
             git config user.email "actions@github.com"

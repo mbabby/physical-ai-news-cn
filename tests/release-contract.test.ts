@@ -24,13 +24,13 @@ test("daily workflow retains deadlines, serialization and release gates", async 
   assert.match(workflow, /pnpm run validate:release/);
   assert.match(workflow, /review\/pipeline-health\.json/);
   assert.match(workflow, /package-manager-cache:\s*false/);
-  assert.match(workflow, /git add[^\n]*\breview\b/);
+  assert.match(workflow, /bash scripts\/stage-generated-publication\.sh/);
   assert.match(workflow, /### Watchlist/);
   assert.match(workflow, /select\(\.component == "Watchlist"\)/);
   assert.match(workflow, /watchlist\/current\.json/);
   assert.match(workflow, /\.forwardRadar \| length/);
   assert.match(workflow, /\.validatedMomentum \| length/);
-  assert.match(workflow, /git add[^\n]*\bwatchlist\b/);
+  assert.doesNotMatch(workflow, /git add[^\n]*site\/data\/dashboard\.json/);
   assert.doesNotMatch(workflow, /watchlist-(?:seeds|drafts)\.json/);
 });
 
