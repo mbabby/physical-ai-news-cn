@@ -29,35 +29,61 @@ const timeoutCollection = async (): Promise<DigestResult> => ({
 async function copyFixture(target: string): Promise<void> {
   await mkdir(target, { recursive: true });
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  // Immutable snapshots are publication outputs, not test inputs. Keeping the
+  // repository's ever-growing history makes this fixed-clock harness collide
+  // with a historical week after a real daily release adds that week.
+  await rm(join(target, "watchlist", "current.json"), { force: true });
+  await rm(join(target, "watchlist", "theses.json"), { force: true });
+  await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
+  await mkdir(join(target, "watchlist", "history"), { recursive: true });
 }
 
 async function seedNonEmptyPriorPreview(root: string): Promise<void> {
   const generatedAt = FIXED_NOW.toISOString();
+  const thesis = {
+    thesisId: "thesis-nvidia-stage4-fixture",
+    companyId: "nvidia",
+    track: "forward-radar" as const,
+    lifecycle: "new" as const,
+    thesisVersion: 1,
+    whyNow: "AI 研究判断：NVIDIA 已出现可追溯的规范事实。",
+    routeAndDependencies: "AI 研究判断：NVIDIA 当前沿世界模型与空间智能路线观察。",
+    nextValidationPoints: [{ text: "核验后续可追溯的产品或部署事实。", dueAt: "2026-10-08" }],
+    falsifiers: [{ text: "若规范事实被撤回，则停止当前判断。" }],
+    factReferenceIds: ["evt-9da8fb3e629b"],
+    verifiedSensitiveBindings: [],
+    inferenceLabels: ["AI 研究判断"],
+    confidence: "medium" as const,
+    generatedAt: "2026-08-09T08:00:00.000Z",
+    expiresAt: "2026-10-08T08:00:00.000Z",
+    modelVersion: "fixture-lkg",
+    promptVersion: "fixture-v1",
+    methodologyVersion: "v1",
+  };
   const preview: WatchlistPreviewArtifact = {
     schemaVersion: 2,
     generatedAt,
-    theses: [{
-      thesisId: "thesis-nvidia-stage4-fixture",
-      companyId: "nvidia",
-      track: "forward-radar",
-      lifecycle: "new",
-      thesisVersion: 1,
-      whyNow: "AI 研究判断：NVIDIA 已出现可追溯的规范事实。",
-      routeAndDependencies: "AI 研究判断：NVIDIA 当前沿世界模型与空间智能路线观察。",
-      nextValidationPoints: [{ text: "核验后续可追溯的产品或部署事实。", dueAt: "2026-10-15" }],
-      falsifiers: [{ text: "若规范事实被撤回，则停止当前判断。" }],
-      factReferenceIds: ["evt-9da8fb3e629b"],
-      verifiedSensitiveBindings: [],
-      inferenceLabels: ["AI 研究判断"],
-      confidence: "medium",
-      generatedAt: "2026-08-16T00:00:00.000Z",
-      expiresAt: "2026-10-15T00:00:00.000Z",
-      modelVersion: "fixture-lkg",
-      promptVersion: "fixture-v1",
-      methodologyVersion: "v1",
-    }],
+    theses: [thesis],
   };
+  const priorSnapshot: WatchlistSnapshot = {
+    week: "2026-W32",
+    snapshotVersion: 1,
+    methodologyVersion: "v1",
+    generatedAt: thesis.generatedAt,
+    forwardRadar: [{ companyId: thesis.companyId, thesisId: thesis.thesisId, thesisVersion: 1, group: "priority-focus" }],
+    validatedMomentum: [],
+    changesSinceLastWeek: [],
+    routeShareException: {
+      route: "VLA 与具身模型",
+      share: 1,
+      reason: "固定集成夹具仅保留一条可追溯路线。",
+    },
+  };
+  const thesisArtifact: CompanyThesisArtifact = { schemaVersion: 1, generatedAt: thesis.generatedAt, theses: [thesis] };
   await writeFile(join(root, "review", "watchlist-preview.json"), `${JSON.stringify(preview, null, 2)}\n`);
+  await writeFile(join(root, "watchlist", "current.json"), `${JSON.stringify(priorSnapshot, null, 2)}\n`);
+  await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), `${JSON.stringify(priorSnapshot, null, 2)}\n`);
+  await writeFile(join(root, "watchlist", "theses.json"), `${JSON.stringify(thesisArtifact, null, 2)}\n`);
 }
 
 async function runFixedGeneration(root: string, options: {
@@ -232,17 +258,17 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
       return manifest;
     }, { status: "degraded" });
     await fault("corrupt-prior-json", async (root) => {
-      await writeFile(join(root, "watchlist", "history", "2026-W33-v1.json"), "{not-json\n");
+      await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
     }, { status: "failed", code: "corrupt-watchlist-history" });
     await fault("history-week-identity-mismatch", async (root) => {
-      const path = join(root, "watchlist", "history", "2026-W33-v1.json");
+      const path = join(root, "watchlist", "history", "2026-W32-v1.json");
       const snapshot = JSON.parse(await readFile(path, "utf8")) as WatchlistSnapshot;
-      await writeFile(path, `${JSON.stringify({ ...snapshot, week: "2026-W32" }, null, 2)}\n`);
+      await writeFile(path, `${JSON.stringify({ ...snapshot, week: "2026-W31" }, null, 2)}\n`);
       return async () => runFixedGeneration(root);
     }, { status: "failed", code: "corrupt-watchlist-history" });
     await fault("history-version-identity-mismatch", async (root) => {
-      const path = join(root, "watchlist", "history", "2026-W33-v1.json");
+      const path = join(root, "watchlist", "history", "2026-W32-v1.json");
       const snapshot = JSON.parse(await readFile(path, "utf8")) as WatchlistSnapshot;
       await writeFile(path, `${JSON.stringify({ ...snapshot, snapshotVersion: 2 }, null, 2)}\n`);
       return async () => runFixedGeneration(root);
