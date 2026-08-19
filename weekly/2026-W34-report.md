@@ -1,14 +1,15 @@
 # 物理 AI 周报 · 2026-W34
 
-> 截止 2026-08-18。只纳入主体明确、中文事实简介完整、且具 A/B 级非线索证据的公开条目。
+> 截止 2026-08-19。只纳入主体明确、中文事实简介完整、且具 A/B 级非线索证据的公开条目。
 
 ## 新增事件
 
+- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)：Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
+- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)：Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)：这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)：文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
 
 ## 融资与并购
 
@@ -16,11 +17,12 @@
 
 ## 产品与部署
 
+- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)：Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
+- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)：Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)：这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
 - **Humanoid** · [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)：RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)：A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
 - **Toyota Research Institute** · [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)：Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [3700亿美元之争：一体化设计助力人形机器人厂商赢得快速增长市场](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)：文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
 
 ## 研究前沿
 
@@ -37,8 +39,8 @@
 
 ## 项目指标
 
-- 日历覆盖：17/30（57%）；已归档运行成功：17/17（100%）
-- 首页有效条目：7；A/B 级证据比例：100%；公司档案覆盖：5 家。
+- 日历覆盖：18/30（60%）；已归档运行成功：18/18（100%）
+- 首页有效条目：9；A/B 级证据比例：100%；公司档案覆盖：5 家。
 
 ## 待验证候选
 

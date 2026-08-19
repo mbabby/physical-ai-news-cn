@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T04:07:40.549Z",
+  "generatedAt": "2026-08-19T00:57:12.856Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -66,7 +66,7 @@
   },
   "budget": {
     "maxPlansPerRun": 20,
-    "attemptedPlans": 5,
+    "attemptedPlans": 7,
     "deferredPlans": 0,
     "maxProbesPerPlan": 6
   },
@@ -947,6 +947,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-9b9d74913f7d976f48fb",
+      "recordId": "verify-ef4803d20bf3bf",
+      "companyName": "Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并",
+      "eventKind": "投融资",
+      "fingerprint": "139200d7212ab2a74527",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 98,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-4ae3948713a362a3e3a1",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-fad53cc6c9b4fd1d817a",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-25cceb0c655f080d6225",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e29e586295e0ea7ebeca",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ea4f5c439a74b3f2db67",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-f8c71d13c7af9f4ca4aa",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-cd69de04e01aa319e636",
       "recordId": "verify-1b9374c5543d18",
       "companyName": "防务无人机开发商 Cambridge Aerospace",
@@ -1820,6 +1917,200 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-4e718b1582abd0afdbd8",
+      "recordId": "verify-3d0bdb81881bc0",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "817b7f1da8af7eb7dfb0",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-48890a3745db9207dfde",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1c8cb3e9768b8cc2bd60",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-afcaf3351ff78672f203",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-49652a00af5e8299ba26",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b7edb67d703ae668d1e8",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a3ddba62d7f0b440f13e",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"FORT Robotics 将与 Newbury Street II Acquisition Corp 合并上市，推进物理 AI 安全\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-ad126382ada76e49fff9",
+      "recordId": "verify-3fb3435e34c118",
+      "companyName": "FORT Robotics 与",
+      "eventKind": "投融资",
+      "fingerprint": "b589e2817a3f09111249",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-20b011bbbf0ea0219892",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-4902cd4222e2741873cd",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0e7accb60dcd0bf964b5",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ceedae18c976bccd4a94",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-d2ecd93bf43f6368d151",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-77cc67a1896cac4f9360",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"FORT Robotics 与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-1a345afc7f8be2e03a25",
       "recordId": "verify-55772134962822",
       "companyName": "DISCOVER Robotics 与 PokeBot 各",
@@ -2305,6 +2596,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-5db48e866e49fa4c1133",
+      "recordId": "verify-9f62591631a5f6",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "600bf6824dadb49b85b4",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-ccd66d69cefb06178207",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-c0cb6d99ff690fc937b7",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8e52e84891937c3b8862",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e23050ec0a132410656c",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-52cdf7af45bd8a822d0a",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-26d7b39a8a8158437a0d",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"FORT Robotics将通过与Newbury Street II Acquisition Corp的业务合并上市\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-2907c735d792dec26703",
       "recordId": "verify-ad24f458b2c06e",
       "companyName": "Onconetix",
@@ -2398,6 +2786,103 @@
       "createdAt": "2026-08-10T11:44:36.399Z",
       "lastAttemptAt": "2026-08-16T00:59:26.984Z",
       "nextAttemptAt": "2026-08-23T00:59:26.984Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-a22043445c4865195133",
+      "recordId": "verify-adc00a5b3c56b7",
+      "companyName": "自主施工设备技术公司 Gravis Robotics",
+      "eventKind": "投融资",
+      "fingerprint": "b5353ee834c3264c5774",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-95dccc0d19ec5f17adf7",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-39af5c0b2a7e984d86de",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-e4625756a39ce1b6f289",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-54369ddf62a077f287fa",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8073406009fc511bad6e",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b3aa11f181f8607b4abe",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"自主施工设备技术公司 Gravis Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -5213,6 +5698,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-a9dfdd33b5ac5c550d9e",
+      "recordId": "verify-478f4757078dc1",
+      "companyName": "人形机器人成本下降九成，灵巧手",
+      "eventKind": "投融资",
+      "fingerprint": "6379b972a1377c12473d",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-d278d7011c7efd92eafa",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-63eb205c099a17770d57",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9795b3ccd72a3e813074",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-a47d437df850e545da3a",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-34e9af5f4fe4be725a86",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-814da6b316f6b48bbcbb",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"人形机器人成本下降九成，灵巧手\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-a4268eaa7bcd4d8e5bcd",
       "recordId": "verify-4f46e3b46284d4",
       "companyName": "待识别公司",
@@ -6757,6 +7339,103 @@
       "createdAt": "2026-08-12T01:25:08.608Z",
       "lastAttemptAt": "2026-08-18T03:54:07.709Z",
       "nextAttemptAt": "2026-08-25T03:54:07.709Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-bcb11e8c9e475103c3a3",
+      "recordId": "verify-c48474f0544ba7",
+      "companyName": "肯塔基州西部五所学校",
+      "eventKind": "投融资",
+      "fingerprint": "702e29c77258d6fcd96e",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-42c488230f34cf004040",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b88648cd7c8b2f0f43b7",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ea065b08cf72c1b88d77",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-3915dc51ae040b054b34",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2b9d424748127a865de2",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ec14435616522bdf525e",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"肯塔基州西部五所学校\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
+      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },

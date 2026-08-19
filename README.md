@@ -27,9 +27,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-18 | 7 | 49 | 75 | 12 / 28 |
+| 2026-08-19 | 9 | 49 | 75 | 12 / 28 |
 
-**运行健康**：近 30 天日历覆盖 17/30（57%） · 已归档运行成功 17/17（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 18/30（60%） · 已归档运行成功 18/18（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -53,18 +53,19 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-18 · 最近确证产业事件 2026-08-13 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
+> 数据刷新至 2026-08-19 · 最近确证产业事件 2026-08-18 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>事件 07-28</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
-- [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-10</sub><br>VicOne 推出免费的 Radeis Extension 扩展，让开发者能在 NVIDIA Isaac Sim 中于部署前测试机器人的网络安全性。摘要未提供真实机器人、基准或开源证据。
-- [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
+- [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-18</sub><br>Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
+- [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-18</sub><br>Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
 
 ### 最新动态
 
 - [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-13</sub><br>这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
-- [Stratom 团队获美国陆军合同，开发 TALUS 自主后勤分发系统](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>Stratom 领导的团队赢得美国陆军合同，将开发面向对抗环境的 TALUS 自主后勤系统，以强化陆军的自主分发与保障能力。摘要未提供真实机器人、基准或开源证据。
+- [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
+- [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-10</sub><br>VicOne 推出免费的 Radeis Extension 扩展，让开发者能在 NVIDIA Isaac Sim 中于部署前测试机器人的网络安全性。摘要未提供真实机器人、基准或开源证据。
 
 
 <!-- EVENT_CENTER_END -->
@@ -95,8 +96,8 @@
 ### 近 30 天产品 / 部署
 
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 事件 07-28
-- **NVIDIA** · [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) · 部署与商业化 · 事件 08-10
-- **Toyota Research Institute** · [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) · 部署与商业化 · 事件 08-12
+- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/) · 部署与商业化 <kbd>本周新增</kbd> · 事件 08-18
+- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) · 本体与硬件 <kbd>本周新增</kbd> · 事件 08-18
 
 > [查看 49 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 

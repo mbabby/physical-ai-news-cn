@@ -1,28 +1,21 @@
 {
-  "generatedAt": "2026-08-18T04:07:40.549Z",
+  "generatedAt": "2026-08-19T00:57:12.856Z",
   "windowDays": 30,
   "metrics": {
-    "publicIndustryEvents30d": 7,
-    "newPublicIndustryEvents7d": 5,
+    "publicIndustryEvents30d": 9,
+    "newPublicIndustryEvents7d": 6,
     "dominantEventDate": "2026-08-12",
-    "dominantEventDateShare": 0.29,
-    "hoursSinceLatestPublicIndustryEvent": 109,
-    "candidateBacklog": 166,
+    "dominantEventDateShare": 0.22,
+    "hoursSinceLatestPublicIndustryEvent": 4,
+    "candidateBacklog": 174,
     "arxivIndustryEvents": 0
   },
   "alerts": [
     {
-      "code": "no-new-industry-evidence",
-      "severity": "警告",
-      "message": "已连续 109 小时没有新的 A/B 级公开产业证据。",
-      "value": 109,
-      "threshold": 72
-    },
-    {
       "code": "candidate-backlog",
       "severity": "严重",
-      "message": "候选层积压 166 条去重线索，需要扩充二次核验能力或调整低质量来源。",
-      "value": 166,
+      "message": "候选层积压 174 条去重线索，需要扩充二次核验能力或调整低质量来源。",
+      "value": 174,
       "threshold": 20
     }
   ]

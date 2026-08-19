@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T04:07:40.549Z",
+  "generatedAt": "2026-08-19T00:57:12.856Z",
   "units": [
     {
       "unitId": "decision-11dadecc97b99204",
@@ -80,6 +80,47 @@
           "detail": "Qualified fact reference entered the public decision shortlist",
           "referenceIds": [
             "event:evt-19cd4b187e55"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-182a725dd29e8701",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-f308b90acf20",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-f308b90acf20"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "updatedAt": "2026-08-19T00:57:12.856Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-182a725dd29e8701:created",
+          "at": "2026-08-19T00:57:12.856Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-f308b90acf20"
+          ]
+        },
+        {
+          "eventId": "decision-182a725dd29e8701:public-shortlist",
+          "at": "2026-08-19T00:57:12.856Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-f308b90acf20"
           ]
         }
       ]
@@ -326,6 +367,47 @@
           "detail": "Qualified fact reference entered the public decision shortlist",
           "referenceIds": [
             "research-decision-card:67bc274b4c9fcfb0"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "decision-504ac1ace94324af",
+      "actorId": "public-intelligence",
+      "decisionKey": "event:evt-850199525835",
+      "references": [
+        {
+          "kind": "event",
+          "id": "evt-850199525835"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-19T00:57:12.856Z",
+      "updatedAt": "2026-08-19T00:57:12.856Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-504ac1ace94324af:created",
+          "at": "2026-08-19T00:57:12.856Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "event:evt-850199525835"
+          ]
+        },
+        {
+          "eventId": "decision-504ac1ace94324af:public-shortlist",
+          "at": "2026-08-19T00:57:12.856Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "event:evt-850199525835"
           ]
         }
       ]
@@ -1111,19 +1193,19 @@
     }
   ],
   "funnel": {
-    "totalUnits": 27,
+    "totalUnits": 29,
     "byStage": {
       "discovered": 0,
-      "shortlisted": 27,
+      "shortlisted": 29,
       "evaluating": 0,
       "decided": 0,
       "acted": 0,
       "dismissed": 0
     },
-    "active": 27,
+    "active": 29,
     "converted": 0,
     "rejected": 0,
-    "transitionEvents": 27,
+    "transitionEvents": 29,
     "conversionRate": 0
   }
 }

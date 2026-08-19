@@ -246,7 +246,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 客户试点
 - 主体证据：[公司官网](https://www.tri.global/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)，2026-08-12）；公司商业（[证据](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)，2026-08-12）
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)，2026-08-12）；公司商业（[证据](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)，2026-08-12）
 
 ## [Stanford Robotics Center](https://src.stanford.edu/)
 
@@ -266,7 +266,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
 - 主体证据：[公司官网](https://thehumanoid.ai/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)，2026-08-13）；公司商业（[证据](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)，2026-08-13）；公司商业（[证据](https://www.therobotreport.com/the-370-billion-dollar-race-how-integrated-design-can-help-humanoid-manufacturers-succeed-in-a-rapidly-growing-market/)，2026-08-11）
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)，2026-08-13）；公司商业（[证据](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)，2026-08-13）
 
 ## [Mentee Robotics](https://www.menteebot.com/)
 

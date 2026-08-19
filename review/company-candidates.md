@@ -19,7 +19,7 @@
 ## Gravis Robotics · 观察中 · 73/100
 
 - 路线：部署与商业化
-- 证据：[The Robot Report](https://www.therobotreport.com/gravis-robotics-raises-200m-autonomous-construction/) · [Pulse 2.0](https://news.google.com/rss/articles/CBMiugFBVV95cUxQVW1QOURWU0xxNnFNN2ttanVxY3N2VHk2QkU1c1ZWZG9vY1RTd1dvVUp3S2oxWnoxQnlQbl9fbWU5Nnl3Tk1mQWhXRmRUUW5BVWw5T3JDTDlUWHNwTDZlV3BaNFJMQzF3alpydV9aN1pDOEl5eDVkY2xqY2NnaDJDSHgyZEV4SG1mYmh0MXZfajFoNGtYUkxTWVpOc0hhQ0xqc0Mzaml0WWtXaF9QS01sYkpzZlNFOVJJMGfSAb8BQVVfeXFMT1pZRS1wQnBTODdDYnVGamZCSUFuRUg4TlZfY1ZRWTQ5SkhoTGpOcHNPc3BkcmNaV2VWVjJQNFZVb2JibW9RWl9kTE4wcjBDR3h1bUFOSkRzTVZFVXBKbDFtR19tSElaT1NqcUVScFBraFRJc3l3OFRmaVlNNENpNE9xcy1GTUZwclhEckctclNFVGppM2tlLUl6UWR2eTdPUThWX0VzbzRTOHJkREJKZnY5cWtQeFhZZkNUbThEeW8?oc=5) · [AI Insider](https://news.google.com/rss/articles/CBMi3gFBVV95cUxNQV9BdnFyb25GR0V6b1ZsZndGRnQ5ZVVvOUdOcVhtYkZsaXZYV1RDQ1IxaFRyYS1RdUVWalBiNVNhNnJLNXdJNDJNQUgzemhkeXAtUzRESWRETDlRV0Fnb3Y0MjE1bldya0gzdTBxRzlfamh0eWl2OUdTQjh1LXVCdzJhMDl5T3lNakhVeXhvdFhtOS12RWlTWHZnSTJGNDcyWnB1S29ScjR2bkgtUzNGbG56bGw3a3RMZlVWVHhXMi1nZmdiTndPUFZncUZRTkFGLTJPNEZiYW5QN3VpV2c?oc=5) · [pluang.com](https://news.google.com/rss/articles/CBMinwFBVV95cUxNc09RbWRWM3RJLVNBZlFNN0FXZElyYTZ2SG5pYWotOXJJUnkzUFhFZlJYY19sZHE1RFJlUWxiM3Q0eE43em15eGp2X0k0WndVQlhPTGVRT1VLTmYzUktvdFIxcFF4SEJ4SEJ5NzNrNGhGOXE2aXQ4X1JPS1ZZQ2ZVVXdFZUQ5NHhLMUwtUC1oME4xY015aC1GRC1JaGhFVms?oc=5) · [Engineering News-Record](https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUGpPOXl3UEMwNlBRVlhkRWlFNzZzM29hVnJRczVrbGRwN2t0Z1E0UzgxZDAwLXc1endqNWQzbFRBM3FtakUyOElib2M3OGxORjF1MFZPaFpUamxNcHVoLWl6T1hUVGFNSE9TMWdveE9GR2VudG1wTzN2N2IwU1gxODRRb21IX2kwSHNDOGJaaUJDMFcxNVhDSG5rTENPZktLOWN3cGlvVVU?oc=5)
+- 证据：[The Robot Report](https://www.therobotreport.com/gravis-robotics-raises-200m-autonomous-construction/) · [Pulse 2.0](https://news.google.com/rss/articles/CBMiugFBVV95cUxQVW1QOURWU0xxNnFNN2ttanVxY3N2VHk2QkU1c1ZWZG9vY1RTd1dvVUp3S2oxWnoxQnlQbl9fbWU5Nnl3Tk1mQWhXRmRUUW5BVWw5T3JDTDlUWHNwTDZlV3BaNFJMQzF3alpydV9aN1pDOEl5eDVkY2xqY2NnaDJDSHgyZEV4SG1mYmh0MXZfajFoNGtYUkxTWVpOc0hhQ0xqc0Mzaml0WWtXaF9QS01sYkpzZlNFOVJJMGfSAb8BQVVfeXFMT1pZRS1wQnBTODdDYnVGamZCSUFuRUg4TlZfY1ZRWTQ5SkhoTGpOcHNPc3BkcmNaV2VWVjJQNFZVb2JibW9RWl9kTE4wcjBDR3h1bUFOSkRzTVZFVXBKbDFtR19tSElaT1NqcUVScFBraFRJc3l3OFRmaVlNNENpNE9xcy1GTUZwclhEckctclNFVGppM2tlLUl6UWR2eTdPUThWX0VzbzRTOHJkREJKZnY5cWtQeFhZZkNUbThEeW8?oc=5) · [AI Insider](https://news.google.com/rss/articles/CBMi3gFBVV95cUxNQV9BdnFyb25GR0V6b1ZsZndGRnQ5ZVVvOUdOcVhtYkZsaXZYV1RDQ1IxaFRyYS1RdUVWalBiNVNhNnJLNXdJNDJNQUgzemhkeXAtUzRESWRETDlRV0Fnb3Y0MjE1bldya0gzdTBxRzlfamh0eWl2OUdTQjh1LXVCdzJhMDl5T3lNakhVeXhvdFhtOS12RWlTWHZnSTJGNDcyWnB1S29ScjR2bkgtUzNGbG56bGw3a3RMZlVWVHhXMi1nZmdiTndPUFZncUZRTkFGLTJPNEZiYW5QN3VpV2c?oc=5) · [pluang.com](https://news.google.com/rss/articles/CBMinwFBVV95cUxNc09RbWRWM3RJLVNBZlFNN0FXZElyYTZ2SG5pYWotOXJJUnkzUFhFZlJYY19sZHE1RFJlUWxiM3Q0eE43em15eGp2X0k0WndVQlhPTGVRT1VLTmYzUktvdFIxcFF4SEJ4SEJ5NzNrNGhGOXE2aXQ4X1JPS1ZZQ2ZVVXdFZUQ5NHhLMUwtUC1oME4xY015aC1GRC1JaGhFVms?oc=5) · [Engineering News-Record](https://news.google.com/rss/articles/CBMiqAFBVV95cUxPUGpPOXl3UEMwNlBRVlhkRWlFNzZzM29hVnJRczVrbGRwN2t0Z1E0UzgxZDAwLXc1endqNWQzbFRBM3FtakUyOElib2M3OGxORjF1MFZPaFpUamxNcHVoLWl6T1hUVGFNSE9TMWdveE9GR2VudG1wTzN2N2IwU1gxODRRb21IX2kwSHNDOGJaaUJDMFcxNVhDSG5rTENPZktLOWN3cGlvVVU?oc=5) · [Construction Dive](https://news.google.com/rss/articles/CBMikwFBVV95cUxOSmxyMzUyY0ZUeW9OV1dGeEZNdDNieTVnd0JMOUVnMlgwcEhzWnZpbXU2TGJIbGZNRDVnYVBreUxtUUpXZV9IcjlXc2Z0RFpzclg3VlpQX19tcVR3WnpZVG9RZjh1bFdQNDNMRmY5UzR0NHhoREt6alQ3RXlaZmZxcm9PQnFIOHJpOC1oeFlmNjhNN0E?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Gravis%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Gravis%20Robotics%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
@@ -196,6 +196,20 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 人形机器人成本下降九成，灵巧手 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[新浪财经](https://news.google.com/rss/articles/CBMibkFVX3lxTE94eUl6MlpHV3M1SVltVzJFcDlyZEdabnFmTFRVWVVHc3JSNVBNdGRCd2FVMFdnUEQ0amRGWWh5aEJNR3AwZUQ3NGRfeDN4dnhwQWY0aUpYa1NlQTRveTYydDlCQm5rMjI0bllLMTdR?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%88%90%E6%9C%AC%E4%B8%8B%E9%99%8D%E4%B9%9D%E6%88%90%EF%BC%8C%E7%81%B5%E5%B7%A7%E6%89%8B%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%88%90%E6%9C%AC%E4%B8%8B%E9%99%8D%E4%B9%9D%E6%88%90%EF%BC%8C%E7%81%B5%E5%B7%A7%E6%89%8B%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## FORT Robotics · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Modern Materials Handling](https://news.google.com/rss/articles/CBMilwFBVV95cUxQU3Z1UnR5NWpJV0NIUlRmY1QydHRkcnoyclhhRnVDRU9YS1JRaXpHTU12VFNXQkFNdmd3RUVIOHRxaDM0dWxFTTdVMG9GTm90SWs2RVlBUjRsenBwOFo2emh0Nm4tTmhHWEpKTmRZWUx6bThsMG5UazMzanBtdGhrX1h2VHluYjh1aUtrdi1MdlVUamExcTkw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22FORT%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22FORT%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 大湾区机器人产业新爆点，广汽人形机器人公司 · 候选 · 22/100
