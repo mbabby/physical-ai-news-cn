@@ -263,10 +263,10 @@
 - 地域 / 阶段：欧洲 / 创业公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：面向产业与服务场景的通用人形机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
+- 档案状态：资本 证据不足（不代表未融资）；验证 规模部署 / 商业化
 - 主体证据：[公司官网](https://thehumanoid.ai/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)，2026-08-13）；公司商业（[证据](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)，2026-08-13）
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)，2026-08-19）；公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)，2026-08-13）
 
 ## [Mentee Robotics](https://www.menteebot.com/)
 
@@ -303,10 +303,10 @@
 - 地域 / 阶段：中国 / 成长公司
 - 技术路线：本体与硬件 · 数据与训练
 - 核心押注：高性能机器人本体与开发者生态。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
+- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
 - 主体证据：[公司官网](https://www.unitree.com/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/)，2026-08-19）
 
 ## [优必选](https://www.ubtrobot.com/)
 

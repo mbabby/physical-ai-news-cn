@@ -11,7 +11,7 @@
 - **Alloy Robotics** · 观察中 · 67/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **半年4轮5亿** · 观察中 · 67/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 - **西湖机器人** · 观察中 · 67/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
-- **橡木果机器人** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
+- **Peppy** · 观察中 · 57/100 · 需要：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。 · [提交公司或融资证据](../../issues/new/choose)
 
 ## 待补事件证据
 
@@ -26,12 +26,12 @@
 
 ## 待评估信源
 
-- **craigmod.com** · 连续成功 5 次 · 样例：[A Swarm of Blood Robots](https://craigmod.com/essays/robot_blood/) · [提交信源建议](../../issues/new/choose)
-- **hackaday.com** · 连续成功 11 次 · 样例：[ShieldFont: Bludgeoning AI Scrapers That Disrespect Robots.txt](https://hackaday.com/2026/08/14/shieldfont-bludgeoning-ai-scrapers-that-disrespect-robots-txt/) · [提交信源建议](../../issues/new/choose)
-- **phys.org** · 连续成功 3 次 · 样例：[Swarms of tiny robots remove microplastics from soil and water](https://phys.org/news/2026-08-swarms-tiny-robots-microplastics-soil.html) · [提交信源建议](../../issues/new/choose)
-- **humanoidanalytics.com** · 连续成功 3 次 · 样例：[The Global Humanoid Robotics Ecosystem Is Broader Than Robot Makers](https://humanoidanalytics.com/2026/08/13/the-global-humanoid-robotics-ecosystem-is-broader-than-robot-makers/) · [提交信源建议](../../issues/new/choose)
-- **github.com** · 连续成功 16 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
-- **lesswrong.com** · 连续成功 6 次 · 样例：[Misaligned AIs could use killer robots to take over](https://www.lesswrong.com/posts/9jKhqmFjMzdAvHANr/misaligned-ais-could-use-killer-robots-to-take-over) · [提交信源建议](../../issues/new/choose)
+- **craigmod.com** · 连续成功 6 次 · 样例：[A Swarm of Blood Robots](https://craigmod.com/essays/robot_blood/) · [提交信源建议](../../issues/new/choose)
+- **hackaday.com** · 连续成功 12 次 · 样例：[ShieldFont: Bludgeoning AI Scrapers That Disrespect Robots.txt](https://hackaday.com/2026/08/14/shieldfont-bludgeoning-ai-scrapers-that-disrespect-robots-txt/) · [提交信源建议](../../issues/new/choose)
+- **phys.org** · 连续成功 4 次 · 样例：[Swarms of tiny robots remove microplastics from soil and water](https://phys.org/news/2026-08-swarms-tiny-robots-microplastics-soil.html) · [提交信源建议](../../issues/new/choose)
+- **humanoidanalytics.com** · 连续成功 4 次 · 样例：[The Global Humanoid Robotics Ecosystem Is Broader Than Robot Makers](https://humanoidanalytics.com/2026/08/13/the-global-humanoid-robotics-ecosystem-is-broader-than-robot-makers/) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 17 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
+- **lesswrong.com** · 连续成功 7 次 · 样例：[Misaligned AIs could use killer robots to take over](https://www.lesswrong.com/posts/9jKhqmFjMzdAvHANr/misaligned-ais-could-use-killer-robots-to-take-over) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

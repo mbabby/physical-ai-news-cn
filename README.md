@@ -27,9 +27,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-19 | 9 | 49 | 75 | 12 / 28 |
+| 2026-08-20 | 11 | 49 | 84 | 13 / 27 |
 
-**运行健康**：近 30 天日历覆盖 18/30（60%） · 已归档运行成功 18/18（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 19/30（63%） · 已归档运行成功 19/19（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -53,18 +53,18 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-19 · 最近确证产业事件 2026-08-18 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
+> 数据刷新至 2026-08-20 · 最近确证产业事件 2026-08-19 · 近 30 天事件按真实发生/公告日期筛选；核验时间不冒充事件时间。
 
 ### 本期关键进展
 
 - [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) <kbd>产品发布</kbd> <kbd>VLA 与具身模型</kbd> <sub>事件 07-28</sub><br>Gemini Robotics ER 2 可帮助机器人推理、协作并解决现实世界任务，在视频理解、工具编排与多机器人协作方面实现跨越式进步，面向机器人应用。
-- [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-18</sub><br>Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
-- [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-18</sub><br>Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
+- [Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-19</sub><br>Kollmorgen 将在 RoboBusiness 发表演讲，逐关节解析人形机器人各身体部位的运动需求与量产挑战。摘要未提供真实机器人、基准或开源证据。
+- [Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-19</sub><br>文章探讨了 Unitree Robotics 完成 IPO 的意义，并追问哪些人形机器人公司会跟进上市。摘要未提供真实机器人、基准或开源证据。
 
 ### 最新动态
 
-- [移动机械臂与人形机器人：机器人的未来](https://www.therobotreport.com/mobile-manipulators-and-humanoids/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-13</sub><br>这份免费下载报告梳理了人形机器人的发展现状，介绍了当前的机器人开发者并收录了行业专家访谈。摘要未提供真实机器人、基准或开源证据。
-- [A3称2026年第二季度机器人需求跨行业增长](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-12</sub><br>A3报告称，2026年第二季度机器人需求跨行业上升，食品、电子和医疗订单抵消了汽车制造需求疲软。摘要未提供真实机器人、基准或开源证据。
+- [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/) <kbd>公司商业</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-18</sub><br>Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
+- [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) <kbd>公司商业</kbd> <kbd>本体与硬件</kbd> <sub>事件 08-18</sub><br>Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
 - [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/) <kbd>产品发布</kbd> <kbd>部署与商业化</kbd> <sub>事件 08-10</sub><br>VicOne 推出免费的 Radeis Extension 扩展，让开发者能在 NVIDIA Isaac Sim 中于部署前测试机器人的网络安全性。摘要未提供真实机器人、基准或开源证据。
 
 
@@ -96,8 +96,8 @@
 ### 近 30 天产品 / 部署
 
 - **Google DeepMind** · [谷歌 DeepMind 推出 Gemini Robotics 2，强化自适应机器人能力](https://spectrum.ieee.org/video-robot-gemini2-ai-robot) · VLA 与具身模型 · 事件 07-28
-- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/) · 部署与商业化 <kbd>本周新增</kbd> · 事件 08-18
-- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) · 本体与硬件 <kbd>本周新增</kbd> · 事件 08-18
+- **Humanoid** · [Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/) · 本体与硬件 <kbd>本周新增</kbd> · 事件 08-19
+- **宇树科技** · [Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/) · 本体与硬件 <kbd>本周新增</kbd> · 事件 08-19
 
 > [查看 49 家公司的完整档案、技术路线与资本证据](resources/companies.md)
 
@@ -113,7 +113,7 @@
 
 - [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：来自 UC Berkeley；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Y. Mei · UC Berkeley</sub>
 
-- [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：来自 清华大学；提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai · 清华大学</sub>
+- [HiPHI：大规模高精度人体运动与物体交互基准数据集](https://arxiv.org/abs/2608.16222v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>清华大学</kbd><br>研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。<br>值得关注：来自 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Jiahao Ji · 清华大学</sub>
 
 - [HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准](https://arxiv.org/abs/2608.12860v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>开源</kbd><br>研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。<br>值得关注：提供真实机器人、基准、开源证据。<br><sub>重点作者 / 实验室：Quan-Dung Pham</sub>
 

@@ -6,7 +6,7 @@
 
 | 路线 | 已建档公司 | 有资本信号 | 有产品 / 部署信号 |
 | --- | ---: | ---: | ---: |
-| 本体与硬件 | 33 | 0 | 2 |
+| 本体与硬件 | 33 | 0 | 3 |
 | VLA 与具身模型 | 26 | 0 | 1 |
 | 数据与训练 | 14 | 0 | 0 |
 | 部署与商业化 | 28 | 0 | 0 |
@@ -14,19 +14,20 @@
 
 ## 01 · 本体与硬件
 
-**谁在做**：33 家已建档公司；2 家已有可追溯资本或产品 / 部署信号。  
+**谁在做**：33 家已建档公司；3 家已有可追溯资本或产品 / 部署信号。  
 **怎么做**：执行器、触觉、灵巧手、整机设计  
 **资本是否支持**：0 家已证实；0 家有待补强的资本信号。  
-**验证到哪**：2 家有公开产品 / 部署证据；最高为实机验证。
+**验证到哪**：3 家有公开产品 / 部署证据；最高为规模部署 / 商业化。
 
 ### 本路线领先信号
 
 | 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
 | --- | --- | --- | --- |
-| [Humanoid](https://thehumanoid.ai/)<br><sub>欧洲 · 创业公司</sub> | 面向产业与服务场景的通用人形机器人。 | 证据不足（不代表未融资） | [实机验证 · Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/) |
+| [Humanoid](https://thehumanoid.ai/)<br><sub>欧洲 · 创业公司</sub> | 面向产业与服务场景的通用人形机器人。 | 证据不足（不代表未融资） | [规模部署 / 商业化 · Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/) |
+| [宇树科技](https://www.unitree.com/)<br><sub>中国 · 成长公司</sub> | 高性能机器人本体与开发者生态。 | 证据不足（不代表未融资） | [实机验证 · Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/) |
 | [Agility Robotics](https://agilityrobotics.com/)<br><sub>北美 · 成长公司</sub> | 面向物流和工业场景的双足机器人。 | 证据不足（不代表未融资） | [概念 / 研究 · 人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) |
 
-**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [ANYbotics](https://www.anybotics.com/) · [Apptronik](https://apptronik.com/) · [Boston Dynamics](https://bostondynamics.com/) · [Figure](https://www.figure.ai/) · [Mentee Robotics](https://www.menteebot.com/) · [NEURA Robotics](https://neura-robotics.com/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Standard Bots](https://standardbots.com/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Wandercraft](https://www.wandercraft.eu/) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [众擎机器人](https://www.engineai.com.cn/) · [优必选](https://www.ubtrobot.com/) · [傅利叶智能](https://www.fftai.com/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [宇树科技](https://www.unitree.com/) · [小鹏机器人](https://www.xpeng.com/) · [开普勒机器人](https://www.keplerbot.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.zhiyuan-robot.com/) · [松延动力](https://www.noetixrobotics.com/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [魔法原子](https://www.magicrobot.com/)
+**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [ANYbotics](https://www.anybotics.com/) · [Apptronik](https://apptronik.com/) · [Boston Dynamics](https://bostondynamics.com/) · [Figure](https://www.figure.ai/) · [Mentee Robotics](https://www.menteebot.com/) · [NEURA Robotics](https://neura-robotics.com/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Standard Bots](https://standardbots.com/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Wandercraft](https://www.wandercraft.eu/) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [众擎机器人](https://www.engineai.com.cn/) · [优必选](https://www.ubtrobot.com/) · [傅利叶智能](https://www.fftai.com/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [小鹏机器人](https://www.xpeng.com/) · [开普勒机器人](https://www.keplerbot.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.zhiyuan-robot.com/) · [松延动力](https://www.noetixrobotics.com/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [魔法原子](https://www.magicrobot.com/)
 
 ## 02 · VLA 与具身模型
 

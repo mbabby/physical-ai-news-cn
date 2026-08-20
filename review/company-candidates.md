@@ -51,6 +51,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
+## Peppy · 观察中 · 57/100
+
+- 路线：本体与硬件
+- 证据：[AiThority](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNSUluakZaSGxLMjhfNlBZRUhjelpjdXFiSTJLVURTUk42SS03YUNRU3hyMXdtVnpxQms3bHN1S05kbkg4MmxsQW4zSHJXbjBheW9Qdmd4UlhzRTBiNDZkUkcxb3o5MDNjRl9Xc1Q3TkxoOEFzSkJqajA4LUp6TF9ZOHNqQnVuVFZpUUlOcHVyekNWN0hEZExFWG1ScElEekxXOHF1cHdrUFF0cFBUdVV5S1liY0tZdWh6ZUFwOG9wY1YzMUxtZGZNaTcyR3NrcUF5TVJR?oc=5) · [AI Insider](https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQ2JfaUtNMmpGektOaWhaTXN3OElvWVZpYVVJM2E1b1RjYkw3ZUk2eFpXTHMyaU1kcVMyUEFRby1zMVFwRWZKaTdya3B6alp0S3RnalZONXhtTjZvd0wwUU4xNG9fU0N4OU8zblNpM25OeDJqdXlGdWNjdGxQZnMwOXJ6RmVQS2d2aUFjeVRuSTdOY0RPdVloNkp4QTdUSHFTOUxGQzkxTHNMc1B0QWdBSy1EVllmYVVYLWRV?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Peppy%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Peppy%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
 ## 橡木果机器人 · 观察中 · 57/100
 
 - 路线：部署与商业化
@@ -91,6 +98,13 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiYkFVX3lxTE40NnZQbkg4Qmk0OXBxNy1aTlgzOGVuWHlaVXhobTBLYjh3RzJ1dWItUmp1QzQ0WlI0d1dxeEFSbmxUOHo0YWFzMkh5Z0E3ZDBOaUs0UU41eWJwZ204V3F3RnJB?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Physical AI · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Dealroom](https://news.google.com/rss/articles/CBMipgFBVV95cUxQOXRaZzc5UlVLblMzeDExb1E2RzU0bmJwd2JVWG9PclZvenRzLWIzZVdUVXhBNVhaLV8yOVdQbkNTQmJIN3JmLVdRaWF4bFUwb1hpVHh5S25HeVNGb0lsdFFHa1dKdGZxUWRqUWQ5b0V6d0FsQU5RWW9nTDllZ2V6MUpZS2lUR1VDOXU1NGo3bjBvYVlHLTlTQWt3ZzF5eGZhNV9aNmJ3?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Physical%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Physical%20AI%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 复旦95后做机器人大脑，眸深智能 · 候选 · 32/100
@@ -196,6 +210,27 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## AI 研究者 Sanja Fidler 为机器人初创公司 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[The Globe and Mail](https://news.google.com/rss/articles/CBMitgFBVV95cUxPX1hiM1VrQ3VmZkp3TWRpaXpqVW93ZW9qN3NRdFJWcEdOZU9jTnFvb25ZY3BoVkhIMVo3NjZXYkxEbnlHU0stS1lsM042aWhvR0JNR0Z4RDV5c1hJWnprNmhzalRSUEdJSG5xdmtQWV9TcU5DV3ZHeXdoWkVuc01hMFA0d0ZZaW5EeVFFdlJ1OWd2UUlsNkt4RHVrdmxJYjJzelVjTE05eGtxV0RQcmpmdzdtX1NqZw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%20%E7%A0%94%E7%A9%B6%E8%80%85%20Sanja%20Fidler%20%E4%B8%BA%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%20%E7%A0%94%E7%A9%B6%E8%80%85%20Sanja%20Fidler%20%E4%B8%BA%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Veeda AI · 候选 · 22/100
+
+- 路线：世界模型与空间智能
+- 证据：[Unite.AI](https://news.google.com/rss/articles/CBMiswFBVV95cUxNRE1NelhxZFdWSnR2Nm1yRnNrLURHNm84VjBHWnBsUm9fSzRETzhZa3ZUT0Rrb1gxUWNkbWtCRVpQcDB2dmFjRkhxOFV6Ymw1SEt1VEMzSkpFX2JYMnd0WVR5UkhabXY0RUNYQkN5bGMyOWhubFltMnE1LURTU2o3ZXhnV1lmR3RRZGczVW9sdHNrbnh4T2NTUEhVc24zYmdTWEkwT0lFZlpmZmRRYmJZdmtPTQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Veeda%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Veeda%20AI%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Kraken Robotics · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Seeking Alpha](https://news.google.com/rss/articles/CBMi3wFBVV95cUxPSDlQWVhTWENRbEJYdDYyTTNLdkU5X3NIRk8xTXhMbkVDdE5SeU1uLW9XbE1fY1d2R1JZVk1JcnUxWXdNNVZ6YWZSNWpDdHpqbjl1ZVM4SkZUWDVhTEY3Y2xxZ1ZqRnNQNnZFanA1aHl2V205RTlDMlRNbHJxNTBLQ0E4NUYzczNkNVlUZlV6V3V2WWF0LUduSW4tX25TZXVSaXh4MGhNOG1fbnV5YS0xc28zal9XaWhPTENwSkhDNHQwRjlva0ZENHpiZ0tNSnZGNEdOYi1EdnVCS2lvbm9Z?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 人形机器人成本下降九成，灵巧手 · 候选 · 22/100
