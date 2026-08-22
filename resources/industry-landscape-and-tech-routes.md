@@ -23,7 +23,7 @@
 
 | 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
 | --- | --- | --- | --- |
-| [Humanoid](https://thehumanoid.ai/)<br><sub>欧洲 · 创业公司</sub> | 面向产业与服务场景的通用人形机器人。 | 证据不足（不代表未融资） | [规模部署 / 商业化 · Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/) |
+| [Humanoid](https://thehumanoid.ai/)<br><sub>欧洲 · 创业公司</sub> | 面向产业与服务场景的通用人形机器人。 | 证据不足（不代表未融资） | [规模部署 / 商业化 · Schaeffler 计划 2027 年量产人形机器人用减速器](https://www.therobotreport.com/schaeffler-plans-to-mass-manufacture-gearboxes-for-humanoids-in-2027/) |
 | [宇树科技](https://www.unitree.com/)<br><sub>中国 · 成长公司</sub> | 高性能机器人本体与开发者生态。 | 证据不足（不代表未融资） | [实机验证 · Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/) |
 | [Agility Robotics](https://agilityrobotics.com/)<br><sub>北美 · 成长公司</sub> | 面向物流和工业场景的双足机器人。 | 证据不足（不代表未融资） | [概念 / 研究 · 人形机器人公司Agility Robotics将借SPAC上市，CEO称短期内不会承诺机器人进入家庭](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/) |
 

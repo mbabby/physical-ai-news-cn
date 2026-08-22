@@ -266,7 +266,7 @@
 - 档案状态：资本 证据不足（不代表未融资）；验证 规模部署 / 商业化
 - 主体证据：[公司官网](https://thehumanoid.ai/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)，2026-08-19）；公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/mobile-manipulators-and-humanoids/)，2026-08-13）
+- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/schaeffler-plans-to-mass-manufacture-gearboxes-for-humanoids-in-2027/)，2026-08-21）；公司商业（[证据](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)，2026-08-19）；公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）
 
 ## [Mentee Robotics](https://www.menteebot.com/)
 
