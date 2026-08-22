@@ -6,7 +6,8 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { generate } from "../src/main.js";
 import { FileTransaction } from "../src/runtime/storage.js";
-import type { DailyArchive, DigestResult, EventStore, RunManifest } from "../src/types.js";
+import type { DashboardData } from "../src/site-data.js";
+import type { Article, DailyArchive, DigestResult, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
 import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
@@ -14,6 +15,7 @@ import type { WatchlistPreviewArtifact } from "../src/watchlist/preview.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
+const FIXTURE_RESEARCH_TITLE = "固定机器人基准：真实机器人操作与开源复现";
 const FIXTURE_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
@@ -26,9 +28,93 @@ const timeoutCollection = async (): Promise<DigestResult> => ({
   sourceOutcomes: [{ source: "fixture-source", status: "failure", reason: "timeout", fetchedArticles: 0 }],
 });
 
+async function seedDeterministicResearchState(root: string): Promise<void> {
+  const article: Article = {
+    id: "arxiv:2608.00001",
+    title: "A Reproducible Real-Robot Manipulation Benchmark",
+    titleZh: FIXTURE_RESEARCH_TITLE,
+    summaryZh: "论文在真实机器人上建立操作基准，并报告相对基线的成功率提升。作者同时公开评测协议与代码，便于独立复现。",
+    link: "https://arxiv.org/abs/2608.00001v1",
+    publishedAt: new Date("2026-08-15T00:00:00.000Z"),
+    fetchedAt: new Date("2026-08-15T01:00:00.000Z"),
+    source: "arXiv · Robotics",
+    sourceWeight: 9,
+    excerpt: "We evaluate a real robot manipulation benchmark against a baseline. Code available at https://github.com/example/fixture-robot-benchmark.",
+    kind: "研究与数据",
+    tags: ["研究", "robot"],
+    authors: ["Fixture Researcher"],
+    scholar: {
+      provider: "OpenAlex",
+      workId: "https://openalex.org/W7200000001",
+      citedByCount: 12,
+      isRetracted: false,
+      institutions: ["Tsinghua University"],
+      authors: [{
+        name: "Fixture Researcher",
+        totalCitations: 320,
+        hIndex: 8,
+        institutions: ["Tsinghua University"],
+      }],
+      checkedAt: "2026-08-15T02:00:00.000Z",
+    },
+  };
+  const record: ResearchRecord = {
+    id: article.id,
+    article,
+    firstSeenAt: "2026-08-15T01:00:00.000Z",
+    lastCheckedAt: "2026-08-15T02:00:00.000Z",
+    arxivVersion: 1,
+    factHash: "eeaee1154b6802ce",
+    status: "新论文",
+    seenDates: ["2026-08-15"],
+    appearances: 1,
+    evidenceTags: ["真实机器人", "基准", "开源"],
+    authorityLabels: ["清华大学"],
+    notableAuthor: "Fixture Researcher",
+    changes: [{
+      date: "2026-08-15T01:00:00.000Z",
+      kind: "新收录",
+      detail: "进入固定集成测试论文池。",
+    }],
+  };
+  const archive: DailyArchive = {
+    date: "2026-08-15",
+    articles: [article],
+    candidates: [],
+    sourceOutcomes: [],
+    runtimeStatus: [],
+  };
+  await writeFile(join(root, "research", "registry.json"), `${JSON.stringify({
+    updatedAt: "2026-08-15T02:00:00.000Z",
+    records: [record],
+  }, null, 2)}\n`);
+  await writeFile(join(root, "daily", "2026-08-15.json"), `${JSON.stringify(archive, null, 2)}\n`);
+}
+
 async function copyFixture(target: string): Promise<void> {
   await mkdir(target, { recursive: true });
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  // Daily archives, research metadata and source registries are mutable
+  // production inputs. Copying them into a fixed-clock integration fixture
+  // lets a real refresh leak into the test: the first generation enriches the
+  // copied state, then the second generation renders different public bytes.
+  // Start these inputs from deterministic state (including one complete
+  // research card) while keeping the real README/dashboard publication
+  // boundary and all of its strict assertions.
+  await rm(join(target, "daily"), { recursive: true, force: true });
+  await mkdir(join(target, "daily"), { recursive: true });
+  await rm(join(target, "research"), { recursive: true, force: true });
+  await mkdir(join(target, "research"), { recursive: true });
+  await seedDeterministicResearchState(target);
+  await writeFile(join(target, "sources", "candidates.json"), `${JSON.stringify({
+    updatedAt: FIXED_NOW.toISOString(),
+    sources: [],
+  }, null, 2)}\n`);
+  await writeFile(join(target, "sources", "registry.json"), `${JSON.stringify({
+    updatedAt: FIXED_NOW.toISOString(),
+    windowDays: 30,
+    sources: [],
+  }, null, 2)}\n`);
   // Immutable snapshots are publication outputs, not test inputs. Keeping the
   // repository's ever-growing history makes this fixed-clock harness collide
   // with a historical week after a real daily release adds that week.
@@ -202,10 +288,20 @@ test("two fixed-input complete daily generations are byte- and semantics-idempot
     await seedNonEmptyPriorPreview(root);
     await runFixedGeneration(root);
     const first = await capturePublicGroup(root);
+    const firstDashboard = JSON.parse(first.bytes["site/data/dashboard.json"]!) as DashboardData;
     assert.ok((JSON.parse(first.bytes["watchlist/current.json"]!) as WatchlistSnapshot).forwardRadar.length > 0);
+    assert.match(first.bytes["README.md"]!, new RegExp(FIXTURE_RESEARCH_TITLE));
+    assert.match(first.bytes["README.md"]!, /<kbd>清华大学<\/kbd>/);
+    assert.ok(firstDashboard.stats.research >= 1);
+    assert.ok(firstDashboard.research.some(({ title }) => title === FIXTURE_RESEARCH_TITLE));
 
     await runFixedGeneration(root);
     const second = await capturePublicGroup(root);
+    const secondDashboard = JSON.parse(second.bytes["site/data/dashboard.json"]!) as DashboardData;
+    assert.match(second.bytes["README.md"]!, new RegExp(FIXTURE_RESEARCH_TITLE));
+    assert.match(second.bytes["README.md"]!, /<kbd>清华大学<\/kbd>/);
+    assert.ok(secondDashboard.stats.research >= 1);
+    assert.ok(secondDashboard.research.some(({ title }) => title === FIXTURE_RESEARCH_TITLE));
     assert.deepEqual(second.bytes, first.bytes);
     assert.deepEqual(second.semantics, first.semantics);
   } finally {
