@@ -212,13 +212,6 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## China · 候选 · 22/100
-
-- 路线：本体与硬件
-- 证据：[ThePrint](https://news.google.com/rss/articles/CBMijAFBVV95cUxOLWdtVk9uc2lRWjhicTg4VDRKS3RGNTlqNTcxMFdXOXJGSVRBRlBHaXMzSE9mTzgtUWZYVHpYWUFmZG0yWG44ZXBFa1NtQjB6OV9xOGNId1VobEZyMTlvRll2cEVSUno2Y04zY21YWjBxYkhieGlRSVFERE5CdEk2LXZ5bl8zTkFhSktkbtIBkgFBVV95cUxPWVNKLXlvNGZPd24xd0tqRU5LcmVKYlpHakVucnhfai1TS04wcU1Ra19IMUFxNk5MY3d0U051SU9neXZOZGZ6VTEtbzd4bkhBNlRBOUUtbjRGUC1YTlhSWlN4QWRqQ0R5aWN3TWphdTA5bDgwMUNDX194bzZCeDcxNkZ2QzdlczJjbEdKYlF3YktVdw?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22China%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22China%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 李泽湘孵化的割草机器人公司，A轮 · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -231,6 +224,20 @@
 - 路线：部署与商业化
 - 证据：[电子工程专辑](https://news.google.com/rss/articles/CBMiU0FVX3lxTE9ETVcxSl91X19zdGRodkNrYjUyQ05XQjJ0cDlzbk5oQmRfa1lqLW5wVXlrT1BiLU5uMlNYWnpSQjZTVXYxd2V5TlFpOFBmVTU4aGZ3?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9A%84%E2%80%9C%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9A%84%E2%80%9C%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 中关村发展集团 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMijAFBVV95cUxPQzFVaW4wYlVhajh5bzI1QlBDcmNWOFhNNzRMOHJiNjlhdnR0aVhrd2FDczEtUWtWVHI1a0pwY1JJWGdiQlFmUDJIelRoMEdaM3kwaldIWF9QZmhLMW1ucjVRR0wyOUxJMGt4M0RRRVFlNnV5V1BiS2RkQWtOZGotZl9QRW9MQXBiVnV2bQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%85%B3%E6%9D%91%E5%8F%91%E5%B1%95%E9%9B%86%E5%9B%A2%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%85%B3%E6%9D%91%E5%8F%91%E5%B1%95%E9%9B%86%E5%9B%A2%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## China · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[ThePrint](https://news.google.com/rss/articles/CBMijAFBVV95cUxOLWdtVk9uc2lRWjhicTg4VDRKS3RGNTlqNTcxMFdXOXJGSVRBRlBHaXMzSE9mTzgtUWZYVHpYWUFmZG0yWG44ZXBFa1NtQjB6OV9xOGNId1VobEZyMTlvRll2cEVSUno2Y04zY21YWjBxYkhieGlRSVFERE5CdEk2LXZ5bl8zTkFhSktkbtIBkgFBVV95cUxPWVNKLXlvNGZPd24xd0tqRU5LcmVKYlpHakVucnhfai1TS04wcU1Ra19IMUFxNk5MY3d0U051SU9neXZOZGZ6VTEtbzd4bkhBNlRBOUUtbjRGUC1YTlhSWlN4QWRqQ0R5aWN3TWphdTA5bDgwMUNDX194bzZCeDcxNkZ2QzdlczJjbEdKYlF3YktVdw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22China%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22China%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## AI 研究者 Sanja Fidler 为机器人初创公司 · 候选 · 22/100

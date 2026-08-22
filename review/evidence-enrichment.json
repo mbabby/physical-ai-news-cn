@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-22T12:54:06.990Z",
+  "generatedAt": "2026-08-22T12:57:42.891Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -66,8 +66,8 @@
   },
   "budget": {
     "maxPlansPerRun": 20,
-    "attemptedPlans": 20,
-    "deferredPlans": 9,
+    "attemptedPlans": 10,
+    "deferredPlans": 0,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -6668,6 +6668,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-7023f51a7c82641e1f85",
+      "recordId": "verify-4f3d411e872d4f",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "3b808584cc9cbdac5461",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-bc22aba9d2e530aebb5f",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-974dc4a369cc0b4d31a6",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a94db9dc5a490a16b62c",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1dafcfd3c1ff706bacf4",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a165713a1fc4c823e8a8",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-23058c9bae6318e963ce",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"中关村发展集团投资企业亮相2026世界机器人大会 系统构建机器人产业生态 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-22T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-a4268eaa7bcd4d8e5bcd",
       "recordId": "verify-4f46e3b46284d4",
       "companyName": "待识别公司",
@@ -7539,6 +7636,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-31b0e17d13bdeb039f9e",
+      "recordId": "verify-86e54fa58f94a7",
+      "companyName": "中国为第二届世界人形机器人运动会提高标准 China",
+      "eventKind": "投融资",
+      "fingerprint": "f67fd12ea465011fd407",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-5931827b105a86f46f01",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ea29a5222f0d0055e239",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-75523cfe75ce861413de",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-0c4baba3672e0434784a",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-d1f5c1343d112889fa80",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-61681b6ad569f31e9eba",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-22T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-03f33c56bd4bf7ffb227",
       "recordId": "verify-8c15d16428a263",
       "companyName": "橡木果机器人发布Natus具身本能模型",
@@ -8016,10 +8210,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-16T00:59:26.984Z",
-      "lastAttemptAt": "2026-08-18T03:54:07.709Z",
-      "nextAttemptAt": "2026-08-21T03:54:07.709Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-29T12:57:42.891Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -8402,10 +8596,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-19T00:57:12.856Z",
-      "nextAttemptAt": "2026-08-20T00:57:12.856Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-25T12:57:42.891Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -8604,27 +8798,6 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
-      "id": "plan-ba5f4dadc795eaff354e",
-      "recordId": "verify-cd4529d4afcae1",
-      "companyName": "China",
-      "eventKind": "投融资",
-      "fingerprint": "f67fd12ea465011fd407",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 70,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
-      "createdAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-22T12:54:06.990Z",
-      "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
-    },
-    {
       "id": "plan-63b81325673b95fc3e2f",
       "recordId": "verify-e54371803fea36",
       "companyName": "Wetour Robotics",
@@ -8714,10 +8887,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-15T00:56:36.655Z",
-      "lastAttemptAt": "2026-08-16T16:09:52.482Z",
-      "nextAttemptAt": "2026-08-19T16:09:52.482Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-29T12:57:42.891Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -9971,10 +10144,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-16T16:09:52.482Z",
-      "nextAttemptAt": "2026-08-19T16:09:52.482Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-29T12:57:42.891Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -9990,14 +10163,90 @@
         "missing-second-independent-source"
       ],
       "priority": 60,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-77dee20ba7b51b6f9d14",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2965030dc71220a51976",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-60bf7342c604318f06b4",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-786d640e89180504cdb1",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4d70f220e429dcebd750",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2092c2812e20ba92845f",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"软件定义制造如何融入真实工厂运营\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-22T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-0f099a665314fb3bdac8",
@@ -10197,14 +10446,90 @@
         "missing-second-independent-source"
       ],
       "priority": 59,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-5a8dcddcfbe2a782d24b",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ec6513a721d4e4af13e3",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-3bc023bcda387d2abed8",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2771d05184241f312b9e",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-566c416b465871b05a50",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-c09d16b0afa499f90ee1",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Serve Robotics 与 Grubhub 合作\" deployment customer pilot 部署 客户 试点",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "nextAttemptAt": "2026-08-20T00:56:47.599Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-97d0a6cb6b7a8f479af4",
@@ -10876,10 +11201,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-12T01:25:08.608Z",
-      "lastAttemptAt": "2026-08-18T04:07:40.549Z",
-      "nextAttemptAt": "2026-08-21T04:07:40.549Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-29T12:57:42.891Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -11369,14 +11694,90 @@
         "missing-second-independent-source"
       ],
       "priority": 53,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-4991813fd3fc99d52884",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-426e5a928a3ddfb840af",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-94a18be27ef706c16f09",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-621598554cfaac53d570",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-89376cfe23898fb881d5",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2338383f96129dc2ad72",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Pudu Robotics\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "nextAttemptAt": "2026-08-20T00:56:47.599Z",
+      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
+      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     }
   ]
 }
