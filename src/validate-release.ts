@@ -2,7 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isObject, readJsonStrict } from "./runtime/storage.js";
-import { validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
+import { validateDualLedgerPublication, validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
 import { validatePipelineHealthArtifact } from "./runtime/health.js";
 import type { DailyArchive, EventStore, PipelineHealth, ResearchRegistry, RunHistory, RunManifest } from "./types.js";
 import { isPublishableResearch } from "./event-center.js";
@@ -21,6 +21,9 @@ import type { WatchlistPublicView } from "./watchlist/public-view.js";
 import type { DashboardData } from "./site-data.js";
 import type { ResearchDecisionCard } from "./research-decision-card.js";
 import { rankResearchRecords } from "./research-registry.js";
+import type { CompanyClaimLedger } from "./company-claim-ledger.js";
+import type { BenchmarkResultLedger } from "./benchmark-result-ledger.js";
+import { buildDualLedgerMetrics, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -77,6 +80,9 @@ async function main(): Promise<void> {
   const history = await readJsonStrict<RunHistory>(join(root, "review", "run-history.json"), { label: "运行历史", validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs) });
   const health = await readJsonStrict<PipelineHealth>(join(root, "review", "pipeline-health.json"), { label: "流水线健康状态", validate: (value): value is PipelineHealth => isObject(value) && value.schemaVersion === 1 && typeof value.latestRunId === "string" });
   const companies = await readJsonStrict<CompanyProfile[]>(join(root, "events", "companies.json"), { label: "公司实体主表", validate: (value): value is CompanyProfile[] => Array.isArray(value) });
+  const companyClaimLedger = await readJsonStrict<CompanyClaimLedger>(join(root, "events", "company-claim-ledger.json"), { label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact });
+  const benchmarkResultLedger = await readJsonStrict<BenchmarkResultLedger>(join(root, "research", "benchmark-result-ledger.json"), { label: "Benchmark Result Ledger", validate: isBenchmarkResultLedgerArtifact });
+  const dualLedgerMetrics = await readJsonStrict<DualLedgerMetrics>(join(root, "review", "dual-ledger-metrics.json"), { label: "双账本指标", validate: (value): value is DualLedgerMetrics => isObject(value) && value.schemaVersion === 1 && typeof value.generatedAt === "string" });
   const watchlistPreview = await readJsonStrict<WatchlistPreviewArtifact>(join(root, "review", "watchlist-preview.json"), { label: "内部观察名单预览", validate: validateWatchlistPreviewArtifact });
   const watchlistSnapshot = await readJsonStrict<WatchlistSnapshot>(join(root, "watchlist", "current.json"), { label: "公开 Watchlist 快照", validate: validateWatchlistSnapshotShape });
   const watchlistTheses = await readJsonStrict<CompanyThesisArtifact>(join(root, "watchlist", "theses.json"), { label: "公开 Watchlist 判断" });
@@ -101,7 +107,7 @@ async function main(): Promise<void> {
   const watchlistIssueSeeds = await readJsonStrict<WatchlistReviewIssueArtifact>(join(root, "review", "watchlist-issue-seeds.json"), { label: "公开 Watchlist Review Issue 种子" });
   const communityMetricsBytes = await readFile(join(root, "metrics", "community.json"), "utf8");
   const publicCommunityMetricsBytes = await readFile(join(root, "site", "data", "community.json"), "utf8");
-  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
+  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
   if (communityMetricsBytes !== publicCommunityMetricsBytes) throw new Error("社区指标两个公开镜像不一致");
   await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
@@ -137,6 +143,17 @@ async function main(): Promise<void> {
   validateWatchlistConfigCatalog(currentView);
   validateWatchlistIssueSeeds(currentView, watchlistIssueSeeds);
   const eligibleResearchIds = new Set(researchDecisionArtifact.cards.filter((card) => card.eligibleForTopResearch && card.gates.length === 0).map((card) => String(card.identity.paperId.value)));
+  validateDualLedgerPublication({
+    company: companyClaimLedger,
+    benchmark: benchmarkResultLedger,
+    companyIds: new Set(companies.map((company) => company.entityId).filter((value): value is string => Boolean(value))),
+    paperIds: new Set(research.records.map((record) => record.id)),
+    decisionCards: researchDecisionArtifact.cards,
+    expectedGeneratedAt: researchDecisionArtifact.generatedAt,
+  });
+  if (stableBytes(dualLedgerMetrics) !== stableBytes(buildDualLedgerMetrics(companyClaimLedger, benchmarkResultLedger))) {
+    throw new Error("双账本指标与规范账本不一致");
+  }
   const hydratedResearch = research.records.map((record) => ({
     ...record,
     article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) },

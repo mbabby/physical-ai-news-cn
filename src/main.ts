@@ -34,7 +34,9 @@ import type { CandidateVerificationArtifact } from "./candidate-verification.js"
 import { buildEventAnomalyReport } from "./event-anomalies.js";
 import { buildReviewCaseArtifact, reviewCaseAlerts, reviewCaseGenerator, reviewCaseMetrics, serializeReviewCaseArtifact } from "./review-cases.js";
 import type { ReviewCaseArtifact, ReviewCaseGenerator } from "./review-cases.js";
-import { buildCompanyClaimLedger } from "./company-claim-ledger.js";
+import { buildCompanyClaimLedger, type CompanyClaimLedger } from "./company-claim-ledger.js";
+import { buildBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchmark-result-ledger.js";
+import { buildDualLedgerMetrics, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
 import { selectTopResearchDecisionCards } from "./research-decision-card.js";
 import { buildResearchIndustryRelationEdges } from "./research-industry-relations.js";
 import type { RelationEvidenceCandidate } from "./research-industry-relations.js";
@@ -85,6 +87,7 @@ const statusEnd = "<!-- PROJECT_STATUS_END -->";
 export type DailyGenerationFailureCode =
   | "corrupt-watchlist-current"
   | "corrupt-watchlist-history"
+  | "corrupt-dual-ledger"
   | "invalid-company-id"
   | "evidence-withdrawal"
   | "transaction-swap-failure"
@@ -347,6 +350,20 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const candidatePath = join(sourcesDir, "candidates.json");
   const companyCandidatePath = join(eventsDir, "company-candidates.json");
   const companyEntityPath = join(eventsDir, "company-entities.json");
+  let previousCompanyClaimLedger: CompanyClaimLedger | undefined;
+  let previousBenchmarkResultLedger: BenchmarkResultLedger | undefined;
+  try {
+    [previousCompanyClaimLedger, previousBenchmarkResultLedger] = await Promise.all([
+      readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
+        optional: true, label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact,
+      }),
+      readJsonStrict<BenchmarkResultLedger>(join(researchDir, "benchmark-result-ledger.json"), {
+        optional: true, label: "Benchmark Result Ledger", validate: isBenchmarkResultLedgerArtifact,
+      }),
+    ]);
+  } catch (error) {
+    throw new DailyGenerationError("corrupt-dual-ledger", "双账本历史状态损坏；已停止发布并保留上一版。", { cause: error });
+  }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
   const invalidCompany = companies.find((company) => !company.entityId || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(company.entityId));
@@ -558,7 +575,17 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
   // Build public data after verification so “正在发生” reflects evidence
   // found in this run instead of the previous review artifact.
-  const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now });
+  const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger });
+  const benchmarkResultLedger = buildBenchmarkResultLedger(researchRegistry.records, researchDecisionCards, { now, previous: previousBenchmarkResultLedger });
+  validateDualLedgers({
+    company: companyClaimLedger,
+    benchmark: benchmarkResultLedger,
+    companyIds: new Set(companies.map((company) => company.entityId).filter((value): value is string => Boolean(value))),
+    paperIds: new Set(researchRegistry.records.map((record) => record.id)),
+    decisionCards: researchDecisionCards,
+    expectedGeneratedAt: now.toISOString(),
+  });
+  const dualLedgerMetrics = buildDualLedgerMetrics(companyClaimLedger, benchmarkResultLedger);
   const companyBoards = buildCompanyBoards(companies, eventStore.events, {
     now,
     claimLedger: companyClaimLedger,
@@ -819,6 +846,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   // verification stays out of this input, so an unknown financing item remains
   // unknown rather than being promoted into a company capital assertion.
   await writeFile(join(eventsDir, "company-claim-ledger.json"), JSON.stringify(companyClaimLedger, null, 2) + "\n", "utf8");
+  await writeFile(join(researchDir, "benchmark-result-ledger.json"), JSON.stringify(benchmarkResultLedger, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "dual-ledger-metrics.json"), JSON.stringify(dualLedgerMetrics, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "company-claim-ledger-metrics.json"), JSON.stringify({
     schemaVersion: 1,
     generatedAt: companyClaimLedger.generatedAt,

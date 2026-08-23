@@ -73,6 +73,18 @@ test("release validation binds the watchlist JSON to Markdown and runtime receip
   assert.match(source, /readme/);
 });
 
+test("release validation strictly binds both evidence ledgers to canonical companies and research cards", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+  assert.match(source, /join\(root, "events", "company-claim-ledger\.json"\)/);
+  assert.match(source, /join\(root, "research", "benchmark-result-ledger\.json"\)/);
+  assert.match(source, /join\(root, "review", "dual-ledger-metrics\.json"\)/);
+  assert.match(source, /validateDualLedgerPublication\(\{/);
+  assert.match(source, /buildDualLedgerMetrics\(/);
+  assert.match(source, /dualLedgerMetrics/);
+  const runtimeValidation = await readFile(join(root, "src", "runtime", "validation.ts"), "utf8");
+  assert.match(runtimeValidation, /validateDualLedgerPublication/);
+});
+
 test("release validation reads the complete staged Watchlist public group from its canonical artifacts", async () => {
   const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
 

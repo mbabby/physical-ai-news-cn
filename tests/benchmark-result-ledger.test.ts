@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { buildBenchmarkResultLedger, validateBenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
+import { isBenchmarkResultLedgerArtifact } from "../src/dual-ledger.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import type { BenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
 import type { Article, ResearchRecord } from "../src/types.js";
@@ -187,6 +188,7 @@ test("tracks version and evidence-backed result corrections without citation-onl
   assert.ok(correctionPaths.includes("arxivVersion"));
   assert.ok(correctionPaths.includes("fields.result"));
   assert.ok(correctionPaths.includes("fields.delta"));
+  assert.equal(isBenchmarkResultLedgerArtifact(second), true);
   assert.deepEqual(build([revised], second), second);
 });
 

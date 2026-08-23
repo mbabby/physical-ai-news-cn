@@ -4,6 +4,9 @@ import { blockingHistoryContinuityErrors } from "./health.js";
 import { validateFacts } from "../facts-contract.js";
 import { validateWatchlistRelease, type WatchlistReleaseValidationInput } from "../watchlist/release-validation.js";
 import type { ResearchDecisionCard } from "../research-decision-card.js";
+import type { CompanyClaimLedger } from "../company-claim-ledger.js";
+import type { BenchmarkResultLedger } from "../benchmark-result-ledger.js";
+import { validateDualLedgers } from "../dual-ledger.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -14,6 +17,17 @@ export interface PublicationValidationInput {
   expectedDate: string;
   previousCompleteResearchCount?: number;
   watchlist?: WatchlistReleaseValidationInput;
+}
+
+export function validateDualLedgerPublication(input: {
+  company: CompanyClaimLedger;
+  benchmark: BenchmarkResultLedger;
+  companyIds: ReadonlySet<string>;
+  paperIds: ReadonlySet<string>;
+  decisionCards: readonly ResearchDecisionCard[];
+  expectedGeneratedAt: string;
+}): void {
+  validateDualLedgers(input);
 }
 
 export function validatePublication(input: PublicationValidationInput): void {

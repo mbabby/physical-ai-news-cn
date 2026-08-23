@@ -39,7 +39,7 @@ interface StagedFile { path: string; content: string; }
  */
 export class FileTransaction {
   private readonly files = new Map<string, StagedFile>();
-  constructor(private readonly id = `${process.pid}-${Date.now()}`, private readonly testHooks: { failAfterSwaps?: number } = {}) {}
+  constructor(private readonly id = `${process.pid}-${Date.now()}`, private readonly testHooks: { failAfterSwaps?: number; failAfterPath?: string } = {}) {}
 
   stage(path: string, content: string): void {
     this.files.set(path, { path, content });
@@ -69,7 +69,7 @@ export class FileTransaction {
           if (file.existed) await rename(file.backup, file.path).catch(() => undefined);
           throw error;
         }
-        if (this.testHooks.failAfterSwaps === swapped.length) throw new Error("injected transaction failure");
+        if (this.testHooks.failAfterSwaps === swapped.length || this.testHooks.failAfterPath === file.path) throw new Error("injected transaction failure");
       }
       await Promise.all(prepared.filter((file) => file.existed).map((file) => unlink(file.backup).catch(() => undefined)));
     } catch (error) {
