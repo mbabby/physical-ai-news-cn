@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "research",
+  "cases": [
+    { "id": "real-robot", "title": "Real robot manipulation", "excerpt": "We evaluate 20 trials on a real robot.", "expectedTags": ["真实机器人"] },
+    { "id": "real-world", "title": "Real-world navigation", "excerpt": "The policy is evaluated in a real-world robot deployment.", "expectedTags": ["真实机器人"] },
+    { "id": "benchmark", "title": "Robot benchmark", "excerpt": "We evaluate on the LIBERO benchmark.", "expectedTags": ["基准"] },
+    { "id": "rlbench", "title": "Robot evaluation", "excerpt": "RLBench evaluation compares five baselines.", "expectedTags": ["基准"] },
+    { "id": "code", "title": "Open robot policy", "excerpt": "Code is available at github.com/example/policy.", "expectedTags": ["开源"] },
+    { "id": "all", "title": "Reproducible real robot benchmark", "excerpt": "Real robot trials use LIBERO. Code is available at github.com/example/all.", "expectedTags": ["真实机器人", "基准", "开源"] },
+    { "id": "negated-real", "title": "Simulation study", "excerpt": "We do not evaluate on real robots.", "expectedTags": [] },
+    { "id": "negated-benchmark", "title": "Robot representation", "excerpt": "No benchmark is used in this study.", "expectedTags": [] },
+    { "id": "negated-code", "title": "Closed robot model", "excerpt": "The code is not available.", "expectedTags": [] },
+    { "id": "simulation-only", "title": "Simulation-only policy", "excerpt": "Experiments are conducted only in simulation; no real robot trials are performed.", "expectedTags": [] },
+    { "id": "future-code", "title": "Robot policy", "excerpt": "Code will be released after publication.", "expectedTags": [] },
+    { "id": "future-open-source", "title": "Robot foundation model", "excerpt": "We plan to open-source the repository in the future.", "expectedTags": [] },
+    { "id": "related-libero", "title": "Representation learning", "excerpt": "Related work evaluates on LIBERO; our work has no benchmark evaluation.", "expectedTags": [] },
+    { "id": "related-real", "title": "Robot survey", "excerpt": "Prior work uses real robots; our experiments are only in simulation.", "expectedTags": [] },
+    { "id": "bridge-word", "title": "Bridging robot policies", "excerpt": "We bridge perception and control without benchmark evaluation.", "expectedTags": [] },
+    { "id": "on-robotics", "title": "Theory", "excerpt": "We present a theoretical perspective on robot learning.", "expectedTags": [] },
+    { "id": "github-related", "title": "Robot analysis", "excerpt": "Related work is hosted at github.com/other/repo; we release no code.", "expectedTags": [] },
+    { "id": "lawm-3d", "title": "LAWM-3D", "excerpt": "Human video pretraining improves generation quality without real-world interaction.", "expectedTags": [] },
+    { "id": "calvin-open", "title": "CALVIN policy", "excerpt": "We evaluate on CALVIN and release code at github.com/example/calvin.", "expectedTags": ["基准", "开源"] },
+    { "id": "maniskill-sim", "title": "Simulation benchmark", "excerpt": "We evaluate on the ManiSkill benchmark only in simulation.", "expectedTags": ["基准"] }
+  ]
+}

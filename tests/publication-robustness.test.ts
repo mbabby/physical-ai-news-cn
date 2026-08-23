@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { preferKnownGoodArticles, recoverPublishedResearchRecords } from "../src/publication.js";
+import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import { validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
 import type { Article, DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../src/types.js";
 
@@ -18,14 +19,14 @@ test("last known good copy prevents an LLM outage from degrading a public card",
 test("publication validation rejects placeholders before any public swap", () => {
   const archive: DailyArchive = { date: "2026-08-08", articles: [article("bad", false)] };
   const events: EventStore = { updatedAt: "2026-08-08", events: [] };
-  assert.throws(() => validatePublication({ archive, events, research: [], readme: "README", expectedDate: "2026-08-08" }), /缺少完整中文事实简介/);
+  assert.throws(() => validatePublication({ archive, events, research: [], researchDecisionCards: [], readme: "README", expectedDate: "2026-08-08" }), /缺少完整中文事实简介/);
 });
 
 test("publication validation blocks a research-card quality regression", () => {
   const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")] };
   const events: EventStore = { updatedAt: "2026-08-08", events: [] };
   const record = (id: string): ResearchRecord => ({ id, article: article(id), firstSeenAt: "", lastCheckedAt: "", factHash: id, status: "新论文", appearances: 1, evidenceTags: [], authorityLabels: [], changes: [] });
-  assert.throws(() => validatePublication({ archive, events, research: [record("one")], readme: "README", expectedDate: "2026-08-08", previousCompleteResearchCount: 6 }), /研究卡从 6 篇倒退到 1 篇/);
+  assert.throws(() => validatePublication({ archive, events, research: [record("one")], researchDecisionCards: [], readme: "README", expectedDate: "2026-08-08", previousCompleteResearchCount: 6 }), /研究卡从 6 篇倒退到 1 篇/);
 });
 
 test("publication validation rejects a single-B event labeled as confirmed", () => {
@@ -36,7 +37,24 @@ test("publication validation rejects a single-B event labeled as confirmed", () 
     lastVerifiedAt: "2026-08-08T01:00:00Z", facts: ["Example 宣布客户试点。"], openQuestions: [], timeline: [],
     evidence: [{ link: "https://media.example/report", source: "Industry Media", grade: "B", publishedAt: "2026-08-08T00:00:00Z", supports: "试点" }],
   }] };
-  assert.throws(() => validatePublication({ archive, events, research: [], readme: "README", expectedDate: "2026-08-08" }), /违反公开事实契约/);
+  assert.throws(() => validatePublication({ archive, events, research: [], researchDecisionCards: [], readme: "README", expectedDate: "2026-08-08" }), /违反公开事实契约/);
+});
+
+test("publication requires one eligible decision card for every public research record", () => {
+  const published = {
+    ...article("paper"), source: "arXiv · Robotics", title: "A Physical AI Paper", titleZh: "物理智能机器人论文",
+    summaryZh: "论文提出一种机器人策略。实验在真实机器人基准上完成验证。",
+    excerpt: "We evaluate the policy on a real robot benchmark.",
+    scholar: { provider: "OpenAlex" as const, workId: "W-paper", citedByCount: 2, isRetracted: false, institutions: ["Example Lab"], authors: [], checkedAt: "2026-08-08T00:00:00Z" },
+  };
+  const record: ResearchRecord = { id: published.id, article: published, firstSeenAt: "2026-08-08", lastCheckedAt: "2026-08-08", factHash: "paper", status: "新论文", appearances: 1, evidenceTags: ["真实机器人", "基准"], authorityLabels: [], changes: [] };
+  const archive: DailyArchive = { date: "2026-08-08", articles: [published] };
+  const events: EventStore = { updatedAt: "2026-08-08", events: [] };
+  assert.throws(() => validatePublication({ archive, events, research: [record], researchDecisionCards: [], readme: "README", expectedDate: "2026-08-08" }), /缺少研究决策卡/);
+  const card = materializeResearchDecisionCard(record, { now: new Date("2026-08-09") });
+  assert.equal(card.eligibleForTopResearch, true);
+  assert.doesNotThrow(() => validatePublication({ archive, events, research: [record], researchDecisionCards: [card], readme: "README", expectedDate: "2026-08-08" }));
+  assert.throws(() => validatePublication({ archive, events, research: [record], researchDecisionCards: [{ ...card, eligibleForTopResearch: false, gates: [{ code: "contradicted-claim", detail: "bad" }] }], readme: "README", expectedDate: "2026-08-08" }), /未通过研究发布门槛/);
 });
 
 test("published research archives remain the quality baseline when registry copy regresses", () => {

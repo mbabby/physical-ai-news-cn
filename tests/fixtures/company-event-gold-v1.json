@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    { "name": "Google DeepMind", "aliases": ["Gemini Robotics", "Google Robotics"] },
+    { "name": "NVIDIA", "aliases": ["NVIDIA"] },
+    { "name": "Humanoid", "aliases": ["humanoid"] },
+    { "name": "Toyota Research Institute", "aliases": ["TRI"] },
+    { "name": "Agility Robotics", "aliases": ["Digit robot"] },
+    { "name": "宇树科技", "aliases": ["Unitree", "宇树"] },
+    { "name": "星海图", "aliases": ["Galaxea AI", "Galaxea", "星海图"] }
+  ],
+  "cases": [
+    { "id": "deepmind-subject", "title": "Google DeepMind launches Gemini Robotics", "expected": "Google DeepMind", "disposition": "public" },
+    { "id": "deepmind-product-subject", "title": "Gemini Robotics gets a major model update", "expected": "Google DeepMind", "disposition": "public" },
+    { "id": "nvidia-subject", "title": "NVIDIA launches Cosmos for robotics", "expected": "NVIDIA", "disposition": "public" },
+    { "id": "vic-one-mentioned", "title": "VicOne releases free NVIDIA Isaac Sim extension", "mentioned": ["NVIDIA"], "disposition": "review" },
+    { "id": "schaeffler-generic", "title": "Schaeffler plans humanoid gearbox mass production", "disposition": "review" },
+    { "id": "kollmorgen-generic", "title": "Kollmorgen explains humanoid joint motion", "disposition": "review" },
+    { "id": "humanoid-exact", "title": "Humanoid raises $152 million", "expected": "Humanoid", "disposition": "public" },
+    { "id": "humanoid-generic-market", "title": "Humanoid robot market could double", "disposition": "review" },
+    { "id": "tri-exact", "title": "TRI releases a robot behavior model", "expected": "Toyota Research Institute", "disposition": "public" },
+    { "id": "tri-substring", "title": "Industrial robot controls improve", "disposition": "review" },
+    { "id": "agility-subject", "title": "Agility Robotics deploys Digit at GXO", "expected": "Agility Robotics", "disposition": "public" },
+    { "id": "digit-product-subject", "title": "Digit robot begins warehouse trials", "expected": "Agility Robotics", "disposition": "public" },
+    { "id": "tesla-mentioned-unknown", "title": "Supplier builds actuators for Tesla Optimus", "disposition": "review" },
+    { "id": "unitree-english", "title": "Unitree launches a new humanoid", "expected": "宇树科技", "disposition": "public" },
+    { "id": "unitree-chinese", "title": "宇树发布新一代人形机器人", "expected": "宇树科技", "disposition": "public" },
+    { "id": "galaxea-english", "title": "Galaxea AI releases R1 Pro", "expected": "星海图", "disposition": "public" },
+    { "id": "galaxea-chinese", "title": "星海图发布 R1 Pro", "expected": "星海图", "disposition": "public" },
+    { "id": "roundup", "title": "Five humanoid robotics companies to watch", "disposition": "review" },
+    { "id": "multi-company", "title": "NVIDIA and Google DeepMind discuss robot foundation models", "mentioned": ["NVIDIA", "Google DeepMind"], "disposition": "review" },
+    { "id": "unknown-company", "title": "Nova Robotics raises $20 million", "disposition": "review" }
+  ]
+}

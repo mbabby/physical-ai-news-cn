@@ -3,11 +3,13 @@ import type { DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest 
 import { blockingHistoryContinuityErrors } from "./health.js";
 import { validateFacts } from "../facts-contract.js";
 import { validateWatchlistRelease, type WatchlistReleaseValidationInput } from "../watchlist/release-validation.js";
+import type { ResearchDecisionCard } from "../research-decision-card.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
   events: EventStore;
   research: ResearchRecord[];
+  researchDecisionCards: ResearchDecisionCard[];
   readme: string;
   expectedDate: string;
   previousCompleteResearchCount?: number;
@@ -42,9 +44,20 @@ export function validatePublication(input: PublicationValidationInput): void {
   }
   const researchMinimum = Math.min(6, input.previousCompleteResearchCount ?? 0);
   if (input.research.length < researchMinimum) errors.push(`研究卡从 ${researchMinimum} 篇倒退到 ${input.research.length} 篇`);
+  const decisionCardsById = new Map<string, ResearchDecisionCard[]>();
+  for (const card of input.researchDecisionCards) {
+    const paperId = String(card.identity.paperId.value);
+    const cards = decisionCardsById.get(paperId) ?? [];
+    cards.push(card);
+    decisionCardsById.set(paperId, cards);
+  }
   for (const record of input.research) {
     if (!hasCompleteChineseResearchCopy(record.article)) errors.push(`公开研究卡缺少完整中文标题或两句事实简介：${record.id}`);
     if (record.article.scholar?.isRetracted) errors.push(`公开研究卡包含已撤稿论文：${record.id}`);
+    const cards = decisionCardsById.get(record.id) ?? [];
+    if (cards.length === 0) errors.push(`公开研究记录缺少研究决策卡：${record.id}`);
+    else if (cards.length > 1) errors.push(`公开研究记录存在重复研究决策卡：${record.id}`);
+    else if (!cards[0]!.eligibleForTopResearch || cards[0]!.gates.length > 0) errors.push(`公开研究记录未通过研究发布门槛：${record.id}（${cards[0]!.gates.map((gate) => gate.code).join(", ") || "eligible=false"}）`);
   }
   if (/暂无中文简介|暂未生成中文摘要|中文简介暂未生成/.test(input.readme)) errors.push("README 出现公开占位简介");
   if (errors.length) throw new Error(`发布质量门槛未通过：\n- ${errors.join("\n- ")}`);

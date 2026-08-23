@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { Article, ResearchRecord, ResearchRegistry } from "./types.js";
+import type { Article, ResearchClaim, ResearchClaimKind, ResearchRecord, ResearchRegistry } from "./types.js";
 import { hasCompleteChineseResearchCopy } from "./publication.js";
 
 const textOf = (article: Article): string => `${article.title}\n${article.excerpt}\n${article.authors?.join("|") ?? ""}\n${article.scholar?.workId ?? ""}\n${article.scholar?.citedByCount ?? ""}\n${article.scholar?.isRetracted ?? false}`;
@@ -7,13 +7,53 @@ export function arxivVersion(link: string): number | undefined {
   return Number(link.match(/v(\d+)(?:$|[?#])/i)?.[1]) || undefined;
 }
 
+const CLAIM_ORDER: ResearchClaimKind[] = ["真实机器人", "基准", "开源"];
+const CLAIM_PATTERNS: Record<ResearchClaimKind, RegExp> = {
+  "真实机器人": /\breal[- ]world\b|\breal[- ]robot\b|\bon[-]robot\b|\bphysical robot\b|实机|真实机器人|真机/i,
+  "基准": /\bbenchmark\b|基准|\blibero\b|\brlbench\b|\bcalvin\b|\bmaniskill\b|\brobomimic\b|\bbridgedata\b/i,
+  "开源": /github\.com|code (?:is )?available|open[- ]source|开源|(?:code|weights|dataset|repository) (?:is|are|has been|have been) released/i,
+};
+const CONTEXT_PATTERN = /\b(?:related work|prior work|previous work|existing (?:work|methods?|studies)|unlike|compared with prior)\b/i;
+const FUTURE_PATTERN = /\b(?:will|plan(?:s|ned)? to|intend(?:s|ed)? to|to be|upon acceptance|after publication)\b.{0,60}\b(?:releas(?:e|ed)|publish(?:ed)?|open[- ]source|available)\b|\b(?:releas(?:e|ed)|publish(?:ed)?|open[- ]source)\b.{0,30}\b(?:later|future|soon)\b/i;
+const NEGATION_PATTERN = /\b(?:no|not|without|never|neither|lack(?:s|ed|ing)?|does not|do not|did not|isn't|aren't|cannot)\b/i;
+const SIMULATION_ONLY_PATTERN = /\b(?:only|solely|exclusively)\s+(?:in\s+)?simulat(?:ion|ed)|simulat(?:ion|ed)[^.!?]{0,50}\bonly\b/i;
+
+function claimSentences(article: Article): Array<{ sourceField: "title" | "abstract"; text: string }> {
+  const split = (value: string): string[] => value.split(/\n+|(?<=[.!?。！？])\s+/).map((sentence) => sentence.trim()).filter(Boolean);
+  return [
+    ...split(article.title).map((text) => ({ sourceField: "title" as const, text })),
+    ...split(article.excerpt).map((text) => ({ sourceField: "abstract" as const, text })),
+  ];
+}
+
+function classifyClaim(kind: ResearchClaimKind, article: Article): ResearchClaim {
+  const candidates = claimSentences(article).filter(({ text }) => CLAIM_PATTERNS[kind].test(text));
+  const classified = candidates.map(({ sourceField, text }) => {
+    const contextual = CONTEXT_PATTERN.test(text);
+    const prospective = kind === "开源" && FUTURE_PATTERN.test(text);
+    const negating = NEGATION_PATTERN.test(text) || (kind === "真实机器人" && SIMULATION_ONLY_PATTERN.test(text));
+    const status = contextual ? "unknown" : prospective ? "announced" : negating ? "contradicted" : "verified";
+    const polarity = contextual ? "contextual" : prospective ? "prospective" : negating ? "negating" : "supporting";
+    return { kind, status, sourceField, sourceUrl: article.link, excerpt: text, polarity } satisfies ResearchClaim;
+  });
+  const verified = classified.filter((claim) => claim.status === "verified");
+  const preferredVerified = kind === "基准"
+    ? verified.find((claim) => /\blibero\b|\brlbench\b|\bcalvin\b|\bmaniskill\b|\brobomimic\b|\bbridgedata\b/i.test(claim.excerpt)) ?? verified[0]
+    : verified[0];
+  return classified.find((claim) => claim.status === "contradicted")
+    ?? preferredVerified
+    ?? classified.find((claim) => claim.status === "announced")
+    ?? classified[0]
+    ?? { kind, status: "unknown", sourceField: "none", sourceUrl: article.link, excerpt: "", polarity: "absent" };
+}
+
+/** Important claims always have an explicit state, including absence. */
+export function researchClaims(article: Article): ResearchClaim[] {
+  return CLAIM_ORDER.map((kind) => classifyClaim(kind, article));
+}
+
 export function researchEvidenceTags(article: Article): Array<"真实机器人" | "基准" | "开源"> {
-  const value = `${article.title} ${article.excerpt} ${article.summaryZh ?? ""} ${article.link}`.toLowerCase();
-  const tags: Array<"真实机器人" | "基准" | "开源"> = [];
-  if (/real[- ]world|real robot|on[- ]robot|physical robot|unitree|franka|ur5|实机|真实机器人|真机/.test(value)) tags.push("真实机器人");
-  if (/benchmark|基准|libero|rlbench|calvin|maniskill|robomimic|bridge/.test(value)) tags.push("基准");
-  if (/github\.com|code available|open[- ]source|开源|repository/.test(value)) tags.push("开源");
-  return tags;
+  return researchClaims(article).filter((claim) => claim.status === "verified").map((claim) => claim.kind);
 }
 
 export function researchAuthorityLabels(article: Article): string[] {
@@ -49,7 +89,7 @@ function promotion(record: ResearchRecord): ResearchRecord["status"] {
   const evidence = record.evidenceTags.length;
   const citations = record.article.scholar?.citedByCount ?? 0;
   const observedDays = record.seenDates?.length ?? record.appearances;
-  if ((record.authorityLabels.length > 0 && evidence >= 2 && observedDays >= 4) || citations >= 250) return "里程碑精读候选";
+  if (evidence >= 2 && ((record.authorityLabels.length > 0 && observedDays >= 4) || citations >= 250)) return "里程碑精读候选";
   if ((record.authorityLabels.length > 0 && evidence >= 1 && observedDays >= 3) || (citations >= 50 && evidence >= 1)) return "常青资源候选";
   if (evidence >= 1 && observedDays >= 2) return "候选资源";
   return "新论文";
@@ -81,7 +121,7 @@ export function updateResearchRegistry(previous: ResearchRegistry | undefined, a
       id: article.id, article, firstSeenAt: prior?.firstSeenAt ?? date, lastCheckedAt: date,
       lastShownAt: prior?.lastShownAt, arxivVersion: version, factHash: hash,
       status: prior?.status ?? "新论文", seenDates: [...new Set([...(prior?.seenDates ?? (prior?.firstSeenAt ? [prior.firstSeenAt.slice(0, 10)] : [])), observedDate])].sort(), appearances: (prior?.appearances ?? 0) + 1,
-      evidenceTags: researchEvidenceTags(article), authorityLabels: researchAuthorityLabels(article), notableAuthor: notableAuthor(article), changes: changes.slice(-12),
+      evidenceTags: researchEvidenceTags(article), researchClaims: researchClaims(article), authorityLabels: researchAuthorityLabels(article), notableAuthor: notableAuthor(article), changes: changes.slice(-12),
     };
     record.status = promotion(record);
     return record;

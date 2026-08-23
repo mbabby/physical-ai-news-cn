@@ -2,35 +2,17 @@ import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "./publication.js";
 import { eventMaterialChangeAt, eventOccurredAt, eventTimeForArticle, migrateEventTime, newestEvidenceAt } from "./event-time.js";
+import { findMentionedEntities, resolveArticleEntity, resolveStoredEventEntity, resolveTitleEntity } from "./entity-resolution.js";
 import type { Article, ArticleKind, CapitalEvidenceStatus, CompanyDossier, CompanyProfile, EventEvidence, EventRecord, EventStatus, EventStore, FundingFact, ProductDeploymentFact, ResearchRecord, RouteCompetitionEntry, RouteCompetitionMap, RouteCompanySnapshot, RouteCorrection, RouteIndexEntry, TechnicalRoute, ValidationStage } from "./types.js";
 
-// Alias matching is deliberately title-only for event ownership. An article may
-// mention a competitor or customer, but that must never overwrite its profile.
-const COMPANY_ALIASES: Record<string, string[]> = {
-  Tesla: ["tesla", "optimus"], NVIDIA: ["nvidia"], "Google DeepMind": ["google deepmind", "gemini robotics", "google robotics"], Meta: ["meta ai", "meta robotics"],
-  Figure: ["figure ai", "figure robot", "figure 02", "figure 03", "helix"], "Physical Intelligence": ["physical intelligence"], "World Labs": ["world labs"],
-  "1X": ["1x technologies", "1x humanoid"], Apptronik: ["apptronik", "apollo humanoid"], "Agility Robotics": ["agility robotics", "digit robot"], "Sanctuary AI": ["sanctuary ai"], Skild: ["skild ai"], Dexterity: ["dexterity ai"], "Boston Dynamics": ["boston dynamics"],
-  "宇树科技": ["unitree", "宇树"], "优必选": ["ubtech", "优必选"], "智元机器人": ["智元机器人", "agibot"], "银河通用": ["galbot", "银河通用"], "星海图": ["星海图", "galaxea", "galaxea ai"], "众擎机器人": ["engineai", "众擎"], "傅利叶智能": ["fourier intelligence", "傅利叶"], "逐际动力": ["limx dynamics", "逐际"], "松延动力": ["noetix", "松延"], "魔法原子": ["magiclab", "魔法原子"], "乐聚机器人": ["leju robot", "乐聚"], "NEURA Robotics": ["neura robotics"], ANYbotics: ["anybotics"],
-};
 const FUNDING_WORDS = ["funding", "funded", "raises", "raised", "series a", "series b", "series c", "seed round", "venture round", "valuation", "acquisition", "融资", "投资", "收购", "估值"];
 const DISCOVERY_SOURCE = /google news|hacker news|^x\s*·/i;
 const RESEARCH_SOURCE = /arxiv|openalex|semantic scholar|papers? with code|crossref/i;
 
 function id(value: string): string { return `evt-${createHash("sha256").update(value).digest("hex").slice(0, 12)}`; }
 function text(article: Article): string { return `${article.title} ${article.titleZh ?? ""} ${article.excerpt} ${article.summaryZh ?? ""}`.toLowerCase(); }
-function titleText(article: Pick<Article, "title" | "titleZh">): string { return `${article.title} ${article.titleZh ?? ""}`.toLowerCase(); }
-function entityAliases(companies: CompanyProfile[] = []): Record<string, string[]> {
-  const aliases: Record<string, string[]> = { ...COMPANY_ALIASES };
-  for (const company of companies) {
-    aliases[company.name] = [...new Set([...(aliases[company.name] ?? []), company.name.toLowerCase(), ...(company.aliases ?? []).map((alias) => alias.toLowerCase())])];
-  }
-  return aliases;
-}
-function aliasesIn(value: string, companies: CompanyProfile[] = []): string[] { return Object.entries(entityAliases(companies)).filter(([, aliases]) => aliases.some((alias) => value.includes(alias))).map(([name]) => name); }
 export function primaryEntityForArticle(article: Article, companies: CompanyProfile[] = []): string | undefined {
-  const value = titleText(article);
-  const matches = Object.entries(entityAliases(companies)).flatMap(([name, aliases]) => aliases.filter((alias) => value.includes(alias)).map((alias) => ({ name, index: value.indexOf(alias) })));
-  return matches.sort((a, b) => a.index - b.index)[0]?.name;
+  return resolveArticleEntity(article, companies).canonicalSubject;
 }
 function routeFor(article: Article): TechnicalRoute[] {
   const value = text(article); const routes = new Set<TechnicalRoute>();
@@ -53,10 +35,8 @@ function fundingSubject(event: EventRecord): string | undefined {
   const chinese = title.match(/^(.{2,30}?)(?:完成|获得|获|宣布).{0,24}?(?:融资|投资|收购|估值)/)?.[1];
   return (english ?? chinese)?.replace(/^(physical ai data platform|humanoid robot company)\s+/i, "").trim();
 }
-function primaryForEvent(event: EventRecord): string | undefined {
-  if (event.primaryEntity) return event.primaryEntity;
-  const title = event.title.toLowerCase();
-  return aliasesIn(title)[0];
+function primaryForEvent(event: EventRecord, companies: CompanyProfile[] = []): string | undefined {
+  return resolveTitleEntity(event.sourceTitle ?? event.title, companies).canonicalSubject;
 }
 function isResearchEvent(event: EventRecord): boolean {
   return event.type === "研究与数据" || (event.evidence.length > 0 && event.evidence.every((item) => RESEARCH_SOURCE.test(`${item.source} ${item.link}`)));
@@ -67,22 +47,23 @@ function isResearchArticle(article: Article): boolean {
 function hasPublicEventEvidence(event: EventRecord): boolean {
   return event.evidence.some((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE.test(item.source));
 }
-function isStoredPublicIndustryEvent(event: EventRecord): boolean {
+function isStoredPublicIndustryEvent(event: EventRecord, companies: CompanyProfile[] = []): boolean {
   // The event store backs every public company/route surface. Historical
   // discovery-only, unnamed or research records belong in review archives,
   // never in this public fact store.
-  return !isResearchEvent(event) && Boolean(primaryForEvent(event)) && hasPublicEventEvidence(event);
+  return !isResearchEvent(event) && Boolean(primaryForEvent(event, companies)) && hasPublicEventEvidence(event);
 }
 function normalizeExisting(events: EventRecord[], companies: CompanyProfile[] = []): EventRecord[] {
-  return events.filter(isStoredPublicIndustryEvent).map((raw) => {
+  return events.map((raw) => {
     const event = migrateEventTime(raw);
-    const primaryEntity = primaryForEvent(event);
-    const mentioned = [...new Set([...(event.mentionedEntities ?? []), ...event.entities, ...aliasesIn(event.title.toLowerCase(), companies)].filter((entity) => entity !== primaryEntity))];
+    const resolution = resolveStoredEventEntity(event, companies);
+    const primaryEntity = resolution.canonicalSubject;
+    const mentioned = resolution.mentionedEntities;
     // Earlier versions classified any article containing the word investment as
     // a funding story. Repair those stored records during the next daily run.
     const type: ArticleKind = event.type === "投融资" && !isFundingTitle(event.title) ? "公司商业" : event.type;
     return { ...event, type, entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities: mentioned };
-  });
+  }).filter((event) => isStoredPublicIndustryEvent(event, companies));
 }
 function mergeRepeatedFunding(events: EventRecord[]): EventRecord[] {
   const kept: EventRecord[] = [];
@@ -165,8 +146,10 @@ export function upsertEvents(store: EventStore | undefined, articles: Article[],
       }
       continue;
     }
-    const primaryEntity = primaryEntityForArticle(article, companies);
-    const mentionedEntities = aliasesIn(text(article), companies).filter((name) => name !== primaryEntity);
+    const resolution = resolveArticleEntity(article, companies);
+    if (resolution.disposition !== "public") continue;
+    const primaryEntity = resolution.canonicalSubject;
+    const mentionedEntities = [...new Set([...resolution.mentionedEntities, ...findMentionedEntities(text(article), companies)].filter((name) => name !== primaryEntity))];
     const title = article.titleZh ?? article.title;
     events.push({ id: id(article.link), title, sourceTitle: article.title, type: article.kind ?? "公司商业", entities: primaryEntity ? [primaryEntity] : [], primaryEntity, mentionedEntities, routes: routeFor(article), status: statusFor(article), ...eventTimeForArticle(article, now), facts: [summary], openQuestions: [article.kind === "投融资" && !primaryEntity ? "融资主体待识别；在证据确认前不会写入公司地图。" : article.kind === "部署案例" ? "公开信息是否能证明持续、规模化运行？" : "后续是否有一手技术细节、客户或复现证据？"], evidence: [evidence], timeline: [update], funding: fundingDetails(article, primaryEntity), productDeployment: productDeploymentDetails(article) });
   }

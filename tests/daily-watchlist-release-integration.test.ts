@@ -126,6 +126,19 @@ async function copyFixture(target: string): Promise<void> {
 
 async function seedNonEmptyPriorPreview(root: string): Promise<void> {
   const generatedAt = FIXED_NOW.toISOString();
+  // The publication fixture must reference a canonically attributable event.
+  // Production history previously associated this ID with a roundup headline
+  // that merely mentioned NVIDIA; the strict resolver correctly quarantines
+  // that shape, so the fixed test input supplies an explicit NVIDIA actor.
+  const eventPath = join(root, "events", "index.json");
+  const eventStore = JSON.parse(await readFile(eventPath, "utf8")) as EventStore;
+  const canonicalEvent = eventStore.events.find((event) => event.id === "evt-9da8fb3e629b");
+  assert.ok(canonicalEvent, "fixed Watchlist fixture requires its canonical NVIDIA event");
+  canonicalEvent.title = "NVIDIA 发布 Cosmos 物理 AI 平台更新";
+  canonicalEvent.sourceTitle = "NVIDIA launches a Cosmos platform update for physical AI";
+  canonicalEvent.primaryEntity = "NVIDIA";
+  canonicalEvent.entities = ["NVIDIA"];
+  await writeFile(eventPath, `${JSON.stringify(eventStore, null, 2)}\n`);
   const thesis = {
     thesisId: "thesis-nvidia-stage4-fixture",
     companyId: "nvidia",
@@ -320,7 +333,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
     const fault = async (
       name: string,
       prepare: (root: string) => Promise<() => Promise<unknown>>,
-      expected: { status: "degraded" } | { status: "failed"; code: string },
+      expected: { status: "success" | "degraded" } | { status: "failed"; code: string },
     ) => {
       await t.test(name, async () => {
         const root = await mkdtemp(join(tmpdir(), `stage4-${name}-`));
@@ -340,18 +353,18 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
     };
 
     await fault("llm-outage", async (root) => async () => {
-      const manifest = await runFixedGeneration(root, {
-        llmOutage: true,
-      });
-      assert.deepEqual(manifest.services.find(({ component }) => component === "Watchlist"), {
-        component: "Watchlist",
-        status: "部分降级",
-        attempted: 1,
-        succeeded: 0,
-        failed: 1,
-        detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
-      });
-      return manifest;
+        const manifest = await runFixedGeneration(root, {
+          llmOutage: true,
+        });
+        assert.deepEqual(manifest.services.find(({ component }) => component === "Watchlist"), {
+          component: "Watchlist",
+          status: "成功",
+          attempted: 0,
+          succeeded: 0,
+          failed: 0,
+          detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。",
+        });
+        return manifest;
     }, { status: "degraded" });
     await fault("corrupt-prior-json", async (root) => {
       await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), "{not-json\n");

@@ -56,6 +56,20 @@ export interface ScholarlyMetadata {
   checkedAt: string;
 }
 
+export type ResearchClaimKind = "真实机器人" | "基准" | "开源";
+export type ResearchClaimStatus = "verified" | "announced" | "contradicted" | "unknown";
+
+/** A deterministic projection of a claim from the paper title or original
+ * abstract. Generated Chinese copy and citation counts are never evidence. */
+export interface ResearchClaim {
+  kind: ResearchClaimKind;
+  status: ResearchClaimStatus;
+  sourceField: "title" | "abstract" | "none";
+  sourceUrl: string;
+  excerpt: string;
+  polarity: "supporting" | "prospective" | "negating" | "contextual" | "absent";
+}
+
 /** A durable, auditable record for a research card. It is refreshed from
  * arXiv/OpenAlex rather than reconstructed from one day's digest. */
 export interface ResearchRecord {
@@ -72,6 +86,8 @@ export interface ResearchRecord {
   seenDates?: string[];
   appearances: number;
   evidenceTags: Array<"真实机器人" | "基准" | "开源">;
+  /** Recomputed from source text on every refresh; optional for older stores. */
+  researchClaims?: ResearchClaim[];
   authorityLabels: string[];
   notableAuthor?: string;
   changes: Array<{ date: string; kind: "新收录" | "版本更新" | "元数据更新" | "撤稿" | "待复核"; detail: string }>;

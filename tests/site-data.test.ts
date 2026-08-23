@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { buildDashboard } from "../src/site-data.js";
+import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import { buildResearchIndustryRelationEdges, researchIndustryCompanyId } from "../src/research-industry-relations.js";
 import type { Article, EventStore } from "../src/types.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
@@ -46,6 +47,15 @@ test("keeps incomplete research and unowned events out of the public dashboard",
   assert.equal(dashboard.stats.research, 0);
   assert.deepEqual(dashboard.research, []);
   assert.deepEqual(dashboard.topSignals, []);
+});
+
+test("keeps research with a failed decision gate out of the public dashboard", () => {
+  const record = { id: article.id, article, firstSeenAt: "2026-08-02", lastCheckedAt: "2026-08-02", factHash: "paper", status: "新论文" as const, appearances: 1, evidenceTags: [] as [], authorityLabels: [] as string[], changes: [] as [] };
+  const failed = materializeResearchDecisionCard(record, { now: new Date("2026-08-02") });
+  assert.equal(failed.eligibleForTopResearch, false);
+  const dashboard = buildDashboard(events, [], [article], new Date("2026-08-02"), { researchDecisionCards: [failed] });
+  assert.equal(dashboard.stats.research, 0);
+  assert.deepEqual(dashboard.research, []);
 });
 
 test("does not turn a missing financing record into a negative company claim", () => {

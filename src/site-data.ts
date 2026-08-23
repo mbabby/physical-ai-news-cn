@@ -297,7 +297,10 @@ function researchRoute(article: Article): TechnicalRoute {
 }
 
 export function buildDashboard(store: EventStore, companies: CompanyProfile[], research: Article[], generatedAt = new Date(), context: DashboardContext = {}): DashboardData {
-  const events = recent(store.events, generatedAt); const items = events.map((event) => eventItem(event, generatedAt)); const publicResearch = research.filter(hasCompleteChineseResearchCopy);
+  const eligibleResearchIds = context.researchDecisionCards === undefined
+    ? undefined
+    : new Set(context.researchDecisionCards.filter((card) => card.eligibleForTopResearch && card.gates.length === 0).map((card) => String(card.identity.paperId.value)));
+  const events = recent(store.events, generatedAt); const items = events.map((event) => eventItem(event, generatedAt)); const publicResearch = research.filter(hasCompleteChineseResearchCopy).filter((article) => eligibleResearchIds === undefined || eligibleResearchIds.has(article.id));
   const routeFocus: Record<string, string> = {
     "数据与训练": "真实数据与训练效率", "VLA 与具身模型": "泛化与长程任务", "世界模型与空间智能": "可预测的物理环境", "本体与硬件": "可靠性、灵巧性与成本", "部署与商业化": "可验证 ROI 与规模化",
   };

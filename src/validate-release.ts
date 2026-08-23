@@ -5,7 +5,7 @@ import { isObject, readJsonStrict } from "./runtime/storage.js";
 import { validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
 import { validatePipelineHealthArtifact } from "./runtime/health.js";
 import type { DailyArchive, EventStore, PipelineHealth, ResearchRegistry, RunHistory, RunManifest } from "./types.js";
-import { isPublishableResearch, rankResearchArticles } from "./event-center.js";
+import { isPublishableResearch } from "./event-center.js";
 import { SOURCES, X_SOURCES } from "./config.js";
 import { validateEntitySourceBindings } from "./entity-catalog.js";
 import type { CompanyProfile } from "./types.js";
@@ -19,6 +19,8 @@ import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConf
 import { buildWatchlistReviewIssueSeeds, validateWatchlistReviewIssueArtifact, type WatchlistReviewIssueArtifact } from "./project-insights.js";
 import type { WatchlistPublicView } from "./watchlist/public-view.js";
 import type { DashboardData } from "./site-data.js";
+import type { ResearchDecisionCard } from "./research-decision-card.js";
+import { rankResearchRecords } from "./research-registry.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -71,6 +73,7 @@ async function main(): Promise<void> {
   const archive = await readJsonStrict<DailyArchive>(join(root, "daily", `${manifest.date}.json`), { label: "当日日报", validate: (value): value is DailyArchive => isObject(value) && value.date === manifest.date && Array.isArray(value.articles) });
   const events = await readJsonStrict<EventStore>(join(root, "events", "index.json"), { label: "事件中心", validate: (value): value is EventStore => isObject(value) && Array.isArray(value.events) });
   const research = await readJsonStrict<ResearchRegistry>(join(root, "research", "registry.json"), { label: "论文池", validate: (value): value is ResearchRegistry => isObject(value) && Array.isArray(value.records) });
+  const researchDecisionArtifact = await readJsonStrict<{ generatedAt: string; cards: ResearchDecisionCard[] }>(join(root, "research", "decision-cards.json"), { label: "研究决策卡", validate: (value): value is { generatedAt: string; cards: ResearchDecisionCard[] } => isObject(value) && typeof value.generatedAt === "string" && Array.isArray(value.cards) });
   const history = await readJsonStrict<RunHistory>(join(root, "review", "run-history.json"), { label: "运行历史", validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs) });
   const health = await readJsonStrict<PipelineHealth>(join(root, "review", "pipeline-health.json"), { label: "流水线健康状态", validate: (value): value is PipelineHealth => isObject(value) && value.schemaVersion === 1 && typeof value.latestRunId === "string" });
   const companies = await readJsonStrict<CompanyProfile[]>(join(root, "events", "companies.json"), { label: "公司实体主表", validate: (value): value is CompanyProfile[] => Array.isArray(value) });
@@ -98,7 +101,7 @@ async function main(): Promise<void> {
   const watchlistIssueSeeds = await readJsonStrict<WatchlistReviewIssueArtifact>(join(root, "review", "watchlist-issue-seeds.json"), { label: "公开 Watchlist Review Issue 种子" });
   const communityMetricsBytes = await readFile(join(root, "metrics", "community.json"), "utf8");
   const publicCommunityMetricsBytes = await readFile(join(root, "site", "data", "community.json"), "utf8");
-  if (!archive || !events || !research || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
+  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
   if (communityMetricsBytes !== publicCommunityMetricsBytes) throw new Error("社区指标两个公开镜像不一致");
   await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
@@ -133,9 +136,13 @@ async function main(): Promise<void> {
   await validateWatchlistFeeds(root, currentView, watchlistFeedManifest);
   validateWatchlistConfigCatalog(currentView);
   validateWatchlistIssueSeeds(currentView, watchlistIssueSeeds);
-  const publicResearch = research.records.filter((record) => isPublishableResearch(record.article));
-  const rankedIds = new Set(rankResearchArticles(publicResearch.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))).slice(0, 6).map((article) => article.id));
-  validatePublication({ archive, events, research: publicResearch.filter((record) => rankedIds.has(record.id)), readme, expectedDate: manifest.date });
+  const eligibleResearchIds = new Set(researchDecisionArtifact.cards.filter((card) => card.eligibleForTopResearch && card.gates.length === 0).map((card) => String(card.identity.paperId.value)));
+  const hydratedResearch = research.records.map((record) => ({
+    ...record,
+    article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) },
+  }));
+  const publicResearch = rankResearchRecords(hydratedResearch.filter((record) => isPublishableResearch(record.article) && eligibleResearchIds.has(record.id))).slice(0, 6);
+  validatePublication({ archive, events, research: publicResearch, researchDecisionCards: researchDecisionArtifact.cards, readme, expectedDate: manifest.date });
   validatePublicationArtifacts(archive, manifest, history);
   const healthErrors = validatePipelineHealthArtifact(history, health);
   if (healthErrors.length) throw new Error(`流水线健康状态未通过：\n- ${healthErrors.join("\n- ")}`);

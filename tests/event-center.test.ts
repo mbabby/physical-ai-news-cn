@@ -132,6 +132,50 @@ test("does not assign a company merely mentioned in article body", () => {
   assert.ok(store.events[0].mentionedEntities?.includes("Tesla"));
 });
 
+test("resolves the grammatical subject instead of the first company-like mention", () => {
+  const humanoid = { name: "Humanoid", aliases: ["humanoid"], region: "欧洲", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "人形机器人", officialUrl: "https://thehumanoid.ai" };
+  const schaeffler = upsertEvents(undefined, [article({
+    title: "Schaeffler plans to mass produce gearboxes for humanoid robots in 2027",
+    titleZh: "Schaeffler 计划 2027 年量产人形机器人用减速器",
+    summaryZh: "Schaeffler 正采用成型技术制造谐波减速器。",
+  })], new Date(), [humanoid]);
+  assert.equal(schaeffler.events.length, 0);
+
+  const nvidia = { name: "NVIDIA", aliases: ["nvidia"], region: "北美", stage: "平台公司" as const, routes: ["世界模型与空间智能" as const], thesis: "机器人平台", officialUrl: "https://nvidia.com" };
+  const vicone = upsertEvents(undefined, [article({
+    title: "VicOne releases free NVIDIA Isaac Sim cybersecurity extension",
+    titleZh: "VicOne 发布免费的 NVIDIA Isaac Sim 网络安全扩展",
+    summaryZh: "VicOne 发布用于机器人仿真的网络安全扩展。",
+  })], new Date(), [nvidia]);
+  assert.equal(vicone.events.length, 0);
+});
+
+test("does not use generic or short aliases outside an exact title subject", () => {
+  const companies = [
+    { name: "Humanoid", aliases: ["humanoid"], region: "欧洲", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "人形机器人", officialUrl: "https://thehumanoid.ai" },
+    { name: "Toyota Research Institute", aliases: ["TRI"], region: "北美", stage: "平台公司" as const, routes: ["数据与训练" as const], thesis: "机器人研究", officialUrl: "https://tri.global" },
+  ];
+  const generic = upsertEvents(undefined, [article({ title: "Humanoid robot market expands", titleZh: "人形机器人市场继续增长" })], new Date(), companies);
+  const substring = upsertEvents(undefined, [article({ title: "Industrial systems improve reliability", titleZh: "工业系统可靠性提升" })], new Date(), companies);
+  assert.equal(generic.events.length, 0);
+  assert.equal(substring.events.length, 0);
+});
+
+test("re-resolves legacy records and removes sticky false ownership", () => {
+  const seed = upsertEvents(undefined, [article()], new Date("2026-08-01T01:00:00Z"));
+  const polluted = {
+    ...seed.events[0],
+    id: "legacy-schaeffler",
+    title: "Schaeffler 计划 2027 年量产人形机器人用减速器",
+    sourceTitle: "Schaeffler plans to mass produce gearboxes for humanoid robots in 2027",
+    primaryEntity: "Humanoid",
+    entities: ["Humanoid"],
+  };
+  const companies = [{ name: "Humanoid", aliases: ["humanoid"], region: "欧洲", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "人形机器人", officialUrl: "https://thehumanoid.ai" }];
+  const cleaned = upsertEvents({ updatedAt: seed.updatedAt, events: [polluted] }, [], new Date("2026-08-23T01:00:00Z"), companies);
+  assert.equal(cleaned.events.length, 0);
+});
+
 test("merges multilingual coverage of the same financing event", () => {
   const now = new Date("2026-08-01T01:00:00.000Z");
   const companies = [{ name: "Humanoid", aliases: ["humanoid"], region: "欧洲", stage: "创业公司" as const, routes: ["本体与硬件" as const], thesis: "人形机器人", officialUrl: "https://humanoid.example" }];
@@ -154,7 +198,7 @@ test("stores structured funding facts and never calls an unknown subject an indu
   assert.match(knownStore.events[0].funding?.round ?? "", /seed|种子/i);
   assert.match(knownStore.events[0].funding?.amount ?? "", /12/);
   const unknownStore = upsertEvents(undefined, [article({ title: "创业机器人公司完成 500 万美元种子轮融资", titleZh: "创业机器人公司完成 500 万美元种子轮融资", summaryZh: "一家创业机器人公司完成 500 万美元种子轮融资，用于具身机器人研发。", kind: "投融资" })]);
-  assert.match(formatCompanyRadar([], unknownStore.events), /待识别公司/);
+  assert.equal(unknownStore.events.length, 0);
   assert.doesNotMatch(formatCompanyRadar([], unknownStore.events), /行业公司/);
 });
 

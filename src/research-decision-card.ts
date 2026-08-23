@@ -1,5 +1,6 @@
 import type { Article, ResearchRecord } from "./types.js";
 import { hasCompleteChineseResearchCopy } from "./publication.js";
+import { researchClaims } from "./research-registry.js";
 
 /** `unknown` is a deliberate public value, never a placeholder for a guessed fact. */
 export type Unknown = "unknown";
@@ -147,6 +148,8 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   const abstract = sourceAbstract(article);
   const paperEvidence = sourceUrl(article);
   const scholar = article.scholar;
+  const claims = researchClaims(article);
+  const verifiedClaim = (kind: "真实机器人" | "基准" | "开源") => claims.find((claim) => claim.kind === kind && claim.status === "verified");
   const scholarEvidence = openAlexUrl(scholar?.workId);
   const ambiguous = Boolean(scholar?.workId && options.ambiguousWorkIds?.has(scholar.workId));
   const match = ambiguous ? known("ambiguous" as const, scholarEvidence) : scholar?.workId ? known("matched" as const, scholarEvidence) : known("missing" as const, paperEvidence);
@@ -158,17 +161,19 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
     ["机器人导航", /navigation|navigate/i], ["机器人运动", /locomotion|locomote/i],
   ]);
   const embodimentLabels = extractLabels(abstract, [
-    ["真实机器人", /real[- ]robot|physical robot|on[- ]robot/i], ["人形机器人", /humanoid/i],
+    ["人形机器人", /humanoid/i],
     ["四足机器人", /quadruped/i], ["移动操作机器人", /mobile manipulator/i], ["机械臂", /robot arm|manipulator arm/i],
   ]);
-  const benchmarkLabels = extractLabels(abstract, [
+  if (verifiedClaim("真实机器人")) embodimentLabels.unshift("真实机器人");
+  const extractedBenchmarkLabels = extractLabels(verifiedClaim("基准")?.excerpt ?? "", [
     ["LIBERO", /\blibero\b/i], ["RLBench", /\brlbench\b/i], ["CALVIN", /\bcalvin\b/i],
     ["ManiSkill", /\bmaniskill\b/i], ["RoboMimic", /\brobomimic\b/i], ["BridgeData", /\bbridge(?:data)?\b/i],
   ]);
+  const benchmarkLabels = verifiedClaim("基准") ? (extractedBenchmarkLabels.length ? extractedBenchmarkLabels : ["基准"]) : [];
   const scale = sourceSentence(abstract, /\b\d+(?:[,.]\d+)?\s*(?:million|billion|thousand|k|m)?\s*(?:demonstrations?|trajectories|episodes|hours?|images?|videos?|robots?|tasks?)\b/i);
   const delta = sourceSentence(abstract, /(?:outperform|improv(?:e|es|ed|ement)|better than|gain(?:s|ed)?|\+\s*\d|\d+(?:\.\d+)?%)/i);
   const realRobotCount = abstract.match(/\b(\d+)\s+(?:real[- ]robot\s+)?(?:trials|rollouts|episodes)\b/i)?.[1];
-  const code = firstUrl(abstract, /github\.com/i);
+  const code = verifiedClaim("开源") ? firstUrl(verifiedClaim("开源")!.excerpt, /github\.com/i) : undefined;
   const weights = firstUrl(abstract, /huggingface\.co\/(?!datasets)/i);
   const data = firstUrl(abstract, /huggingface\.co\/datasets|kaggle\.com\/datasets|zenodo\.org/i);
   const projectPage = firstUrl(abstract, /project|\.ai\//i);
@@ -179,7 +184,8 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   const authors = [...new Set([...(article.authors ?? []), ...(scholar?.authors.map((author) => author.name) ?? [])])];
   const labs = [...new Set([...(scholar?.institutions ?? []), ...record.authorityLabels])];
   const why: string[] = [];
-  if (record.evidenceTags.length) why.push(`原文摘要明确出现${record.evidenceTags.join("、")}证据`);
+  const verifiedTags = claims.filter((claim) => claim.status === "verified").map((claim) => claim.kind);
+  if (verifiedTags.length) why.push(`原文摘要明确出现${verifiedTags.join("、")}证据`);
   if (labs.length) why.push(`OpenAlex 作者/机构元数据包含${labs.slice(0, 2).join("、")}`);
   if ((scholar?.citedByCount ?? 0) > 0) why.push(`OpenAlex 记录引用 ${scholar!.citedByCount}`);
   const base = {
@@ -221,6 +227,12 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   if (match.value === "ambiguous") gates.push({ code: "openalex-ambiguous", detail: "同一 OpenAlex work identity 对应多个论文记录，拒绝自动选择。" });
   if (freshness.value === "stale") gates.push({ code: "openalex-stale", detail: `OpenAlex 检查时间超过 ${maxOpenAlexAgeDays} 天。` });
   if (freshness.value === UNKNOWN) gates.push({ code: "openalex-freshness-unknown", detail: "无法核验 OpenAlex 元数据的新鲜度。" });
+  const unverifiedStoredTags = record.evidenceTags.filter((tag) => !verifiedTags.includes(tag));
+  if (unverifiedStoredTags.some((tag) => claims.find((claim) => claim.kind === tag)?.status === "contradicted")) {
+    gates.push({ code: "contradicted-claim", detail: `已存标签与原文否定陈述冲突：${unverifiedStoredTags.join("、")}。` });
+  } else if (unverifiedStoredTags.length) {
+    gates.push({ code: "unverified-evidence-tag", detail: `已存标签缺少原文支持：${unverifiedStoredTags.join("、")}。` });
+  }
   return { ...base, fieldEvidence: fields, completeness: { totalFields: fieldValues.length, knownFields, unknownFields: fieldValues.length - knownFields, completeOrUnknown: fieldValues.every((field) => field.value === UNKNOWN || field.evidenceUrls.length > 0) }, gates, eligibleForTopResearch: gates.length === 0 };
 }
 

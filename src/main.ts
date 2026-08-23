@@ -399,23 +399,24 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   // latest complete cards; unfinished research stays in the candidate layer.
   const researchPool = uniqueArticles(preferKnownGoodArticles([...researchArticles, ...openAlex.articles, ...registeredResearch, ...cachedResearch], [...registeredResearch, ...cachedResearch, ...historicalArticles]));
   const researchRegistry = updateResearchRegistry(previousResearch, researchPool, now);
-  const freshlyRankedResearch = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article));
+  const researchDecisionCards = selectTopResearchDecisionCards(researchRegistry.records, { now });
+  const eligibleResearchIds = new Set(researchDecisionCards.filter((card) => card.eligibleForTopResearch && card.gates.length === 0).map((card) => String(card.identity.paperId.value)));
+  const freshlyRankedResearch = rankResearchRecords(researchRegistry.records).filter((record) => isPublishableResearch(record.article) && eligibleResearchIds.has(record.id));
   // The daily archives are the actual publication history. The registry may
   // temporarily lose complete copy when a provider returns a poorer refresh,
   // so using only the registry as the baseline allowed the homepage to shrink
   // from three cards to two across two otherwise successful runs.
   const archivedPublicRecords = recoverPublishedResearchRecords(recentArchives, previousResearch?.records ?? []);
-  const registryPublicRecords = (previousResearch?.records ?? []).filter((record) => isPublishableResearch(record.article) && !record.article.scholar?.isRetracted)
+  const registryPublicRecords = (previousResearch?.records ?? []).filter((record) => isPublishableResearch(record.article) && !record.article.scholar?.isRetracted && eligibleResearchIds.has(record.id))
     .map((record) => ({ ...record, article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) } }));
   const previousPublicRecords = [...new Map([...archivedPublicRecords, ...registryPublicRecords].map((record) => [record.id, record])).values()];
   const previousById = new Map(previousPublicRecords.map((record) => [record.id, record]));
-  const fallbackOrder = rankResearchArticles(previousPublicRecords.map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) })))
+  const fallbackOrder = rankResearchArticles(previousPublicRecords.filter((record) => eligibleResearchIds.has(record.id)).map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) })))
     .flatMap((article) => previousById.get(article.id) ? [previousById.get(article.id)!] : []);
   const publicResearchRecords = [...new Map([...freshlyRankedResearch, ...fallbackOrder].map((record) => [record.id, record])).values()].slice(0, 6);
   const shownResearchIds = new Set(publicResearchRecords.map((record) => record.id));
   researchRegistry.records.forEach((record) => { if (shownResearchIds.has(record.id)) record.lastShownAt = now.toISOString(); });
   const publicResearch = publicResearchRecords.map((record) => record.article);
-  const researchDecisionCards = selectTopResearchDecisionCards(researchRegistry.records, { now });
   const relationEvidenceCandidates = await readJson<RelationEvidenceCandidate[]>(join(reviewDir, "research-industry-evidence.json")) ?? [];
   const researchIndustryRelations = buildResearchIndustryRelationEdges(researchRegistry.records, companies, relationEvidenceCandidates, { now });
   const hasFundingCrossEvidence = (article: Article): boolean => {
@@ -843,6 +844,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     archive,
     events: eventStore,
     research: publicResearchRecords,
+    researchDecisionCards,
     readme,
     expectedDate: archive.date,
     previousCompleteResearchCount: previousPublicRecords.length,

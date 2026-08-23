@@ -42,6 +42,40 @@ test("uses explicit unknowns instead of inventing missing research details", () 
   assert.equal(card.completeness.completeOrUnknown, true);
 });
 
+test("projects only verified evidence into public research fields", () => {
+  const card = materializeResearchDecisionCard(record({ article: article({
+    id: "claims",
+    title: "Simulation-only policy with future artifacts",
+    excerpt: "Experiments are only in simulation and no real robot trials are performed. Related work uses LIBERO. Code will be released later.",
+    summaryZh: "论文只在仿真中评估策略。作者仅宣布未来会发布代码。",
+    link: "https://arxiv.org/abs/2608.00007v1",
+    scholar: { ...article().scholar!, workId: "W-claims" },
+  }) }), { now: new Date("2026-08-10") });
+  assert.equal(card.embodiment.value, "unknown");
+  assert.equal(card.benchmark.value, "unknown");
+  assert.equal(card.artifacts.code.value, "unknown");
+  assert.ok(card.gates.some((gate) => gate.code === "contradicted-claim"));
+});
+
+test("LAWM-3D cannot display badges contradicted by its factual Chinese summary", () => {
+  const lawm = article({
+    id: "arxiv:2608.05706",
+    title: "LAWM-3D: Learning 3D-Aware Latent Actions from Human Videos for Generalizable Robot World Models",
+    titleZh: "LAWM-3D：从人类视频学习三维感知潜在动作",
+    excerpt: "Built on human video pretraining and robot fine-tuning, experiments show improved generation quality and physical consistency.",
+    summaryZh: "LAWM-3D 从人类视频学习三维感知潜在动作。摘要未提供真实机器人、具体基准或开源证据。",
+    link: "https://arxiv.org/abs/2608.05706v1",
+    scholar: { ...article().scholar!, workId: "W-LAWM-3D" },
+  });
+  const card = materializeResearchDecisionCard(record({ id: lawm.id, article: lawm, evidenceTags: ["真实机器人", "基准", "开源"] }), { now: new Date("2026-08-10") });
+  assert.equal(card.embodiment.value, "unknown");
+  assert.equal(card.benchmark.value, "unknown");
+  assert.equal(card.artifacts.code.value, "unknown");
+  assert.ok(!String(card.whyWorthAttention.value).includes("真实机器人"));
+  assert.ok(!String(card.whyWorthAttention.value).includes("基准"));
+  assert.ok(!String(card.whyWorthAttention.value).includes("开源"));
+});
+
 test("blocks retracted, stale, and ambiguous OpenAlex records from Top research", () => {
   const retracted = record({ id: "retracted", article: article({ id: "retracted", scholar: { ...article().scholar!, workId: "W-retracted", isRetracted: true } }) });
   const stale = record({ id: "stale", article: article({ id: "stale", scholar: { ...article().scholar!, workId: "W-stale", checkedAt: "2026-05-01T00:00:00Z" } }) });
