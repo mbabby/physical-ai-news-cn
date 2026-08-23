@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { generate } from "../src/main.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { DashboardData } from "../src/site-data.js";
-import type { Article, DailyArchive, DigestResult, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
+import type { Article, DailyArchive, DigestResult, EventRecord, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
 import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
@@ -127,17 +127,48 @@ async function copyFixture(target: string): Promise<void> {
 async function seedNonEmptyPriorPreview(root: string): Promise<void> {
   const generatedAt = FIXED_NOW.toISOString();
   // The publication fixture must reference a canonically attributable event.
-  // Production history previously associated this ID with a roundup headline
-  // that merely mentioned NVIDIA; the strict resolver correctly quarantines
-  // that shape, so the fixed test input supplies an explicit NVIDIA actor.
+  // Never borrow this event from mutable production history: a legitimate
+  // cleanup may quarantine it and make an otherwise fixed integration test
+  // depend on the order in which real daily runs happened.
   const eventPath = join(root, "events", "index.json");
   const eventStore = JSON.parse(await readFile(eventPath, "utf8")) as EventStore;
-  const canonicalEvent = eventStore.events.find((event) => event.id === "evt-9da8fb3e629b");
-  assert.ok(canonicalEvent, "fixed Watchlist fixture requires its canonical NVIDIA event");
-  canonicalEvent.title = "NVIDIA 发布 Cosmos 物理 AI 平台更新";
-  canonicalEvent.sourceTitle = "NVIDIA launches a Cosmos platform update for physical AI";
-  canonicalEvent.primaryEntity = "NVIDIA";
-  canonicalEvent.entities = ["NVIDIA"];
+  const canonicalEvent: EventRecord = {
+    id: "evt-9da8fb3e629b",
+    title: "NVIDIA 发布 Cosmos 物理 AI 平台更新",
+    sourceTitle: "NVIDIA launches a Cosmos platform update for physical AI",
+    type: "产品发布",
+    entities: ["NVIDIA"],
+    primaryEntity: "NVIDIA",
+    mentionedEntities: [],
+    routes: ["世界模型与空间智能"],
+    status: "已确证",
+    occurredAt: "2026-08-09T08:00:00.000Z",
+    eventDate: "2026-08-09",
+    dateSource: "official-published",
+    dateConfidence: "high",
+    firstSeenAt: "2026-08-09T08:00:00.000Z",
+    lastEvidenceAt: "2026-08-09T08:00:00.000Z",
+    lastMaterialChangeAt: "2026-08-09T08:00:00.000Z",
+    lastUpdatedAt: "2026-08-09T08:00:00.000Z",
+    lastVerifiedAt: "2026-08-09T08:00:00.000Z",
+    facts: ["NVIDIA 发布 Cosmos 物理 AI 平台更新，并提供可追溯的一手产品说明。"],
+    openQuestions: ["后续是否有独立部署或复现证据？"],
+    evidence: [{
+      link: "https://www.nvidia.com/en-us/ai/cosmos/",
+      source: "NVIDIA 官方",
+      grade: "A",
+      publishedAt: "2026-08-09T08:00:00.000Z",
+      supports: "NVIDIA 发布 Cosmos 物理 AI 平台更新",
+    }],
+    timeline: [{
+      date: "2026-08-09T08:00:00.000Z",
+      summary: "NVIDIA 发布 Cosmos 物理 AI 平台更新，并提供可追溯的一手产品说明。",
+      evidenceLinks: ["https://www.nvidia.com/en-us/ai/cosmos/"],
+    }],
+    productDeployment: { product: "Cosmos", customers: [] },
+  };
+  eventStore.events = [canonicalEvent, ...eventStore.events.filter((event) => event.id !== canonicalEvent.id)];
+  eventStore.updatedAt = generatedAt;
   await writeFile(eventPath, `${JSON.stringify(eventStore, null, 2)}\n`);
   const thesis = {
     thesisId: "thesis-nvidia-stage4-fixture",
@@ -358,11 +389,11 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
         });
         assert.deepEqual(manifest.services.find(({ component }) => component === "Watchlist"), {
           component: "Watchlist",
-          status: "成功",
-          attempted: 0,
+          status: "部分降级",
+          attempted: 1,
           succeeded: 0,
-          failed: 0,
-          detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。",
+          failed: 1,
+          detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
         });
         return manifest;
     }, { status: "degraded" });
