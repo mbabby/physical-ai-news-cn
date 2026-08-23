@@ -61,6 +61,10 @@ const CONTEXTUAL = /\b(?:related work|prior work|previous work|existing (?:work|
 const NEGATED = /\b(?:no|not|without|never|does not|do not|did not|cannot)\b/i;
 const SIMULATION_ONLY = /\b(?:only|solely|exclusively)\s+(?:in\s+)?simulation\b|\bsimulation\s+only\b/i;
 
+function canonicalBenchmarkName(value: string): string | undefined {
+  return BENCHMARKS.find(([name]) => name.toLowerCase() === value.trim().toLowerCase())?.[0];
+}
+
 function stableEntryId(paperId: string, benchmark: string): string {
   const digest = createHash("sha256").update(`${paperId}\n${benchmark.toLowerCase()}`).digest("hex").slice(0, 16);
   return `benchmark-result-${digest}`;
@@ -87,7 +91,10 @@ function sourceSentences(record: ResearchRecord): string[] {
 }
 
 function mentionedBenchmarks(record: ResearchRecord, card: ResearchDecisionCard): string[] {
-  const cardBenchmarks = card.benchmark.value === UNKNOWN ? [] : card.benchmark.value;
+  const cardBenchmarks = card.benchmark.value === UNKNOWN ? [] : card.benchmark.value.flatMap((value) => {
+    const canonical = canonicalBenchmarkName(value);
+    return canonical ? [canonical] : [];
+  });
   const source = `${record.article.title}\n${record.article.excerpt}`;
   return [...new Set([...cardBenchmarks, ...BENCHMARKS.filter(([, pattern]) => pattern.test(source)).map(([name]) => name)])].sort();
 }
@@ -263,7 +270,7 @@ export function buildBenchmarkResultLedger(
   const currentIds = new Set(entries.map((entry) => entry.entryId));
   for (const previous of options.previous?.entries ?? []) {
     const record = recordsById.get(previous.paperId);
-    if (!record || currentIds.has(previous.entryId)) continue;
+    if (!record || currentIds.has(previous.entryId) || !canonicalBenchmarkName(previous.benchmarkKey)) continue;
     const tombstone: BenchmarkResultEntry = {
       ...previous,
       arxivVersion: record.arxivVersion ?? UNKNOWN,
@@ -284,6 +291,7 @@ export function validateBenchmarkResultLedger(ledger: BenchmarkResultLedger): vo
   for (const entry of ledger.entries) {
     if (ids.has(entry.entryId)) throw new Error(`Duplicate benchmark result entry: ${entry.entryId}`);
     ids.add(entry.entryId);
+    if (!canonicalBenchmarkName(entry.benchmarkKey)) throw new Error(`Benchmark entry lacks a canonical benchmark identity: ${entry.entryId}`);
     if (entry.decisionCardPaperId !== entry.paperId) throw new Error(`Benchmark decision card paper ID does not match ${entry.paperId}`);
     if (entry.entryId !== stableEntryId(entry.paperId, entry.benchmarkKey)) throw new Error(`Unstable benchmark result entry ID: ${entry.entryId}`);
     for (const field of FIELD_PATHS) validateLedgerField<unknown>(entry.fields[field]);

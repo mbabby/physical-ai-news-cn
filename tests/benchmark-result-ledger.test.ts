@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import test from "node:test";
 import { buildBenchmarkResultLedger, validateBenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
 import { isBenchmarkResultLedgerArtifact } from "../src/dual-ledger.js";
@@ -238,10 +239,30 @@ test("does not attribute one comparison to multiple benchmarks", () => {
   assert.ok(entries.every((entry) => entry.gateCodes.includes("benchmark-comparison-ambiguous")));
 });
 
+test("does not materialize a generic benchmark badge as a benchmark identity", () => {
+  const item = record({
+    article: article({ title: "A general benchmark study", excerpt: "We report a benchmark study without naming a canonical evaluation suite." }),
+    evidenceTags: ["基准"],
+  });
+  const card = materializeResearchDecisionCard(item, { now: NOW });
+  card.benchmark = { value: ["基准"], evidenceUrls: [SOURCE_URL], verifiedAt: NOW.toISOString() };
+  assert.deepEqual(buildBenchmarkResultLedger([item], [card], { now: NOW }).entries, []);
+
+  const legacy = build([record()]);
+  legacy.entries[0]!.benchmarkKey = "基准";
+  legacy.entries[0]!.entryId = "benchmark-result-legacy-generic";
+  assert.deepEqual(buildBenchmarkResultLedger([item], [card], { now: NOW, previous: legacy }).entries, []);
+});
+
 test("validates decision-card identity continuity", () => {
   const ledger = build([record()]);
   assert.doesNotThrow(() => validateBenchmarkResultLedger(ledger));
   const invalid = structuredClone(ledger);
   invalid.entries[0]!.decisionCardPaperId = "arxiv:different-paper";
   assert.throws(() => validateBenchmarkResultLedger(invalid), /decision card paper ID/i);
+
+  const generic = structuredClone(ledger);
+  generic.entries[0]!.benchmarkKey = "基准";
+  generic.entries[0]!.entryId = `benchmark-result-${createHash("sha256").update(`${generic.entries[0]!.paperId}\n基准`).digest("hex").slice(0, 16)}`;
+  assert.throws(() => validateBenchmarkResultLedger(generic), /canonical benchmark/i);
 });
