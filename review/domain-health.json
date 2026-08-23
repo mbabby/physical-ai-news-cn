@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T14:09:57.197Z",
+  "generatedAt": "2026-08-23T15:17:22.220Z",
   "domains": {
     "industry": {
       "expected": 1,
@@ -58,27 +58,26 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 0,
-      "evidenceReady": 0,
-      "failureCount": 0,
-      "coverageRate": 0,
-      "status": "critical",
+      "observed": 4,
+      "evidenceReady": 4,
+      "failureCount": 3,
+      "coverageRate": 1,
+      "evidenceReadyRate": 1,
+      "status": "degraded",
       "gaps": [
-        "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。",
-        "缺少 1 个预期观测"
+        "3 个采集或服务失败",
+        "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
       ]
     },
     "openalex": {
       "expected": 1,
-      "observed": 0,
-      "evidenceReady": 0,
+      "observed": 36,
+      "evidenceReady": 36,
       "failureCount": 0,
-      "coverageRate": 0,
-      "status": "critical",
-      "gaps": [
-        "未配置 OpenAlex；论文仍按来源元数据排序。",
-        "缺少 1 个预期观测"
-      ]
+      "coverageRate": 1,
+      "evidenceReadyRate": 1,
+      "status": "healthy",
+      "gaps": []
     },
     "release": {
       "expected": 1,
@@ -285,25 +284,25 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 36,
+          "observed": 35,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "36 个观测尚未达到证据门槛",
+            "35 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
         "funding": {
           "expected": 0,
-          "observed": 21,
+          "observed": 20,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "21 个观测尚未达到证据门槛",
+            "20 个观测尚未达到证据门槛",
             "无法唯一识别公司主体"
           ]
         },
@@ -322,16 +321,16 @@
       },
       "total": {
         "expected": 0,
-        "observed": 72,
+        "observed": 70,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
           "15 个观测尚未达到证据门槛",
-          "21 个观测尚未达到证据门槛",
-          "36 个观测尚未达到证据门槛",
-          "72 个观测尚未达到证据门槛",
+          "20 个观测尚未达到证据门槛",
+          "35 个观测尚未达到证据门槛",
+          "70 个观测尚未达到证据门槛",
           "无法唯一识别公司主体"
         ]
       }
@@ -750,6 +749,52 @@
     {
       "dimension": "company",
       "key": "具身数据来了实战派！40天2轮",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "具身智能机器人爆发：出货4万台",
       "domains": {
         "industry": {
           "expected": 0,
@@ -4814,17 +4859,15 @@
     }
   ],
   "summary": {
-    "status": "critical",
-    "criticalDomains": [
-      "llm",
-      "openalex"
-    ],
+    "status": "degraded",
+    "criticalDomains": [],
     "degradedDomains": [
       "industry",
       "funding",
       "product-deployment",
+      "llm",
       "release"
     ],
-    "coverageGapCount": 101
+    "coverageGapCount": 102
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T14:09:46.958Z",
+  "generatedAt": "2026-08-23T15:13:37.289Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -66,7 +66,7 @@
   },
   "budget": {
     "maxPlansPerRun": 20,
-    "attemptedPlans": 0,
+    "attemptedPlans": 1,
     "deferredPlans": 0,
     "maxProbesPerPlan": 6
   },
@@ -6183,103 +6183,6 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
-      "id": "plan-821251eea9e5ef2c4d2d",
-      "recordId": "verify-1f8c05ffb1aa62",
-      "companyName": "待识别公司",
-      "eventKind": "投融资",
-      "fingerprint": "8cc45cf860be2ad73f84",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 70,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-31adf41b091ddfaaecad",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-b6a52f497da3856706db",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-b4931456ae366391d2fc",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-c4942ff7bb32a84cc8a3",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-9dfee7cb90b4c6291832",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-1ee9c496a2ecf8f56969",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-23T13:28:26.460Z",
-      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
-      "nextAttemptAt": "2026-08-24T13:28:26.460Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
       "id": "plan-acbea1e21d3a35d66c4a",
       "recordId": "verify-31e302cda03c11",
       "companyName": "用VR头显远程操控仓库机器人，Avatar Robotics",
@@ -9182,6 +9085,103 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-18T03:54:07.709Z",
       "nextAttemptAt": "2026-08-25T03:54:07.709Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-12a74cf11515ab84010a",
+      "recordId": "verify-d9414d91a70d28",
+      "companyName": "具身智能机器人爆发：出货4万台",
+      "eventKind": "投融资",
+      "fingerprint": "1703355cab9c9935615c",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-d92e5d3bd47fdc89149e",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7aeb00e8655e3042d85a",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-237868b7ca0c20207cc6",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-12220911f063e9882056",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ae648a6129e6c30cc403",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0de43a6278273380b2b7",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"具身智能机器人爆发：出货4万台\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-23T15:13:37.289Z",
+      "lastAttemptAt": "2026-08-23T15:13:37.289Z",
+      "nextAttemptAt": "2026-08-24T15:13:37.289Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },

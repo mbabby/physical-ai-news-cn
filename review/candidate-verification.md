@@ -683,15 +683,6 @@
 - 尝试：1
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxQMGRJcWZBYnljbDFpZXYtckxLcHN0eVhzNmVKaUVQSmFuclg4S29GVFI2RnZzZmRDWE9VRHZvNnFLb0Z4d3RJSGRtQVR1RUtwYl81RWUtYXl1OGdvWnpuQUo4Zmx4QUkzWVdjdUQ4YTJ1Nkw1ZnRkTFlPa1JYVmwyUzQ4eDc0ODdLNVg1MA?oc=5)
-- 结论：无法唯一识别公司主体
-
-## 待识别公司 · 投融资 · 已拒绝
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMif0FVX3lxTE1BWHlCcWJtRGxkMjdqSU41MTVfN1B2bU5RV1lSMFRySlVLYXRTNFVvTVB2NnN4NmVqUUJwb0VmaEF4NVlqQkNnelRybWpKQ3lOQkxYTlF5M2RtaXRkNVRyTXdLTTBJS24zMkVKYmFxaHItN2VXNVpzUkFQVW9oV1k?oc=5)
 - 结论：无法唯一识别公司主体
 
@@ -720,6 +711,15 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 具身智能机器人爆发：出货4万台 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-08-24
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMihAFBVV95cUxOQ2h1eHphSE8yYmZuSWV3RGY3c3FUYjJCMWhHcTU5eklvdFJEeEhJSnpBYjBpRVR4dTY4SUFPX29SNDBsOUhlUk03TElxMElISXRtczhvRmpaMlFqY1RGTlRua0lSaXdnV2xjak1EMHBqUXRYR3RjSkNnYzAwZzNRMEt5WE0?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 肯塔基州西部五所学校 · 投融资 · 等待重试
