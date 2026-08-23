@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:39:39.139Z",
+  "generatedAt": "2026-08-23T14:09:46.958Z",
   "records": [
     {
       "id": "verify-c27611841da561",
@@ -7340,11 +7340,49 @@
           "publisherUrl": "https://tech.ifeng.com"
         }
       ],
-      "enrichmentAttempts": [],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-08-23T13:28:26.460Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"李泽湘孵化的割草机器人公司，A轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"李泽湘孵化的割草机器人公司，A轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"李泽湘孵化的割草机器人公司，A轮\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "凤凰网科技",
+              "value": "https://tech.ifeng.com",
+              "query": "\"李泽湘孵化的割草机器人公司，A轮\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1058,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextReviewAt": "2026-08-23T12:54:06.990Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextReviewAt": "2026-08-26T13:28:26.460Z",
+      "attempts": 2,
       "evidenceHash": "57851b04a39680e05507",
       "evidence": [
         {
@@ -11429,7 +11467,7 @@
       "id": "verify-064358ea4e4caa",
       "companyName": "待识别公司",
       "kind": "投融资",
-      "title": "人形机器人决胜“大脑”",
+      "title": "人形机器人决胜“大脑” - 投资界",
       "status": "已拒绝",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -11497,7 +11535,7 @@
           "score": 0,
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-23T06:39:00.000Z",
-          "title": "人形机器人决胜“大脑”"
+          "title": "人形机器人决胜“大脑” - 投资界"
         }
       ],
       "facts": {},
@@ -11622,10 +11660,10 @@
       }
     },
     {
-      "id": "verify-aaabca2cf2a3f8",
+      "id": "verify-1f8c05ffb1aa62",
       "companyName": "待识别公司",
       "kind": "投融资",
-      "title": "市场改革释放机遇，资本赋能深圳机器人企业加速奔跑",
+      "title": "【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网",
       "status": "已拒绝",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -11634,15 +11672,15 @@
       "impactScore": 70,
       "discoveryOrigins": [
         {
-          "discoveryLink": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBiMzRhMjRLMXpXS1ExV2pYOTVmMU91TC1vZ2tJLU01SVhPRThVWkw3VkFOSDFXZTl5SjRLODc1U1ctTXpEM3k3YnZKTk50NDRR?oc=5",
+          "discoveryLink": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQMGRJcWZBYnljbDFpZXYtckxLcHN0eVhzNmVKaUVQSmFuclg4S29GVFI2RnZzZmRDWE9VRHZvNnFLb0Z4d3RJSGRtQVR1RUtwYl81RWUtYXl1OGdvWnpuQUo4Zmx4QUkzWVdjdUQ4YTJ1Nkw1ZnRkTFlPa1JYVmwyUzQ4eDc0ODdLNVg1MA?oc=5",
           "discoverySource": "Google News · 中国具身融资",
-          "publisher": "凤凰网财经",
-          "publisherUrl": "https://finance.ifeng.com"
+          "publisher": "搜狐网",
+          "publisherUrl": "https://m.sohu.com"
         }
       ],
       "enrichmentAttempts": [
         {
-          "attemptedAt": "2026-08-23T01:01:32.642Z",
+          "attemptedAt": "2026-08-23T13:28:26.460Z",
           "trigger": "首次补证",
           "priority": 70,
           "targets": [
@@ -11666,12 +11704,12 @@
             },
             {
               "kind": "原始媒体",
-              "label": "凤凰网财经",
-              "value": "https://finance.ifeng.com",
+              "label": "搜狐网",
+              "value": "https://m.sohu.com",
               "query": "\"待识别公司\" funding financing investment raises 融资 投资"
             }
           ],
-          "scannedArticles": 918,
+          "scannedArticles": 1058,
           "newEvidenceLinks": [],
           "outcome": "未发现新证据",
           "failureReasons": [
@@ -11679,21 +11717,21 @@
           ]
         }
       ],
-      "firstSeenAt": "2026-08-23T01:01:32.642Z",
-      "lastAttemptAt": "2026-08-23T01:01:32.642Z",
+      "firstSeenAt": "2026-08-23T13:28:26.460Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
       "attempts": 1,
-      "evidenceHash": "9e0320ac59e2b20f6216",
+      "evidenceHash": "992e33d680e8b46ec6ab",
       "evidence": [
         {
-          "articleId": "52342d535e5a7605",
-          "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBiMzRhMjRLMXpXS1ExV2pYOTVmMU91TC1vZ2tJLU01SVhPRThVWkw3VkFOSDFXZTl5SjRLODc1U1ctTXpEM3k3YnZKTk50NDRR?oc=5",
+          "articleId": "c00fb7dd252e925f",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQMGRJcWZBYnljbDFpZXYtckxLcHN0eVhzNmVKaUVQSmFuclg4S29GVFI2RnZzZmRDWE9VRHZvNnFLb0Z4d3RJSGRtQVR1RUtwYl81RWUtYXl1OGdvWnpuQUo4Zmx4QUkzWVdjdUQ4YTJ1Nkw1ZnRkTFlPa1JYVmwyUzQ4eDc0ODdLNVg1MA?oc=5",
           "source": "Google News · 中国具身融资",
           "grade": "线索",
           "sourceClass": "discovery",
           "score": 0,
           "independentOrigin": "news.google.com",
-          "publishedAt": "2026-08-22T23:53:23.000Z",
-          "title": "市场改革释放机遇，资本赋能深圳机器人企业加速奔跑"
+          "publishedAt": "2026-08-22T23:53:00.000Z",
+          "title": "【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网"
         }
       ],
       "facts": {},
@@ -11723,7 +11761,7 @@
       "id": "verify-5159618d0a6b68",
       "companyName": "待识别公司",
       "kind": "投融资",
-      "title": "京东在WRC发布机器人战略：百亿投入，以供应链、服务、技术为产业搭台",
+      "title": "投资百亿！京东WRC甩出机器人战略：用供应链、服务、技术为产业搭台 - 手机新浪网",
       "status": "已拒绝",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -11791,7 +11829,7 @@
           "score": 0,
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-22T15:59:57.000Z",
-          "title": "京东在WRC发布机器人战略：百亿投入，以供应链、服务、技术为产业搭台"
+          "title": "投资百亿！京东WRC甩出机器人战略：用供应链、服务、技术为产业搭台 - 手机新浪网"
         }
       ],
       "facts": {},
@@ -13427,12 +13465,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-08-23T13:28:26.460Z",
+          "trigger": "定时重试",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "ThePrint",
+              "value": "https://theprint.in",
+              "query": "\"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1058,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-08-22T12:57:42.891Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextReviewAt": "2026-08-23T12:57:42.891Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextReviewAt": "2026-08-26T13:28:26.460Z",
+      "attempts": 2,
       "evidenceHash": "298206d0e2b624ac1dd7",
       "evidence": [
         {

@@ -91,3 +91,14 @@ test("weekly reporting assets explain their public and review boundaries", async
   assert.match(queue, /待核验候选/);
   assert.match(metrics, /未配置/);
 });
+
+test("facts and development policy document the dual-ledger correction contract", async () => {
+  const policy = await readFile(join(root, "FACTS_POLICY.md"), "utf8");
+  const standards = await readFile(join(root, "docs", "DEVELOPMENT_STANDARDS.md"), "utf8");
+  const combined = `${policy}\n${standards}`;
+  assert.match(combined, /Company Claim Ledger/);
+  assert.match(combined, /Benchmark Result Ledger/);
+  for (const status of ["verified", "developing", "conflicted", "unknown"]) assert.match(combined, new RegExp(`\\b${status}\\b`));
+  assert.match(combined, /unknown[^\n]*(?:不代表|不是)[^\n]*(?:没有|不存在|未融资)/i);
+  assert.match(combined, /Benchmark Result Ledger[^\n]*(?:不构成|不是)[^\n]*(?:排名|榜单)/i);
+});

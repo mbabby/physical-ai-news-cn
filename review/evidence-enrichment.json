@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:39:39.139Z",
+  "generatedAt": "2026-08-23T14:09:46.958Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -1715,10 +1715,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4334,10 +4334,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4819,10 +4819,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6078,10 +6078,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6179,6 +6179,103 @@
       "createdAt": "2026-08-20T00:56:47.599Z",
       "lastAttemptAt": "2026-08-22T12:54:06.990Z",
       "nextAttemptAt": "2026-08-25T12:54:06.990Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-821251eea9e5ef2c4d2d",
+      "recordId": "verify-1f8c05ffb1aa62",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "8cc45cf860be2ad73f84",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-31adf41b091ddfaaecad",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b6a52f497da3856706db",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b4931456ae366391d2fc",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-c4942ff7bb32a84cc8a3",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9dfee7cb90b4c6291832",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-1ee9c496a2ecf8f56969",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"【深圳特区报】市场改革释放机遇 产业投融资掀起热潮 资本赋能深圳机器人企业加速奔跑 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-08-23T13:28:26.460Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-24T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6563,10 +6660,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6854,10 +6951,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:57:42.891Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -7436,10 +7533,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "lastAttemptAt": "2026-08-22T12:54:06.990Z",
-      "nextAttemptAt": "2026-08-23T12:54:06.990Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -8016,10 +8113,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:57:42.891Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -8408,103 +8505,6 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-16T16:09:52.482Z",
       "nextAttemptAt": "2026-08-23T16:09:52.482Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-7ed6a28299f09ba9a541",
-      "recordId": "verify-aaabca2cf2a3f8",
-      "companyName": "待识别公司",
-      "eventKind": "投融资",
-      "fingerprint": "135afb36e26beb89f0ab",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 70,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-92f401281be386187bea",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-54d26998706c59e2d1db",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-b1ccd2f352b74d0f775c",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-832d83f7678364277995",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-747f878dd6dc0e8b3e4b",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-81344e2265c72f45bcdf",
-          "domain": "ambirobotics.com",
-          "sourceLabel": "Ambi Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:ambirobotics.com \"市场改革释放机遇 资本赋能深圳机器人企业加速奔跑\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-08-23T01:01:32.642Z",
-      "lastAttemptAt": "2026-08-23T10:13:59.373Z",
-      "nextAttemptAt": "2026-08-24T10:13:59.373Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -10629,10 +10629,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -10912,10 +10912,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -12160,10 +12160,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "lastAttemptAt": "2026-08-22T12:57:42.891Z",
-      "nextAttemptAt": "2026-08-23T12:57:42.891Z",
+      "lastAttemptAt": "2026-08-23T13:28:26.460Z",
+      "nextAttemptAt": "2026-08-26T13:28:26.460Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     }

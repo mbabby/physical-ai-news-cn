@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:43:34.327Z",
+  "generatedAt": "2026-08-23T14:09:57.197Z",
   "domains": {
     "industry": {
       "expected": 1,
@@ -58,26 +58,27 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 5,
-      "evidenceReady": 5,
-      "failureCount": 2,
-      "coverageRate": 1,
-      "evidenceReadyRate": 1,
-      "status": "degraded",
+      "observed": 0,
+      "evidenceReady": 0,
+      "failureCount": 0,
+      "coverageRate": 0,
+      "status": "critical",
       "gaps": [
-        "2 个采集或服务失败",
-        "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
+        "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。",
+        "缺少 1 个预期观测"
       ]
     },
     "openalex": {
       "expected": 1,
-      "observed": 36,
-      "evidenceReady": 36,
+      "observed": 0,
+      "evidenceReady": 0,
       "failureCount": 0,
-      "coverageRate": 1,
-      "evidenceReadyRate": 1,
-      "status": "healthy",
-      "gaps": []
+      "coverageRate": 0,
+      "status": "critical",
+      "gaps": [
+        "未配置 OpenAlex；论文仍按来源元数据排序。",
+        "缺少 1 个预期观测"
+      ]
     },
     "release": {
       "expected": 1,
@@ -4813,13 +4814,15 @@
     }
   ],
   "summary": {
-    "status": "degraded",
-    "criticalDomains": [],
+    "status": "critical",
+    "criticalDomains": [
+      "llm",
+      "openalex"
+    ],
     "degradedDomains": [
       "industry",
       "funding",
       "product-deployment",
-      "llm",
       "release"
     ],
     "coverageGapCount": 101

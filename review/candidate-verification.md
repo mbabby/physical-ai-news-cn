@@ -392,8 +392,8 @@
 ## 李泽湘孵化的割草机器人公司，A轮 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
-- 尝试：1；下次复核 2026-08-23
-- 主动补证：尚未执行
+- 尝试：2；下次复核 2026-08-26
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiTEFVX3lxTFBmQ213cE54alFQQVJKaEkwUUNtSkNSSDFmdHk5ZkdrSkRvQ00yZkZLUW5yUV9wNk1ZR2hlTTV5cG56X29fSWlpMjMzOXg?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
@@ -683,7 +683,7 @@
 - 尝试：1
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTFBiMzRhMjRLMXpXS1ExV2pYOTVmMU91TC1vZ2tJLU01SVhPRThVWkw3VkFOSDFXZTl5SjRLODc1U1ctTXpEM3k3YnZKTk50NDRR?oc=5)
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxQMGRJcWZBYnljbDFpZXYtckxLcHN0eVhzNmVKaUVQSmFuclg4S29GVFI2RnZzZmRDWE9VRHZvNnFLb0Z4d3RJSGRtQVR1RUtwYl81RWUtYXl1OGdvWnpuQUo4Zmx4QUkzWVdjdUQ4YTJ1Nkw1ZnRkTFlPa1JYVmwyUzQ4eDc0ODdLNVg1MA?oc=5)
 - 结论：无法唯一识别公司主体
 
 ## 待识别公司 · 投融资 · 已拒绝
@@ -815,7 +815,7 @@
 ## 中国为第二届世界人形机器人运动会提高标准 China · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-08-23
+- 尝试：2；下次复核 2026-08-26
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxOLWdtVk9uc2lRWjhicTg4VDRKS3RGNTlqNTcxMFdXOXJGSVRBRlBHaXMzSE9mTzgtUWZYVHpYWUFmZG0yWG44ZXBFa1NtQjB6OV9xOGNId1VobEZyMTlvRll2cEVSUno2Y04zY21YWjBxYkhieGlRSVFERE5CdEk2LXZ5bl8zTkFhSktkbtIBkgFBVV95cUxPWVNKLXlvNGZPd24xd0tqRU5LcmVKYlpHakVucnhfai1TS04wcU1Ra19IMUFxNk5MY3d0U051SU9neXZOZGZ6VTEtbzd4bkhBNlRBOUUtbjRGUC1YTlhSWlN4QWRqQ0R5aWN3TWphdTA5bDgwMUNDX194bzZCeDcxNkZ2QzdlczJjbEdKYlF3YktVdw?oc=5)

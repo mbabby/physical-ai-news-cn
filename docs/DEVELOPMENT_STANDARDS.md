@@ -83,3 +83,12 @@
 - Check transaction staging and rollback behavior.
 - Check permissions, logs, and artifact hygiene.
 - Check release gates before any major release.
+
+## 10. Phase 2 dual-ledger invariants
+
+- `Company Claim Ledger` and `Benchmark Result Ledger` MUST be rebuilt from canonical company/event and research/decision-card inputs inside the same daily `FileTransaction`.
+- Every structured field MUST use exactly one status: `verified`, `developing`, `conflicted`, or `unknown`. Missing evidence MUST remain `unknown`; it MUST NOT be rendered as a negative fact such as “没有融资”.
+- Known fields MUST bind direct, non-discovery evidence for that exact field value. A report about an event as a whole MUST NOT verify unrelated amount, round, investor, customer, benchmark, result, or artifact fields.
+- Correction IDs and ordering MUST be deterministic. Reordered evidence, citation-count changes, and verification-clock-only updates MUST NOT create a correction.
+- Corrupt prior ledger state MUST stop publication. Both ledgers and `review/dual-ledger-metrics.json` MUST roll back together on a transaction failure.
+- `Benchmark Result Ledger` is not a ranking or leaderboard. Phase 2 MUST NOT expose an investment ranking, company score, paper score, or new public recommendation surface.

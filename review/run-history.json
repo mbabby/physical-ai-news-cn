@@ -1,7 +1,89 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-23T10:43:34.327Z",
+  "updatedAt": "2026-08-23T14:09:57.197Z",
   "runs": [
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-23-2026-08-23T14-09-46-958Z",
+      "date": "2026-08-23",
+      "startedAt": "2026-08-23T14:09:46.958Z",
+      "finishedAt": "2026-08-23T14:09:57.197Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 0,
+        "publicResearchItems": 6,
+        "candidates": 15,
+        "sourceFailures": 0
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "未配置",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "未配置",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "未配置 OpenAlex；论文仍按来源元数据排序。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "成功",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 0 家。"
+        }
+      ],
+      "outputs": 71
+    },
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-23-2026-08-23T13-28-26-460Z",
+      "date": "2026-08-23",
+      "startedAt": "2026-08-23T13:28:26.460Z",
+      "finishedAt": "2026-08-23T13:28:34.394Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 0,
+        "publicResearchItems": 6,
+        "candidates": 15,
+        "sourceFailures": 0
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "未配置",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "未配置兼容 OpenAI 的摘要服务；内容不会发布到首页。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "未配置",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "未配置 OpenAlex；论文仍按来源元数据排序。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "成功",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 0 家。"
+        }
+      ],
+      "outputs": 71
+    },
     {
       "schemaVersion": 1,
       "runId": "2026-08-23-2026-08-23T10-39-39-139Z",
@@ -1097,72 +1179,6 @@
           "attempted": 12,
           "succeeded": 9,
           "failed": 3,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "部分降级",
-          "attempted": 36,
-          "succeeded": 35,
-          "failed": 1,
-          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
-        }
-      ],
-      "outputs": 54
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-10-2026-08-10T11-48-46-705Z",
-      "date": "2026-08-10",
-      "startedAt": "2026-08-10T11:48:46.705Z",
-      "finishedAt": "2026-08-10T11:53:29.488Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 0,
-        "publicResearchItems": 6,
-        "candidates": 15,
-        "sourceFailures": 1
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 12,
-          "succeeded": 10,
-          "failed": 2,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "部分降级",
-          "attempted": 36,
-          "succeeded": 35,
-          "failed": 1,
-          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
-        }
-      ],
-      "outputs": 54
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-10-2026-08-10T11-44-36-399Z",
-      "date": "2026-08-10",
-      "startedAt": "2026-08-10T11:44:36.399Z",
-      "finishedAt": "2026-08-10T11:47:30.906Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 0,
-        "publicResearchItems": 6,
-        "candidates": 15,
-        "sourceFailures": 1
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 6,
-          "succeeded": 4,
-          "failed": 2,
           "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
         },
         {

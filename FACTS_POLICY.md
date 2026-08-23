@@ -39,3 +39,9 @@ Watchlist 只发布由当前不可变快照引用的公司判断、规范证据�
 - 统一时间字段：`eventDate`、`publishedAt`、`firstSeenAt`、`verifiedAt`、`materiallyChangedAt`。缺失或无法解析的值显式为 `unknown`；绝不以抓取/运行时间补写，也不从页面发布时间推断事件发生日。旧字段 `occurredAt`、`lastEvidenceAt`、`lastVerifiedAt`、`lastMaterialChangeAt`、`lastUpdatedAt` 仅按其原有含义映射。
 
 发现层（Google News、Hacker News、X 等，或注册表标为“仅作线索发现”的来源）可以留在内部候选和审计记录，但不能被选入 `publicEvidenceIds`，也不能单独让记录公开。公开边界应调用 `assertFacts`；仅需要展示降级状态时调用 `validateFacts` 或 `derivePublicFacts`，并将 `unknown` 原样保留。
+
+## 双账本字段事实与纠错
+
+`Company Claim Ledger` 把融资、产品、客户与部署拆成独立字段；`Benchmark Result Ledger` 把论文中的基准、指标、结果、基线、真实机器人试验与复现资产拆成独立字段。两个账本共用四种字段状态：`verified` 表示字段值已有满足门槛的直接证据，`developing` 表示有可追溯但尚未完成交叉核验的暂定值，`conflicted` 表示至少两项证据支持不同值，`unknown` 表示当前证据无法给出值。`unknown` 不代表没有、不存在或未融资，只表示不可由现有证据作出结论。
+
+字段变化以 `new-evidence`、`conflict-detected`、`conflict-resolved`、`source-withdrawn` 或 `metadata-correction` 记录 before/after、证据和时间；仅核验时钟变化不得制造纠错记录。发现层证据不得进入已知字段。`Benchmark Result Ledger` 不构成论文排名或 SOTA 榜单，它只保存作者报告且可追溯的结构化实验事实；是否能独立复现仍需单独证据。

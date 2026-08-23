@@ -212,6 +212,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 【深圳特区报】市场改革释放机遇 产业投 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMijAFBVV95cUxQMGRJcWZBYnljbDFpZXYtckxLcHN0eVhzNmVKaUVQSmFuclg4S29GVFI2RnZzZmRDWE9VRHZvNnFLb0Z4d3RJSGRtQVR1RUtwYl81RWUtYXl1OGdvWnpuQUo4Zmx4QUkzWVdjdUQ4YTJ1Nkw1ZnRkTFlPa1JYVmwyUzQ4eDc0ODdLNVg1MA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E3%80%90%E6%B7%B1%E5%9C%B3%E7%89%B9%E5%8C%BA%E6%8A%A5%E3%80%91%E5%B8%82%E5%9C%BA%E6%94%B9%E9%9D%A9%E9%87%8A%E6%94%BE%E6%9C%BA%E9%81%87%20%E4%BA%A7%E4%B8%9A%E6%8A%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E3%80%90%E6%B7%B1%E5%9C%B3%E7%89%B9%E5%8C%BA%E6%8A%A5%E3%80%91%E5%B8%82%E5%9C%BA%E6%94%B9%E9%9D%A9%E9%87%8A%E6%94%BE%E6%9C%BA%E9%81%87%20%E4%BA%A7%E4%B8%9A%E6%8A%95%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 京东在WRC发布机器人战略：百亿 · 候选 · 22/100
 
 - 路线：部署与商业化
