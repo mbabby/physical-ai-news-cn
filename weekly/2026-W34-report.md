@@ -4,11 +4,7 @@
 
 ## 新增事件
 
-- **Humanoid** · [Schaeffler 计划 2027 年量产人形机器人用减速器](https://www.therobotreport.com/schaeffler-plans-to-mass-manufacture-gearboxes-for-humanoids-in-2027/)：Schaeffler 正采用成型技术制造谐波减速器，以实现此类核心部件的规模化量产。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)：Kollmorgen 将在 RoboBusiness 发表演讲，逐关节解析人形机器人各身体部位的运动需求与量产挑战。摘要未提供真实机器人、基准或开源证据。
-- **宇树科技** · [Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/)：文章探讨了 Unitree Robotics 完成 IPO 的意义，并追问哪些人形机器人公司会跟进上市。摘要未提供真实机器人、基准或开源证据。
-- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)：Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)：Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
+- 本周暂无满足公开门槛的新增产业事件。
 
 ## 融资与并购
 
@@ -16,11 +12,7 @@
 
 ## 产品与部署
 
-- **Humanoid** · [Schaeffler 计划 2027 年量产人形机器人用减速器](https://www.therobotreport.com/schaeffler-plans-to-mass-manufacture-gearboxes-for-humanoids-in-2027/)：Schaeffler 正采用成型技术制造谐波减速器，以实现此类核心部件的规模化量产。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [Kollmorgen 将在 RoboBusiness 逐关节解析人形机器人运动](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)：Kollmorgen 将在 RoboBusiness 发表演讲，逐关节解析人形机器人各身体部位的运动需求与量产挑战。摘要未提供真实机器人、基准或开源证据。
-- **宇树科技** · [Unitree Robotics 上市对人形机器人行业意味着什么](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/)：文章探讨了 Unitree Robotics 完成 IPO 的意义，并追问哪些人形机器人公司会跟进上市。摘要未提供真实机器人、基准或开源证据。
-- **Toyota Research Institute** · [Kollmorgen：工业系统如何在不提高复杂度的情况下实现高电压](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)：Kollmorgen 讨论了让电压系统紧密贴合具体应用需求、同时充分利用既有基础设施的重要性。摘要未提供真实机器人、基准或开源证据。
-- **Humanoid** · [Unichem 收购 Loomia，加速进军人形机器人“皮肤”市场](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)：Unichem 收购 Loomia，并与 R&Y 合作开发面向汽车与机器人应用的触觉传感器，以加快进入人形机器人“皮肤”市场。摘要未提供真实机器人、基准或开源证据。
+- 本周暂无满足公开门槛的产品或部署事件。
 
 ## 研究前沿
 
@@ -38,11 +30,11 @@
 ## 项目指标
 
 - 日历覆盖：21/30（70%）；已归档运行成功：21/21（100%）
-- 首页有效条目：12；A/B 级证据比例：100%；公司档案覆盖：6 家。
+- 首页有效条目：0；A/B 级证据比例：样本不足；公司档案覆盖：0 家。
 
 ## 待验证候选
 
-- 有 29 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。
+- 有 28 条高质量候选停留在 Review 队列；它们不会进入首页或本周结论，欢迎补充官网、投资方公告、第二独立来源或论文元数据。
 
 ---
 

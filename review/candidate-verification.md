@@ -59,7 +59,7 @@
 ## Eurobotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMigAFBVV95cUxNTHAwb2JkOU5uOVlHdzhLWVljdGJJRnFqdU9jdFp4dWJ6TTZwR2tmeXNzZWV3V2Jial9zVU1vUnF1UlA5SC1mMlFaMWpoWDRoMkVqdnppNHBqQV82OEJRQmFuQlJ1Sm1pU1h4Zng4cHRPcnFTa0tQTmRRb0t0aXlJdNIBlAFBVV95cUxNblZ2bUJZYmNhaEpFYnVwUjlDMzBVU2k1VDZ6d09LdGthb0lWLXZya1U0Sm1HRmZoTVVLQkUwR0NFdDBUTUZ2ZG1UZWR2c084T3pKNy1oR2ZXS0V5UWZWcTk5d3BMZVEyUnA3b2VzN3duTG5kTlg2aEFiUlhYWXRVQzNjNUhUNGNITHlCdkVCeHpjOW9T?oc=5)
@@ -95,7 +95,7 @@
 ## 防务无人机开发商 Cambridge Aerospace · 投融资 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 91
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：3亿美元（single-source） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/defense-drone-developer-cambridge-aerospace-raises-300m/)
@@ -230,7 +230,7 @@
 ## 广汽旗下人形机器人公司 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxPVmhPUnRhMDNsMW96VXlUMmQ5UnFVbGJMZXJIbU1jaUpuVTRKVlBIYkljVzNnS1VWSFFDd3hnQ2NfbG1pcTVSU284NXVXaHdHY2NrbVkxUjN5Snp3R1VSWUxqMjhDU0JwU05kQXFlZGowTlo4UzgzbU10RnA3VEQ3bUhxdk9CbVpaZHZvaA?oc=5)
@@ -665,6 +665,24 @@
 - 尝试：1
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiVkFVX3lxTE02VzVRRUtWU2x6a0E2S1RLRmRpR19vYnpPd0xwcnVjU0I3aGU5X2tPMU12MXUtWnBLem84NjVZd0NIa2V1UXk5UmNuZHhGalcwdTlpSDVR?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiekFVX3lxTE1DNlRXZkR5Vk9va3ZkOGZpNUdwN0w4YVVwcUx0ODlDajBidzJ1YnphT3A3VU41NGtvUElXeHNjajZoUDZaVWJkYWZCalF0NTJvX2EyZXFKQ2N0elRIcjZJZ3l0QVhmNVNUWmdyZjRHVlJianVETzdNQWNB?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTFBiMzRhMjRLMXpXS1ExV2pYOTVmMU91TC1vZ2tJLU01SVhPRThVWkw3VkFOSDFXZTl5SjRLODc1U1ctTXpEM3k3YnZKTk50NDRR?oc=5)
 - 结论：无法唯一识别公司主体
 
@@ -806,7 +824,7 @@
 ## 中科芯知 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxQYjJqQmFBOUN2VU9kWWoxNEdncXlXUy0waUEtaWo5Q25sMDhEbXpUMlV5a19QWkJGMDRlM3VjRnFlb1N0TTh3eWNnUFhwclRxTkVRSW9fRHd3STdpRUhqZ0F1bGUxMTluY3JUbV9vNTEwZkQ1elZwVzYzaS1JallXSTVqbDA4V3I5Y3JpWA?oc=5)
@@ -941,7 +959,7 @@
 ## 网络研讨会探讨仓库机器人车队的安全与规模化 · 部署案例 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 61
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/webinar-to-discuss-safety-scaling-robot-fleets-warehouse/)
@@ -1031,7 +1049,7 @@
 ## PlusAI 在自动驾驶卡车 · 产品发布 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 55
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/plusai-reaches-key-milestones-ahead-launch-autonomous-trucks/)

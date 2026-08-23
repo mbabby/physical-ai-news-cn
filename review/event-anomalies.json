@@ -1,16 +1,21 @@
 {
-  "generatedAt": "2026-08-23T01:01:32.642Z",
+  "generatedAt": "2026-08-23T10:13:59.373Z",
   "windowDays": 30,
   "metrics": {
-    "publicIndustryEvents30d": 12,
-    "newPublicIndustryEvents7d": 5,
-    "dominantEventDate": "2026-08-12",
-    "dominantEventDateShare": 0.17,
-    "hoursSinceLatestPublicIndustryEvent": 30,
+    "publicIndustryEvents30d": 0,
+    "newPublicIndustryEvents7d": 0,
+    "dominantEventDateShare": 0,
     "candidateBacklog": 214,
     "arxivIndustryEvents": 0
   },
   "alerts": [
+    {
+      "code": "no-new-industry-evidence",
+      "severity": "严重",
+      "message": "近 30 天没有带 A/B 级证据的公开产业事件。",
+      "value": -1,
+      "threshold": 72
+    },
     {
       "code": "candidate-backlog",
       "severity": "严重",

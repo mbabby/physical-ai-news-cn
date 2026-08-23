@@ -212,6 +212,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 京东在WRC发布机器人战略：百亿 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪网](https://news.google.com/rss/articles/CBMif0FVX3lxTE1BWHlCcWJtRGxkMjdqSU41MTVfN1B2bU5RV1lSMFRySlVLYXRTNFVvTVB2NnN4NmVqUUJwb0VmaEF4NVlqQkNnelRybWpKQ3lOQkxYTlF5M2RtaXRkNVRyTXdLTTBJS24zMkVKYmFxaHItN2VXNVpzUkFQVW9oV1k?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%AC%E4%B8%9C%E5%9C%A8WRC%E5%8F%91%E5%B8%83%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%88%98%E7%95%A5%EF%BC%9A%E7%99%BE%E4%BA%BF%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%AC%E4%B8%9C%E5%9C%A8WRC%E5%8F%91%E5%B8%83%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%88%98%E7%95%A5%EF%BC%9A%E7%99%BE%E4%BA%BF%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 李泽湘孵化的割草机器人公司，A轮 · 候选 · 22/100
 
 - 路线：部署与商业化

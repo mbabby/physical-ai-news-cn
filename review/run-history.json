@@ -1,7 +1,48 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-23T01:07:00.029Z",
+  "updatedAt": "2026-08-23T10:16:40.751Z",
   "runs": [
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-23-2026-08-23T10-13-59-373Z",
+      "date": "2026-08-23",
+      "startedAt": "2026-08-23T10:13:59.373Z",
+      "finishedAt": "2026-08-23T10:16:40.751Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 0,
+        "publicResearchItems": 6,
+        "candidates": 15,
+        "sourceFailures": 0
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "部分降级",
+          "attempted": 7,
+          "succeeded": 5,
+          "failed": 2,
+          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "成功",
+          "attempted": 36,
+          "succeeded": 36,
+          "failed": 0,
+          "detail": "论文引用与作者机构元数据已刷新。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "成功",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 0 家。"
+        }
+      ],
+      "outputs": 69
+    },
     {
       "schemaVersion": 1,
       "runId": "2026-08-23-2026-08-23T01-01-32-642Z",
@@ -1118,39 +1159,6 @@
         }
       ],
       "outputs": 54
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-10-2026-08-10T07-18-54-273Z",
-      "date": "2026-08-10",
-      "startedAt": "2026-08-10T07:18:54.273Z",
-      "finishedAt": "2026-08-10T07:20:22.306Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 0,
-        "publicResearchItems": 6,
-        "candidates": 13,
-        "sourceFailures": 1
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 2,
-          "succeeded": 0,
-          "failed": 2,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "部分降级",
-          "attempted": 36,
-          "succeeded": 35,
-          "failed": 1,
-          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
-        }
-      ],
-      "outputs": 50
     }
   ]
 }

@@ -23,10 +23,10 @@
 - 地域 / 阶段：北美 / 平台公司
 - 技术路线：数据与训练 · 世界模型与空间智能 · VLA 与具身模型
 - 核心押注：机器人训练、仿真、计算与基础模型平台。
-- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://www.nvidia.com/en-us/ai-robotics/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：免费的 NVIDIA Isaac Sim 网络安全扩展 Vi（[证据](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/)，2026-08-10）；产品发布（[证据](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)，2026-07-16）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Hugging Face](https://huggingface.co/lerobot)
 
@@ -43,10 +43,10 @@
 - 地域 / 阶段：北美/英国 / 平台公司
 - 技术路线：VLA 与具身模型 · 数据与训练
 - 核心押注：通用多模态推理与机器人泛化。
-- 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://deepmind.google/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：产品发布（[证据](https://spectrum.ieee.org/video-robot-gemini2-ai-robot)，2026-07-28）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Meta](https://ai.meta.com/)
 
@@ -113,10 +113,10 @@
 - 地域 / 阶段：北美 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：面向物流和工业场景的双足机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://agilityrobotics.com/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://techcrunch.com/2026/07/17/agility-robotics-plants-its-flag-in-teslas-backyard/)，2026-07-17）；公司商业（[证据](https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/)，2026-07-06）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Sanctuary AI](https://www.sanctuary.ai/)
 
@@ -243,10 +243,10 @@
 - 地域 / 阶段：北美/日本 / 平台公司
 - 技术路线：数据与训练 · VLA 与具身模型
 - 核心押注：大规模机器人行为学习与家庭操作研究。
-- 档案状态：资本 证据不足（不代表未融资）；验证 客户试点
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://www.tri.global/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/how-achieve-high-voltage-industrial-systems-without-high-complexity/)，2026-08-18）；公司商业（[证据](https://www.therobotreport.com/q2-2026-robotics-demand-increased-across-industries-reports-a3/)，2026-08-12）；公司商业（[证据](https://www.therobotreport.com/strengthening-u-s-army-sustainment-talus-to-deliver-autonomous-distribution/)，2026-08-12）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Stanford Robotics Center](https://src.stanford.edu/)
 
@@ -263,10 +263,10 @@
 - 地域 / 阶段：欧洲 / 创业公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：面向产业与服务场景的通用人形机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 规模部署 / 商业化
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://thehumanoid.ai/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/schaeffler-plans-to-mass-manufacture-gearboxes-for-humanoids-in-2027/)，2026-08-21）；公司商业（[证据](https://www.therobotreport.com/kollmorgen-give-joint-by-joint-guide-humanoid-motion-robobusiness/)，2026-08-19）；公司商业（[证据](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)，2026-08-18）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Mentee Robotics](https://www.menteebot.com/)
 
@@ -303,10 +303,10 @@
 - 地域 / 阶段：中国 / 成长公司
 - 技术路线：本体与硬件 · 数据与训练
 - 核心押注：高性能机器人本体与开发者生态。
-- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
+- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
 - 主体证据：[公司官网](https://www.unitree.com/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：公司商业（[证据](https://www.therobotreport.com/what-does-unitree-robotics-ipo-mean-for-humanoid-industry/)，2026-08-19）
+- 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [优必选](https://www.ubtrobot.com/)
 
