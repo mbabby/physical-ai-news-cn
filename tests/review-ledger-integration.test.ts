@@ -64,6 +64,10 @@ test("candidate review and company ledger stay private, keep unknown funding, an
   assert.equal(firstLedger.companies[0]?.claims[0]?.claimType, "funding");
   assert.equal(firstLedger.companies[0]?.claims[0]?.value, "unknown");
   assert.equal(firstLedger.companies[0]?.claims[0]?.evidenceState, "evidence_insufficient");
+  assert.match(firstLedger.companies[0]!.claims[0]!.claimId, /^company-claim-/);
+  assert.deepEqual(firstLedger.companies[0]!.claims[0]!.eventIds, []);
+  assert.equal(Object.values(firstLedger.companies[0]!.claims[0]!.fields).every((field) => field.status === "unknown"), true);
+  assert.deepEqual(firstLedger.companies[0]!.claims[0]!.corrections, []);
 
   const rerunVerification = buildCandidateVerificationArtifact(verification, [candidate], [profile], RERUN_NOW);
   const rerunCases = buildReviewCaseArtifact(firstCases, [

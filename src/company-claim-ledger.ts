@@ -1,5 +1,9 @@
 import { createHash } from "node:crypto";
 import { eventOccurredAt } from "./event-time.js";
+import { derivePublication } from "./facts-contract.js";
+import type { PublicFactEvidence } from "./facts-contract.js";
+import { deriveLedgerCorrections, ledgerField, unknownLedgerField } from "./ledger-contracts.js";
+import type { LedgerCorrection, LedgerField } from "./ledger-contracts.js";
 import type { ArticleKind, CompanyProfile, EventEvidence, EventRecord } from "./types.js";
 
 /**
@@ -19,7 +23,20 @@ export interface CompanyClaimFreshness {
   daysSinceVerified: number | "unknown";
 }
 
+export interface CompanyClaimFields {
+  eventDate: LedgerField<string>;
+  round: LedgerField<string>;
+  amount: LedgerField<string>;
+  valuation: LedgerField<string>;
+  investors: LedgerField<string[]>;
+  product: LedgerField<string>;
+  customer: LedgerField<string[]>;
+  deployment: LedgerField<string>;
+  productionStage: LedgerField<string>;
+}
+
 export interface CompanyClaim {
+  claimId: string;
   companyId: string;
   claimType: CompanyClaimType;
   /** Source-derived event headline, never a model-written synopsis. */
@@ -29,6 +46,9 @@ export interface CompanyClaim {
   evidenceIds: string[];
   evidenceUrls: string[];
   evidenceState: ClaimEvidenceState;
+  eventIds: string[];
+  fields: CompanyClaimFields;
+  corrections: LedgerCorrection[];
   eventDate: string | "unknown";
   verifiedAt: string | "unknown";
   freshness: CompanyClaimFreshness;
@@ -69,10 +89,12 @@ export interface CompanyClaimLedgerOptions {
   /** First release deliberately limits the decision view to fifteen companies. */
   limit?: number;
   now?: Date;
+  previous?: CompanyClaimLedger;
 }
 
 const MAX_COMPANIES = 15;
 const UNKNOWN = "unknown" as const;
+const codeUnitCompare = (left: string, right: string): number => left < right ? -1 : left > right ? 1 : 0;
 
 function companyId(company: CompanyProfile): string {
   if (company.entityId) return company.entityId;
@@ -82,13 +104,145 @@ function companyId(company: CompanyProfile): string {
 }
 
 function publicEvidence(event: EventRecord): EventEvidence[] {
-  return event.evidence.filter((item) => item.grade === "A" || item.grade === "B")
-    .sort((a, b) => a.link.localeCompare(b.link) || a.source.localeCompare(b.source));
+  const evidence = event.evidence.map((item, index) => ({ ...item, id: `${event.id}:source:${index + 1}` })) as Array<EventEvidence & PublicFactEvidence & { id: string }>;
+  const qualifying = new Set(derivePublication({ evidence }).qualifyingEvidenceIds);
+  return evidence.filter((item) => qualifying.has(item.id))
+    .sort((a, b) => codeUnitCompare(a.link, b.link) || codeUnitCompare(a.source, b.source));
 }
 
-function independentEvidenceKey(evidence: EventEvidence): string {
-  try { return new URL(evidence.link).hostname.replace(/^www\./, "").toLowerCase(); }
-  catch { return evidence.source.trim().toLowerCase(); }
+type EventWithEvidenceState = EventRecord & { evidenceState?: "candidate" | "developing" | "confirmed" | "conflicted" | "rejected" | "withdrawn" };
+
+function claimIdFor(companyIdentifier: string, eventIdentity: string): string {
+  return `company-claim-${createHash("sha256").update(`${companyIdentifier}\n${eventIdentity}`).digest("hex").slice(0, 16)}`;
+}
+
+function evidenceBindings(event: EventRecord, evidence: EventEvidence[], universe = evidence) {
+  return {
+    evidenceIds: evidence.map((item) => `${event.id}:evidence:${universe.findIndex((candidate) => candidate.link === item.link && candidate.source === item.source) + 1}`),
+    evidenceUrls: evidence.map((item) => item.link),
+  };
+}
+
+function fieldStatus(evidence: EventEvidence[]): "verified" | "developing" | "unknown" {
+  if (!evidence.length) return "unknown";
+  if (evidence.some((item) => item.grade === "A")) return "verified";
+  const independentBOrigins = derivePublication({ evidence: evidence.filter((item) => item.grade === "B") as PublicFactEvidence[] }).independentBOrigins;
+  return independentBOrigins.length >= 2 ? "verified" : "developing";
+}
+
+type CompanyClaimFieldKey = keyof CompanyClaimFields;
+
+const FIELD_SUPPORT_PATTERNS: Record<CompanyClaimFieldKey, RegExp> = {
+  eventDate: /事件日期|发生日期|event\s*date|occurred/i,
+  round: /轮次|round|seed|series/i,
+  amount: /金额|融资额|amount|raised/i,
+  valuation: /估值|valuation/i,
+  investors: /投资方|投资人|investor/i,
+  product: /产品|product/i,
+  customer: /客户|customer/i,
+  deployment: /部署|deployment/i,
+  productionStage: /试点|量产|商业化|production|pilot|commerciali[sz]/i,
+};
+
+function normalizedSupport(value: string): string {
+  return value.normalize("NFKC").toLowerCase()
+    .replace(/[‐‑‒–—―−]/g, "-")
+    .replace(/\s*-\s*/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizedFieldValue(value: string, field: CompanyClaimFieldKey): string {
+  const normalized = normalizedSupport(value);
+  return field === "round" ? normalized.replace(/\b(pre|post)\s+(?=[\p{L}\p{N}])/gu, "$1-") : normalized;
+}
+
+const TOKEN_CONTINUATION = /[\p{L}\p{N}\p{M}_./-]/u;
+
+function containsExactValue(support: string, value: string): boolean {
+  if (!value) return false;
+  let start = support.indexOf(value);
+  while (start >= 0) {
+    const before = Array.from(support.slice(0, start)).at(-1);
+    const after = Array.from(support.slice(start + value.length))[0];
+    const first = Array.from(value)[0];
+    const last = Array.from(value).at(-1);
+    const leftSafe = !first || !TOKEN_CONTINUATION.test(first) || !before || !TOKEN_CONTINUATION.test(before);
+    const rightSafe = !last || !TOKEN_CONTINUATION.test(last) || !after || !TOKEN_CONTINUATION.test(after);
+    if (leftSafe && rightSafe) return true;
+    start = support.indexOf(value, start + value.length);
+  }
+  return false;
+}
+
+function evidenceSupportsValue<T>(evidence: EventEvidence, field: CompanyClaimFieldKey, value: T): boolean {
+  const support = normalizedFieldValue(evidence.supports, field);
+  const values = (Array.isArray(value) ? value : [value]).map((item) => normalizedFieldValue(String(item), field));
+  return FIELD_SUPPORT_PATTERNS[field].test(evidence.supports) && values.length > 0 && values.every((item) => containsExactValue(support, item));
+}
+
+function evidenceForValue<T>(evidence: EventEvidence[], field: CompanyClaimFieldKey, value: T): EventEvidence[] {
+  return evidence.filter((item) => evidenceSupportsValue(item, field, value));
+}
+
+function conflictValues(event: EventRecord, field: Exclude<CompanyClaimFieldKey, "eventDate">): string[] {
+  const patterns: Record<typeof field, RegExp> = {
+    round: /轮次|round/i, amount: /金额|amount/i, valuation: /估值|valuation/i, investors: /投资方|investor/i,
+    product: /产品|product/i, customer: /客户|customer/i, deployment: /部署|deployment/i, productionStage: /量产|生产阶段|production/i,
+  };
+  return [...new Set(event.openQuestions.filter((question) => patterns[field].test(question)).flatMap((question) => {
+    const detail = question.split(/[：:]/, 2)[1];
+    return detail ? detail.split(/\s*(?:\/|\bvs\.?\b|与)\s*/i).map((value) => value.trim()).filter(Boolean) : [];
+  }))].sort(codeUnitCompare);
+}
+
+function projectedField<T>(
+  event: EventRecord,
+  evidence: EventEvidence[],
+  value: T | undefined,
+  field: CompanyClaimFieldKey,
+): LedgerField<T> {
+  if (field !== "eventDate") {
+    const conflicts = conflictValues(event, field);
+    const supportedConflicts = conflicts.filter((alternative) => evidence.some((item) => evidenceSupportsValue(item, field, alternative)));
+    const conflictEvidence = evidence.filter((item) => supportedConflicts.some((alternative) => evidenceSupportsValue(item, field, alternative)));
+    if (supportedConflicts.length >= 2 && conflictEvidence.length > 0) {
+      return ledgerField({
+        value: "unknown", status: "conflicted", ...evidenceBindings(event, conflictEvidence, evidence),
+        conflictingValues: supportedConflicts as T[],
+      });
+    }
+  }
+  const missing = value === undefined || value === null || (Array.isArray(value) && value.length === 0);
+  if (missing) return unknownLedgerField<T>();
+  const supportingEvidence = evidenceForValue(evidence, field, value);
+  const status = fieldStatus(supportingEvidence);
+  if (status === "unknown") return unknownLedgerField<T>();
+  const observedAt = event.lastEvidenceAt || eventOccurredAt(event) || UNKNOWN;
+  return ledgerField({
+    value,
+    status,
+    ...evidenceBindings(event, supportingEvidence, evidence),
+    observedAt,
+    verifiedAt: status === "verified" ? event.lastVerifiedAt || UNKNOWN : UNKNOWN,
+  });
+}
+
+function fieldsFor(event: EventRecord, claimType: CompanyClaimType, evidence: EventEvidence[]): CompanyClaimFields {
+  const funding = event.funding;
+  const deployment = event.productDeployment;
+  const productionStage = ["pilot", "production", "commercialization"].includes(claimType) ? claimType : undefined;
+  return {
+    eventDate: projectedField(event, evidence, eventOccurredAt(event).slice(0, 10), "eventDate"),
+    round: projectedField(event, evidence, funding?.round, "round"),
+    amount: projectedField(event, evidence, funding?.amount, "amount"),
+    valuation: projectedField(event, evidence, funding?.valuation, "valuation"),
+    investors: projectedField(event, evidence, funding?.investors.length ? [...funding.investors].sort(codeUnitCompare) : undefined, "investors"),
+    product: projectedField(event, evidence, deployment?.product, "product"),
+    customer: projectedField(event, evidence, deployment?.customers.length ? [...deployment.customers].sort(codeUnitCompare) : undefined, "customer"),
+    deployment: projectedField(event, evidence, deployment?.deployment, "deployment"),
+    productionStage: projectedField(event, evidence, productionStage, "productionStage"),
+  };
 }
 
 function linkedEvents(company: CompanyProfile, events: EventRecord[]): EventRecord[] {
@@ -109,13 +263,12 @@ function claimTypeFor(event: EventRecord): CompanyClaimType {
 
 /** Apply FACTS_POLICY proof thresholds before turning an event into a claim. */
 function isClaimVerified(event: EventRecord): boolean {
+  const lifecycle = (event as EventWithEvidenceState).evidenceState;
+  if (["candidate", "developing", "conflicted", "rejected", "withdrawn"].includes(lifecycle ?? "")) return false;
+  if (event.openQuestions.some((question) => /冲突|矛盾|不一致|conflict/i.test(question))) return false;
   const evidence = publicEvidence(event);
-  if (evidence.some((item) => item.grade === "A")) return true;
-  const independentB = new Set(evidence.filter((item) => item.grade === "B").map(independentEvidenceKey)).size;
   const type = claimTypeFor(event);
-  // Product/research assertions require first-party publication. Capital and
-  // operational claims may instead use two independent reliable reports.
-  return !["product", "research-team"].includes(type) && independentB >= 2;
+  return compatibilityValue(type, fieldsFor(event, type, evidence)) !== UNKNOWN;
 }
 
 function eligibleEvents(company: CompanyProfile, events: EventRecord[]): EventRecord[] {
@@ -138,16 +291,21 @@ function freshness(type: CompanyClaimType, verifiedAt: string | undefined, now: 
   return { ttlDays, state: daysSinceVerified > ttlDays ? "stale" : "fresh", expiresAt, daysSinceVerified };
 }
 
-function fundingValue(event: EventRecord): ClaimValue {
-  const funding = event.funding;
-  if (!funding) return UNKNOWN;
-  const values = [funding.round, funding.amount, funding.valuation].filter((value): value is string => Boolean(value));
-  return values.length ? values.join(" · ") : UNKNOWN;
-}
-
-function nonFundingValue(event: EventRecord): ClaimValue {
-  const product = event.productDeployment;
-  return product?.product ?? product?.deployment ?? UNKNOWN;
+function compatibilityValue(claimType: CompanyClaimType, fields: CompanyClaimFields): ClaimValue {
+  if (claimType === "funding") {
+    const fundingFields = [fields.round, fields.amount, fields.valuation, fields.investors];
+    if (fundingFields.some((field) => field.status === "conflicted")) return UNKNOWN;
+    const values = fundingFields.slice(0, 3)
+      .filter((field) => field.status === "verified" && field.value !== UNKNOWN)
+      .map((field) => field.value as string);
+    return values.length ? values.join(" · ") : UNKNOWN;
+  }
+  const deploymentFields = [fields.product, fields.customer, fields.deployment, fields.productionStage];
+  if (deploymentFields.some((field) => field.status === "conflicted")) return UNKNOWN;
+  for (const field of [fields.product, fields.deployment, fields.productionStage]) {
+    if (field.status === "verified" && field.value !== UNKNOWN) return field.value;
+  }
+  return UNKNOWN;
 }
 
 function questionsFor(event: EventRecord, value: ClaimValue): string[] {
@@ -163,13 +321,15 @@ function claimFromEvent(company: CompanyProfile, event: EventRecord, now: Date):
   const claimType = claimTypeFor(event);
   const evidence = publicEvidence(event);
   const verifiedAt = event.lastVerifiedAt || event.lastEvidenceAt || UNKNOWN;
-  const value = event.type === "投融资" ? fundingValue(event) : nonFundingValue(event);
+  const fields = fieldsFor(event, claimType, evidence);
+  const value = compatibilityValue(claimType, fields);
   return {
+    claimId: claimIdFor(companyId(company), `event:${event.id}`),
     companyId: companyId(company), claimType, statement: event.title,
     value,
-    evidenceIds: evidence.map((_, index) => `${event.id}:evidence:${index + 1}`),
-    evidenceUrls: evidence.map((item) => item.link),
-    evidenceState: "verified",
+    ...evidenceBindings(event, evidence),
+    evidenceState: value === UNKNOWN ? "evidence_insufficient" : "verified",
+    eventIds: [event.id], fields, corrections: [],
     eventDate: eventOccurredAt(event).slice(0, 10),
     verifiedAt,
     freshness: freshness(claimType, verifiedAt === UNKNOWN ? undefined : verifiedAt, now),
@@ -179,13 +339,42 @@ function claimFromEvent(company: CompanyProfile, event: EventRecord, now: Date):
 
 function unknownFundingClaim(company: CompanyProfile, now: Date): CompanyClaim {
   const claimType: CompanyClaimType = "funding";
+  const identifier = companyId(company);
   return {
-    companyId: companyId(company), claimType,
+    claimId: claimIdFor(identifier, "unknown:funding"),
+    companyId: identifier, claimType,
     statement: "当前事件视图未收录可归属的公开融资证据。",
     value: UNKNOWN, evidenceIds: [], evidenceUrls: [], evidenceState: "evidence_insufficient",
+    eventIds: [],
+    fields: {
+      eventDate: unknownLedgerField(), round: unknownLedgerField(), amount: unknownLedgerField(), valuation: unknownLedgerField(),
+      investors: unknownLedgerField(), product: unknownLedgerField(), customer: unknownLedgerField(), deployment: unknownLedgerField(), productionStage: unknownLedgerField(),
+    },
+    corrections: [],
     eventDate: UNKNOWN, verifiedAt: UNKNOWN, freshness: freshness(claimType, undefined, now),
     unresolvedQuestions: ["需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"],
   };
+}
+
+const COMPANY_CLAIM_FIELD_PATHS = [
+  "eventDate", "round", "amount", "valuation", "investors", "product", "customer", "deployment", "productionStage",
+] as const satisfies readonly (keyof CompanyClaimFields)[];
+
+function correctionsFor(previous: CompanyClaim | undefined, current: CompanyClaim, correctedAt: string): LedgerCorrection[] {
+  if (!previous || !previous.fields || !Array.isArray(previous.corrections)) return [];
+  let corrections = [...previous.corrections];
+  for (const fieldPath of COMPANY_CLAIM_FIELD_PATHS) {
+    corrections = deriveLedgerCorrections<unknown>({
+      ledgerType: "company-claim",
+      subjectId: current.claimId,
+      fieldPath: `fields.${fieldPath}`,
+      before: previous.fields[fieldPath] as LedgerField<unknown>,
+      after: current.fields[fieldPath] as LedgerField<unknown>,
+      previousCorrections: corrections,
+      correctedAt,
+    });
+  }
+  return corrections;
 }
 
 function hasValue(value: unknown): boolean {
@@ -238,11 +427,20 @@ export function buildCompanyClaimLedger(companies: CompanyProfile[], events: Eve
     return { company, attributed, eligible, score: selectionScore(eligible), newest: eligible[0] ? eventOccurredAt(eligible[0]) : "" };
   }).sort((a, b) => b.score - a.score || b.newest.localeCompare(a.newest) || companyId(a.company).localeCompare(companyId(b.company)))
     .slice(0, limit);
+  const previousClaims = new Map((options.previous?.companies ?? []).flatMap((entry) => entry.claims)
+    .filter((claim) => typeof claim.claimId === "string")
+    .map((claim) => [claim.claimId, claim]));
   const entries = selected.map(({ company, attributed, eligible, score }) => {
-    const claims = eligible.map((event) => claimFromEvent(company, event, now));
+    const claims = attributed.filter((event) => {
+      const lifecycle = (event as EventWithEvidenceState).evidenceState;
+      if (["candidate", "rejected", "withdrawn"].includes(lifecycle ?? "")) return false;
+      if (event.type === "投融资" && event.funding?.entityStatus === "待识别") return false;
+      return publicEvidence(event).length > 0;
+    }).map((event) => claimFromEvent(company, event, now));
     // Absence is represented as an explicit unknown/evidence_insufficient
     // claim, never as a conclusion that the company did not raise funding.
     if (!claims.some((claim) => claim.claimType === "funding")) claims.push(unknownFundingClaim(company, now));
+    claims.forEach((claim) => { claim.corrections = correctionsFor(previousClaims.get(claim.claimId), claim, now.toISOString()); });
     claims.sort((a, b) => a.claimType.localeCompare(b.claimType) || b.eventDate.localeCompare(a.eventDate) || a.statement.localeCompare(b.statement));
     return { companyId: companyId(company), companyName: company.name, selectionScore: score, claims, metrics: metricsFor(claims, attributed, eligible) };
   });
