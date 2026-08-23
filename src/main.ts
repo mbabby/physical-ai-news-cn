@@ -36,7 +36,7 @@ import { buildReviewCaseArtifact, reviewCaseAlerts, reviewCaseGenerator, reviewC
 import type { ReviewCaseArtifact, ReviewCaseGenerator } from "./review-cases.js";
 import { buildCompanyClaimLedger, type CompanyClaimLedger } from "./company-claim-ledger.js";
 import { buildBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchmark-result-ledger.js";
-import { buildDualLedgerMetrics, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
+import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
 import { selectTopResearchDecisionCards } from "./research-decision-card.js";
 import { buildResearchIndustryRelationEdges } from "./research-industry-relations.js";
 import type { RelationEvidenceCandidate } from "./research-industry-relations.js";
@@ -581,6 +581,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     company: companyClaimLedger,
     benchmark: benchmarkResultLedger,
     companyIds: new Set(companies.map((company) => company.entityId).filter((value): value is string => Boolean(value))),
+    companyEventOwners: canonicalCompanyEventOwners(companies, eventStore.events),
     paperIds: new Set(researchRegistry.records.map((record) => record.id)),
     decisionCards: researchDecisionCards,
     expectedGeneratedAt: now.toISOString(),

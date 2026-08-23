@@ -23,6 +23,7 @@ export function validateDualLedgerPublication(input: {
   company: CompanyClaimLedger;
   benchmark: BenchmarkResultLedger;
   companyIds: ReadonlySet<string>;
+  companyEventOwners?: ReadonlyMap<string, string>;
   paperIds: ReadonlySet<string>;
   decisionCards: readonly ResearchDecisionCard[];
   expectedGeneratedAt: string;

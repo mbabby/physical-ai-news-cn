@@ -323,11 +323,13 @@ function claimFromEvent(company: CompanyProfile, event: EventRecord, now: Date):
   const verifiedAt = event.lastVerifiedAt || event.lastEvidenceAt || UNKNOWN;
   const fields = fieldsFor(event, claimType, evidence);
   const value = compatibilityValue(claimType, fields);
+  const evidenceIds = [...new Set(Object.values(fields).flatMap((field) => field.evidenceIds))].sort(codeUnitCompare);
+  const evidenceUrls = [...new Set(Object.values(fields).flatMap((field) => field.evidenceUrls))].sort(codeUnitCompare);
   return {
     claimId: claimIdFor(companyId(company), `event:${event.id}`),
     companyId: companyId(company), claimType, statement: event.title,
     value,
-    ...evidenceBindings(event, evidence),
+    evidenceIds, evidenceUrls,
     evidenceState: value === UNKNOWN ? "evidence_insufficient" : "verified",
     eventIds: [event.id], fields, corrections: [],
     eventDate: eventOccurredAt(event).slice(0, 10),

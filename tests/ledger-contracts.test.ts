@@ -176,3 +176,26 @@ test("preserves prior corrections and does not append the same material transiti
   });
   assert.deepEqual(rerun, first);
 });
+
+test("records a repeated material transition after an intervening reversal", () => {
+  const stateA = known("10M");
+  const stateB = known("11M");
+  const first = deriveLedgerCorrections({
+    ledgerType: "company-claim", subjectId: "company-alpha", fieldPath: "fields.amount",
+    before: stateA, after: stateB, correctedAt: "2026-08-23T00:00:00.000Z",
+  });
+  const reversed = deriveLedgerCorrections({
+    ledgerType: "company-claim", subjectId: "company-alpha", fieldPath: "fields.amount",
+    before: stateB, after: stateA, previousCorrections: first, correctedAt: "2026-08-24T00:00:00.000Z",
+  });
+  const repeated = deriveLedgerCorrections({
+    ledgerType: "company-claim", subjectId: "company-alpha", fieldPath: "fields.amount",
+    before: stateA, after: stateB, previousCorrections: reversed, correctedAt: "2026-08-25T00:00:00.000Z",
+  });
+
+  assert.equal(repeated.length, 3);
+  assert.equal(new Set(repeated.map((item) => item.correctionId)).size, 3);
+  assert.deepEqual(repeated.map((item) => [item.before.value, item.after.value]), [
+    ["10M", "11M"], ["11M", "10M"], ["10M", "11M"],
+  ]);
+});

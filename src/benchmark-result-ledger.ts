@@ -6,6 +6,24 @@ import type { ResearchRecord } from "./types.js";
 
 export type BenchmarkEvaluationSetting = "real-robot" | "simulation" | "mixed" | "unknown";
 
+export const BENCHMARK_GATE_CODES = [
+  "benchmark-claim-not-verified",
+  "benchmark-comparison-ambiguous",
+  "benchmark-evidence-withdrawn",
+  "benchmark-not-verified",
+  "contradicted-claim",
+  "incomplete-chinese-copy",
+  "openalex-ambiguous",
+  "openalex-freshness-unknown",
+  "openalex-missing",
+  "openalex-stale",
+  "retracted",
+  "review-required",
+  "simulation-only",
+  "unverified-evidence-tag",
+] as const;
+export type BenchmarkGateCode = typeof BENCHMARK_GATE_CODES[number];
+
 export interface BenchmarkResultFields {
   benchmark: LedgerField<string>;
   metric: LedgerField<string>;
@@ -27,7 +45,7 @@ export interface BenchmarkResultEntry {
   arxivVersion: number | "unknown";
   sourceUrl: string;
   fields: BenchmarkResultFields;
-  gateCodes: string[];
+  gateCodes: BenchmarkGateCode[];
   corrections: LedgerCorrection[];
 }
 
@@ -152,8 +170,8 @@ function gateCodes(
   supportingSentence: string | undefined,
   comparisonSentence: string | undefined,
   hasVerifiedBenchmarkClaim: boolean,
-): string[] {
-  const gates = card.gates.map((gate) => gate.code);
+): BenchmarkGateCode[] {
+  const gates = card.gates.map((gate) => gate.code as BenchmarkGateCode);
   if (!supportingSentence) gates.push("benchmark-not-verified");
   if (!hasVerifiedBenchmarkClaim) gates.push("benchmark-claim-not-verified");
   if ([supportingSentence, comparisonSentence].some((sentence) => sentence && SIMULATION_ONLY.test(sentence))) gates.push("simulation-only");
@@ -205,6 +223,15 @@ function materializeEntry(record: ResearchRecord, card: ResearchDecisionCard, be
 }
 
 const FIELD_PATHS = ["benchmark", "metric", "result", "baseline", "delta", "evaluationSetting", "realRobotTrials", "code", "data", "weights"] as const;
+const LEDGER_KEYS = ["generatedAt", "entries"] as const;
+const ENTRY_KEYS = ["entryId", "paperId", "decisionCardPaperId", "benchmarkKey", "arxivVersion", "sourceUrl", "fields", "gateCodes", "corrections"] as const;
+
+function hasExactKeys(value: unknown, keys: readonly string[]): boolean {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const actual = Object.keys(value).sort();
+  const expected = [...keys].sort();
+  return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
+}
 
 function versionField(entry: Pick<BenchmarkResultEntry, "paperId" | "arxivVersion" | "sourceUrl">, observedAt: string): LedgerField<number> {
   return entry.arxivVersion === UNKNOWN ? unknownLedgerField<number>() : knownField(entry.paperId, "arxiv-version", entry.arxivVersion, [entry.sourceUrl], observedAt);
@@ -286,9 +313,15 @@ export function buildBenchmarkResultLedger(
 }
 
 export function validateBenchmarkResultLedger(ledger: BenchmarkResultLedger): void {
+  if (!hasExactKeys(ledger, LEDGER_KEYS) || !Array.isArray(ledger.entries)) throw new Error("Invalid benchmark ledger schema");
   if (!Number.isFinite(new Date(ledger.generatedAt).getTime())) throw new Error("Benchmark ledger generatedAt must be an ISO timestamp");
   const ids = new Set<string>();
   for (const entry of ledger.entries) {
+    if (!hasExactKeys(entry, ENTRY_KEYS)) throw new Error("Invalid benchmark entry schema");
+    if (!hasExactKeys(entry.fields, FIELD_PATHS)) throw new Error(`Invalid benchmark field schema: ${entry.entryId}`);
+    if (!Array.isArray(entry.gateCodes) || entry.gateCodes.some((gate) => !BENCHMARK_GATE_CODES.includes(gate))) {
+      throw new Error(`Invalid benchmark gate code: ${entry.entryId}`);
+    }
     if (ids.has(entry.entryId)) throw new Error(`Duplicate benchmark result entry: ${entry.entryId}`);
     ids.add(entry.entryId);
     if (!canonicalBenchmarkName(entry.benchmarkKey)) throw new Error(`Benchmark entry lacks a canonical benchmark identity: ${entry.entryId}`);

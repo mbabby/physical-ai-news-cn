@@ -175,6 +175,31 @@ test("preserves deterministic field correction history across previous-ledger re
   assert.deepEqual(claims[3]!.corrections, claims[2]!.corrections);
 });
 
+test("retains every amount correction across an A to B to A to B cycle", () => {
+  const amountEvent = (amount: string): EventRecord => event({
+    funding: { entityStatus: "已确认", round: "Seed", amount, investors: [] },
+    evidence: [{
+      link: "https://alpha.example/funding", source: "Alpha 官方公告", grade: "A",
+      publishedAt: "2026-08-01T00:00:00.000Z", supports: `事件日期 2026-08-01；Seed 轮次；金额 ${amount}`,
+    }],
+  });
+  const alpha = company("Alpha Robotics");
+  const first = buildCompanyClaimLedger([alpha], [amountEvent("1200 万美元")], { now: NOW });
+  const second = buildCompanyClaimLedger([alpha], [amountEvent("1300 万美元")], { previous: first, now: new Date("2026-08-11T00:00:00.000Z") });
+  const third = buildCompanyClaimLedger([alpha], [amountEvent("1200 万美元")], { previous: second, now: new Date("2026-08-12T00:00:00.000Z") });
+  const fourth = buildCompanyClaimLedger([alpha], [amountEvent("1300 万美元")], { previous: third, now: new Date("2026-08-13T00:00:00.000Z") });
+  const claim = fourth.companies[0]!.claims.find((item) => item.eventIds.includes("evt-verified"))!;
+  const amountCorrections = claim.corrections.filter((item) => item.fieldPath === "fields.amount");
+
+  assert.equal(amountCorrections.length, 3);
+  assert.equal(new Set(amountCorrections.map((item) => item.correctionId)).size, 3);
+  assert.deepEqual(amountCorrections.map((item) => [item.before.value, item.after.value]), [
+    ["1200 万美元", "1300 万美元"],
+    ["1300 万美元", "1200 万美元"],
+    ["1200 万美元", "1300 万美元"],
+  ]);
+});
+
 test("accepts a legacy previous ledger without fabricating correction history", () => {
   const current = buildCompanyClaimLedger([company("Alpha Robotics")], [event()], { now: NOW });
   const legacy = structuredClone(current) as unknown as Record<string, unknown>;

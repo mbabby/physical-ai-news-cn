@@ -193,6 +193,26 @@ test("tracks version and evidence-backed result corrections without citation-onl
   assert.deepEqual(build([revised], second), second);
 });
 
+test("retains every result correction across an A to B to A to B cycle", () => {
+  const withResult = (result: string): ResearchRecord => record({
+    factHash: `fact-${result}`,
+    article: article({
+      excerpt: `We evaluate success rate on LIBERO in 120 real-robot trials, from 56.7% to ${result}. Code is available at github.com/example/libero-policy.`,
+    }),
+  });
+  const first = buildAt([withResult("74.7%")], NOW);
+  const second = buildAt([withResult("76.1%")], new Date("2026-08-11T00:00:00.000Z"), first);
+  const third = buildAt([withResult("74.7%")], new Date("2026-08-12T00:00:00.000Z"), second);
+  const fourth = buildAt([withResult("76.1%")], new Date("2026-08-13T00:00:00.000Z"), third);
+  const resultCorrections = fourth.entries[0]!.corrections.filter((item) => item.fieldPath === "fields.result");
+
+  assert.equal(resultCorrections.length, 3);
+  assert.equal(new Set(resultCorrections.map((item) => item.correctionId)).size, 3);
+  assert.deepEqual(resultCorrections.map((item) => [item.before.value, item.after.value]), [
+    ["74.7%", "76.1%"], ["76.1%", "74.7%"], ["74.7%", "76.1%"],
+  ]);
+});
+
 test("does not create correction noise when unchanged evidence is rebuilt later", () => {
   const first = buildAt([record()], NOW);
   const later = buildAt([record()], new Date("2026-08-11T00:00:00.000Z"), first);
@@ -265,4 +285,24 @@ test("validates decision-card identity continuity", () => {
   generic.entries[0]!.benchmarkKey = "基准";
   generic.entries[0]!.entryId = `benchmark-result-${createHash("sha256").update(`${generic.entries[0]!.paperId}\n基准`).digest("hex").slice(0, 16)}`;
   assert.throws(() => validateBenchmarkResultLedger(generic), /canonical benchmark/i);
+});
+
+test("release validation rejects undeclared benchmark entry and field properties", () => {
+  const entryLeak = structuredClone(build([record()])) as BenchmarkResultLedger & {
+    entries: Array<BenchmarkResultLedger["entries"][number] & { rawModelOutput?: string }>;
+  };
+  entryLeak.entries[0]!.rawModelOutput = "private model trace";
+  assert.throws(() => validateBenchmarkResultLedger(entryLeak), /benchmark entry schema/i);
+
+  const fieldLeak = structuredClone(build([record()])) as BenchmarkResultLedger & {
+    entries: Array<BenchmarkResultLedger["entries"][number] & { fields: BenchmarkResultLedger["entries"][number]["fields"] & { rawModelOutput?: string } }>;
+  };
+  fieldLeak.entries[0]!.fields.rawModelOutput = "private model trace";
+  assert.throws(() => validateBenchmarkResultLedger(fieldLeak), /benchmark field schema/i);
+});
+
+test("release validation rejects undeclared benchmark gate codes", () => {
+  const ledger = structuredClone(build([record()]));
+  ledger.entries[0]!.gateCodes.push("raw-model-output-leaked");
+  assert.throws(() => validateBenchmarkResultLedger(ledger), /benchmark gate code/i);
 });

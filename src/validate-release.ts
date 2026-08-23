@@ -23,7 +23,7 @@ import type { ResearchDecisionCard } from "./research-decision-card.js";
 import { rankResearchRecords } from "./research-registry.js";
 import type { CompanyClaimLedger } from "./company-claim-ledger.js";
 import type { BenchmarkResultLedger } from "./benchmark-result-ledger.js";
-import { buildDualLedgerMetrics, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
+import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -147,6 +147,7 @@ async function main(): Promise<void> {
     company: companyClaimLedger,
     benchmark: benchmarkResultLedger,
     companyIds: new Set(companies.map((company) => company.entityId).filter((value): value is string => Boolean(value))),
+    companyEventOwners: canonicalCompanyEventOwners(companies, events.events),
     paperIds: new Set(research.records.map((record) => record.id)),
     decisionCards: researchDecisionArtifact.cards,
     expectedGeneratedAt: researchDecisionArtifact.generatedAt,

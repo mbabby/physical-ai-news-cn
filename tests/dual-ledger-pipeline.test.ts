@@ -22,7 +22,7 @@ async function copyFixture(target: string): Promise<void> {
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
 }
 
-async function fixedGenerate(root: string, transaction?: FileTransaction) {
+async function fixedGenerate(root: string, transaction?: FileTransaction, now = FIXED_NOW) {
   const previous = {
     llmKey: process.env.LLM_API_KEY,
     llmBase: process.env.LLM_BASE_URL,
@@ -34,7 +34,7 @@ async function fixedGenerate(root: string, transaction?: FileTransaction) {
   delete process.env.LLM_MODEL;
   delete process.env.OPENALEX_API_KEY;
   try {
-    return await generate({ root, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection, transaction });
+    return await generate({ root, now, collect: emptyCollection, collectX: emptyCollection, transaction });
   } finally {
     const restore = (name: "LLM_API_KEY" | "LLM_BASE_URL" | "LLM_MODEL" | "OPENALEX_API_KEY", value: string | undefined) => {
       if (value === undefined) delete process.env[name];
@@ -45,6 +45,43 @@ async function fixedGenerate(root: string, transaction?: FileTransaction) {
     restore("LLM_MODEL", previous.llmModel);
     restore("OPENALEX_API_KEY", previous.openAlex);
   }
+}
+
+async function writeFundingCycleState(root: string, amount: string, now: Date): Promise<{ companyId: string; eventId: string }> {
+  const companies = JSON.parse(await readFile(join(root, "events", "companies.json"), "utf8") as string) as Array<{
+    entityId: string; name: string; officialUrl: string;
+  }>;
+  const company = companies[0]!;
+  const eventId = "evt-pipeline-correction-cycle";
+  const timestamp = now.toISOString();
+  await writeFile(join(root, "events", "index.json"), `${JSON.stringify({
+    updatedAt: timestamp,
+    events: [{
+      id: eventId,
+      title: `${company.name} 完成 ${amount} 融资`,
+      type: "投融资",
+      entities: [company.name],
+      primaryEntity: company.name,
+      routes: ["VLA 与具身模型"],
+      status: "已确证",
+      occurredAt: "2026-08-01T00:00:00.000Z",
+      firstSeenAt: "2026-08-01T00:00:00.000Z",
+      lastEvidenceAt: timestamp,
+      lastMaterialChangeAt: timestamp,
+      lastUpdatedAt: timestamp,
+      lastVerifiedAt: timestamp,
+      facts: [], openQuestions: [], timeline: [],
+      funding: { entityStatus: "已确认", round: "Seed", amount, investors: [] },
+      evidence: [{
+        link: `${company.officialUrl.replace(/\/$/, "")}/news/pipeline-cycle`,
+        source: `${company.name} 官方公告`,
+        grade: "A",
+        publishedAt: "2026-08-01T00:00:00.000Z",
+        supports: `事件日期 2026-08-01；Seed 轮次；金额 ${amount}`,
+      }],
+    }],
+  }, null, 2)}\n`, "utf8");
+  return { companyId: company.entityId, eventId };
 }
 
 async function ledgerBytes(root: string): Promise<Record<string, string>> {
@@ -71,6 +108,40 @@ test("daily generation publishes both ledgers and metrics byte-identically for a
 
     await fixedGenerate(root);
     assert.deepEqual(await ledgerBytes(root), first);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily generation publishes a continuous A to B to A to B correction cycle", async () => {
+  const root = await mkdtemp(join(tmpdir(), "dual-ledger-correction-cycle-"));
+  try {
+    await copyFixture(root);
+    const states = [
+      ["1200 万美元", new Date("2026-08-23T08:00:00.000Z")],
+      ["1300 万美元", new Date("2026-08-24T08:00:00.000Z")],
+      ["1200 万美元", new Date("2026-08-25T08:00:00.000Z")],
+      ["1300 万美元", new Date("2026-08-26T08:00:00.000Z")],
+    ] as const;
+    let identity: { companyId: string; eventId: string } | undefined;
+    for (const [amount, now] of states) {
+      identity = await writeFundingCycleState(root, amount, now);
+      await fixedGenerate(root, undefined, now);
+    }
+
+    const ledger = JSON.parse(await readFile(join(root, "events", "company-claim-ledger.json"), "utf8") as string) as {
+      companies: Array<{ companyId: string; claims: Array<{ eventIds: string[]; corrections: Array<{ correctionId: string; fieldPath: string; before: { value: unknown }; after: { value: unknown } }> }> }>;
+    };
+    const claim = ledger.companies.find((company) => company.companyId === identity!.companyId)!
+      .claims.find((item) => item.eventIds.includes(identity!.eventId))!;
+    const amountCorrections = claim.corrections.filter((item) => item.fieldPath === "fields.amount");
+    assert.equal(amountCorrections.length, 3);
+    assert.equal(new Set(amountCorrections.map((item) => item.correctionId)).size, 3);
+    assert.deepEqual(amountCorrections.map((item) => [item.before.value, item.after.value]), [
+      ["1200 万美元", "1300 万美元"],
+      ["1300 万美元", "1200 万美元"],
+      ["1200 万美元", "1300 万美元"],
+    ]);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

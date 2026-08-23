@@ -159,6 +159,19 @@ export function deriveLedgerCorrections<T>(input: DeriveLedgerCorrectionsInput<T
   const materialAfter = materialField(after);
   if (canonicalValue(materialBefore) === canonicalValue(materialAfter)) return previous;
 
+  let predecessor: LedgerCorrection | undefined;
+  for (let index = previous.length - 1; index >= 0; index -= 1) {
+    const correction = previous[index]!;
+    if (correction.ledgerType === input.ledgerType && correction.subjectId === input.subjectId
+      && correction.fieldPath === input.fieldPath) {
+      predecessor = correction;
+      break;
+    }
+  }
+  if (predecessor && canonicalValue(materialField(predecessor.after)) === canonicalValue(materialAfter)) {
+    return previous;
+  }
+
   const reason = correctionReason(before, after);
   const identity = canonicalValue({
     ledgerType: input.ledgerType,
@@ -167,6 +180,7 @@ export function deriveLedgerCorrections<T>(input: DeriveLedgerCorrectionsInput<T
     before: materialBefore,
     after: materialAfter,
     reason,
+    correctedAt: input.correctedAt,
   });
   const correctionId = `ledger-correction-${createHash("sha256").update(identity).digest("hex").slice(0, 24)}`;
   if (previous.some((correction) => correction.correctionId === correctionId)) return previous;
