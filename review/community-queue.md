@@ -26,12 +26,12 @@
 
 ## 待评估信源
 
-- **news.crunchbase.com** · 连续成功 2 次 · 样例：[VCs Pour Billions into Physical AI as the Next Wave of AI Investing Takes Shape](https://news.crunchbase.com/venture/physical-ai-funding-startups-robotics-aerospace-h1-2026/) · [提交信源建议](../../issues/new/choose)
-- **craigmod.com** · 连续成功 7 次 · 样例：[A Swarm of Blood Robots](https://craigmod.com/essays/robot_blood/) · [提交信源建议](../../issues/new/choose)
-- **hackaday.com** · 连续成功 13 次 · 样例：[ShieldFont: Bludgeoning AI Scrapers That Disrespect Robots.txt](https://hackaday.com/2026/08/14/shieldfont-bludgeoning-ai-scrapers-that-disrespect-robots-txt/) · [提交信源建议](../../issues/new/choose)
-- **phys.org** · 连续成功 5 次 · 样例：[Swarms of tiny robots remove microplastics from soil and water](https://phys.org/news/2026-08-swarms-tiny-robots-microplastics-soil.html) · [提交信源建议](../../issues/new/choose)
-- **humanoidanalytics.com** · 连续成功 5 次 · 样例：[The Global Humanoid Robotics Ecosystem Is Broader Than Robot Makers](https://humanoidanalytics.com/2026/08/13/the-global-humanoid-robotics-ecosystem-is-broader-than-robot-makers/) · [提交信源建议](../../issues/new/choose)
-- **github.com** · 连续成功 18 次 · 样例：[TLabel – A unified annotation format and converter for tactile robotics datasets](https://github.com/liesliy/tlabel) · [提交信源建议](../../issues/new/choose)
+- **mashable.com** · 连续成功 2 次 · 样例：[Robots running into walls go viral ahead of 2026 World Humanoid Robot Games](https://mashable.com/tech/world-humanoid-robot-games-2026-running-fall-accident) · [提交信源建议](../../issues/new/choose)
+- **simonroses.com** · 连续成功 2 次 · 样例：[The Death of the Job: How AI and Robots Will Rewrite Work in the Next 10 Years](https://simonroses.com/2026/08/the-death-of-the-job-how-ai-and-robots-will-rewrite-work-in-the-next-10-years/) · [提交信源建议](../../issues/new/choose)
+- **news.crunchbase.com** · 连续成功 3 次 · 样例：[VCs Pour Billions into Physical AI as the Next Wave of AI Investing Takes Shape](https://news.crunchbase.com/venture/physical-ai-funding-startups-robotics-aerospace-h1-2026/) · [提交信源建议](../../issues/new/choose)
+- **craigmod.com** · 连续成功 8 次 · 样例：[A Swarm of Blood Robots](https://craigmod.com/essays/robot_blood/) · [提交信源建议](../../issues/new/choose)
+- **hackaday.com** · 连续成功 14 次 · 样例：[ShieldFont: Bludgeoning AI Scrapers That Disrespect Robots.txt](https://hackaday.com/2026/08/14/shieldfont-bludgeoning-ai-scrapers-that-disrespect-robots-txt/) · [提交信源建议](../../issues/new/choose)
+- **phys.org** · 连续成功 6 次 · 样例：[Swarms of tiny robots remove microplastics from soil and water](https://phys.org/news/2026-08-swarms-tiny-robots-microplastics-soil.html) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

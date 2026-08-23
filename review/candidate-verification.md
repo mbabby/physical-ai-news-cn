@@ -41,7 +41,7 @@
 ## 数字华夏 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：2；下次复核 2026-08-23
+- 尝试：3；下次复核 2026-08-30
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTE8wOUV2aUNleWM0alZocmVQOU1BOFVhX1JielZrTXNQSnJQc0dMNkp1cDlPWVBtRGh2Vm83a1o1UnRSV1pYU21sclM5TDI1RlJu?oc=5)
@@ -50,7 +50,7 @@
 ## 中国一消费级具身智能模型开发商 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiYkFVX3lxTE02THFwdk55WWNUWlplWEk2NU03YTg0UXBERE5pSUN2Z1VVa1VCc3NnWW4xWm1NQzdQVmhQYmliaHFVUnNrOVIyMDhzMm1xcVdhM05BcEpkRk53MWp4cVFVREZB?oc=5)
@@ -86,7 +86,7 @@
 ## RoboStrategy 增发募资 1.229 亿美元，扩大物理 AI 投资 RoboStrategy · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiVEFVX3lxTE5iNTY0UDVxMUFFaUU2X0RKTXBJNFZwaHpILTVkVnR0ek9UcV90eHB5TUZxUXBXQWhsZy1VRUtWMjZCZXNJWDlSS0gzTk9LMHFGUVExVw?oc=5)
@@ -104,7 +104,7 @@
 ## Hadrian · 投融资 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 91
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：13.7亿美元（single-source） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/hadrian-raises-1-37b-accelerate-u-s-manufacturing/)
@@ -158,7 +158,7 @@
 ## 大湾区机器人产业新爆点，广汽人形机器人公司 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：2；下次复核 2026-08-23
+- 尝试：3；下次复核 2026-08-30
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMif0FVX3lxTE41d1RzaW9fUzVNVWV1cVRwUDVaTjBPcy1ocnRRSFRsakUzdERIaVpBMy1RcTdUT3BuajJSTXNTT0sxSGhFSzZHajU4LVJCQVBGU2xJek1FQ0NjMVlMT1gwOUk0ZFRnUTBieGd6d3Y2M2dXbFg3Q1VjMmlVMlNROFk?oc=5)
@@ -239,7 +239,7 @@
 ## 机器人产业链并购活跃，一公司拟溢价9倍 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOckNBbUFLdTU3NjVMVEtQREotN2RTRWlMOFVwaUNaNnVoQkNoUmlFNmFXckRjQml1Uk1ISkwxQnRoUk40WGdWUHBOSGZWTHpTcVFidVlLYnVyZ2lnSHhSemw3QzlEMEpmRzhNUzU3TkJxa2w3NlZERklEVTVVMVhMaEdBMlBUZVF5?oc=5)
@@ -257,7 +257,7 @@
 ## 前华为大模型负责人进军家务机器人：天使++轮 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiYkFVX3lxTE1XRFpmMFdPdl9yOEF6UHJwQ0tFN3RxUGkxVWkyeVUxcFhFMlZiNS1fdlk5TUdMMzUzbHFZNVZIWnR6VmxrMjdnTUQ0ZzdlbDdLd2VqQXVVaWp2dmdGWnNmb0Nn?oc=5)
@@ -320,7 +320,7 @@
 ## Onconetix · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMirwFBVV95cUxQeVYxdmpYMzNOdE02dFoyNGI0V1hUZTdTdXVXSFd2M05qMlBpd2V3UFRQWjAwLUQ0cjhGdmdzMklHN2ZhYkgtRlMxVXlwZnJ5Qkg5VU40b1c0VDdJQThydWgzbnBaSDRNY21MdnNVS3I1TUtvdi1lU2htZHdmSzdsazRqR0ZpNlVlc3FYOVUxVEJTaldEbnowRGdMUlhoOEFfd1NRODZFZWc3RlA5dUk0?oc=5)
@@ -401,7 +401,7 @@
 ## 自主焊接初创公司 TetraGen Robotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxPaGJwdW5ta2xtUFNta1A4Wmw0M3ZlLVBMdFl3NWVxbklLUF9fYmtyWXRkUjJ4YXlncUI0SDg4WE1fSzMtMk5fZjVGMFp0UDM5Ml9RVnM4Sk0zbHhEdkE4OTN6M213Tk5oLXJtM2hZNVdmMHNpNUY2a1ZQWWlLWlJhVXBTVngxa1VJVFBWVA?oc=5)
@@ -446,7 +446,7 @@
 ## Holiday Robotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMivAFBVV95cUxOVUlHTmhXZ0d3OFF2MExMWVVXWHBzbkJ6djF1TnZsZzV5Z29KeWIyclhUcTZLSmtFdURpd2hiWElfWEVDWkdRRnV0ZENrM2ZsNHo3V0lfUnRmd19lNWxaQ3N6SGJ0aktwa1pZOGh2VlRyWldacXhpbVFxRVNQTFRPZVVuZWpkRmRFN3J1cmYtRGhkaHJ0cHBvSnZaa2hyaC00MVFOUjJrdFdfTzdTUmFCc1NFWkFiSm1sclVOVQ?oc=5)
@@ -659,6 +659,24 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMijAFBVV95cUxPQzFVaW4wYlVhajh5bzI1QlBDcmNWOFhNNzRMOHJiNjlhdnR0aVhrd2FDczEtUWtWVHI1a0pwY1JJWGdiQlFmUDJIelRoMEdaM3kwaldIWF9QZmhLMW1ucjVRR0wyOUxJMGt4M0RRRVFlNnV5V1BiS2RkQWtOZGotZl9QRW9MQXBiVnV2bQ?oc=5)
 - 结论：无法唯一识别公司主体
 
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiUEFVX3lxTFBiMzRhMjRLMXpXS1ExV2pYOTVmMU91TC1vZ2tJLU01SVhPRThVWkw3VkFOSDFXZTl5SjRLODc1U1ctTXpEM3k3YnZKTk50NDRR?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMif0FVX3lxTE1BWHlCcWJtRGxkMjdqSU41MTVfN1B2bU5RV1lSMFRySlVLYXRTNFVvTVB2NnN4NmVqUUJwb0VmaEF4NVlqQkNnelRybWpKQ3lOQkxYTlF5M2RtaXRkNVRyTXdLTTBJS24zMkVKYmFxaHItN2VXNVpzUkFQVW9oV1k?oc=5)
+- 结论：无法唯一识别公司主体
+
 ## 机器人公司融资600万美元用于开发新型血管成像平台 Robotics company · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -671,7 +689,7 @@
 ## 家庭具身智能机器人诺因智能 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9JNmhSUUtEUVNNRlVsdUJiY1lXOUZvWnVwQkVocVNrN3hyeU9uUDBoamRBSFh3dF9qeGJVSkl5dmlNdHI3V0cyN2hobEZxMG1MMlkyU3BKZw?oc=5)
@@ -680,7 +698,7 @@
 ## 江苏89年小伙放弃2000万收入，创业机器人操作系统 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1jZUU0aW52QUFnYXRKUGF3RjQ4YngyNldTZ3MxVldwT28tRHFHLXV3TjZBa1IwNEVaSExxc0ZMWHhUS0p6Z3JndUhXNGVPbTh2OWZXenBqVG5mMmpKT0JSakZwT1Z6MHlITmM4WWRSbjA3Zw?oc=5)
@@ -752,7 +770,7 @@
 ## 一具身机器人企业发布新模型 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMieEFVX3lxTE1BX2VEblllbnEzanZxWGpvS3g3bk8wMHptOTRGc3FuODZKb1ZWQm04dGd3Y2hxXzJseHgxWUF2aWxaWGR2alhqRjBsQU1FZDh4bHNrSUtSb2ZQdld1WGdPYUs5NXZUaDB3bThneENrZzRGaGNjZjlYdg?oc=5)
@@ -932,7 +950,7 @@
 ## Tate 在多个工厂 · 部署案例 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 61
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/tate-deploys-58-hirebotics-cobot-welders-across-multiple-facilities/)
@@ -1022,7 +1040,7 @@
 ## RoboStore 成立 Robo Inc.，助力美国机构 · 产品发布 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 55
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-22
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/robostore-launches-robo-inc-to-help-u-s-organizations-deploy-robots/)
