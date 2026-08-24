@@ -228,14 +228,35 @@ test("passport rejects apparently eligible OpenAlex states without direct eviden
 test("passport requires eligible complete fresh matched cards with complete Chinese facts", () => {
   const incomplete = completeCard();
   incomplete.titleZh = { value: "unknown", evidenceUrls: [] };
+  const english = completeCard();
+  english.titleZh = backed("LIBERO robot policy evaluation");
+  english.factsZh = backed<[string, string]>(["The policy is evaluated on LIBERO.", "The paper reports a baseline comparison."]);
+  const incompleteSentence = completeCard();
+  incompleteSentence.factsZh = backed<[string, string]>(["论文在 LIBERO 上评测机器人策略", "原文报告了结果。并报告了基线。"]);
   for (const card of [
     completeCard(undefined, { eligibleForTopResearch: false }),
     completeCard(undefined, { gates: [{ code: "review-required", detail: "待复核" }] }),
     completeCard(undefined, { completeness: { totalFields: 25, knownFields: 1, unknownFields: 24, completeOrUnknown: false } }),
     incomplete,
+    english,
+    incompleteSentence,
   ]) {
     assert.deepEqual(buildReproducibilityPassports({ records: [record()], cards: [card], benchmarkLedger: ledger() }), []);
   }
+});
+
+test("passport omits malformed non-string facts without aborting valid cards", () => {
+  const malformed = completeCard("paper-malformed", {
+    identity: { ...completeCard().identity, paperId: backed("paper-malformed"), openAlexWorkId: backed("W-malformed", ["https://openalex.org/W-malformed"]) },
+  });
+  malformed.factsZh = backed(["论文包含一条事实。", 42] as unknown as [string, string]);
+  const malformedRecord = record("paper-malformed", {
+    article: article("paper-malformed", { link: "https://arxiv.org/abs/malformedv1", scholar: { ...article().scholar!, workId: "W-malformed" } }),
+  });
+  const passports = buildReproducibilityPassports({
+    records: [malformedRecord, record()], cards: [malformed, completeCard()], benchmarkLedger: ledger(),
+  });
+  assert.deepEqual(passports.map((passport) => passport.paperId), ["arxiv:2608.00001"]);
 });
 
 test("passport derives explicit gaps and publishes public string rank reasons only", () => {
@@ -255,10 +276,24 @@ test("passport derives explicit gaps and publishes public string rank reasons on
   assert.doesNotMatch(JSON.stringify(passport), /rankScore|internalScore|candidate-/i);
 });
 
-test("passport labels only canonical authority signals as a key laboratory", () => {
-  const ordinary = record(undefined, { authorityLabels: [] });
-  const [passport] = buildReproducibilityPassports({ records: [ordinary], cards: [completeCard()], benchmarkLedger: ledger() });
-  assert.ok(!passport!.rankReasons.includes("重点实验室"));
+test("passport labels a key laboratory only when the canonical label has direct OpenAlex institution evidence", () => {
+  const [positive] = buildReproducibilityPassports({ records: [record()], cards: [completeCard()], benchmarkLedger: ledger() });
+  assert.ok(positive!.rankReasons.includes("重点实验室"));
+
+  const launderedRecord = record(undefined, {
+    authorityLabels: ["Physical Intelligence"],
+    article: article(undefined, {
+      authors: ["Sergey Levine"],
+      scholar: {
+        ...article().scholar!,
+        institutions: ["Ordinary University"],
+        authors: [{ name: "Sergey Levine", institutions: ["Ordinary University"] }],
+      },
+    }),
+  });
+  const launderedCard = completeCard(undefined, { lab: backed(["Ordinary University", "Physical Intelligence"], [OPENALEX_URL]) });
+  const [laundered] = buildReproducibilityPassports({ records: [launderedRecord], cards: [launderedCard], benchmarkLedger: ledger() });
+  assert.ok(!laundered!.rankReasons.includes("重点实验室"));
 });
 
 test("passport selects one benchmark by evaluation setting, verified numeric coverage, then name", () => {
@@ -270,6 +305,29 @@ test("passport selects one benchmark by evaluation setting, verified numeric cov
   });
   const simulation = entry("LIBERO", { fields: fields({ evaluationSetting: field("simulation") }) });
   const [passport] = buildReproducibilityPassports({ records: [record()], cards: [completeCard()], benchmarkLedger: ledger([simulation, realRobot, mixed]) });
+  assert.equal(passport!.benchmark.name, "RLBench");
+});
+
+test("passport benchmark selection counts actual numeric values rather than verified prose", () => {
+  const textual = entry("CALVIN", {
+    fields: fields({
+      benchmark: field("CALVIN"),
+      result: field("best reported result"),
+      baseline: field("prior method"),
+      delta: field("substantial improvement"),
+      realRobotTrials: field<number>(),
+    }),
+  });
+  const numeric = entry("RLBench", {
+    fields: fields({
+      benchmark: field("RLBench"),
+      result: field("74.7%"),
+      baseline: field<string>(),
+      delta: field<string>(),
+      realRobotTrials: field(12),
+    }),
+  });
+  const [passport] = buildReproducibilityPassports({ records: [record()], cards: [completeCard()], benchmarkLedger: ledger([textual, numeric]) });
   assert.equal(passport!.benchmark.name, "RLBench");
 });
 

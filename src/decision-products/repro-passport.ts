@@ -2,7 +2,7 @@ import { validateBenchmarkResultLedger, type BenchmarkResultEntry, type Benchmar
 import type { LedgerField } from "../ledger-contracts.js";
 import type { ResearchDecisionCard } from "../research-decision-card.js";
 import type { ResearchRecord } from "../types.js";
-import { stableDecisionId, validateDecisionProductArtifact, type ReproducibilityPassport } from "./contracts.js";
+import { hasCompleteChinesePassportCopy, stableDecisionId, validateDecisionProductArtifact, type ReproducibilityPassport } from "./contracts.js";
 
 const DEFAULT_LIMIT = 6;
 const UNKNOWN = "unknown" as const;
@@ -40,9 +40,16 @@ function hasVerifiedValue(field: LedgerField<unknown>): boolean {
   return field.status === "verified" && field.value !== UNKNOWN && field.evidenceUrls.length > 0;
 }
 
+function hasVerifiedNumericValue(field: LedgerField<unknown>): boolean {
+  if (!hasVerifiedValue(field)) return false;
+  if (typeof field.value === "number") return Number.isFinite(field.value);
+  return typeof field.value === "string"
+    && /(?:^|[^\p{L}\p{N}])[-+]?(?:\d+(?:,\d{3})*(?:\.\d+)?|\.\d+)(?=$|[^\p{L}\p{N}])/u.test(field.value);
+}
+
 function numericCoverage(entry: BenchmarkResultEntry): number {
   return [entry.fields.result, entry.fields.baseline, entry.fields.delta, entry.fields.realRobotTrials]
-    .filter(hasVerifiedValue).length;
+    .filter(hasVerifiedNumericValue).length;
 }
 
 function evaluationPriority(entry: BenchmarkResultEntry): number {
@@ -86,8 +93,7 @@ function completeEligibleCard(record: ResearchRecord, card: ResearchDecisionCard
   if (record.status === "已撤稿" || record.article.scholar?.isRetracted !== false) return false;
   if (cardValue(card.openAlex.match) !== "matched" || cardValue(card.openAlex.retraction) !== false || cardValue(card.openAlex.freshness) !== "fresh") return false;
   if (cardValue(card.titleZh) === UNKNOWN || cardValue(card.factsZh) === UNKNOWN) return false;
-  const facts = card.factsZh.value;
-  return Array.isArray(facts) && facts.length === 2 && facts.every((fact) => fact.trim().length > 0);
+  return hasCompleteChinesePassportCopy(card.titleZh.value, card.factsZh.value);
 }
 
 function rankReasons(record: ResearchRecord, card: ResearchDecisionCard, benchmark: ReproducibilityPassport["benchmark"]): string[] {
@@ -97,7 +103,15 @@ function rankReasons(record: ResearchRecord, card: ResearchDecisionCard, benchma
   if ([benchmark.metric, benchmark.result, benchmark.baseline, benchmark.delta].every((value) => value !== UNKNOWN)) reasons.push("精确基准比较");
   if (cardValue(card.artifacts.code) !== UNKNOWN) reasons.push("代码已公开");
   const labs = cardValue(card.lab);
-  if (labs !== UNKNOWN && labs.some((lab) => record.authorityLabels.includes(lab))) reasons.push("重点实验室");
+  const scholar = record.article.scholar;
+  const openAlexUrl = scholar?.workId
+    ? scholar.workId.startsWith("http://") || scholar.workId.startsWith("https://")
+      ? scholar.workId
+      : `https://openalex.org/${scholar.workId.replace(/^.*\//, "")}`
+    : undefined;
+  const directKeyLab = labs !== UNKNOWN && Boolean(openAlexUrl && card.lab.evidenceUrls.includes(openAlexUrl))
+    && labs.some((lab) => record.authorityLabels.includes(lab) && scholar!.institutions.includes(lab));
+  if (directKeyLab) reasons.push("重点实验室");
   if (reasons.length === 0) reasons.push("OpenAlex 元数据已核验");
   return reasons;
 }

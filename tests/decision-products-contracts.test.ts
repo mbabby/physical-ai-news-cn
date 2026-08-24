@@ -184,6 +184,20 @@ test("known public facts require evidence while unknown remains explicit", () =>
   assert.doesNotThrow(() => validateDecisionProductArtifact(unknown));
 });
 
+test("research passport requires a Chinese title and exactly two complete Chinese fact sentences", () => {
+  for (const mutate of [
+    (value: any) => { value.researchPassports[0].titleZh = "Robot policy evaluation"; },
+    (value: any) => { value.researchPassports[0].factsZh = ["The policy is evaluated on LIBERO.", "The paper reports a baseline."]; },
+    (value: any) => { value.researchPassports[0].factsZh = ["论文评测机器人策略", "论文报告结果。"] },
+    (value: any) => { value.researchPassports[0].factsZh = ["论文评测机器人策略。并报告结果。", "论文报告基线。"] },
+    (value: any) => { value.researchPassports[0].factsZh = ["论文评测机器人策略。", 42] },
+  ]) {
+    const forged = validDecisionProductArtifact();
+    mutate(forged);
+    assert.throws(() => validateDecisionProductArtifact(forged));
+  }
+});
+
 test("unknown company facts reject negative or noncanonical summaries", () => {
   for (const summary of ["该公司没有融资", "该公司未融资", "暂无融资信息", "证据不足"]) {
     const forged = validDecisionProductArtifact();

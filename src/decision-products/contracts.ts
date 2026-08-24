@@ -228,6 +228,15 @@ function singleChineseSentence(value: string): boolean {
     && (value.match(/[。！？!?]/gu)?.length ?? 0) === 1;
 }
 
+export function hasCompleteChinesePassportCopy(title: unknown, facts: unknown): facts is [string, string] {
+  return typeof title === "string"
+    && nonEmpty(title)
+    && /[\u3400-\u9fff]/u.test(title)
+    && Array.isArray(facts)
+    && facts.length === 2
+    && facts.every((fact) => typeof fact === "string" && singleChineseSentence(fact));
+}
+
 function uniqueBy(values: unknown[], key: (value: Record<string, unknown>) => unknown, path: string): void {
   const identities = values.map((value) => object(value) ? key(value) : undefined);
   ensure(identities.every((identity) => nonEmpty(identity) && identity === identity.trim())
@@ -356,7 +365,7 @@ function validatePassport(value: unknown, path: string): asserts value is Reprod
   ensure(canonicalIdentifier(passportId) && canonicalIdentifier(paperId), `${path} research identity must be canonical`);
   ensure(passportId === stableDecisionId("research", paperId), `${path}.passportId is not bound to paperId`);
   for (const key of ["titleZh", "whyWorthAttention"] as const) ensure(nonEmpty(value[key]), `${path}.${key} must be non-empty`);
-  ensure(exactPair(value.factsZh), `${path}.factsZh must contain exactly two facts`);
+  ensure(hasCompleteChinesePassportCopy(value.titleZh, value.factsZh), `${path} must contain a Chinese title and exactly two complete Chinese facts`);
   ensure(absoluteUrl(value.sourceUrl), `${path}.sourceUrl must be absolute HTTP(S)`);
   ensure(unknownOrStrings(value.task) && unknownOrStrings(value.embodiment) && unknownOrStrings(value.methods), `${path} task, embodiment, or methods are invalid`);
   exactKeys(value.benchmark, BENCHMARK_KEYS, `${path}.benchmark`);
