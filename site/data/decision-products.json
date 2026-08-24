@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T08:05:05.893Z",
+  "periodStart": "2026-08-18",
+  "topSignals": [],
+  "companyCards": [],
+  "researchPassports": [
+    {
+      "passportId": "decision-research-919d7709cdb98f3aa690",
+      "paperId": "842989b9ed1ce602",
+      "titleZh": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
+      "factsZh": [
+        "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。",
+        "在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.06729v1",
+      "task": [
+        "机器人操作"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "LIBERO",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06729v1"
+        ]
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7202125387",
+        "authors": [
+          "Guiyu Zhao",
+          "Longteng Guo",
+          "Y. Mei"
+        ],
+        "labs": [
+          "Lawrence Berkeley National Laboratory",
+          "Chinese Academy of Sciences",
+          "Shandong Institute of Automation",
+          "Beijing Academy of Artificial Intelligence",
+          "Institute of Automation",
+          "University of Chinese Academy of Sciences",
+          "UC Berkeley"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-20T01:00:02.135Z"
+      },
+      "limitations": [
+        "While Vision-Language-Action (VLA) models have advanced embodied AI, their fundamentally reactive paradigm severely limits performance in partially observable and long-horizon tasks."
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Lawrence Berkeley National Laboratory、Chinese Academy of Sciences。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-1dd2aebcb57f195f61c4",
+      "paperId": "7e4a09414f545820",
+      "titleZh": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
+      "factsZh": [
+        "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。",
+        "其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.03682v2",
+      "task": "unknown",
+      "embodiment": "unknown",
+      "methods": "unknown",
+      "benchmark": {
+        "name": "LIBERO",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.03682v2"
+        ]
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "https://github.com/mingti-org/phyai",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7201914260",
+        "authors": [
+          "Chenghua Wang",
+          "Daliang Xu",
+          "Dongqi Cai"
+        ],
+        "labs": [
+          "Beijing University of Posts and Telecommunications",
+          "Nanjing University",
+          "Ming Chi University of Technology",
+          "Tsinghua University",
+          "Peking University",
+          "University of Cambridge",
+          "Suzhou University of Science and Technology",
+          "清华大学"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-24T08:06:46.367Z"
+      },
+      "limitations": [
+        "Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16."
+      ],
+      "whyWorthAttention": "原文摘要明确出现基准、开源证据；OpenAlex 作者/机构元数据包含Beijing University of Posts and Telecommunications、Nanjing University。",
+      "rankReasons": [
+        "代码已公开"
+      ],
+      "gaps": [
+        "assets.data",
+        "assets.weights",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-5de26311e0e05c88549c",
+      "paperId": "6868169cc6e01001",
+      "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
+      "factsZh": [
+        "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。",
+        "配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.16222v1",
+      "task": "unknown",
+      "embodiment": [
+        "真实机器人",
+        "人形机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "high",
+        "rationale": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object-Interaction"
+      },
+      "authority": {
+        "openAlexWorkId": "W7203683909",
+        "authors": [
+          "Jiahao Ji",
+          "Ji Ma",
+          "Runhan Zhang"
+        ],
+        "labs": [
+          "Minzu University of China",
+          "China University of Mining and Technology",
+          "Inner Mongolia University of Science and Technology",
+          "Institute of Disaster Prevention",
+          "Robotics Research (United States)",
+          "Hebei Seismological Bureau",
+          "Inner Mongolia University of Technology",
+          "Beihang University",
+          "Xinjiang Agricultural University",
+          "Xinjiang Institute of Water Resources and Hydropower Research",
+          "Huazhong University of Science and Technology",
+          "University of Hong Kong",
+          "Tsinghua University",
+          "清华大学"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-24T08:06:46.403Z"
+      },
+      "limitations": [
+        "However, existing embodied datasets remain fundamentally limited: internet-scale video data lack precise physical states and interaction grounding, while laboratory motion datasets provide high fidelity but only narrow behavioral coverage."
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Minzu University of China、China University of Mining and Technology。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-df23912aeb82464d3415",
+      "paperId": "f9309069f9884cab",
+      "titleZh": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
+      "factsZh": [
+        "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。",
+        "该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.06688v1",
+      "task": [
+        "机器人导航"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7202231072",
+        "authors": [
+          "Yao Wang",
+          "Siyuan Wang",
+          "Zhirui Sun"
+        ],
+        "labs": [
+          "Emory University"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-20T01:00:02.249Z"
+      },
+      "limitations": "unknown",
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Emory University。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials",
+        "limitations"
+      ]
+    },
+    {
+      "passportId": "decision-research-0377955207f537fd253e",
+      "paperId": "d296eb9c0886d703",
+      "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+      "factsZh": [
+        "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。",
+        "在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2607.27782v1",
+      "task": [
+        "机器人操作"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "LIBERO",
+        "metric": "success rate",
+        "result": "74.7%",
+        "baseline": "56.7%",
+        "delta": "+18 percentage points",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2607.27782v1"
+        ]
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7172172425",
+        "authors": [
+          "Zehong Yan",
+          "Junhao Li",
+          "Fangqi Zhu"
+        ],
+        "labs": [
+          "Hong Kong University of Science and Technology"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-14T01:30:23.106Z"
+      },
+      "limitations": [
+        "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy"
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Hong Kong University of Science and Technology。",
+      "rankReasons": [
+        "真实机器人证据",
+        "精确基准比较"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-ef579c88364957eac7f8",
+      "paperId": "8c419dab7bc8d2c0",
+      "titleZh": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
+      "factsZh": [
+        "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。",
+        "真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.05674v1",
+      "task": [
+        "机器人操作"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7202006027",
+        "authors": [
+          "JoyAI-RA Team",
+          "RA Team"
+        ],
+        "labs": [],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-19T00:59:00.705Z"
+      },
+      "limitations": "unknown",
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials",
+        "limitations",
+        "authority.labs"
+      ]
+    }
+  ],
+  "subscriptions": {
+    "generatedAt": "2026-08-24T08:05:05.893Z",
+    "entries": [
+      {
+        "subscriptionId": "github-watch",
+        "label": "GitHub Watch",
+        "description": "关注仓库活动通知。",
+        "cadence": "daily",
+        "format": "github",
+        "url": "https://github.com/mbabby/physical-ai-news-cn/subscription",
+        "route": "all"
+      },
+      {
+        "subscriptionId": "github-releases",
+        "label": "GitHub Releases",
+        "description": "关注稳定版本发布。",
+        "cadence": "weekly",
+        "format": "github",
+        "url": "https://github.com/mbabby/physical-ai-news-cn/releases",
+        "route": "all"
+      },
+      {
+        "subscriptionId": "feed-all",
+        "label": "全部 Top Signals",
+        "description": "每周证据门槛后的全部决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/all.xml",
+        "route": "all"
+      },
+      {
+        "subscriptionId": "feed-data-and-training",
+        "label": "数据与训练 Feed",
+        "description": "数据与训练路线的每周决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/data-and-training.xml",
+        "route": "数据与训练"
+      },
+      {
+        "subscriptionId": "feed-vla-and-embodied-models",
+        "label": "VLA 与具身模型 Feed",
+        "description": "VLA 与具身模型路线的每周决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/vla-and-embodied-models.xml",
+        "route": "VLA 与具身模型"
+      },
+      {
+        "subscriptionId": "feed-world-models-and-spatial-intelligence",
+        "label": "世界模型与空间智能 Feed",
+        "description": "世界模型与空间智能路线的每周决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/world-models-and-spatial-intelligence.xml",
+        "route": "世界模型与空间智能"
+      },
+      {
+        "subscriptionId": "feed-embodiment-and-hardware",
+        "label": "本体与硬件 Feed",
+        "description": "本体与硬件路线的每周决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/embodiment-and-hardware.xml",
+        "route": "本体与硬件"
+      },
+      {
+        "subscriptionId": "feed-deployment-and-commercialization",
+        "label": "部署与商业化 Feed",
+        "description": "部署与商业化路线的每周决策信号。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/deployment-and-commercialization.xml",
+        "route": "部署与商业化"
+      },
+      {
+        "subscriptionId": "feed-watchlist",
+        "label": "Watchlist 变化",
+        "description": "公开观察名单的周期变化。",
+        "cadence": "weekly",
+        "format": "rss",
+        "url": "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/watchlist.xml",
+        "route": "watchlist"
+      }
+    ]
+  }
+}

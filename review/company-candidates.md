@@ -212,6 +212,55 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 广汽集团孵化，具身智能人形机器人研发商慧仑科技 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[凤凰网](https://news.google.com/rss/articles/CBMiUEFVX3lxTE9vSUZ2RHRwLWVXdGY3Z0x1ZXExTjNqbjRnOWxGUzhMNEVRZDNCd1dfSUlQUndJZ1RoZUZUWEpYMjFLalFGSlBzQS1LUXQxMFNG?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E9%9B%86%E5%9B%A2%E5%AD%B5%E5%8C%96%EF%BC%8C%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%A0%94%E5%8F%91%E5%95%86%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E5%B9%BF%E6%B1%BD%E9%9B%86%E5%9B%A2%E5%AD%B5%E5%8C%96%EF%BC%8C%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%A0%94%E5%8F%91%E5%95%86%E6%85%A7%E4%BB%91%E7%A7%91%E6%8A%80%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 英国初创公司 Oshen · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[AI Insider](https://news.google.com/rss/articles/CBMivgFBVV95cUxPR0lHNF96X0R3ZENsbFNPQkZNYTViaWNFRl9xUlZDMHFNZXE0cmp5WjhBa2NUVjhRSUFhZW1FRXZvNFhZckdRYUM3NFpXVG0tOUdzOWV0ck9na25CVXYtMk9ONEtvaW1Rd0taeTlkZy04RE1LVnNtZXdmS19GcmpXamJMZW9LeVduRG1uWGdIVUl1VE9lOEtCc0ZLTDJURjNVQlVOUmk5ZGxuNGF2clRVZml2S0tReTlsc0RNUDJB?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%8B%B1%E5%9B%BD%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%20Oshen%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%8B%B1%E5%9B%BD%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%20Oshen%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 2026年AI与人形机器人 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[中华网](https://news.google.com/rss/articles/CBMiXkFVX3lxTE9kbVhqSG5MNnk5UlJKQklqeHdBNDJ4Y0lUVW8zdkdZOGpQNFUzWkRHWFZ5WmViazJiNHQzVWFuUHY2VG9LQ0JGMm1WSmdIQU16NndHOEJ2TE5EUnI4bWc?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%222026%E5%B9%B4AI%E4%B8%8E%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%222026%E5%B9%B4AI%E4%B8%8E%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 枢途科技连续 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOOFhFQ0JzMmllV0NQS1dXWlA3VHI2akNvMkZPQjA0LWtTNzMzRHBXMW5Pb1RyR2tIa19abUY1X0ZlRXFnR2RGdHZTLV9NYXNJZF9mSGZ6VlBoY2VvZmUxTGhHSlVVX1pFOFNCU1ZiUkYwSEZLNHNRbFJFa196LVBFcXhLSGxWZEZp?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9E%A2%E9%80%94%E7%A7%91%E6%8A%80%E8%BF%9E%E7%BB%AD%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9E%A2%E9%80%94%E7%A7%91%E6%8A%80%E8%BF%9E%E7%BB%AD%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 扒了 1155 位具身智能创业者，我们发现 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[thepaper.cn](https://news.google.com/rss/articles/CBMickFVX3lxTE0ydlNEY1pSZm1vYW5OeTNaaV9TeWRqNHdGUGZUNzZwUklURy1NMkptXzBhMnpBQU9SUmhBekRPdHV0MFdJM2N3WGhCbkh0Z3VVSzh5RFhyTXBaNGhraktaZG5jNFp4ei1wVXhaaVI2SGhrZw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%89%92%E4%BA%86%201155%20%E4%BD%8D%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E5%88%9B%E4%B8%9A%E8%80%85%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%91%E7%8E%B0%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%89%92%E4%BA%86%201155%20%E4%BD%8D%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E5%88%9B%E4%B8%9A%E8%80%85%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%91%E7%8E%B0%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 机器人刷屏！七大公募最新把脉 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[天天基金](https://news.google.com/rss/articles/CBMiYkFVX3lxTFBianhpY29tajY2ek9jX2VoX2NjWUk3aVpXLWJBWDE4TWxhLXNQWHFzZ1pQRVp3UU5OdmpUcmhvRUE5QVRJODNYVFhCZDl5RkxycFhsTHdwaG9FUF9PZUFUQ2V3?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%B7%E5%B1%8F%EF%BC%81%E4%B8%83%E5%A4%A7%E5%85%AC%E5%8B%9F%E6%9C%80%E6%96%B0%E6%8A%8A%E8%84%89%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%B7%E5%B1%8F%EF%BC%81%E4%B8%83%E5%A4%A7%E5%85%AC%E5%8B%9F%E6%9C%80%E6%96%B0%E6%8A%8A%E8%84%89%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 李泽湘 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[36Kr](https://news.google.com/rss/articles/CBMiU0FVX3lxTE9wVzNYMU9mWk9ZMUhBSXNkNVJZSkhHY1hwRXdPaGprMlZVVGZuXzlBZTZMdFhsOVpOX201SFE0VkRDYXlmbVQ1YlN1d1VkUEdmQ1hF?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9D%8E%E6%B3%BD%E6%B9%98%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9D%8E%E6%B3%BD%E6%B9%98%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 擎天租 · 候选 · 22/100
 
 - 路线：部署与商业化
