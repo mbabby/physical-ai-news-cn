@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { preferKnownGoodArticles, recoverPublishedResearchRecords } from "../src/publication.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
-import { validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
+import { validateDecisionProductPublication, validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
+import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
+import { buildDecisionFeedManifest, renderDecisionFeed } from "../src/decision-products/subscriptions.js";
+import { formatDecisionProductReadme } from "../src/decision-products/markdown.js";
+import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
 import type { Article, DailyArchive, EventStore, ResearchRecord, RunHistory, RunManifest } from "../src/types.js";
 
 const article = (id: string, complete = true): Article => ({
@@ -97,4 +101,33 @@ test("cross-file contract rejects mismatched counts and service receipts", () =>
   const archive: DailyArchive = { date: "2026-08-08", articles: [article("ok")], candidates: [], runtimeStatus: [{ component: "LLM", status: "成功", attempted: 1, succeeded: 1, failed: 0, detail: "ok" }] };
   const manifest: RunManifest = { schemaVersion: 1, runId: "2026-08-08-test", date: archive.date, startedAt: "2026-08-08T00:00:00Z", finishedAt: "2026-08-08T00:01:00Z", status: "success", quality: { publicIndustryItems: 0, publicResearchItems: 0, candidates: 2, sourceFailures: 0 }, services: [{ component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "bad" }], outputs: 1 };
   assert.throws(() => validatePublicationArtifacts(archive, manifest), /公开条目计数不一致[\s\S]*候选条目计数[\s\S]*LLM 状态/);
+});
+
+test("an empty Top Signals week preserves valid company cards, passports and subscriptions", () => {
+  const generatedAt = "2026-08-24T01:00:00Z";
+  const artifact: DecisionProductArtifact = {
+    schemaVersion: 1, generatedAt, periodStart: "2026-08-18", topSignals: [],
+    companyCards: [{
+      cardId: stableDecisionId("company", "company-alpha"), companyId: "company-alpha", companyName: "Alpha Robotics", officialUrl: "https://alpha.example/", region: "美国", stage: "成长型", routes: ["本体与硬件"],
+      capital: { status: "unknown", summary: "证据不足（不代表未融资）", evidence: [] }, validationStage: "概念 / 研究",
+      productDeployment: { status: "unknown", summary: "证据不足（不代表没有产品或部署进展）", evidence: [] }, recentChanges: [],
+      watchlist: { track: "unknown", lifecycle: "untracked", whyNow: "AI 研究判断：等待规范事件证据。", nextValidationPoints: [] }, unknownFields: ["capital.amount"], updatedAt: generatedAt,
+    }],
+    researchPassports: [{
+      passportId: stableDecisionId("research", "paper-alpha"), paperId: "paper-alpha", titleZh: "一种机器人操作方法", factsZh: ["该方法面向机器人操作。", "论文报告了公开实验设置。"], sourceUrl: "https://arxiv.org/abs/2608.00001",
+      task: "unknown", embodiment: "unknown", methods: "unknown", benchmark: { name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [] },
+      realRobotTrials: "unknown", assets: { code: "unknown", data: "unknown", weights: "unknown" }, reproducibilityCost: { level: "unknown", rationale: "unknown" },
+      authority: { openAlexWorkId: "W1", authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" }, limitations: "unknown", gaps: ["缺少基准证据"], whyWorthAttention: "AI 研究判断：论文问题与物理智能相关。", rankReasons: ["研究问题相关"],
+    }],
+    subscriptions: { generatedAt, entries: [{ subscriptionId: "feed-all", label: "全部 Top Signals", description: "每周证据门槛后的决策信号。", cadence: "weekly", format: "rss", url: "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/all.xml", route: "all" }] },
+  };
+  const watchlist: WatchlistPublicView = { week: "2026-W34", snapshotVersion: 1, methodologyVersion: "v1", lastSuccessfulAt: generatedAt, companyIds: [], forwardRadar: [], validatedMomentum: [], changes: [] };
+  const manifest = buildDecisionFeedManifest(artifact);
+  assert.doesNotThrow(() => validateDecisionProductPublication({
+    artifact, expectedArtifact: structuredClone(artifact), expectedGeneratedAt: generatedAt,
+    dashboard: { generatedAt, decisionProducts: structuredClone(artifact), topSignals: [], companyRadar: [{ cardId: artifact.companyCards[0]!.cardId }], research: [{ passportId: artifact.researchPassports[0]!.passportId }] },
+    readme: formatDecisionProductReadme(artifact), feedManifest: manifest,
+    feeds: Object.fromEntries(manifest.feeds.map((feed) => [feed.path, renderDecisionFeed(artifact, feed.route, { repositoryUrl: "https://github.com/mbabby/physical-ai-news-cn", pagesUrl: "https://mbabby.github.io/physical-ai-news-cn", watchlist })])),
+    companyEventOwners: new Map(), benchmarkResultLedger: { generatedAt, entries: [] }, repositoryUrl: "https://github.com/mbabby/physical-ai-news-cn", pagesUrl: "https://mbabby.github.io/physical-ai-news-cn", watchlist,
+  }));
 });

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Physical AI 零后端订阅中心：GitHub 通知、决策 Feed 与可分享 Watchlist 路线筛选。">
+  <title>订阅中心 · Physical AI Intelligence</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="subscribe">
+  <div class="grid-glow"></div>
+  <header class="shell share-hero subscribe-hero">
+    <a class="brand" href="index.html"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
+    <p class="eyebrow">ZERO-BACKEND SUBSCRIPTION CENTER</p>
+    <h1>订阅更新<br>不提交个人信息</h1>
+    <p>系统每日检查公开信源；Top Signals 与路线 Feed 按周更新，Watchlist Feed 随公开快照变化。只发布 A 级一手证据或独立 B+B 交叉验证后的内容。</p>
+  </header>
+  <main class="shell subscribe-main">
+    <section class="subscription-section" aria-labelledby="github-subscriptions">
+      <div class="section-head"><div><p class="eyebrow">GITHUB</p><h2 id="github-subscriptions">仓库通知</h2></div></div>
+      <div class="subscription-grid">
+        <article class="subscription-card"><h3>GitHub Watch</h3><p>每日检查仓库活动；通知频率由你的 GitHub 设置决定。</p><a href="https://github.com/mbabby/physical-ai-news-cn/subscription" target="_blank" rel="noopener noreferrer">设置 Watch ↗</a></article>
+        <article class="subscription-card"><h3>GitHub Releases</h3><p>只跟踪稳定发布记录，不需要向本站提供联系方式。</p><a href="https://github.com/mbabby/physical-ai-news-cn/releases" target="_blank" rel="noopener noreferrer">查看 Releases ↗</a></article>
+      </div>
+    </section>
+    <section class="subscription-section" aria-labelledby="decision-feeds">
+      <div class="section-head"><div><p class="eyebrow">RSS 2.0</p><h2 id="decision-feeds">决策 Feed</h2></div><small>固定路径 · 稳定 GUID · 不重新排序</small></div>
+      <div class="subscription-grid">
+        <article class="subscription-card"><h3>全部 Top Signals</h3><p>全部通过公开证据门槛的每周信号。</p><a href="feeds/decision/all.xml">订阅全部信号</a></article>
+        <article class="subscription-card"><h3>数据与训练</h3><a href="feeds/decision/data-and-training.xml">订阅路线 Feed</a></article>
+        <article class="subscription-card"><h3>VLA 与具身模型</h3><a href="feeds/decision/vla-and-embodied-models.xml">订阅路线 Feed</a></article>
+        <article class="subscription-card"><h3>世界模型与空间智能</h3><a href="feeds/decision/world-models-and-spatial-intelligence.xml">订阅路线 Feed</a></article>
+        <article class="subscription-card"><h3>本体与硬件</h3><a href="feeds/decision/embodiment-and-hardware.xml">订阅路线 Feed</a></article>
+        <article class="subscription-card"><h3>部署与商业化</h3><a href="feeds/decision/deployment-and-commercialization.xml">订阅路线 Feed</a></article>
+        <article class="subscription-card"><h3>Watchlist 变化</h3><p>随公开快照发布名单变化；未知仍保持未知。</p><a href="feeds/decision/watchlist.xml">订阅 Watchlist Feed</a></article>
+      </div>
+    </section>
+    <section class="subscription-section subscription-filter" aria-labelledby="watchlist-share-filter">
+      <div class="section-head"><div><p class="eyebrow">URL-ONLY FILTER</p><h2 id="watchlist-share-filter">生成路线观察链接</h2></div></div>
+      <p>选择只写入当前地址与分享链接；本站不保存选择，也不设置账户、邮件、数据库或浏览器持久状态。</p>
+      <div id="subscription-watchlist-controls" class="watchlist-config-controls">
+        <fieldset><legend>固定技术路线</legend><div class="watchlist-option-grid">
+          <label><input data-subscription-route type="checkbox" value="data-and-training"> 数据与训练</label>
+          <label><input data-subscription-route type="checkbox" value="vla-and-embodied-models"> VLA 与具身模型</label>
+          <label><input data-subscription-route type="checkbox" value="world-models-and-spatial-intelligence"> 世界模型与空间智能</label>
+          <label><input data-subscription-route type="checkbox" value="embodiment-and-hardware"> 本体与硬件</label>
+          <label><input data-subscription-route type="checkbox" value="deployment-and-commercialization"> 部署与商业化</label>
+        </div></fieldset>
+        <p id="subscription-watchlist-warning" class="watchlist-config-message" aria-live="polite"></p>
+        <a id="subscription-watchlist-link" class="subscription-watchlist-link" href="index.html#company-watchlist">打开筛选后的 Watchlist →</a>
+      </div>
+    </section>
+  </main>
+  <footer class="shell"><a href="index.html">← 返回情报终端</a><a href="https://github.com/mbabby/physical-ai-news-cn" target="_blank" rel="noopener noreferrer">查看公开仓库 ↗</a></footer>
+  <noscript><p class="shell empty">所有 Feed 与 GitHub 链接均可直接使用；启用 JavaScript 后可生成路线筛选链接。</p></noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -51,6 +51,12 @@
 
 ## 产业进展
 
+<!-- DECISION_SIGNALS_START -->
+
+> 本周暂无满足公开证据门槛的 Top Signals。
+
+<!-- DECISION_SIGNALS_END -->
+
 <!-- EVENT_CENTER_START -->
 
 > 数据刷新至 2026-08-24 · 暂无满足首页发布门槛的产业事件。

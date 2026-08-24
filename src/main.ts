@@ -26,7 +26,7 @@ import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSour
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
-import { validatePublication } from "./runtime/validation.js";
+import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
 import { buildCandidateVerificationArtifact, formatCandidateVerificationReview, verificationIssueSeeds } from "./candidate-verification.js";
@@ -70,9 +70,13 @@ import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
+import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, shouldDegradeResearchPassportProjection, stageDecisionProducts } from "./decision-products/materialize.js";
+import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
+import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
+const repositoryBaseUrl = "https://github.com/mbabby/physical-ai-news-cn";
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
@@ -352,17 +356,26 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const companyEntityPath = join(eventsDir, "company-entities.json");
   let previousCompanyClaimLedger: CompanyClaimLedger | undefined;
   let previousBenchmarkResultLedger: BenchmarkResultLedger | undefined;
+  let previousDecisionProductArtifact: DecisionProductArtifact | undefined;
   try {
-    [previousCompanyClaimLedger, previousBenchmarkResultLedger] = await Promise.all([
+    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact] = await Promise.all([
       readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
         optional: true, label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact,
       }),
       readJsonStrict<BenchmarkResultLedger>(join(researchDir, "benchmark-result-ledger.json"), {
         optional: true, label: "Benchmark Result Ledger", validate: isBenchmarkResultLedgerArtifact,
       }),
+      readJsonStrict<DecisionProductArtifact>(join(outputRoot, "site", "data", "decision-products.json"), {
+        optional: true,
+        label: "上一版 Decision Product",
+        validate: (value): value is DecisionProductArtifact => {
+          try { validateDecisionProductArtifact(value); return true; }
+          catch { return false; }
+        },
+      }),
     ]);
   } catch (error) {
-    throw new DailyGenerationError("corrupt-dual-ledger", "双账本历史状态损坏；已停止发布并保留上一版。", { cause: error });
+    throw new DailyGenerationError("corrupt-dual-ledger", "双账本或 Decision Product 历史状态损坏；已停止发布并保留上一版。", { cause: error });
   }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
@@ -755,6 +768,28 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   });
   const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
   await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
+  const decisionProductInput = {
+    generatedAt: now,
+    events: eventStore.events,
+    companies,
+    companyClaimLedger,
+    researchRecords: researchRegistry.records,
+    researchDecisionCards,
+    benchmarkResultLedger,
+    watchlist: watchlistView,
+    researchPassportProjectionDegraded: shouldDegradeResearchPassportProjection({
+      previousArtifact: previousDecisionProductArtifact,
+      researchDecisionCards,
+      runtimeStatuses: statuses,
+    }),
+  };
+  const currentDecisionProducts = buildDecisionProductArtifact(decisionProductInput);
+  const decisionProducts = buildDecisionProductArtifact({ ...decisionProductInput, previousArtifact: previousDecisionProductArtifact });
+  const decisionProductRetentionReceipt = buildDecisionProductRetentionReceipt({
+    currentArtifact: currentDecisionProducts,
+    artifact: decisionProducts,
+    previousArtifact: previousDecisionProductArtifact,
+  });
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
@@ -762,6 +797,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchDecisionCards,
     researchIndustryEdges: researchIndustryRelations.edges,
     watchlist: watchlistView,
+    decisionProducts,
   });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
@@ -860,7 +896,18 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(outputRoot, "README.md");
-  const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
+  const legacyReadme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
+  const readme = stageDecisionProducts({
+    root: outputRoot,
+    transaction,
+    artifact: decisionProducts,
+    readme: legacyReadme,
+    repositoryUrl: repositoryBaseUrl,
+    pagesUrl: pagesBaseUrl,
+    watchlist: watchlistView,
+    retentionReceipt: decisionProductRetentionReceipt,
+    retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
+  });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
     theses: watchlistTheses,
@@ -868,6 +915,25 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     changePage: watchlistChangePage,
     feeds: buildWatchlistFeedManifest(watchlistView),
     readme,
+  });
+  const decisionFeedManifest = buildDecisionFeedManifest(decisionProducts);
+  validateDecisionProductPublication({
+    artifact: decisionProducts,
+    expectedArtifact: buildDecisionProductArtifact({ ...decisionProductInput, previousArtifact: previousDecisionProductArtifact }),
+    dashboard,
+    readme,
+    feedManifest: decisionFeedManifest,
+    feeds: Object.fromEntries(decisionFeedManifest.feeds.map((feed) => [feed.path, renderDecisionFeed(decisionProducts, feed.route, {
+      repositoryUrl: repositoryBaseUrl,
+      pagesUrl: pagesBaseUrl,
+      watchlist: watchlistView,
+    })])),
+    expectedGeneratedAt: now.toISOString(),
+    companyEventOwners: canonicalCompanyEventOwners(companies, eventStore.events),
+    benchmarkResultLedger,
+    repositoryUrl: repositoryBaseUrl,
+    pagesUrl: pagesBaseUrl,
+    watchlist: watchlistView,
   });
   const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, metrics: watchlistMetrics, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({

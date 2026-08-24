@@ -88,6 +88,14 @@ test("blocks retracted, stale, and ambiguous OpenAlex records from Top research"
   assert.deepEqual(selectTopResearchDecisionCards([retracted, stale, duplicateA, duplicateB], { now: new Date("2026-08-10") }), []);
 });
 
+test("OpenAlex ownership normalization treats URL and bare work IDs as the same identity", () => {
+  const duplicateA = record({ id: "normalized-a", article: article({ id: "normalized-a", scholar: { ...article().scholar!, workId: "https://openalex.org/W-normalized" } }) });
+  const duplicateB = record({ id: "normalized-b", article: article({ id: "normalized-b", scholar: { ...article().scholar!, workId: "w-normalized" } }) });
+  const ranked = rankResearchDecisionCards([duplicateA, duplicateB], { now: new Date("2026-08-10") });
+  assert.ok(ranked.every((card) => card.gates.some((gate) => gate.code === "openalex-ambiguous")));
+  assert.deepEqual(selectTopResearchDecisionCards([duplicateA, duplicateB], { now: new Date("2026-08-10") }), []);
+});
+
 test("selects a deterministic Top 12 and is idempotent", () => {
   const records = Array.from({ length: 14 }, (_, index) => record({
     id: `paper-${String(index).padStart(2, "0")}`,

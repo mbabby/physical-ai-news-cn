@@ -92,3 +92,13 @@
 - Correction IDs and ordering MUST be deterministic. Reordered evidence, citation-count changes, and verification-clock-only updates MUST NOT create a correction.
 - Corrupt prior ledger state MUST stop publication. Both ledgers and `review/dual-ledger-metrics.json` MUST roll back together on a transaction failure.
 - `Benchmark Result Ledger` is not a ranking or leaderboard. Phase 2 MUST NOT expose an investment ranking, company score, paper score, or new public recommendation surface.
+
+## 11. Phase 3 decision-product release contract
+
+- `site/data/decision-products.json` MUST be rebuilt from the canonical EventStore, company profiles, both Phase 2 ledgers, research decision cards, research registry, and current public Watchlist. The checked-in bytes MUST equal that rebuild exactly; there is no field-level drift allowance.
+- The shared run clock is `review/run-manifest.json.startedAt`. It MUST equal the Decision Product, subscription catalog, and dashboard `generatedAt` values. Health-check observation timestamps live outside the Decision Product and are the only documented clock-only comparison exception.
+- Dashboard compatibility projections, README marker identities, RSS GUIDs, Feed order, and the Feed manifest MUST preserve the shared artifact identities and order. Renderers MUST NOT filter, rank, infer, or repair materialized facts.
+- Every company-card recent event MUST resolve to that card's canonical company. Every known Research Passport benchmark field MUST match a `verified` field with direct evidence in the Benchmark Result Ledger.
+- Exact-schema validation and recursive private-boundary scans MUST run before local transaction commit and again in `validate:release` against staged bytes. Candidate identifiers, raw model output, private scores/ranks, discovery-only facts, and undeclared fields MUST fail closed.
+- A valid week MAY have zero Top Signals while retaining valid company cards, Research Passports, and subscriptions. Empty Signals MUST NOT erase or synthesize the other product collections.
+- Fixed-input generation MUST be run twice and produce byte-identical Decision Product JSON, dashboard, README, and Feed files. Generated public assets MUST come through the existing `FileTransaction` pipeline; manual JSON/XML edits are prohibited.

@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 import { decodeWatchlistConfig as decodeTypeScriptConfig } from "../src/watchlist/config.js";
+import { stableDecisionId } from "../src/decision-products/contracts.js";
 
 const readSite = async (name: string) => readFile(new URL(`../site/${name}`, import.meta.url), "utf8");
 
@@ -37,13 +38,90 @@ test("evidence UI supports safe fallback, deep-linked details and honest empty s
   assert.match(styles, /prefers-reduced-motion/);
 });
 
+test("subscription center is static, privacy preserving and links every subscription route", async () => {
+  const html = await readSite("subscribe.html");
+  assert.match(html, /data-view=["']subscribe["']/);
+  assert.match(html, /每日检查/);
+  assert.match(html, /A 级|B\+B/);
+  assert.doesNotMatch(html, /<form\b/i);
+  assert.doesNotMatch(html, /<input[^>]+type=["']email["']/i);
+  assert.doesNotMatch(html, /<(?:script|img|iframe)[^>]+(?:src|href)=["']https?:/i);
+  assert.doesNotMatch(html, /analytics|gtag|googletagmanager|segment\.com|plausible|localStorage|sessionStorage|document\.cookie/i);
+  for (const target of [
+    "https://github.com/mbabby/physical-ai-news-cn/subscription",
+    "https://github.com/mbabby/physical-ai-news-cn/releases",
+    "feeds/decision/all.xml",
+    "feeds/decision/data-and-training.xml",
+    "feeds/decision/vla-and-embodied-models.xml",
+    "feeds/decision/world-models-and-spatial-intelligence.xml",
+    "feeds/decision/embodiment-and-hardware.xml",
+    "feeds/decision/deployment-and-commercialization.xml",
+    "feeds/decision/watchlist.xml",
+  ]) assert.match(html, new RegExp(`href=["']${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`), target);
+  assert.match(html, /id=["']subscription-watchlist-link["']/);
+  assert.match(html, /data-subscription-route/);
+  assert.match(html, /<script type=["']module["'] src=["']app\.js["']><\/script>/);
+});
+
+test("subscription route choices use the shared encoder and persist only in the URL", async () => {
+  const source = (await readSite("app.js")).replace(/^import "\.\/decision-products-validator\.js";\s*/, "");
+  const inputs = [
+    { value: "data-and-training", checked: false },
+    { value: "deployment-and-commercialization", checked: false },
+  ];
+  let onChange = () => {};
+  const controls = {
+    querySelectorAll(selector: string) { return selector.includes(":checked") ? inputs.filter((input) => input.checked) : inputs; },
+    addEventListener(name: string, listener: () => void) { if (name === "change") onChange = listener; },
+  };
+  const link = { href: "index.html#company-watchlist" };
+  const warning = { textContent: "" };
+  const replaced: string[] = [];
+  const context = {
+    console,
+    URL,
+    Intl,
+    Date,
+    document: {
+      getElementById: (id: string) => ({
+        "subscription-watchlist-controls": controls,
+        "subscription-watchlist-link": link,
+        "subscription-watchlist-warning": warning,
+      } as Record<string, unknown>)[id] ?? null,
+      body: { dataset: { view: "subscribe" }, classList: { add() {}, remove() {} } },
+      addEventListener() {},
+    },
+    navigator: {},
+    window: {
+      location: { href: "https://example.test/subscribe.html?routes=deployment-and-commercialization", origin: "https://example.test", pathname: "/subscribe.html", search: "?routes=deployment-and-commercialization", protocol: "https:" },
+      history: { replaceState(_state: unknown, _title: string, url: string) { replaced.push(url); } },
+      addEventListener() {},
+    },
+  };
+  vm.runInNewContext(source, context);
+  await Promise.resolve();
+  assert.equal(inputs[1]!.checked, true);
+  assert.equal(link.href, "index.html?routes=deployment-and-commercialization#company-watchlist");
+  assert.equal(replaced.at(-1), "/subscribe.html?routes=deployment-and-commercialization");
+
+  inputs[0]!.checked = true;
+  onChange();
+  assert.equal(link.href, "index.html?routes=data-and-training,deployment-and-commercialization#company-watchlist");
+  assert.equal(replaced.at(-1), "/subscribe.html?routes=data-and-training,deployment-and-commercialization");
+});
+
 type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: string; addEventListener: () => void };
 
 const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", value: "", addEventListener() {} });
 
 async function loadAppCompanyRenderer() {
-  const source = await readSite("app.js");
+  const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js")]);
   const mounts: Record<string, Mount> = {
+    "top-signals": mount(),
+    "developing-signals": mount(),
+    "company-radar": mount(),
+    "research": mount(),
+    "research-graph-grid": mount(),
     "company-watchlist": mount(),
     "watchlist-config-controls": mount(),
     "watchlist-company-options": mount(),
@@ -65,12 +143,14 @@ async function loadAppCompanyRenderer() {
     navigator: { clipboard: { writeText: async () => {} } },
     window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
   };
-  const instrumented = source.replace(
+  const instrumented = source.replace(/^import "\.\/decision-products-validator\.js";\s*/, "").replace(
     /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
-    "globalThis.__siteUi = { renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
+    "globalThis.__siteUi = { render, renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
   );
+  vm.runInNewContext(validator, context);
   vm.runInNewContext(instrumented, context);
   return { mounts, ...((context as typeof context & { __siteUi: {
+    render: (data: unknown) => void;
     renderCompanySection: (data: unknown) => void;
     decodeWatchlistConfig: (value: unknown, catalog: unknown) => unknown;
     encodeWatchlistConfig: (config: unknown) => string;
@@ -80,7 +160,7 @@ async function loadAppCompanyRenderer() {
 }
 
 async function loadShareCompanyRenderer() {
-  const source = await readSite("share-pages.js");
+  const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("share-pages.js")]);
   const root = mount();
   const context = {
     console,
@@ -89,16 +169,17 @@ async function loadShareCompanyRenderer() {
     document: { getElementById: () => root, body: { dataset: { view: "companies" } } },
     window: { location: { protocol: "https:", href: "https://example.test/companies.html" } },
   };
-  const instrumented = source.replace(
+  const instrumented = source.replace(/^import "\.\/decision-products-validator\.js";\s*/, "").replace(
     /const views = \{ weekly, companies, research \};[\s\S]*$/,
     "globalThis.__siteUi = { companies };",
   );
+  vm.runInNewContext(validator, context);
   vm.runInNewContext(instrumented, context);
   return { root, companies: (context as typeof context & { __siteUi: { companies: (data: unknown) => void } }).__siteUi.companies };
 }
 
 async function loadChangePageRenderer() {
-  const source = await readSite("share-pages.js");
+  const source = (await readSite("share-pages.js")).replace(/^import "\.\/decision-products-validator\.js";\s*/, "");
   const root = mount();
   const context = {
     console,
@@ -206,6 +287,160 @@ test("homepage fails closed unless companyIds exactly match the ordered current 
     assert.match(site.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/, companyIds.join(","));
     assert.doesNotMatch(site.mounts["watchlist-forward"].innerHTML, /Alpha Robotics|Beta Robotics|company-stale/, companyIds.join(","));
   }
+});
+
+const emptyDecisionArtifact = (companyCards: unknown[] = []) => ({
+  schemaVersion: 1,
+  generatedAt: "2026-08-17T01:00:00.000Z",
+  periodStart: "2026-08-11",
+  topSignals: [],
+  companyCards,
+  researchPassports: [],
+  subscriptions: { generatedAt: "2026-08-17T01:00:00.000Z", entries: [] },
+});
+
+const decisionCompanyCard = (extra: Record<string, unknown> = {}) => ({
+  cardId: stableDecisionId("company", "alpha"),
+  companyId: "alpha",
+  companyName: "Alpha Robotics",
+  officialUrl: "https://alpha.example/",
+  region: "中国",
+  stage: "成长",
+  routes: ["VLA 与具身模型"],
+  capital: { status: "unknown", summary: "证据不足（不代表未融资）", evidence: [] },
+  validationStage: "实机验证",
+  productDeployment: { status: "unknown", summary: "证据不足（不代表没有产品或部署进展）", evidence: [] },
+  recentChanges: [],
+  watchlist: { track: "unknown", lifecycle: "unknown", whyNow: "unknown", nextValidationPoints: [] },
+  unknownFields: ["capital.amount"],
+  updatedAt: "2026-08-01T00:00:00.000Z",
+  ...extra,
+});
+
+const decisionPassport = () => ({
+  passportId: stableDecisionId("research", "paper-alpha"), paperId: "paper-alpha", titleZh: "Alpha 机器人策略研究",
+  factsZh: ["论文评测了机器人策略。", "论文报告了公开基准。"], sourceUrl: "https://papers.example/alpha",
+  task: ["操作"], embodiment: ["真实机器人"], methods: "unknown",
+  benchmark: { name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [] },
+  realRobotTrials: "unknown", assets: { code: "unknown", data: "unknown", weights: "unknown" },
+  reproducibilityCost: { level: "unknown", rationale: "unknown" }, authority: { openAlexWorkId: "W1", authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" },
+  limitations: "unknown", gaps: [], whyWorthAttention: "该论文具备完整公开事实。", rankReasons: ["OpenAlex 元数据已核验"],
+});
+
+const decisionSubscription = () => ({
+  subscriptionId: "feed-all", label: "全部信号", description: "公开信号。", cadence: "weekly", format: "rss",
+  url: "https://example.test/feed.xml", route: "all",
+});
+
+const decisionSignal = () => ({
+  signalId: stableDecisionId("signal", "event-alpha"), eventId: "event-alpha", entityId: "alpha", entityName: "Alpha Robotics",
+  titleZh: "Alpha 发布机器人", factsZh: ["Alpha 发布了新机器人。", "该产品已进入公开验证。"], kind: "产品发布",
+  routes: ["VLA 与具身模型"], occurredAt: "2026-08-16T01:00:00.000Z", verifiedAt: "2026-08-17T01:00:00.000Z",
+  changedThisWeek: true, evidenceState: "official",
+  evidence: [{ evidenceId: "evidence-alpha", url: "https://alpha.example/release", source: "Alpha 官方", grade: "A" }],
+  impact: ["company", "product-deployment"], whyItMatters: "AI 研究判断：该事件提供了公开验证。", rankReasons: ["官方一手证据"],
+});
+
+const completeDecisionArtifact = () => ({
+  ...emptyDecisionArtifact([decisionCompanyCard()]),
+  topSignals: [decisionSignal()],
+  researchPassports: [decisionPassport()],
+  subscriptions: { generatedAt: "2026-08-17T01:00:00.000Z", entries: [decisionSubscription()] },
+});
+
+test("homepage keeps decision company cards and fails closed on undeclared private fields", async () => {
+  const valid = await loadAppCompanyRenderer();
+  valid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard()]), stats: {}, routes: [] });
+  assert.match(valid.mounts["company-radar"].innerHTML, /Alpha Robotics/);
+  assert.match(valid.mounts["company-radar"].innerHTML, /字段与证据/);
+  assert.doesNotMatch(valid.mounts["company-radar"].innerHTML, /待识别公司/);
+
+  const invalid = await loadAppCompanyRenderer();
+  invalid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard({ selectionScore: 99 })]), stats: {}, routes: [] });
+  assert.match(invalid.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
+  assert.doesNotMatch(invalid.mounts["company-radar"].innerHTML, /Alpha Robotics|99/);
+});
+
+test("both product renderers fail closed for every malformed nested decision boundary", async () => {
+  const mutations: Array<[string, (artifact: any) => void]> = [
+    ["periodStart", (value) => { value.periodStart = "not-a-date"; }],
+    ["offset generatedAt", (value) => { value.generatedAt = "2026-08-17T09:00:00+08:00"; }],
+    ["offset updatedAt", (value) => { value.companyCards[0].updatedAt = "2026-08-01T08:00:00+08:00"; }],
+    ["numeric route", (value) => { value.companyCards[0].routes = [42]; }],
+    ["validation stage", (value) => { value.companyCards[0].validationStage = "已量产"; }],
+    ["capital extra", (value) => { value.companyCards[0].capital.undeclared = true; }],
+    ["product extra", (value) => { value.companyCards[0].productDeployment.undeclared = true; }],
+    ["watchlist extra", (value) => { value.companyCards[0].watchlist.undeclared = true; }],
+    ["passport benchmark extra", (value) => { value.researchPassports[0].benchmark.undeclared = true; }],
+    ["passport assets extra", (value) => { value.researchPassports[0].assets.undeclared = true; }],
+    ["passport authority extra", (value) => { value.researchPassports[0].authority.undeclared = true; }],
+    ["subscription extra", (value) => { value.subscriptions.entries[0].undeclared = true; }],
+    ["recentChanges type", (value) => { value.companyCards[0].recentChanges = {}; }],
+    ["validation points type", (value) => { value.companyCards[0].watchlist.nextValidationPoints = {}; }],
+    ["passport gaps type", (value) => { value.researchPassports[0].gaps = "unknown"; }],
+    ["subscriptions type", (value) => { value.subscriptions.entries = {}; }],
+    ["missing collection", (value) => { delete value.companyCards; }],
+    ["signal identity", (value) => { value.topSignals[0].signalId = stableDecisionId("signal", "event-other"); }],
+    ["signal kind", (value) => { value.topSignals[0].kind = "传闻"; }],
+    ["signal facts", (value) => { value.topSignals[0].factsZh = ["不完整"]; }],
+    ["signal timestamp", (value) => { value.topSignals[0].occurredAt = "2026-08-16T09:00:00+08:00"; }],
+    ["signal boolean", (value) => { value.topSignals[0].changedThisWeek = 1; }],
+    ["signal evidence state", (value) => { value.topSignals[0].evidenceState = "verified"; }],
+    ["signal evidence extra", (value) => { value.topSignals[0].evidence[0].undeclared = true; }],
+    ["signal evidence URL", (value) => { value.topSignals[0].evidence[0].url = "javascript:alert(1)"; }],
+    ["signal evidence grade", (value) => { value.topSignals[0].evidence[0].grade = "C"; }],
+    ["signal impact", (value) => { value.topSignals[0].impact = ["rumor"]; }],
+    ["company identity", (value) => { value.companyCards[0].cardId = stableDecisionId("company", "other"); }],
+    ["fact status", (value) => { value.companyCards[0].capital.status = "absent"; }],
+    ["fact evidence type", (value) => { value.companyCards[0].productDeployment.evidence = {}; }],
+    ["change extra", (value) => { value.companyCards[0].recentChanges = [{ eventId: "event-change", title: "变化", occurredAt: "2026-08-16T01:00:00.000Z", type: "产品发布", undeclared: true }]; }],
+    ["watchlist track", (value) => { value.companyCards[0].watchlist.track = "private"; }],
+    ["watchlist date", (value) => { value.companyCards[0].watchlist.nextValidationPoints = [{ text: "核验部署。", dueAt: "2026-02-30" }]; }],
+    ["unknown fields", (value) => { value.companyCards[0].unknownFields = [42]; }],
+    ["passport identity", (value) => { value.researchPassports[0].passportId = stableDecisionId("research", "paper-other"); }],
+    ["passport source URL", (value) => { value.researchPassports[0].sourceUrl = "/relative"; }],
+    ["passport task type", (value) => { value.researchPassports[0].task = [42]; }],
+    ["passport benchmark evidence", (value) => { value.researchPassports[0].benchmark.name = "LIBERO"; }],
+    ["passport trials", (value) => { value.researchPassports[0].realRobotTrials = -1; }],
+    ["passport asset URL", (value) => { value.researchPassports[0].assets.code = "javascript:alert(1)"; }],
+    ["passport cost", (value) => { value.researchPassports[0].reproducibilityCost = { level: "low", rationale: "unknown" }; }],
+    ["passport authority count", (value) => { value.researchPassports[0].authority.citedByCount = -1; }],
+    ["passport authority timestamp", (value) => { value.researchPassports[0].authority.checkedAt = "2026-08-17T09:00:00+08:00"; }],
+    ["passport OpenAlex identity", (value) => { value.researchPassports[0].authority.openAlexWorkId = "https://example.com/W1"; }],
+    ["passport limitations", (value) => { value.researchPassports[0].limitations = []; }],
+    ["subscription id", (value) => { value.subscriptions.entries[0].subscriptionId = " feed-all "; }],
+    ["subscription cadence", (value) => { value.subscriptions.entries[0].cadence = "monthly"; }],
+    ["subscription format", (value) => { value.subscriptions.entries[0].format = "email"; }],
+    ["subscription URL", (value) => { value.subscriptions.entries[0].url = "mailto:test@example.com"; }],
+    ["subscription route", (value) => { value.subscriptions.entries[0].route = "private-route"; }],
+    ["candidate boundary", (value) => { value.companyCards[0].watchlist.whyNow = "candidate-secret"; }],
+    ["private key boundary", (value) => { value.researchPassports[0].rawModelOutput = "secret"; }],
+    ["private narrative", (value) => { value.topSignals[0].rankReasons = ["internal score 99"]; }],
+  ];
+  for (const [label, mutate] of mutations) {
+    const artifact = completeDecisionArtifact();
+    mutate(artifact);
+    const app = await loadAppCompanyRenderer();
+    assert.doesNotThrow(() => app.render({ decisionProducts: artifact, stats: {}, routes: [] }), label);
+    assert.match(app.mounts["top-signals"].innerHTML, /未通过公开契约校验/, label);
+    const share = await loadShareCompanyRenderer();
+    assert.doesNotThrow(() => share.companies({ decisionProducts: artifact }), label);
+    assert.match(share.root.innerHTML, /未通过公开契约校验/, label);
+  }
+});
+
+test("browser stable IDs match Node UTF-8 replacement for lone surrogates", async () => {
+  const artifact = completeDecisionArtifact();
+  artifact.topSignals[0].eventId = "event-\ud800";
+  artifact.topSignals[0].signalId = stableDecisionId("signal", artifact.topSignals[0].eventId);
+  const app = await loadAppCompanyRenderer();
+  app.render({ decisionProducts: artifact, stats: {}, routes: [] });
+  assert.doesNotMatch(app.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
+  assert.match(app.mounts["top-signals"].innerHTML, /Alpha 发布机器人/);
+  const share = await loadShareCompanyRenderer();
+  share.companies({ decisionProducts: artifact });
+  assert.doesNotMatch(share.root.innerHTML, /未通过公开契约校验/);
+  assert.match(share.root.innerHTML, /Alpha Robotics/);
 });
 
 test("company share page places watchlist and changes before score-free legacy dossiers", async () => {

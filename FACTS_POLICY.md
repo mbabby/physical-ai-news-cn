@@ -45,3 +45,11 @@ Watchlist 只发布由当前不可变快照引用的公司判断、规范证据�
 `Company Claim Ledger` 把融资、产品、客户与部署拆成独立字段；`Benchmark Result Ledger` 把论文中的基准、指标、结果、基线、真实机器人试验与复现资产拆成独立字段。两个账本共用四种字段状态：`verified` 表示字段值已有满足门槛的直接证据，`developing` 表示有可追溯但尚未完成交叉核验的暂定值，`conflicted` 表示至少两项证据支持不同值，`unknown` 表示当前证据无法给出值。`unknown` 不代表没有、不存在或未融资，只表示不可由现有证据作出结论。
 
 字段变化以 `new-evidence`、`conflict-detected`、`conflict-resolved`、`source-withdrawn` 或 `metadata-correction` 记录 before/after、证据和时间；仅核验时钟变化不得制造纠错记录。发现层证据不得进入已知字段。`Benchmark Result Ledger` 不构成论文排名或 SOTA 榜单，它只保存作者报告且可追溯的结构化实验事实；是否能独立复现仍需单独证据。
+
+## Phase 3 决策产品公开语义
+
+- **Top Signals** 只接收规范事件中心中具备一项非发现层 A 级证据，或至少两项来源与域名均独立的 B 级证据的事件。它展示已物化的证据理由与顺序，不在 README、Pages 或 Feed 中重新评分；当一周没有合格事件时，公开列表保持为空，不以候选线索补位。
+- **30 秒公司卡** 逐字段投影 Company Claim Ledger。`unknown` 统一解释为“现有证据不足以得出结论”，不代表“没有融资”“没有产品”或“没有部署”；冲突字段不显示兼容值。卡片中的近期事件必须归属于同一个规范公司实体。
+- **Research Passport** 不是论文质量榜单或独立复现证明。已知的基准、指标、结果、基线与差值只能来自 Benchmark Result Ledger 中同一论文、状态为 `verified` 且附直接证据的字段；缺失、含混、过期、撤稿或仅仿真的部分保持 `unknown` 或进入 limitations/gaps。
+- **订阅中心** 仅提供 GitHub、静态 RSS 与 URL 分享入口，不收集邮箱、账户、点击、访问或个性化数据，不运行推荐后端。所有 Feed 保留共享工件中的身份与顺序。
+- **更正** 从规范事件、字段账本或不可变 Watchlist 快照开始，经下一次完整发布重新物化到 JSON、dashboard、README 与 Feed。任何一个公开表面不一致都会阻止整组交换并保留上一版；不得直接手改某个镜像来“修正”事实。
