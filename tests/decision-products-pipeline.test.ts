@@ -35,6 +35,7 @@ const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], fail
 async function fixedRepository(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "decision-products-pipeline-"));
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
   await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
@@ -60,6 +61,18 @@ async function generateFixed(root: string, transaction?: FileTransaction) {
 async function decisionProductBytes(root: string): Promise<Record<string, string>> {
   return Object.fromEntries(await Promise.all(DECISION_PATHS.map(async (path) => [path, await readFile(join(root, path), "utf8")] as const)));
 }
+
+test("fixed-clock fixture does not import repository Decision Product history", async () => {
+  const root = await fixedRepository();
+  try {
+    await assert.rejects(
+      () => readFile(join(root, "site/data/decision-products.json"), "utf8"),
+      (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT",
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
 
 test("one artifact drives JSON, dashboard, README and feeds without reorder", async () => {
   const root = await fixedRepository();

@@ -20,6 +20,7 @@ const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], fail
 
 async function copyFixture(target: string): Promise<void> {
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
   await rm(join(target, "watchlist", "history"), { recursive: true, force: true });

@@ -94,6 +94,7 @@ async function seedDeterministicResearchState(root: string): Promise<void> {
 async function copyFixture(target: string): Promise<void> {
   await mkdir(target, { recursive: true });
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   // Daily archives, research metadata and source registries are mutable
   // production inputs. Copying them into a fixed-clock integration fixture
   // lets a real refresh leak into the test: the first generation enriches the

@@ -107,6 +107,7 @@ async function writeJson(path: string, value: unknown): Promise<void> {
 async function generatedReleaseFixture(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "task7-release-contract-"));
   for (const path of FIXTURE_PATHS) await cp(join(root, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
   await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
