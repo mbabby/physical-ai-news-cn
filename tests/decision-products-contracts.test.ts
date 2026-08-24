@@ -8,7 +8,7 @@ function validDecisionProductArtifact(): any {
     generatedAt: "2026-08-24T01:00:00Z",
     periodStart: "2026-08-18",
     topSignals: [{
-      signalId: "decision-signal-alpha",
+      signalId: stableDecisionId("signal", "event-alpha"),
       eventId: "event-alpha",
       entityId: "company-alpha",
       entityName: "Alpha Robotics",
@@ -26,7 +26,7 @@ function validDecisionProductArtifact(): any {
       rankReasons: ["本周发生实质变化"],
     }],
     companyCards: [{
-      cardId: "decision-company-alpha",
+      cardId: stableDecisionId("company", "company-alpha"),
       companyId: "company-alpha",
       companyName: "Alpha Robotics",
       officialUrl: "https://alpha.example/",
@@ -55,7 +55,7 @@ function validDecisionProductArtifact(): any {
       updatedAt: "2026-08-24T01:00:00Z",
     }],
     researchPassports: [{
-      passportId: "decision-research-paper-alpha",
+      passportId: stableDecisionId("research", "paper-alpha"),
       paperId: "paper-alpha",
       titleZh: "一种机器人操作方法",
       factsZh: ["该方法面向机器人操作。", "论文报告了真实机器人试验。"],
@@ -169,6 +169,7 @@ test("known public facts require evidence while unknown remains explicit", () =>
 
   const unknown = validDecisionProductArtifact();
   unknown.companyCards[0].capital = { status: "unknown", summary: "证据不足（不代表未融资）", evidence: [] };
+  unknown.companyCards[0].productDeployment = { status: "unknown", summary: "证据不足（不代表没有产品或部署进展）", evidence: [] };
   unknown.researchPassports[0].benchmark = {
     name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [],
   };
@@ -181,6 +182,19 @@ test("known public facts require evidence while unknown remains explicit", () =>
   unknown.researchPassports[0].authority = { authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" };
   unknown.researchPassports[0].limitations = "unknown";
   assert.doesNotThrow(() => validateDecisionProductArtifact(unknown));
+});
+
+test("unknown company facts reject negative or noncanonical summaries", () => {
+  for (const summary of ["该公司没有融资", "该公司未融资", "暂无融资信息", "证据不足"]) {
+    const forged = validDecisionProductArtifact();
+    forged.companyCards[0].capital = { status: "unknown", summary, evidence: [] };
+    assert.throws(() => validateDecisionProductArtifact(forged));
+  }
+  for (const summary of ["该公司没有产品部署", "该公司尚未部署", "暂无产品进展", "证据不足（不代表未融资）"]) {
+    const forged = validDecisionProductArtifact();
+    forged.companyCards[0].productDeployment = { status: "unknown", summary, evidence: [] };
+    assert.throws(() => validateDecisionProductArtifact(forged));
+  }
 });
 
 test("evidence state and public evidence grades must agree", () => {
@@ -214,11 +228,40 @@ test("multi-source evidence requires independent source origins", () => {
 });
 
 test("rejects private score diagnostics hidden in public text", () => {
+  for (const diagnostic of [
+    "internalScore: 99", "rankScore=12", "selectionScore=88", "momentumScore=77",
+    "selection score 88", "internal_score: 99", "private score 42", "private rank 1",
+    "内部诊断：高优先级", "内部选择分数 88", "内部排名 1",
+  ]) {
+    const forged = validDecisionProductArtifact();
+    forged.topSignals[0].rankReasons = [diagnostic];
+    assert.throws(() => validateDecisionProductArtifact(forged), undefined, diagnostic);
+  }
+
   for (const mutate of [
-    (value: any) => { value.topSignals[0].rankReasons = ["internalScore: 99"]; },
-    (value: any) => { value.topSignals[0].whyItMatters = "rankScore=12"; },
-    (value: any) => { value.topSignals[0].rankReasons = ["internal score: 99"]; },
-    (value: any) => { value.topSignals[0].whyItMatters = "rank_score=12"; },
+    (value: any) => { value.companyCards[0].capital.summary = "private score 42"; },
+    (value: any) => { value.companyCards[0].watchlist.whyNow = "内部排名 1"; },
+  ]) {
+    const forged = validDecisionProductArtifact();
+    mutate(forged);
+    assert.throws(() => validateDecisionProductArtifact(forged));
+  }
+});
+
+test("allows score and rank terms in legitimate factual fields", () => {
+  const valid = validDecisionProductArtifact();
+  valid.researchPassports[0].titleZh = "Learning to Rank 机器人策略";
+  valid.researchPassports[0].benchmark.metric = "CLIP Score";
+  valid.researchPassports[0].benchmark.evidenceUrls = ["https://papers.example/score"];
+  valid.topSignals[0].evidence[0].url = "https://alpha.example/rank";
+  assert.doesNotThrow(() => validateDecisionProductArtifact(valid));
+});
+
+test("public product IDs are bound to canonical identities", () => {
+  for (const mutate of [
+    (value: any) => { value.topSignals[0].signalId = stableDecisionId("signal", `${value.topSignals[0].eventId}\n2026-08-24T01:00:00Z`); },
+    (value: any) => { value.companyCards[0].cardId = stableDecisionId("company", "company-other"); },
+    (value: any) => { value.researchPassports[0].passportId = stableDecisionId("research", "paper-other"); },
   ]) {
     const forged = validDecisionProductArtifact();
     mutate(forged);
@@ -238,7 +281,7 @@ test("rejects whitespace-padded identities before duplicate checks", () => {
   const forged = validDecisionProductArtifact();
   forged.topSignals.push({
     ...structuredClone(forged.topSignals[0]),
-    signalId: " decision-signal-alpha-copy ",
+    signalId: ` ${stableDecisionId("signal", "event-alpha-copy")} `,
     eventId: " event-alpha ",
   });
   assert.throws(() => validateDecisionProductArtifact(forged));

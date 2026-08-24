@@ -107,7 +107,8 @@ const VALIDATION_STAGES = new Set<ValidationStage>(["证据不足", "概念 / �
 const EVIDENCE_GRADES = new Set<DecisionEvidenceGrade>(["A", "B", "学术"]);
 const IMPACTS = new Set(["company", "capital", "product-deployment", "research"]);
 const PRIVATE_KEYS = new Set(["rawModelOutput", "internalScore", "rankScore"]);
-const PRIVATE_TEXT = /\b(?:internal|rank)[ _-]?score\b/i;
+const EXPLICIT_PRIVATE_TEXT = /(?:internal|selection|momentum|rank)[ _-]?(?:score|rank)\b|内部诊断/i;
+const NARRATIVE_PRIVATE_TEXT = /\b(?:score|rank)\b|分数|排名|内部诊断/i;
 const CANDIDATE_ID = /\bcandidate[-_.:/]+[a-z0-9][a-z0-9_.:/-]*/i;
 const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -154,7 +155,7 @@ function exactKeys(value: unknown, keys: readonly string[], path: string): asser
 function scanPrivateBoundary(value: unknown, path = "artifact"): void {
   if (typeof value === "string") {
     ensure(!CANDIDATE_ID.test(value), `${path} contains a candidate identifier`);
-    ensure(!PRIVATE_TEXT.test(value), `${path} contains private score diagnostics`);
+    ensure(!EXPLICIT_PRIVATE_TEXT.test(value), `${path} contains private score diagnostics`);
     return;
   }
   if (Array.isArray(value)) {
@@ -166,6 +167,15 @@ function scanPrivateBoundary(value: unknown, path = "artifact"): void {
     ensure(!PRIVATE_KEYS.has(key), `${path}.${key} is private`);
     scanPrivateBoundary(nested, `${path}.${key}`);
   }
+}
+
+function scanNarrativeBoundary(value: unknown, path: string): void {
+  if (typeof value === "string") {
+    ensure(!NARRATIVE_PRIVATE_TEXT.test(value), `${path} contains private score or rank diagnostics`);
+    return;
+  }
+  if (Array.isArray(value)) value.forEach((item, index) => scanNarrativeBoundary(item, `${path}[${index}]`));
+  else if (object(value)) Object.entries(value).forEach(([key, nested]) => scanNarrativeBoundary(nested, `${path}.${key}`));
 }
 
 function nonEmpty(value: unknown): value is string {
@@ -235,7 +245,10 @@ function validateEvidenceList(value: unknown, path: string, allowEmpty: boolean)
 
 function validateTopSignal(value: unknown, path: string): asserts value is DecisionTopSignal {
   exactKeys(value, SIGNAL_KEYS, path);
-  for (const key of ["signalId", "eventId", "entityId"] as const) ensure(canonicalIdentifier(value[key]), `${path}.${key} must be canonical`);
+  const { signalId, eventId } = value;
+  ensure(canonicalIdentifier(signalId) && canonicalIdentifier(eventId), `${path} signal identity must be canonical`);
+  ensure(canonicalIdentifier(value.entityId), `${path}.entityId must be canonical`);
+  ensure(signalId === stableDecisionId("signal", eventId), `${path}.signalId is not bound to eventId`);
   for (const key of ["entityName", "titleZh", "whyItMatters"] as const) ensure(nonEmpty(value[key]), `${path}.${key} must be non-empty`);
   ensure(exactPair(value.factsZh), `${path}.factsZh must contain exactly two facts`);
   ensure(ARTICLE_KINDS.has(value.kind as ArticleKind), `${path}.kind is invalid`);
@@ -255,15 +268,18 @@ function validateTopSignal(value: unknown, path: string): asserts value is Decis
   }
   ensure(uniqueStrings(value.impact, false) && value.impact.every((impact) => IMPACTS.has(impact)), `${path}.impact is invalid`);
   ensure(uniqueStrings(value.rankReasons, false), `${path}.rankReasons must be non-empty and unique`);
+  scanNarrativeBoundary([value.whyItMatters, value.rankReasons], path);
 }
 
-function validateFactStatus(value: unknown, path: string): void {
+function validateFactStatus(value: unknown, path: string, unknownSummary: string): void {
   exactKeys(value, FACT_STATUS_KEYS, path);
   ensure(["verified", "developing", "unknown", "conflicted"].includes(String(value.status)), `${path}.status is invalid`);
   ensure(nonEmpty(value.summary), `${path}.summary must be non-empty`);
+  scanNarrativeBoundary(value.summary, `${path}.summary`);
   validateEvidenceList(value.evidence, `${path}.evidence`, true);
   const evidence = value.evidence as DecisionEvidence[];
   ensure(value.status === "unknown" ? evidence.length === 0 : evidence.length > 0, `${path} status and evidence disagree`);
+  if (value.status === "unknown") ensure(value.summary === unknownSummary, `${path} unknown summary must remain non-negative and canonical`);
   if (value.status === "verified") {
     const highConfidence = evidence.some((item) => item.grade === "A" || item.grade === "学术")
       || (evidence.filter((item) => item.grade === "B").length >= 2
@@ -274,13 +290,15 @@ function validateFactStatus(value: unknown, path: string): void {
 
 function validateCompanyCard(value: unknown, path: string): asserts value is DecisionCompanyCard {
   exactKeys(value, COMPANY_KEYS, path);
-  for (const key of ["cardId", "companyId"] as const) ensure(canonicalIdentifier(value[key]), `${path}.${key} must be canonical`);
+  const { cardId, companyId } = value;
+  ensure(canonicalIdentifier(cardId) && canonicalIdentifier(companyId), `${path} company identity must be canonical`);
+  ensure(cardId === stableDecisionId("company", companyId), `${path}.cardId is not bound to companyId`);
   for (const key of ["companyName", "region", "stage"] as const) ensure(nonEmpty(value[key]), `${path}.${key} must be non-empty`);
   ensure(absoluteUrl(value.officialUrl), `${path}.officialUrl must be absolute HTTP(S)`);
   ensure(uniqueStrings(value.routes, false) && value.routes.every((route) => TECHNICAL_ROUTES.has(route as TechnicalRoute)), `${path}.routes are invalid`);
-  validateFactStatus(value.capital, `${path}.capital`);
+  validateFactStatus(value.capital, `${path}.capital`, "证据不足（不代表未融资）");
   ensure(VALIDATION_STAGES.has(value.validationStage as ValidationStage), `${path}.validationStage is invalid`);
-  validateFactStatus(value.productDeployment, `${path}.productDeployment`);
+  validateFactStatus(value.productDeployment, `${path}.productDeployment`, "证据不足（不代表没有产品或部署进展）");
   ensure(Array.isArray(value.recentChanges), `${path}.recentChanges must be an array`);
   value.recentChanges.forEach((change, index) => {
     exactKeys(change, CHANGE_KEYS, `${path}.recentChanges[${index}]`);
@@ -292,6 +310,7 @@ function validateCompanyCard(value: unknown, path: string): asserts value is Dec
   exactKeys(value.watchlist, WATCHLIST_KEYS, `${path}.watchlist`);
   ensure(["forward-radar", "validated-momentum", "unknown"].includes(String(value.watchlist.track)), `${path}.watchlist.track is invalid`);
   ensure(nonEmpty(value.watchlist.lifecycle) && nonEmpty(value.watchlist.whyNow), `${path}.watchlist strings must be non-empty`);
+  scanNarrativeBoundary(value.watchlist, `${path}.watchlist`);
   ensure(Array.isArray(value.watchlist.nextValidationPoints), `${path}.watchlist.nextValidationPoints must be an array`);
   value.watchlist.nextValidationPoints.forEach((point, index) => {
     exactKeys(point, VALIDATION_POINT_KEYS, `${path}.watchlist.nextValidationPoints[${index}]`);
@@ -307,7 +326,9 @@ function unknownOrStrings(value: unknown): boolean {
 
 function validatePassport(value: unknown, path: string): asserts value is ReproducibilityPassport {
   exactKeys(value, PASSPORT_KEYS, path);
-  for (const key of ["passportId", "paperId"] as const) ensure(canonicalIdentifier(value[key]), `${path}.${key} must be canonical`);
+  const { passportId, paperId } = value;
+  ensure(canonicalIdentifier(passportId) && canonicalIdentifier(paperId), `${path} research identity must be canonical`);
+  ensure(passportId === stableDecisionId("research", paperId), `${path}.passportId is not bound to paperId`);
   for (const key of ["titleZh", "whyWorthAttention"] as const) ensure(nonEmpty(value[key]), `${path}.${key} must be non-empty`);
   ensure(exactPair(value.factsZh), `${path}.factsZh must contain exactly two facts`);
   ensure(absoluteUrl(value.sourceUrl), `${path}.sourceUrl must be absolute HTTP(S)`);
@@ -331,6 +352,7 @@ function validatePassport(value: unknown, path: string): asserts value is Reprod
   ensure(value.limitations === "unknown" || uniqueStrings(value.limitations, false), `${path}.limitations is invalid`);
   ensure(uniqueStrings(value.gaps), `${path}.gaps must be unique strings`);
   ensure(uniqueStrings(value.rankReasons, false), `${path}.rankReasons must be non-empty and unique`);
+  scanNarrativeBoundary([value.whyWorthAttention, value.rankReasons], path);
 }
 
 function validateCatalog(value: unknown, path: string): asserts value is SubscriptionCatalog {
