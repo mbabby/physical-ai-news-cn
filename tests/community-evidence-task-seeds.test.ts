@@ -149,6 +149,21 @@ test("keeps task identity stable across non-material observation clock refreshes
   assert.deepEqual(second.seeds.map((seed) => seed.id), first.seeds.map((seed) => seed.id));
 });
 
+test("canonicalizes unordered deployment metadata before deriving task identity", () => {
+  const event = deployment({
+    openQuestions: ["部署规模待补充"],
+    productDeployment: { product: "Atlas-X", customers: ["Acme", "Beta"], deployment: "工厂试点" },
+  });
+  const build = (item: EventRecord) => buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [] },
+    events: { updatedAt: GENERATED_AT, events: [item] },
+    researchRecords: [],
+    researchCards: [],
+  })).seeds[0]!.id;
+
+  assert.equal(build({ ...event, productDeployment: { ...event.productDeployment!, customers: ["Beta", "Acme"] } }), build(event));
+});
+
 test("rejects unsafe, terminal, ambiguous, or unsupported seed inputs", () => {
   const safePaper = research();
   const safeCard = materializeResearchDecisionCard(safePaper, { now: new Date(GENERATED_AT) });
@@ -163,17 +178,24 @@ test("rejects unsafe, terminal, ambiguous, or unsupported seed inputs", () => {
     ["unresolved company", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ status: "候选" })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
     ["company without a public reference", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ officialUrl: undefined, evidence: [] })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
     ["company with only an internal review reference", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ officialUrl: "https://alpha.example/review/private", evidence: [] })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
+    ["company with an invalid official URL and another gap", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ officialUrl: "http://alpha.invalid", openQuestions: ["融资金额待补充"] })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
     ["company with multiple gaps", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ openQuestions: ["融资金额待补充", "融资轮次待补充"] })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
     ["company with an unsupported negative", { companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ openQuestions: ["该公司没有融资"] })] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [], researchCards: [] }],
     ["unresolved event subject", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ primaryEntity: undefined })] }, researchRecords: [], researchCards: [] }],
+    ["blank event identity", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ id: "" })] }, researchRecords: [], researchCards: [] }],
+    ["blank event title", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ title: "   " })] }, researchRecords: [], researchCards: [] }],
+    ["pending event", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ status: "核验中" })] }, researchRecords: [], researchCards: [] }],
+    ["event with weak evidence", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ evidence: [{ ...deployment().evidence[0]!, grade: "C" }] })] }, researchRecords: [], researchCards: [] }],
     ["event without a public reference", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ evidence: [] })] }, researchRecords: [], researchCards: [] }],
     ["withdrawn event", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [withdrawnEvent] }, researchRecords: [], researchCards: [] }],
     ["event with multiple gaps", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ openQuestions: ["客户名称待补充", "部署地点待补充"] })] }, researchRecords: [], researchCards: [] }],
     ["event with an unsupported negative", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ openQuestions: ["该产品没有部署"] })] }, researchRecords: [], researchCards: [] }],
     ["event with an unsupported English negative", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ openQuestions: ["There is no deployment"] })] }, researchRecords: [], researchCards: [] }],
+    ["event with an inflected English negative", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [deployment({ openQuestions: ["The product was not deployed"] })] }, researchRecords: [], researchCards: [] }],
     ["research without a public reference", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [{ ...safePaper, article: { ...safePaper.article, link: "" } }], researchCards: [safeCard] }],
     ["retracted research", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [retractedPaper], researchCards: [materializeResearchDecisionCard(retractedPaper, { now: new Date(GENERATED_AT) })] }],
     ["research with multiple gaps", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [sparsePaper], researchCards: [materializeResearchDecisionCard(sparsePaper, { now: new Date(GENERATED_AT) })] }],
+    ["research with a blank public title", { companyCandidates: { updatedAt: GENERATED_AT, companies: [] }, events: { updatedAt: GENERATED_AT, events: [] }, researchRecords: [{ ...safePaper, article: { ...safePaper.article, title: " ", titleZh: " " } }], researchCards: [safeCard] }],
   ];
 
   for (const [name, overrides] of cases) {

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { derivePublication } from "../facts-contract.js";
 import type { ResearchDecisionCard } from "../research-decision-card.js";
 import type { CandidateCompany, CandidateCompanyRegistry, EventRecord, EventStore, ResearchRecord } from "../types.js";
 import {
@@ -26,7 +27,7 @@ const targetPriority: Record<EvidenceTaskCategory, EvidenceTargetField[]> = {
   "research-metadata": ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"],
 };
 
-const UNSUPPORTED_NEGATIVE = /未融资|没有融资|不存在融资|没有部署|不存在部署|没有代码|不存在代码|\bno (?:funding|deployment|code)\b/i;
+const UNSUPPORTED_NEGATIVE = /(?:未曾|尚未|并未|没有|不存在|无)(?:融资|部署|代码)|\b(?:no|without|not|never)\b.{0,32}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,32}\bnot\b/i;
 const TERMINAL_EVIDENCE_STATES = new Set(["rejected", "conflicted", "withdrawn"]);
 const INTERNAL_REVIEW_URL = /https:\/\/[^\s"']*(?:\/|%2f|=)review(?:\/|%2f|[?#&]|$)/i;
 const REPLY_TEMPLATE = "证据链接：\n证据摘录：\n来源类型：";
@@ -153,35 +154,44 @@ function companySeed(candidate: CandidateCompany, generatedWeek: string): Eviden
   const lifecycle = (candidate as CandidateCompany & { evidenceState?: string }).evidenceState;
   if ((candidate.status !== "观察中" && candidate.status !== "已交叉核验") || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "")) return undefined;
   if (!candidate.id.trim() || !normalizedName(candidate.name) || hasUnsupportedNegative(candidate.openQuestions)) return undefined;
+  const officialUrl = canonicalHttps(candidate.officialUrl);
   const publicReferences = references([
-    candidate.officialUrl,
+    officialUrl,
     ...candidate.evidence.filter((item) => !(item as typeof item & { withdrawn?: boolean }).withdrawn).map((item) => item.link),
   ]);
   if (!publicReferences.length) return undefined;
   const gaps = questionGaps("company-funding", candidate.openQuestions);
-  if (!candidate.officialUrl) gaps.add("company.officialUrl");
+  if (!officialUrl) gaps.add("company.officialUrl");
   const targetField = singlePriorityGap("company-funding", gaps);
   if (!targetField) return undefined;
-  const subject: EvidenceSubject = { kind: "company", id: candidate.id.trim(), name: normalizedName(candidate.name), url: canonicalHttps(candidate.officialUrl) ?? publicReferences[0]! };
+  const subject: EvidenceSubject = { kind: "company", id: candidate.id.trim(), name: normalizedName(candidate.name), url: officialUrl ?? publicReferences[0]! };
   return seed("company-funding", subject, targetField, publicReferences, generatedWeek, { openQuestions: sorted(candidate.openQuestions) });
 }
 
 function eventSeed(event: EventRecord, generatedWeek: string): EvidenceTaskSeed | undefined {
   const lifecycle = (event as EventRecord & { evidenceState?: string }).evidenceState;
   const activeEvidence = event.evidence.filter((item) => !(item as typeof item & { withdrawn?: boolean }).withdrawn);
-  if (!event.productDeployment || !event.primaryEntity?.trim() || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "") || activeEvidence.length !== event.evidence.length) return undefined;
+  const subjectName = normalizedName(event.title);
+  const publication = derivePublication({ evidence: event.evidence, evidenceState: lifecycle as "rejected" | "conflicted" | "withdrawn" | undefined });
+  if (!event.productDeployment || !event.id.trim() || !subjectName || !event.primaryEntity?.trim()
+    || (event.status !== "已确证" && event.status !== "持续跟踪") || !publication.publicEligible
+    || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "") || activeEvidence.length !== event.evidence.length) return undefined;
   if (hasUnsupportedNegative([...event.facts, ...event.openQuestions])) return undefined;
-  const publicReferences = references(activeEvidence.map((item) => item.link));
+  const publicReferences = references(activeEvidence.filter((item) => item.grade === "A" || item.grade === "B").map((item) => item.link));
   if (!publicReferences.length) return undefined;
   const gaps = questionGaps("product-deployment", event.openQuestions);
   if (!event.productDeployment.customers.length) gaps.add("deployment.customer");
   if (!event.occurredAt && !event.eventDate) gaps.add("product.releaseDate");
   const targetField = singlePriorityGap("product-deployment", gaps);
   if (!targetField) return undefined;
-  const subject: EvidenceSubject = { kind: "event", id: event.id.trim(), name: normalizedName(event.title), url: publicReferences[0]! };
+  const subject: EvidenceSubject = { kind: "event", id: event.id.trim(), name: subjectName, url: publicReferences[0]! };
   return seed("product-deployment", subject, targetField, publicReferences, generatedWeek, {
     openQuestions: sorted(event.openQuestions),
-    productDeployment: event.productDeployment,
+    productDeployment: {
+      product: event.productDeployment.product,
+      customers: sorted(event.productDeployment.customers),
+      deployment: event.productDeployment.deployment,
+    },
   });
 }
 
@@ -190,8 +200,9 @@ function unknown(value: { value: unknown }): boolean {
 }
 
 function researchSeed(record: ResearchRecord, card: ResearchDecisionCard, generatedWeek: string): EvidenceTaskSeed | undefined {
+  const subjectName = normalizedName(record.article.titleZh ?? record.article.title);
   if (record.status === "已撤稿" || record.status === "待复核" || card.openAlex.retraction.value === true) return undefined;
-  if (card.identity.paperId.value !== record.id || !record.id.trim() || hasUnsupportedNegative([record.article.title, record.article.excerpt])) return undefined;
+  if (card.identity.paperId.value !== record.id || !record.id.trim() || !subjectName || hasUnsupportedNegative([record.article.title, record.article.excerpt])) return undefined;
   const publicReferences = references([
     record.article.link,
     ...Object.values(card.fieldEvidence).flat(),
@@ -207,7 +218,7 @@ function researchSeed(record: ResearchRecord, card: ResearchDecisionCard, genera
   if (!targetField) return undefined;
   const articleUrl = canonicalHttps(record.article.link);
   if (!articleUrl) return undefined;
-  const subject: EvidenceSubject = { kind: "research", id: record.id.trim(), name: normalizedName(record.article.titleZh ?? record.article.title), url: articleUrl };
+  const subject: EvidenceSubject = { kind: "research", id: record.id.trim(), name: subjectName, url: articleUrl };
   return seed("research-metadata", subject, targetField, publicReferences, generatedWeek, { factHash: record.factHash });
 }
 
