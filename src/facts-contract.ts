@@ -136,7 +136,7 @@ const EVENT_KIND_ALIASES: Record<string, PublicEventKind> = {
   "independent-replication": "independent-replication", "独立复现": "independent-replication",
 };
 
-const DISCOVERY_SOURCE = /google news|hacker news|\bhn\b|(?:^|\s)x\s*[··]|twitter|news\.google\.com/i;
+const DISCOVERY_SOURCE = /google news|hacker news|\bhn\b|(?:^|\s)x\s*[··]|twitter|news\.google\.com|news\.ycombinator\.com|(?:^|[/:.\s])x\.com(?:[/:?\s]|$)/i;
 
 function knownTimestamp(value: string | undefined): KnownOrUnknown {
   return value && Number.isFinite(Date.parse(value)) ? value : UNKNOWN;
@@ -158,7 +158,7 @@ function originFor(evidence: PublicFactEvidence, index: number): string {
   return evidence.source?.trim().toLowerCase() || `unattributed-${index + 1}`;
 }
 
-function isDiscoveryEvidence(evidence: PublicFactEvidence): boolean {
+export function isDiscoveryEvidence(evidence: PublicFactEvidence): boolean {
   return evidence.discovery === true
     || evidence.sourceClass === "discovery"
     || evidence.publicationPolicy === "仅作线索发现"

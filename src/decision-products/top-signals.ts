@@ -1,4 +1,4 @@
-import { derivePublication } from "../facts-contract.js";
+import { derivePublication, isDiscoveryEvidence } from "../facts-contract.js";
 import type { EvidenceState } from "../facts-contract.js";
 import { hasChineseText, isPlaceholderCopy } from "../publication.js";
 import type { ArticleKind, CompanyProfile, EventEvidence, EventRecord } from "../types.js";
@@ -8,7 +8,6 @@ import type { DecisionEvidence, DecisionTopSignal } from "./contracts.js";
 const DAY_MS = 86_400_000;
 const DEFAULT_LIMIT = 10;
 const KIND_LIMIT = 3;
-const DISCOVERY = /google news|hacker news|news\.google\.com|news\.ycombinator\.com|\bhn\b|(?:^|\s)x\s*[··:]|twitter|x\.com/i;
 const CONFLICT = /冲突|矛盾|主体待识别|主体不明|归属不明|金额待核验|轮次待核验|撤回|撤销|withdrawn|conflict/i;
 const COMPLETE_CHINESE_SENTENCE = /[\u3400-\u9fff].*[。！？!?]$/u;
 const TERMINAL_STATES = new Set<EvidenceState>(["rejected", "conflicted", "withdrawn"]);
@@ -36,7 +35,7 @@ function evidenceOrigin(evidence: EventEvidence): string {
 }
 
 function qualifyingEvidence(event: EventWithLifecycle): EventEvidence[] | undefined {
-  const nonDiscovery = event.evidence.filter((item) => !DISCOVERY.test(`${item.source} ${item.link}`));
+  const nonDiscovery = event.evidence.filter((item) => !isDiscoveryEvidence(item));
   const publication = derivePublication({ evidence: nonDiscovery, evidenceState: event.evidenceState });
   if (!publication.publicEligible || TERMINAL_STATES.has(publication.evidenceState)) return undefined;
   const qualifyingIds = new Set(publication.qualifyingEvidenceIds);

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { validateTopSignalSource } from "../src/decision-products/contracts.js";
 import { buildDecisionTopSignals } from "../src/decision-products/top-signals.js";
-import type { EvidenceState } from "../src/facts-contract.js";
+import type { EvidenceState, PublicFactEvidence } from "../src/facts-contract.js";
 import type { ArticleKind, CompanyProfile, EventRecord } from "../src/types.js";
 
 const NOW = new Date("2026-08-24T12:00:00Z");
@@ -110,14 +110,43 @@ test("Top Signals derives exactly two canonical facts and excludes discovery evi
     evidence: [
       canonicalEvent().evidence[0]!,
       { ...canonicalEvent().evidence[0]!, source: "Alpha Robotics Newsroom" },
-      { link: "https://news.ycombinator.com/item?id=1", source: "Hacker News", grade: "B", publishedAt: "2026-08-23T03:00:00Z", supports: "发现线索" },
-      { link: "https://x.com/alpha/status/1", source: "X · Alpha", grade: "A", publishedAt: "2026-08-23T04:00:00Z", supports: "发现线索", withdrawn: true } as EventRecord["evidence"][number] & { withdrawn: boolean },
+      { link: "https://news.ycombinator.com/item?id=1", source: "Community Aggregator", grade: "B", publishedAt: "2026-08-23T03:00:00Z", supports: "发现线索" },
+      { link: "https://x.com/alpha/status/1", source: "Alpha Social", grade: "A", publishedAt: "2026-08-23T04:00:00Z", supports: "发现线索", withdrawn: true } as EventRecord["evidence"][number] & { withdrawn: boolean },
     ],
   })], companies, NOW);
 
   assert.deepEqual(result[0]!.factsZh, ["Alpha Robotics 完成新一轮融资。", "本轮资金将用于机器人本体研发。"]);
   assert.deepEqual(result[0]!.evidence.map((item) => item.url), ["https://alpha.example/news/funding"]);
   assert.equal(result[0]!.entityId, "company-alpha");
+});
+
+test("Top Signals excludes withdrawn discovery evidence classified by canonical metadata", () => {
+  const discoveryMetadata: Array<Pick<PublicFactEvidence, "discovery" | "sourceClass" | "publicationPolicy">> = [
+    { discovery: true },
+    { sourceClass: "discovery" },
+    { publicationPolicy: "仅作线索发现" },
+  ];
+  const events = discoveryMetadata.map((metadata, index) => canonicalEvent({
+    id: `evt-metadata-discovery-${index}`,
+    evidence: [
+      canonicalEvent().evidence[0]!,
+      {
+        link: `https://aggregator-${index}.example/alpha`,
+        source: `Aggregator ${index}`,
+        grade: "B",
+        publishedAt: "2026-08-23T03:00:00Z",
+        supports: "发现线索",
+        withdrawn: true,
+        ...metadata,
+      } as EventRecord["evidence"][number] & PublicFactEvidence,
+    ],
+  }));
+
+  assert.deepEqual(buildDecisionTopSignals(events, companies, NOW).map((item) => item.eventId), [
+    "evt-metadata-discovery-0",
+    "evt-metadata-discovery-1",
+    "evt-metadata-discovery-2",
+  ]);
 });
 
 test("Top Signals rejects placeholder Chinese copy", () => {
