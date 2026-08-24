@@ -550,6 +550,26 @@ function bindWatchlistControls(value, catalog) {
   });
 }
 
+function bindSubscriptionWatchlistLink() {
+  const controls = byId("subscription-watchlist-controls");
+  const link = byId("subscription-watchlist-link");
+  if (!controls || !link) return;
+  const catalog = { companyIds: [], routes: watchlistRouteSlugs.map(({ slug }) => slug) };
+  const decoded = decodeWatchlistConfig(window.location.search, catalog);
+  const selectedRoutes = new Set(decoded.config.routes);
+  for (const input of controls.querySelectorAll("[data-subscription-route]")) input.checked = selectedRoutes.has(input.value);
+  const warning = byId("subscription-watchlist-warning");
+  if (warning) warning.textContent = decoded.warnings.join("；");
+  const update = () => {
+    const routes = [...controls.querySelectorAll("[data-subscription-route]:checked")].map((input) => input.value);
+    const query = encodeWatchlistConfig({ companyIds: [], routes });
+    link.href = `index.html${query ? `?${query}` : ""}#company-watchlist`;
+    window.history.replaceState({}, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
+  };
+  controls.addEventListener("change", update);
+  update();
+}
+
 function watchlistEvidence(item, companyName) {
   const links = list(item.evidenceLinks).filter((evidence) => evidence && typeof evidence === "object");
   if (!links.length) return '<span class="radar-muted">公开证据链接待同步</span>';
@@ -695,6 +715,7 @@ function setupCompanyRadar(items) {
 }
 
 function render(data) {
+  if (document.body?.dataset?.view === "subscribe") return;
   detailItems.clear();
   const stats = data.stats || fallback.stats;
   byId("event-count").textContent = text(stats.events, "0");
@@ -722,6 +743,7 @@ function render(data) {
 }
 
 function renderCommunity(data) {
+  if (document.body?.dataset?.view === "subscribe") return;
   const community = data && typeof data === "object" ? data : {};
   const repository = community.repository && typeof community.repository === "object" ? community.repository : {};
   byId("community-stars").textContent = formattedCount(repository.stars);
@@ -763,6 +785,7 @@ function renderCommunity(data) {
 }
 
 async function loadDashboard() {
+  if (document.body?.dataset?.view === "subscribe") return fallback;
   const localPath = "data/dashboard.json";
   const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/dashboard.json";
   const source = window.location.protocol === "file:" ? remotePath : localPath;
@@ -777,6 +800,7 @@ async function loadDashboard() {
 }
 
 async function loadCommunity() {
+  if (document.body?.dataset?.view === "subscribe") return null;
   const localPath = "data/community.json";
   const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/community.json";
   const source = window.location.protocol === "file:" ? remotePath : localPath;
@@ -790,5 +814,6 @@ async function loadCommunity() {
   }
 }
 
+if (document.body?.dataset?.view === "subscribe") bindSubscriptionWatchlistLink();
 loadDashboard().then(render);
 loadCommunity().then(renderCommunity);

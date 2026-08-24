@@ -37,6 +37,78 @@ test("evidence UI supports safe fallback, deep-linked details and honest empty s
   assert.match(styles, /prefers-reduced-motion/);
 });
 
+test("subscription center is static, privacy preserving and links every subscription route", async () => {
+  const html = await readSite("subscribe.html");
+  assert.match(html, /data-view=["']subscribe["']/);
+  assert.match(html, /每日检查/);
+  assert.match(html, /A 级|B\+B/);
+  assert.doesNotMatch(html, /<form\b/i);
+  assert.doesNotMatch(html, /<input[^>]+type=["']email["']/i);
+  assert.doesNotMatch(html, /<(?:script|img|iframe)[^>]+(?:src|href)=["']https?:/i);
+  assert.doesNotMatch(html, /analytics|gtag|googletagmanager|segment\.com|plausible|localStorage|sessionStorage|document\.cookie/i);
+  for (const target of [
+    "https://github.com/mbabby/physical-ai-news-cn/subscription",
+    "https://github.com/mbabby/physical-ai-news-cn/releases",
+    "feeds/decision/all.xml",
+    "feeds/decision/data-and-training.xml",
+    "feeds/decision/vla-and-embodied-models.xml",
+    "feeds/decision/world-models-and-spatial-intelligence.xml",
+    "feeds/decision/embodiment-and-hardware.xml",
+    "feeds/decision/deployment-and-commercialization.xml",
+    "feeds/decision/watchlist.xml",
+  ]) assert.match(html, new RegExp(`href=["']${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`), target);
+  assert.match(html, /id=["']subscription-watchlist-link["']/);
+  assert.match(html, /data-subscription-route/);
+  assert.match(html, /<script type=["']module["'] src=["']app\.js["']><\/script>/);
+});
+
+test("subscription route choices use the shared encoder and persist only in the URL", async () => {
+  const source = await readSite("app.js");
+  const inputs = [
+    { value: "data-and-training", checked: false },
+    { value: "deployment-and-commercialization", checked: false },
+  ];
+  let onChange = () => {};
+  const controls = {
+    querySelectorAll(selector: string) { return selector.includes(":checked") ? inputs.filter((input) => input.checked) : inputs; },
+    addEventListener(name: string, listener: () => void) { if (name === "change") onChange = listener; },
+  };
+  const link = { href: "index.html#company-watchlist" };
+  const warning = { textContent: "" };
+  const replaced: string[] = [];
+  const context = {
+    console,
+    URL,
+    Intl,
+    Date,
+    document: {
+      getElementById: (id: string) => ({
+        "subscription-watchlist-controls": controls,
+        "subscription-watchlist-link": link,
+        "subscription-watchlist-warning": warning,
+      } as Record<string, unknown>)[id] ?? null,
+      body: { dataset: { view: "subscribe" }, classList: { add() {}, remove() {} } },
+      addEventListener() {},
+    },
+    navigator: {},
+    window: {
+      location: { href: "https://example.test/subscribe.html?routes=deployment-and-commercialization", origin: "https://example.test", pathname: "/subscribe.html", search: "?routes=deployment-and-commercialization", protocol: "https:" },
+      history: { replaceState(_state: unknown, _title: string, url: string) { replaced.push(url); } },
+      addEventListener() {},
+    },
+  };
+  vm.runInNewContext(source, context);
+  await Promise.resolve();
+  assert.equal(inputs[1]!.checked, true);
+  assert.equal(link.href, "index.html?routes=deployment-and-commercialization#company-watchlist");
+  assert.equal(replaced.at(-1), "/subscribe.html?routes=deployment-and-commercialization");
+
+  inputs[0]!.checked = true;
+  onChange();
+  assert.equal(link.href, "index.html?routes=data-and-training,deployment-and-commercialization#company-watchlist");
+  assert.equal(replaced.at(-1), "/subscribe.html?routes=data-and-training,deployment-and-commercialization");
+});
+
 type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: string; addEventListener: () => void };
 
 const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", value: "", addEventListener() {} });
