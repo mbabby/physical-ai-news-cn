@@ -271,6 +271,11 @@ function validateTopSignal(value: unknown, path: string): asserts value is Decis
   scanNarrativeBoundary([value.whyItMatters, value.rankReasons], path);
 }
 
+export function validateTopSignalSource(value: unknown): asserts value is DecisionTopSignal {
+  scanPrivateBoundary(value, "topSignal");
+  validateTopSignal(value, "topSignal");
+}
+
 function validateFactStatus(value: unknown, path: string, unknownSummary: string): void {
   exactKeys(value, FACT_STATUS_KEYS, path);
   ensure(["verified", "developing", "unknown", "conflicted"].includes(String(value.status)), `${path}.status is invalid`);
