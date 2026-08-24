@@ -21,13 +21,14 @@ export interface BuildEvidenceTaskSeedsInput {
   researchCards: ResearchDecisionCard[];
 }
 
-const targetPriority: Record<EvidenceTaskCategory, EvidenceTargetField[]> = {
+export const targetPriority: Record<EvidenceTaskCategory, EvidenceTargetField[]> = {
   "company-funding": ["company.officialUrl", "funding.regulatoryFiling", "funding.amount", "funding.round", "funding.valuation", "funding.investors", "company.officialName"],
   "product-deployment": ["product.officialUrl", "deployment.customer", "deployment.scale", "deployment.location", "product.releaseDate"],
   "research-metadata": ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"],
 };
 
-const UNSUPPORTED_NEGATIVE = /(?:未曾|尚未|并未|没有|不存在|无)(?:融资|部署|代码)|(?:融资|部署|代码).{0,12}(?:尚未|未曾|并不|没有)(?:发生|完成|存在|发布|公开|提供|落地|实现)|\b(?:no|without|not|never)\b.{0,32}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,32}\bnot\b/i;
+const CHINESE_ABSENCE = /未(?:融资|部署|代码)|(?:暂未|尚未|仍未|迄今未|尚无|暂无|没有|不存在|缺少|缺乏|未公开|未发布|未提供|未进行|未曾)[^，。；\n]{0,12}(?:融资|部署|代码)|(?:融资|部署|代码)[^，。；\n]{0,12}(?:暂未|尚未|仍未|尚无|暂无|没有|不存在|并不存在|并未|未曾|缺少|缺乏)(?:发生|完成|存在|发布|公开|提供|落地|实现|进行)?/i;
+const ENGLISH_ABSENCE = /\b(?:no|without|not|never|lack(?:s|ed|ing)?|absence|absent|unavailable|missing|(?:has|have|had|is|are|was|were|does|do|did)n['’]t)\b.{0,40}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,40}\b(?:not|never|lack(?:s|ed|ing)?|absence|absent|unavailable|missing|(?:has|have|had|is|are|was|were|does|do|did)n['’]t)\b/i;
 const TERMINAL_EVIDENCE_STATES = new Set(["rejected", "conflicted", "withdrawn"]);
 const INTERNAL_REVIEW_URL = /https:\/\/[^\s"']*(?:\/|%2f|=)review(?:\/|%2f|[?#&]|$)/i;
 const REPLY_TEMPLATE = "证据链接：\n证据摘录：\n来源类型：";
@@ -73,6 +74,13 @@ function normalizedName(value: string): string {
   return value.normalize("NFKC").replace(/\s+/g, " ").trim();
 }
 
+function publicCompanySubjectId(name: string, aliases: readonly string[]): string {
+  const canonicalAlias = aliases.map(normalizedName).find(Boolean) ?? name;
+  const identity = `name:${canonicalAlias.toLocaleLowerCase("en-US")}`;
+  const digest = createHash("sha256").update(`company\n${identity}`).digest("hex").slice(0, 24);
+  return `company-${digest}`;
+}
+
 function canonicalHttps(value: string | undefined): string | undefined {
   if (!value) return undefined;
   try {
@@ -91,7 +99,7 @@ function references(values: Array<string | undefined>): string[] {
 }
 
 function hasUnsupportedNegative(values: readonly string[]): boolean {
-  return values.some((value) => UNSUPPORTED_NEGATIVE.test(value));
+  return values.some((value) => CHINESE_ABSENCE.test(value) || ENGLISH_ABSENCE.test(value));
 }
 
 function singlePriorityGap(category: EvidenceTaskCategory, gaps: ReadonlySet<EvidenceTargetField>): EvidenceTargetField | undefined {
@@ -111,7 +119,7 @@ function questionGaps(category: "company-funding" | "product-deployment", questi
       ["company.officialName", /官方名称|法定名称|工商主体|公司全称|official name|legal name/i],
     ]
     : [
-      ["product.officialUrl", /产品官网|产品页面|官方产品|official\s*(?:product|url)/i],
+      ["product.officialUrl", /产品(?:官方)?(?:官网|页面)|官方产品|official\s*(?:product|url)/i],
       ["deployment.customer", /客户|customer/i],
       ["deployment.scale", /规模|数量|站点|scale/i],
       ["deployment.location", /地点|位置|工厂|location/i],
@@ -152,19 +160,21 @@ function seed(category: EvidenceTaskCategory, subject: EvidenceSubject, targetFi
 
 function companySeed(candidate: CandidateCompany, generatedWeek: string): EvidenceTaskSeed | undefined {
   const lifecycle = (candidate as CandidateCompany & { evidenceState?: string }).evidenceState;
-  if ((candidate.status !== "观察中" && candidate.status !== "已交叉核验") || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "")) return undefined;
-  if (!candidate.id.trim() || !normalizedName(candidate.name) || hasUnsupportedNegative(candidate.openQuestions)) return undefined;
+  const hasWithdrawnEvidence = candidate.evidence.some((item) => Boolean((item as typeof item & { withdrawn?: boolean }).withdrawn));
+  if ((candidate.status !== "观察中" && candidate.status !== "已交叉核验") || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "") || hasWithdrawnEvidence) return undefined;
+  const subjectName = normalizedName(candidate.name);
+  if (!subjectName || hasUnsupportedNegative(candidate.openQuestions)) return undefined;
   const officialUrl = canonicalHttps(candidate.officialUrl);
   const publicReferences = references([
     officialUrl,
-    ...candidate.evidence.filter((item) => !(item as typeof item & { withdrawn?: boolean }).withdrawn).map((item) => item.link),
+    ...candidate.evidence.map((item) => item.link),
   ]);
   if (!publicReferences.length) return undefined;
   const gaps = questionGaps("company-funding", candidate.openQuestions);
   if (!officialUrl) gaps.add("company.officialUrl");
   const targetField = singlePriorityGap("company-funding", gaps);
   if (!targetField) return undefined;
-  const subject: EvidenceSubject = { kind: "company", id: candidate.id.trim(), name: normalizedName(candidate.name), url: officialUrl ?? publicReferences[0]! };
+  const subject: EvidenceSubject = { kind: "company", id: publicCompanySubjectId(subjectName, candidate.aliases), name: subjectName, url: officialUrl ?? publicReferences[0]! };
   return seed("company-funding", subject, targetField, publicReferences, generatedWeek, { openQuestions: sorted(candidate.openQuestions) });
 }
 

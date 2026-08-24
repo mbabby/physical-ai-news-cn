@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildEvidenceTaskSeeds, type BuildEvidenceTaskSeedsInput } from "../src/community-evidence/task-seeds.js";
+import { buildEvidenceTaskSeeds, targetPriority, type BuildEvidenceTaskSeedsInput } from "../src/community-evidence/task-seeds.js";
 import { assertEvidenceTaskSeedArtifact } from "../src/community-evidence/contracts.js";
-import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
+import { materializeResearchDecisionCard, type ResearchDecisionCard } from "../src/research-decision-card.js";
 import type { CandidateCompany, EventRecord, ResearchRecord } from "../src/types.js";
 
 const GENERATED_AT = "2026-08-24T01:00:00Z";
@@ -128,6 +128,176 @@ test("maps one safe gap from each metadata pool without exposing internal rankin
   assert.ok(artifact.seeds.every((seed) => !JSON.stringify(seed).includes("rankScore")));
   assert.doesNotThrow(() => assertEvidenceTaskSeedArtifact(artifact));
   assert.equal(JSON.stringify(buildEvidenceTaskSeeds(input())), JSON.stringify(artifact));
+});
+
+test("derives company subject identity without copying or depending on the private candidate ID", () => {
+  const privateId = "internal-record-plaintext-987654";
+  const build = (id: string) => buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ id })] },
+    events: { updatedAt: GENERATED_AT, events: [] },
+    researchRecords: [],
+    researchCards: [],
+  }));
+  const first = build(privateId);
+  const second = build("different-private-row-123456");
+  const renamed = buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ id: "third-private-row", name: "Alpha Robotics, Inc." })] },
+    events: { updatedAt: GENERATED_AT, events: [] },
+    researchRecords: [],
+    researchCards: [],
+  }));
+  const withoutOfficialUrl = buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ officialUrl: undefined, openQuestions: ["公司官网待补充"] })] },
+    events: { updatedAt: GENERATED_AT, events: [] },
+    researchRecords: [],
+    researchCards: [],
+  }));
+  const withOfficialUrl = buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ openQuestions: ["公司官网待补充"] })] },
+    events: { updatedAt: GENERATED_AT, events: [] },
+    researchRecords: [],
+    researchCards: [],
+  }));
+  const serialized = JSON.stringify(first);
+
+  assert.equal(first.seeds[0]!.subject.id, second.seeds[0]!.subject.id);
+  assert.equal(first.seeds[0]!.subject.id, renamed.seeds[0]!.subject.id);
+  assert.equal(withoutOfficialUrl.seeds[0]!.subject.id, withOfficialUrl.seeds[0]!.subject.id);
+  assert.equal(first.seeds[0]!.materialVersion, second.seeds[0]!.materialVersion);
+  assert.equal(first.seeds[0]!.id, second.seeds[0]!.id);
+  for (const reversible of [privateId, encodeURIComponent(privateId), Buffer.from(privateId).toString("base64"), Buffer.from(privateId).toString("hex")]) {
+    assert.ok(!serialized.includes(reversible), `private candidate ID leaked as ${reversible}`);
+  }
+});
+
+test("rejects unsupported Chinese and English absence claims in every pool", () => {
+  const empty = { updatedAt: GENERATED_AT, companies: [] as CandidateCompany[] };
+  const noEvents = { updatedAt: GENERATED_AT, events: [] as EventRecord[] };
+  const companyCase = (phrase: string): BuildEvidenceTaskSeedsInput => input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ openQuestions: ["融资金额待补充", phrase] })] },
+    events: noEvents,
+    researchRecords: [],
+    researchCards: [],
+  });
+  const productCase = (phrase: string): BuildEvidenceTaskSeedsInput => input({
+    companyCandidates: empty,
+    events: { updatedAt: GENERATED_AT, events: [deployment({ facts: [phrase] })] },
+    researchRecords: [],
+    researchCards: [],
+  });
+  const researchCase = (phrase: string): BuildEvidenceTaskSeedsInput => {
+    const base = research();
+    const record = { ...base, article: { ...base.article, excerpt: `${base.article.excerpt} ${phrase}` } };
+    return input({
+      companyCandidates: empty,
+      events: noEvents,
+      researchRecords: [record],
+      researchCards: [materializeResearchDecisionCard(record, { now: new Date(GENERATED_AT) })],
+    });
+  };
+  const cases: Array<[string, (phrase: string) => BuildEvidenceTaskSeedsInput, string[]]> = [
+    ["company", companyCase, ["该公司暂未融资", "公司未融资", "融资尚未发生", "funding has not occurred", "the company lacks funding"]],
+    ["product", productCase, ["该产品尚无部署", "产品未部署", "产品未进行部署", "deployment is absent", "the product has not been deployed"]],
+    ["research", researchCase, ["论文未公开代码", "项目暂无代码", "code is unavailable", "code hasn't been released", "code hasn’t been released", "the paper has not published code"]],
+  ];
+
+  for (const [pool, build, phrases] of cases) {
+    for (const phrase of phrases) assert.deepEqual(buildEvidenceTaskSeeds(build(phrase)).seeds, [], `${pool}: ${phrase}`);
+  }
+});
+
+test("rejects a company candidate when any evidence has been withdrawn", () => {
+  const withdrawnEvidence = company().evidence.map((item) => ({ ...item, withdrawn: true })) as CandidateCompany["evidence"];
+  const artifact = buildEvidenceTaskSeeds(input({
+    companyCandidates: { updatedAt: GENERATED_AT, companies: [company({ evidence: withdrawnEvidence })] },
+    events: { updatedAt: GENERATED_AT, events: [] },
+    researchRecords: [],
+    researchCards: [],
+  }));
+
+  assert.deepEqual(artifact.seeds, []);
+});
+
+test("declares the exact target priority order", () => {
+  assert.deepEqual(targetPriority, {
+    "company-funding": ["company.officialUrl", "funding.regulatoryFiling", "funding.amount", "funding.round", "funding.valuation", "funding.investors", "company.officialName"],
+    "product-deployment": ["product.officialUrl", "deployment.customer", "deployment.scale", "deployment.location", "product.releaseDate"],
+    "research-metadata": ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"],
+  });
+});
+
+test("maps every declared target field from a single explicit gap", () => {
+  const emptyCompanies = { updatedAt: GENERATED_AT, companies: [] as CandidateCompany[] };
+  const emptyEvents = { updatedAt: GENERATED_AT, events: [] as EventRecord[] };
+  const companyCases: Array<[string, Partial<CandidateCompany>]> = [
+    ["company.officialUrl", { officialUrl: undefined, openQuestions: ["公司官网待补充"] }],
+    ["funding.regulatoryFiling", { openQuestions: ["监管披露待补充"] }],
+    ["funding.amount", { openQuestions: ["融资金额待补充"] }],
+    ["funding.round", { openQuestions: ["融资轮次待补充"] }],
+    ["funding.valuation", { openQuestions: ["融资估值待补充"] }],
+    ["funding.investors", { openQuestions: ["投资方待补充"] }],
+    ["company.officialName", { openQuestions: ["公司官方名称待补充"] }],
+  ];
+  for (const [targetField, overrides] of companyCases) {
+    const artifact = buildEvidenceTaskSeeds(input({
+      companyCandidates: { updatedAt: GENERATED_AT, companies: [company(overrides)] },
+      events: emptyEvents,
+      researchRecords: [],
+      researchCards: [],
+    }));
+    assert.deepEqual(artifact.seeds.map((seed) => seed.targetField), [targetField], targetField);
+  }
+
+  const productCases: Array<[string, Partial<EventRecord>]> = [
+    ["product.officialUrl", { openQuestions: ["产品官方页面待补充"], productDeployment: { product: "Atlas-X", customers: ["Acme"], deployment: "试点" } }],
+    ["deployment.customer", { openQuestions: ["客户名称待补充"] }],
+    ["deployment.scale", { openQuestions: ["部署规模待补充"], productDeployment: { product: "Atlas-X", customers: ["Acme"], deployment: "试点" } }],
+    ["deployment.location", { openQuestions: ["部署地点待补充"], productDeployment: { product: "Atlas-X", customers: ["Acme"], deployment: "试点" } }],
+    ["product.releaseDate", { occurredAt: undefined, eventDate: undefined, openQuestions: ["产品发布日期待补充"], productDeployment: { product: "Atlas-X", customers: ["Acme"], deployment: "试点" } }],
+  ];
+  for (const [targetField, overrides] of productCases) {
+    const artifact = buildEvidenceTaskSeeds(input({
+      companyCandidates: emptyCompanies,
+      events: { updatedAt: GENERATED_AT, events: [deployment(overrides)] },
+      researchRecords: [],
+      researchCards: [],
+    }));
+    assert.deepEqual(artifact.seeds.map((seed) => seed.targetField), [targetField], targetField);
+  }
+
+  const record = research();
+  const baseCard = materializeResearchDecisionCard(record, { now: new Date(GENERATED_AT) });
+  const evidenceUrls = [record.article.link];
+  const known = <T>(value: T) => ({ value, evidenceUrls });
+  const absent = { value: "unknown" as const, evidenceUrls: [] };
+  const completeTargets = {
+    code: known("https://github.com/acme/atlas"),
+    weights: known("https://huggingface.co/acme/atlas"),
+    data: known("https://huggingface.co/datasets/acme/atlas"),
+    realRobotTrials: known(12),
+    lab: known(["Alpha Lab"]),
+  };
+  const researchCases = ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"] as const;
+  for (const targetField of researchCases) {
+    const card: ResearchDecisionCard = {
+      ...baseCard,
+      artifacts: {
+        ...baseCard.artifacts,
+        code: targetField === "research.codeUrl" ? absent : completeTargets.code,
+        weights: targetField === "research.weightsUrl" ? absent : completeTargets.weights,
+        data: targetField === "research.datasetUrl" ? absent : completeTargets.data,
+      },
+      realRobotTrials: targetField === "research.realRobotEvidence" ? absent : completeTargets.realRobotTrials,
+      lab: targetField === "research.institutions" ? absent : completeTargets.lab,
+    };
+    const artifact = buildEvidenceTaskSeeds(input({
+      companyCandidates: emptyCompanies,
+      events: emptyEvents,
+      researchRecords: [record],
+      researchCards: [card],
+    }));
+    assert.deepEqual(artifact.seeds.map((seed) => seed.targetField), [targetField], targetField);
+  }
 });
 
 test("keeps task identity stable across non-material observation clock refreshes", () => {
