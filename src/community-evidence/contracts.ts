@@ -170,7 +170,7 @@ const PUBLIC_TASK_STATES = new Set<CommunityTaskPublicView["state"]>(["open", "c
 const SUBJECT_KINDS = new Set<EvidenceSubject["kind"]>(["company", "event", "research"]);
 const PRIVATE_KEY_MARKERS = ["candidateid", "seedid", "score", "rank", "rawmodeloutput", "prompt", "apikey", "token", "secret"];
 const PRIVATE_COMPOUND_MARKER = /(?:candidate|seed)[_ -]?id|raw[_ -]?model[_ -]?output|api[_ -]?key/i;
-const PRIVATE_BOUNDARY_MARKER = /(?:^|[^A-Za-z0-9])(?:[Ss][Cc][Oo][Rr][Ee]|[Rr][Aa][Nn][Kk]|[Pp][Rr][Oo][Mm][Pp][Tt]|[Tt][Oo][Kk][Ee][Nn]|[Ss][Ee][Cc][Rr][Ee][Tt])(?:$|[^a-z0-9]|[A-Z])/;
+const PRIVATE_BOUNDARY_MARKER = /(?:^|[^A-Za-z])(?:[Ss][Cc][Oo][Rr][Ee]|[Rr][Aa][Nn][Kk]|[Pp][Rr][Oo][Mm][Pp][Tt]|[Tt][Oo][Kk][Ee][Nn]|[Ss][Ee][Cc][Rr][Ee][Tt])(?:$|[^a-z])/;
 const INTERNAL_REVIEW_URL = /https:\/\/[^\s"']*(?:\/|%2f|=)review(?:\/|%2f|[?#&]|$)/i;
 const TASK_ID = /^evidence-task-[a-f0-9]{24}$/;
 const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
@@ -258,7 +258,15 @@ function canonicalTimestamp(value: unknown): value is string {
 }
 
 function canonicalWeek(value: unknown): value is string {
-  return typeof value === "string" && ISO_WEEK.test(value);
+  if (typeof value !== "string") return false;
+  const match = ISO_WEEK.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const week = Number(match[2]);
+  const januaryFirst = new Date(Date.UTC(year, 0, 1)).getUTCDay();
+  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const hasWeek53 = januaryFirst === 4 || (januaryFirst === 3 && leapYear);
+  return week <= (hasWeek53 ? 53 : 52);
 }
 
 function normalizedHttpsUrl(value: unknown): value is string {

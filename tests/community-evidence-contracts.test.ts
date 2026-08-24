@@ -95,6 +95,8 @@ test("recursive private-boundary scan rejects private keys, markers, and review 
     { ...artifact, seeds: [{ ...validSeed(), referenceUrls: ["https://github.com/acme/repo/blob/main/review/private.json"] }] },
     { ...artifact, seeds: [{ ...validSeed(), contextZh: "rankScore" }] },
     { ...artifact, seeds: [{ ...validSeed(), contextZh: "RankScore" }] },
+    { ...artifact, seeds: [{ ...validSeed(), contextZh: "score91" }] },
+    { ...artifact, seeds: [{ ...validSeed(), contextZh: "rank2" }] },
     { ...artifact, seeds: [{ ...validSeed(), contextZh: "candidate_id" }] },
     { ...artifact, seeds: [{ ...validSeed(), referenceUrls: ["https://github.com/acme/repo/review"] }] },
     { ...artifact, seeds: [{ ...validSeed(), referenceUrls: ["https://github.com/acme/repo?path=review/private.json"] }] },
@@ -103,6 +105,11 @@ test("recursive private-boundary scan rejects private keys, markers, and review 
     { ...artifact, seeds: [{ ...validSeed(), referenceUrls: ["https://github.com/acme/repo/%25252525252572eview/private.json"] }] },
   ];
   for (const corrupted of corruptions) assert.throws(() => assertEvidenceTaskSeedArtifact(corrupted), /private boundary/);
+});
+
+test("ISO weeks reject week 53 in years that contain only 52 weeks", () => {
+  assert.throws(() => assertEvidenceTaskSeed(validSeed({ generatedWeek: "2025-W53" })), /ISO week/);
+  assert.doesNotThrow(() => assertEvidenceTaskSeed(validSeed({ generatedWeek: "2026-W53" })));
 });
 
 test("every artifact validator enforces exact nested keys and canonical clocks", () => {
