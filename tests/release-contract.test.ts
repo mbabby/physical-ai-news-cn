@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -12,12 +13,29 @@ import type { DailyArchive, RunHistory, RunManifest } from "../src/types.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
 import type { BenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
 import type { LedgerField } from "../src/ledger-contracts.js";
+import { generate } from "../src/main.js";
+import { validateRelease } from "../src/validate-release.js";
+import type { CompanyProfile, DigestResult, EventStore } from "../src/types.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
 const GENERATED_AT = "2026-08-24T01:00:00Z";
 const REPOSITORY_URL = "https://github.com/mbabby/physical-ai-news-cn";
 const PAGES_URL = "https://mbabby.github.io/physical-ai-news-cn";
+const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
+const FIXTURE_PATHS = [
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
+];
+const RELEASE_MUTATION_PATHS = [
+  "events/index.json", "research/benchmark-result-ledger.json", "README.md",
+  "site/data/decision-products.json", "site/data/dashboard.json",
+  "site/feeds/decision/manifest.json", "site/feeds/decision/all.xml",
+  "site/feeds/decision/data-and-training.xml", "site/feeds/decision/vla-and-embodied-models.xml",
+  "site/feeds/decision/world-models-and-spatial-intelligence.xml",
+  "site/feeds/decision/embodiment-and-hardware.xml",
+  "site/feeds/decision/deployment-and-commercialization.xml", "site/feeds/decision/watchlist.xml",
+] as const;
 
 function decisionArtifact(): DecisionProductArtifact {
   const signal = (eventId: string, titleZh: string): DecisionProductArtifact["topSignals"][number] => ({
@@ -79,6 +97,78 @@ function benchmarkLedger(): BenchmarkResultLedger {
   };
 }
 
+const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], failures: [], sourceOutcomes: [] });
+
+async function writeJson(path: string, value: unknown): Promise<void> {
+  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+async function generatedReleaseFixture(): Promise<string> {
+  const target = await mkdtemp(join(tmpdir(), "task7-release-contract-"));
+  for (const path of FIXTURE_PATHS) await cp(join(root, path), join(target, path), { recursive: true });
+  await rm(join(target, "watchlist", "current.json"), { force: true });
+  await rm(join(target, "watchlist", "theses.json"), { force: true });
+  await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
+  await rm(join(target, "review", "run-history.json"), { force: true });
+  await mkdir(join(target, "watchlist", "history"), { recursive: true });
+
+  const companies = await json<CompanyProfile[]>(join(target, "events", "companies.json"));
+  const canonical = companies.filter((company) => company.entityType === "公司" && company.entityId && company.routes.length > 0).slice(0, 2);
+  assert.equal(canonical.length, 2, "filesystem release fixture requires two canonical companies");
+  const store = await json<EventStore>(join(target, "events", "index.json"));
+  store.updatedAt = FIXED_NOW.toISOString();
+  store.events = canonical.map((company, index) => {
+    const eventId = `task7-release-event-${index + 1}`;
+    const occurredAt = `2026-08-${22 - index}T01:00:00.000Z`;
+    return {
+      id: eventId,
+      title: `${company.name}发布新型机器人`,
+      type: "产品发布" as const,
+      entities: [company.name],
+      primaryEntity: company.name,
+      routes: [company.routes[0]!],
+      status: "已确证" as const,
+      firstSeenAt: occurredAt,
+      lastUpdatedAt: FIXED_NOW.toISOString(),
+      lastMaterialChangeAt: FIXED_NOW.toISOString(),
+      lastVerifiedAt: FIXED_NOW.toISOString(),
+      occurredAt,
+      facts: [`${company.name}发布了新型机器人。`, `${company.name}公开了产品验证信息。`],
+      openQuestions: [],
+      timeline: [],
+      evidence: [{
+        link: new URL(`task7-release-${index + 1}`, company.officialUrl).href,
+        source: `${company.name} 官方`,
+        grade: "A" as const,
+        publishedAt: occurredAt,
+        supports: "产品发布",
+      }],
+    };
+  });
+  await writeJson(join(target, "events", "index.json"), store);
+
+  const keys = ["LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "OPENALEX_API_KEY", "X_BEARER_TOKEN"] as const;
+  const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
+  keys.forEach((key) => { delete process.env[key]; });
+  try {
+    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection });
+  } finally {
+    keys.forEach((key) => {
+      const value = previous[key];
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    });
+  }
+  return target;
+}
+
+async function restoreReleaseFixture(rootPath: string, bytes: ReadonlyMap<string, string>): Promise<void> {
+  for (const [path, content] of bytes) {
+    await mkdir(dirname(join(rootPath, path)), { recursive: true });
+    await writeFile(join(rootPath, path), content, "utf8");
+  }
+}
+
 function decisionReleaseInput() {
   const artifact = decisionArtifact();
   const watchlist = decisionWatchlist();
@@ -117,6 +207,134 @@ test("decision release validation rejects adversarial drift on every public surf
     const input = decisionReleaseInput();
     mutate(input);
     assert.throws(() => validateDecisionProductPublication(input));
+  }
+});
+
+test("filesystem release validation rebuilds canonical sources and rejects every staged-surface mutation", async () => {
+  const fixture = await generatedReleaseFixture();
+  try {
+    const artifact = await json<DecisionProductArtifact>(join(fixture, "site/data/decision-products.json"));
+    assert.equal(artifact.topSignals.length, 2);
+    assert.equal(artifact.companyCards.length, 2);
+    assert.ok(artifact.researchPassports.some((passport) => passport.benchmark.evidenceUrls.length > 0));
+    await assert.doesNotReject(() => validateRelease(fixture));
+
+    const original = new Map(await Promise.all(RELEASE_MUTATION_PATHS.map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
+    const mutations: Array<{ name: string; mutate: (rootPath: string) => Promise<void> }> = [
+      {
+        name: "required Decision Product path",
+        mutate: async (rootPath) => { await rm(join(rootPath, "site/data/decision-products.json")); },
+      },
+      {
+        name: "raw Decision Product bytes",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/data/decision-products.json");
+          await writeFile(path, `${await readFile(path, "utf8")}\n`, "utf8");
+        },
+      },
+      {
+        name: "canonical EventStore source",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "events/index.json");
+          const store = await json<EventStore>(path);
+          store.events[0]!.title = "规范来源已发生变化";
+          await writeJson(path, store);
+        },
+      },
+      {
+        name: "dashboard identity order",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/data/dashboard.json");
+          const dashboard = await json<{ topSignals: unknown[] }>(path);
+          dashboard.topSignals.reverse();
+          await writeJson(path, dashboard);
+        },
+      },
+      {
+        name: "dashboard generation date",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/data/dashboard.json");
+          const dashboard = await json<{ generatedAt: string }>(path);
+          dashboard.generatedAt = "2026-08-23T08:00:01.000Z";
+          await writeJson(path, dashboard);
+        },
+      },
+      {
+        name: "README marker identity",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "README.md");
+          const readme = await readFile(path, "utf8");
+          await writeFile(path, readme.replace(artifact.topSignals[0]!.signalId, artifact.topSignals[1]!.signalId), "utf8");
+        },
+      },
+      {
+        name: "raw Feed manifest bytes",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/feeds/decision/manifest.json");
+          await writeFile(path, `${await readFile(path, "utf8")}\n`, "utf8");
+        },
+      },
+      {
+        name: "required Feed path",
+        mutate: async (rootPath) => { await rm(join(rootPath, "site/feeds/decision/all.xml")); },
+      },
+      {
+        name: "Feed GUID",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/feeds/decision/all.xml");
+          const feed = await readFile(path, "utf8");
+          await writeFile(path, feed.replace("urn:physical-ai:signal:", "urn:forged:signal:"), "utf8");
+        },
+      },
+      {
+        name: "Feed item order",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/feeds/decision/all.xml");
+          const feed = await readFile(path, "utf8");
+          const items = [...feed.matchAll(/    <item>[\s\S]*?    <\/item>\n/g)].map((match) => match[0]);
+          assert.equal(items.length, 2);
+          await writeFile(path, feed.replace(`${items[0]}${items[1]}`, `${items[1]}${items[0]}`), "utf8");
+        },
+      },
+      {
+        name: "known Benchmark evidence",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/data/decision-products.json");
+          const value = await json<DecisionProductArtifact>(path);
+          const passport = value.researchPassports.find((item) => item.benchmark.evidenceUrls.length > 0)!;
+          passport.benchmark.evidenceUrls = [];
+          await writeJson(path, value);
+        },
+      },
+      {
+        name: "company event ownership source",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "events/index.json");
+          const store = await json<EventStore>(path);
+          store.events[0]!.primaryEntity = store.events[1]!.primaryEntity;
+          store.events[0]!.entities = [...store.events[1]!.entities];
+          await writeJson(path, store);
+        },
+      },
+      {
+        name: "private artifact boundary",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "site/data/decision-products.json");
+          const value = await json<DecisionProductArtifact>(path) as DecisionProductArtifact & { rawModelOutput?: string };
+          value.rawModelOutput = "private";
+          await writeJson(path, value);
+        },
+      },
+    ];
+
+    for (const mutation of mutations) {
+      await restoreReleaseFixture(fixture, original);
+      await mutation.mutate(fixture);
+      await assert.rejects(() => validateRelease(fixture), undefined, mutation.name);
+    }
+    await restoreReleaseFixture(fixture, original);
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
   }
 });
 

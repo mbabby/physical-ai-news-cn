@@ -25,7 +25,7 @@ pnpm run check
 tsc --noEmit (exit 0)
 
 pnpm test
-612 tests, 612 passed, 0 failed
+613 tests, 613 passed, 0 failed
 
 pnpm exec tsx --test tests/decision-products-pipeline.test.ts tests/dual-ledger-pipeline.test.ts
 10 tests, 10 passed, 0 failed
@@ -55,3 +55,25 @@ All of `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`, `OPENALEX_API_KEY`, and `X_BE
 - Confirmed renderers are used only to derive expected Feed bytes; the release validator compares those expectations against files read from disk.
 - Confirmed the local generator gate executes before transaction commit and the standalone release gate rebuilds from canonical EventStore, company, ledger, research-card, research-registry, and public Watchlist inputs.
 - Confirmed no online workflow, push, merge, manual generated-asset edit, secret value, request body, or unrelated file change was performed.
+
+## External review correction
+
+The external review identified that the checked-in adversarial matrix exercised only `validateDecisionProductPublication()` in memory. Added a filesystem-level regression that:
+
+- copies the repository into a temporary fixture, removes mutable Watchlist/run-history outputs, adds two evidence-backed events for existing canonical companies, and runs the existing offline generation pipeline;
+- proves exported `validateRelease(root)` accepts the complete generated repository;
+- restores the valid bytes before each mutation and proves rejection for a missing required Decision Product/feed path, raw Decision Product/manifest byte drift, canonical EventStore drift, dashboard order/time drift, README marker drift, Feed GUID/order drift, known Benchmark evidence removal, company-event ownership drift, and private payload injection;
+- exercises `readJsonStrict()`, canonical reconstruction, raw-byte comparison, manifest-driven Feed path reads, and the outer-to-inner validation wiring without touching checked-in generated assets.
+
+RED/GREEN evidence:
+
+```text
+Initial fixture run: failed because copied production run history made the fixed run non-latest.
+After isolating mutable run history: 14/14 release-contract tests passed.
+
+Mutation check with the raw Decision Product byte guard temporarily removed:
+Missing expected rejection: raw Decision Product bytes
+
+Guard restored:
+filesystem release validation passes the valid fixture and rejects all 13 disk mutations.
+```
