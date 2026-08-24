@@ -54,3 +54,11 @@ The pipeline test performs two generations with the same fixed input and compare
 - Consolidated browser validation in `site/decision-products-validator.js`; both renderers use the same recursive exact-schema implementation for nested objects, arrays, enums, stable IDs, canonical dates/timestamps, URLs, evidence semantics, and private/candidate boundaries.
 - Normalized and escaped README Markdown destinations, including parentheses and backslashes.
 - Preserved legacy dashboard consumers with order-preserving, score-free adapters carrying the artifact `signalId`, `cardId`, and `passportId`; no adapter sorts.
+
+## Final last-known-good correction
+
+- `generateDaily()` now strict-loads the prior `site/data/decision-products.json` before building the next artifact. A malformed, candidate-bearing, or private prior artifact fails closed before publication.
+- Current Top Signals remain current-only and may be empty. Company cards and Research Passports merge per canonical identity: current canonical items keep their builder order and priority, then independently revalidated missing prior identities fill remaining space within the existing 20/6 caps. Retained item timestamps are copied unchanged; the generator clock is used only for the new artifact and subscriptions.
+- Retained company cards must still match a current canonical company entity, profile, route, Watchlist projection, event ownership, public evidence lifecycle, and live Claim Ledger evidence. Withdrawals, conflicts, later corrections, unsupported known evidence, ownership changes, and candidate/private data remove the item.
+- Retained Passports require the current canonical paper/source, non-retracted status, fresh non-retracted OpenAlex metadata, compatible current decision-card gates when present, and current Benchmark Ledger support for every known benchmark/result/asset value. Retractions, stale metadata, missing ownership, or unsupported known evidence remove the item.
+- The two-run regression starts with a generated non-empty company card and Passport, then supplies sparse/degraded inputs and proves both identities and their material timestamps survive while Top Signals stays empty. Same-count identity replacement, withdrawal, retraction, entity-type change, unsupported Benchmark data, candidate/private prior data, and receipt-stage rollback are covered separately.

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cp, mkdir, mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -11,6 +11,7 @@ import { stableDecisionId } from "../src/decision-products/contracts.js";
 import { formatDecisionProductReadme } from "../src/decision-products/markdown.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { DigestResult } from "../src/types.js";
+import type { CompanyProfile } from "../src/types.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
@@ -20,6 +21,7 @@ const FIXTURE_PATHS = [
 ];
 const DECISION_PATHS = [
   "site/data/decision-products.json", "site/data/dashboard.json", "README.md",
+  "review/decision-products-retention.json",
   "site/feeds/decision/all.xml", "site/feeds/decision/data-and-training.xml",
   "site/feeds/decision/vla-and-embodied-models.xml",
   "site/feeds/decision/world-models-and-spatial-intelligence.xml",
@@ -93,6 +95,49 @@ test("a decision feed swap failure rolls back all decision surfaces", async () =
       failAfterPath: join(root, "site/feeds/decision/all.xml"),
     })), (error: unknown) => (error as { code?: string }).code === "transaction-swap-failure");
     assert.deepEqual(await decisionProductBytes(root), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily orchestration loads the prior strict artifact before a sparse company-card run", async () => {
+  const root = await fixedRepository();
+  const companiesPath = join(root, "events/companies.json");
+  try {
+    const companies = JSON.parse(await readFile(companiesPath, "utf8")) as CompanyProfile[];
+    companies.push({
+      entityType: "公司", entityId: "aaa-retention-test", name: "Retention Robotics", region: "美国", stage: "成长公司",
+      routes: ["本体与硬件"], thesis: "测试稀疏输入下的上一版保留。", officialUrl: "https://retention.example/", lastVerifiedAt: "2026-08-22T08:00:00.000Z",
+    });
+    await writeFile(companiesPath, `${JSON.stringify(companies, null, 2)}\n`, "utf8");
+    await generateFixed(root);
+    const first = JSON.parse(await readFile(join(root, "site/data/decision-products.json"), "utf8")) as DecisionProductArtifact;
+    const retainedId = stableDecisionId("company", "aaa-retention-test");
+    assert.ok(first.companyCards.some((card) => card.cardId === retainedId));
+
+    delete companies.at(-1)!.lastVerifiedAt;
+    await writeFile(companiesPath, `${JSON.stringify(companies, null, 2)}\n`, "utf8");
+    await generateFixed(root);
+    const second = JSON.parse(await readFile(join(root, "site/data/decision-products.json"), "utf8")) as DecisionProductArtifact;
+    assert.ok(second.companyCards.some((card) => card.cardId === retainedId));
+    assert.deepEqual(second.topSignals, first.topSignals);
+    const receipt = JSON.parse(await readFile(join(root, "review/decision-products-retention.json"), "utf8")) as {
+      previousArtifactSha256: string | null; retainedCompanyIds: string[]; retainedPaperIds: string[];
+    };
+    assert.match(receipt.previousArtifactSha256!, /^[a-f0-9]{64}$/);
+    assert.deepEqual(receipt.retainedCompanyIds, ["aaa-retention-test"]);
+    assert.equal("previousArtifact" in receipt, false);
+    const historyPath = join(root, "review/decision-products-history", `${receipt.previousArtifactSha256}.json`);
+    const historyBytes = await readFile(historyPath, "utf8");
+    const history = JSON.parse(historyBytes) as DecisionProductArtifact;
+    assert.ok(history.companyCards.some((card) => card.cardId === retainedId));
+
+    const beforeFailure = await decisionProductBytes(root);
+    await assert.rejects(() => generateFixed(root, new FileTransaction("retention-receipt-failure", {
+      failAfterPath: join(root, "review/decision-products-retention.json"),
+    })), (error: unknown) => (error as { code?: string }).code === "transaction-swap-failure");
+    assert.deepEqual(await decisionProductBytes(root), beforeFailure);
+    assert.equal(await readFile(historyPath, "utf8"), historyBytes);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

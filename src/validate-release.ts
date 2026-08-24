@@ -24,7 +24,7 @@ import { rankResearchRecords } from "./research-registry.js";
 import type { CompanyClaimLedger } from "./company-claim-ledger.js";
 import type { BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
-import { buildDecisionProductArtifact } from "./decision-products/materialize.js";
+import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, type DecisionFeedManifest } from "./decision-products/subscriptions.js";
 
@@ -98,6 +98,26 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
       return false;
     }
   } });
+  const decisionProductRetention = await readJsonStrict<DecisionProductRetentionReceipt>(join(root, "review", "decision-products-retention.json"), {
+    label: "Decision Product 保留凭据",
+    validate: (value): value is DecisionProductRetentionReceipt => {
+      try { validateDecisionProductRetentionReceipt(value); return true; }
+      catch { return false; }
+    },
+  });
+  const previousDecisionProducts = decisionProductRetention?.previousArtifactSha256
+    ? await readJsonStrict<DecisionProductArtifact>(join(root, "review", "decision-products-history", `${decisionProductRetention.previousArtifactSha256}.json`), {
+      label: "Decision Product 上一版公开快照",
+      validate: (value): value is DecisionProductArtifact => {
+        try { validateDecisionProductArtifact(value); return true; }
+        catch { return false; }
+      },
+    })
+    : undefined;
+  if (decisionProductRetention?.previousArtifactSha256
+    && (!previousDecisionProducts || decisionProductArtifactSha256(previousDecisionProducts) !== decisionProductRetention.previousArtifactSha256)) {
+    throw new Error("Decision Product 上一版公开快照摘要不一致");
+  }
   const decisionFeedManifest = await readJsonStrict<DecisionFeedManifest>(join(root, "site", "feeds", "decision", "manifest.json"), { label: "公开 Decision Feed 清单" });
   const watchlistChangePage = await readJsonStrict<WatchlistChangePage>(join(root, "site", "data", "watchlist-changes.json"), { label: "公开 Watchlist 变化页", validate: (value): value is WatchlistChangePage => {
     try {
@@ -119,7 +139,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
   const watchlistIssueSeeds = await readJsonStrict<WatchlistReviewIssueArtifact>(join(root, "review", "watchlist-issue-seeds.json"), { label: "公开 Watchlist Review Issue 种子" });
   const communityMetricsBytes = await readFile(join(root, "metrics", "community.json"), "utf8");
   const publicCommunityMetricsBytes = await readFile(join(root, "site", "data", "community.json"), "utf8");
-  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !decisionProducts || !decisionFeedManifest || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
+  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !decisionProducts || !decisionProductRetention || !decisionFeedManifest || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds) throw new Error("发布产物不完整");
   if (communityMetricsBytes !== publicCommunityMetricsBytes) throw new Error("社区指标两个公开镜像不一致");
   await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();
@@ -151,7 +171,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     history: watchlistHistory as WatchlistSnapshot[],
   });
   const currentView = watchlistView(dashboard);
-  const expectedDecisionProducts = buildDecisionProductArtifact({
+  const currentDecisionProductInput = {
     generatedAt: new Date(manifest.startedAt),
     events: events.events,
     companies,
@@ -160,12 +180,24 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     researchDecisionCards: researchDecisionArtifact.cards,
     benchmarkResultLedger,
     watchlist: currentView,
+  };
+  const currentDecisionProducts = buildDecisionProductArtifact(currentDecisionProductInput);
+  const expectedDecisionProducts = buildDecisionProductArtifact({
+    ...currentDecisionProductInput,
+    previousArtifact: previousDecisionProducts,
   });
-  const [decisionProductBytes, decisionFeedManifestBytes] = await Promise.all([
+  const expectedRetention = buildDecisionProductRetentionReceipt({
+    currentArtifact: currentDecisionProducts,
+    artifact: expectedDecisionProducts,
+    previousArtifact: previousDecisionProducts,
+  });
+  const [decisionProductBytes, decisionRetentionBytes, decisionFeedManifestBytes] = await Promise.all([
     readFile(join(root, "site", "data", "decision-products.json"), "utf8"),
+    readFile(join(root, "review", "decision-products-retention.json"), "utf8"),
     readFile(join(root, "site", "feeds", "decision", "manifest.json"), "utf8"),
   ]);
   if (decisionProductBytes !== stableBytes(expectedDecisionProducts)) throw new Error("Decision Product JSON 字节与规范输入重建结果不一致");
+  if (decisionRetentionBytes !== stableBytes(expectedRetention)) throw new Error("Decision Product 保留凭据与规范输入重建结果不一致");
   if (decisionFeedManifestBytes !== stableBytes(buildDecisionFeedManifest(expectedDecisionProducts))) throw new Error("Decision Feed manifest 字节与规范工件不一致");
   const decisionFeeds = Object.fromEntries(await Promise.all(decisionFeedManifest.feeds.map(async (feed) => [
     feed.path,

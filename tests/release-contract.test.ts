@@ -29,6 +29,7 @@ const FIXTURE_PATHS = [
 ];
 const RELEASE_MUTATION_PATHS = [
   "events/index.json", "research/benchmark-result-ledger.json", "README.md",
+  "review/decision-products-retention.json",
   "site/data/decision-products.json", "site/data/dashboard.json",
   "site/feeds/decision/manifest.json", "site/feeds/decision/all.xml",
   "site/feeds/decision/data-and-training.xml", "site/feeds/decision/vla-and-embodied-models.xml",
@@ -115,6 +116,11 @@ async function generatedReleaseFixture(): Promise<string> {
   const companies = await json<CompanyProfile[]>(join(target, "events", "companies.json"));
   const canonical = companies.filter((company) => company.entityType === "公司" && company.entityId && company.routes.length > 0).slice(0, 2);
   assert.equal(canonical.length, 2, "filesystem release fixture requires two canonical companies");
+  companies.push({
+    entityType: "公司", entityId: "aaa-release-retention", name: "Release Retention Robotics", region: "美国", stage: "成长公司",
+    routes: ["本体与硬件"], thesis: "验证发布重建使用同一上一版输入。", officialUrl: "https://release-retention.example/", lastVerifiedAt: "2026-08-22T08:00:00.000Z",
+  });
+  await writeJson(join(target, "events", "companies.json"), companies);
   const store = await json<EventStore>(join(target, "events", "index.json"));
   store.updatedAt = FIXED_NOW.toISOString();
   store.events = canonical.map((company, index) => {
@@ -151,6 +157,9 @@ async function generatedReleaseFixture(): Promise<string> {
   const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
   keys.forEach((key) => { delete process.env[key]; });
   try {
+    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection });
+    delete companies.at(-1)!.lastVerifiedAt;
+    await writeJson(join(target, "events", "companies.json"), companies);
     await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection });
   } finally {
     keys.forEach((key) => {
@@ -215,11 +224,13 @@ test("filesystem release validation rebuilds canonical sources and rejects every
   try {
     const artifact = await json<DecisionProductArtifact>(join(fixture, "site/data/decision-products.json"));
     assert.equal(artifact.topSignals.length, 2);
-    assert.equal(artifact.companyCards.length, 2);
+    assert.equal(artifact.companyCards.length, 3);
     assert.ok(artifact.researchPassports.some((passport) => passport.benchmark.evidenceUrls.length > 0));
     await assert.doesNotReject(() => validateRelease(fixture));
 
-    const original = new Map(await Promise.all(RELEASE_MUTATION_PATHS.map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
+    const retention = await json<{ previousArtifactSha256: string }>(join(fixture, "review/decision-products-retention.json"));
+    const retentionHistoryPath = `review/decision-products-history/${retention.previousArtifactSha256}.json`;
+    const original = new Map(await Promise.all([...RELEASE_MUTATION_PATHS, retentionHistoryPath].map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
     const mutations: Array<{ name: string; mutate: (rootPath: string) => Promise<void> }> = [
       {
         name: "required Decision Product path",
@@ -230,6 +241,31 @@ test("filesystem release validation rebuilds canonical sources and rejects every
         mutate: async (rootPath) => {
           const path = join(rootPath, "site/data/decision-products.json");
           await writeFile(path, `${await readFile(path, "utf8")}\n`, "utf8");
+        },
+      },
+      {
+        name: "raw retention receipt bytes",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "review/decision-products-retention.json");
+          await writeFile(path, `${await readFile(path, "utf8")}\n`, "utf8");
+        },
+      },
+      {
+        name: "semantically valid forged retention digest",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, "review/decision-products-retention.json");
+          const receipt = await json<{ previousArtifactSha256: string }>(path);
+          receipt.previousArtifactSha256 = "0".repeat(64);
+          await writeJson(path, receipt);
+        },
+      },
+      {
+        name: "private prior publication history payload",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, retentionHistoryPath);
+          const previous = await json<DecisionProductArtifact & { rawModelOutput?: string }>(path);
+          previous.rawModelOutput = "private";
+          await writeJson(path, previous);
         },
       },
       {

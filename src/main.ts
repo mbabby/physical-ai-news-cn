@@ -70,7 +70,8 @@ import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
-import { buildDecisionProductArtifact, stageDecisionProducts } from "./decision-products/materialize.js";
+import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, stageDecisionProducts } from "./decision-products/materialize.js";
+import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -355,17 +356,26 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const companyEntityPath = join(eventsDir, "company-entities.json");
   let previousCompanyClaimLedger: CompanyClaimLedger | undefined;
   let previousBenchmarkResultLedger: BenchmarkResultLedger | undefined;
+  let previousDecisionProductArtifact: DecisionProductArtifact | undefined;
   try {
-    [previousCompanyClaimLedger, previousBenchmarkResultLedger] = await Promise.all([
+    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact] = await Promise.all([
       readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
         optional: true, label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact,
       }),
       readJsonStrict<BenchmarkResultLedger>(join(researchDir, "benchmark-result-ledger.json"), {
         optional: true, label: "Benchmark Result Ledger", validate: isBenchmarkResultLedgerArtifact,
       }),
+      readJsonStrict<DecisionProductArtifact>(join(outputRoot, "site", "data", "decision-products.json"), {
+        optional: true,
+        label: "上一版 Decision Product",
+        validate: (value): value is DecisionProductArtifact => {
+          try { validateDecisionProductArtifact(value); return true; }
+          catch { return false; }
+        },
+      }),
     ]);
   } catch (error) {
-    throw new DailyGenerationError("corrupt-dual-ledger", "双账本历史状态损坏；已停止发布并保留上一版。", { cause: error });
+    throw new DailyGenerationError("corrupt-dual-ledger", "双账本或 Decision Product 历史状态损坏；已停止发布并保留上一版。", { cause: error });
   }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
@@ -758,7 +768,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   });
   const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
   await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
-  const decisionProducts = buildDecisionProductArtifact({
+  const decisionProductInput = {
     generatedAt: now,
     events: eventStore.events,
     companies,
@@ -767,6 +777,13 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchDecisionCards,
     benchmarkResultLedger,
     watchlist: watchlistView,
+  };
+  const currentDecisionProducts = buildDecisionProductArtifact(decisionProductInput);
+  const decisionProducts = buildDecisionProductArtifact({ ...decisionProductInput, previousArtifact: previousDecisionProductArtifact });
+  const decisionProductRetentionReceipt = buildDecisionProductRetentionReceipt({
+    currentArtifact: currentDecisionProducts,
+    artifact: decisionProducts,
+    previousArtifact: previousDecisionProductArtifact,
   });
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
@@ -883,6 +900,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     repositoryUrl: repositoryBaseUrl,
     pagesUrl: pagesBaseUrl,
     watchlist: watchlistView,
+    retentionReceipt: decisionProductRetentionReceipt,
+    retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
   });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
@@ -904,6 +923,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
       researchDecisionCards,
       benchmarkResultLedger,
       watchlist: watchlistView,
+      previousArtifact: previousDecisionProductArtifact,
     }),
     dashboard,
     readme,

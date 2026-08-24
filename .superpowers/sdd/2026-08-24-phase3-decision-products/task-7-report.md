@@ -77,3 +77,20 @@ Missing expected rejection: raw Decision Product bytes
 Guard restored:
 filesystem release validation passes the valid fixture and rejects all 13 disk mutations.
 ```
+
+## Final retention provenance correction
+
+- A minimal `review/decision-products-retention.json` receipt records only the current generation time, the content hash of the exact prior public artifact, and the retained company/paper identities. It never embeds a second copy of facts.
+- When retention is used, the exact prior strict publication is copied transactionally into the content-addressed immutable path `review/decision-products-history/<sha256>.json`. This is publication provenance, not a separately maintained fact source; every retained item is still revalidated from current canonical EventStore/company/dual-ledger/research inputs.
+- Standalone release validation strict-loads that immutable snapshot by the receipt digest, verifies its raw content hash/private boundary, rebuilds current-only and retained artifacts independently, regenerates the expected minimal receipt, and compares Decision Product/receipt/feed bytes. It therefore does not use the newly published artifact or an embedded receipt payload as its prior source.
+- The filesystem release fixture now performs two generations: a non-empty publication followed by a sparse company-card input. Release validation accepts the retained result and rejects raw receipt drift, a structurally valid forged digest, private prior-history content, missing paths, canonical-source drift, and every prior public-surface mutation.
+
+Final local verification for this correction:
+
+```text
+focused retention/pipeline/release: 26 passed, 0 failed
+full suite: 622 passed, 0 failed
+pnpm run check: exit 0
+node --check site/decision-products-validator.js site/app.js site/share-pages.js: all exit 0
+git diff --check: exit 0
+```
