@@ -11,6 +11,7 @@ import type { ResearchIndustryRelationEdge } from "./research-industry-relations
 import { buildCompanyBoards } from "./company-boards.js";
 import type { CompanyBoards } from "./company-boards.js";
 import type { WatchlistPublicView } from "./watchlist/public-view.js";
+import type { DecisionProductArtifact } from "./decision-products/contracts.js";
 
 export interface DashboardItem {
   title: string;
@@ -26,6 +27,7 @@ export interface DashboardItem {
   lastMaterialChangeAt?: string;
 }
 export interface DashboardSignal extends DashboardItem {
+  signalId?: string;
   entity: string;
   evidenceGrade: "A" | "B" | "学术";
   verificationStatus: "官方确认" | "多方证实" | "正在发生";
@@ -33,9 +35,10 @@ export interface DashboardSignal extends DashboardItem {
   missingEvidence?: string;
   verifiedAt?: string;
   whyItMatters: string;
-  score: number;
+  score?: number;
 }
 export interface CompanyRadarItem {
+  cardId?: string;
   name: string;
   officialUrl: string;
   region: string;
@@ -48,7 +51,7 @@ export interface CompanyRadarItem {
   progress?: DashboardItem;
   identitySource: string;
   updatedAt?: string;
-  momentumScore: number;
+  momentumScore?: number;
   momentumLabel: "高动量" | "持续推进" | "长期跟踪";
   recentSignals: number;
   claimCompleteness?: number;
@@ -61,7 +64,7 @@ export interface ResearchIndustryLink {
   connection: string;
   relations?: Array<{ company: string; type: string; state: "verified" | "developing"; evidenceLinks: string[]; }>;
 }
-export interface DashboardResearchItem extends DashboardItem { decisionCard?: ResearchDecisionCard; }
+export interface DashboardResearchItem extends DashboardItem { passportId?: string; decisionCard?: ResearchDecisionCard; }
 export interface DashboardData {
   generatedAt: string;
   periodLabel: string;
@@ -83,6 +86,8 @@ export interface DashboardData {
   /** Versioned public view resolved from the immutable Watchlist snapshot. */
   watchlist?: WatchlistPublicView;
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
+  /** Canonical validated source for all Phase 3 public product surfaces. */
+  decisionProducts?: DecisionProductArtifact;
 }
 
 export interface DashboardContext {
@@ -94,6 +99,7 @@ export interface DashboardContext {
   researchDecisionCards?: ResearchDecisionCard[];
   researchIndustryEdges?: ResearchIndustryRelationEdge[];
   watchlist?: WatchlistPublicView;
+  decisionProducts?: DecisionProductArtifact;
 }
 
 function eventFact(event: EventRecord): string {
@@ -314,23 +320,23 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
     const ledger = ledgerByName.get(dossier.company.name);
     return ledger ? { ...item, claimCompleteness: ledger.metrics.fieldCompletenessRate, staleClaims: ledger.metrics.staleClaimCount } : item;
   })
-    .sort((a, b) => b.momentumScore - a.momentumScore
+    .sort((a, b) => (b.momentumScore ?? 0) - (a.momentumScore ?? 0)
       || CAPITAL_ORDER[b.capitalStatus] - CAPITAL_ORDER[a.capitalStatus]
       || VALIDATION_ORDER[b.validationStage] - VALIDATION_ORDER[a.validationStage]
       || Number(Boolean(b.updatedAt)) - Number(Boolean(a.updatedAt))
       || a.name.localeCompare(b.name));
   const companyRank = new Map(companyRadar.map((company, index) => [company.name, index]));
   const rankedSignals = events.map((event) => signalItem(event, generatedAt))
-    .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0) || b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
   const confirmedSignals = rankedSignals.filter((item) => item.verificationStatus !== "正在发生").slice(0, 10);
   // EventStore is the only public industry truth set. Candidate verification
   // remains an internal review queue until an explicit promotion creates a
   // canonical EventRecord with a resolved subject and traceable evidence.
   const developingSignals = rankedSignals.filter((item) => item.verificationStatus === "正在发生" && item.isThisWeek)
     .filter((item, index, all) => all.findIndex((candidate) => candidate.link === item.link || (candidate.entity === item.entity && candidate.type === item.type && candidate.title === item.title)) === index)
-    .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date)).slice(0, 5);
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0) || b.date.localeCompare(a.date)).slice(0, 5);
   const confirmedItems = events.filter((event) => verificationState(event) !== "正在发生").map((event) => eventItem(event, generatedAt));
-  return {
+  const dashboard: DashboardData = {
     generatedAt: generatedAt.toISOString(),
     periodLabel: context.periodLabel ?? "近 30 天滚动窗口",
     stats: { events: events.length, companies: companies.length, research: publicResearch.length, sources: context.activeSources ?? 0 },
@@ -374,4 +380,50 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
     watchlist: context.watchlist,
     routes: routeNames.map((name) => ({ name, focus: routeFocus[name], companies: companies.filter((company) => company.routes.includes(name as CompanyProfile["routes"][number])).slice(0, 4).map((company) => company.name) })),
   };
+  if (context.decisionProducts) {
+    dashboard.decisionProducts = context.decisionProducts;
+    dashboard.topSignals = context.decisionProducts.topSignals.map((signal) => ({
+      signalId: signal.signalId,
+      title: signal.titleZh,
+      summary: signal.factsZh.join(" "),
+      link: signal.evidence[0]!.url,
+      type: signal.kind,
+      route: signal.routes[0]!,
+      date: signal.occurredAt.slice(0, 10),
+      source: signal.evidence[0]!.source,
+      isThisWeek: signal.changedThisWeek,
+      entity: signal.entityName,
+      evidenceGrade: signal.evidence[0]!.grade === "A" ? "A" : "B",
+      verificationStatus: signal.evidenceState === "official" ? "官方确认" : "多方证实",
+      evidenceCount: signal.evidence.length,
+      verifiedAt: signal.verifiedAt,
+      whyItMatters: signal.whyItMatters,
+    }));
+    dashboard.companyRadar = context.decisionProducts.companyCards.map((card) => ({
+      cardId: card.cardId,
+      name: card.companyName,
+      officialUrl: card.officialUrl,
+      region: card.region,
+      stage: card.stage,
+      routes: card.routes,
+      thesis: card.watchlist.whyNow,
+      capitalStatus: card.capital.summary,
+      validationStage: card.validationStage,
+      identitySource: card.capital.evidence[0]?.source ?? card.productDeployment.evidence[0]?.source ?? "公开证据待补充",
+      updatedAt: card.updatedAt,
+      momentumLabel: "长期跟踪",
+      recentSignals: card.recentChanges.length,
+    }));
+    dashboard.research = context.decisionProducts.researchPassports.map((passport) => ({
+      passportId: passport.passportId,
+      title: passport.titleZh,
+      summary: passport.factsZh.join(" "),
+      link: passport.sourceUrl,
+      type: "研究论文",
+      route: Array.isArray(passport.task) ? passport.task[0] ?? "具身智能" : "具身智能",
+      date: context.decisionProducts!.generatedAt.slice(0, 10),
+      source: "Reproducibility Passport",
+    }));
+  }
+  return dashboard;
 }

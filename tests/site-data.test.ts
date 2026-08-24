@@ -5,6 +5,7 @@ import { materializeResearchDecisionCard } from "../src/research-decision-card.j
 import { buildResearchIndustryRelationEdges, researchIndustryCompanyId } from "../src/research-industry-relations.js";
 import type { Article, EventStore } from "../src/types.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
+import type { DecisionProductArtifact } from "../src/decision-products/contracts.js";
 
 const article: Article = { id: "paper", title: "Robotics paper", titleZh: "机器人研究论文", summaryZh: "论文在真实机器人基准上验证了新的视觉语言动作方法。实验报告了跨任务的评测结果。", link: "https://arxiv.org/abs/test", publishedAt: new Date("2026-08-02"), fetchedAt: new Date(), source: "arXiv · Robotics", sourceWeight: 9, excerpt: "Research abstract", tags: ["VLA"] };
 const events: EventStore = { updatedAt: "2026-08-02", events: [{ id: "funding", title: "Example 完成融资", type: "投融资", entities: ["Example"], primaryEntity: "Example", routes: ["部署与商业化"], status: "已确证", firstSeenAt: "2026-08-02", lastUpdatedAt: "2026-08-02", lastVerifiedAt: "2026-08-02", facts: ["完成可核验融资。"], openQuestions: [], evidence: [{ link: "https://example.com", source: "Official", grade: "A", publishedAt: "2026-08-02", supports: "融资" }], timeline: [{ date: "2026-08-02", summary: "完成可核验融资。", evidenceLinks: ["https://example.com"] }], funding: { entityStatus: "已确认", investors: [] } }] };
@@ -277,4 +278,22 @@ test("passes the public watchlist through without changing legacy company surfac
   assert.equal(legacy.watchlist, undefined);
   assert.ok(Array.isArray(legacy.companyRadar));
   assert.ok(legacy.companyBoards);
+});
+
+test("copies compatibility projections from the validated decision artifact without reranking", () => {
+  const generatedAt = "2026-08-17T01:00:00.000Z";
+  const decisionProducts: DecisionProductArtifact = {
+    schemaVersion: 1,
+    generatedAt,
+    periodStart: "2026-08-10",
+    topSignals: [],
+    companyCards: [],
+    researchPassports: [],
+    subscriptions: { generatedAt, entries: [] },
+  };
+  const dashboard = buildDashboard({ updatedAt: generatedAt, events: [] }, [], [], new Date(generatedAt), { decisionProducts });
+  assert.strictEqual(dashboard.decisionProducts, decisionProducts);
+  assert.deepEqual(dashboard.topSignals.map((item) => item.signalId), decisionProducts.topSignals.map((item) => item.signalId));
+  assert.deepEqual(dashboard.companyRadar.map((item) => item.cardId), decisionProducts.companyCards.map((item) => item.cardId));
+  assert.deepEqual(dashboard.research.map((item) => item.passportId), decisionProducts.researchPassports.map((item) => item.passportId));
 });

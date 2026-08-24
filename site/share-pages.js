@@ -26,19 +26,47 @@ const score = (value, fallbackValue = 0) => {
   const number = Number(value);
   return Number.isFinite(number) ? Math.min(100, Math.max(0, number)) : fallbackValue;
 };
+const decisionPrivate = /candidate[-_.:/]+|rawModelOutput|(?:selection|momentum|internal|private)[_-]?(?:score|rank)|(?:score|rank)["']?\s*:|分数|排名|内部诊断/i;
+function validDecisionProducts(value) {
+  const exact = (item, keys) => item && typeof item === "object" && Object.keys(item).sort().join("|") === [...keys].sort().join("|");
+  const http = (url) => { try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; } };
+  const canonicalTime = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value));
+  if (!value || typeof value !== "object" || value.schemaVersion !== 1 || !Number.isFinite(Date.parse(value.generatedAt))
+    || !Array.isArray(value.topSignals) || !Array.isArray(value.companyCards) || !Array.isArray(value.researchPassports)
+    || !value.subscriptions || !Array.isArray(value.subscriptions.entries) || decisionPrivate.test(JSON.stringify(value))
+    || !exact(value, ["schemaVersion", "generatedAt", "periodStart", "topSignals", "companyCards", "researchPassports", "subscriptions"])) return false;
+  const unique = (items, key) => items.every((item) => item && typeof item === "object" && typeof item[key] === "string" && item[key].length > 0)
+    && new Set(items.map((item) => item[key])).size === items.length;
+  return exact(value.subscriptions, ["generatedAt", "entries"])
+    && unique(value.topSignals, "signalId") && value.topSignals.every((item) => exact(item, ["signalId", "eventId", "entityId", "entityName", "titleZh", "factsZh", "kind", "routes", "occurredAt", "verifiedAt", "changedThisWeek", "evidenceState", "evidence", "impact", "whyItMatters", "rankReasons"]) && Array.isArray(item.factsZh) && item.factsZh.length === 2 && Array.isArray(item.rankReasons) && Array.isArray(item.evidence) && item.evidence.every((evidence) => exact(evidence, ["evidenceId", "url", "source", "grade"]) && http(evidence.url)) && canonicalTime(item.occurredAt) && canonicalTime(item.verifiedAt))
+    && unique(value.companyCards, "cardId") && value.companyCards.every((item) => exact(item, ["cardId", "companyId", "companyName", "officialUrl", "region", "stage", "routes", "capital", "validationStage", "productDeployment", "recentChanges", "watchlist", "unknownFields", "updatedAt"]) && http(item.officialUrl) && item.capital && item.productDeployment && item.watchlist && canonicalTime(item.updatedAt))
+    && unique(value.researchPassports, "passportId") && value.researchPassports.every((item) => exact(item, ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl", "task", "embodiment", "methods", "benchmark", "realRobotTrials", "assets", "reproducibilityCost", "authority", "limitations", "gaps", "whyWorthAttention", "rankReasons"]) && http(item.sourceUrl) && Array.isArray(item.gaps) && item.assets);
+}
+
+function decisionArtifact(data) {
+  if (!Object.prototype.hasOwnProperty.call(data || {}, "decisionProducts")) return undefined;
+  return validDecisionProducts(data.decisionProducts) ? data.decisionProducts : null;
+}
+
+function invalidDecisionState(label) {
+  root.innerHTML = `<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>${safe(label)}已停止展示；这不是有效空状态。</p>`;
+}
 
 function topSignals(data) {
   return list(data.topSignals).length ? data.topSignals : list(data.keyEvents);
 }
 
 function weekly(data) {
-  const signals = topSignals(data).slice(0, 10);
+  const artifact = decisionArtifact(data);
+  if (artifact === null) return invalidDecisionState("Top Signals");
+  const signals = artifact ? artifact.topSignals : topSignals(data).slice(0, 10);
   root.innerHTML = `<p class="share-intro">${safe(data.periodLabel || "近 30 天滚动窗口")} · 更新时间 ${safe(text(data.generatedAt).slice(0, 10) || "待同步")}。按证据、影响、时效与多源佐证综合排序，最多展示 10 条。</p>
-    <div class="top-signals">${signals.map((item, index) => `<article class="top-signal">
+    <div class="top-signals">${signals.map((item, index) => `<article class="top-signal" data-signal-id="${safe(item.signalId || "")}">
       <div class="signal-rank">${String(index + 1).padStart(2, "0")}</div>
-      <div class="signal-copy"><div class="signal-badges"><span>${safe(item.type || "已验证信号")}</span><span>证据 ${safe(item.evidenceGrade || "B")}</span>${item.score != null ? `<span>影响分 ${safe(item.score)}</span>` : ""}</div>
-      <h3>${link(item.link, item.title)}</h3><p>${safe(item.summary || "查看原始证据了解详情。")}</p>
-      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entity || item.source || "公开来源")} · ${day(item.date)}</i></footer></div>
+      <div class="signal-copy"><div class="signal-badges"><span>${safe(item.kind || item.type || "已验证信号")}</span><span>${safe(item.evidenceState === "official" ? "官方一手" : item.evidenceState === "multi-source" ? "独立 B+B" : `证据 ${item.evidenceGrade || "B"}`)}</span></div>
+      <h3>${artifact ? link(item.evidence[0]?.url, item.titleZh) : link(item.link, item.title)}</h3><p>${safe(artifact ? item.factsZh.join(" ") : item.summary || "查看原始证据了解详情。")}</p>
+      ${artifact ? `<p><strong>排序依据</strong> ${item.rankReasons.map(safe).join(" · ")}</p><details><summary>证据与日期</summary><p>发生 ${safe(item.occurredAt)} · 核验 ${safe(item.verifiedAt)}</p><ul>${item.evidence.map((evidence) => `<li>${link(evidence.url, `${evidence.source} · ${evidence.grade}级`)}</li>`).join("")}</ul></details>` : ""}
+      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entityName || item.entity || item.source || "公开来源")} · ${day(item.occurredAt || item.date)}</i></footer></div>
     </article>`).join("") || '<p class="empty">本周暂无达到公开门槛的信号。</p>'}</div>`;
 }
 
@@ -147,6 +175,12 @@ function companyDossiers(data, showMomentum) {
 }
 
 function companies(data) {
+  const artifact = decisionArtifact(data);
+  if (artifact === null) return invalidDecisionState("公司卡");
+  if (artifact) {
+    root.innerHTML = `<p class="share-intro">五个答案均来自同一已校验决策产品；unknown 不代表否定。</p><div class="company-radar">${artifact.companyCards.map((item) => `<article class="company-card" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3>${link(item.officialUrl, item.companyName)}</h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(item.routes.join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital.summary)}</dd></div><div><dt>验证阶段</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(item.recentChanges.map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(item.watchlist.nextValidationPoints.map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(item.unknownFields.join(" · ") || "无")}</p><ul>${[...item.capital.evidence, ...item.productDeployment.evidence].map((evidence) => `<li>${link(evidence.url, `${evidence.source} · ${evidence.grade}级`)}</li>`).join("") || "<li>公开证据待补充</li>"}</ul></details></article>`).join("") || '<p class="empty">当前没有通过公开契约的公司卡。</p>'}</div>`;
+    return;
+  }
   const hasWatchlist = Boolean(data) && typeof data === "object" && Object.prototype.hasOwnProperty.call(data, "watchlist");
   if (!hasWatchlist) {
     root.innerHTML = companyDossiers(data, true);
@@ -231,6 +265,12 @@ function researchItems(data) {
 }
 
 function research(data) {
+  const artifact = decisionArtifact(data);
+  if (artifact === null) return invalidDecisionState("研究护照");
+  if (artifact) {
+    root.innerHTML = `<p class="share-intro">Passport 标签、缺口与资产均来自同一已校验决策产品。</p><div class="research-graph-grid">${artifact.researchPassports.map((item) => `<article class="research-link" data-passport-id="${safe(item.passportId)}"><p class="eyebrow">REPRODUCIBILITY PASSPORT</p><h3>${link(item.sourceUrl, item.titleZh)}</h3><p>${safe(item.factsZh.join(" "))}</p><div class="decision-tags"><span>任务 ${safe(Array.isArray(item.task) ? item.task.join(" · ") : item.task)}</span><span>本体 ${safe(Array.isArray(item.embodiment) ? item.embodiment.join(" · ") : item.embodiment)}</span><span>基准 ${safe(item.benchmark.name)}</span><span>实机 ${safe(item.realRobotTrials)}</span><span>成本 ${safe(item.reproducibilityCost.level)}</span></div><details><summary>缺口与复现资产</summary><p>缺口：${safe(item.gaps.join(" · ") || "无")}</p><p>代码 ${safe(item.assets.code)} · 数据 ${safe(item.assets.data)} · 权重 ${safe(item.assets.weights)}</p></details></article>`).join("") || '<p class="empty">当前没有通过公开契约的研究护照。</p>'}</div>`;
+    return;
+  }
   const items = researchItems(data).slice(0, 12);
   root.innerHTML = `<p class="share-intro">论文不是孤立列表：每张卡连接到主要技术路线及同路线公司，便于继续追踪工程化与商业验证。</p>
     <div class="research-graph-grid">${items.map((item) => `<article class="research-link">

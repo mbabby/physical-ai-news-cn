@@ -70,9 +70,11 @@ import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
+import { buildDecisionProductArtifact, stageDecisionProducts } from "./decision-products/materialize.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
+const repositoryBaseUrl = "https://github.com/mbabby/physical-ai-news-cn";
 const eventsStart = "<!-- EVENT_CENTER_START -->";
 const eventsEnd = "<!-- EVENT_CENTER_END -->";
 const companyStart = "<!-- COMPANY_RADAR_START -->";
@@ -755,6 +757,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   });
   const decisionUnits = buildDecisionUnitArtifact(previousDecisionUnits, decisionSeeds, decisionTransitions, now);
   await writeFile(join(reviewDir, "decision-units.json"), JSON.stringify(decisionUnits, null, 2) + "\n", "utf8");
+  const decisionProducts = buildDecisionProductArtifact({
+    generatedAt: now,
+    events: eventStore.events,
+    companies,
+    companyClaimLedger,
+    researchRecords: researchRegistry.records,
+    researchDecisionCards,
+    benchmarkResultLedger,
+    watchlist: watchlistView,
+  });
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
@@ -762,6 +774,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchDecisionCards,
     researchIndustryEdges: researchIndustryRelations.edges,
     watchlist: watchlistView,
+    decisionProducts,
   });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
@@ -860,7 +873,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "community-queue.md"), formatCommunityReviewQueue(archives, companyCandidates, nextCandidateRegistry, week), "utf8");
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(outputRoot, "README.md");
-  const readme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
+  const legacyReadme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
+  const readme = stageDecisionProducts({
+    root: outputRoot,
+    transaction,
+    artifact: decisionProducts,
+    readme: legacyReadme,
+    repositoryUrl: repositoryBaseUrl,
+    pagesUrl: pagesBaseUrl,
+    watchlist: watchlistView,
+  });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
     theses: watchlistTheses,

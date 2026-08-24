@@ -79,6 +79,12 @@ test("standalone share pages expose the three flagship product views", async () 
   assert.match(companies, /资本动量/);
   assert.match(research, /Research → Industry/);
   assert.match(app, /证据不足（不代表未融资）/);
+  for (const html of [home, weekly, companies, research]) assert.match(html, /subscribe\.html/);
+});
+
+test("README reserves a canonical decision signal marker section", async () => {
+  const readme = await readFile(join(root, "README.md"), "utf8");
+  assert.match(readme, /<!-- DECISION_SIGNALS_START -->[\s\S]*<!-- DECISION_SIGNALS_END -->/);
 });
 
 test("weekly reporting assets explain their public and review boundaries", async () => {

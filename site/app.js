@@ -89,6 +89,7 @@ function evidenceBadge(item, fallbackState) {
 }
 
 function signalId(item, index = 0) {
+  if (item.signalId) return text(item.signalId).replace(/[^a-zA-Z0-9_-]/g, "-");
   const raw = text(item.id || item.slug || item.eventId || item.link || item.title || `signal-${index}`);
   let hash = 0;
   for (let position = 0; position < raw.length; position += 1) hash = ((hash << 5) - hash + raw.charCodeAt(position)) | 0;
@@ -140,11 +141,11 @@ function detailMarkup(item) {
   const state = evidenceState(item);
   const sources = sourceList(item);
   const unknowns = list(item.unknowns).length ? list(item.unknowns).join("、") : text(item.missingEvidence || item.unknown || "暂无额外未知项记录");
-  const occurredAt = item.eventDate || item.date || item.publishedAt;
+  const occurredAt = item.occurredAt || item.eventDate || item.date || item.publishedAt;
   const verifiedAt = item.verifiedAt || item.reviewedAt || item.updatedAt;
   return `<div class="drawer-status">${evidenceBadge(item)}<span>事件 ${date(occurredAt)}</span><span>核验 ${date(verifiedAt)}</span></div>
-    <h2 id="signal-detail-title">${safe(item.title || "未命名信号")}</h2>
-    <section><h3>事实</h3><p>${safe(item.summary || item.fact || "该信号的事实摘要尚未补全。")}</p></section>
+    <h2 id="signal-detail-title">${safe(item.titleZh || item.title || "未命名信号")}</h2>
+    <section><h3>事实</h3><p>${safe(list(item.factsZh).join(" ") || item.summary || item.fact || "该信号的事实摘要尚未补全。")}</p></section>
     <section><h3>为什么重要</h3><p>${safe(item.whyItMatters || item.why || "影响判断仍在补全，不做超出证据的推断。")}</p></section>
     <section><h3>证据</h3>${sources.length ? `<ol>${sources.map((source) => `<li><a href="${safeUrl(source.url || source.link || source.href)}" target="_blank" rel="noopener noreferrer">${safe(source.title || source.name || source.publisher || "原始来源")}</a></li>`).join("")}</ol>` : '<p class="empty">尚无可公开跳转的原始来源。</p>'}</section>
     <section><h3>未知 / 冲突</h3><p>${safe(state.tone === "conflict" ? (item.conflict || unknowns) : unknowns)}</p></section>
@@ -218,13 +219,15 @@ function itemCard(item, compact = false) {
 
 function signalCard(item, index) {
   const id = rememberDetail(item, index);
-  return `<article class="top-signal">
+  const reasons = list(item.rankReasons);
+  return `<article class="top-signal" data-signal-id="${safe(id)}">
     <div class="signal-rank">${String(index + 1).padStart(2, "0")}</div>
     <div class="signal-copy">
-      <div class="signal-badges">${evidenceBadge(item, item.evidenceGrade === "A" ? "official" : "multi_source")}<span>${safe(item.type || "已验证信号")}</span><span>${safe(item.evidenceCount || 1)} 个独立证据</span></div>
-      <h3><a href="?signal=${safe(id)}" data-signal-detail="${safe(id)}">${safe(item.title || "未命名信号")}</a></h3>
-      <p>${safe(item.summary || "查看原始证据了解详情。")}</p>
-      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entity || item.source || "公开来源")} · 事件 ${date(item.date)}${item.verifiedAt ? ` · 核验 ${date(item.verifiedAt)}` : ""}</i></footer>
+      <div class="signal-badges">${evidenceBadge(item, item.evidenceState || (item.evidenceGrade === "A" ? "official" : "multi_source"))}<span>${safe(item.kind || item.type || "已验证信号")}</span><span>${safe(list(item.evidence).length || item.evidenceCount || 1)} 个独立证据</span></div>
+      <h3><a href="?signal=${safe(id)}" data-signal-detail="${safe(id)}">${safe(item.titleZh || item.title || "未命名信号")}</a></h3>
+      <p>${safe(list(item.factsZh).join(" ") || item.summary || "查看原始证据了解详情。")}</p>
+      ${reasons.length ? `<p class="signal-reasons"><strong>排序依据</strong> ${reasons.map(safe).join(" · ")}</p>` : ""}
+      <footer><strong>为什么重要</strong> ${safe(item.whyItMatters || "该信号已通过公开展示门槛，值得持续跟踪。")} <i>${safe(item.entityName || item.entity || item.source || "公开来源")} · 事件 ${date(item.occurredAt || item.date)}${item.verifiedAt ? ` · 核验 ${date(item.verifiedAt)}` : ""}</i></footer>
     </div>
   </article>`;
 }
@@ -256,6 +259,16 @@ function decisionValue(field, fallbackValue = "未知") {
 
 function renderResearchFeed(items) {
   byId("research").innerHTML = list(items).length ? list(items).map((item) => {
+    if (item.passportId) {
+      const tags = [
+        `任务：${Array.isArray(item.task) ? item.task.join(" · ") : item.task}`,
+        `本体：${Array.isArray(item.embodiment) ? item.embodiment.join(" · ") : item.embodiment}`,
+        `基准：${item.benchmark?.name || "unknown"}`,
+        `实机：${item.realRobotTrials}`,
+        `复现成本：${item.reproducibilityCost?.level || "unknown"}`,
+      ];
+      return `<article class="feed-item research-decision" data-passport-id="${safe(item.passportId)}"><div class="item-meta"><span>Reproducibility Passport</span></div><h3><a href="${safeUrl(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.titleZh)}</a></h3><p>${safe(list(item.factsZh).join(" "))}</p><div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div><details><summary>缺口与复现资产</summary><p>缺口：${safe(list(item.gaps).join(" · ") || "无")}</p><p>代码 ${safe(item.assets?.code)} · 数据 ${safe(item.assets?.data)} · 权重 ${safe(item.assets?.weights)}</p></details></article>`;
+    }
     const card = item.decisionCard;
     if (!card) return itemCard(item, true);
     const tags = [
@@ -272,6 +285,26 @@ function renderResearchFeed(items) {
       <small>${safe(decisionValue(card.whyWorthAttention, "字段不足处已明确标记为未知，不进行推断。"))}</small>
     </a>`;
   }).join("") : '<p class="empty">等待完成身份、元数据和中文事实门槛的研究决策卡。</p>';
+}
+
+const decisionPrivate = /candidate[-_.:/]+|rawModelOutput|(?:selection|momentum|internal|private)[_-]?(?:score|rank)|(?:score|rank)["']?\s*:|分数|排名|内部诊断/i;
+function validDecisionProducts(value) {
+  const exact = (item, keys) => item && typeof item === "object" && Object.keys(item).sort().join("|") === [...keys].sort().join("|");
+  const http = (url) => { try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; } };
+  const canonicalTime = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value));
+  if (!value || typeof value !== "object" || value.schemaVersion !== 1 || !Number.isFinite(Date.parse(value.generatedAt))
+    || !Array.isArray(value.topSignals) || !Array.isArray(value.companyCards) || !Array.isArray(value.researchPassports)
+    || !value.subscriptions || !Array.isArray(value.subscriptions.entries) || decisionPrivate.test(JSON.stringify(value))
+    || !exact(value, ["schemaVersion", "generatedAt", "periodStart", "topSignals", "companyCards", "researchPassports", "subscriptions"])) return false;
+  const ids = (items, key) => items.every((item) => item && typeof item === "object" && nonEmpty(item[key])) && new Set(items.map((item) => item[key])).size === items.length;
+  return exact(value.subscriptions, ["generatedAt", "entries"])
+    && ids(value.topSignals, "signalId") && value.topSignals.every((item) => exact(item, ["signalId", "eventId", "entityId", "entityName", "titleZh", "factsZh", "kind", "routes", "occurredAt", "verifiedAt", "changedThisWeek", "evidenceState", "evidence", "impact", "whyItMatters", "rankReasons"]) && nonEmpty(item.titleZh) && Array.isArray(item.factsZh) && item.factsZh.length === 2 && Array.isArray(item.rankReasons) && Array.isArray(item.evidence) && item.evidence.every((evidence) => exact(evidence, ["evidenceId", "url", "source", "grade"]) && http(evidence.url)) && canonicalTime(item.occurredAt) && canonicalTime(item.verifiedAt))
+    && ids(value.companyCards, "cardId") && value.companyCards.every((item) => exact(item, ["cardId", "companyId", "companyName", "officialUrl", "region", "stage", "routes", "capital", "validationStage", "productDeployment", "recentChanges", "watchlist", "unknownFields", "updatedAt"]) && nonEmpty(item.companyName) && http(item.officialUrl) && item.capital && item.productDeployment && item.watchlist && canonicalTime(item.updatedAt))
+    && ids(value.researchPassports, "passportId") && value.researchPassports.every((item) => exact(item, ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl", "task", "embodiment", "methods", "benchmark", "realRobotTrials", "assets", "reproducibilityCost", "authority", "limitations", "gaps", "whyWorthAttention", "rankReasons"]) && nonEmpty(item.titleZh) && http(item.sourceUrl) && Array.isArray(item.gaps) && item.assets);
+}
+
+function decisionCompanyCards(items) {
+  return list(items).map((item) => `<article class="company-card" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.companyName)}</a></h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(list(item.routes).join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital?.summary)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment?.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(list(item.recentChanges).map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(list(item.watchlist?.nextValidationPoints).map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(list(item.unknownFields).join(" · ") || "无")}</p><div class="watchlist-evidence">${[...list(item.capital?.evidence), ...list(item.productDeployment?.evidence)].map((evidence) => `<a href="${safeUrl(evidence.url)}" target="_blank" rel="noopener noreferrer">${safe(evidence.source)} · ${safe(evidence.grade)}级</a>`).join("") || '<span class="radar-muted">公开证据待补充</span>'}</div></details></article>`).join("");
 }
 
 function fillOptions(id, values, firstLabel) {
@@ -725,17 +758,28 @@ function render(data) {
   const generated = new Date(data.generatedAt);
   byId("updated").textContent = Number.isNaN(generated.getTime()) ? "UPDATE PENDING" : `UPDATED ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
 
-  const topSignals = list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents));
+  const hasDecisionProducts = Object.prototype.hasOwnProperty.call(data, "decisionProducts");
+  const decisionProducts = hasDecisionProducts && validDecisionProducts(data.decisionProducts) ? data.decisionProducts : null;
+  if (hasDecisionProducts && !decisionProducts) {
+    byId("top-signals").innerHTML = '<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>本次数据不会作为有效空状态展示。</p>';
+    byId("company-radar").innerHTML = '<p class="empty">公司卡数据无效，已停止展示。</p>';
+    byId("research").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
+    byId("research-graph-grid").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
+    return;
+  }
+  const topSignals = decisionProducts ? decisionProducts.topSignals : (list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents)));
   byId("top-signals").innerHTML = topSignals.length ? topSignals.slice(0, 10).map(signalCard).join("") : '<p class="empty">正在接收满足公开门槛的验证信号…</p>';
   const renderedFacts = new Set(topSignals.map((item, index) => signalId(item, index)));
   const developingSignals = list(data.developingSignals).filter((item, index) => !renderedFacts.has(signalId(item, index))).slice(0, 5);
   byId("developing-signals").innerHTML = developingSignals.length ? developingSignals.map(developingCard).join("") : '<p class="empty">当前没有主体明确、达到单一可信来源门槛的新线索。</p>';
   renderFeed("capital", data.capital);
   renderFeed("industry", data.industry);
-  renderResearchFeed(data.research);
+  renderResearchFeed(decisionProducts ? decisionProducts.researchPassports : data.research);
   renderCompanySection(data);
-  setupCompanyRadar(data.companyRadar);
-  renderResearchGraph(researchGraph(data));
+  if (decisionProducts) byId("company-radar").innerHTML = decisionCompanyCards(decisionProducts.companyCards) || '<p class="empty">当前没有通过公开契约的公司卡。</p>';
+  else setupCompanyRadar(data.companyRadar);
+  if (decisionProducts) byId("research-graph-grid").innerHTML = byId("research").innerHTML;
+  else renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);
   byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
   const deepLinkedSignal = new URL(window.location.href).searchParams.get("signal");

@@ -116,6 +116,11 @@ const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", val
 async function loadAppCompanyRenderer() {
   const source = await readSite("app.js");
   const mounts: Record<string, Mount> = {
+    "top-signals": mount(),
+    "developing-signals": mount(),
+    "company-radar": mount(),
+    "research": mount(),
+    "research-graph-grid": mount(),
     "company-watchlist": mount(),
     "watchlist-config-controls": mount(),
     "watchlist-company-options": mount(),
@@ -139,10 +144,11 @@ async function loadAppCompanyRenderer() {
   };
   const instrumented = source.replace(
     /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
-    "globalThis.__siteUi = { renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
+    "globalThis.__siteUi = { render, renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
   );
   vm.runInNewContext(instrumented, context);
   return { mounts, ...((context as typeof context & { __siteUi: {
+    render: (data: unknown) => void;
     renderCompanySection: (data: unknown) => void;
     decodeWatchlistConfig: (value: unknown, catalog: unknown) => unknown;
     encodeWatchlistConfig: (config: unknown) => string;
@@ -278,6 +284,47 @@ test("homepage fails closed unless companyIds exactly match the ordered current 
     assert.match(site.mounts["watchlist-forward"].innerHTML, /Watchlist 数据未通过公开契约校验/, companyIds.join(","));
     assert.doesNotMatch(site.mounts["watchlist-forward"].innerHTML, /Alpha Robotics|Beta Robotics|company-stale/, companyIds.join(","));
   }
+});
+
+const emptyDecisionArtifact = (companyCards: unknown[] = []) => ({
+  schemaVersion: 1,
+  generatedAt: "2026-08-17T01:00:00.000Z",
+  periodStart: "2026-08-11",
+  topSignals: [],
+  companyCards,
+  researchPassports: [],
+  subscriptions: { generatedAt: "2026-08-17T01:00:00.000Z", entries: [] },
+});
+
+const decisionCompanyCard = (extra: Record<string, unknown> = {}) => ({
+  cardId: "decision-company-alpha",
+  companyId: "alpha",
+  companyName: "Alpha Robotics",
+  officialUrl: "https://alpha.example/",
+  region: "中国",
+  stage: "成长",
+  routes: ["VLA 与具身模型"],
+  capital: { status: "unknown", summary: "证据不足（不代表未融资）", evidence: [] },
+  validationStage: "实机验证",
+  productDeployment: { status: "unknown", summary: "证据不足（不代表没有产品或部署进展）", evidence: [] },
+  recentChanges: [],
+  watchlist: { track: "unknown", lifecycle: "unknown", whyNow: "unknown", nextValidationPoints: [] },
+  unknownFields: ["capital.amount"],
+  updatedAt: "2026-08-01T00:00:00.000Z",
+  ...extra,
+});
+
+test("homepage keeps decision company cards and fails closed on undeclared private fields", async () => {
+  const valid = await loadAppCompanyRenderer();
+  valid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard()]), stats: {}, routes: [] });
+  assert.match(valid.mounts["company-radar"].innerHTML, /Alpha Robotics/);
+  assert.match(valid.mounts["company-radar"].innerHTML, /字段与证据/);
+  assert.doesNotMatch(valid.mounts["company-radar"].innerHTML, /待识别公司/);
+
+  const invalid = await loadAppCompanyRenderer();
+  invalid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard({ selectionScore: 99 })]), stats: {}, routes: [] });
+  assert.match(invalid.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
+  assert.doesNotMatch(invalid.mounts["company-radar"].innerHTML, /Alpha Robotics|99/);
 });
 
 test("company share page places watchlist and changes before score-free legacy dossiers", async () => {

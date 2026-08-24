@@ -353,3 +353,9 @@ test("company cards default to twenty in stable company-ID order and reject cloc
   assert.equal(buildDecisionCompanyCards({ ...input, limit: Number.POSITIVE_INFINITY }).length, 20);
   assert.throws(() => buildDecisionCompanyCards({ ...input, now: new Date("invalid") }), /有效.*时间/);
 });
+
+test("company cards reject profiles without a canonical material timestamp", () => {
+  const profile = { ...alpha };
+  delete (profile as Partial<typeof alpha>).lastVerifiedAt;
+  assert.throws(() => buildDecisionCompanyCards({ companies: [profile], claimLedger: { ...ledger([]), companies: [] }, events: [], watchlist: emptyWatchlist(), now: NOW }), /材料更新时间/);
+});
