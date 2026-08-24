@@ -1,3 +1,5 @@
+import "./decision-products-validator.js";
+
 const root = document.getElementById("share-content");
 const view = document.body.dataset.view;
 const list = (value) => (Array.isArray(value) ? value : []);
@@ -26,22 +28,7 @@ const score = (value, fallbackValue = 0) => {
   const number = Number(value);
   return Number.isFinite(number) ? Math.min(100, Math.max(0, number)) : fallbackValue;
 };
-const decisionPrivate = /candidate[-_.:/]+|rawModelOutput|(?:selection|momentum|internal|private)[_-]?(?:score|rank)|(?:score|rank)["']?\s*:|分数|排名|内部诊断/i;
-function validDecisionProducts(value) {
-  const exact = (item, keys) => item && typeof item === "object" && Object.keys(item).sort().join("|") === [...keys].sort().join("|");
-  const http = (url) => { try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; } };
-  const canonicalTime = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value));
-  if (!value || typeof value !== "object" || value.schemaVersion !== 1 || !Number.isFinite(Date.parse(value.generatedAt))
-    || !Array.isArray(value.topSignals) || !Array.isArray(value.companyCards) || !Array.isArray(value.researchPassports)
-    || !value.subscriptions || !Array.isArray(value.subscriptions.entries) || decisionPrivate.test(JSON.stringify(value))
-    || !exact(value, ["schemaVersion", "generatedAt", "periodStart", "topSignals", "companyCards", "researchPassports", "subscriptions"])) return false;
-  const unique = (items, key) => items.every((item) => item && typeof item === "object" && typeof item[key] === "string" && item[key].length > 0)
-    && new Set(items.map((item) => item[key])).size === items.length;
-  return exact(value.subscriptions, ["generatedAt", "entries"])
-    && unique(value.topSignals, "signalId") && value.topSignals.every((item) => exact(item, ["signalId", "eventId", "entityId", "entityName", "titleZh", "factsZh", "kind", "routes", "occurredAt", "verifiedAt", "changedThisWeek", "evidenceState", "evidence", "impact", "whyItMatters", "rankReasons"]) && Array.isArray(item.factsZh) && item.factsZh.length === 2 && Array.isArray(item.rankReasons) && Array.isArray(item.evidence) && item.evidence.every((evidence) => exact(evidence, ["evidenceId", "url", "source", "grade"]) && http(evidence.url)) && canonicalTime(item.occurredAt) && canonicalTime(item.verifiedAt))
-    && unique(value.companyCards, "cardId") && value.companyCards.every((item) => exact(item, ["cardId", "companyId", "companyName", "officialUrl", "region", "stage", "routes", "capital", "validationStage", "productDeployment", "recentChanges", "watchlist", "unknownFields", "updatedAt"]) && http(item.officialUrl) && item.capital && item.productDeployment && item.watchlist && canonicalTime(item.updatedAt))
-    && unique(value.researchPassports, "passportId") && value.researchPassports.every((item) => exact(item, ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl", "task", "embodiment", "methods", "benchmark", "realRobotTrials", "assets", "reproducibilityCost", "authority", "limitations", "gaps", "whyWorthAttention", "rankReasons"]) && http(item.sourceUrl) && Array.isArray(item.gaps) && item.assets);
-}
+const validDecisionProducts = (value) => globalThis.DecisionProductsContract?.validate(value) === true;
 
 function decisionArtifact(data) {
   if (!Object.prototype.hasOwnProperty.call(data || {}, "decisionProducts")) return undefined;

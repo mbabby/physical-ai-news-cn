@@ -21,14 +21,15 @@ GREEN verification:
 
 ```text
 pnpm exec tsx --test tests/decision-products-pipeline.test.ts tests/site-data.test.ts tests/site-ui.test.ts tests/propagation-assets.test.ts
-52 tests, 52 passed, 0 failed
+41 tests, 41 passed, 0 failed
 
 pnpm run check
 tsc --noEmit (exit 0)
 
 pnpm test
-608 tests, 608 passed, 0 failed
+610 tests, 610 passed, 0 failed
 
+node --check site/decision-products-validator.js
 node --check site/app.js
 node --check site/share-pages.js
 git diff --check
@@ -50,5 +51,6 @@ The pipeline test performs two generations with the same fixed input and compare
 
 - Prevented the legacy radar renderer from overwriting the canonical five-answer homepage cards.
 - Tightened both browser validators to fail closed on undeclared product keys, private score/rank fields, malformed URLs, and noncanonical timestamps.
+- Consolidated browser validation in `site/decision-products-validator.js`; both renderers use the same recursive exact-schema implementation for nested objects, arrays, enums, stable IDs, canonical dates/timestamps, URLs, evidence semantics, and private/candidate boundaries.
 - Normalized and escaped README Markdown destinations, including parentheses and backslashes.
 - Preserved legacy dashboard consumers with order-preserving, score-free adapters carrying the artifact `signalId`, `cardId`, and `passportId`; no adapter sorts.

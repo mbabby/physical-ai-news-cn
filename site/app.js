@@ -1,3 +1,5 @@
+import "./decision-products-validator.js";
+
 const fallback = {
   generatedAt: new Date().toISOString(),
   periodLabel: "近 30 天滚动窗口",
@@ -287,21 +289,7 @@ function renderResearchFeed(items) {
   }).join("") : '<p class="empty">等待完成身份、元数据和中文事实门槛的研究决策卡。</p>';
 }
 
-const decisionPrivate = /candidate[-_.:/]+|rawModelOutput|(?:selection|momentum|internal|private)[_-]?(?:score|rank)|(?:score|rank)["']?\s*:|分数|排名|内部诊断/i;
-function validDecisionProducts(value) {
-  const exact = (item, keys) => item && typeof item === "object" && Object.keys(item).sort().join("|") === [...keys].sort().join("|");
-  const http = (url) => { try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; } };
-  const canonicalTime = (value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value));
-  if (!value || typeof value !== "object" || value.schemaVersion !== 1 || !Number.isFinite(Date.parse(value.generatedAt))
-    || !Array.isArray(value.topSignals) || !Array.isArray(value.companyCards) || !Array.isArray(value.researchPassports)
-    || !value.subscriptions || !Array.isArray(value.subscriptions.entries) || decisionPrivate.test(JSON.stringify(value))
-    || !exact(value, ["schemaVersion", "generatedAt", "periodStart", "topSignals", "companyCards", "researchPassports", "subscriptions"])) return false;
-  const ids = (items, key) => items.every((item) => item && typeof item === "object" && nonEmpty(item[key])) && new Set(items.map((item) => item[key])).size === items.length;
-  return exact(value.subscriptions, ["generatedAt", "entries"])
-    && ids(value.topSignals, "signalId") && value.topSignals.every((item) => exact(item, ["signalId", "eventId", "entityId", "entityName", "titleZh", "factsZh", "kind", "routes", "occurredAt", "verifiedAt", "changedThisWeek", "evidenceState", "evidence", "impact", "whyItMatters", "rankReasons"]) && nonEmpty(item.titleZh) && Array.isArray(item.factsZh) && item.factsZh.length === 2 && Array.isArray(item.rankReasons) && Array.isArray(item.evidence) && item.evidence.every((evidence) => exact(evidence, ["evidenceId", "url", "source", "grade"]) && http(evidence.url)) && canonicalTime(item.occurredAt) && canonicalTime(item.verifiedAt))
-    && ids(value.companyCards, "cardId") && value.companyCards.every((item) => exact(item, ["cardId", "companyId", "companyName", "officialUrl", "region", "stage", "routes", "capital", "validationStage", "productDeployment", "recentChanges", "watchlist", "unknownFields", "updatedAt"]) && nonEmpty(item.companyName) && http(item.officialUrl) && item.capital && item.productDeployment && item.watchlist && canonicalTime(item.updatedAt))
-    && ids(value.researchPassports, "passportId") && value.researchPassports.every((item) => exact(item, ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl", "task", "embodiment", "methods", "benchmark", "realRobotTrials", "assets", "reproducibilityCost", "authority", "limitations", "gaps", "whyWorthAttention", "rankReasons"]) && nonEmpty(item.titleZh) && http(item.sourceUrl) && Array.isArray(item.gaps) && item.assets);
-}
+const validDecisionProducts = (value) => globalThis.DecisionProductsContract?.validate(value) === true;
 
 function decisionCompanyCards(items) {
   return list(items).map((item) => `<article class="company-card" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.companyName)}</a></h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(list(item.routes).join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital?.summary)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment?.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(list(item.recentChanges).map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(list(item.watchlist?.nextValidationPoints).map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(list(item.unknownFields).join(" · ") || "无")}</p><div class="watchlist-evidence">${[...list(item.capital?.evidence), ...list(item.productDeployment?.evidence)].map((evidence) => `<a href="${safeUrl(evidence.url)}" target="_blank" rel="noopener noreferrer">${safe(evidence.source)} · ${safe(evidence.grade)}级</a>`).join("") || '<span class="radar-muted">公开证据待补充</span>'}</div></details></article>`).join("");
