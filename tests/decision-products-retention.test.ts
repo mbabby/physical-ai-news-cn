@@ -121,6 +121,7 @@ function buildInput(previousArtifact?: DecisionProductArtifact) {
     benchmarkResultLedger: benchmarkLedger(),
     watchlist: watchlist(),
     previousArtifact,
+    researchPassportProjectionDegraded: false,
   };
 }
 
@@ -132,7 +133,10 @@ test("a sparse degraded run retains prior valid cards and passports without chan
   assert.equal(first.companyCards.length, 1);
   assert.equal(first.researchPassports.length, 1);
 
-  const retained = buildDecisionProductArtifact(buildInput(first));
+  const degradedInput = buildInput(first);
+  degradedInput.researchDecisionCards = [materializeResearchDecisionCard(degradedInput.researchRecords[0]!, { now: NOW })];
+  degradedInput.researchPassportProjectionDegraded = true;
+  const retained = buildDecisionProductArtifact(degradedInput);
   assert.deepEqual(retained.topSignals, []);
   assert.deepEqual(retained.companyCards.map((card) => card.cardId), first.companyCards.map((card) => card.cardId));
   assert.deepEqual(retained.researchPassports.map((passport) => passport.passportId), first.researchPassports.map((passport) => passport.passportId));
@@ -156,8 +160,13 @@ test("retention drops a company card whose referenced event is now withdrawn", (
 });
 
 test("retention drops a passport after a current retraction", () => {
-  assert.equal(buildDecisionProductArtifact(buildInput(priorArtifact())).researchPassports.length, 1);
+  const control = buildInput(priorArtifact());
+  control.researchDecisionCards = [materializeResearchDecisionCard(control.researchRecords[0]!, { now: NOW })];
+  control.researchPassportProjectionDegraded = true;
+  assert.equal(buildDecisionProductArtifact(control).researchPassports.length, 1);
   const input = buildInput(priorArtifact());
+  input.researchDecisionCards = [materializeResearchDecisionCard(input.researchRecords[0]!, { now: NOW })];
+  input.researchPassportProjectionDegraded = true;
   input.researchRecords[0]!.status = "已撤稿";
   input.researchRecords[0]!.article.scholar!.isRetracted = true;
   assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
@@ -177,9 +186,18 @@ test("retention drops a prior Passport when current papers share one normalized 
   assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
 });
 
+test("retention drops a prior W1 Passport after current ownership changes to W2 without a current card", () => {
+  const input = buildInput(priorArtifact());
+  input.researchRecords[0]!.article.scholar!.workId = "W2";
+  input.researchPassportProjectionDegraded = true;
+  assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
+});
+
 test("retention accepts a unique normalized OpenAlex ID and rejects a non-OpenAlex owner", () => {
   const normalized = buildInput(priorArtifact());
   normalized.researchRecords[0]!.article.scholar!.workId = "w1";
+  normalized.researchDecisionCards = [materializeResearchDecisionCard(normalized.researchRecords[0]!, { now: NOW })];
+  normalized.researchPassportProjectionDegraded = true;
   assert.deepEqual(buildDecisionProductArtifact(normalized).researchPassports.map((passport) => passport.paperId), ["paper-alpha"]);
 
   const mismatchedOwner = buildInput(priorArtifact());

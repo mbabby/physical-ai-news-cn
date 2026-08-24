@@ -70,7 +70,7 @@ import { formatWatchlistReadme } from "./watchlist/markdown.js";
 import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
-import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, stageDecisionProducts } from "./decision-products/materialize.js";
+import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, shouldDegradeResearchPassportProjection, stageDecisionProducts } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
 
@@ -777,6 +777,11 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchDecisionCards,
     benchmarkResultLedger,
     watchlist: watchlistView,
+    researchPassportProjectionDegraded: shouldDegradeResearchPassportProjection({
+      previousArtifact: previousDecisionProductArtifact,
+      researchDecisionCards,
+      runtimeStatuses: statuses,
+    }),
   };
   const currentDecisionProducts = buildDecisionProductArtifact(decisionProductInput);
   const decisionProducts = buildDecisionProductArtifact({ ...decisionProductInput, previousArtifact: previousDecisionProductArtifact });
@@ -914,17 +919,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const decisionFeedManifest = buildDecisionFeedManifest(decisionProducts);
   validateDecisionProductPublication({
     artifact: decisionProducts,
-    expectedArtifact: buildDecisionProductArtifact({
-      generatedAt: now,
-      events: eventStore.events,
-      companies,
-      companyClaimLedger,
-      researchRecords: researchRegistry.records,
-      researchDecisionCards,
-      benchmarkResultLedger,
-      watchlist: watchlistView,
-      previousArtifact: previousDecisionProductArtifact,
-    }),
+    expectedArtifact: buildDecisionProductArtifact({ ...decisionProductInput, previousArtifact: previousDecisionProductArtifact }),
     dashboard,
     readme,
     feedManifest: decisionFeedManifest,

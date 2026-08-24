@@ -88,8 +88,8 @@ filesystem release validation passes the valid fixture and rejects all 13 disk m
 Final local verification for this correction:
 
 ```text
-focused retention/research/pipeline/release: 48 passed, 0 failed
-full suite: 625 passed, 0 failed
+focused retention/research/pipeline/release: 49 passed, 0 failed
+full suite: 626 passed, 0 failed
 pnpm run check: exit 0
 node --check site/decision-products-validator.js site/app.js site/share-pages.js: all exit 0
 git diff --check: exit 0

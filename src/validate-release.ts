@@ -24,7 +24,7 @@ import { rankResearchRecords } from "./research-registry.js";
 import type { CompanyClaimLedger } from "./company-claim-ledger.js";
 import type { BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
-import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
+import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, shouldDegradeResearchPassportProjection, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, type DecisionFeedManifest } from "./decision-products/subscriptions.js";
 
@@ -180,6 +180,11 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     researchDecisionCards: researchDecisionArtifact.cards,
     benchmarkResultLedger,
     watchlist: currentView,
+    researchPassportProjectionDegraded: shouldDegradeResearchPassportProjection({
+      previousArtifact: previousDecisionProducts,
+      researchDecisionCards: researchDecisionArtifact.cards,
+      runtimeStatuses: manifest.services,
+    }),
   };
   const currentDecisionProducts = buildDecisionProductArtifact(currentDecisionProductInput);
   const expectedDecisionProducts = buildDecisionProductArtifact({

@@ -6,7 +6,7 @@ import { eventOccurredAt } from "../event-time.js";
 import { derivePublication, isDiscoveryEvidence, type EvidenceState } from "../facts-contract.js";
 import type { FileTransaction } from "../runtime/storage.js";
 import { ambiguousOpenAlexWorkIds, canonicalOpenAlexWorkId, type ResearchDecisionCard } from "../research-decision-card.js";
-import type { CompanyProfile, EventRecord, ResearchRecord } from "../types.js";
+import type { CompanyProfile, EventRecord, ResearchRecord, RuntimeStatus } from "../types.js";
 import type { WatchlistPublicView } from "../watchlist/public-view.js";
 import { buildDecisionCompanyCards } from "./company-card.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./contracts.js";
@@ -148,9 +148,9 @@ function retainedPassportValid(passport: DecisionProductArtifact["researchPasspo
     || input.generatedAt.getTime() - checkedAt > MAX_OPENALEX_AGE_DAYS * DAY_MS
     || !Number.isFinite(authorityCheckedAt) || authorityCheckedAt > checkedAt) return false;
   const currentCard = input.researchDecisionCards.find((card) => card.identity.paperId.value === passport.paperId);
-  if (currentCard && (!currentCard.eligibleForTopResearch || currentCard.gates.length > 0
+  if (!currentCard || !currentCard.eligibleForTopResearch || currentCard.gates.length > 0 || !currentCard.completeness.completeOrUnknown
     || canonicalOpenAlexWorkId(currentCard.identity.openAlexWorkId.value === "unknown" ? undefined : currentCard.identity.openAlexWorkId.value) !== workId
-    || currentCard.openAlex.retraction.value !== false || currentCard.openAlex.freshness.value !== "fresh")) return false;
+    || currentCard.openAlex.match.value !== "matched" || currentCard.openAlex.retraction.value !== false || currentCard.openAlex.freshness.value !== "fresh") return false;
 
   const benchmarkFields = ["name", "metric", "result", "baseline", "delta"] as const;
   const ledgerKeys = { name: "benchmark", metric: "metric", result: "result", baseline: "baseline", delta: "delta" } as const;
@@ -196,6 +196,17 @@ export interface BuildDecisionProductInput {
   watchlist: WatchlistPublicView;
   /** Strict last-known-good public artifact; retained items are revalidated against every current canonical source. */
   previousArtifact?: DecisionProductArtifact;
+  /** Explicit external-service degradation: keep only prior Passports backed by still-valid current cards. */
+  researchPassportProjectionDegraded?: boolean;
+}
+
+export function shouldDegradeResearchPassportProjection(input: {
+  previousArtifact?: DecisionProductArtifact;
+  researchDecisionCards: readonly ResearchDecisionCard[];
+  runtimeStatuses: readonly RuntimeStatus[];
+}): boolean {
+  return Boolean(input.previousArtifact && input.researchDecisionCards.length > 0
+    && input.runtimeStatuses.some((status) => (status.component === "LLM" || status.component === "OpenAlex") && status.status !== "成功"));
 }
 
 export interface DecisionProductRetentionReceipt {
@@ -274,7 +285,7 @@ export function buildDecisionProductArtifact(input: BuildDecisionProductInput): 
     watchlist: input.watchlist,
     now: input.generatedAt,
   });
-  const currentPassports = buildReproducibilityPassports({
+  const currentPassports = input.researchPassportProjectionDegraded && input.previousArtifact ? [] : buildReproducibilityPassports({
     records: input.researchRecords,
     cards: input.researchDecisionCards,
     benchmarkLedger: input.benchmarkResultLedger,
