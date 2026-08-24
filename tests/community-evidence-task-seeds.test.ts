@@ -196,9 +196,9 @@ test("rejects unsupported Chinese and English absence claims in every pool", () 
     });
   };
   const cases: Array<[string, (phrase: string) => BuildEvidenceTaskSeedsInput, string[]]> = [
-    ["company", companyCase, ["该公司暂未融资", "公司未融资", "融资尚未发生", "funding has not occurred", "the company lacks funding"]],
-    ["product", productCase, ["该产品尚无部署", "产品未部署", "产品未进行部署", "deployment is absent", "the product has not been deployed"]],
-    ["research", researchCase, ["论文未公开代码", "项目暂无代码", "code is unavailable", "code hasn't been released", "code hasn’t been released", "the paper has not published code"]],
+    ["company", companyCase, ["无融资", "该公司暂未融资", "公司未融资", "融资尚未发生", "funding has not occurred", "the company lacks funding"]],
+    ["product", productCase, ["无部署", "该产品尚无部署", "产品未部署", "产品未进行部署", "deployment is absent", "the product has not been deployed"]],
+    ["research", researchCase, ["无代码", "论文未公开代码", "项目暂无代码", "code is unavailable", "code hasn't been released", "code hasn’t been released", "the paper has not published code"]],
   ];
 
   for (const [pool, build, phrases] of cases) {
