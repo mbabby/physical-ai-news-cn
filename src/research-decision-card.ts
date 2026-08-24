@@ -106,9 +106,25 @@ function firstUrl(text: string, test: RegExp): string | undefined {
   return extractUrls(text).find((url) => test.test(url));
 }
 
+export function canonicalOpenAlexWorkId(workId: string | undefined): string | undefined {
+  if (!workId || workId !== workId.trim()) return undefined;
+  let candidate = workId;
+  if (/^https?:\/\//i.test(workId)) {
+    try {
+      const url = new URL(workId);
+      if (url.hostname.replace(/^www\./i, "").toLowerCase() !== "openalex.org" || url.search || url.hash) return undefined;
+      const segments = url.pathname.split("/").filter(Boolean);
+      if (segments.length !== 1) return undefined;
+      candidate = segments[0]!;
+    } catch { return undefined; }
+  } else if (workId.includes("/")) return undefined;
+  const canonical = candidate.toUpperCase();
+  return /^W[A-Z0-9._-]+$/.test(canonical) ? canonical : undefined;
+}
+
 function openAlexUrl(workId: string | undefined): string[] {
-  if (!workId) return [];
-  return [workId.startsWith("http://") || workId.startsWith("https://") ? workId : `https://openalex.org/${workId.replace(/^.*\//, "")}`];
+  const canonical = canonicalOpenAlexWorkId(workId);
+  return canonical ? [`https://openalex.org/${canonical}`] : [];
 }
 
 function openAlexFreshness(checkedAt: string | undefined, now: Date, maxAgeDays: number): EvidenceBacked<"fresh" | "stale"> {
@@ -148,11 +164,14 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   const abstract = sourceAbstract(article);
   const paperEvidence = sourceUrl(article);
   const scholar = article.scholar;
+  const canonicalWorkId = canonicalOpenAlexWorkId(scholar?.workId);
   const claims = researchClaims(article);
   const verifiedClaim = (kind: "真实机器人" | "基准" | "开源") => claims.find((claim) => claim.kind === kind && claim.status === "verified");
   const scholarEvidence = openAlexUrl(scholar?.workId);
-  const ambiguous = Boolean(scholar?.workId && options.ambiguousWorkIds?.has(scholar.workId));
-  const match = ambiguous ? known("ambiguous" as const, scholarEvidence) : scholar?.workId ? known("matched" as const, scholarEvidence) : known("missing" as const, paperEvidence);
+  const normalizedAmbiguousWorkIds = new Set([...(options.ambiguousWorkIds ?? [])]
+    .flatMap((workId) => canonicalOpenAlexWorkId(workId) ?? []));
+  const ambiguous = Boolean(canonicalWorkId && normalizedAmbiguousWorkIds.has(canonicalWorkId));
+  const match = ambiguous ? known("ambiguous" as const, scholarEvidence) : canonicalWorkId ? known("matched" as const, scholarEvidence) : known("missing" as const, paperEvidence);
   const freshness = openAlexFreshness(scholar?.checkedAt, now, maxOpenAlexAgeDays);
   if (freshness.value !== UNKNOWN) freshness.evidenceUrls = scholarEvidence;
 
@@ -189,7 +208,7 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   if (labs.length) why.push(`OpenAlex 作者/机构元数据包含${labs.slice(0, 2).join("、")}`);
   if ((scholar?.citedByCount ?? 0) > 0) why.push(`OpenAlex 记录引用 ${scholar!.citedByCount}`);
   const base = {
-    identity: { paperId: known(record.id, paperEvidence), openAlexWorkId: scholar?.workId ? known(scholar.workId, scholarEvidence) : unknown<string>(), version: record.arxivVersion ? known(record.arxivVersion, paperEvidence) : unknown<number>() },
+    identity: { paperId: known(record.id, paperEvidence), openAlexWorkId: canonicalWorkId ? known(canonicalWorkId, scholarEvidence) : unknown<string>(), version: record.arxivVersion ? known(record.arxivVersion, paperEvidence) : unknown<number>() },
     titleZh: article.titleZh ? known(article.titleZh, paperEvidence) : unknown<string>(),
     factsZh: chineseFacts(article),
     task: taskLabels.length ? known(taskLabels, paperEvidence) : unknown<string[]>(),
@@ -236,10 +255,10 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   return { ...base, fieldEvidence: fields, completeness: { totalFields: fieldValues.length, knownFields, unknownFields: fieldValues.length - knownFields, completeOrUnknown: fieldValues.every((field) => field.value === UNKNOWN || field.evidenceUrls.length > 0) }, gates, eligibleForTopResearch: gates.length === 0 };
 }
 
-function duplicateOpenAlexWorkIds(records: readonly ResearchRecord[]): Set<string> {
+export function ambiguousOpenAlexWorkIds(records: readonly ResearchRecord[]): Set<string> {
   const paperIdsByWorkId = new Map<string, Set<string>>();
   for (const record of records) {
-    const workId = record.article.scholar?.workId;
+    const workId = canonicalOpenAlexWorkId(record.article.scholar?.workId);
     if (!workId) continue;
     const paperIds = paperIdsByWorkId.get(workId) ?? new Set<string>();
     paperIds.add(record.id);
@@ -250,7 +269,7 @@ function duplicateOpenAlexWorkIds(records: readonly ResearchRecord[]): Set<strin
 
 /** Deterministic ordering; paper ID is the final tiebreaker. */
 export function rankResearchDecisionCards(records: readonly ResearchRecord[], options: Omit<DecisionCardOptions, "ambiguousWorkIds"> = {}): ResearchDecisionCard[] {
-  const ambiguousWorkIds = duplicateOpenAlexWorkIds(records);
+  const ambiguousWorkIds = ambiguousOpenAlexWorkIds(records);
   return records.map((record) => materializeResearchDecisionCard(record, { ...options, ambiguousWorkIds }))
     .sort((left, right) => right.rankScore - left.rankScore || right.identity.paperId.value.toString().localeCompare(left.identity.paperId.value.toString()));
 }

@@ -1,6 +1,6 @@
 import { validateBenchmarkResultLedger, type BenchmarkResultEntry, type BenchmarkResultLedger } from "../benchmark-result-ledger.js";
 import type { LedgerField } from "../ledger-contracts.js";
-import type { ResearchDecisionCard } from "../research-decision-card.js";
+import { canonicalOpenAlexWorkId, type ResearchDecisionCard } from "../research-decision-card.js";
 import type { ResearchRecord } from "../types.js";
 import { hasCompleteChinesePassportCopy, stableDecisionId, validateDecisionProductArtifact, type ReproducibilityPassport } from "./contracts.js";
 
@@ -152,8 +152,13 @@ export function buildReproducibilityPassports(input: BuildReproducibilityPasspor
     const record = recordsById.get(paperId);
     if (!record) throw new Error(`研究决策卡 ${paperId} 无法匹配规范研究记录`);
     if (card.identity.paperId.value !== record.id) throw new Error(`研究决策卡 ${paperId} identity 归属不一致`);
-    const cardWorkId = card.identity.openAlexWorkId.value === UNKNOWN ? undefined : card.identity.openAlexWorkId.value;
-    if (cardWorkId !== record.article.scholar?.workId) throw new Error(`研究决策卡 ${paperId} 的 OpenAlex identity 归属不一致`);
+    const cardWorkIdValue = card.identity.openAlexWorkId.value === UNKNOWN ? undefined : card.identity.openAlexWorkId.value;
+    const recordWorkIdValue = record.article.scholar?.workId;
+    const cardWorkId = canonicalOpenAlexWorkId(cardWorkIdValue);
+    const recordWorkId = canonicalOpenAlexWorkId(recordWorkIdValue);
+    if ((cardWorkIdValue && !cardWorkId) || (recordWorkIdValue && !recordWorkId) || cardWorkId !== recordWorkId) {
+      throw new Error(`研究决策卡 ${paperId} 的 OpenAlex identity 归属不一致`);
+    }
   }
   for (const entry of input.benchmarkLedger.entries) {
     if (entry.decisionCardPaperId !== entry.paperId) throw new Error(`Benchmark ${entry.entryId} 的决策卡归属不一致`);

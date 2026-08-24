@@ -163,6 +163,30 @@ test("retention drops a passport after a current retraction", () => {
   assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
 });
 
+test("retention drops a prior Passport when current papers share one normalized OpenAlex work identity", () => {
+  const input = buildInput(priorArtifact());
+  input.researchRecords[0]!.article.scholar!.workId = "https://openalex.org/W1";
+  input.researchRecords.push({
+    ...structuredClone(researchRecord),
+    id: "paper-beta",
+    article: {
+      ...structuredClone(researchRecord.article), id: "paper-beta", link: "https://arxiv.org/abs/2608.00002",
+      scholar: { ...structuredClone(researchRecord.article.scholar!), workId: "w1" },
+    },
+  });
+  assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
+});
+
+test("retention accepts a unique normalized OpenAlex ID and rejects a non-OpenAlex owner", () => {
+  const normalized = buildInput(priorArtifact());
+  normalized.researchRecords[0]!.article.scholar!.workId = "w1";
+  assert.deepEqual(buildDecisionProductArtifact(normalized).researchPassports.map((passport) => passport.paperId), ["paper-alpha"]);
+
+  const mismatchedOwner = buildInput(priorArtifact());
+  mismatchedOwner.researchRecords[0]!.article.scholar!.workId = "https://example.com/W1";
+  assert.deepEqual(buildDecisionProductArtifact(mismatchedOwner).researchPassports, []);
+});
+
 test("retention drops prior known benchmark data unsupported by the current ledger", () => {
   const previous = priorArtifact();
   previous.researchPassports[0]!.benchmark = {

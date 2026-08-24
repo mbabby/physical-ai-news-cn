@@ -5,7 +5,7 @@ import type { CompanyClaimLedger } from "../company-claim-ledger.js";
 import { eventOccurredAt } from "../event-time.js";
 import { derivePublication, isDiscoveryEvidence, type EvidenceState } from "../facts-contract.js";
 import type { FileTransaction } from "../runtime/storage.js";
-import type { ResearchDecisionCard } from "../research-decision-card.js";
+import { ambiguousOpenAlexWorkIds, canonicalOpenAlexWorkId, type ResearchDecisionCard } from "../research-decision-card.js";
 import type { CompanyProfile, EventRecord, ResearchRecord } from "../types.js";
 import type { WatchlistPublicView } from "../watchlist/public-view.js";
 import { buildDecisionCompanyCards } from "./company-card.js";
@@ -136,11 +136,12 @@ function knownLedgerValue(field: { value: unknown; status: string; evidenceUrls:
     && evidenceUrls.every((url) => field.evidenceUrls.includes(url));
 }
 
-function retainedPassportValid(passport: DecisionProductArtifact["researchPassports"][number], input: BuildDecisionProductInput): boolean {
+function retainedPassportValid(passport: DecisionProductArtifact["researchPassports"][number], input: BuildDecisionProductInput, ambiguousWorkIds: ReadonlySet<string>): boolean {
   const record = input.researchRecords.find((item) => item.id === passport.paperId);
   const scholar = record?.article.scholar;
+  const workId = canonicalOpenAlexWorkId(scholar?.workId);
   if (!record || record.status === "已撤稿" || record.status === "待复核" || record.article.link !== passport.sourceUrl
-    || !scholar || scholar.isRetracted !== false) return false;
+    || !scholar || scholar.isRetracted !== false || !workId || ambiguousWorkIds.has(workId)) return false;
   const checkedAt = Date.parse(scholar.checkedAt);
   const authorityCheckedAt = passport.authority.checkedAt === "unknown" ? NaN : Date.parse(passport.authority.checkedAt);
   if (!Number.isFinite(checkedAt) || checkedAt > input.generatedAt.getTime()
@@ -148,6 +149,7 @@ function retainedPassportValid(passport: DecisionProductArtifact["researchPasspo
     || !Number.isFinite(authorityCheckedAt) || authorityCheckedAt > checkedAt) return false;
   const currentCard = input.researchDecisionCards.find((card) => card.identity.paperId.value === passport.paperId);
   if (currentCard && (!currentCard.eligibleForTopResearch || currentCard.gates.length > 0
+    || canonicalOpenAlexWorkId(currentCard.identity.openAlexWorkId.value === "unknown" ? undefined : currentCard.identity.openAlexWorkId.value) !== workId
     || currentCard.openAlex.retraction.value !== false || currentCard.openAlex.freshness.value !== "fresh")) return false;
 
   const benchmarkFields = ["name", "metric", "result", "baseline", "delta"] as const;
@@ -277,6 +279,7 @@ export function buildDecisionProductArtifact(input: BuildDecisionProductInput): 
     cards: input.researchDecisionCards,
     benchmarkLedger: input.benchmarkResultLedger,
   });
+  const currentAmbiguousWorkIds = ambiguousOpenAlexWorkIds(input.researchRecords);
   const base: DecisionProductArtifact = {
     schemaVersion: 1,
     generatedAt,
@@ -286,7 +289,7 @@ export function buildDecisionProductArtifact(input: BuildDecisionProductInput): 
       ? mergeSparse(currentCompanyCards, input.previousArtifact.companyCards, (card) => card.companyId, (card) => retainedCompanyCardValid(card, input), COMPANY_LIMIT)
       : currentCompanyCards,
     researchPassports: input.previousArtifact
-      ? mergeSparse(currentPassports, input.previousArtifact.researchPassports, (passport) => passport.paperId, (passport) => retainedPassportValid(passport, input), PASSPORT_LIMIT)
+      ? mergeSparse(currentPassports, input.previousArtifact.researchPassports, (passport) => passport.paperId, (passport) => retainedPassportValid(passport, input, currentAmbiguousWorkIds), PASSPORT_LIMIT)
       : currentPassports,
     subscriptions: { generatedAt, entries: [] },
   };
