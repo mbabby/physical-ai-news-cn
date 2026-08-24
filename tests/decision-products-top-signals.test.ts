@@ -91,7 +91,8 @@ test("Top Signals rejects unresolved subjects, terminal evidence, and incomplete
     canonicalEvent({ id: "evt-unknown-subject", primaryEntity: "Unknown Robotics" }),
     canonicalEvent({ id: "evt-missing-entity-id", primaryEntity: "Profile Without Id" }),
     canonicalEvent({ id: "evt-rejected", evidenceState: "rejected" }),
-    canonicalEvent({ id: "evt-withdrawn", evidence: [{ ...canonicalEvent().evidence[0]!, withdrawn: true } as any] }),
+    canonicalEvent({ id: "evt-lifecycle-withdrawn", evidenceState: "withdrawn" }),
+    canonicalEvent({ id: "evt-withdrawn", evidence: [{ ...canonicalEvent().evidence[0]!, withdrawn: true } as EventRecord["evidence"][number] & { withdrawn: boolean }] }),
     canonicalEvent({ id: "evt-one-fact", facts: ["只有一句完整事实。"] }),
     canonicalEvent({ id: "evt-english-facts", facts: ["Alpha raised funding.", "Funds support robotics."] }),
     canonicalEvent({ id: "evt-fragment", facts: ["Alpha Robotics 完成融资", "资金用于机器人研发。"] }),
@@ -110,7 +111,7 @@ test("Top Signals derives exactly two canonical facts and excludes discovery evi
       canonicalEvent().evidence[0]!,
       { ...canonicalEvent().evidence[0]!, source: "Alpha Robotics Newsroom" },
       { link: "https://news.ycombinator.com/item?id=1", source: "Hacker News", grade: "B", publishedAt: "2026-08-23T03:00:00Z", supports: "发现线索" },
-      { link: "https://x.com/alpha/status/1", source: "X · Alpha", grade: "A", publishedAt: "2026-08-23T04:00:00Z", supports: "发现线索" },
+      { link: "https://x.com/alpha/status/1", source: "X · Alpha", grade: "A", publishedAt: "2026-08-23T04:00:00Z", supports: "发现线索", withdrawn: true } as EventRecord["evidence"][number] & { withdrawn: boolean },
     ],
   })], companies, NOW);
 
@@ -127,8 +128,19 @@ test("Top Signals rejects placeholder Chinese copy", () => {
   assert.deepEqual(result, []);
 });
 
+test("Top Signals keeps exactly one Chinese sentence in each factsZh element", () => {
+  const result = buildDecisionTopSignals([canonicalEvent({
+    facts: ["Alpha Robotics 完成新一轮融资。资金将用于机器人研发。", "公司将扩大研发团队。"],
+  })], companies, NOW);
+  assert.deepEqual(result, []);
+
+  const forged = buildDecisionTopSignals([canonicalEvent()], companies, NOW)[0]!;
+  forged.factsZh = ["Alpha Robotics 完成新一轮融资。资金将用于机器人研发。", "公司将扩大研发团队。"];
+  assert.throws(() => validateTopSignalSource(forged));
+});
+
 test("Top Signals deduplicates events, caps each kind at three, and is deterministic", () => {
-  const kinds: ArticleKind[] = ["投融资", "产品发布", "部署案例", "公司商业"];
+  const kinds: ArticleKind[] = ["投融资", "产品发布", "部署案例", "公司商业", "开源项目", "研究与数据"];
   const events = kinds.flatMap((kind, kindIndex) => Array.from({ length: 4 }, (_, index) => canonicalEvent({
     id: `evt-${kindIndex}-${index}`,
     type: kind,
@@ -153,4 +165,9 @@ test("Top Signals deduplicates events, caps each kind at three, and is determini
   assert.deepEqual(second, first);
   assert.deepEqual(first.slice(0, 3).map((item) => item.eventId), ["evt-0-0", "evt-0-1", "evt-0-2"]);
   assert.ok(first.every((item) => !Object.hasOwn(item, "internalScore") && !Object.hasOwn(item, "rankScore")));
+  assert.equal(buildDecisionTopSignals(events, companies, NOW, Number.NaN).length, 10);
+  assert.equal(buildDecisionTopSignals(events, companies, NOW, Number.POSITIVE_INFINITY).length, 10);
+  assert.equal(buildDecisionTopSignals(events, companies, NOW, Number.NEGATIVE_INFINITY).length, 10);
+  assert.equal(buildDecisionTopSignals(events, companies, NOW, -1).length, 0);
+  assert.equal(buildDecisionTopSignals(events, companies, NOW, 2.9).length, 2);
 });

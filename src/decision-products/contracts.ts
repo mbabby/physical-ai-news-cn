@@ -222,6 +222,12 @@ function exactPair(value: unknown): value is [string, string] {
   return Array.isArray(value) && value.length === 2 && value.every(nonEmpty);
 }
 
+function singleChineseSentence(value: string): boolean {
+  return /[\u3400-\u9fff]/u.test(value)
+    && /[。！？!?]$/u.test(value)
+    && (value.match(/[。！？!?]/gu)?.length ?? 0) === 1;
+}
+
 function uniqueBy(values: unknown[], key: (value: Record<string, unknown>) => unknown, path: string): void {
   const identities = values.map((value) => object(value) ? key(value) : undefined);
   ensure(identities.every((identity) => nonEmpty(identity) && identity === identity.trim())
@@ -251,6 +257,7 @@ function validateTopSignal(value: unknown, path: string): asserts value is Decis
   ensure(signalId === stableDecisionId("signal", eventId), `${path}.signalId is not bound to eventId`);
   for (const key of ["entityName", "titleZh", "whyItMatters"] as const) ensure(nonEmpty(value[key]), `${path}.${key} must be non-empty`);
   ensure(exactPair(value.factsZh), `${path}.factsZh must contain exactly two facts`);
+  ensure(value.factsZh.every(singleChineseSentence), `${path}.factsZh must contain exactly two Chinese sentences`);
   ensure(ARTICLE_KINDS.has(value.kind as ArticleKind), `${path}.kind is invalid`);
   ensure(uniqueStrings(value.routes, false) && value.routes.every((route) => TECHNICAL_ROUTES.has(route as TechnicalRoute)), `${path}.routes are invalid`);
   ensure(canonicalTimestamp(value.occurredAt) && canonicalTimestamp(value.verifiedAt), `${path} timestamps are noncanonical`);

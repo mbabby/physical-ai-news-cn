@@ -36,12 +36,12 @@ function evidenceOrigin(evidence: EventEvidence): string {
 }
 
 function qualifyingEvidence(event: EventWithLifecycle): EventEvidence[] | undefined {
-  const publication = derivePublication({ evidence: event.evidence, evidenceState: event.evidenceState });
+  const nonDiscovery = event.evidence.filter((item) => !DISCOVERY.test(`${item.source} ${item.link}`));
+  const publication = derivePublication({ evidence: nonDiscovery, evidenceState: event.evidenceState });
   if (!publication.publicEligible || TERMINAL_STATES.has(publication.evidenceState)) return undefined;
   const qualifyingIds = new Set(publication.qualifyingEvidenceIds);
-  const direct = event.evidence.filter((item) => qualifyingIds.has(item.link)
-    && !(item as EvidenceWithLifecycle).withdrawn
-    && !DISCOVERY.test(`${item.source} ${item.link}`))
+  const direct = nonDiscovery.filter((item) => qualifyingIds.has(item.link)
+    && !(item as EvidenceWithLifecycle).withdrawn)
     .sort(compareEvidence);
   const hasA = direct.some((item) => item.grade === "A");
   if (hasA) {
@@ -90,7 +90,9 @@ function resolveCompany(primaryEntity: string | undefined, companies: CompanyPro
 function factualCopy(event: EventRecord): [string, string] | undefined {
   const candidates = [...event.facts, ...event.timeline.map((item) => item.summary)]
     .map((value) => value.trim())
-    .filter((value) => COMPLETE_CHINESE_SENTENCE.test(value) && !isPlaceholderCopy(value));
+    .filter((value) => COMPLETE_CHINESE_SENTENCE.test(value)
+      && (value.match(/[。！？!?]/gu)?.length ?? 0) === 1
+      && !isPlaceholderCopy(value));
   const facts = [...new Set(candidates)];
   return facts.length >= 2 ? [facts[0]!, facts[1]!] : undefined;
 }
@@ -221,7 +223,8 @@ export function buildDecisionTopSignals(
   limit = DEFAULT_LIMIT,
 ): DecisionTopSignal[] {
   if (!Number.isFinite(now.getTime())) throw new Error("Top Signals requires a valid fixed clock");
-  const cappedLimit = Math.min(DEFAULT_LIMIT, Math.max(0, Math.floor(limit)));
+  const normalizedLimit = Number.isFinite(limit) ? limit : DEFAULT_LIMIT;
+  const cappedLimit = Math.min(DEFAULT_LIMIT, Math.max(0, Math.floor(normalizedLimit)));
   if (cappedLimit === 0) return [];
 
   const ordered = events
