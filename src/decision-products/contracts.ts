@@ -71,7 +71,7 @@ export interface ReproducibilityPassport {
   realRobotTrials: number | "unknown";
   assets: { code: string | "unknown"; data: string | "unknown"; weights: string | "unknown" };
   reproducibilityCost: { level: "low" | "medium" | "high" | "unknown"; rationale: string | "unknown" };
-  authority: { authors: string[]; labs: string[]; citedByCount: number | "unknown"; checkedAt: string | "unknown" };
+  authority: { openAlexWorkId: string; authors: string[]; labs: string[]; citedByCount: number | "unknown"; checkedAt: string | "unknown" };
   limitations: string[] | "unknown";
   gaps: string[];
   whyWorthAttention: string;
@@ -125,7 +125,7 @@ const PASSPORT_KEYS = ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl
 const BENCHMARK_KEYS = ["name", "metric", "result", "baseline", "delta", "evidenceUrls"] as const;
 const ASSET_KEYS = ["code", "data", "weights"] as const;
 const COST_KEYS = ["level", "rationale"] as const;
-const AUTHORITY_KEYS = ["authors", "labs", "citedByCount", "checkedAt"] as const;
+const AUTHORITY_KEYS = ["openAlexWorkId", "authors", "labs", "citedByCount", "checkedAt"] as const;
 const CATALOG_KEYS = ["generatedAt", "entries"] as const;
 const SUBSCRIPTION_KEYS = ["subscriptionId", "label", "description", "cadence", "format", "url", "route"] as const;
 
@@ -381,6 +381,7 @@ function validatePassport(value: unknown, path: string): asserts value is Reprod
   ensure(["low", "medium", "high", "unknown"].includes(String(value.reproducibilityCost.level)), `${path}.reproducibilityCost.level is invalid`);
   ensure(value.reproducibilityCost.level === "unknown" ? value.reproducibilityCost.rationale === "unknown" : nonEmpty(value.reproducibilityCost.rationale) && value.reproducibilityCost.rationale !== "unknown", `${path}.reproducibilityCost is inconsistent`);
   exactKeys(value.authority, AUTHORITY_KEYS, `${path}.authority`);
+  ensure(typeof value.authority.openAlexWorkId === "string" && /^W[A-Z0-9._-]+$/.test(value.authority.openAlexWorkId), `${path}.authority.openAlexWorkId is not canonical`);
   ensure(uniqueStrings(value.authority.authors) && uniqueStrings(value.authority.labs), `${path}.authority names are invalid`);
   ensure(value.authority.citedByCount === "unknown" || (Number.isInteger(value.authority.citedByCount) && (value.authority.citedByCount as number) >= 0), `${path}.authority.citedByCount is invalid`);
   ensure(value.authority.checkedAt === "unknown" || canonicalTimestamp(value.authority.checkedAt), `${path}.authority.checkedAt is invalid`);

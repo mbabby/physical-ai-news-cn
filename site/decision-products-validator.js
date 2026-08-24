@@ -21,7 +21,7 @@
     watchlist: ["track", "lifecycle", "whyNow", "nextValidationPoints"], point: ["text", "dueAt"],
     passport: ["passportId", "paperId", "titleZh", "factsZh", "sourceUrl", "task", "embodiment", "methods", "benchmark", "realRobotTrials", "assets", "reproducibilityCost", "authority", "limitations", "gaps", "whyWorthAttention", "rankReasons"],
     benchmark: ["name", "metric", "result", "baseline", "delta", "evidenceUrls"], assets: ["code", "data", "weights"],
-    cost: ["level", "rationale"], authority: ["authors", "labs", "citedByCount", "checkedAt"],
+    cost: ["level", "rationale"], authority: ["openAlexWorkId", "authors", "labs", "citedByCount", "checkedAt"],
     catalog: ["generatedAt", "entries"], subscription: ["subscriptionId", "label", "description", "cadence", "format", "url", "route"],
   };
 
@@ -185,7 +185,8 @@
     exact(value.assets, keys.assets); assert([value.assets.code, value.assets.data, value.assets.weights].every((asset) => asset === "unknown" || absoluteUrl(asset)));
     exact(value.reproducibilityCost, keys.cost); assert(["low", "medium", "high", "unknown"].includes(value.reproducibilityCost.level));
     assert(value.reproducibilityCost.level === "unknown" ? value.reproducibilityCost.rationale === "unknown" : nonEmpty(value.reproducibilityCost.rationale) && value.reproducibilityCost.rationale !== "unknown");
-    exact(value.authority, keys.authority); assert(uniqueStrings(value.authority.authors) && uniqueStrings(value.authority.labs));
+    exact(value.authority, keys.authority); assert(typeof value.authority.openAlexWorkId === "string" && /^W[A-Z0-9._-]+$/.test(value.authority.openAlexWorkId));
+    assert(uniqueStrings(value.authority.authors) && uniqueStrings(value.authority.labs));
     assert(value.authority.citedByCount === "unknown" || Number.isInteger(value.authority.citedByCount) && value.authority.citedByCount >= 0);
     assert(value.authority.checkedAt === "unknown" || canonicalTimestamp(value.authority.checkedAt));
     assert(value.limitations === "unknown" || uniqueStrings(value.limitations, false));

@@ -64,3 +64,21 @@ The pipeline test performs two generations with the same fixed input and compare
 - OpenAlex work ownership is normalized once for both the production research selector and Passport retention (`W…` and `https://openalex.org/W…` resolve identically). Retention recomputes ambiguity across every current research record and rejects missing, invalid-domain, mismatched, or non-unique work ownership even when the affected current decision card is absent.
 - The orchestration marks Passport projection degraded only when a strict prior artifact exists, current eligible research cards remain, and LLM/OpenAlex runtime status is degraded. This preserves last-known-good projection bytes without treating card absence as identity evidence; standalone release reconstruction derives the same state from the run manifest.
 - The two-run regression starts with a generated non-empty company card and Passport, then supplies sparse/degraded inputs and proves both identities and their material timestamps survive while Top Signals stays empty. Same-count identity replacement, withdrawal, retraction, entity-type change, unsupported Benchmark data, candidate/private prior data, and receipt-stage rollback are covered separately.
+
+## Durable OpenAlex identity correction
+
+- `ReproducibilityPassport.authority.openAlexWorkId` is now a required public source identity containing only the canonical OpenAlex work ID (`W…`). The strict TypeScript and shared browser contracts require the exact field and reject legacy Phase 3 artifacts that omit it, URLs in place of IDs, noncanonical IDs, and undeclared authority data.
+- The Passport builder copies the identity only from the canonical OpenAlex record selected for the current eligible research card. The UI renders it through the existing safe URL/text helpers; no private, candidate, score, or receipt fact was introduced.
+- Retention now requires the stored prior work ID to equal both the unique current normalized OpenAlex record identity and the current eligible decision-card identity. Consequently a prior W1 Passport is dropped when the current paper resolves to W2 even during an explicitly degraded Passport projection, while W1 remains retainable when current card and record ownership still prove W1.
+- Regression coverage includes TypeScript/browser contract mutations, W1-to-W2 replacement with a valid current card, same-W1 degraded retention, duplicate current work IDs, ownership normalization, and release reconstruction fixtures carrying the exact public identity.
+
+Focused verification for this correction:
+
+```text
+decision-product contracts/passports/retention/pipeline/release/research/UI/publication robustness:
+90 passed, 0 failed
+full suite: 626 passed, 0 failed
+pnpm run check: exit 0
+node --check site/decision-products-validator.js site/app.js site/share-pages.js: all exit 0
+git diff --check: exit 0
+```

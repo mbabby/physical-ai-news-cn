@@ -209,6 +209,7 @@ export function buildReproducibilityPassports(input: BuildReproducibilityPasspor
           ? { level: UNKNOWN, rationale: UNKNOWN }
           : { level: cost, rationale: card.reproducibilityCost.rationale },
         authority: {
+          openAlexWorkId: canonicalOpenAlexWorkId(scholar.workId)!,
           authors: authors === UNKNOWN ? [] : [...authors],
           labs: labs === UNKNOWN ? [] : [...labs],
           citedByCount: Number.isInteger(scholar.citedByCount) && scholar.citedByCount >= 0 ? scholar.citedByCount : UNKNOWN,

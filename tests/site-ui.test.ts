@@ -323,7 +323,7 @@ const decisionPassport = () => ({
   task: ["操作"], embodiment: ["真实机器人"], methods: "unknown",
   benchmark: { name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [] },
   realRobotTrials: "unknown", assets: { code: "unknown", data: "unknown", weights: "unknown" },
-  reproducibilityCost: { level: "unknown", rationale: "unknown" }, authority: { authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" },
+  reproducibilityCost: { level: "unknown", rationale: "unknown" }, authority: { openAlexWorkId: "W1", authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" },
   limitations: "unknown", gaps: [], whyWorthAttention: "该论文具备完整公开事实。", rankReasons: ["OpenAlex 元数据已核验"],
 });
 
@@ -406,6 +406,7 @@ test("both product renderers fail closed for every malformed nested decision bou
     ["passport cost", (value) => { value.researchPassports[0].reproducibilityCost = { level: "low", rationale: "unknown" }; }],
     ["passport authority count", (value) => { value.researchPassports[0].authority.citedByCount = -1; }],
     ["passport authority timestamp", (value) => { value.researchPassports[0].authority.checkedAt = "2026-08-17T09:00:00+08:00"; }],
+    ["passport OpenAlex identity", (value) => { value.researchPassports[0].authority.openAlexWorkId = "https://example.com/W1"; }],
     ["passport limitations", (value) => { value.researchPassports[0].limitations = []; }],
     ["subscription id", (value) => { value.subscriptions.entries[0].subscriptionId = " feed-all "; }],
     ["subscription cadence", (value) => { value.subscriptions.entries[0].cadence = "monthly"; }],

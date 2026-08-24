@@ -94,3 +94,9 @@ pnpm run check: exit 0
 node --check site/decision-products-validator.js site/app.js site/share-pages.js: all exit 0
 git diff --check: exit 0
 ```
+
+## Final cross-task identity hardening
+
+- The release contract now reconstructs Passports with the required canonical public `authority.openAlexWorkId`; strict validation does not silently accept legacy Phase 3 Passport authority objects without it.
+- Last-known-good reconstruction can retain a Passport only when the prior stored work identity equals the unique current normalized OpenAlex record and current eligible card identity. A W1-to-W2 source replacement therefore fails closed even when the projection is explicitly degraded.
+- The retention receipt remains provenance-only (digest and retained canonical IDs); OpenAlex identity remains in the authoritative public artifact/history snapshot and is not duplicated into a second fact store.

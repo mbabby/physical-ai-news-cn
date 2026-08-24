@@ -65,7 +65,7 @@ function decisionArtifact(): DecisionProductArtifact {
       task: ["机器人操作"], embodiment: ["机械臂"], methods: ["视觉语言动作模型"],
       benchmark: { name: "LIBERO", metric: "成功率", result: "74.7%", baseline: "70.0%", delta: "+4.7pp", evidenceUrls: ["https://arxiv.org/abs/2608.00001"] },
       realRobotTrials: 20, assets: { code: "https://github.com/example/alpha", data: "unknown", weights: "unknown" },
-      reproducibilityCost: { level: "medium", rationale: "需要一套机械臂。" }, authority: { authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 3, checkedAt: GENERATED_AT },
+      reproducibilityCost: { level: "medium", rationale: "需要一套机械臂。" }, authority: { openAlexWorkId: "W1", authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 3, checkedAt: GENERATED_AT },
       limitations: ["仅验证单一机械臂。"], gaps: ["缺少公开权重"], whyWorthAttention: "AI 研究判断：包含实机与精确基准证据。", rankReasons: ["包含真实机器人试验"],
     }],
     subscriptions: { generatedAt: GENERATED_AT, entries: [] },

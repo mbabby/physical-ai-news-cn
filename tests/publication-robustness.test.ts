@@ -117,7 +117,7 @@ test("an empty Top Signals week preserves valid company cards, passports and sub
       passportId: stableDecisionId("research", "paper-alpha"), paperId: "paper-alpha", titleZh: "一种机器人操作方法", factsZh: ["该方法面向机器人操作。", "论文报告了公开实验设置。"], sourceUrl: "https://arxiv.org/abs/2608.00001",
       task: "unknown", embodiment: "unknown", methods: "unknown", benchmark: { name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [] },
       realRobotTrials: "unknown", assets: { code: "unknown", data: "unknown", weights: "unknown" }, reproducibilityCost: { level: "unknown", rationale: "unknown" },
-      authority: { authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" }, limitations: "unknown", gaps: ["缺少基准证据"], whyWorthAttention: "AI 研究判断：论文问题与物理智能相关。", rankReasons: ["研究问题相关"],
+      authority: { openAlexWorkId: "W1", authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" }, limitations: "unknown", gaps: ["缺少基准证据"], whyWorthAttention: "AI 研究判断：论文问题与物理智能相关。", rankReasons: ["研究问题相关"],
     }],
     subscriptions: { generatedAt, entries: [{ subscriptionId: "feed-all", label: "全部 Top Signals", description: "每周证据门槛后的决策信号。", cadence: "weekly", format: "rss", url: "https://mbabby.github.io/physical-ai-news-cn/feeds/decision/all.xml", route: "all" }] },
   };

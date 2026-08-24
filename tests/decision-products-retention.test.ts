@@ -102,7 +102,7 @@ function priorArtifact(): DecisionProductArtifact {
       benchmark: { name: "unknown", metric: "unknown", result: "unknown", baseline: "unknown", delta: "unknown", evidenceUrls: [] },
       realRobotTrials: "unknown", assets: { code: "unknown", data: "unknown", weights: "unknown" },
       reproducibilityCost: { level: "unknown", rationale: "unknown" },
-      authority: { authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 1, checkedAt: PRIOR_TIME },
+      authority: { openAlexWorkId: "W1", authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 1, checkedAt: PRIOR_TIME },
       limitations: "unknown", gaps: ["assets.code"],
       whyWorthAttention: "AI 研究判断：保留已核验的完整研究卡。", rankReasons: ["OpenAlex 元数据已核验"],
     }],
@@ -186,9 +186,10 @@ test("retention drops a prior Passport when current papers share one normalized 
   assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
 });
 
-test("retention drops a prior W1 Passport after current ownership changes to W2 without a current card", () => {
+test("retention drops a prior W1 Passport after a valid current card changes ownership to W2", () => {
   const input = buildInput(priorArtifact());
   input.researchRecords[0]!.article.scholar!.workId = "W2";
+  input.researchDecisionCards = [materializeResearchDecisionCard(input.researchRecords[0]!, { now: NOW })];
   input.researchPassportProjectionDegraded = true;
   assert.deepEqual(buildDecisionProductArtifact(input).researchPassports, []);
 });

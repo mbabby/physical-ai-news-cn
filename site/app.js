@@ -269,7 +269,7 @@ function renderResearchFeed(items) {
         `实机：${item.realRobotTrials}`,
         `复现成本：${item.reproducibilityCost?.level || "unknown"}`,
       ];
-      return `<article class="feed-item research-decision" data-passport-id="${safe(item.passportId)}"><div class="item-meta"><span>Reproducibility Passport</span></div><h3><a href="${safeUrl(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.titleZh)}</a></h3><p>${safe(list(item.factsZh).join(" "))}</p><div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div><details><summary>缺口与复现资产</summary><p>缺口：${safe(list(item.gaps).join(" · ") || "无")}</p><p>代码 ${safe(item.assets?.code)} · 数据 ${safe(item.assets?.data)} · 权重 ${safe(item.assets?.weights)}</p></details></article>`;
+      return `<article class="feed-item research-decision" data-passport-id="${safe(item.passportId)}"><div class="item-meta"><span>Reproducibility Passport</span></div><h3><a href="${safeUrl(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.titleZh)}</a></h3><p>${safe(list(item.factsZh).join(" "))}</p><div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div><details><summary>缺口与复现资产</summary><p>OpenAlex <a href="${safeUrl(`https://openalex.org/${item.authority?.openAlexWorkId}`)}" target="_blank" rel="noopener noreferrer">${safe(item.authority?.openAlexWorkId)}</a></p><p>缺口：${safe(list(item.gaps).join(" · ") || "无")}</p><p>代码 ${safe(item.assets?.code)} · 数据 ${safe(item.assets?.data)} · 权重 ${safe(item.assets?.weights)}</p></details></article>`;
     }
     const card = item.decisionCard;
     if (!card) return itemCard(item, true);

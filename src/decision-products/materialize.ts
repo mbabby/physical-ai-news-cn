@@ -141,7 +141,7 @@ function retainedPassportValid(passport: DecisionProductArtifact["researchPasspo
   const scholar = record?.article.scholar;
   const workId = canonicalOpenAlexWorkId(scholar?.workId);
   if (!record || record.status === "已撤稿" || record.status === "待复核" || record.article.link !== passport.sourceUrl
-    || !scholar || scholar.isRetracted !== false || !workId || ambiguousWorkIds.has(workId)) return false;
+    || !scholar || scholar.isRetracted !== false || !workId || passport.authority.openAlexWorkId !== workId || ambiguousWorkIds.has(workId)) return false;
   const checkedAt = Date.parse(scholar.checkedAt);
   const authorityCheckedAt = passport.authority.checkedAt === "unknown" ? NaN : Date.parse(passport.authority.checkedAt);
   if (!Number.isFinite(checkedAt) || checkedAt > input.generatedAt.getTime()

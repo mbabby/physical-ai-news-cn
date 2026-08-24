@@ -74,7 +74,7 @@ function validDecisionProductArtifact(): any {
       realRobotTrials: 20,
       assets: { code: "https://github.com/example/alpha", data: "unknown", weights: "unknown" },
       reproducibilityCost: { level: "medium", rationale: "需要一套机械臂。" },
-      authority: { authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 3, checkedAt: "2026-08-24T01:00:00Z" },
+      authority: { openAlexWorkId: "W260800001", authors: ["Alice"], labs: ["Alpha Lab"], citedByCount: 3, checkedAt: "2026-08-24T01:00:00Z" },
       limitations: ["仅验证单一机械臂。"],
       gaps: ["缺少公开权重"],
       whyWorthAttention: "AI 研究判断：包含实机与精确基准证据。",
@@ -144,6 +144,7 @@ test("rejects relative URLs and noncanonical timestamps or dates", () => {
     (value: any) => { value.topSignals[0].evidence[0].url = "/news"; },
     (value: any) => { value.companyCards[0].officialUrl = "javascript:alert(1)"; },
     (value: any) => { value.researchPassports[0].assets.code = "github/example"; },
+    (value: any) => { value.researchPassports[0].authority.openAlexWorkId = "https://example.com/W260800001"; },
     (value: any) => { value.generatedAt = "2026-08-24 01:00:00Z"; },
     (value: any) => { value.topSignals[0].occurredAt = "2026-02-31T01:00:00Z"; },
     (value: any) => { value.companyCards[0].watchlist.nextValidationPoints[0].dueAt = "2026-02-31"; },
@@ -179,7 +180,7 @@ test("known public facts require evidence while unknown remains explicit", () =>
   unknown.researchPassports[0].realRobotTrials = "unknown";
   unknown.researchPassports[0].assets = { code: "unknown", data: "unknown", weights: "unknown" };
   unknown.researchPassports[0].reproducibilityCost = { level: "unknown", rationale: "unknown" };
-  unknown.researchPassports[0].authority = { authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" };
+  unknown.researchPassports[0].authority = { openAlexWorkId: "W260800001", authors: [], labs: [], citedByCount: "unknown", checkedAt: "unknown" };
   unknown.researchPassports[0].limitations = "unknown";
   assert.doesNotThrow(() => validateDecisionProductArtifact(unknown));
 });
