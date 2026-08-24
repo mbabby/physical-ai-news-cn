@@ -7,6 +7,10 @@ import type { ResearchDecisionCard } from "../research-decision-card.js";
 import type { CompanyClaimLedger } from "../company-claim-ledger.js";
 import type { BenchmarkResultLedger } from "../benchmark-result-ledger.js";
 import { validateDualLedgers } from "../dual-ledger.js";
+import { validateDecisionProductArtifact, type DecisionProductArtifact } from "../decision-products/contracts.js";
+import { buildDecisionFeedManifest, renderDecisionFeed } from "../decision-products/subscriptions.js";
+import type { DashboardData } from "../site-data.js";
+import type { WatchlistPublicView } from "../watchlist/public-view.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -29,6 +33,78 @@ export function validateDualLedgerPublication(input: {
   expectedGeneratedAt: string;
 }): void {
   validateDualLedgers(input);
+}
+
+export interface DecisionProductPublicationValidationInput {
+  artifact: unknown;
+  expectedArtifact: DecisionProductArtifact;
+  dashboard: Pick<DashboardData, "generatedAt" | "decisionProducts" | "topSignals" | "companyRadar" | "research">;
+  readme: string;
+  feedManifest: unknown;
+  feeds: Readonly<Record<string, string>>;
+  expectedGeneratedAt: string;
+  companyEventOwners: ReadonlyMap<string, string>;
+  benchmarkResultLedger: BenchmarkResultLedger;
+  repositoryUrl: string;
+  pagesUrl: string;
+  watchlist: WatchlistPublicView;
+}
+
+const stableBytes = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
+
+function orderedIds(value: unknown, key: string): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => item && typeof item === "object" && key in item ? String((item as Record<string, unknown>)[key]) : "");
+}
+
+function assertSameIds(actual: string[], expected: string[], label: string): void {
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(`${label}身份或顺序与 Decision Product 不一致`);
+}
+
+function validatePassportBenchmarkEvidence(artifact: DecisionProductArtifact, ledger: BenchmarkResultLedger): void {
+  const entriesByPaper = new Map<string, BenchmarkResultLedger["entries"]>();
+  for (const entry of ledger.entries) entriesByPaper.set(entry.paperId, [...(entriesByPaper.get(entry.paperId) ?? []), entry]);
+  const fieldNames = { name: "benchmark", metric: "metric", result: "result", baseline: "baseline", delta: "delta" } as const;
+  for (const passport of artifact.researchPassports) {
+    for (const [publicField, ledgerField] of Object.entries(fieldNames) as Array<[keyof typeof fieldNames, typeof fieldNames[keyof typeof fieldNames]]>) {
+      const value = passport.benchmark[publicField];
+      if (value === "unknown") continue;
+      const bound = (entriesByPaper.get(passport.paperId) ?? []).some((entry) => {
+        const field = entry.fields[ledgerField];
+        return field.status === "verified" && field.value === value && field.evidenceUrls.length > 0
+          && field.evidenceUrls.every((url) => passport.benchmark.evidenceUrls.includes(url));
+      });
+      if (!bound) throw new Error(`Research Passport 已知 Benchmark 字段缺少账本证据：${passport.paperId}.${publicField}`);
+    }
+  }
+}
+
+/** Validate the shared materialized product and every public projection without re-ranking. */
+export function validateDecisionProductPublication(input: DecisionProductPublicationValidationInput): void {
+  validateDecisionProductArtifact(input.expectedArtifact);
+  validateDecisionProductArtifact(input.artifact);
+  const artifact = input.artifact;
+  if (stableBytes(artifact) !== stableBytes(input.expectedArtifact)) throw new Error("Decision Product 与规范输入重建结果不一致");
+  if (artifact.generatedAt !== input.expectedGeneratedAt || artifact.subscriptions.generatedAt !== artifact.generatedAt
+    || input.dashboard.generatedAt !== artifact.generatedAt) throw new Error("Decision Product、运行清单与 dashboard 生成时间不一致");
+  if (!input.dashboard.decisionProducts || stableBytes(input.dashboard.decisionProducts) !== stableBytes(artifact)) {
+    throw new Error("dashboard 内嵌 Decision Product 与公开工件不一致");
+  }
+  assertSameIds(orderedIds(input.dashboard.topSignals, "signalId"), artifact.topSignals.map((item) => item.signalId), "dashboard Top Signals");
+  assertSameIds(orderedIds(input.dashboard.companyRadar, "cardId"), artifact.companyCards.map((item) => item.cardId), "dashboard 公司卡");
+  assertSameIds(orderedIds(input.dashboard.research, "passportId"), artifact.researchPassports.map((item) => item.passportId), "dashboard Research Passports");
+  const readmeIds = [...input.readme.matchAll(/<!-- decision-signal:([^ ]+) -->/g)].map((match) => match[1]!);
+  assertSameIds(readmeIds, artifact.topSignals.map((item) => item.signalId), "README Top Signals");
+  for (const card of artifact.companyCards) for (const change of card.recentChanges) {
+    if (input.companyEventOwners.get(change.eventId) !== card.companyId) throw new Error(`公司卡事件归属不一致：${card.companyId}:${change.eventId}`);
+  }
+  validatePassportBenchmarkEvidence(artifact, input.benchmarkResultLedger);
+  const expectedManifest = buildDecisionFeedManifest(artifact);
+  if (stableBytes(input.feedManifest) !== stableBytes(expectedManifest)) throw new Error("Decision Feed manifest 与公开工件不一致");
+  for (const feed of expectedManifest.feeds) {
+    const expected = renderDecisionFeed(artifact, feed.route, input);
+    if (input.feeds[feed.path] !== expected) throw new Error(`Decision Feed 字节或 GUID 顺序不一致：${feed.path}`);
+  }
 }
 
 export function validatePublication(input: PublicationValidationInput): void {

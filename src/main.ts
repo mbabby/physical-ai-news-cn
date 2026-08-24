@@ -26,7 +26,7 @@ import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSour
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
-import { validatePublication } from "./runtime/validation.js";
+import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
 import { buildCandidateVerificationArtifact, formatCandidateVerificationReview, verificationIssueSeeds } from "./candidate-verification.js";
@@ -71,6 +71,7 @@ import { buildWatchlistSnapshot } from "./watchlist/snapshot.js";
 import { validateWatchlistSnapshotShape, type CompanyThesisArtifact, type WatchlistSnapshot } from "./watchlist/contracts.js";
 import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist/release-validation.js";
 import { buildDecisionProductArtifact, stageDecisionProducts } from "./decision-products/materialize.js";
+import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
@@ -890,6 +891,34 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     changePage: watchlistChangePage,
     feeds: buildWatchlistFeedManifest(watchlistView),
     readme,
+  });
+  const decisionFeedManifest = buildDecisionFeedManifest(decisionProducts);
+  validateDecisionProductPublication({
+    artifact: decisionProducts,
+    expectedArtifact: buildDecisionProductArtifact({
+      generatedAt: now,
+      events: eventStore.events,
+      companies,
+      companyClaimLedger,
+      researchRecords: researchRegistry.records,
+      researchDecisionCards,
+      benchmarkResultLedger,
+      watchlist: watchlistView,
+    }),
+    dashboard,
+    readme,
+    feedManifest: decisionFeedManifest,
+    feeds: Object.fromEntries(decisionFeedManifest.feeds.map((feed) => [feed.path, renderDecisionFeed(decisionProducts, feed.route, {
+      repositoryUrl: repositoryBaseUrl,
+      pagesUrl: pagesBaseUrl,
+      watchlist: watchlistView,
+    })])),
+    expectedGeneratedAt: now.toISOString(),
+    companyEventOwners: canonicalCompanyEventOwners(companies, eventStore.events),
+    benchmarkResultLedger,
+    repositoryUrl: repositoryBaseUrl,
+    pagesUrl: pagesBaseUrl,
+    watchlist: watchlistView,
   });
   const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, metrics: watchlistMetrics, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({
