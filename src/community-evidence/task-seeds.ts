@@ -27,7 +27,7 @@ const targetPriority: Record<EvidenceTaskCategory, EvidenceTargetField[]> = {
   "research-metadata": ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"],
 };
 
-const UNSUPPORTED_NEGATIVE = /(?:未曾|尚未|并未|没有|不存在|无)(?:融资|部署|代码)|\b(?:no|without|not|never)\b.{0,32}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,32}\bnot\b/i;
+const UNSUPPORTED_NEGATIVE = /(?:未曾|尚未|并未|没有|不存在|无)(?:融资|部署|代码)|(?:融资|部署|代码).{0,12}(?:尚未|未曾|并不|没有)(?:发生|完成|存在|发布|公开|提供|落地|实现)|\b(?:no|without|not|never)\b.{0,32}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,32}\bnot\b/i;
 const TERMINAL_EVIDENCE_STATES = new Set(["rejected", "conflicted", "withdrawn"]);
 const INTERNAL_REVIEW_URL = /https:\/\/[^\s"']*(?:\/|%2f|=)review(?:\/|%2f|[?#&]|$)/i;
 const REPLY_TEMPLATE = "证据链接：\n证据摘录：\n来源类型：";
