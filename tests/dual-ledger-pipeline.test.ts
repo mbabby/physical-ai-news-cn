@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -20,6 +20,10 @@ const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], fail
 
 async function copyFixture(target: string): Promise<void> {
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await rm(join(target, "watchlist", "current.json"), { force: true });
+  await rm(join(target, "watchlist", "theses.json"), { force: true });
+  await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
+  await mkdir(join(target, "watchlist", "history"), { recursive: true });
 }
 
 async function fixedGenerate(root: string, transaction?: FileTransaction, now = FIXED_NOW) {
@@ -97,7 +101,9 @@ test("daily generation publishes both ledgers and metrics byte-identically for a
   const root = await mkdtemp(join(tmpdir(), "dual-ledger-idempotence-"));
   try {
     await copyFixture(root);
+    assert.deepEqual(await readdir(join(root, "watchlist", "history")), []);
     await fixedGenerate(root);
+    assert.equal((await readdir(join(root, "watchlist", "history"))).length, 1);
     const first = await ledgerBytes(root);
     const company = JSON.parse(first["events/company-claim-ledger.json"]!) as { generatedAt: string };
     const benchmark = JSON.parse(first["research/benchmark-result-ledger.json"]!) as { generatedAt: string };
