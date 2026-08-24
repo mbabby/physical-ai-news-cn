@@ -1,4 +1,4 @@
-# 本周物理 AI 情报摘要 · 2026-W34
+# 本周物理 AI 情报摘要 · 2026-W35
 
 > 可直接复制发布。内容仅来自已公开、可追溯的事件与完整中文研究卡。
 
@@ -17,7 +17,7 @@
 
 ## English short version
 
-Physical AI Intelligence Brief · 2026-W34
+Physical AI Intelligence Brief · 2026-W35
 
 - No public event met the repository's evidence threshold this week.
 

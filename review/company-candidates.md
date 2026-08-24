@@ -212,6 +212,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 擎天租 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiwFBVV95cUxOWTR0SnVPUU9LeFhRYzUwWC1WcE04aEEyLVowd195NkNRSHY1MTg2cUpzV0lBbDRrWTNjM0NYSjNxNVFqaFp2cnN5OXp3V0RydXgtU2ZxTnBFTnYtQklZamRQMmhuV1BOTWNieFBvVnB0WDdTeWNqQU1yQ2xMekg3YmlwaDlxSDRHeEQ0?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%93%8E%E5%A4%A9%E7%A7%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%93%8E%E5%A4%A9%E7%A7%9F%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 七大公募机构把脉机器人板块 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[东方财富](https://news.google.com/rss/articles/CBMiYEFVX3lxTFB6U0tpMzZrWEJFVHg2MmNmS00tSGh2NFhEbW1IRWM0aXpaeThMR2g1SDFtaEVBM01fZ1NPejZ3ZmZaanZLbkN1TkNWbW9IbDQ1ZGJ2YlhSY2dFdnZraUNXSA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%83%E5%A4%A7%E5%85%AC%E5%8B%9F%E6%9C%BA%E6%9E%84%E6%8A%8A%E8%84%89%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%9D%BF%E5%9D%97%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%83%E5%A4%A7%E5%85%AC%E5%8B%9F%E6%9C%BA%E6%9E%84%E6%8A%8A%E8%84%89%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%9D%BF%E5%9D%97%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 具身智能机器人爆发：出货4万台 · 候选 · 22/100
 
 - 路线：部署与商业化

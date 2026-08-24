@@ -32,7 +32,7 @@
 ## 西湖机器人 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：3；下次复核 2026-08-23
+- 尝试：4；下次复核 2026-09-23
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMicEFVX3lxTE03Mi1lZklkN2V2RHY3dEdpbFhTTUdGd1lWa1FaWlROQk9KZEdhQjFBY0xvbm8zdHdQSEhsOEs5bmFwYllZMVYwb1Bkb3hiNW9NY1F1QnN0V3UtT2xZQmYzVHJTbExOOEhaTHhpcGpndVg?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5)
@@ -686,6 +686,24 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMif0FVX3lxTE1BWHlCcWJtRGxkMjdqSU41MTVfN1B2bU5RV1lSMFRySlVLYXRTNFVvTVB2NnN4NmVqUUJwb0VmaEF4NVlqQkNnelRybWpKQ3lOQkxYTlF5M2RtaXRkNVRyTXdLTTBJS24zMkVKYmFxaHItN2VXNVpzUkFQVW9oV1k?oc=5)
 - 结论：无法唯一识别公司主体
 
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiYEFVX3lxTFB6U0tpMzZrWEJFVHg2MmNmS00tSGh2NFhEbW1IRWM0aXpaeThMR2g1SDFtaEVBM01fZ1NPejZ3ZmZaanZLbkN1TkNWbW9IbDQ1ZGJ2YlhSY2dFdnZraUNXSA?oc=5)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMisgFBVV95cUxOaGdwMThtT3BtNG84aFNOTDU3bi1jU1ZGY0xHbWM3dFBYVy1BMHZjdFVwMWVnY3I1MzNZMVZWZFlGNnhueXF5NV83cXdZOVpHdVRyazVBT1QzM1JSWGpLR3NzTUNVLVRtR2NXekJJWmU3MUNXLUZ6QW5iYUFpNjlRdllBWHA4QVhNVUJrSERPOXB4QW05VjFvbk9uM3l5RFVpQTgybVFZak40dWYyTG44bUJB?oc=5)
+- 结论：无法唯一识别公司主体
+
 ## 机器人公司融资600万美元用于开发新型血管成像平台 Robotics company · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -738,6 +756,15 @@
 - 主动补证：尚未执行
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiTEFVX3lxTFBvdHg1Wm12QXdPdkgyb252bEs1c1dtVW5IYWpSNVlWYVE0LW9PNDdYRkpEdDlLelIybzFzVG1fdlRKU3RwckgteGNiWGc?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 擎天租 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-08-25
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiiwFBVV95cUxOWTR0SnVPUU9LeFhRYzUwWC1WcE04aEEyLVowd195NkNRSHY1MTg2cUpzV0lBbDRrWTNjM0NYSjNxNVFqaFp2cnN5OXp3V0RydXgtU2ZxTnBFTnYtQklZamRQMmhuV1BOTWNieFBvVnB0WDdTeWNqQU1yQ2xMekg3YmlwaDlxSDRHeEQ0?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 人形机器人成本下降九成，灵巧手 · 投融资 · 等待重试
