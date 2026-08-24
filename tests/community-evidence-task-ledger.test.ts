@@ -195,7 +195,7 @@ test("a bot-applied stale label does not reset the fourteen-day inactivity clock
   const task = seed("company-funding", "stale-clock");
   const day0 = "2026-08-10T12:00:00Z";
   const day7 = "2026-08-17T12:00:00Z";
-  const day7LabelApplied = "2026-08-17T12:00:01Z";
+  const day7LabelApplied = "2026-08-17T18:00:00Z";
   const first = planEvidenceIssueActions({
     seeds: { ...seeds([task]), generatedAt: day7 },
     issues: { ...issues([issue(task, { number: 41, createdAt: day0, updatedAt: day0 })]), fetchedAt: day7 },
@@ -241,6 +241,21 @@ test("genuine activity after stale resets the inactivity clock", () => {
 
   assert.deepEqual(second.actions, []);
   assert.equal(second.ledger.entries.find((item) => item.taskId === task.id)?.lastActivityAt, contributionAt);
+  assert.equal(second.ledger.entries.find((item) => item.taskId === task.id)?.state, "contributed");
+
+  const third = planEvidenceIssueActions({
+    seeds: seeds([task]),
+    issues: issues([issue(task, {
+      number: 41,
+      createdAt: day0,
+      updatedAt: contributionAt,
+      labels: ["evidence-task", "stale"],
+      evidenceUrls: ["https://evidence.example/new"],
+    })]),
+    previousLedger: second.ledger,
+    now: NOW,
+  });
+  assert.equal(third.ledger.entries.find((item) => item.taskId === task.id)?.state, "contributed");
 });
 
 test("keeps accepted, rejected, and remotely closed history without consuming WIP", () => {
@@ -287,6 +302,64 @@ test("creates a versioned successor only for a changed material version and supe
   assert.equal(changed.ledger.entries.find((item) => item.taskId === successor.id)?.taskVersion, 2);
 });
 
+test("a successor closes an older active variant even when a newer historical version is terminal", () => {
+  const v1 = seed("company-funding", "identity-v1");
+  const v2 = seed("company-funding", "identity-v2", {
+    subject: v1.subject,
+    targetField: v1.targetField,
+    materialVersion: "identity-material-v2",
+    version: 2,
+    supersedesTaskId: v1.id,
+  });
+  const v3 = seed("company-funding", "identity-v3", {
+    subject: v1.subject,
+    targetField: v1.targetField,
+    materialVersion: "identity-material-v3",
+  });
+  const previous = ledger([
+    entry(v1, { issueNumber: 41, issueUrl: `https://github.com/${REPO}/issues/41` }),
+    entry(v2, {
+      issueNumber: 42,
+      issueUrl: `https://github.com/${REPO}/issues/42`,
+      state: "closed",
+      closedAt: "2026-08-23T00:00:00Z",
+      updatedAt: "2026-08-23T00:00:00Z",
+      lastActivityAt: "2026-08-23T00:00:00Z",
+    }),
+  ]);
+
+  const result = planEvidenceIssueActions({
+    seeds: seeds([v3]),
+    issues: issues([issue(v1, { number: 41 })]),
+    previousLedger: previous,
+    now: NOW,
+  });
+
+  assert.deepEqual(result.actions[0], { action: "close", issueNumber: 41, taskId: v1.id, reason: "superseded" });
+  assert.equal(result.actions[1]?.action, "create");
+  assert.equal(result.ledger.entries.find((item) => item.taskId === v1.id)?.state, "superseded");
+  assert.equal(result.ledger.entries.find((item) => item.taskId === v3.id)?.taskVersion, 3);
+  assert.equal(result.ledger.entries.filter((item) => ["ready", "open", "contributed", "stale"].includes(item.state)).length, 1);
+});
+
+test("fails closed when history contains multiple active variants for one subject and field", () => {
+  const v1 = seed("company-funding", "duplicate-active-v1");
+  const v2 = seed("company-funding", "duplicate-active-v2", {
+    subject: v1.subject,
+    targetField: v1.targetField,
+    materialVersion: "duplicate-active-material-v2",
+    version: 2,
+    supersedesTaskId: v1.id,
+  });
+
+  assert.throws(() => planEvidenceIssueActions({
+    seeds: seeds([]),
+    issues: issues([]),
+    previousLedger: ledger([entry(v1), entry(v2, { issueNumber: 42, issueUrl: `https://github.com/${REPO}/issues/42` })]),
+    now: NOW,
+  }), /multiple active variants/);
+});
+
 test("does not supersede an open task when no successor slot is available", () => {
   const oldTask = seed("company-funding", "old-no-slot");
   const successor = seed("company-funding", "new-no-slot", {
@@ -319,7 +392,7 @@ test("selects only one unfinished material variant for the same subject and fiel
   assert.equal(result.actions.filter((action) => action.action === "create").length, 1);
 });
 
-test("does not create a replacement while existing WIP already exceeds the hard cap", () => {
+test("rejects input whose existing WIP already exceeds the hard cap", () => {
   const oldTask = seed("company-funding", "over-cap-old");
   const successor = seed("company-funding", "over-cap-new", {
     subject: oldTask.subject,
@@ -338,10 +411,12 @@ test("does not create a replacement while existing WIP already exceeds the hard 
     issueUrl: `https://github.com/${REPO}/issues/${50 + index}`,
   }));
 
-  const result = planEvidenceIssueActions({ seeds: seeds([successor]), issues: issues([]), previousLedger: ledger(priorEntries), now: NOW });
-
-  assert.equal(result.actions.some((action) => action.action === "create"), false);
-  assert.equal(result.ledger.entries.find((item) => item.taskId === oldTask.id)?.state, "open");
+  assert.throws(() => planEvidenceIssueActions({
+    seeds: seeds([successor]),
+    issues: issues([]),
+    previousLedger: ledger(priorEntries),
+    now: NOW,
+  }), /WIP hard cap of 5/);
 });
 
 test("formats a safe one-field two-minute Issue body with reconciliation markers", () => {
@@ -377,9 +452,11 @@ test("JSON CLI validates inputs and writes byte-stable exact JSON", async () => 
     writeFile(paths.issues, JSON.stringify(issues([])), "utf8"),
     writeFile(paths.ledger, JSON.stringify(ledger()), "utf8"),
   ]);
-  const args = ["--import", "tsx", "src/community-evidence/plan-issue-actions.ts", "--seeds", paths.seeds, "--issues", paths.issues, "--ledger", paths.ledger, "--now", NOW, "--out"];
-  const first = spawnSync(process.execPath, [...args, paths.first], { cwd: process.cwd(), encoding: "utf8" });
-  const second = spawnSync(process.execPath, [...args, paths.second], { cwd: process.cwd(), encoding: "utf8" });
+  const command = ["--import", "tsx", "src/community-evidence/plan-issue-actions.ts"];
+  const validFlags = ["--seeds", paths.seeds, "--issues", paths.issues, "--ledger", paths.ledger, "--now", NOW, "--out"];
+  const run = (flags: string[]) => spawnSync(process.execPath, [...command, ...flags], { cwd: process.cwd(), encoding: "utf8" });
+  const first = run([...validFlags, paths.first]);
+  const second = run([...validFlags, paths.second]);
 
   assert.equal(first.status, 0, first.stderr);
   assert.equal(second.status, 0, second.stderr);
@@ -390,7 +467,20 @@ test("JSON CLI validates inputs and writes byte-stable exact JSON", async () => 
   assert.deepEqual(Object.keys(output), ["actions", "ledger"]);
 
   await writeFile(paths.ledger, JSON.stringify({ ...ledger(), privateScore: 9 }), "utf8");
-  const invalid = spawnSync(process.execPath, [...args, paths.first], { cwd: process.cwd(), encoding: "utf8" });
+  const invalid = run([...validFlags, paths.first]);
   assert.notEqual(invalid.status, 0);
   assert.match(invalid.stderr, /Invalid community evidence contract/);
+
+  await writeFile(paths.ledger, JSON.stringify(ledger()), "utf8");
+  const malformedFlags = [
+    [...validFlags, paths.first, "--unknown", "value"],
+    [...validFlags, paths.first, "--now", NOW],
+    validFlags.slice(0, -1),
+    [...validFlags.slice(0, -1), "--out"],
+    [...validFlags.slice(0, 7), "not-a-time", ...validFlags.slice(8), paths.first],
+  ];
+  for (const flags of malformedFlags) {
+    const malformed = run(flags);
+    assert.notEqual(malformed.status, 0, flags.join(" "));
+  }
 });

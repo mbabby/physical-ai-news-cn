@@ -17,9 +17,9 @@ export type EvidenceIssueAction =
 
 const CATEGORIES: EvidenceTaskCategory[] = ["company-funding", "product-deployment", "research-metadata"];
 const WIP_STATES = new Set(["open", "contributed", "stale"]);
+const ACTIVE_STATES = new Set(["ready", ...WIP_STATES]);
 const TERMINAL_STATES = new Set(["accepted", "rejected", "closed", "superseded"]);
 const DAY = 86_400_000;
-const STALE_LABEL_APPLICATION_WINDOW = 5 * 60_000;
 
 function compareStrings(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
@@ -130,8 +130,11 @@ function reconcileIssue(input: {
   const remoteTerminal = terminalLabel(issue);
   const preserveStaleActivity = current.state === "stale"
     && issue.labels.includes("stale")
-    && issue.evidenceUrls.length === 0
-    && Date.parse(issue.updatedAt) - Date.parse(current.updatedAt) <= STALE_LABEL_APPLICATION_WINDOW;
+    && issue.evidenceUrls.length === 0;
+  const newEvidenceActivity = current.state === "stale"
+    && issue.evidenceUrls.length > 0
+    && Date.parse(issue.updatedAt) > Date.parse(current.updatedAt);
+  const remoteStale = issue.labels.includes("stale") && issue.evidenceUrls.length === 0;
   const activityAt = preserveStaleActivity ? current.lastActivityAt : issue.updatedAt;
   let state = current.state;
   let updatedAt = latest(current.updatedAt, issue.updatedAt);
@@ -153,7 +156,9 @@ function reconcileIssue(input: {
         closedAt = now;
         updatedAt = now;
         actions.push({ action: "close", issueNumber: issue.number, taskId: issue.taskId, reason: "inactive-14-days" });
-      } else if (inactiveDays >= 7 || issue.labels.includes("stale") || current.state === "stale") {
+      } else if (newEvidenceActivity) {
+        state = "contributed";
+      } else if (inactiveDays >= 7 || remoteStale || current.state === "stale") {
         state = "stale";
         if (current.state !== "stale" && !issue.labels.includes("stale")) {
           updatedAt = now;
@@ -208,18 +213,25 @@ export function planEvidenceIssueActions(input: {
   }
 
   const latestByIdentity = new Map<string, EvidenceTaskLedgerEntry>();
+  const activeByIdentity = new Map<string, EvidenceTaskLedgerEntry>();
   for (const item of entries.values()) {
     const key = taskIdentity(item);
     const current = latestByIdentity.get(key);
     if (!current || item.taskVersion > current.taskVersion || (item.taskVersion === current.taskVersion && compareStrings(item.taskId, current.taskId) > 0)) {
       latestByIdentity.set(key, item);
     }
+    if (ACTIVE_STATES.has(item.state)) {
+      if (activeByIdentity.has(key)) throw new Error(`Evidence lifecycle history contains multiple active variants for ${key}`);
+      activeByIdentity.set(key, item);
+    }
   }
 
   const candidates: Array<{ seed: EvidenceTaskSeed; version: number; supersedesTaskId: string | null; previous?: EvidenceTaskLedgerEntry }> = [];
   for (const seed of input.seeds.seeds) {
     if (entries.has(seed.id) || input.issues.issues.some((issue) => issue.taskId === seed.id)) continue;
-    const previous = latestByIdentity.get(taskIdentity(seed));
+    const identity = taskIdentity(seed);
+    const previous = latestByIdentity.get(identity);
+    const activePrevious = activeByIdentity.get(identity);
     let version = seed.version;
     let supersedesTaskId = seed.supersedesTaskId;
     if (previous) {
@@ -227,7 +239,7 @@ export function planEvidenceIssueActions(input: {
       version = previous.taskVersion + 1;
       supersedesTaskId = previous.taskId;
     }
-    candidates.push({ seed, version, supersedesTaskId, previous });
+    candidates.push({ seed, version, supersedesTaskId, previous: activePrevious });
   }
 
   const snapshotWipIds = new Set(input.issues.issues.filter((issue) => issue.state === "open" && !terminalLabel(issue)).map((issue) => issue.taskId));
@@ -235,6 +247,7 @@ export function planEvidenceIssueActions(input: {
     if (WIP_STATES.has(item.state)) snapshotWipIds.add(item.taskId);
     else snapshotWipIds.delete(item.taskId);
   }
+  if (snapshotWipIds.size > 5) throw new Error(`Evidence lifecycle input exceeds the WIP hard cap of 5: ${snapshotWipIds.size}`);
   let available = Math.max(0, wipLimit - snapshotWipIds.size);
   const covered = new Set([...entries.values()].filter((entry) => WIP_STATES.has(entry.state)).map((entry) => entry.category));
   const selected: typeof candidates = [];
