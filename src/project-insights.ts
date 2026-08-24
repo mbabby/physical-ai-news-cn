@@ -306,7 +306,7 @@ export function formatCommunityReviewQueue(
   const companies = candidateCompanies.companies.filter((company) => company.status === "观察中" || company.status === "已交叉核验").slice(0, 8);
   const sources = (candidateSources?.sources ?? []).filter((source) => source.successfulRuns >= 2).slice(0, 6);
   const lines = [`# 社区 Review 队列 · ${week}`, "", "> 这里是待核验候选，不是公开事实清单。请先补齐原始证据，再通过对应 Issue 模板提交；审核通过后才可能进入公司档案、日报或常青资源。", "", "## 待补融资 / 公司主体", ""];
-  lines.push(...(companies.length ? companies.map((company) => `- **${company.name}** · ${company.status} · ${company.verificationScore}/100 · 需要：${company.openQuestions.join("；")} · [提交公司或融资证据](../../issues/new/choose)`) : ["- 暂无达到社区复核阈值的公司候选。"]));
+  lines.push(...(companies.length ? companies.map((company) => `- **${company.name}** · ${company.status} · 需要：${company.openQuestions.join("；")} · [提交公司或融资证据](../../issues/new/choose)`) : ["- 暂无达到社区复核阈值的公司候选。"]));
   lines.push("", "## 待补事件证据", "", ...(deduped.length ? deduped.map((article) => `- [${article.titleZh ?? article.title}](${article.link}) · ${article.stage}：${article.holdReasons.join("；")} · [提交补充证据](../../issues/new/choose)`) : ["- 暂无达到社区复核阈值的事件候选。"]));
   lines.push("", "## 待评估信源", "", ...(sources.length ? sources.map((source) => `- **${source.domain}** · 连续成功 ${source.successfulRuns} 次 · 样例：[${source.title}](${source.link}) · [提交信源建议](../../issues/new/choose)`) : ["- 暂无达到复核阈值的候选信源。"]));
   lines.push("", "## 如何贡献", "", "1. 选择 Issue 类型：公司/融资、产品/部署、论文、信源或事实纠错。", "2. 提供原始链接、主体名称、发生时间与简短中文事实说明。", "3. 线索链接本身不足以入库；融资优先公司或投资方公告，或两家独立媒体交叉确认。", "");
