@@ -5,7 +5,7 @@ import type { LedgerField, LedgerFieldStatus } from "../ledger-contracts.js";
 import type { CompanyProfile, EventEvidence, EventRecord, ValidationStage } from "../types.js";
 import { assertNoPrivateWatchlistContent, isInternalCandidateIdentifier } from "../watchlist/public-view.js";
 import type { WatchlistPublicCard, WatchlistPublicView } from "../watchlist/public-view.js";
-import { stableDecisionId } from "./contracts.js";
+import { stableDecisionId, validateDecisionCompanyCard } from "./contracts.js";
 import type { DecisionCompanyCard, DecisionEvidence } from "./contracts.js";
 
 const DEFAULT_LIMIT = 20;
@@ -159,8 +159,7 @@ function projectWatchlist(card: WatchlistPublicCard | undefined): DecisionCompan
 }
 
 function materialUpdatedAt(company: CompanyProfile, claims: CompanyClaim[], events: EventRecord[]): string {
-  const timestamps = [
-    canonicalTimestamp(company.lastVerifiedAt),
+  const materialTimestamps = [
     ...claims.flatMap((claim) => [
       canonicalTimestamp(claim.verifiedAt === UNKNOWN ? undefined : claim.verifiedAt),
       ...Object.values(claim.fields).map((field) => canonicalTimestamp(field.observedAt === UNKNOWN ? undefined : field.observedAt)),
@@ -168,7 +167,7 @@ function materialUpdatedAt(company: CompanyProfile, claims: CompanyClaim[], even
     ]),
     ...events.map((event) => canonicalTimestamp(eventMaterialChangeAt(event))),
   ].filter((value): value is string => Boolean(value));
-  const newest = timestamps.sort(codeUnitCompare).at(-1);
+  const newest = materialTimestamps.sort(codeUnitCompare).at(-1) ?? canonicalTimestamp(company.lastVerifiedAt);
   if (!newest) throw new Error(`公司 ${company.entityId ?? company.name} 缺少可公开的材料更新时间`);
   return newest;
 }
@@ -192,7 +191,7 @@ export function buildDecisionCompanyCards(input: BuildDecisionCompanyCardsInput)
   const limit = normalizedLimit(input.limit);
   if (limit === 0) return [];
 
-  const canonicalCompanies = input.companies.filter((company) => company.entityType === undefined || company.entityType === "公司");
+  const canonicalCompanies = input.companies.filter((company) => company.entityType === "公司");
   if (canonicalCompanies.some((company) => company.entityId && isInternalCandidateIdentifier(company.entityId))) {
     throw new Error("公司卡公开边界包含候选公司标识");
   }
@@ -237,7 +236,7 @@ export function buildDecisionCompanyCards(input: BuildDecisionCompanyCardsInput)
         .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt) || codeUnitCompare(left.eventId, right.eventId))
         .slice(0, 2);
 
-      return {
+      const card = {
         cardId: stableDecisionId("company", companyId),
         companyId,
         companyName: company.name,
@@ -253,5 +252,7 @@ export function buildDecisionCompanyCards(input: BuildDecisionCompanyCardsInput)
         unknownFields,
         updatedAt: materialUpdatedAt(company, entryClaims, ownedEvents),
       } satisfies DecisionCompanyCard;
+      validateDecisionCompanyCard(card);
+      return card;
     });
 }

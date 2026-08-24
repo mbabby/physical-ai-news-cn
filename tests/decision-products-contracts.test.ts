@@ -269,6 +269,30 @@ test("public product IDs are bound to canonical identities", () => {
   }
 });
 
+test("company card recent changes allow at most two in descending stable order", () => {
+  const threeChanges = validDecisionProductArtifact();
+  threeChanges.companyCards[0].recentChanges = [
+    { eventId: "event-new", title: "最新事件", occurredAt: "2026-08-23T03:00:00Z", type: "产品发布" },
+    { eventId: "event-middle", title: "中间事件", occurredAt: "2026-08-22T03:00:00Z", type: "部署案例" },
+    { eventId: "event-old", title: "较早事件", occurredAt: "2026-08-21T03:00:00Z", type: "公司商业" },
+  ];
+  assert.throws(() => validateDecisionProductArtifact(threeChanges));
+
+  const reversed = validDecisionProductArtifact();
+  reversed.companyCards[0].recentChanges = [
+    { eventId: "event-old", title: "较早事件", occurredAt: "2026-08-21T03:00:00Z", type: "公司商业" },
+    { eventId: "event-new", title: "最新事件", occurredAt: "2026-08-23T03:00:00Z", type: "产品发布" },
+  ];
+  assert.throws(() => validateDecisionProductArtifact(reversed));
+
+  const unstableTie = validDecisionProductArtifact();
+  unstableTie.companyCards[0].recentChanges = [
+    { eventId: "event-z", title: "同日事件 Z", occurredAt: "2026-08-23T03:00:00Z", type: "产品发布" },
+    { eventId: "event-a", title: "同日事件 A", occurredAt: "2026-08-23T03:00:00Z", type: "部署案例" },
+  ];
+  assert.throws(() => validateDecisionProductArtifact(unstableTie));
+});
+
 test("verified company facts require high-confidence public evidence", () => {
   const forged = validDecisionProductArtifact();
   forged.companyCards[0].capital.evidence = [

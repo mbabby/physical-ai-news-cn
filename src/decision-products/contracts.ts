@@ -319,6 +319,15 @@ function validateCompanyCard(value: unknown, path: string): asserts value is Dec
     ensure(ARTICLE_KINDS.has(change.type as ArticleKind), `${path}.recentChanges[${index}].type is invalid`);
   });
   uniqueBy(value.recentChanges, (change) => change.eventId, `${path}.recentChanges`);
+  ensure(value.recentChanges.length <= 2, `${path}.recentChanges must contain at most two items`);
+  const recentChanges = value.recentChanges as unknown as DecisionCompanyCard["recentChanges"];
+  ensure(recentChanges.every((change, index) => {
+    if (index === 0) return true;
+    const previous = recentChanges[index - 1]!;
+    const previousTime = Date.parse(previous.occurredAt);
+    const currentTime = Date.parse(change.occurredAt);
+    return previousTime > currentTime || (previousTime === currentTime && previous.eventId < change.eventId);
+  }), `${path}.recentChanges must use descending occurrence time and stable event ID order`);
   exactKeys(value.watchlist, WATCHLIST_KEYS, `${path}.watchlist`);
   ensure(["forward-radar", "validated-momentum", "unknown"].includes(String(value.watchlist.track)), `${path}.watchlist.track is invalid`);
   ensure(nonEmpty(value.watchlist.lifecycle) && nonEmpty(value.watchlist.whyNow), `${path}.watchlist strings must be non-empty`);
@@ -330,6 +339,11 @@ function validateCompanyCard(value: unknown, path: string): asserts value is Dec
   });
   ensure(uniqueStrings(value.unknownFields), `${path}.unknownFields must be unique strings`);
   ensure(canonicalTimestamp(value.updatedAt), `${path}.updatedAt is noncanonical`);
+}
+
+export function validateDecisionCompanyCard(value: unknown): asserts value is DecisionCompanyCard {
+  scanPrivateBoundary(value, "companyCard");
+  validateCompanyCard(value, "companyCard");
 }
 
 function unknownOrStrings(value: unknown): boolean {

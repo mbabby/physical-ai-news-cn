@@ -257,6 +257,43 @@ test("company cards reject candidate company identifiers at the public boundary"
   );
 });
 
+test("company cards require the explicit canonical company entity type", () => {
+  const legacyProfile = { ...alpha, entityType: undefined };
+  assert.deepEqual(buildDecisionCompanyCards({
+    companies: [legacyProfile], claimLedger: { ...ledger([]), companies: [] },
+    events: [], watchlist: emptyWatchlist(), now: NOW,
+  }), []);
+});
+
+test("company cards reject candidate event identifiers before emitting recent changes", () => {
+  assert.throws(
+    () => buildDecisionCompanyCards({
+      companies: [alpha], claimLedger: { ...ledger([]), companies: [] },
+      events: [event("candidate-hidden-event", "2026-08-22T08:00:00.000Z")], watchlist: emptyWatchlist(), now: NOW,
+    }),
+    /候选|candidate/i,
+  );
+});
+
+test("company cards reject candidate evidence identifiers before emitting facts", () => {
+  const amount = field("5000 万美元", "verified", "evt-funding");
+  amount.evidenceIds = ["candidate-hidden-evidence"];
+  const funding = claim("funding", "evt-funding", {
+    value: "5000 万美元",
+    fields: {
+      eventDate: field("2026-08-20", "verified", "evt-funding"), round: field(), amount,
+      valuation: field(), investors: field<string[]>(), product: field(), customer: field<string[]>(), deployment: field(), productionStage: field(),
+    },
+  });
+  assert.throws(
+    () => buildDecisionCompanyCards({
+      companies: [alpha], claimLedger: ledger([funding]),
+      events: [event("evt-funding", "2026-08-20T09:00:00.000Z", { type: "投融资" })], watchlist: emptyWatchlist(), now: NOW,
+    }),
+    /候选|candidate/i,
+  );
+});
+
 test("company cards reject private diagnostics disguised as public Watchlist copy", () => {
   const privateCard = { ...watchlistCard(), whyNow: "internalScore 99" };
   assert.throws(
@@ -280,6 +317,21 @@ test("company card does not publish stale claims as current facts", () => {
   const [card] = buildDecisionCompanyCards({ companies: [alpha], claimLedger: ledger([stale]), events: [event("evt-funding", "2026-01-01T09:00:00.000Z", { type: "投融资" })], watchlist: emptyWatchlist(), now: NOW });
   assert.deepEqual(card.capital, { status: "unknown", summary: "证据不足（不代表未融资）", evidence: [] });
   assert.ok(card.unknownFields.includes("capital.amount"));
+});
+
+test("company card prefers material event time over newer profile verification", () => {
+  const recentlyCheckedProfile = { ...alpha, lastVerifiedAt: "2026-08-23T00:00:00.000Z" };
+  const materialEvent = event("evt-material", "2026-08-01T00:00:00.000Z", {
+    lastMaterialChangeAt: "2026-08-02T00:00:00.000Z",
+    lastUpdatedAt: "2026-08-02T00:00:00.000Z",
+  });
+
+  const [card] = buildDecisionCompanyCards({
+    companies: [recentlyCheckedProfile], claimLedger: { ...ledger([]), companies: [] },
+    events: [materialEvent], watchlist: emptyWatchlist(), now: NOW,
+  });
+
+  assert.equal(card.updatedAt, "2026-08-02T00:00:00.000Z");
 });
 
 test("company cards default to twenty in stable company-ID order and reject clock-driven output", () => {
