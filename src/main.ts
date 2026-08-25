@@ -91,6 +91,7 @@ import { projectAcceptedEvidence } from "./community-evidence/contributions.js";
 import { fetchEvidenceIssueSnapshot } from "./community-evidence/github-issues.js";
 import { planEvidenceIssueActions } from "./community-evidence/task-ledger.js";
 import { buildEvidenceTaskSeeds } from "./community-evidence/task-seeds.js";
+import { buildCommunityEvidencePublication, type CommunityEvidencePublication } from "./community-evidence/publication.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
@@ -310,6 +311,7 @@ export interface StageCommunityEvidenceArtifactsInput {
 export interface StageCommunityEvidenceArtifactsResult {
   accepted: AcceptedEvidenceArtifact;
   enrichmentTargets: EvidenceEnrichmentTarget[];
+  publication: CommunityEvidencePublication;
   status: RuntimeStatus;
 }
 
@@ -372,7 +374,11 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
     input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(previousContributions));
     input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(previousPublic));
     if (previousSnapshot) input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(previousSnapshot));
-    return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), status };
+    const publication = buildCommunityEvidencePublication({
+      seeds: previousSeeds!, ledger: previousLedger!, accepted: previousAccepted!, contributions: previousContributions!,
+      previousTasks: previousPublic!, repository: previousSnapshot!.repo, generatedAt: previousLedger!.generatedAt,
+    });
+    return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status };
   }
 
   snapshot ??= previousSnapshot ?? { schemaVersion: 1, fetchedAt: now, repo: input.github?.repo ?? "mbabby/physical-ai-news-cn", issues: [] };
@@ -388,34 +394,16 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
     previousContributions: previousContributions ?? emptyContributions,
     now,
   });
-  const seedById = new Map(input.seeds.seeds.map((seed) => [seed.id, seed]));
-  const previousTaskById = new Map((previousPublic?.tasks ?? []).map((task) => [task.id, task]));
-  const publicArtifact: CommunityTaskPublicArtifact = {
-    schemaVersion: 1,
+  const publication = buildCommunityEvidencePublication({
+    seeds: input.seeds,
+    ledger: planned.ledger,
+    accepted: projection.accepted,
+    contributions: projection.contributions,
+    previousTasks: previousPublic,
+    repository: snapshot.repo,
     generatedAt: now,
-    tasks: planned.ledger.entries.flatMap((entry) => {
-      if ((entry.state !== "open" && entry.state !== "contributed") || entry.issueNumber === null || entry.issueUrl === null) return [];
-      const seed = seedById.get(entry.taskId);
-      const prior = previousTaskById.get(entry.taskId);
-      if (!seed && !prior) throw new Error(`公开社区任务 ${entry.taskId} 缺少已验证种子或上一有效投影`);
-      return [{
-        id: entry.taskId,
-        version: entry.taskVersion,
-        category: entry.category,
-        subject: entry.subject,
-        targetField: entry.targetField,
-        contextZh: seed?.contextZh ?? prior!.contextZh,
-        issueNumber: entry.issueNumber,
-        issueUrl: entry.issueUrl,
-        estimatedMinutes: 2 as const,
-        generatedWeek: seed?.generatedWeek ?? prior!.generatedWeek,
-        state: entry.state,
-      }];
-    }).sort((left, right) => left.category < right.category ? -1 : left.category > right.category ? 1
-      : left.subject.name < right.subject.name ? -1 : left.subject.name > right.subject.name ? 1
-        : left.targetField < right.targetField ? -1 : left.targetField > right.targetField ? 1
-          : left.id < right.id ? -1 : 1),
-  };
+  });
+  const publicArtifact = publication.taskArtifact;
   assertEvidenceTaskLedgerArtifact(planned.ledger);
   assertAcceptedEvidenceArtifact(projection.accepted);
   assertContributionLedgerArtifact(projection.contributions);
@@ -434,7 +422,7 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(projection.accepted));
   input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(projection.contributions));
   input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(publicArtifact));
-  return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), status };
+  return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), publication, status };
 }
 
 export type DailyGenerationFailureCode =
@@ -1170,6 +1158,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchIndustryEdges: researchIndustryRelations.edges,
     watchlist: watchlistView,
     decisionProducts,
+    communityEvidence: communityEvidence.publication,
   });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
