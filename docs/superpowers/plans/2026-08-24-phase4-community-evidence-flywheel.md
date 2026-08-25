@@ -338,13 +338,21 @@ git commit -m "feat: project accepted community evidence"
 
 **Files:**
 - Modify: `.github/workflows/materialize-review-issues.yml`
+- Modify: `src/community-evidence/plan-issue-actions.ts`
 - Create: `tests/community-evidence-workflow.test.ts`
+- Modify: `tests/community-evidence-task-ledger.test.ts`
 - Modify: `tests/contributor-flywheel.test.ts`
 - Modify: `tests/watchlist-review-issues.test.ts`
 
 **Interfaces:**
 - Consumes: `review/evidence-task-seeds.json`, `review/evidence-task-ledger.json`, and Task 3 CLI output.
 - Produces: GitHub Issue create/label/close operations only; does not commit repository facts.
+
+**Approved Task 3 CLI interface correction:**
+- `plan-issue-actions.ts` accepts optional `--wip-limit <integer>` and passes the resolved value to `planEvidenceIssueActions`.
+- Omitting the flag defaults to `5`; values above `5` clamp to `5`.
+- Zero, negative, fractional, missing, and nonnumeric values are rejected.
+- Add a failing CLI contract test before changing the production CLI, and keep the workflow invocation explicit as `--wip-limit 5`.
 
 - [ ] **Step 1: Write failing workflow contract tests**
 

@@ -1,15 +1,17 @@
 name: Materialize community review issues
 
 on:
+  schedule:
+    - cron: '30 1 * * 1'
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "只预览候选，不创建 Issue"
+        description: "只预览任务生命周期动作，不修改 Issue"
         required: true
         type: boolean
         default: true
       limit:
-        description: "本次最多处理的高质量候选数"
+        description: "本次最多创建的两分钟补证任务数（硬上限 5）"
         required: false
         default: "5"
   issues:
@@ -21,7 +23,7 @@ permissions:
 
 jobs:
   ensure-labels:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'issues'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
       - name: Ensure review lifecycle labels exist
@@ -39,6 +41,13 @@ jobs:
           gh label create source-evidence --repo "$REPO" --color "C5DEF5" --description "信源复核" --force
           gh label create company-evidence --repo "$REPO" --color "BFDADC" --description "公司、融资、产品或部署证据" --force
           gh label create research-evidence --repo "$REPO" --color "FBCA04" --description "论文与研究元数据证据" --force
+          gh label create evidence-task --repo "$REPO" --color "5319E7" --description "由纯规划器生成的公开补证任务" --force
+          gh label create two-minute-task --repo "$REPO" --color "1D76DB" --description "预计两分钟完成的单字段补证任务" --force
+          gh label create evidence-task-company-funding --repo "$REPO" --color "BFDADC" --description "公司与融资证据任务" --force
+          gh label create evidence-task-product-deployment --repo "$REPO" --color "C5DEF5" --description "产品与部署证据任务" --force
+          gh label create evidence-task-research-metadata --repo "$REPO" --color "FBCA04" --description "研究元数据证据任务" --force
+          gh label create stale --repo "$REPO" --color "D4C5F9" --description "七天无有效活动的补证任务" --force
+          gh label create rejected-evidence --repo "$REPO" --color "B60205" --description "维护者已拒绝该证据" --force
 
   initialize-community-evidence:
     if: github.event_name == 'issues' && github.event.action == 'opened'
@@ -63,78 +72,141 @@ jobs:
           gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "evidence-review" --add-label "needs-evidence" --add-label "$category_label"
 
   materialize:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: ensure-labels
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Create deduplicated review issues
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: corepack enable
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - name: Plan and apply weekly evidence task actions
         env:
           GH_TOKEN: ${{ github.token }}
-          DRY_RUN: ${{ inputs.dry_run }}
-          LIMIT: ${{ inputs.limit }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          REQUESTED_LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '5' }}
           REPO: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
-          test -f review/watchlist-issue-seeds.json
-          [[ "$LIMIT" =~ ^[0-9]+$ ]] || { echo "LIMIT 必须是数字" >&2; exit 1; }
-          [[ ${#LIMIT} -le 3 ]] || { echo "LIMIT 过大" >&2; exit 1; }
-          LIMIT=$((10#$LIMIT))
-          MAX_LIMIT=20
-          (( LIMIT <= MAX_LIMIT )) || LIMIT=$MAX_LIMIT
+          test -f review/evidence-task-seeds.json
+          test -f review/evidence-task-ledger.json
           [[ "$DRY_RUN" == "true" || "$DRY_RUN" == "false" ]] || { echo "dry_run 不合法" >&2; exit 1; }
-          jq -e '
-            . as $root
-            | type == "object"
-            and keys == ["schemaVersion", "seeds", "snapshotVersion", "week"]
-            and .schemaVersion == 1
-            and (.week | type == "string" and test("^[0-9]{4}-W[0-9]{2}$"))
-            and (.snapshotVersion | type == "number" and floor == . and . >= 1)
-            and (.seeds | type == "array")
-            and all(.seeds[];
-              type == "object"
-              and keys == ["companyId", "companyName", "evidenceUrls", "id", "issueBody", "issueTitle", "kind", "labels", "missingEvidenceType", "publicContext", "reviewTarget", "snapshotVersion", "snapshotWeek", "thesisId", "thesisVersion"]
-              and (.id | type == "string" and test("^watchlist-(evidence|correction)-[0-9a-f]{20}$"))
-              and (.kind == "evidence" or .kind == "correction")
-              and (.companyId | type == "string" and length > 0)
-              and (.companyName | type == "string" and length > 0)
-              and (.thesisId | type == "string" and length > 0)
-              and (.thesisVersion | type == "number" and floor == . and . >= 1)
-              and (.missingEvidenceType | type == "string" and length > 0)
-              and (.snapshotWeek == $root.week and .snapshotVersion == $root.snapshotVersion)
-              and (.evidenceUrls | type == "array" and length > 0 and all(.[]; type == "string" and test("^https://")))
-              and (.reviewTarget | type == "string" and length > 0)
-              and (.publicContext | type == "string" and length > 0)
-              and (.issueTitle | type == "string" and length > 0)
-              and (.id as $id | .issueBody | type == "string" and contains("<!-- watchlist-review-seed:" + $id + " -->"))
-              and (.labels == ["evidence-review", (if .kind == "evidence" then "needs-evidence" else "correction" end)])
-            )
-            and (([.seeds[].id]) | length == (unique | length))
-            and ([.seeds[] | [.kind, .companyId, .thesisId, .missingEvidenceType]] as $sort_keys
-              | all(range(1; $sort_keys | length); $sort_keys[. - 1] <= $sort_keys[.]))
-          ' review/watchlist-issue-seeds.json >/dev/null
-          echo "## Watchlist public-review Issue materialization" >> "$GITHUB_STEP_SUMMARY"
-          jq -c ".seeds[:${LIMIT}][]" review/watchlist-issue-seeds.json | while IFS= read -r seed; do
-            id="$(jq -r '.id' <<< "$seed")"
-            title="$(jq -r '.issueTitle' <<< "$seed")"
-            body="$(jq -r '.issueBody' <<< "$seed")"
-            kind="$(jq -r '.kind' <<< "$seed")"
-            case "$kind" in
-              evidence) kind_label="needs-evidence" ;;
-              correction) kind_label="correction" ;;
-              *) echo "未知 Watchlist Review 种子类型" >&2; exit 1 ;;
-            esac
-            marker="<!-- watchlist-review-seed:${id} -->"
-            existing="$(gh issue list --repo "$REPO" --state all --search "\"${marker}\" in:body" --json number --jq 'length')"
-            if [[ "$existing" != "0" ]]; then
-              echo "- 跳过重复：${id}" >> "$GITHUB_STEP_SUMMARY"
-            elif [[ "$DRY_RUN" == "true" ]]; then
-              echo "- 预览：${title}" >> "$GITHUB_STEP_SUMMARY"
-            else
-              gh issue create --repo "$REPO" --title "$title" --body "$body" --label "evidence-review" --label "$kind_label"
-              echo "- 已创建：${title}" >> "$GITHUB_STEP_SUMMARY"
+          [[ "$REQUESTED_LIMIT" =~ ^[1-9][0-9]*$ ]] || { echo "limit 必须是正整数" >&2; exit 1; }
+          if (( 10#$REQUESTED_LIMIT > 5 )); then
+            REQUESTED_LIMIT=5
+          fi
+
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          RAW_ISSUES="$RUNNER_TEMP/evidence-task-issues.ndjson"
+          ENRICHED_ISSUES="$RUNNER_TEMP/evidence-task-issues-with-comments.ndjson"
+          ISSUE_SNAPSHOT="$RUNNER_TEMP/evidence-task-issue-snapshot.json"
+          ACTION_PLAN="$RUNNER_TEMP/evidence-task-action-plan.json"
+          : > "$RAW_ISSUES"
+          : > "$ENRICHED_ISSUES"
+
+          gh api --paginate "repos/$REPO/issues?labels=two-minute-task&state=all&per_page=100" --jq '.[] | select(has("pull_request") | not)' > "$RAW_ISSUES"
+          while IFS= read -r issue; do
+            number="$(jq -r '.number' <<< "$issue")"
+            comments="$(gh api --paginate --slurp "repos/$REPO/issues/$number/comments?per_page=100" | jq -c 'add')"
+            jq -cn --argjson issue "$issue" --argjson comments "$comments" '$issue + {comments: $comments}' >> "$ENRICHED_ISSUES"
+          done < "$RAW_ISSUES"
+
+          jq -s --arg fetchedAt "$NOW" --arg repo "$REPO" '
+            def safe_labels:
+              [.[].name | select(. == "accepted-evidence"
+                or . == "canonical-promoted"
+                or . == "contributor-credited"
+                or . == "evidence-task"
+                or . == "evidence-task-company-funding"
+                or . == "evidence-task-product-deployment"
+                or . == "evidence-task-research-metadata"
+                or . == "rejected-evidence"
+                or . == "source-withdrawn"
+                or . == "stale"
+                or . == "two-minute-task")] | unique;
+            def task_id: capture("<!-- evidence-task-id:(?<id>evidence-task-[a-f0-9]{24}) -->").id;
+            def task_version: capture("<!-- evidence-task-version:(?<version>[1-9][0-9]*) -->").version | tonumber;
+            def evidence_urls:
+              ([.body | scan("(?im)(?:^|\\n)\\s*(?:证据链接|evidence url)\\s*[：:]\\s*(https://[^\\s<>\\\"\\x27)\\]]+)") | .[0]]
+                + [.comments[].body | scan("https://[^\\s<>\\\"\\x27)\\]]+")])
+              | map(sub("[.,;:!?]+$"; "")) | unique | sort;
+            {
+              schemaVersion: 1,
+              fetchedAt: $fetchedAt,
+              repo: $repo,
+              issues: [
+                .[]
+                | select(.body | test("<!-- evidence-task-id:evidence-task-[a-f0-9]{24} -->"))
+                | {
+                    number,
+                    taskId: (.body | task_id),
+                    taskVersion: (.body | task_version),
+                    state,
+                    labels: (.labels | safe_labels),
+                    authorLogin: .user.login,
+                    authorAssociation: .author_association,
+                    createdAt: .created_at,
+                    updatedAt: .updated_at,
+                    closedAt: .closed_at,
+                    evidenceUrls: evidence_urls,
+                    acceptedContributors: [],
+                    acceptedEvidence: []
+                  }
+              ] | sort_by(.number)
+            }
+          ' "$ENRICHED_ISSUES" > "$ISSUE_SNAPSHOT"
+
+          pnpm exec tsx src/community-evidence/plan-issue-actions.ts \
+            --seeds review/evidence-task-seeds.json \
+            --issues "$ISSUE_SNAPSHOT" \
+            --ledger review/evidence-task-ledger.json \
+            --now "$NOW" \
+            --out "$ACTION_PLAN" \
+            --wip-limit 5
+
+          jq -c --argjson limit "$REQUESTED_LIMIT" '
+            ([.actions[] | select(.action != "create")]
+              + ([.actions[] | select(.action == "create")][: $limit]))[]
+          ' "$ACTION_PLAN" | while IFS= read -r planned_action; do
+            if [[ "$DRY_RUN" == "true" ]]; then
+              jq . <<< "$planned_action"
+              continue
             fi
+            action="$(jq -r '.action' <<< "$planned_action")"
+            issue_number="$(jq -r '.issueNumber // empty' <<< "$planned_action")"
+            case "$action" in
+              create)
+                task_id="$(jq -r '.taskId' <<< "$planned_action")"
+                marker="<!-- evidence-task-id:${task_id} -->"
+                existing="$(gh issue list --repo "$REPO" --state all --search "\"${marker}\" in:body" --json number --jq 'length')"
+                if [[ "$existing" == "0" ]]; then
+                  title="$(jq -r '.title' <<< "$planned_action")"
+                  body="$(jq -r '.body' <<< "$planned_action")"
+                  label_args=()
+                  while IFS= read -r label; do label_args+=(--label "$label"); done < <(jq -r '.labels[]' <<< "$planned_action")
+                  gh issue create --repo "$REPO" --title "$title" --body "$body" "${label_args[@]}"
+                fi
+                ;;
+              mark-stale)
+                if [[ "$(gh issue view "$issue_number" --repo "$REPO" --json state --jq '.state')" == "OPEN" ]]; then
+                  gh issue edit "$issue_number" --repo "$REPO" --add-label "stale"
+                fi
+                ;;
+              close)
+                if [[ "$(gh issue view "$issue_number" --repo "$REPO" --json state --jq '.state')" == "OPEN" ]]; then
+                  gh issue close "$issue_number" --repo "$REPO"
+                fi
+                ;;
+              *)
+                echo "未知规划动作：$action" >&2
+                exit 1
+                ;;
+            esac
           done
 
   acknowledge-accepted-evidence:

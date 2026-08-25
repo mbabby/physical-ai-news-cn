@@ -484,3 +484,57 @@ test("JSON CLI validates inputs and writes byte-stable exact JSON", async () => 
     assert.notEqual(malformed.status, 0, flags.join(" "));
   }
 });
+
+test("JSON CLI accepts a positive WIP limit, defaults and clamps to five, and rejects invalid values", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evidence-task-wip-limit-"));
+  const tasks = [
+    seed("company-funding", "cli-limit-1"),
+    seed("company-funding", "cli-limit-2"),
+    seed("product-deployment", "cli-limit-1"),
+    seed("product-deployment", "cli-limit-2"),
+    seed("research-metadata", "cli-limit-1"),
+    seed("research-metadata", "cli-limit-2"),
+  ];
+  const paths = {
+    seeds: join(root, "seeds.json"),
+    issues: join(root, "issues.json"),
+    ledger: join(root, "ledger.json"),
+    output: join(root, "output.json"),
+  };
+  await Promise.all([
+    writeFile(paths.seeds, JSON.stringify(seeds(tasks)), "utf8"),
+    writeFile(paths.issues, JSON.stringify(issues([])), "utf8"),
+    writeFile(paths.ledger, JSON.stringify(ledger()), "utf8"),
+  ]);
+  const command = ["--import", "tsx", "src/community-evidence/plan-issue-actions.ts"];
+  const requiredFlags = [
+    "--seeds", paths.seeds,
+    "--issues", paths.issues,
+    "--ledger", paths.ledger,
+    "--now", NOW,
+    "--out", paths.output,
+  ];
+  const run = (flags: string[]) => spawnSync(process.execPath, [...command, ...flags], { cwd: process.cwd(), encoding: "utf8" });
+
+  for (const [flags, expectedCreates] of [
+    [requiredFlags, 5],
+    [[...requiredFlags, "--wip-limit", "2"], 2],
+    [[...requiredFlags, "--wip-limit", "8"], 5],
+  ] as const) {
+    const result = run([...flags]);
+    assert.equal(result.status, 0, result.stderr);
+    const output = JSON.parse(await readFile(paths.output, "utf8")) as { actions: Array<{ action: string }> };
+    assert.equal(output.actions.filter((action) => action.action === "create").length, expectedCreates);
+  }
+
+  for (const flags of [
+    [...requiredFlags, "--wip-limit", "0"],
+    [...requiredFlags, "--wip-limit", "-1"],
+    [...requiredFlags, "--wip-limit", "1.5"],
+    [...requiredFlags, "--wip-limit", "many"],
+    [...requiredFlags, "--wip-limit"],
+  ]) {
+    const result = run(flags);
+    assert.notEqual(result.status, 0, flags.join(" "));
+  }
+});

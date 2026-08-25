@@ -24,6 +24,8 @@ test("review issue materialization applies lifecycle labels and credits only man
   assert.match(workflow, /types: \[opened, labeled\]/);
   assert.match(workflow, /Put community submissions in the review layer/);
   assert.match(workflow, /--add-label "evidence-review" --add-label "needs-evidence"/);
+  assert.match(workflow, /evidence-task/);
+  assert.match(workflow, /mark-stale/);
   assert.match(workflow, /github\.event\.label\.name == 'accepted-evidence'/);
   assert.match(workflow, /--add-label "contributor-credited"/);
   assert.match(workflow, /不会把候选自动写入日报、公司档案或公开页面/);
