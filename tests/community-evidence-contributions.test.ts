@@ -314,6 +314,46 @@ test("equal-time hash ordering cannot make a promoted pair append duplicate prom
   assert.deepEqual(repeated.accepted.entries, promoted.accepted.entries);
 });
 
+for (const terminalState of ["withdrawn", "corrected"] as const) {
+  test(`preserves serialized ${terminalState} to accepted order at the same timestamp`, () => {
+    const first = projectAcceptedEvidence({
+      issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
+    });
+    const transitionAt = "2026-08-25T01:00:00Z";
+    const terminalIssue = terminalState === "withdrawn"
+      ? issue({ labels: ["two-minute-task"], updatedAt: transitionAt, acceptedContributors: [], acceptedEvidence: [] })
+      : issue({ labels: ["accepted-evidence", "source-withdrawn", "two-minute-task"], updatedAt: transitionAt });
+    const terminal = projectAcceptedEvidence({
+      issues: { ...issues([terminalIssue]), fetchedAt: transitionAt },
+      taskLedger: { ...taskLedger(), generatedAt: transitionAt },
+      previousAccepted: first.accepted,
+      previousContributions: first.contributions,
+      now: transitionAt,
+    });
+    const reaccepted = projectAcceptedEvidence({
+      issues: { ...issues([issue({ updatedAt: transitionAt })]), fetchedAt: transitionAt },
+      taskLedger: { ...taskLedger(), generatedAt: transitionAt },
+      previousAccepted: terminal.accepted,
+      previousContributions: terminal.contributions,
+      now: transitionAt,
+    });
+    const sameTime = reaccepted.contributions.events.filter((event) => event.occurredAt === transitionAt);
+    assert.deepEqual(sameTime.map((event) => event.state), [terminalState, "accepted"]);
+    assert.ok(sameTime[0]!.id < sameTime[1]!.id, "fixture must preserve the append prefix under contract serialization");
+
+    const unrelatedUpdateAt = "2026-08-26T01:00:00Z";
+    const repeated = projectAcceptedEvidence({
+      issues: { ...issues([issue({ updatedAt: unrelatedUpdateAt })]), fetchedAt: unrelatedUpdateAt },
+      taskLedger: { ...taskLedger(), generatedAt: unrelatedUpdateAt },
+      previousAccepted: reaccepted.accepted,
+      previousContributions: reaccepted.contributions,
+      now: unrelatedUpdateAt,
+    });
+    assert.deepEqual(repeated.contributions.events, reaccepted.contributions.events);
+    assert.deepEqual(repeated.accepted.entries, reaccepted.accepted.entries);
+  });
+}
+
 test("fails closed instead of silently clearing accepted evidence with no bound URL", () => {
   assert.throws(
     () => projectAcceptedEvidence({

@@ -63,25 +63,11 @@ function compareEvents(left: ContributionStateEvent, right: ContributionStateEve
     : left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
 }
 
-const CAUSAL_STATE_PRECEDENCE: Record<ContributionState, number> = {
-  submitted: 0,
-  accepted: 1,
-  promoted: 2,
-  corrected: 3,
-  withdrawn: 3,
-};
-
-function compareCausalState(left: ContributionStateEvent, right: ContributionStateEvent): number {
-  return left.occurredAt < right.occurredAt ? -1 : left.occurredAt > right.occurredAt ? 1
-    : CAUSAL_STATE_PRECEDENCE[left.state] - CAUSAL_STATE_PRECEDENCE[right.state]
-      || (left.id < right.id ? -1 : left.id > right.id ? 1 : 0);
-}
-
 function activeAcceptedTransition(events: ContributionStateEvent[]): ContributionStateEvent | undefined {
   let accepted: ContributionStateEvent | undefined;
   let acceptedIndex = -1;
   let terminalIndex = -1;
-  [...events].sort(compareCausalState).forEach((event, index) => {
+  events.forEach((event, index) => {
     if (event.state === "accepted") {
       accepted = event;
       acceptedIndex = index;
@@ -124,8 +110,7 @@ export function projectAcceptedEvidence(input: {
   const historyByPair = new Map<string, ContributionStateEvent[]>();
   for (const event of previousEvents) {
     const identity = pairIdentity(event);
-    const latest = latestByPair.get(identity);
-    if (!latest || compareCausalState(latest, event) < 0) latestByPair.set(identity, event);
+    latestByPair.set(identity, event);
     const history = historyByPair.get(identity) ?? [];
     history.push(event);
     historyByPair.set(identity, history);
@@ -145,6 +130,7 @@ export function projectAcceptedEvidence(input: {
     for (const pair of issue.acceptedEvidence) {
       const identity = pairIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair });
       currentPairs.add(identity);
+      let activeAcceptedEntry: AcceptedEvidenceEntry | undefined;
       if (state === "accepted" || state === "promoted") {
         const priorActive = previousAcceptedByPair.get(identity);
         const acceptedTransition = activeAcceptedTransition(historyByPair.get(identity) ?? []);
@@ -152,9 +138,9 @@ export function projectAcceptedEvidence(input: {
           if (!acceptedTransition || priorActive.id !== acceptedTransition.id || priorActive.acceptedAt !== acceptedTransition.occurredAt) {
             throw new Error(`Active accepted evidence history was mutated for Issue ${issue.number}`);
           }
-          currentAccepted.push(priorActive);
+          activeAcceptedEntry = priorActive;
         } else if (acceptedTransition) {
-          currentAccepted.push({
+          activeAcceptedEntry = {
             id: acceptedTransition.id,
             taskId: issue.taskId,
             issueNumber: issue.number,
@@ -164,7 +150,7 @@ export function projectAcceptedEvidence(input: {
             contributor: pair.contributor,
             evidenceUrl: pair.evidenceUrl,
             acceptedAt: acceptedTransition.occurredAt,
-          });
+          };
         } else {
           const newAcceptance: ContributionStateEvent = {
             id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state: "accepted", occurredAt: issue.updatedAt }),
@@ -182,7 +168,7 @@ export function projectAcceptedEvidence(input: {
           };
           transitions.push(newAcceptance);
           latestByPair.set(identity, newAcceptance);
-          currentAccepted.push({
+          activeAcceptedEntry = {
             id: newAcceptance.id,
             taskId: issue.taskId,
             issueNumber: issue.number,
@@ -192,10 +178,13 @@ export function projectAcceptedEvidence(input: {
             contributor: pair.contributor,
             evidenceUrl: pair.evidenceUrl,
             acceptedAt: newAcceptance.occurredAt,
-          });
+          };
         }
+        currentAccepted.push(activeAcceptedEntry);
       }
-      if (state === "accepted" || latestByPair.get(identity)?.state === state) continue;
+      const sameAcceptancePromotion = state === "promoted" && activeAcceptedEntry !== undefined
+        && (historyByPair.get(identity) ?? []).some((event) => event.state === "promoted" && event.occurredAt === activeAcceptedEntry.acceptedAt);
+      if (state === "accepted" || sameAcceptancePromotion || latestByPair.get(identity)?.state === state) continue;
       const event: ContributionStateEvent = {
         id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state, occurredAt: issue.updatedAt }),
         taskId: issue.taskId,
