@@ -48,6 +48,8 @@ jobs:
           gh label create evidence-task-research-metadata --repo "$REPO" --color "FBCA04" --description "研究元数据证据任务" --force
           gh label create stale --repo "$REPO" --color "D4C5F9" --description "七天无有效活动的补证任务" --force
           gh label create rejected-evidence --repo "$REPO" --color "B60205" --description "维护者已拒绝该证据" --force
+          gh label create canonical-promoted --repo "$REPO" --color "0E8A16" --description "采纳证据已由后续日报晋升为规范公开事实" --force
+          gh label create source-withdrawn --repo "$REPO" --color "B60205" --description "已采纳证据的来源被撤回或失效" --force
 
   initialize-community-evidence:
     if: github.event_name == 'issues' && github.event.action == 'opened'
@@ -134,8 +136,20 @@ jobs:
                 or . == "source-withdrawn"
                 or . == "stale"
                 or . == "two-minute-task")] | unique;
-            def task_id: capture("<!-- evidence-task-id:(?<id>evidence-task-[a-f0-9]{24}) -->").id;
-            def task_version: capture("<!-- evidence-task-version:(?<version>[1-9][0-9]*) -->").version | tonumber;
+            def marker_mentions($name): .body | split($name + ":") | length - 1;
+            def valid_task_ids: [.body | scan("<!-- evidence-task-id:(evidence-task-[a-f0-9]{24}) -->") | .[0]];
+            def valid_task_versions: [.body | scan("<!-- evidence-task-version:([1-9][0-9]*) -->") | .[0]];
+            def validated_task_marker:
+              . as $issue
+              | ($issue | marker_mentions("evidence-task-id")) as $id_mentions
+              | ($issue | marker_mentions("evidence-task-version")) as $version_mentions
+              | ($issue | valid_task_ids) as $ids
+              | ($issue | valid_task_versions) as $versions
+              | if $id_mentions == 0 and $version_mentions == 0 then empty
+                elif $id_mentions != 1 or $version_mentions != 1 or ($ids | length) != 1 or ($versions | length) != 1
+                  then error("Issue \($issue.number) has a malformed or duplicate task marker")
+                else $issue + {_taskId: $ids[0], _taskVersion: ($versions[0] | tonumber)}
+                end;
             def evidence_urls:
               ([.body | scan("(?im)(?:^|\\n)\\s*(?:证据链接|evidence url)\\s*[：:]\\s*(https://[^\\s<>\\\"\\x27)\\]]+)") | .[0]]
                 + [.comments[].body | scan("https://[^\\s<>\\\"\\x27)\\]]+")])
@@ -146,11 +160,11 @@ jobs:
               repo: $repo,
               issues: [
                 .[]
-                | select(.body | test("<!-- evidence-task-id:evidence-task-[a-f0-9]{24} -->"))
+                | validated_task_marker
                 | {
                     number,
-                    taskId: (.body | task_id),
-                    taskVersion: (.body | task_version),
+                    taskId: ._taskId,
+                    taskVersion: ._taskVersion,
                     state,
                     labels: (.labels | safe_labels),
                     authorLogin: .user.login,

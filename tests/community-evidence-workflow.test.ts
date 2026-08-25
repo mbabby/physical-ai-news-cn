@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
@@ -26,6 +27,55 @@ test("weekly evidence automation delegates its five-Issue WIP lifecycle to the p
   assert.match(workflow, /evidence-task-company-funding/);
   assert.match(workflow, /evidence-task-product-deployment/);
   assert.match(workflow, /evidence-task-research-metadata/);
+  for (const label of [
+    "evidence-task",
+    "two-minute-task",
+    "evidence-task-company-funding",
+    "evidence-task-product-deployment",
+    "evidence-task-research-metadata",
+    "stale",
+    "accepted-evidence",
+    "rejected-evidence",
+    "canonical-promoted",
+    "source-withdrawn",
+  ]) {
+    assert.match(workflow, new RegExp(`gh label create ${label} .* --force`));
+  }
+});
+
+test("Issue snapshot export aborts on malformed, duplicate, or conflicting task markers", async () => {
+  const workflow = await readFile(join(root, ".github", "workflows", "materialize-review-issues.yml"), "utf8");
+  const filter = /jq -s --arg fetchedAt "\$NOW" --arg repo "\$REPO" '\n([\s\S]*?)\n\s*' "\$ENRICHED_ISSUES"/.exec(workflow)?.[1];
+  assert.ok(filter, "workflow Issue snapshot JQ filter must be extractable");
+
+  const validId = "evidence-task-0123456789abcdef01234567";
+  const conflictingId = "evidence-task-fedcba987654321001234567";
+  const baseIssue = {
+    number: 41,
+    state: "open",
+    labels: [{ name: "evidence-task" }, { name: "two-minute-task" }],
+    user: { login: "maintainer" },
+    author_association: "MEMBER",
+    created_at: "2026-08-24T00:00:00Z",
+    updated_at: "2026-08-24T01:00:00Z",
+    closed_at: null,
+    comments: [],
+  };
+  const bodies = [
+    `<!-- evidence-task-id:not-a-task -->\n<!-- evidence-task-version:1 -->`,
+    `<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-version:1 -->`,
+    `<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-id:${conflictingId} -->\n<!-- evidence-task-version:1 -->`,
+    `<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-version:1 -->\n<!-- evidence-task-version:2 -->`,
+  ];
+
+  for (const body of bodies) {
+    const result = spawnSync("jq", ["-s", "--arg", "fetchedAt", "2026-08-25T00:00:00Z", "--arg", "repo", "acme/repo", filter], {
+      input: `${JSON.stringify({ ...baseIssue, body })}\n`,
+      encoding: "utf8",
+    });
+    assert.notEqual(result.status, 0, body);
+    assert.match(result.stderr, /malformed or duplicate task marker/i);
+  }
 });
 
 test("weekly evidence automation previews or idempotently applies only planner Issue actions", async () => {
