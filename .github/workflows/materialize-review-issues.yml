@@ -74,6 +74,9 @@ jobs:
   materialize:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: ensure-labels
+    concurrency:
+      group: evidence-task-wip-${{ github.repository }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -104,7 +107,9 @@ jobs:
           NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           RAW_ISSUES="$RUNNER_TEMP/evidence-task-issues.ndjson"
           ENRICHED_ISSUES="$RUNNER_TEMP/evidence-task-issues-with-comments.ndjson"
+          UNNORMALIZED_ISSUE_SNAPSHOT="$RUNNER_TEMP/evidence-task-issue-snapshot-unnormalized.json"
           ISSUE_SNAPSHOT="$RUNNER_TEMP/evidence-task-issue-snapshot.json"
+          HARD_CAP_PLAN="$RUNNER_TEMP/evidence-task-hard-cap-plan.json"
           ACTION_PLAN="$RUNNER_TEMP/evidence-task-action-plan.json"
           : > "$RAW_ISSUES"
           : > "$ENRICHED_ISSUES"
@@ -159,20 +164,49 @@ jobs:
                   }
               ] | sort_by(.number)
             }
-          ' "$ENRICHED_ISSUES" > "$ISSUE_SNAPSHOT"
+          ' "$ENRICHED_ISSUES" > "$UNNORMALIZED_ISSUE_SNAPSHOT"
+
+          node --input-type=module --eval '
+            import { readFile, writeFile } from "node:fs/promises";
+            const [inputPath, outputPath] = process.argv.slice(1);
+            const snapshot = JSON.parse(await readFile(inputPath, "utf8"));
+            for (const issue of snapshot.issues) {
+              const normalized = issue.evidenceUrls.flatMap((candidate) => {
+                try {
+                  const url = new URL(candidate);
+                  if (url.protocol !== "https:" || !url.hostname || url.username || url.password) return [];
+                  url.hash = "";
+                  return [url.toString()];
+                } catch {
+                  return [];
+                }
+              });
+              issue.evidenceUrls = [...new Set(normalized)].sort();
+            }
+            await writeFile(outputPath, `${JSON.stringify(snapshot)}\n`, "utf8");
+          ' "$UNNORMALIZED_ISSUE_SNAPSHOT" "$ISSUE_SNAPSHOT"
 
           pnpm exec tsx src/community-evidence/plan-issue-actions.ts \
             --seeds review/evidence-task-seeds.json \
             --issues "$ISSUE_SNAPSHOT" \
             --ledger review/evidence-task-ledger.json \
             --now "$NOW" \
-            --out "$ACTION_PLAN" \
+            --out "$HARD_CAP_PLAN" \
             --wip-limit 5
 
-          jq -c --argjson limit "$REQUESTED_LIMIT" '
-            ([.actions[] | select(.action != "create")]
-              + ([.actions[] | select(.action == "create")][: $limit]))[]
-          ' "$ACTION_PLAN" | while IFS= read -r planned_action; do
+          if [[ "$REQUESTED_LIMIT" == "5" ]]; then
+            mv "$HARD_CAP_PLAN" "$ACTION_PLAN"
+          else
+            pnpm exec tsx src/community-evidence/plan-issue-actions.ts \
+              --seeds review/evidence-task-seeds.json \
+              --issues "$ISSUE_SNAPSHOT" \
+              --ledger review/evidence-task-ledger.json \
+              --now "$NOW" \
+              --out "$ACTION_PLAN" \
+              --wip-limit "$REQUESTED_LIMIT"
+          fi
+
+          jq -c '.actions[]' "$ACTION_PLAN" | while IFS= read -r planned_action; do
             if [[ "$DRY_RUN" == "true" ]]; then
               jq . <<< "$planned_action"
               continue

@@ -20,6 +20,8 @@ test("weekly evidence automation delegates its five-Issue WIP lifecycle to the p
   assert.match(workflow, /review\/evidence-task-ledger\.json/);
   assert.match(workflow, /src\/community-evidence\/plan-issue-actions\.ts/);
   assert.match(workflow, /--wip-limit 5/);
+  assert.match(workflow, /--wip-limit "\$REQUESTED_LIMIT"/);
+  assert.doesNotMatch(workflow, /\.actions\[\].*\[:\s*\$limit\]/s);
   assert.match(workflow, /two-minute-task/);
   assert.match(workflow, /evidence-task-company-funding/);
   assert.match(workflow, /evidence-task-product-deployment/);
@@ -39,6 +41,10 @@ test("weekly evidence automation previews or idempotently applies only planner I
   assert.match(workflow, /jq[\s\S]*\.actions/);
   assert.match(workflow, /accepted-evidence/);
   assert.match(workflow, /不会.*自动.*公开|不会.*自动.*发布/);
+  assert.match(workflow, /concurrency:/);
+  assert.match(workflow, /cancel-in-progress: false/);
+  assert.match(workflow, /new URL/);
+  assert.match(workflow, /url\.hash = ""/);
 
   assert.doesNotMatch(workflow, /git\s+(?:add|commit|push)\b/);
   assert.doesNotMatch(workflow, /(?:>|>>|tee|cp|mv|install|sed\s+-i)[^\n]*(?:events\/|company-profiles|research-cards|README|site\/data)/i);
