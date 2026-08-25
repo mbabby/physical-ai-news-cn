@@ -289,6 +289,44 @@ test("append-only contribution history survives removal of its URL from a correc
   }
 });
 
+test("accepted then corrected contribution history survives omission from a third label-filtered refresh", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-evidence-three-refresh-history-"));
+  try {
+    await initializeRoot(root);
+    const artifact = seeds();
+    const acceptedSnapshot = snapshot(artifact);
+    const firstTransaction = new FileTransaction("community-evidence-three-refresh-first");
+    await project(root, firstTransaction, artifact, async () => acceptedSnapshot);
+    await firstTransaction.commit();
+
+    const correctedSnapshot = structuredClone(acceptedSnapshot);
+    const correctedIssue = correctedSnapshot.issues[0]!;
+    correctedIssue.labels = ["evidence-task", "evidence-task-company-funding", "source-withdrawn", "two-minute-task"].sort();
+    correctedIssue.updatedAt = NOW;
+    correctedIssue.evidenceUrls = [];
+    correctedIssue.acceptedContributors = [];
+    correctedIssue.acceptedEvidence = [];
+    const secondTransaction = new FileTransaction("community-evidence-three-refresh-second");
+    await project(root, secondTransaction, artifact, async () => correctedSnapshot);
+    await secondTransaction.commit();
+    const beforeOmission = JSON.parse(await readFile(join(root, "community", "contributions.json"), "utf8"));
+    assert.deepEqual(beforeOmission.events.map((event: { state: string }) => event.state), ["accepted", "corrected"]);
+
+    const omittedSnapshot = structuredClone(correctedSnapshot);
+    omittedSnapshot.issues = omittedSnapshot.issues.slice(1);
+    const thirdTransaction = new FileTransaction("community-evidence-three-refresh-third");
+    await project(root, thirdTransaction, artifact, async () => omittedSnapshot);
+    await thirdTransaction.commit();
+
+    const afterOmission = JSON.parse(await readFile(join(root, "community", "contributions.json"), "utf8"));
+    const ledger = JSON.parse(await readFile(join(root, "review", "evidence-task-ledger.json"), "utf8"));
+    assert.deepEqual(afterOmission.events, beforeOmission.events);
+    assert.equal(ledger.entries.some((entry: { taskId: string }) => entry.taskId === artifact.seeds[0]!.id), true);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("a changed-material seed may receive its ledger-derived supersession link", async () => {
   const root = await mkdtemp(join(tmpdir(), "community-evidence-successor-"));
   try {

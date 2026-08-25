@@ -142,7 +142,6 @@ function validateCommunityEvidenceProjection(input: {
   const issues = new Map(input.snapshot.issues.map((issue) => [issue.taskId, issue]));
   const snapshotRequiredTaskIds = new Set([
     ...input.accepted.entries.map((entry) => entry.taskId),
-    ...input.contributions.events.map((event) => event.taskId),
     ...input.publicTasks.tasks.map((task) => task.id),
   ]);
   for (const entry of input.ledger.entries) {
@@ -190,10 +189,11 @@ function validateCommunityEvidenceProjection(input: {
   for (const event of input.contributions.events) {
     const task = ledger.get(event.taskId);
     const issue = issues.get(event.taskId);
-    if (!task || !issue || task.issueNumber !== event.issueNumber || issue.number !== event.issueNumber
-      || issue.taskVersion !== task.taskVersion || task.category !== event.category
+    if (!task || task.issueNumber !== event.issueNumber
+      || (issue && (issue.number !== event.issueNumber || issue.taskVersion !== task.taskVersion))
+      || task.category !== event.category
       || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
-      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${issue.number}`
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`
       || (event.state === "promoted" ? event.publicTargetUrl !== task.subject.url : event.publicTargetUrl !== null)) {
       throw new Error(`社区贡献事件 ${event.id} 与任务账本或 Issue 不一致`);
     }
@@ -237,18 +237,19 @@ function validateCommunityEvidenceProjection(input: {
     }
     if (epochPromoted && !epochAccepted) throw new Error(`社区贡献 ${key} 在未采纳时进入 promoted 生命周期`);
     const exemplar = history.at(-1)!;
-    const issue = issues.get(exemplar.taskId)!;
-    const currentPair = issue.acceptedEvidence.some((item) => item.contributor === exemplar.contributor && item.evidenceUrl === exemplar.evidenceUrl);
-    const desired = issue.labels.includes("source-withdrawn") ? "corrected"
-      : issue.labels.includes("canonical-promoted") ? "promoted"
-        : issue.labels.includes("accepted-evidence") ? "accepted" : undefined;
+    const issue = issues.get(exemplar.taskId);
+    const currentPair = issue?.acceptedEvidence.some((item) => item.contributor === exemplar.contributor && item.evidenceUrl === exemplar.evidenceUrl) ?? false;
+    const desired = issue?.labels.includes("source-withdrawn") ? "corrected"
+      : issue?.labels.includes("canonical-promoted") ? "promoted"
+        : issue?.labels.includes("accepted-evidence") ? "accepted" : undefined;
     const acceptedEntry = acceptedByPair.get(key);
     if (active) {
-      if (!acceptedEntry || !currentPair || (desired !== "accepted" && desired !== "promoted")
+      if (!issue || !acceptedEntry || !currentPair || (desired !== "accepted" && desired !== "promoted")
         || (desired === "promoted" && !epochPromoted)) {
         throw new Error(`社区贡献 ${key} 的活跃采纳生命周期与 Issue/accepted-evidence 不一致`);
       }
-    } else if (acceptedEntry || (currentPair && (desired === "accepted" || desired === "promoted"))
+    } else if (acceptedEntry || (!issue && lastTerminal !== "corrected" && lastTerminal !== "withdrawn")
+      || (currentPair && (desired === "accepted" || desired === "promoted"))
       || (desired === "corrected" && lastTerminal !== "corrected")) {
       throw new Error(`社区贡献 ${key} 的终止生命周期与 Issue/accepted-evidence 不一致`);
     }

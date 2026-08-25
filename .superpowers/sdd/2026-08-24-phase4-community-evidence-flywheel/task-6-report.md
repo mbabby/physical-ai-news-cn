@@ -74,3 +74,25 @@ Fresh verification after the final fix:
 - `CI=true pnpm test`: PASS, 706/706.
 - `CI=true pnpm run validate:release`: PASS; 2026-08-24, 6 public items, existing runtime state `degraded`.
 - `git diff --check`: PASS.
+
+## Review fix round 2/5
+
+Status: PASS.
+
+- Current Issue/snapshot membership is required only for active accepted/promoted contribution pairs and public open tasks. Accepted entries remain snapshot-bound through both the direct relationship checks and the active lifecycle check.
+- Terminal corrected/withdrawn contribution history may outlive the label-filtered Issue snapshot, but every event must still bind exactly to its retained ledger task identity, Issue number and canonical Issue URL, category, subject, target field, and promotion target semantics.
+- Added a three-refresh regression covering accepted, then source-withdrawn/corrected, then omission after loss of `two-minute-task`; the third refresh preserves the append-only contribution history and retained ledger identity.
+
+RED/green evidence:
+
+- RED: the third refresh failed with `社区证据任务 ... 缺少当前 Issue 关系` because every historical contribution event forced current snapshot membership.
+- GREEN: only active accepted/promoted pairs and public open tasks force current snapshot membership; terminal corrected/withdrawn histories revalidate against their retained ledger identity and survive omission.
+- Independent adversarial review: no remaining Critical or Important findings.
+
+Fresh verification:
+
+- Focused daily/atomicity/contribution/lifecycle/publication tests: PASS, 67/67.
+- `CI=true pnpm run check`: PASS.
+- `CI=true pnpm test`: PASS, 707/707.
+- `CI=true pnpm run validate:release`: PASS; 2026-08-24, 6 public items, existing runtime state `degraded`.
+- `git diff --check`: PASS.
