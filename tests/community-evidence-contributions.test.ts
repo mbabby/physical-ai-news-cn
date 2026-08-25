@@ -204,8 +204,8 @@ test("withdrawal, canonical promotion, and source correction append transitions 
     previousContributions: withdrawn.contributions,
     now: promotedAt,
   });
-  assert.equal(promoted.contributions.events.at(-1)?.state, "promoted");
-  assert.equal(promoted.contributions.events.at(-1)?.publicTargetUrl, subject.url);
+  assert.deepEqual(promoted.contributions.events.map((event) => event.state).sort(), ["accepted", "accepted", "promoted", "withdrawn"].sort());
+  assert.equal(promoted.contributions.events.find((event) => event.state === "promoted")?.publicTargetUrl, subject.url);
 
   const correctedAt = "2026-08-27T10:00:00Z";
   const corrected = projectAcceptedEvidence({
@@ -240,6 +240,40 @@ test("rejects mutated contribution event identities", () => {
     }),
     /history.*mutated|identity/i,
   );
+});
+
+test("preserves accepted entry identity and time across unrelated Issue updates", () => {
+  const first = projectAcceptedEvidence({
+    issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
+  });
+  const later = "2026-08-25T10:00:00Z";
+  const repeated = projectAcceptedEvidence({
+    issues: { ...issues([issue({ updatedAt: later })]), fetchedAt: later },
+    taskLedger: { ...taskLedger(), generatedAt: later },
+    previousAccepted: first.accepted,
+    previousContributions: first.contributions,
+    now: later,
+  });
+  assert.deepEqual(repeated.accepted.entries, first.accepted.entries);
+  assert.deepEqual(repeated.contributions.events, first.contributions.events);
+});
+
+test("preserves original acceptance identity and time when accepted evidence is promoted", () => {
+  const first = projectAcceptedEvidence({
+    issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
+  });
+  const promotedAt = "2026-08-25T10:00:00Z";
+  const promoted = projectAcceptedEvidence({
+    issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: promotedAt })]), fetchedAt: promotedAt },
+    taskLedger: { ...taskLedger(), generatedAt: promotedAt },
+    previousAccepted: first.accepted,
+    previousContributions: first.contributions,
+    now: promotedAt,
+  });
+  assert.deepEqual(promoted.accepted.entries, first.accepted.entries);
+  assert.equal(promoted.contributions.events[0]?.state, "accepted");
+  assert.equal(promoted.contributions.events[0]?.occurredAt, ACCEPTED_AT);
+  assert.equal(promoted.contributions.events[1]?.state, "promoted");
 });
 
 test("fails closed instead of silently clearing accepted evidence with no bound URL", () => {

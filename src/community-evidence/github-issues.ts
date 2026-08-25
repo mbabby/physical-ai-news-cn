@@ -10,6 +10,7 @@ const TASK_ID_MARKER = /<!-- evidence-task-id:(evidence-task-[a-f0-9]{24}) -->/g
 const TASK_VERSION_MARKER = /<!-- evidence-task-version:([1-9]\d*) -->/g;
 const ACCEPTED_CONTRIBUTOR_MARKER = /<!-- accepted-contributor:@([A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?) -->/g;
 const URL_CANDIDATE = /https:\/\/[^\s<>"')\]]+/g;
+const STRUCTURED_EVIDENCE_URL = /(?:^|\r?\n)\s*(?:证据链接|evidence url)\s*[：:]\s*(https:\/\/[^\s<>"')\]]+)/gi;
 const MAINTAINER_ASSOCIATIONS = new Set(["COLLABORATOR", "MEMBER", "OWNER"]);
 const SAFE_LABELS = new Set([
   "accepted-evidence",
@@ -92,6 +93,12 @@ function evidenceUrls(body: string): string[] {
     .sort();
 }
 
+function structuredEvidenceUrls(body: string): string[] {
+  return [...new Set(matches(body, STRUCTURED_EVIDENCE_URL)
+    .map((match) => normalizeUrl(match[1]!))
+    .filter((url): url is string => url !== null))].sort();
+}
+
 function labels(value: unknown, path: string): string[] {
   return [...new Set(array(value, path).map((item, index) => {
     const label = object(item, `${path}[${index}]`);
@@ -156,14 +163,15 @@ async function fetchPages(fetchImpl: typeof fetch, initialUrl: string, token: st
   return result;
 }
 
-function parseComment(value: unknown, path: string): { body: string; association: string } {
+function parseComment(value: unknown, path: string): { body: string; login: string; association: string } {
   const comment = object(value, path);
   const user = object(comment.user, `${path}.user`);
-  string(user.login, `${path}.user.login`);
+  const login = string(user.login, `${path}.user.login`);
   string(comment.created_at, `${path}.created_at`);
   string(comment.updated_at, `${path}.updated_at`);
   return {
     body: string(comment.body, `${path}.body`),
+    login,
     association: string(comment.author_association, `${path}.author_association`),
   };
 }
@@ -191,15 +199,19 @@ export async function fetchEvidenceIssueSnapshot(input: {
       const issueLabels = labels(raw.labels, `issues[${index}].labels`);
       const user = object(raw.user, `issues[${index}].user`);
       const authorLogin = string(user.login, `issues[${index}].user.login`);
-      const bodyUrls = evidenceUrls(body);
+      const bodySubmissions = structuredEvidenceUrls(body);
       const commentUrl = `${API_ROOT}/repos/${input.repo}/issues/${number}/comments?per_page=100`;
       const comments = await fetchPages(fetchImpl, commentUrl, input.token);
+      const submittedUrls = new Set(bodySubmissions);
+      const authorSubmissions = new Set(bodySubmissions);
       const explicit: EvidenceIssueAcceptedEvidence[] = [];
       for (let commentIndex = 0; commentIndex < comments.length; commentIndex += 1) {
         const comment = parseComment(comments[commentIndex], `comments[${commentIndex}]`);
+        const urls = evidenceUrls(comment.body);
+        urls.forEach((url) => submittedUrls.add(url));
+        if (comment.login === authorLogin) structuredEvidenceUrls(comment.body).forEach((url) => authorSubmissions.add(url));
         if (!MAINTAINER_ASSOCIATIONS.has(comment.association)) continue;
         const contributorMarkers = matches(comment.body, ACCEPTED_CONTRIBUTOR_MARKER);
-        const urls = evidenceUrls(comment.body);
         if (contributorMarkers.length > 0 && (contributorMarkers.length !== 1 || urls.length !== 1)) {
           throw new Error("A maintainer accepted contributor marker must bind exactly one evidence URL");
         }
@@ -209,7 +221,7 @@ export async function fetchEvidenceIssueSnapshot(input: {
       }
       const isAccepted = issueLabels.includes("accepted-evidence");
       const pairs = isAccepted ? acceptedPairs([
-        ...bodyUrls.map((evidenceUrl) => ({ contributor: authorLogin, evidenceUrl })),
+        ...[...authorSubmissions].map((evidenceUrl) => ({ contributor: authorLogin, evidenceUrl })),
         ...explicit,
       ]) : [];
       const state = string(raw.state, `issues[${index}].state`);
@@ -224,7 +236,7 @@ export async function fetchEvidenceIssueSnapshot(input: {
         createdAt: string(raw.created_at, `issues[${index}].created_at`),
         updatedAt: string(raw.updated_at, `issues[${index}].updated_at`),
         closedAt: nullableString(raw.closed_at, `issues[${index}].closed_at`),
-        evidenceUrls: [...new Set([...bodyUrls, ...pairs.map((pair) => pair.evidenceUrl)])].sort(),
+        evidenceUrls: [...submittedUrls].sort(),
         acceptedContributors: [...new Set(pairs.map((pair) => pair.contributor))].sort(),
         acceptedEvidence: pairs,
       });

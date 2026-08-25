@@ -63,6 +63,20 @@ function compareEvents(left: ContributionStateEvent, right: ContributionStateEve
     : left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
 }
 
+function activeAcceptedTransition(events: ContributionStateEvent[]): ContributionStateEvent | undefined {
+  let accepted: ContributionStateEvent | undefined;
+  let acceptedIndex = -1;
+  let terminalIndex = -1;
+  events.forEach((event, index) => {
+    if (event.state === "accepted") {
+      accepted = event;
+      acceptedIndex = index;
+    }
+    if (event.state === "withdrawn" || event.state === "corrected") terminalIndex = index;
+  });
+  return acceptedIndex > terminalIndex ? accepted : undefined;
+}
+
 export function projectAcceptedEvidence(input: {
   issues: import("./contracts.js").EvidenceIssueSnapshot;
   taskLedger: EvidenceTaskLedgerArtifact;
@@ -93,7 +107,15 @@ export function projectAcceptedEvidence(input: {
 
   const previousEvents = input.previousContributions.events;
   const latestByPair = new Map<string, ContributionStateEvent>();
-  for (const event of previousEvents) latestByPair.set(pairIdentity(event), event);
+  const historyByPair = new Map<string, ContributionStateEvent[]>();
+  for (const event of previousEvents) {
+    const identity = pairIdentity(event);
+    latestByPair.set(identity, event);
+    const history = historyByPair.get(identity) ?? [];
+    history.push(event);
+    historyByPair.set(identity, history);
+  }
+  const previousAcceptedByPair = new Map(input.previousAccepted.entries.map((entry) => [pairIdentity(entry), entry]));
   const currentAccepted: AcceptedEvidenceEntry[] = [];
   const transitions: ContributionStateEvent[] = [];
   const currentPairs = new Set<string>();
@@ -108,21 +130,57 @@ export function projectAcceptedEvidence(input: {
     for (const pair of issue.acceptedEvidence) {
       const identity = pairIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair });
       currentPairs.add(identity);
-      const acceptedAt = issue.updatedAt;
       if (state === "accepted" || state === "promoted") {
-        currentAccepted.push({
-          id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state: "accepted", occurredAt: acceptedAt }),
-          taskId: issue.taskId,
-          issueNumber: issue.number,
-          category: task.category,
-          subject: task.subject,
-          targetField: task.targetField,
-          contributor: pair.contributor,
-          evidenceUrl: pair.evidenceUrl,
-          acceptedAt,
-        });
+        const priorActive = previousAcceptedByPair.get(identity);
+        const acceptedTransition = activeAcceptedTransition(historyByPair.get(identity) ?? []);
+        if (priorActive) {
+          if (!acceptedTransition || priorActive.id !== acceptedTransition.id || priorActive.acceptedAt !== acceptedTransition.occurredAt) {
+            throw new Error(`Active accepted evidence history was mutated for Issue ${issue.number}`);
+          }
+          currentAccepted.push(priorActive);
+        } else if (acceptedTransition) {
+          currentAccepted.push({
+            id: acceptedTransition.id,
+            taskId: issue.taskId,
+            issueNumber: issue.number,
+            category: task.category,
+            subject: task.subject,
+            targetField: task.targetField,
+            contributor: pair.contributor,
+            evidenceUrl: pair.evidenceUrl,
+            acceptedAt: acceptedTransition.occurredAt,
+          });
+        } else {
+          const newAcceptance: ContributionStateEvent = {
+            id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state: "accepted", occurredAt: issue.updatedAt }),
+            taskId: issue.taskId,
+            issueNumber: issue.number,
+            contributor: pair.contributor,
+            evidenceUrl: pair.evidenceUrl,
+            category: task.category,
+            subject: task.subject,
+            targetField: task.targetField,
+            state: "accepted",
+            occurredAt: issue.updatedAt,
+            sourceUrl: `https://github.com/${input.issues.repo}/issues/${issue.number}`,
+            publicTargetUrl: null,
+          };
+          transitions.push(newAcceptance);
+          latestByPair.set(identity, newAcceptance);
+          currentAccepted.push({
+            id: newAcceptance.id,
+            taskId: issue.taskId,
+            issueNumber: issue.number,
+            category: task.category,
+            subject: task.subject,
+            targetField: task.targetField,
+            contributor: pair.contributor,
+            evidenceUrl: pair.evidenceUrl,
+            acceptedAt: newAcceptance.occurredAt,
+          });
+        }
       }
-      if (latestByPair.get(identity)?.state === state) continue;
+      if (state === "accepted" || latestByPair.get(identity)?.state === state) continue;
       const event: ContributionStateEvent = {
         id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state, occurredAt: issue.updatedAt }),
         taskId: issue.taskId,
