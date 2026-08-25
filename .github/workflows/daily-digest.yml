@@ -24,7 +24,7 @@ on:
 
 permissions:
   contents: write
-  actions: write
+  issues: read
 
 # 同一时间只允许一轮日报写入 main；避免手动触发与定时任务彼此抢占提交。
 concurrency:
@@ -97,6 +97,8 @@ jobs:
           LLM_MODEL: ${{ vars.LLM_MODEL }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           DIGEST_HOURS: ${{ inputs.hours }}
       - name: Validate generated publication
         if: steps.fallback.outputs.run == 'true'

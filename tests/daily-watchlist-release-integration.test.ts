@@ -5,6 +5,19 @@ import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { generate } from "../src/main.js";
+import {
+  assertAcceptedEvidenceArtifact,
+  assertCommunityTaskPublicArtifact,
+  assertContributionLedgerArtifact,
+  assertEvidenceTaskLedgerArtifact,
+  assertEvidenceTaskSeedArtifact,
+  buildEvidenceTaskId,
+  type EvidenceIssueSnapshot,
+  type EvidenceTaskCategory,
+  type EvidenceTaskSeed,
+  type EvidenceTaskSeedArtifact,
+  type EvidenceTargetField,
+} from "../src/community-evidence/contracts.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { DashboardData } from "../src/site-data.js";
 import type { Article, DailyArchive, DigestResult, EventRecord, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
@@ -27,6 +40,43 @@ const timeoutCollection = async (): Promise<DigestResult> => ({
   failures: [{ source: "fixture-source", reason: "timeout" }],
   sourceOutcomes: [{ source: "fixture-source", status: "failure", reason: "timeout", fetchedArticles: 0 }],
 });
+
+function communityEvidenceFixture(): { seeds: EvidenceTaskSeedArtifact; snapshot: EvidenceIssueSnapshot; evidenceUrl: string } {
+  const fixture: Record<EvidenceTaskCategory, { kind: "company" | "event" | "research"; id: string; name: string; url: string; targetField: EvidenceTargetField }> = {
+    "company-funding": { kind: "company", id: "daily-company-alpha", name: "Daily Alpha Robotics", url: "https://daily-alpha.example/", targetField: "funding.amount" },
+    "product-deployment": { kind: "event", id: "daily-event-beta", name: "Daily Beta 部署", url: "https://daily-beta.example/deployment", targetField: "deployment.customer" },
+    "research-metadata": { kind: "research", id: "daily-paper-gamma", name: "Daily Gamma 研究", url: "https://daily-gamma.example/paper", targetField: "research.codeUrl" },
+  };
+  const items = (Object.keys(fixture) as EvidenceTaskCategory[]).map((category): EvidenceTaskSeed => {
+    const item = fixture[category];
+    const subject = { kind: item.kind, id: item.id, name: item.name, url: item.url };
+    const materialVersion = `daily-material-${category}`;
+    return {
+      id: buildEvidenceTaskId(subject, item.targetField, materialVersion), version: 1, category, subject, targetField: item.targetField,
+      contextZh: `${item.name} 的单一字段仍待公开证据确认。`, referenceUrls: [item.url], suggestedLocations: ["官方页面"],
+      qualifiedEvidenceZh: ["可公开核验的原始来源"], disqualifiedEvidenceZh: ["没有原始链接的转述"],
+      replyTemplateZh: "证据链接：\n证据摘录：\n来源类型：", estimatedMinutes: 2, generatedWeek: "2026-W33",
+      materialVersion, supersedesTaskId: null,
+    };
+  });
+  const seeds: EvidenceTaskSeedArtifact = { schemaVersion: 1, generatedAt: FIXED_NOW.toISOString(), generatedWeek: "2026-W33", seeds: items };
+  assertEvidenceTaskSeedArtifact(seeds);
+  const evidenceUrl = "https://accepted-daily-evidence.example/funding";
+  const snapshot: EvidenceIssueSnapshot = {
+    schemaVersion: 1,
+    fetchedAt: FIXED_NOW.toISOString(),
+    repo: "acme/physical-ai-news-cn",
+    issues: items.map((item, index) => ({
+      number: 71 + index, taskId: item.id, taskVersion: 1, state: "open",
+      labels: ["evidence-task", `evidence-task-${item.category}`, ...(index === 0 ? ["accepted-evidence"] : []), "two-minute-task"].sort(),
+      authorLogin: index === 0 ? "alice" : "maintainer", authorAssociation: index === 0 ? "FIRST_TIME_CONTRIBUTOR" : "MEMBER",
+      createdAt: "2026-08-15T08:00:00.000Z", updatedAt: index === 0 ? "2026-08-16T07:00:00.000Z" : "2026-08-15T08:00:00.000Z", closedAt: null,
+      evidenceUrls: index === 0 ? [evidenceUrl] : [], acceptedContributors: index === 0 ? ["alice"] : [],
+      acceptedEvidence: index === 0 ? [{ contributor: "alice", evidenceUrl }] : [],
+    })),
+  };
+  return { seeds, snapshot, evidenceUrl };
+}
 
 async function seedDeterministicResearchState(root: string): Promise<void> {
   const article: Article = {
@@ -222,12 +272,15 @@ async function runFixedGeneration(root: string, options: {
   transaction?: FileTransaction;
   now?: Date;
   llmOutage?: boolean;
+  communityEvidence?: ReturnType<typeof communityEvidenceFixture>;
 } = {}): Promise<RunManifest> {
   const priorLlmKey = process.env.LLM_API_KEY;
   const priorLlmBaseUrl = process.env.LLM_BASE_URL;
   const priorLlmModel = process.env.LLM_MODEL;
   const priorOpenAlexKey = process.env.OPENALEX_API_KEY;
   const priorFetch = globalThis.fetch;
+  const priorGithubToken = process.env.GITHUB_TOKEN;
+  const priorGithubRepository = process.env.GITHUB_REPOSITORY;
   if (options.llmOutage) {
     process.env.LLM_API_KEY = "fixture-secret";
     process.env.LLM_BASE_URL = "https://llm-outage.invalid/v1";
@@ -239,6 +292,13 @@ async function runFixedGeneration(root: string, options: {
     delete process.env.LLM_MODEL;
   }
   delete process.env.OPENALEX_API_KEY;
+  if (options.communityEvidence) {
+    process.env.GITHUB_TOKEN = "fixture-token";
+    process.env.GITHUB_REPOSITORY = options.communityEvidence.snapshot.repo;
+  } else {
+    delete process.env.GITHUB_TOKEN;
+    delete process.env.GITHUB_REPOSITORY;
+  }
   try {
     return await generate({
       root,
@@ -246,6 +306,8 @@ async function runFixedGeneration(root: string, options: {
       collect: options.collect ?? emptyCollection,
       collectX: emptyCollection,
       transaction: options.transaction,
+      communityEvidenceSeeds: options.communityEvidence?.seeds,
+      fetchCommunityEvidenceSnapshot: options.communityEvidence ? async () => options.communityEvidence!.snapshot : undefined,
     });
   } finally {
     globalThis.fetch = priorFetch;
@@ -257,6 +319,10 @@ async function runFixedGeneration(root: string, options: {
     else process.env.LLM_MODEL = priorLlmModel;
     if (priorOpenAlexKey === undefined) delete process.env.OPENALEX_API_KEY;
     else process.env.OPENALEX_API_KEY = priorOpenAlexKey;
+    if (priorGithubToken === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = priorGithubToken;
+    if (priorGithubRepository === undefined) delete process.env.GITHUB_REPOSITORY;
+    else process.env.GITHUB_REPOSITORY = priorGithubRepository;
   }
 }
 
@@ -273,6 +339,12 @@ async function capturePublicGroup(root: string): Promise<PublicGroup> {
     "review/watchlist-preview.json",
     "review/watchlist-preview.md",
     "review/watchlist-issue-seeds.json",
+    "review/evidence-task-seeds.json",
+    "review/evidence-issue-snapshot.json",
+    "review/evidence-task-ledger.json",
+    "review/accepted-evidence.json",
+    "community/contributions.json",
+    "site/data/community-tasks.json",
     "site/feeds/manifest.json",
     ...manifest.companyFeeds.map(({ path }) => `site/${path}`),
     ...manifest.routeFeeds.map(({ path }) => `site/${path}`),
@@ -325,6 +397,51 @@ async function expectFailedWithoutPublicChange(
   });
   assert.deepEqual(await capturePublicGroup(root), before);
 }
+
+test("accepted community evidence reaches daily revalidation without entering canonical surfaces", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-evidence-full-daily-"));
+  try {
+    await copyFixture(root);
+    await seedNonEmptyPriorPreview(root);
+    const fixture = communityEvidenceFixture();
+    const manifest = await runFixedGeneration(root, { communityEvidence: fixture });
+    const artifactPaths = {
+      seeds: "review/evidence-task-seeds.json",
+      ledger: "review/evidence-task-ledger.json",
+      accepted: "review/accepted-evidence.json",
+      contributions: "community/contributions.json",
+      public: "site/data/community-tasks.json",
+    } as const;
+    const artifacts = Object.fromEntries(await Promise.all(Object.entries(artifactPaths).map(async ([key, path]) => [key, JSON.parse(await readFile(join(root, path), "utf8"))] as const)));
+    assert.doesNotThrow(() => assertEvidenceTaskSeedArtifact(artifacts.seeds));
+    assert.doesNotThrow(() => assertEvidenceTaskLedgerArtifact(artifacts.ledger));
+    assert.doesNotThrow(() => assertAcceptedEvidenceArtifact(artifacts.accepted));
+    assert.doesNotThrow(() => assertContributionLedgerArtifact(artifacts.contributions));
+    assert.doesNotThrow(() => assertCommunityTaskPublicArtifact(artifacts.public));
+    const enrichment = JSON.parse(await readFile(join(root, "review/evidence-enrichment.json"), "utf8")) as { revalidationTargets?: Array<{ evidenceUrl: string; disposition: string; mayPublish: boolean }> };
+    assert.deepEqual(enrichment.revalidationTargets, [{
+      id: artifacts.accepted.entries[0].id,
+      taskId: artifacts.accepted.entries[0].taskId,
+      issueNumber: 71,
+      category: "company-funding",
+      subject: fixture.seeds.seeds[0]!.subject,
+      targetField: "funding.amount",
+      evidenceUrl: fixture.evidenceUrl,
+      domain: "accepted-daily-evidence.example",
+      acceptedAt: "2026-08-16T07:00:00.000Z",
+      disposition: "revalidation-only",
+      requiredChecks: ["entity", "source-tier", "field-consistency", "conflict", "date"],
+      mayPublish: false,
+      mayUpgradeFactGrade: false,
+    }]);
+    for (const path of ["events/index.json", "events/companies.json", "research/decision-cards.json", "README.md"]) {
+      assert.doesNotMatch(await readFile(join(root, path), "utf8"), /accepted-daily-evidence/);
+    }
+    assert.equal(manifest.services.find((service) => service.component === "GitHub")?.status, "成功");
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
 
 test("two fixed-input complete daily generations are byte- and semantics-idempotent", async () => {
   const root = await mkdtemp(join(tmpdir(), "stage4-daily-idempotence-"));

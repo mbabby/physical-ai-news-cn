@@ -437,6 +437,61 @@ test("formats a safe one-field two-minute Issue body with reconciliation markers
   assert.equal((action.body.match(/待补字段：/g) ?? []).length, 1);
 });
 
+test("a persisted ready projection keeps emitting create until the Issue exists", () => {
+  const task = seed("company-funding", "persisted-ready");
+  const first = planEvidenceIssueActions({ seeds: seeds([task]), issues: issues([]), previousLedger: ledger(), now: NOW });
+  const repeated = planEvidenceIssueActions({ seeds: seeds([task]), issues: issues([]), previousLedger: first.ledger, now: NOW });
+
+  assert.equal(first.actions[0]?.action, "create");
+  assert.equal(repeated.actions[0]?.action, "create");
+  assert.equal(repeated.actions[0]?.taskId, task.id);
+  assert.equal(repeated.ledger.entries[0]?.createdAt, first.ledger.entries[0]?.createdAt);
+});
+
+test("persisted ready retries obey the requested limit and remote WIP hard cap", () => {
+  const pending = [seed("company-funding", "pending-a"), seed("product-deployment", "pending-b")];
+  const first = planEvidenceIssueActions({ seeds: seeds(pending), issues: issues([]), previousLedger: ledger(), now: NOW });
+  const limited = planEvidenceIssueActions({ seeds: seeds(pending), issues: issues([]), previousLedger: first.ledger, now: NOW, wipLimit: 1 });
+  assert.equal(limited.actions.filter((action) => action.action === "create").length, 1);
+
+  const remote = [
+    seed("company-funding", "remote-1"), seed("company-funding", "remote-2"),
+    seed("product-deployment", "remote-1"), seed("product-deployment", "remote-2"),
+    seed("research-metadata", "remote-1"),
+  ];
+  const remoteIssues = remote.map((task, index) => issue(task, { number: 80 + index }));
+  const remoteEntries = remote.map((task, index) => entry(task, { issueNumber: 80 + index, issueUrl: `https://github.com/${REPO}/issues/${80 + index}` }));
+  const atCapacity = planEvidenceIssueActions({
+    seeds: seeds(pending),
+    issues: issues(remoteIssues),
+    previousLedger: ledger([...first.ledger.entries, ...remoteEntries]),
+    now: NOW,
+  });
+  assert.equal(atCapacity.actions.some((action) => action.action === "create"), false);
+});
+
+test("a projected terminal or stale state keeps emitting its remote action until GitHub reflects it", () => {
+  const accepted = seed("company-funding", "projected-accepted");
+  const stale = seed("product-deployment", "projected-stale");
+  const acceptedIssue = issue(accepted, { number: 41, labels: ["accepted-evidence", "evidence-task"], evidenceUrls: ["https://evidence.example/accepted"] });
+  const inactiveIssue = issue(stale, { number: 42, createdAt: "2026-08-17T12:00:00Z", updatedAt: "2026-08-17T12:00:00Z" });
+  const first = planEvidenceIssueActions({
+    seeds: seeds([accepted, stale]),
+    issues: issues([acceptedIssue, inactiveIssue]),
+    previousLedger: ledger([
+      entry(accepted, { issueNumber: 41, issueUrl: `https://github.com/${REPO}/issues/41` }),
+      entry(stale, { issueNumber: 42, issueUrl: `https://github.com/${REPO}/issues/42`, createdAt: "2026-08-17T12:00:00Z", updatedAt: "2026-08-17T12:00:00Z", lastActivityAt: "2026-08-17T12:00:00Z" }),
+    ]),
+    now: NOW,
+  });
+  const repeated = planEvidenceIssueActions({ seeds: seeds([accepted, stale]), issues: issues([acceptedIssue, inactiveIssue]), previousLedger: first.ledger, now: NOW });
+
+  assert.deepEqual(repeated.actions, [
+    { action: "close", issueNumber: 41, taskId: accepted.id, reason: "accepted" },
+    { action: "mark-stale", issueNumber: 42, taskId: stale.id },
+  ]);
+});
+
 test("JSON CLI validates inputs and writes byte-stable exact JSON", async () => {
   const root = await mkdtemp(join(tmpdir(), "evidence-task-ledger-"));
   const task = seed("company-funding", "cli");

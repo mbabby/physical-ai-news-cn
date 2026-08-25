@@ -9,6 +9,7 @@ publication_paths=(
   weekly
   sources
   review
+  community
   resources
   events
   research

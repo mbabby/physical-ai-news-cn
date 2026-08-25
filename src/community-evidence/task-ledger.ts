@@ -140,6 +140,15 @@ function reconcileIssue(input: {
   let updatedAt = latest(current.updatedAt, issue.updatedAt);
   let closedAt = current.closedAt;
 
+  if (TERMINAL_STATES.has(current.state) && issue.state === "open") {
+    if (current.state === "accepted" || current.state === "rejected") {
+      actions.push({ action: "close", issueNumber: issue.number, taskId: issue.taskId, reason: current.state });
+    } else if (current.state === "superseded") {
+      actions.push({ action: "close", issueNumber: issue.number, taskId: issue.taskId, reason: "superseded" });
+    } else if (current.state === "closed") {
+      actions.push({ action: "close", issueNumber: issue.number, taskId: issue.taskId, reason: "inactive-14-days" });
+    }
+  }
   if (!TERMINAL_STATES.has(current.state)) {
     if (remoteTerminal) {
       state = remoteTerminal;
@@ -160,7 +169,7 @@ function reconcileIssue(input: {
         state = "contributed";
       } else if (inactiveDays >= 7 || remoteStale || current.state === "stale") {
         state = "stale";
-        if (current.state !== "stale" && !issue.labels.includes("stale")) {
+        if (!issue.labels.includes("stale")) {
           updatedAt = now;
           actions.push({ action: "mark-stale", issueNumber: issue.number, taskId: issue.taskId });
         }
@@ -226,9 +235,15 @@ export function planEvidenceIssueActions(input: {
     }
   }
 
-  const candidates: Array<{ seed: EvidenceTaskSeed; version: number; supersedesTaskId: string | null; previous?: EvidenceTaskLedgerEntry }> = [];
+  const candidates: Array<{ seed: EvidenceTaskSeed; version: number; supersedesTaskId: string | null; previous?: EvidenceTaskLedgerEntry; persisted?: EvidenceTaskLedgerEntry }> = [];
   for (const seed of input.seeds.seeds) {
-    if (entries.has(seed.id) || input.issues.issues.some((issue) => issue.taskId === seed.id)) continue;
+    const persisted = entries.get(seed.id);
+    if (persisted || input.issues.issues.some((issue) => issue.taskId === seed.id)) {
+      if (persisted?.state === "ready" && persisted.issueNumber === null) {
+        candidates.push({ seed, version: persisted.taskVersion, supersedesTaskId: persisted.supersedesTaskId, persisted });
+      }
+      continue;
+    }
     const identity = taskIdentity(seed);
     const previous = latestByIdentity.get(identity);
     const activePrevious = activeByIdentity.get(identity);
@@ -288,7 +303,7 @@ export function planEvidenceIssueActions(input: {
   }
   for (const candidate of selected) {
     actions.push(createAction(candidate.seed, candidate.version));
-    entries.set(candidate.seed.id, entryFromSeed(candidate.seed, input.now, candidate.version, candidate.supersedesTaskId));
+    entries.set(candidate.seed.id, candidate.persisted ?? entryFromSeed(candidate.seed, input.now, candidate.version, candidate.supersedesTaskId));
   }
 
   const ledger: EvidenceTaskLedgerArtifact = {
