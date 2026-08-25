@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
+import vm from "node:vm";
 
 const root = process.cwd();
 
@@ -28,7 +29,68 @@ test("homepage uses the compact contribution module and public contribution-cent
   assert.doesNotMatch(html, /review\/community-queue\.md/);
 });
 
-test("browser renderer preserves artifact order and stable IDs on both public surfaces", async () => {
+type Mount = { innerHTML: string; textContent: string };
+
+async function renderCommunityTasks(ids: string[]) {
+  const source = (await readFile(join(root, "site", "app.js"), "utf8"))
+    .replace(/^import "\.\/decision-products-validator\.js";\s*/, "")
+    .replace(
+      /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
+      "globalThis.__communityUi = { renderCommunityEvidence };",
+    );
+  const mounts = Object.fromEntries(ids.map((id) => [id, { innerHTML: "", textContent: "" }])) as Record<string, Mount>;
+  const context = {
+    console, URL, Intl, Date,
+    document: {
+      getElementById: (id: string) => mounts[id] ?? null,
+      addEventListener() {},
+      body: { dataset: {}, classList: { add() {}, remove() {} } },
+    },
+    navigator: {},
+    window: {
+      location: { href: "https://example.test/index.html", protocol: "https:" },
+      addEventListener() {},
+    },
+  };
+  vm.runInNewContext(source, context);
+  return {
+    mounts,
+    render: (context as typeof context & { __communityUi: { renderCommunityEvidence: (publication: unknown, artifact: unknown) => void } }).__communityUi.renderCommunityEvidence,
+  };
+}
+
+const renderedTasks = [
+  { id: "task-zeta", category: "company-funding", subject: { name: "Zeta", url: "https://zeta.example/" }, targetField: "funding.amount", contextZh: "融资金额待原始公告确认。", issueNumber: 41, issueUrl: "https://github.com/acme/repo/issues/41" },
+  { id: "task-alpha", category: "product-deployment", subject: { name: "Alpha", url: "https://alpha.example/" }, targetField: "deployment.customer", contextZh: "部署客户待原始公告确认。", issueNumber: 42, issueUrl: "https://github.com/acme/repo/issues/42" },
+  { id: "task-middle", category: "research-metadata", subject: { name: "Middle", url: "https://middle.example/" }, targetField: "research.codeUrl", contextZh: "代码仓库待论文项目页确认。", issueNumber: 43, issueUrl: "https://github.com/acme/repo/issues/43" },
+];
+
+function orderedMatches(html: string, pattern: RegExp): string[] {
+  return [...html.matchAll(pattern)].map((match) => match[1]!);
+}
+
+test("browser renderer preserves artifact order and stable IDs on homepage and contribution center", async () => {
+  const expectedIds = renderedTasks.map((task) => task.id);
+  const homepage = await renderCommunityTasks(["homepage-community-tasks"]);
+  homepage.render({ metrics: {}, recentContributions: [] }, { tasks: renderedTasks });
+  const homepageHtml = homepage.mounts["homepage-community-tasks"]!.innerHTML;
+  assert.deepEqual(orderedMatches(homepageHtml, /data-community-task-id="([^"]+)"/g), expectedIds);
+  assert.deepEqual(orderedMatches(homepageHtml, /id="community-task-([^"]+)"/g), expectedIds);
+
+  const center = await renderCommunityTasks(["community-task-groups"]);
+  center.render({ metrics: {}, recentContributions: [] }, { tasks: renderedTasks });
+  const centerHtml = center.mounts["community-task-groups"]!.innerHTML;
+  assert.deepEqual(orderedMatches(centerHtml, /data-community-task-id="([^"]+)"/g), expectedIds);
+  assert.deepEqual(orderedMatches(centerHtml, /id="community-task-([^"]+)"/g), expectedIds);
+  assert.deepEqual(orderedMatches(centerHtml, /id="community-category-([^"]+)"/g), ["company-funding", "product-deployment", "research-metadata"]);
+
+  homepage.render({ metrics: {}, recentContributions: [] }, { tasks: [] });
+  center.render({ metrics: {}, recentContributions: [] }, { tasks: [] });
+  assert.equal(homepage.mounts["homepage-community-tasks"]!.innerHTML, '<p class="empty">当前没有达到公开任务门槛的缺口</p>');
+  assert.equal(center.mounts["community-task-groups"]!.innerHTML, '<p class="empty">当前没有达到公开任务门槛的缺口</p>');
+});
+
+test("browser renderer source retains the expected task affordances without adding a client sort", async () => {
   const app = await readFile(join(root, "site", "app.js"), "utf8");
   assert.match(app, /data-community-task-id=/);
   assert.match(app, /community-task-groups/);

@@ -12,9 +12,9 @@ import {
   type EvidenceTaskLedgerArtifact,
   type EvidenceTaskSeedArtifact,
 } from "./contracts.js";
+import { hasUnsupportedNegativeUnknown } from "./negative-unknown.js";
 
 const REPOSITORY = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
-const UNSUPPORTED_NEGATIVE = /(?:没有|暂无|尚无|未)(?:融资|部署|代码|数据集|权重|客户|投资方)|(?:no|not|without|unavailable|absent)\s+(?:funding|deployment|code|dataset|weights?)/i;
 const RECENT_STATES = new Set<ContributionState>(["accepted", "promoted", "corrected", "withdrawn"]);
 
 export interface CommunityContributionPublicRecord {
@@ -86,7 +86,7 @@ export function buildCommunityTaskPublicArtifact(input: BuildCommunityEvidencePu
     const prior = priorTasks.get(entry.taskId);
     if (!seed && !prior) throw new Error(`Public community task ${entry.taskId} has no validated seed or prior projection`);
     const contextZh = seed?.contextZh ?? prior!.contextZh;
-    if (UNSUPPORTED_NEGATIVE.test(contextZh)) throw new Error("Public community task contains an unsupported negative unknown claim");
+    if (hasUnsupportedNegativeUnknown([contextZh])) throw new Error("Public community task contains an unsupported negative unknown claim");
     return [{
       id: entry.taskId,
       version: entry.taskVersion,

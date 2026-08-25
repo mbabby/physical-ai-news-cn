@@ -11,6 +11,7 @@ import {
   type EvidenceTaskSeed,
   type EvidenceTaskSeedArtifact,
 } from "./contracts.js";
+import { hasUnsupportedNegativeUnknown } from "./negative-unknown.js";
 
 export interface BuildEvidenceTaskSeedsInput {
   generatedAt: string;
@@ -27,8 +28,6 @@ export const targetPriority: Record<EvidenceTaskCategory, EvidenceTargetField[]>
   "research-metadata": ["research.codeUrl", "research.weightsUrl", "research.datasetUrl", "research.realRobotEvidence", "research.institutions"],
 };
 
-const CHINESE_ABSENCE = /(?:未|无)(?:融资|部署|代码)|(?:暂未|尚未|仍未|迄今未|尚无|暂无|没有|不存在|缺少|缺乏|未公开|未发布|未提供|未进行|未曾)[^，。；\n]{0,12}(?:融资|部署|代码)|(?:融资|部署|代码)[^，。；\n]{0,12}(?:暂未|尚未|仍未|尚无|暂无|没有|不存在|并不存在|并未|未曾|缺少|缺乏)(?:发生|完成|存在|发布|公开|提供|落地|实现|进行)?/i;
-const ENGLISH_ABSENCE = /\b(?:no|without|not|never|lack(?:s|ed|ing)?|absence|absent|unavailable|missing|(?:has|have|had|is|are|was|were|does|do|did)n['’]t)\b.{0,40}\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b|\b(?:funding|financ(?:ing|ed)?|deploy(?:ment|ed)?|code)\b.{0,40}\b(?:not|never|lack(?:s|ed|ing)?|absence|absent|unavailable|missing|(?:has|have|had|is|are|was|were|does|do|did)n['’]t)\b/i;
 const TERMINAL_EVIDENCE_STATES = new Set(["rejected", "conflicted", "withdrawn"]);
 const INTERNAL_REVIEW_URL = /https:\/\/[^\s"']*(?:\/|%2f|=)review(?:\/|%2f|[?#&]|$)/i;
 const REPLY_TEMPLATE = "证据链接：\n证据摘录：\n来源类型：";
@@ -98,10 +97,6 @@ function references(values: Array<string | undefined>): string[] {
   return sorted(values.flatMap((value) => canonicalHttps(value) ?? [])).slice(0, 3);
 }
 
-function hasUnsupportedNegative(values: readonly string[]): boolean {
-  return values.some((value) => CHINESE_ABSENCE.test(value) || ENGLISH_ABSENCE.test(value));
-}
-
 function singlePriorityGap(category: EvidenceTaskCategory, gaps: ReadonlySet<EvidenceTargetField>): EvidenceTargetField | undefined {
   if (gaps.size !== 1) return undefined;
   return targetPriority[category].find((field) => gaps.has(field));
@@ -163,7 +158,7 @@ function companySeed(candidate: CandidateCompany, generatedWeek: string): Eviden
   const hasWithdrawnEvidence = candidate.evidence.some((item) => Boolean((item as typeof item & { withdrawn?: boolean }).withdrawn));
   if ((candidate.status !== "观察中" && candidate.status !== "已交叉核验") || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "") || hasWithdrawnEvidence) return undefined;
   const subjectName = normalizedName(candidate.name);
-  if (!subjectName || hasUnsupportedNegative(candidate.openQuestions)) return undefined;
+  if (!subjectName || hasUnsupportedNegativeUnknown(candidate.openQuestions)) return undefined;
   const officialUrl = canonicalHttps(candidate.officialUrl);
   const publicReferences = references([
     officialUrl,
@@ -186,7 +181,7 @@ function eventSeed(event: EventRecord, generatedWeek: string): EvidenceTaskSeed 
   if (!event.productDeployment || !event.id.trim() || !subjectName || !event.primaryEntity?.trim()
     || (event.status !== "已确证" && event.status !== "持续跟踪") || !publication.publicEligible
     || TERMINAL_EVIDENCE_STATES.has(lifecycle ?? "") || activeEvidence.length !== event.evidence.length) return undefined;
-  if (hasUnsupportedNegative([...event.facts, ...event.openQuestions])) return undefined;
+  if (hasUnsupportedNegativeUnknown([...event.facts, ...event.openQuestions])) return undefined;
   const publicReferences = references(activeEvidence.filter((item) => item.grade === "A" || item.grade === "B").map((item) => item.link));
   if (!publicReferences.length) return undefined;
   const gaps = questionGaps("product-deployment", event.openQuestions);
@@ -212,7 +207,7 @@ function unknown(value: { value: unknown }): boolean {
 function researchSeed(record: ResearchRecord, card: ResearchDecisionCard, generatedWeek: string): EvidenceTaskSeed | undefined {
   const subjectName = normalizedName(record.article.titleZh ?? record.article.title);
   if (record.status === "已撤稿" || record.status === "待复核" || card.openAlex.retraction.value === true) return undefined;
-  if (card.identity.paperId.value !== record.id || !record.id.trim() || !subjectName || hasUnsupportedNegative([record.article.title, record.article.excerpt])) return undefined;
+  if (card.identity.paperId.value !== record.id || !record.id.trim() || !subjectName || hasUnsupportedNegativeUnknown([record.article.title, record.article.excerpt])) return undefined;
   const publicReferences = references([
     record.article.link,
     ...Object.values(card.fieldEvidence).flat(),

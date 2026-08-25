@@ -153,3 +153,35 @@ test("weekly acceptance metrics survive a later correction or withdrawal", () =>
   const publication = buildCommunityEvidencePublication({ ...input, repository: REPOSITORY, generatedAt: NOW });
   assert.deepEqual(publication.metrics, { openTasks: 3, weeklyAccepted: 1, newContributors: 1 });
 });
+
+test("fails closed on unsupported negative unknown claims from seeds and prior public tasks", () => {
+  const phrases = [
+    "尚未找到融资公告",
+    "没有公开的部署信息",
+    "未发现客户证据",
+    "no public evidence of funding",
+    "部署证据仍未找到",
+  ];
+  for (const phrase of phrases) {
+    const seeded = fixture();
+    const seededTask = seeded.seeds.seeds[0]!;
+    seededTask.contextZh = phrase;
+    assert.throws(
+      () => buildCommunityTaskPublicArtifact({ ...seeded, repository: REPOSITORY, generatedAt: NOW }),
+      /unsupported negative unknown claim/,
+      `seed: ${phrase}`,
+    );
+
+    const priorInput = fixture();
+    const clean = buildCommunityTaskPublicArtifact({ ...priorInput, repository: REPOSITORY, generatedAt: NOW });
+    const taskId = priorInput.ledger.entries.find((entry) => entry.state === "open")!.taskId;
+    priorInput.seeds.seeds = priorInput.seeds.seeds.filter((seed) => seed.id !== taskId);
+    const priorTask = clean.tasks.find((task) => task.id === taskId)!;
+    priorTask.contextZh = phrase;
+    assert.throws(
+      () => buildCommunityTaskPublicArtifact({ ...priorInput, previousTasks: clean, repository: REPOSITORY, generatedAt: NOW }),
+      /unsupported negative unknown claim/,
+      `prior: ${phrase}`,
+    );
+  }
+});
