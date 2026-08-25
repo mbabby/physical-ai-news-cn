@@ -283,6 +283,7 @@ export async function fetchEvidenceIssueSnapshot(input: {
 
 export function projectAcceptedEvidence(input: {
   issues: EvidenceIssueSnapshot;
+  taskLedger: EvidenceTaskLedgerArtifact;
   previousAccepted: AcceptedEvidenceArtifact;
   previousContributions: ContributionLedgerArtifact;
   now: string;
