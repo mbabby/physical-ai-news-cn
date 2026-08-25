@@ -276,6 +276,44 @@ test("preserves original acceptance identity and time when accepted evidence is 
   assert.equal(promoted.contributions.events[1]?.state, "promoted");
 });
 
+test("equal-time hash ordering cannot make a promoted pair append duplicate promotion", () => {
+  const first = projectAcceptedEvidence({
+    issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
+  });
+  const withdrawnAt = "2026-08-25T10:00:00Z";
+  const withdrawn = projectAcceptedEvidence({
+    issues: { ...issues([issue({ labels: ["two-minute-task"], updatedAt: withdrawnAt, acceptedContributors: [], acceptedEvidence: [] })]), fetchedAt: withdrawnAt },
+    taskLedger: { ...taskLedger(), generatedAt: withdrawnAt },
+    previousAccepted: first.accepted,
+    previousContributions: first.contributions,
+    now: withdrawnAt,
+  });
+  const promotedAt = "2026-08-26T10:00:00Z";
+  const promoted = projectAcceptedEvidence({
+    issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: promotedAt })]), fetchedAt: promotedAt },
+    taskLedger: { ...taskLedger(), generatedAt: promotedAt },
+    previousAccepted: withdrawn.accepted,
+    previousContributions: withdrawn.contributions,
+    now: promotedAt,
+  });
+  const equalTime = promoted.contributions.events.filter((event) => event.occurredAt === promotedAt);
+  const acceptedEvent = equalTime.find((event) => event.state === "accepted");
+  const promotedEvent = equalTime.find((event) => event.state === "promoted");
+  assert.ok(acceptedEvent && promotedEvent);
+  assert.ok(promotedEvent.id < acceptedEvent.id, "fixture must exercise promoted-before-accepted hash serialization");
+
+  const unrelatedUpdateAt = "2026-08-27T10:00:00Z";
+  const repeated = projectAcceptedEvidence({
+    issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: unrelatedUpdateAt })]), fetchedAt: unrelatedUpdateAt },
+    taskLedger: { ...taskLedger(), generatedAt: unrelatedUpdateAt },
+    previousAccepted: promoted.accepted,
+    previousContributions: promoted.contributions,
+    now: unrelatedUpdateAt,
+  });
+  assert.deepEqual(repeated.contributions.events, promoted.contributions.events);
+  assert.deepEqual(repeated.accepted.entries, promoted.accepted.entries);
+});
+
 test("fails closed instead of silently clearing accepted evidence with no bound URL", () => {
   assert.throws(
     () => projectAcceptedEvidence({

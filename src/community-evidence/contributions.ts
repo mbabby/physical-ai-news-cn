@@ -63,11 +63,25 @@ function compareEvents(left: ContributionStateEvent, right: ContributionStateEve
     : left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
 }
 
+const CAUSAL_STATE_PRECEDENCE: Record<ContributionState, number> = {
+  submitted: 0,
+  accepted: 1,
+  promoted: 2,
+  corrected: 3,
+  withdrawn: 3,
+};
+
+function compareCausalState(left: ContributionStateEvent, right: ContributionStateEvent): number {
+  return left.occurredAt < right.occurredAt ? -1 : left.occurredAt > right.occurredAt ? 1
+    : CAUSAL_STATE_PRECEDENCE[left.state] - CAUSAL_STATE_PRECEDENCE[right.state]
+      || (left.id < right.id ? -1 : left.id > right.id ? 1 : 0);
+}
+
 function activeAcceptedTransition(events: ContributionStateEvent[]): ContributionStateEvent | undefined {
   let accepted: ContributionStateEvent | undefined;
   let acceptedIndex = -1;
   let terminalIndex = -1;
-  events.forEach((event, index) => {
+  [...events].sort(compareCausalState).forEach((event, index) => {
     if (event.state === "accepted") {
       accepted = event;
       acceptedIndex = index;
@@ -110,7 +124,8 @@ export function projectAcceptedEvidence(input: {
   const historyByPair = new Map<string, ContributionStateEvent[]>();
   for (const event of previousEvents) {
     const identity = pairIdentity(event);
-    latestByPair.set(identity, event);
+    const latest = latestByPair.get(identity);
+    if (!latest || compareCausalState(latest, event) < 0) latestByPair.set(identity, event);
     const history = historyByPair.get(identity) ?? [];
     history.push(event);
     historyByPair.set(identity, history);
