@@ -48,3 +48,29 @@ PASS — daily generation now stages the community evidence group atomically, ac
 
 - The brief names `tests/file-transaction.test.ts`, but this repository has no such file; the canonical transaction coverage is `tests/runtime-storage.test.ts`, which was included in focused verification.
 - No live GitHub API call, Actions run, commit push, Pages deployment, LLM call, or OpenAlex call was performed. Those remain online acceptance steps.
+
+## Review fix round 1/5
+
+Status: PASS.
+
+- Complete LKG grouping now includes the prior exact-valid `review/evidence-task-seeds.json`. A GitHub-degraded run stages the prior seeds, ledger, accepted evidence, contribution ledger, public tasks, and Issue snapshot unchanged; it never mixes new seeds with an old projection.
+- Added projection-level relational validation before prior data can be used for fallback/revalidation and before any fresh projection is staged. It validates exact task/Issue/version/category/subject/target-field bindings, active public-task membership, accepted-evidence attribution, contribution promotion targets, and per-pair append-only lifecycle state.
+- Preserved legitimate lifecycle behavior: unreferenced terminal ledger history may outlive the label-filtered snapshot; corrected/withdrawn contribution history may retain URLs removed from the current Issue; ledger-derived successor version/supersession metadata need not be copied into generated seeds; equal-time promotion-before-acceptance serialization remains valid.
+
+RED/green evidence:
+
+- RED: changed valid seeds during GitHub failure replaced the prior seed bytes. GREEN: every LKG artifact remains byte-identical.
+- RED: a shape-valid accepted entry bound to the wrong ledger task passed fallback. GREEN: relational validation fails closed and disk bytes remain unchanged.
+- RED: legitimate omitted terminal ledger history and corrected history with a removed URL were over-rejected. GREEN: both valid histories pass while current accepted pairs remain strict.
+- RED: a valid changed-material successor failed because seed and ledger supersession fields were incorrectly equated. GREEN: stage-level successor projection records version 2 and the ledger-derived predecessor.
+- RED: a shape-valid promoted event could target an unrelated public URL. GREEN: promotion is bound exactly to `task.subject.url`.
+- RED: orphan accepted contribution history remained active after acceptance was removed. GREEN: per-pair lifecycle validation rejects it.
+- Independent adversarial re-review: no remaining Critical or Important findings.
+
+Fresh verification after the final fix:
+
+- Focused daily/atomicity/contribution/lifecycle/publication tests: PASS, 66/66.
+- `CI=true pnpm run check`: PASS.
+- `CI=true pnpm test`: PASS, 706/706.
+- `CI=true pnpm run validate:release`: PASS; 2026-08-24, 6 public items, existing runtime state `degraded`.
+- `git diff --check`: PASS.

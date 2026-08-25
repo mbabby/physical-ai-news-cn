@@ -113,6 +113,187 @@ function exactArtifact<T>(assertArtifact: (value: unknown) => asserts value is T
   };
 }
 
+function sameValue(left: unknown, right: unknown): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function validateCommunityEvidenceProjection(input: {
+  seeds: EvidenceTaskSeedArtifact;
+  snapshot: EvidenceIssueSnapshot;
+  ledger: EvidenceTaskLedgerArtifact;
+  accepted: AcceptedEvidenceArtifact;
+  contributions: ContributionLedgerArtifact;
+  publicTasks: CommunityTaskPublicArtifact;
+}): void {
+  assertEvidenceTaskSeedArtifact(input.seeds);
+  assertEvidenceIssueSnapshot(input.snapshot);
+  assertEvidenceTaskLedgerArtifact(input.ledger);
+  assertAcceptedEvidenceArtifact(input.accepted);
+  assertContributionLedgerArtifact(input.contributions);
+  assertCommunityTaskPublicArtifact(input.publicTasks);
+  const generatedAt = input.ledger.generatedAt;
+  if (input.seeds.generatedAt !== generatedAt || input.accepted.generatedAt !== generatedAt
+    || input.contributions.generatedAt !== generatedAt || input.publicTasks.generatedAt !== generatedAt) {
+    throw new Error("社区证据投影生成时钟不一致");
+  }
+
+  const seeds = new Map(input.seeds.seeds.map((seed) => [seed.id, seed]));
+  const ledger = new Map(input.ledger.entries.map((entry) => [entry.taskId, entry]));
+  const issues = new Map(input.snapshot.issues.map((issue) => [issue.taskId, issue]));
+  const snapshotRequiredTaskIds = new Set([
+    ...input.accepted.entries.map((entry) => entry.taskId),
+    ...input.contributions.events.map((event) => event.taskId),
+    ...input.publicTasks.tasks.map((task) => task.id),
+  ]);
+  for (const entry of input.ledger.entries) {
+    const seed = seeds.get(entry.taskId);
+    if (seed && (seed.category !== entry.category || !sameValue(seed.subject, entry.subject)
+      || seed.targetField !== entry.targetField || seed.materialVersion !== entry.materialVersion)) {
+      throw new Error(`社区证据任务 ${entry.taskId} 与种子不一致`);
+    }
+    if (entry.issueNumber === null) {
+      if (entry.state !== "ready" || !seed || issues.has(entry.taskId)) throw new Error(`社区证据 ready 任务 ${entry.taskId} 关系不一致`);
+      continue;
+    }
+    const issue = issues.get(entry.taskId);
+    if (!issue) {
+      if (snapshotRequiredTaskIds.has(entry.taskId)
+        || entry.issueUrl !== `https://github.com/${input.snapshot.repo}/issues/${entry.issueNumber}`) {
+        throw new Error(`社区证据任务 ${entry.taskId} 缺少当前 Issue 关系`);
+      }
+      continue;
+    }
+    if (issue.number !== entry.issueNumber || issue.taskVersion !== entry.taskVersion
+      || entry.issueUrl !== `https://github.com/${input.snapshot.repo}/issues/${issue.number}`
+      || !issue.labels.includes(`evidence-task-${entry.category}`)) {
+      throw new Error(`社区证据任务 ${entry.taskId} 与 Issue/版本关系不一致`);
+    }
+  }
+  for (const issue of input.snapshot.issues) {
+    const entry = ledger.get(issue.taskId);
+    if (!entry || entry.issueNumber !== issue.number || entry.taskVersion !== issue.taskVersion) {
+      throw new Error(`社区证据 Issue ${issue.number} 不能唯一解析到任务账本`);
+    }
+  }
+
+  for (const entry of input.accepted.entries) {
+    const task = ledger.get(entry.taskId);
+    const issue = issues.get(entry.taskId);
+    if (!task || !issue || task.state !== "accepted" || task.issueNumber !== entry.issueNumber
+      || issue.number !== entry.issueNumber || issue.taskVersion !== task.taskVersion
+      || task.category !== entry.category || !sameValue(task.subject, entry.subject) || task.targetField !== entry.targetField
+      || !issue.acceptedEvidence.some((item) => item.contributor === entry.contributor && item.evidenceUrl === entry.evidenceUrl)) {
+      throw new Error(`已采纳证据 ${entry.id} 与任务账本或 Issue 不一致`);
+    }
+  }
+
+  for (const event of input.contributions.events) {
+    const task = ledger.get(event.taskId);
+    const issue = issues.get(event.taskId);
+    if (!task || !issue || task.issueNumber !== event.issueNumber || issue.number !== event.issueNumber
+      || issue.taskVersion !== task.taskVersion || task.category !== event.category
+      || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${issue.number}`
+      || (event.state === "promoted" ? event.publicTargetUrl !== task.subject.url : event.publicTargetUrl !== null)) {
+      throw new Error(`社区贡献事件 ${event.id} 与任务账本或 Issue 不一致`);
+    }
+  }
+
+  const pairIdentity = (value: { taskId: string; issueNumber: number; contributor: string; evidenceUrl: string }): string =>
+    `${value.taskId}\n${value.issueNumber}\n${value.contributor}\n${value.evidenceUrl}`;
+  const acceptedByPair = new Map(input.accepted.entries.map((entry) => [pairIdentity(entry), entry]));
+  const historyByPair = new Map<string, ContributionLedgerArtifact["events"]>();
+  for (const event of input.contributions.events) {
+    const key = pairIdentity(event);
+    const history = historyByPair.get(key) ?? [];
+    history.push(event);
+    historyByPair.set(key, history);
+  }
+  for (const [key, history] of historyByPair) {
+    let active = false;
+    let epochSubmitted = false;
+    let epochAccepted = false;
+    let epochPromoted = false;
+    let lastTerminal: "corrected" | "withdrawn" | undefined;
+    for (const event of history) {
+      if (event.state === "submitted") {
+        if (active || epochSubmitted) throw new Error(`社区贡献 ${key} 的 submitted 生命周期不合法`);
+        epochSubmitted = true;
+      } else if (event.state === "accepted") {
+        if (epochAccepted) throw new Error(`社区贡献 ${key} 重复进入 accepted 生命周期`);
+        epochAccepted = true;
+        active = true;
+      } else if (event.state === "promoted") {
+        if (epochPromoted) throw new Error(`社区贡献 ${key} 重复进入 promoted 生命周期`);
+        epochPromoted = true;
+      } else {
+        if (!epochAccepted) throw new Error(`社区贡献 ${key} 在未采纳时进入终止生命周期`);
+        active = false;
+        lastTerminal = event.state;
+        epochSubmitted = false;
+        epochAccepted = false;
+        epochPromoted = false;
+      }
+    }
+    if (epochPromoted && !epochAccepted) throw new Error(`社区贡献 ${key} 在未采纳时进入 promoted 生命周期`);
+    const exemplar = history.at(-1)!;
+    const issue = issues.get(exemplar.taskId)!;
+    const currentPair = issue.acceptedEvidence.some((item) => item.contributor === exemplar.contributor && item.evidenceUrl === exemplar.evidenceUrl);
+    const desired = issue.labels.includes("source-withdrawn") ? "corrected"
+      : issue.labels.includes("canonical-promoted") ? "promoted"
+        : issue.labels.includes("accepted-evidence") ? "accepted" : undefined;
+    const acceptedEntry = acceptedByPair.get(key);
+    if (active) {
+      if (!acceptedEntry || !currentPair || (desired !== "accepted" && desired !== "promoted")
+        || (desired === "promoted" && !epochPromoted)) {
+        throw new Error(`社区贡献 ${key} 的活跃采纳生命周期与 Issue/accepted-evidence 不一致`);
+      }
+    } else if (acceptedEntry || (currentPair && (desired === "accepted" || desired === "promoted"))
+      || (desired === "corrected" && lastTerminal !== "corrected")) {
+      throw new Error(`社区贡献 ${key} 的终止生命周期与 Issue/accepted-evidence 不一致`);
+    }
+  }
+  for (const entry of input.accepted.entries) {
+    if (!historyByPair.has(pairIdentity(entry))) throw new Error(`已采纳证据 ${entry.id} 缺少贡献生命周期`);
+  }
+
+  const expectedPublicIds = input.ledger.entries
+    .filter((entry) => (entry.state === "open" || entry.state === "contributed") && entry.issueNumber !== null)
+    .map((entry) => entry.taskId).sort();
+  if (!sameValue(input.publicTasks.tasks.map((task) => task.id).sort(), expectedPublicIds)) {
+    throw new Error("公开社区任务与活跃任务账本集合不一致");
+  }
+  for (const item of input.publicTasks.tasks) {
+    const task = ledger.get(item.id);
+    const issue = issues.get(item.id);
+    const seed = seeds.get(item.id);
+    if (!task || !issue || task.issueNumber !== item.issueNumber || task.taskVersion !== item.version
+      || task.state !== item.state || task.category !== item.category || !sameValue(task.subject, item.subject)
+      || task.targetField !== item.targetField || (seed && (seed.contextZh !== item.contextZh || seed.generatedWeek !== item.generatedWeek))
+      || task.issueUrl !== item.issueUrl) {
+      throw new Error(`公开社区任务 ${item.id} 与种子、账本或 Issue 不一致`);
+    }
+  }
+
+  const replanned = planEvidenceIssueActions({
+    seeds: input.seeds,
+    issues: input.snapshot,
+    previousLedger: input.ledger,
+    now: generatedAt,
+  });
+  if (!sameValue(replanned.ledger, input.ledger)) throw new Error("社区证据任务账本生命周期投影不一致");
+  const replayed = projectAcceptedEvidence({
+    issues: input.snapshot,
+    taskLedger: input.ledger,
+    previousAccepted: input.accepted,
+    previousContributions: input.contributions,
+    now: generatedAt,
+  });
+  if (!sameValue(replayed.accepted, input.accepted) || !sameValue(replayed.contributions, input.contributions)) {
+    throw new Error("社区证据采纳或贡献生命周期投影不一致");
+  }
+}
+
 export interface StageCommunityEvidenceArtifactsInput {
   root: string;
   transaction: Pick<FileTransaction, "stage">;
@@ -139,15 +320,23 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   const now = input.now.toISOString();
   const reviewDir = join(input.root, "review");
   const previous = await Promise.all([
+    readJsonStrict<EvidenceTaskSeedArtifact>(join(reviewDir, "evidence-task-seeds.json"), { optional: true, label: "社区证据任务种子", validate: exactArtifact(assertEvidenceTaskSeedArtifact) }),
     readJsonStrict<EvidenceIssueSnapshot>(join(reviewDir, "evidence-issue-snapshot.json"), { optional: true, label: "社区证据 Issue 快照", validate: exactArtifact(assertEvidenceIssueSnapshot) }),
     readJsonStrict<EvidenceTaskLedgerArtifact>(join(reviewDir, "evidence-task-ledger.json"), { optional: true, label: "社区证据任务账本", validate: exactArtifact(assertEvidenceTaskLedgerArtifact) }),
     readJsonStrict<AcceptedEvidenceArtifact>(join(reviewDir, "accepted-evidence.json"), { optional: true, label: "已采纳社区证据", validate: exactArtifact(assertAcceptedEvidenceArtifact) }),
     readJsonStrict<ContributionLedgerArtifact>(join(input.root, "community", "contributions.json"), { optional: true, label: "社区贡献账本", validate: exactArtifact(assertContributionLedgerArtifact) }),
     readJsonStrict<CommunityTaskPublicArtifact>(join(input.root, "site", "data", "community-tasks.json"), { optional: true, label: "公开社区任务", validate: exactArtifact(assertCommunityTaskPublicArtifact) }),
   ]);
-  const [previousSnapshot, previousLedger, previousAccepted, previousContributions, previousPublic] = previous;
-  const projectionCount = [previousLedger, previousAccepted, previousContributions, previousPublic].filter(Boolean).length;
-  if (projectionCount !== 0 && projectionCount !== 4) throw new Error("社区证据上一有效投影不完整；已停止发布且保留上一版。");
+  const [previousSeeds, previousSnapshot, previousLedger, previousAccepted, previousContributions, previousPublic] = previous;
+  const projectionCount = [previousSeeds, previousLedger, previousAccepted, previousContributions, previousPublic].filter(Boolean).length;
+  if (projectionCount !== 0 && projectionCount !== 5) throw new Error("社区证据上一有效投影不完整；已停止发布且保留上一版。");
+  if (projectionCount === 5) {
+    if (!previousSnapshot) throw new Error("社区证据上一有效 Issue 快照缺失；已停止发布且保留上一版。");
+    validateCommunityEvidenceProjection({
+      seeds: previousSeeds!, snapshot: previousSnapshot, ledger: previousLedger!, accepted: previousAccepted!,
+      contributions: previousContributions!, publicTasks: previousPublic!,
+    });
+  }
 
   const configured = Boolean(input.github?.token && input.github?.repo);
   let snapshot: EvidenceIssueSnapshot | undefined;
@@ -165,7 +354,7 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
       status = { component: "GitHub", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "GitHub Issue 刷新失败；已保留上一有效社区任务与贡献投影。" };
     }
   } else {
-    status = { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: projectionCount === 4
+    status = { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: projectionCount === 5
       ? "未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。"
       : "未配置 GitHub 上下文；已初始化空的内部社区证据投影，未清除任何既有公开任务。" };
   }
@@ -175,8 +364,8 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   }
 
   const serialize = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
-  input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(input.seeds));
-  if (!snapshot && projectionCount === 4) {
+  if (!snapshot && projectionCount === 5) {
+    input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(previousSeeds));
     input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(previousLedger));
     input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(previousAccepted));
     input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(previousContributions));
@@ -230,6 +419,15 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   assertAcceptedEvidenceArtifact(projection.accepted);
   assertContributionLedgerArtifact(projection.contributions);
   assertCommunityTaskPublicArtifact(publicArtifact);
+  validateCommunityEvidenceProjection({
+    seeds: input.seeds,
+    snapshot,
+    ledger: planned.ledger,
+    accepted: projection.accepted,
+    contributions: projection.contributions,
+    publicTasks: publicArtifact,
+  });
+  input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(input.seeds));
   input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(snapshot));
   input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(planned.ledger));
   input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(projection.accepted));
