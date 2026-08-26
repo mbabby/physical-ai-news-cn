@@ -4,7 +4,7 @@ const CHINESE_ABSENCE = new RegExp(
   `(?:未|无(?:任何|公开(?:的)?|可用(?:的)?|明确(?:的)?)?)${CHINESE_SUBJECT.source}|${CHINESE_ABSENCE_CUE.source}[^，。；\\n]{0,16}${CHINESE_SUBJECT.source}|${CHINESE_SUBJECT.source}[^，。；\\n]{0,16}${CHINESE_ABSENCE_CUE.source}(?:发生|完成|存在|发布|公开|提供|落地|实现|进行|找到|发现|确认|验证)?`,
   "i",
 );
-const ENGLISH_SUBJECT = /(?:(?:official\s+)?company\s+name|official\s+name|(?:official\s+)?(?:company\s+)?website|(?:official\s+)?product\s+page|funding|financ(?:ing|ed)?|funding\s+(?:round|amount)|valuation|investors?|regulatory\s+filing|deploy(?:ment|ed)?|customers?|deployment\s+(?:location|scale)|release\s+date|code(?:\s+repository)?|datasets?|(?:model\s+)?weights?|institutions?|real[- ]robot\s+(?:experiment|evidence))/;
+const ENGLISH_SUBJECT = /(?:(?:official\s+)?company\s+name|official\s+name|(?:official\s+)?(?:company\s+)?website|(?:(?:official\s+company|company\s+official|company)\s+urls?)|(?:official\s+)?product\s+page|(?:(?:official\s+product|product\s+official|product)\s+urls?)|funding|financ(?:ing|ed)?|funding\s+(?:round|amount)|valuation|investors?|regulatory\s+filing|deploy(?:ment|ed)?|customers?|deployment\s+(?:location|scale)|release\s+date|code(?:\s+repository)?|datasets?|(?:model\s+)?weights?|institutions?|real[- ]robot\s+(?:experiments?|evidence|trials?))/;
 const ENGLISH_ABSENCE_CUE = /(?:no|without|not|never|lack(?:s|ed|ing)?|absence|absent|unavailable|missing|(?:has|have|had|is|are|was|were|does|do|did)n['’]t)/;
 const ENGLISH_ABSENCE = new RegExp(
   `\\b${ENGLISH_ABSENCE_CUE.source}\\b.{0,60}\\b${ENGLISH_SUBJECT.source}\\b|\\b${ENGLISH_SUBJECT.source}\\b.{0,60}\\b${ENGLISH_ABSENCE_CUE.source}\\b`,

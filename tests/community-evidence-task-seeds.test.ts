@@ -196,9 +196,9 @@ test("rejects unsupported Chinese and English absence claims in every pool", () 
     });
   };
   const cases: Array<[string, (phrase: string) => BuildEvidenceTaskSeedsInput, string[]]> = [
-    ["company", companyCase, ["无融资", "该公司暂未融资", "公司未融资", "融资尚未发生", "融资公告并未找到", "尚未找到融资公告", "公司官网尚未找到", "公司官方名称仍未确认", "official website has not been found", "official company name has not been confirmed", "no public evidence of funding", "funding has not occurred", "the company lacks funding"]],
-    ["product", productCase, ["无部署", "该产品尚无部署", "产品未部署", "产品未进行部署", "没有公开的部署信息", "未发现客户证据", "产品官方页面仍未找到", "official product page has not been found", "deployment is absent", "the product has not been deployed"]],
-    ["research", researchCase, ["无代码", "论文未公开代码", "项目暂无代码", "code is unavailable", "code hasn't been released", "code hasn’t been released", "the paper has not published code"]],
+    ["company", companyCase, ["无融资", "该公司暂未融资", "公司未融资", "融资尚未发生", "融资公告并未找到", "尚未找到融资公告", "公司官网尚未找到", "公司官方名称仍未确认", "official website has not been found", "official company name has not been confirmed", "official company URL has not been found", "official company URLs have not been found", "no public evidence of funding", "funding has not occurred", "the company lacks funding"]],
+    ["product", productCase, ["无部署", "该产品尚无部署", "产品未部署", "产品未进行部署", "没有公开的部署信息", "未发现客户证据", "产品官方页面仍未找到", "official product page has not been found", "official product URL has not been found", "official product URLs have not been found", "deployment is absent", "the product has not been deployed"]],
+    ["research", researchCase, ["无代码", "论文未公开代码", "项目暂无代码", "code is unavailable", "code hasn't been released", "code hasn’t been released", "the paper has not published code", "real robot trial has not been confirmed", "real robot trials have not been confirmed"]],
   ];
 
   for (const [pool, build, phrases] of cases) {
