@@ -161,6 +161,25 @@ test("fails closed on unsupported negative unknown claims from seeds and prior p
     "未发现客户证据",
     "no public evidence of funding",
     "部署证据仍未找到",
+    "公司官网尚未找到",
+    "公司官方名称仍未确认",
+    "产品官方页面暂未找到",
+    "official website has not been found",
+    "official company name has not been confirmed",
+    "official product page has not been found",
+    "融资轮次尚未确认",
+    "融资金额尚未确认",
+    "融资估值尚未确认",
+    "投资方尚未确认",
+    "监管文件尚未找到",
+    "产品发布日期尚未确认",
+    "部署地点尚未确认",
+    "部署规模尚未确认",
+    "代码仓库尚未找到",
+    "数据集尚未找到",
+    "模型权重尚未找到",
+    "真实机器人实验尚未确认",
+    "作者机构尚未确认",
   ];
   for (const phrase of phrases) {
     const seeded = fixture();
@@ -182,6 +201,17 @@ test("fails closed on unsupported negative unknown claims from seeds and prior p
       () => buildCommunityTaskPublicArtifact({ ...priorInput, previousTasks: clean, repository: REPOSITORY, generatedAt: NOW }),
       /unsupported negative unknown claim/,
       `prior: ${phrase}`,
+    );
+  }
+});
+
+test("does not mistake ordinary future wording for a negative unknown claim", () => {
+  for (const phrase of ["未来融资计划待原始公告确认", "未来将公开代码"]) {
+    const input = fixture();
+    input.seeds.seeds[0]!.contextZh = phrase;
+    assert.doesNotThrow(
+      () => buildCommunityTaskPublicArtifact({ ...input, repository: REPOSITORY, generatedAt: NOW }),
+      phrase,
     );
   }
 });
