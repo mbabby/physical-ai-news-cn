@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -445,6 +445,20 @@ export class DailyGenerationError extends Error {
 }
 
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
+
+export interface CliOptions {
+  fixtureMode: boolean;
+  fixtureRoot: string | undefined;
+}
+
+export function parseCliOptions(argv: string[]): CliOptions {
+  const fixtureMode = argv.includes("--fixture-mode");
+  const rootIndex = argv.indexOf("--fixture-root");
+  const fixtureRoot = rootIndex >= 0 ? argv[rootIndex + 1] : undefined;
+  if (rootIndex >= 0 && (!fixtureRoot || fixtureRoot.startsWith("--"))) throw new Error("--fixture-root requires a path");
+  if (fixtureRoot && !fixtureMode) throw new Error("--fixture-root requires --fixture-mode");
+  return { fixtureMode, fixtureRoot };
+}
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
   const expression = new RegExp(`${start}[\\s\\S]*?${end}`);
@@ -1369,8 +1383,74 @@ export async function generate(options: GenerateOptions = {}): Promise<RunManife
     throw new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。", { cause: error });
   }
 }
+
+const FIXTURE_NOW = new Date("2026-08-24T08:05:05.893Z");
+const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
+const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
+const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
+
+async function prepareFixtureInputs(outputRoot: string): Promise<void> {
+  await Promise.all([
+    rm(join(outputRoot, "daily", `${FIXTURE_NOW.toISOString().slice(0, 10)}.json`), { force: true }),
+    rm(join(outputRoot, "research", "benchmark-result-ledger.json"), { force: true }),
+    rm(join(outputRoot, "research", "decision-cards.json"), { force: true }),
+    rm(join(outputRoot, "site", "data", "decision-products.json"), { force: true }),
+    writeFileDirect(join(outputRoot, "research", "registry.json"), `${JSON.stringify({
+      updatedAt: FIXTURE_NOW.toISOString(),
+      records: [],
+    }, null, 2)}\n`, "utf8"),
+    writeFileDirect(join(outputRoot, "sources", "registry.json"), `${JSON.stringify({
+      updatedAt: FIXTURE_NOW.toISOString(),
+      windowDays: 30,
+      sources: [],
+    }, null, 2)}\n`, "utf8"),
+  ]);
+}
+
+export async function runFixtureGeneration(outputRoot: string): Promise<RunManifest> {
+  const environmentKeys = ["LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "OPENALEX_API_KEY", "X_BEARER_TOKEN", "GITHUB_TOKEN", "GITHUB_REPOSITORY"] as const;
+  const previousEnvironment = Object.fromEntries(environmentKeys.map((key) => [key, process.env[key]]));
+  const previousFetch = globalThis.fetch;
+  for (const key of environmentKeys) delete process.env[key];
+  process.env.GITHUB_TOKEN = "offline-fixture-token";
+  process.env.GITHUB_REPOSITORY = FIXTURE_REPOSITORY;
+  globalThis.fetch = async () => { throw new Error("fixture mode blocks external network access"); };
+  const seeds: EvidenceTaskSeedArtifact = {
+    schemaVersion: 1,
+    generatedAt: FIXTURE_NOW.toISOString(),
+    generatedWeek: isoWeek(FIXTURE_NOW),
+    seeds: [],
+  };
+  const snapshot: EvidenceIssueSnapshot = {
+    schemaVersion: 1,
+    fetchedAt: FIXTURE_NOW.toISOString(),
+    repo: FIXTURE_REPOSITORY,
+    issues: [],
+  };
+  try {
+    await prepareFixtureInputs(outputRoot);
+    return await generate({
+      root: outputRoot,
+      now: FIXTURE_NOW,
+      collect: fixtureCollection,
+      collectX: fixtureXCollection,
+      communityEvidenceSeeds: seeds,
+      fetchCommunityEvidenceSnapshot: async () => snapshot,
+    });
+  } finally {
+    globalThis.fetch = previousFetch;
+    for (const key of environmentKeys) {
+      const value = previousEnvironment[key];
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
 async function main(): Promise<void> {
-  await withFileLock(join(root, ".daily-generation.lock"), generate);
+  const options = parseCliOptions(process.argv.slice(2));
+  const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
+  await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   main().catch((error) => {

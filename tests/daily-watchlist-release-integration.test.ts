@@ -31,7 +31,7 @@ const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
 const FIXTURE_RESEARCH_TITLE = "固定机器人基准：真实机器人操作与开源复现";
 const FIXTURE_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events",
-  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
+  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 
 const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], failures: [], sourceOutcomes: [] });
@@ -144,6 +144,10 @@ async function seedDeterministicResearchState(root: string): Promise<void> {
 async function copyFixture(target: string): Promise<void> {
   await mkdir(target, { recursive: true });
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await Promise.all([
+    "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
+    "review/accepted-evidence.json", "community/contributions.json", "site/data/community-tasks.json",
+  ].map((path) => rm(join(target, path), { force: true })));
   await rm(join(target, "site/data/decision-products.json"), { force: true });
   // Daily archives, research metadata and source registries are mutable
   // production inputs. Copying them into a fixed-clock integration fixture
