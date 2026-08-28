@@ -45,6 +45,13 @@ test("normalizes paginated Issues and explicit maintainer attribution without re
     if (url.endsWith("/issues/41/comments?per_page=100")) {
       return response([
         {
+          body: "Human submission https://Evidence.EXAMPLE/report?b=2&a=1#section",
+          user: { login: "helper" },
+          author_association: "NONE",
+          created_at: "2026-08-23T01:30:00Z",
+          updated_at: "2026-08-23T01:30:00Z",
+        },
+        {
           body: "private discussion https://Evidence.EXAMPLE/report?b=2&a=1#section <!-- accepted-contributor:@helper -->",
           user: { login: "maintainer" },
           author_association: "MEMBER",
@@ -100,6 +107,11 @@ test("normalizes paginated Issues and explicit maintainer attribution without re
       updatedAt: "2026-08-24T00:00:00Z",
       closedAt: "2026-08-24T00:00:00Z",
       evidenceUrls: ["https://evidence.example/report?b=2&a=1", "https://forged.example/claim", "https://source.example/report"],
+      submittedEvidence: [
+        { contributor: "alice", evidenceUrl: "https://source.example/report", submittedAt: "2026-08-20T00:00:00Z" },
+        { contributor: "helper", evidenceUrl: "https://evidence.example/report?b=2&a=1", submittedAt: "2026-08-23T01:30:00Z" },
+        { contributor: "stranger", evidenceUrl: "https://forged.example/claim", submittedAt: "2026-08-23T03:00:00Z" },
+      ],
       acceptedContributors: ["alice", "helper"],
       acceptedEvidence: [
         { contributor: "alice", evidenceUrl: "https://source.example/report" },
@@ -196,6 +208,10 @@ test("separates Task 3 template context from submitted reply evidence and attrib
     "https://submitted.example/proof",
   ]);
   assert.deepEqual(beforeAcceptance.issues[0]?.acceptedEvidence, []);
+  assert.deepEqual(beforeAcceptance.issues[0]?.submittedEvidence, [
+    { contributor: "alice", evidenceUrl: "https://author.example/proof", submittedAt: "2026-08-23T02:00:00Z" },
+    { contributor: "helper", evidenceUrl: "https://submitted.example/proof", submittedAt: "2026-08-23T01:00:00Z" },
+  ]);
   assert.equal(JSON.stringify(beforeAcceptance).includes(subject.url), false);
   assert.equal(JSON.stringify(beforeAcceptance).includes("https://context.example/reference"), false);
   assert.equal(JSON.stringify(beforeAcceptance).includes("Ordinary reply"), false);
@@ -220,6 +236,78 @@ test("separates Task 3 template context from submitted reply evidence and attrib
     { contributor: "alice", evidenceUrl: "https://author.example/proof" },
     { contributor: "helper", evidenceUrl: "https://submitted.example/proof" },
   ]);
+});
+
+test("normalizes a GitHub Actions bot author but credits only a human maintainer-bound contributor", async () => {
+  const snapshot = await fetchEvidenceIssueSnapshot({
+    repo: REPO,
+    token: "test-token",
+    now: NOW,
+    fetchImpl: async (input) => {
+      if (String(input).includes("/comments")) {
+        return response([{
+          body: "Original submission https://submitted.example/proof",
+          user: { login: "helper" },
+          author_association: "NONE",
+          created_at: "2026-08-23T02:00:00Z",
+          updated_at: "2026-08-23T02:00:00Z",
+        }, {
+          body: "<!-- accepted-contributor:@helper --> https://submitted.example/proof",
+          user: { login: "maintainer" },
+          author_association: "OWNER",
+          created_at: "2026-08-23T03:00:00Z",
+          updated_at: "2026-08-23T03:00:00Z",
+        }]);
+      }
+      return response([{
+        number: 41,
+        body: `<!-- evidence-task-id:${taskId} -->\n<!-- evidence-task-version:1 -->`,
+        state: "open",
+        labels: [{ name: "accepted-evidence" }, { name: "two-minute-task" }],
+        user: { login: "github-actions[bot]" },
+        author_association: "NONE",
+        created_at: "2026-08-20T00:00:00Z",
+        updated_at: "2026-08-23T03:00:00Z",
+        closed_at: null,
+      }]);
+    },
+  });
+
+  assert.equal(snapshot.issues[0]?.authorLogin, "github-actions[bot]");
+  assert.deepEqual(snapshot.issues[0]?.acceptedContributors, ["helper"]);
+  assert.deepEqual(snapshot.issues[0]?.acceptedEvidence, [
+    { contributor: "helper", evidenceUrl: "https://submitted.example/proof" },
+  ]);
+});
+
+test("rejects a maintainer attribution marker when the named human never submitted that evidence", async () => {
+  const fetchImpl: typeof fetch = async (input) => {
+    if (String(input).includes("/comments")) {
+      return response([{
+        body: "<!-- accepted-contributor:@helper --> https://submitted.example/proof",
+        user: { login: "maintainer" },
+        author_association: "OWNER",
+        created_at: "2026-08-23T03:00:00Z",
+        updated_at: "2026-08-23T03:00:00Z",
+      }]);
+    }
+    return response([{
+      number: 41,
+      body: `<!-- evidence-task-id:${taskId} -->\n<!-- evidence-task-version:1 -->`,
+      state: "open",
+      labels: [{ name: "accepted-evidence" }, { name: "two-minute-task" }],
+      user: { login: "github-actions[bot]" },
+      author_association: "NONE",
+      created_at: "2026-08-20T00:00:00Z",
+      updated_at: "2026-08-23T03:00:00Z",
+      closed_at: null,
+    }]);
+  };
+
+  await assert.rejects(
+    fetchEvidenceIssueSnapshot({ repo: REPO, token: "test-token", fetchImpl, now: NOW }),
+    (error: unknown) => error instanceof CommunityEvidenceRemoteError && /earlier contributor submission/i.test(error.message),
+  );
 });
 
 test("rejects malformed task markers before requesting comments", async () => {

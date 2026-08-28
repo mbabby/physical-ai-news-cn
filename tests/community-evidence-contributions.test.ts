@@ -13,9 +13,11 @@ import {
   type EvidenceTaskLedgerEntry,
 } from "../src/community-evidence/contracts.js";
 import { projectAcceptedEvidence } from "../src/community-evidence/contributions.js";
+import type { AcceptedEvidenceRevalidationArtifact } from "../src/community-evidence/revalidation.js";
 
 const NOW = "2026-08-24T12:00:00Z";
 const ACCEPTED_AT = "2026-08-24T10:00:00Z";
+const SUBMITTED_AT = "2026-08-23T09:00:00Z";
 const REPO = "acme/physical-ai-news-cn";
 const subject = { kind: "company" as const, id: "company-alpha", name: "Alpha Robotics", url: "https://alpha.example/" };
 const taskId = buildEvidenceTaskId(subject, "funding.amount", "material-1");
@@ -33,6 +35,7 @@ function issue(overrides: Partial<EvidenceIssue> = {}): EvidenceIssue {
     updatedAt: ACCEPTED_AT,
     closedAt: ACCEPTED_AT,
     evidenceUrls: ["https://evidence.example/report"],
+    submittedEvidence: [{ contributor: "alice", evidenceUrl: "https://evidence.example/report", submittedAt: SUBMITTED_AT }],
     acceptedContributors: ["alice"],
     acceptedEvidence: [{ contributor: "alice", evidenceUrl: "https://evidence.example/report" }],
     ...overrides,
@@ -79,6 +82,53 @@ function eventId(contributor: string, evidenceUrl: string, state: string, occurr
   return createHash("sha256").update(`${taskId}41${contributor}${evidenceUrl}${state}${occurredAt}`).digest("hex");
 }
 
+function promotionProof(entry: AcceptedEvidenceArtifact["entries"][number], generatedAt: string): AcceptedEvidenceRevalidationArtifact {
+  return {
+    schemaVersion: 1,
+    generatedAt,
+    status: "success",
+    results: [{
+      acceptedEvidenceId: entry.id, taskId: entry.taskId, issueNumber: entry.issueNumber, contributor: entry.contributor,
+      evidenceUrl: entry.evidenceUrl, subjectId: entry.subject.id, targetField: entry.targetField, attemptedAt: generatedAt,
+      fetch: { status: "success", failureCode: null, contentType: "text/html", byteLength: 100 },
+      source: { domain: "evidence.example", tier: "A", classification: "company-official" }, candidateValue: "$10M",
+      checks: { entity: "pass", sourceTier: "pass", fieldConsistency: "pass", conflict: "pass", date: "pass" },
+      outcome: "matched",
+      canonicalMatch: {
+        subjectId: entry.subject.id, targetField: entry.targetField, evidenceUrl: entry.evidenceUrl,
+        publicTargetUrl: entry.subject.url, canonicalArtifact: "company-claim-ledger", canonicalRecordId: "claim-alpha",
+        sourceTier: "A", matchedAt: generatedAt,
+      },
+    }],
+  };
+}
+
+test("canonical-promoted label alone cannot promote; only current structured revalidation proof can", () => {
+  const labelled = projectAcceptedEvidence({
+    issues: issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"] })]),
+    taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
+  });
+  assert.deepEqual(labelled.contributions.events.map((event) => event.state), ["submitted", "accepted"]);
+
+  const matchedAt = "2026-08-25T12:00:00Z";
+  const promoted = projectAcceptedEvidence({
+    issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: matchedAt })]), fetchedAt: matchedAt },
+    taskLedger: { ...taskLedger(), generatedAt: matchedAt }, previousAccepted: labelled.accepted,
+    previousContributions: labelled.contributions, now: matchedAt,
+    revalidation: promotionProof(labelled.accepted.entries[0]!, matchedAt),
+  });
+  assert.deepEqual(promoted.contributions.events.map((event) => event.state), ["submitted", "accepted", "promoted"]);
+  assert.equal(promoted.contributions.events.at(-1)?.publicTargetUrl, subject.url);
+
+  const repeated = projectAcceptedEvidence({
+    issues: { ...issues([issue({ updatedAt: matchedAt })]), fetchedAt: matchedAt },
+    taskLedger: { ...taskLedger(), generatedAt: matchedAt }, previousAccepted: promoted.accepted,
+    previousContributions: promoted.contributions, now: matchedAt,
+    revalidation: promotionProof(promoted.accepted.entries[0]!, matchedAt),
+  });
+  assert.deepEqual(repeated.contributions.events, promoted.contributions.events);
+});
+
 test("first acceptance uses only canonical task-ledger metadata and credits the Issue author", () => {
   const result = projectAcceptedEvidence({
     issues: issues([issue()]),
@@ -100,6 +150,19 @@ test("first acceptance uses only canonical task-ledger metadata and credits the 
     acceptedAt: ACCEPTED_AT,
   }]);
   assert.deepEqual(result.contributions.events, [{
+    id: eventId("alice", "https://evidence.example/report", "submitted", SUBMITTED_AT),
+    taskId,
+    issueNumber: 41,
+    contributor: "alice",
+    evidenceUrl: "https://evidence.example/report",
+    category: "company-funding",
+    subject,
+    targetField: "funding.amount",
+    state: "submitted",
+    occurredAt: SUBMITTED_AT,
+    sourceUrl: `https://github.com/${REPO}/issues/41`,
+    publicTargetUrl: null,
+  }, {
     id: eventId("alice", "https://evidence.example/report", "accepted", ACCEPTED_AT),
     taskId,
     issueNumber: 41,
@@ -119,7 +182,7 @@ test("first acceptance uses only canonical task-ledger metadata and credits the 
 
 test("does not credit the Issue author before accepted-evidence exists", () => {
   const result = projectAcceptedEvidence({
-    issues: issues([issue({ labels: ["two-minute-task"], acceptedContributors: [], acceptedEvidence: [] })]),
+    issues: issues([issue({ labels: ["two-minute-task"], submittedEvidence: [], acceptedContributors: [], acceptedEvidence: [] })]),
     taskLedger: taskLedger([ledgerEntry({ state: "contributed", closedAt: null })]),
     previousAccepted: accepted(),
     previousContributions: contributions(),
@@ -129,10 +192,59 @@ test("does not credit the Issue author before accepted-evidence exists", () => {
   assert.deepEqual(result.contributions.events, []);
 });
 
+test("appends a safe submitted event before acceptance and never rewrites it", () => {
+  const submittedIssue = {
+    ...issue({ labels: ["two-minute-task"], acceptedContributors: [], acceptedEvidence: [] }),
+    state: "open" as const,
+    closedAt: null,
+    submittedEvidence: [{
+      contributor: "alice",
+      evidenceUrl: "https://evidence.example/report",
+      submittedAt: SUBMITTED_AT,
+    }],
+  } as unknown as EvidenceIssue;
+  const first = projectAcceptedEvidence({
+    issues: issues([submittedIssue]),
+    taskLedger: taskLedger([ledgerEntry({ state: "contributed", closedAt: null })]),
+    previousAccepted: accepted(),
+    previousContributions: contributions(),
+    now: NOW,
+  });
+  assert.deepEqual(first.accepted.entries, []);
+  assert.deepEqual(first.contributions.events.map((event) => [event.state, event.occurredAt]), [["submitted", SUBMITTED_AT]]);
+
+  const acceptedIssue = {
+    ...issue(),
+    submittedEvidence: submittedIssue.submittedEvidence,
+  } as unknown as EvidenceIssue;
+  const second = projectAcceptedEvidence({
+    issues: issues([acceptedIssue]),
+    taskLedger: taskLedger(),
+    previousAccepted: first.accepted,
+    previousContributions: first.contributions,
+    now: NOW,
+  });
+  assert.deepEqual(second.contributions.events.map((event) => event.state), ["submitted", "accepted"]);
+  assert.deepEqual(second.contributions.events[0], first.contributions.events[0]);
+
+  const repeated = projectAcceptedEvidence({
+    issues: issues([acceptedIssue]),
+    taskLedger: taskLedger(),
+    previousAccepted: second.accepted,
+    previousContributions: second.contributions,
+    now: NOW,
+  });
+  assert.deepEqual(repeated, second);
+});
+
 test("credits only explicitly accepted commenters bound to their evidence URL", () => {
   const result = projectAcceptedEvidence({
     issues: issues([issue({
       evidenceUrls: ["https://evidence.example/alice", "https://evidence.example/helper"],
+      submittedEvidence: [
+        { contributor: "alice", evidenceUrl: "https://evidence.example/alice", submittedAt: SUBMITTED_AT },
+        { contributor: "helper", evidenceUrl: "https://evidence.example/helper", submittedAt: SUBMITTED_AT },
+      ],
       acceptedContributors: ["alice", "helper"],
       acceptedEvidence: [
         { contributor: "alice", evidenceUrl: "https://evidence.example/alice" },
@@ -181,7 +293,7 @@ test("fails closed when accepted task ledger identity is missing or mismatched",
   });
 });
 
-test("withdrawal, canonical promotion, and source correction append transitions without rewriting history", () => {
+test("withdrawal, proof-derived promotion, and source correction append transitions without rewriting history", () => {
   const first = projectAcceptedEvidence({
     issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
   });
@@ -194,17 +306,23 @@ test("withdrawal, canonical promotion, and source correction append transitions 
     now: withdrawnAt,
   });
   assert.deepEqual(withdrawn.accepted.entries, []);
-  assert.deepEqual(withdrawn.contributions.events.map((event) => event.state), ["accepted", "withdrawn"]);
+  assert.deepEqual(withdrawn.contributions.events.map((event) => event.state), ["submitted", "accepted", "withdrawn"]);
 
   const promotedAt = "2026-08-26T10:00:00Z";
+  const reacceptedEntry = {
+    ...first.accepted.entries[0]!,
+    id: eventId("alice", "https://evidence.example/report", "accepted", promotedAt),
+    acceptedAt: promotedAt,
+  };
   const promoted = projectAcceptedEvidence({
     issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: promotedAt })]), fetchedAt: promotedAt },
     taskLedger: { ...taskLedger(), generatedAt: promotedAt },
     previousAccepted: withdrawn.accepted,
     previousContributions: withdrawn.contributions,
+    revalidation: promotionProof(reacceptedEntry, promotedAt),
     now: promotedAt,
   });
-  assert.deepEqual(promoted.contributions.events.map((event) => event.state).sort(), ["accepted", "accepted", "promoted", "withdrawn"].sort());
+  assert.deepEqual(promoted.contributions.events.map((event) => event.state).sort(), ["submitted", "accepted", "accepted", "promoted", "withdrawn"].sort());
   assert.equal(promoted.contributions.events.find((event) => event.state === "promoted")?.publicTargetUrl, subject.url);
 
   const correctedAt = "2026-08-27T10:00:00Z";
@@ -268,12 +386,13 @@ test("preserves original acceptance identity and time when accepted evidence is 
     taskLedger: { ...taskLedger(), generatedAt: promotedAt },
     previousAccepted: first.accepted,
     previousContributions: first.contributions,
+    revalidation: promotionProof(first.accepted.entries[0]!, promotedAt),
     now: promotedAt,
   });
   assert.deepEqual(promoted.accepted.entries, first.accepted.entries);
-  assert.equal(promoted.contributions.events[0]?.state, "accepted");
-  assert.equal(promoted.contributions.events[0]?.occurredAt, ACCEPTED_AT);
-  assert.equal(promoted.contributions.events[1]?.state, "promoted");
+  assert.equal(promoted.contributions.events[1]?.state, "accepted");
+  assert.equal(promoted.contributions.events[1]?.occurredAt, ACCEPTED_AT);
+  assert.equal(promoted.contributions.events[2]?.state, "promoted");
 });
 
 test("equal-time hash ordering cannot make a promoted pair append duplicate promotion", () => {
@@ -289,11 +408,17 @@ test("equal-time hash ordering cannot make a promoted pair append duplicate prom
     now: withdrawnAt,
   });
   const promotedAt = "2026-08-26T10:00:00Z";
+  const reacceptedEntry = {
+    ...first.accepted.entries[0]!,
+    id: eventId("alice", "https://evidence.example/report", "accepted", promotedAt),
+    acceptedAt: promotedAt,
+  };
   const promoted = projectAcceptedEvidence({
     issues: { ...issues([issue({ labels: ["accepted-evidence", "canonical-promoted", "two-minute-task"], updatedAt: promotedAt })]), fetchedAt: promotedAt },
     taskLedger: { ...taskLedger(), generatedAt: promotedAt },
     previousAccepted: withdrawn.accepted,
     previousContributions: withdrawn.contributions,
+    revalidation: promotionProof(reacceptedEntry, promotedAt),
     now: promotedAt,
   });
   const equalTime = promoted.contributions.events.filter((event) => event.occurredAt === promotedAt);
@@ -308,6 +433,7 @@ test("equal-time hash ordering cannot make a promoted pair append duplicate prom
     taskLedger: { ...taskLedger(), generatedAt: unrelatedUpdateAt },
     previousAccepted: promoted.accepted,
     previousContributions: promoted.contributions,
+    revalidation: promotionProof(promoted.accepted.entries[0]!, unrelatedUpdateAt),
     now: unrelatedUpdateAt,
   });
   assert.deepEqual(repeated.contributions.events, promoted.contributions.events);
@@ -357,7 +483,7 @@ for (const terminalState of ["withdrawn", "corrected"] as const) {
 test("fails closed instead of silently clearing accepted evidence with no bound URL", () => {
   assert.throws(
     () => projectAcceptedEvidence({
-      issues: issues([issue({ acceptedContributors: [], acceptedEvidence: [], evidenceUrls: [] })]),
+      issues: issues([issue({ submittedEvidence: [], acceptedContributors: [], acceptedEvidence: [], evidenceUrls: [] })]),
       taskLedger: taskLedger(),
       previousAccepted: accepted(),
       previousContributions: contributions(),

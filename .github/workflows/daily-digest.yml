@@ -122,6 +122,8 @@ jobs:
           echo "### Watchlist" >> "$GITHUB_STEP_SUMMARY"
           jq -r '.services[] | select(.component == "Watchlist") | "- \(.status)；尝试 \(.attempted)，成功 \(.succeeded)，失败 \(.failed)。\(.detail)"' review/run-manifest.json >> "$GITHUB_STEP_SUMMARY"
           jq -r '"- 公开快照：\(.week) · v\(.snapshotVersion)；前瞻雷达 \(.forwardRadar | length) 张，验证动量 \(.validatedMomentum | length) 张。"' watchlist/current.json >> "$GITHUB_STEP_SUMMARY"
+          echo "### 社区证据" >> "$GITHUB_STEP_SUMMARY"
+          jq -r '.services[] | select(.component == "GitHub" or .component == "EvidenceRevalidation") | "- \(.component)：\(.status)；尝试 \(.attempted)，成功 \(.succeeded)，失败 \(.failed)。\(.detail)"' review/run-manifest.json >> "$GITHUB_STEP_SUMMARY"
           echo "### 发布事务" >> "$GITHUB_STEP_SUMMARY"
           jq -r '"- 状态：\(.status)；公开产业 \(.quality.publicIndustryItems) 条，研究 \(.quality.publicResearchItems) 条，候选 \(.quality.candidates) 条，失败信源 \(.quality.sourceFailures) 个。"' review/run-manifest.json >> "$GITHUB_STEP_SUMMARY"
           jq -r '"- 连续成功发布：\(.consecutiveSuccessfulPublications) 次；最近成功率：\((.recentSuccessRate * 100 | round))%；健康状态：\(.status)。"' review/pipeline-health.json >> "$GITHUB_STEP_SUMMARY"

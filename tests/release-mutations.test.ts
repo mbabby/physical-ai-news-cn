@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  buildContributionEventId,
   buildEvidenceTaskId,
   type AcceptedEvidenceArtifact,
   type CommunityTaskPublicArtifact,
@@ -12,15 +13,18 @@ import {
   type EvidenceTaskSeedArtifact,
   type EvidenceTargetField,
 } from "../src/community-evidence/contracts.js";
-import { validateCommunityEvidenceRelease } from "../src/runtime/validation.js";
-import { selectContributionHistoryBaseline } from "../src/validate-release.js";
+import { canonicalDashboardFacts, validateCommunityEvidenceRelease } from "../src/runtime/validation.js";
+import { selectContributionHistoryBaseline, selectRevalidationHistoryBaseline } from "../src/validate-release.js";
+import { buildCompanyClaimLedger } from "../src/company-claim-ledger.js";
+import { stableDecisionId } from "../src/decision-products/contracts.js";
+import type { CompanyProfile, EventRecord } from "../src/types.js";
 
 const NOW = "2026-08-25T10:00:00.000Z";
 const CREATED_AT = "2026-08-24T08:00:00.000Z";
 const ACCEPTED_AT = "2026-08-25T09:00:00.000Z";
 const REPOSITORY = "acme/physical-ai-news-cn";
 const EVIDENCE_URL = "https://alpha.example/funding";
-const ACCEPTED_EVENT_ID = "contribution-event-accepted-alpha";
+const PAGES = "https://mbabby.github.io/physical-ai-news-cn";
 
 const definitions: Array<[EvidenceTaskCategory, EvidenceTargetField, "company" | "event" | "research"]> = [
   ["company-funding", "funding.amount", "company"],
@@ -42,12 +46,22 @@ function releaseFixture() {
   }).sort((left, right) => left.category.localeCompare(right.category));
   const seedArtifact: EvidenceTaskSeedArtifact = { schemaVersion: 1, generatedAt: NOW, generatedWeek: "2026-W35", seeds };
   const acceptedSeed = seeds[0]!;
+  const acceptedEventId = buildContributionEventId({
+    taskId: acceptedSeed.id,
+    issueNumber: 41,
+    contributor: "alice",
+    evidenceUrl: EVIDENCE_URL,
+    state: "accepted",
+    occurredAt: ACCEPTED_AT,
+  });
   const issues: EvidenceIssueSnapshot["issues"] = seeds.map((seed, index) => ({
     number: 41 + index, taskId: seed.id, taskVersion: 1, state: index === 0 ? "closed" : "open",
     labels: [...(index === 0 ? ["accepted-evidence"] : []), "evidence-task", `evidence-task-${seed.category}`, "two-minute-task"].sort(),
     authorLogin: index === 0 ? "alice" : "maintainer", authorAssociation: index === 0 ? "FIRST_TIME_CONTRIBUTOR" : "MEMBER",
     createdAt: CREATED_AT, updatedAt: index === 0 ? ACCEPTED_AT : NOW, closedAt: index === 0 ? ACCEPTED_AT : null,
-    evidenceUrls: index === 0 ? [EVIDENCE_URL] : [], acceptedContributors: index === 0 ? ["alice"] : [],
+    evidenceUrls: index === 0 ? [EVIDENCE_URL] : [],
+    submittedEvidence: index === 0 ? [{ contributor: "alice", evidenceUrl: EVIDENCE_URL, submittedAt: CREATED_AT }] : [],
+    acceptedContributors: index === 0 ? ["alice"] : [],
     acceptedEvidence: index === 0 ? [{ contributor: "alice", evidenceUrl: EVIDENCE_URL }] : [],
   }));
   const snapshot: EvidenceIssueSnapshot = { schemaVersion: 1, fetchedAt: NOW, repo: REPOSITORY, issues };
@@ -64,18 +78,24 @@ function releaseFixture() {
   const accepted: AcceptedEvidenceArtifact = {
     schemaVersion: 1, generatedAt: NOW,
     entries: [{
-      id: ACCEPTED_EVENT_ID, taskId: acceptedSeed.id, issueNumber: 41, category: acceptedSeed.category,
+      id: acceptedEventId, taskId: acceptedSeed.id, issueNumber: 41, category: acceptedSeed.category,
       subject: acceptedSeed.subject, targetField: acceptedSeed.targetField, contributor: "alice", evidenceUrl: EVIDENCE_URL,
       acceptedAt: ACCEPTED_AT,
     }],
   };
   const acceptedEvent: ContributionLedgerArtifact["events"][number] = {
-    id: ACCEPTED_EVENT_ID, taskId: acceptedSeed.id, issueNumber: 41, contributor: "alice",
+    id: acceptedEventId, taskId: acceptedSeed.id, issueNumber: 41, contributor: "alice",
     evidenceUrl: EVIDENCE_URL, category: acceptedSeed.category, subject: acceptedSeed.subject,
     targetField: acceptedSeed.targetField, state: "accepted", occurredAt: ACCEPTED_AT,
     sourceUrl: `https://github.com/${REPOSITORY}/issues/41`, publicTargetUrl: null,
   };
-  const contributions: ContributionLedgerArtifact = { schemaVersion: 1, generatedAt: NOW, events: [acceptedEvent] };
+  const submittedEvent = {
+    ...acceptedEvent,
+    id: buildContributionEventId({ ...acceptedEvent, state: "submitted", occurredAt: CREATED_AT }),
+    state: "submitted" as const,
+    occurredAt: CREATED_AT,
+  };
+  const contributions: ContributionLedgerArtifact = { schemaVersion: 1, generatedAt: NOW, events: [submittedEvent, acceptedEvent] };
   const publicTasks: CommunityTaskPublicArtifact = {
     schemaVersion: 1, generatedAt: NOW,
     tasks: seeds.slice(1).map((seed, index) => ({
@@ -92,11 +112,227 @@ function releaseFixture() {
     openTasks: 2, categoryCoverage: ["product-deployment", "research-metadata"], acceptedThisWeek: 1,
     newContributorsThisWeek: 1, staleRatio: 0, invalidRatio: 0, promotionConversion: 0,
   };
-  return { seeds: seedArtifact, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, canonicalPublicFacts: [] as unknown[] };
+  const revalidation = {
+    schemaVersion: 1 as const, generatedAt: NOW, status: "success" as const,
+    results: [{
+      acceptedEvidenceId: acceptedEventId, taskId: acceptedSeed.id, issueNumber: 41, contributor: "alice",
+      evidenceUrl: EVIDENCE_URL, subjectId: acceptedSeed.subject.id, targetField: acceptedSeed.targetField, attemptedAt: NOW,
+      fetch: { status: "success" as const, failureCode: null, contentType: "text/html", byteLength: 50 },
+      source: { domain: "alpha.example", tier: "A" as const, classification: "company-official" as const },
+      candidateValue: null,
+      checks: { entity: "pass" as const, sourceTier: "pass" as const, fieldConsistency: "fail" as const, conflict: "pass" as const, date: "pass" as const },
+      outcome: "insufficient" as const, canonicalMatch: null,
+    }],
+  };
+  return { seeds: seedArtifact, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, revalidation, canonicalPublicFacts: [] as unknown[] };
 }
+
+function withValidPromotion(input = releaseFixture()) {
+  const entry = input.accepted.entries[0]!;
+  const company = {
+    entityId: entry.subject.id, name: entry.subject.name, region: "全球", routes: [], thesis: "fixture",
+    officialUrl: entry.subject.url, officialDomains: [new URL(entry.subject.url).hostname],
+  } as CompanyProfile;
+  const event: EventRecord = {
+    id: "event-community-proof", title: `${entry.subject.name} raises $10M`, type: "投融资", entities: [entry.subject.name],
+    primaryEntity: entry.subject.name, routes: [], status: "已确证", occurredAt: CREATED_AT, firstSeenAt: CREATED_AT,
+    lastEvidenceAt: CREATED_AT, lastUpdatedAt: CREATED_AT, lastVerifiedAt: ACCEPTED_AT,
+    facts: [`${entry.subject.name} raises $10M`], openQuestions: [], timeline: [],
+    evidence: [{ link: entry.evidenceUrl, source: `${entry.subject.name} 官网`, grade: "A", publishedAt: CREATED_AT, supports: "融资金额 $10M" }],
+    funding: { entityStatus: "已确认", amount: "$10M", investors: [] },
+  };
+  const companyClaimLedger = buildCompanyClaimLedger([company], [event], { now: new Date(NOW) });
+  const claim = companyClaimLedger.companies[0]!.claims.find((item) => item.claimType === "funding")!;
+  const acceptedEvent = input.contributions.events.find((event) => event.state === "accepted")!;
+  const publicTargetUrl = `${PAGES}/companies.html#${stableDecisionId("company", entry.subject.id)}`;
+  const promotedEvent = {
+    ...acceptedEvent,
+    id: buildContributionEventId({ ...entry, state: "promoted", occurredAt: NOW }),
+    state: "promoted" as const,
+    occurredAt: NOW,
+    publicTargetUrl,
+  };
+  input.contributions.events.push(promotedEvent);
+  input.communityMetrics.promotionConversion = 1;
+  input.revalidation = {
+    schemaVersion: 1,
+    generatedAt: NOW,
+    status: "success",
+    results: [{
+      acceptedEvidenceId: entry.id, taskId: entry.taskId, issueNumber: entry.issueNumber, contributor: entry.contributor,
+      evidenceUrl: entry.evidenceUrl, subjectId: entry.subject.id, targetField: entry.targetField, attemptedAt: NOW,
+      fetch: { status: "success", failureCode: null, contentType: "text/html", byteLength: 100 },
+      source: { domain: new URL(entry.evidenceUrl).hostname, tier: "A", classification: "company-official" },
+      candidateValue: "$10M",
+      checks: { entity: "pass", sourceTier: "pass", fieldConsistency: "pass", conflict: "pass", date: "pass" },
+      outcome: "matched",
+      canonicalMatch: {
+        subjectId: entry.subject.id, targetField: entry.targetField, evidenceUrl: entry.evidenceUrl,
+        publicTargetUrl, canonicalArtifact: "company-claim-ledger", canonicalRecordId: claim.claimId,
+        sourceTier: "A", matchedAt: NOW,
+      },
+    }],
+  };
+  input.canonicalMatchContext = {
+    companies: [company],
+    companyClaimLedger,
+    events: [event],
+    researchDecisionCards: [],
+    researchRecords: [],
+    benchmarkResultLedger: { generatedAt: NOW, entries: [] },
+    decisionProducts: {
+      schemaVersion: 1, generatedAt: NOW, periodStart: "2026-08-25", topSignals: [], researchPassports: [],
+      companyCards: [{
+        cardId: stableDecisionId("company", entry.subject.id), companyId: entry.subject.id, companyName: entry.subject.name,
+        officialUrl: entry.subject.url, region: "全球", stage: "创业公司", routes: ["部署与商业化"],
+        capital: { status: "verified", summary: "融资金额 $10M", evidence: [{ evidenceId: "capital-proof", url: entry.evidenceUrl, source: "官网", grade: "A" }] },
+        validationStage: "客户试点", productDeployment: { status: "unknown", summary: "证据不足（不代表没有产品或部署进展）", evidence: [] },
+        recentChanges: [], watchlist: { track: "unknown", lifecycle: "持续复核", whyNow: "规范证据已更新", nextValidationPoints: [] },
+        unknownFields: [], updatedAt: NOW,
+      }],
+      subscriptions: { generatedAt: NOW, entries: [] },
+    },
+    pagesBaseUrl: PAGES,
+  };
+  return input;
+}
+
+test("accepts promotion only with exact current revalidation and a canonical field proof", () => {
+  const input = withValidPromotion();
+  input.canonicalPublicFacts = [{ evidence: [{ link: EVIDENCE_URL }] }];
+  assert.doesNotThrow(() => validateCommunityEvidenceRelease(input));
+
+  for (const mutate of [
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results = []; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results[0]!.subjectId = "wrong-subject"; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results[0]!.canonicalMatch!.canonicalRecordId = "wrong-claim"; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results[0]!.canonicalMatch!.sourceTier = "B"; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results[0]!.canonicalMatch!.matchedAt = ACCEPTED_AT; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.revalidation.results[0]!.canonicalMatch!.publicTargetUrl = candidate.accepted.entries[0]!.subject.url; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.canonicalMatchContext!.decisionProducts.companyCards = []; },
+    (candidate: ReturnType<typeof withValidPromotion>) => { candidate.canonicalMatchContext!.companyClaimLedger.companies[0]!.claims[0]!.fields.amount.evidenceUrls = []; },
+  ]) {
+    const candidate = withValidPromotion();
+    mutate(candidate);
+    assert.throws(() => validateCommunityEvidenceRelease(candidate), /revalidation|proof|promotion|promoted|canonical|复核|晋升/i);
+  }
+});
+
+test("a new promotion cannot reuse a historical match beside a current insufficient result", () => {
+  const input = withValidPromotion();
+  const historicalMatchedAt = "2026-08-25T09:30:00.000Z";
+  const promoted = input.contributions.events.find((event) => event.state === "promoted")!;
+  promoted.occurredAt = historicalMatchedAt;
+  promoted.id = buildContributionEventId(promoted);
+  input.previousContributions = {
+    ...structuredClone(input.contributions),
+    events: structuredClone(input.contributions.events.filter((event) => event.state !== "promoted")),
+  };
+
+  const historicalProof = structuredClone(input.revalidation.results[0]!);
+  historicalProof.attemptedAt = historicalMatchedAt;
+  historicalProof.canonicalMatch!.matchedAt = historicalMatchedAt;
+  const currentInsufficient = structuredClone(historicalProof);
+  currentInsufficient.attemptedAt = NOW;
+  currentInsufficient.candidateValue = null;
+  currentInsufficient.checks.fieldConsistency = "fail";
+  currentInsufficient.outcome = "insufficient";
+  currentInsufficient.canonicalMatch = null;
+  input.revalidation.results = [historicalProof, currentInsufficient];
+
+  assert.throws(() => validateCommunityEvidenceRelease(input), /current|revalidation|promotion|promoted|复核|晋升/i);
+});
 
 test("accepts one exact, lifecycle-consistent community evidence release", () => {
   assert.doesNotThrow(() => validateCommunityEvidenceRelease(releaseFixture()));
+});
+
+test("rejects acceptance without an earlier submitted event", () => {
+  const input = releaseFixture();
+  input.contributions.events = input.contributions.events.filter((event) => event.state !== "submitted");
+  assert.throws(() => validateCommunityEvidenceRelease(input), /submitted|accept.*lifecycle/i);
+});
+
+test("grandfathers only a previously committed accepted lifecycle that predates submitted attribution", () => {
+  const legacy = releaseFixture();
+  legacy.contributions.events = legacy.contributions.events.filter((event) => event.state !== "submitted");
+  legacy.previousContributions = structuredClone(legacy.contributions);
+  assert.doesNotThrow(() => validateCommunityEvidenceRelease(legacy));
+
+  const uncommitted = releaseFixture();
+  uncommitted.contributions.events = uncommitted.contributions.events.filter((event) => event.state !== "submitted");
+  assert.throws(() => validateCommunityEvidenceRelease(uncommitted), /submitted|accept.*lifecycle/i);
+});
+
+test("a grandfathered acceptance pair cannot authorize a later submitted-less acceptance", () => {
+  const input = releaseFixture();
+  const originalAcceptance = structuredClone(input.contributions.events.find((event) => event.state === "accepted")!);
+  const withdrawnAt = "2026-08-25T09:15:00.000Z";
+  const reacceptedAt = "2026-08-25T09:30:00.000Z";
+  const withdrawn = { ...originalAcceptance, state: "withdrawn" as const, occurredAt: withdrawnAt };
+  withdrawn.id = buildContributionEventId(withdrawn);
+  const reaccepted = { ...originalAcceptance, state: "accepted" as const, occurredAt: reacceptedAt };
+  reaccepted.id = buildContributionEventId(reaccepted);
+
+  input.previousContributions = { ...structuredClone(input.contributions), events: [originalAcceptance] };
+  input.contributions.events = [originalAcceptance, withdrawn, reaccepted];
+  input.accepted.entries[0] = { ...input.accepted.entries[0]!, id: reaccepted.id, acceptedAt: reacceptedAt };
+  input.snapshot.issues[0]!.updatedAt = reacceptedAt;
+  input.revalidation.results[0]!.acceptedEvidenceId = reaccepted.id;
+  input.communityMetrics.acceptedThisWeek = 2;
+
+  assert.throws(() => validateCommunityEvidenceRelease(input), /submitted|accept.*lifecycle/i);
+});
+
+test("requires a same-release exact revalidation result for every active accepted entry", () => {
+  const stale = releaseFixture();
+  stale.revalidation.generatedAt = ACCEPTED_AT;
+  stale.revalidation.results[0]!.attemptedAt = ACCEPTED_AT;
+  assert.throws(() => validateCommunityEvidenceRelease(stale), /generation clock|current revalidation/i);
+
+  const missing = releaseFixture();
+  missing.revalidation.results = [];
+  assert.throws(() => validateCommunityEvidenceRelease(missing), /current revalidation/i);
+});
+
+test("revalidation results retain the committed history as an exact append-only prefix", () => {
+  const input = releaseFixture();
+  input.previousRevalidation = structuredClone(input.revalidation);
+  input.revalidation.results[0]!.candidateValue = "$10M";
+  assert.throws(() => validateCommunityEvidenceRelease(input), /revalidation history|append-only prefix/i);
+});
+
+test("a later correction preserves the historical promotion proof without requiring withdrawn evidence to remain canonical", () => {
+  const input = withValidPromotion();
+  const correctedAt = "2026-08-25T11:00:00.000Z";
+  input.previousContributions = structuredClone(input.contributions);
+  input.previousRevalidation = structuredClone(input.revalidation);
+  const entry = input.accepted.entries[0]!;
+  input.contributions.events.push({
+    ...input.contributions.events.find((event) => event.state === "accepted")!,
+    id: buildContributionEventId({ ...entry, state: "corrected", occurredAt: correctedAt }),
+    state: "corrected",
+    occurredAt: correctedAt,
+    publicTargetUrl: null,
+  });
+  input.accepted.entries = [];
+  input.snapshot.fetchedAt = correctedAt;
+  input.snapshot.issues[0]!.updatedAt = correctedAt;
+  input.snapshot.issues[0]!.labels = [...new Set([...input.snapshot.issues[0]!.labels, "source-withdrawn"])].sort();
+  input.seeds.generatedAt = correctedAt;
+  input.ledger.generatedAt = correctedAt;
+  input.accepted.generatedAt = correctedAt;
+  input.contributions.generatedAt = correctedAt;
+  input.publicTasks.generatedAt = correctedAt;
+  input.revalidation.generatedAt = correctedAt;
+  input.communityMetrics.generatedAt = correctedAt;
+  input.canonicalMatchContext!.companyClaimLedger.companies[0]!.claims[0]!.fields.amount.evidenceUrls = [];
+  input.canonicalMatchContext!.decisionProducts.companyCards[0]!.capital.evidence = [];
+
+  assert.doesNotThrow(() => validateCommunityEvidenceRelease(input));
+
+  input.revalidation.results[0]!.candidateValue = "$9M";
+  assert.throws(() => validateCommunityEvidenceRelease(input), /revalidation history|append-only prefix/i);
 });
 
 test("accepts an active LKG public task after its current seed ages out", () => {
@@ -204,7 +440,7 @@ test("rejects active acceptance after accepted-evidence label removal", () => {
 test("rejects credit for a commenter whose evidence was not accepted", () => {
   const input = releaseFixture();
   input.accepted.entries[0]!.contributor = "mallory";
-  input.contributions.events[0]!.contributor = "mallory";
+  input.contributions.events.find((event) => event.state === "accepted")!.contributor = "mallory";
   assert.throws(() => validateCommunityEvidenceRelease(input), /contributor|贡献|accepted|采纳/i);
 });
 
@@ -217,12 +453,20 @@ test("rejects deleted or reordered append-only contribution history", () => {
 
 test("rejects duplicate acceptance in one active contribution lifecycle", () => {
   const input = releaseFixture();
-  input.contributions.events.push({
-    ...structuredClone(input.contributions.events[0]!),
-    id: "contribution-event-duplicate-acceptance",
+  const duplicate = {
+    ...structuredClone(input.contributions.events.find((event) => event.state === "accepted")!),
     occurredAt: "2026-08-25T09:30:00.000Z",
-  });
+  };
+  duplicate.id = buildContributionEventId(duplicate);
+  input.contributions.events.push(duplicate);
   assert.throws(() => validateCommunityEvidenceRelease(input), /duplicate|lifecycle|重复|生命周期/i);
+});
+
+test("release validation recomputes a consistently forged accepted and contribution ID", () => {
+  const input = releaseFixture();
+  input.accepted.entries[0]!.id = "forged-but-matching";
+  input.contributions.events.find((event) => event.state === "accepted")!.id = "forged-but-matching";
+  assert.throws(() => validateCommunityEvidenceRelease(input), /stable|identity|id/i);
 });
 
 test("binds an accepted record to the exact acceptance event ID and timestamp", () => {
@@ -248,6 +492,22 @@ test("rejects accepted evidence embedded in public Markdown without a promotion 
   assert.throws(() => validateCommunityEvidenceRelease(input), /promotion|promoted|晋升|公开事实/i);
 });
 
+test("canonical dashboard scanning ignores community attribution but still rejects the same URL in a real fact", () => {
+  const attributionOnly = releaseFixture();
+  attributionOnly.canonicalPublicFacts = [canonicalDashboardFacts({
+    communityEvidence: { acceptedEvidence: [{ evidenceUrl: EVIDENCE_URL }] },
+    topSignals: [],
+  } as never)];
+  assert.doesNotThrow(() => validateCommunityEvidenceRelease(attributionOnly));
+
+  const canonicalFact = releaseFixture();
+  canonicalFact.canonicalPublicFacts = [canonicalDashboardFacts({
+    communityEvidence: { acceptedEvidence: [{ evidenceUrl: EVIDENCE_URL }] },
+    topSignals: [{ evidenceUrl: EVIDENCE_URL }],
+  } as never)];
+  assert.throws(() => validateCommunityEvidenceRelease(canonicalFact), /promotion|promoted|公开事实/i);
+});
+
 test("rejects forged or ranking-bearing aggregate community metrics", () => {
   for (const mutate of [
     (input: ReturnType<typeof releaseFixture>) => { input.communityMetrics.openTasks = 5; },
@@ -266,4 +526,13 @@ test("selects the parent contribution artifact when a clean checkout equals HEAD
   parent.events = [];
   assert.deepEqual(selectContributionHistoryBaseline(current, structuredClone(current), parent), parent);
   assert.deepEqual(selectContributionHistoryBaseline(current, undefined, parent), parent);
+});
+
+test("selects the parent revalidation artifact when a clean checkout equals HEAD", () => {
+  const current = releaseFixture().revalidation;
+  const parent = structuredClone(current);
+  parent.generatedAt = ACCEPTED_AT;
+  parent.results[0]!.attemptedAt = ACCEPTED_AT;
+  assert.deepEqual(selectRevalidationHistoryBaseline(current, structuredClone(current), parent), parent);
+  assert.deepEqual(selectRevalidationHistoryBaseline(current, undefined, parent), parent);
 });

@@ -3,10 +3,38 @@ import { mkdir, mkdtemp, readFile, rename, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { buildContributionEventId, buildEvidenceTaskId, type ContributionLedgerArtifact } from "../src/community-evidence/contracts.js";
 import { buildFlywheelMetrics, collectCommunityMetrics, runCommunityMetrics } from "../scripts/community-metrics.mjs";
 
 function response(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+}
+
+function contributionArtifact(contributors: string[]): ContributionLedgerArtifact {
+  const subject = { kind: "company" as const, id: "company-alpha", name: "Alpha Robotics", url: "https://alpha.example/" };
+  const taskId = buildEvidenceTaskId(subject, "funding.amount", "material-1");
+  const occurredAt = "2026-08-24T10:00:00Z";
+  return {
+    schemaVersion: 1,
+    generatedAt: "2026-08-24T12:00:00Z",
+    events: contributors.map((contributor, index) => {
+      const evidenceUrl = `https://evidence.example/${contributor}`;
+      const event = {
+        taskId,
+        issueNumber: 41,
+        contributor,
+        evidenceUrl,
+        category: "company-funding" as const,
+        subject,
+        targetField: "funding.amount" as const,
+        state: "accepted" as const,
+        occurredAt: index === 0 ? occurredAt : "2026-08-24T10:01:00Z",
+        sourceUrl: "https://github.com/example/project/issues/41",
+        publicTargetUrl: null,
+      };
+      return { id: buildContributionEventId(event), ...event };
+    }).sort((left, right) => left.occurredAt.localeCompare(right.occurredAt) || left.id.localeCompare(right.id)),
+  };
 }
 
 test("collects public repository metrics without sending an authorization header", async () => {
@@ -56,21 +84,25 @@ test("builds aggregate flywheel metrics without contributor rankings or per-user
   assert.doesNotMatch(JSON.stringify(metrics), /ranking|score|topContributors|alice|bob/i);
 });
 
-test("collects privileged traffic and accepted evidence contributors when a token is available", async () => {
+test("derives accepted evidence contributors, including explicit co-contributors, only from the validated contribution ledger", async () => {
+  const requests: string[] = [];
   const fetchImpl = async (input: string | URL | Request, init?: RequestInit) => {
     const url = String(input);
-    assert.equal(new Headers(init?.headers).get("authorization"), url.includes("/traffic/") || url.includes("labels=") ? "Bearer secret-token" : null);
-    if (url.includes("labels=")) assert.match(url, /[?&]state=all(?:&|$)/);
+    requests.push(url);
+    assert.equal(new Headers(init?.headers).get("authorization"), url.includes("/traffic/") ? "Bearer secret-token" : null);
     if (url.endsWith("/contributors?per_page=100&anon=false")) return response([{ login: "alice" }]);
     if (url.endsWith("/repos/example/project")) return response({ stargazers_count: 50, forks_count: 8, subscribers_count: 6, open_issues_count: 4 });
     if (url.endsWith("/traffic/views")) return response({ count: 120, uniques: 40 });
     if (url.endsWith("/traffic/clones")) return response({ count: 18, uniques: 9 });
     if (url.endsWith("/traffic/popular/referrers")) return response([{ referrer: "github.com", count: 20, uniques: 10 }]);
-    if (url.includes("labels=accepted-evidence")) return response([{ user: { login: "bob" } }]);
-    if (url.includes("labels=evidence-accepted")) return response([{ user: { login: "alice" } }]);
     return response({}, 404);
   };
-  const metrics = await collectCommunityMetrics({ repository: "example/project", token: "secret-token", fetchImpl });
+  const metrics = await collectCommunityMetrics({
+    repository: "example/project",
+    token: "secret-token",
+    fetchImpl,
+    contributions: contributionArtifact(["alice", "bob"]),
+  });
 
   assert.deepEqual(metrics.traffic, {
     status: "available",
@@ -81,6 +113,23 @@ test("collects privileged traffic and accepted evidence contributors when a toke
     referrers: [{ referrer: "github.com", count: 20, uniques: 10 }],
   });
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: ["alice", "bob"], count: 2 });
+  assert.equal(requests.some((url) => url.includes("labels=") || url.includes("/issues?")), false);
+});
+
+test("preserves last-known-good accepted contributor metrics when the contribution artifact is invalid", async () => {
+  const previous = {
+    repository: { stars: 0, forks: 0, subscribers: 0, openIssues: 0 },
+    contributors: { codeContributors: [], acceptedEvidenceContributors: ["lkg-helper"], count: 1 },
+  };
+  const fetchImpl = async () => response({ message: "unavailable" }, 503);
+  const metrics = await collectCommunityMetrics({
+    repository: "example/project",
+    token: "",
+    fetchImpl,
+    previous,
+    contributions: { ...contributionArtifact(["alice"]), schemaVersion: 2 },
+  });
+  assert.deepEqual(metrics.contributors.acceptedEvidenceContributors, ["lkg-helper"]);
 });
 
 test("treats incomplete or malformed successful traffic responses as unavailable but preserves explicit zeroes", async () => {

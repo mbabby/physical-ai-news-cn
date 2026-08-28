@@ -2,6 +2,7 @@ import {
   assertEvidenceIssueSnapshot,
   type EvidenceIssue,
   type EvidenceIssueAcceptedEvidence,
+  type EvidenceIssueSubmittedEvidence,
   type EvidenceIssueSnapshot,
 } from "./contracts.js";
 
@@ -12,6 +13,7 @@ const ACCEPTED_CONTRIBUTOR_MARKER = /<!-- accepted-contributor:@([A-Za-z0-9](?:[
 const URL_CANDIDATE = /https:\/\/[^\s<>"')\]]+/g;
 const STRUCTURED_EVIDENCE_URL = /(?:^|\r?\n)\s*(?:证据链接|evidence url)\s*[：:]\s*(https:\/\/[^\s<>"')\]]+)/gi;
 const MAINTAINER_ASSOCIATIONS = new Set(["COLLABORATOR", "MEMBER", "OWNER"]);
+const HUMAN_LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/;
 const SAFE_LABELS = new Set([
   "accepted-evidence",
   "canonical-promoted",
@@ -126,6 +128,18 @@ function acceptedPairs(items: EvidenceIssueAcceptedEvidence[]): EvidenceIssueAcc
     : left.evidenceUrl < right.evidenceUrl ? -1 : left.evidenceUrl > right.evidenceUrl ? 1 : 0);
 }
 
+function submittedPairs(items: EvidenceIssueSubmittedEvidence[]): EvidenceIssueSubmittedEvidence[] {
+  const earliestByPair = new Map<string, EvidenceIssueSubmittedEvidence>();
+  for (const item of items) {
+    const identity = `${item.contributor}\n${item.evidenceUrl}`;
+    const prior = earliestByPair.get(identity);
+    if (!prior || item.submittedAt < prior.submittedAt) earliestByPair.set(identity, item);
+  }
+  return [...earliestByPair.values()].sort((left, right) => left.contributor < right.contributor ? -1 : left.contributor > right.contributor ? 1
+    : left.evidenceUrl < right.evidenceUrl ? -1 : left.evidenceUrl > right.evidenceUrl ? 1
+      : left.submittedAt < right.submittedAt ? -1 : left.submittedAt > right.submittedAt ? 1 : 0);
+}
+
 function parseNextLink(header: string | null, current: string): string | null {
   if (!header) return null;
   const nextParts = header.split(",").map((part) => part.trim()).filter((part) => /;\s*rel="next"\s*$/.test(part));
@@ -163,16 +177,17 @@ async function fetchPages(fetchImpl: typeof fetch, initialUrl: string, token: st
   return result;
 }
 
-function parseComment(value: unknown, path: string): { body: string; login: string; association: string } {
+function parseComment(value: unknown, path: string): { body: string; login: string; association: string; createdAt: string } {
   const comment = object(value, path);
   const user = object(comment.user, `${path}.user`);
   const login = string(user.login, `${path}.user.login`);
-  string(comment.created_at, `${path}.created_at`);
+  const createdAt = string(comment.created_at, `${path}.created_at`);
   string(comment.updated_at, `${path}.updated_at`);
   return {
     body: string(comment.body, `${path}.body`),
     login,
     association: string(comment.author_association, `${path}.author_association`),
+    createdAt,
   };
 }
 
@@ -199,24 +214,52 @@ export async function fetchEvidenceIssueSnapshot(input: {
       const issueLabels = labels(raw.labels, `issues[${index}].labels`);
       const user = object(raw.user, `issues[${index}].user`);
       const authorLogin = string(user.login, `issues[${index}].user.login`);
+      const createdAt = string(raw.created_at, `issues[${index}].created_at`);
       const bodySubmissions = structuredEvidenceUrls(body);
       const commentUrl = `${API_ROOT}/repos/${input.repo}/issues/${number}/comments?per_page=100`;
       const comments = await fetchPages(fetchImpl, commentUrl, input.token);
       const submittedUrls = new Set(bodySubmissions);
-      const authorSubmissions = new Set(bodySubmissions);
+      const parsedComments = comments.map((comment, commentIndex) => parseComment(comment, `comments[${commentIndex}]`));
+      const authorSubmissions = new Set<string>();
+      const safeSubmissions: EvidenceIssueSubmittedEvidence[] = [];
+      if (HUMAN_LOGIN.test(authorLogin)) {
+        for (const evidenceUrl of bodySubmissions) {
+          authorSubmissions.add(evidenceUrl);
+          safeSubmissions.push({ contributor: authorLogin, evidenceUrl, submittedAt: createdAt });
+        }
+      }
       const explicit: EvidenceIssueAcceptedEvidence[] = [];
-      for (let commentIndex = 0; commentIndex < comments.length; commentIndex += 1) {
-        const comment = parseComment(comments[commentIndex], `comments[${commentIndex}]`);
+      for (const comment of parsedComments) {
         const urls = evidenceUrls(comment.body);
         urls.forEach((url) => submittedUrls.add(url));
-        if (comment.login === authorLogin) structuredEvidenceUrls(comment.body).forEach((url) => authorSubmissions.add(url));
-        if (!MAINTAINER_ASSOCIATIONS.has(comment.association)) continue;
         const contributorMarkers = matches(comment.body, ACCEPTED_CONTRIBUTOR_MARKER);
+        const maintainerBinding = MAINTAINER_ASSOCIATIONS.has(comment.association) && contributorMarkers.length > 0;
+        if (HUMAN_LOGIN.test(comment.login) && !maintainerBinding) {
+          for (const evidenceUrl of urls) safeSubmissions.push({ contributor: comment.login, evidenceUrl, submittedAt: comment.createdAt });
+        }
+        if (comment.login === authorLogin && HUMAN_LOGIN.test(authorLogin)) {
+          for (const evidenceUrl of structuredEvidenceUrls(comment.body)) {
+            authorSubmissions.add(evidenceUrl);
+            safeSubmissions.push({ contributor: authorLogin, evidenceUrl, submittedAt: comment.createdAt });
+          }
+        }
+        if (!MAINTAINER_ASSOCIATIONS.has(comment.association)) continue;
         if (contributorMarkers.length > 0 && (contributorMarkers.length !== 1 || urls.length !== 1)) {
           throw new Error("A maintainer accepted contributor marker must bind exactly one evidence URL");
         }
         for (const contributorMarker of contributorMarkers) {
-          for (const evidenceUrl of urls) explicit.push({ contributor: contributorMarker[1]!, evidenceUrl });
+          const contributor = contributorMarker[1]!;
+          for (const evidenceUrl of urls) {
+            explicit.push({ contributor, evidenceUrl });
+            const original = parsedComments
+              .filter((candidate) => candidate !== comment && candidate.login === contributor
+                && candidate.createdAt <= comment.createdAt
+                && matches(candidate.body, ACCEPTED_CONTRIBUTOR_MARKER).length === 0
+                && evidenceUrls(candidate.body).includes(evidenceUrl))
+              .sort((left, right) => left.createdAt < right.createdAt ? -1 : left.createdAt > right.createdAt ? 1 : 0)[0];
+            if (!original) throw new Error("A maintainer accepted contributor marker must reference an earlier contributor submission");
+            safeSubmissions.push({ contributor, evidenceUrl, submittedAt: original.createdAt });
+          }
         }
       }
       const isAccepted = issueLabels.includes("accepted-evidence");
@@ -224,6 +267,7 @@ export async function fetchEvidenceIssueSnapshot(input: {
         ...[...authorSubmissions].map((evidenceUrl) => ({ contributor: authorLogin, evidenceUrl })),
         ...explicit,
       ]) : [];
+      const submissions = submittedPairs(safeSubmissions);
       const state = string(raw.state, `issues[${index}].state`);
       if (state !== "open" && state !== "closed") throw new Error(`issues[${index}].state is invalid`);
       issues.push({
@@ -233,10 +277,11 @@ export async function fetchEvidenceIssueSnapshot(input: {
         labels: issueLabels,
         authorLogin,
         authorAssociation: association(raw.author_association, `issues[${index}].author_association`),
-        createdAt: string(raw.created_at, `issues[${index}].created_at`),
+        createdAt,
         updatedAt: string(raw.updated_at, `issues[${index}].updated_at`),
         closedAt: nullableString(raw.closed_at, `issues[${index}].closed_at`),
         evidenceUrls: [...submittedUrls].sort(),
+        submittedEvidence: submissions,
         acceptedContributors: [...new Set(pairs.map((pair) => pair.contributor))].sort(),
         acceptedEvidence: pairs,
       });

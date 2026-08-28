@@ -52,8 +52,15 @@ export interface EvidenceIssue {
   updatedAt: string;
   closedAt: string | null;
   evidenceUrls: string[];
+  submittedEvidence: EvidenceIssueSubmittedEvidence[];
   acceptedContributors: string[];
   acceptedEvidence: EvidenceIssueAcceptedEvidence[];
+}
+
+export interface EvidenceIssueSubmittedEvidence {
+  contributor: string;
+  evidenceUrl: string;
+  submittedAt: string;
 }
 
 export interface EvidenceIssueAcceptedEvidence {
@@ -176,12 +183,15 @@ const TASK_ID = /^evidence-task-[a-f0-9]{24}$/;
 const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 const ISO_WEEK = /^(\d{4})-W(0[1-9]|[1-4]\d|5[0-3])$/;
 const REPO = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
-const LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/;
+const HUMAN_LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/;
+const GITHUB_BOT_LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,98}[A-Za-z0-9])?\[bot\]$/;
 
 const SUBJECT_KEYS = ["kind", "id", "name", "url"] as const;
 const SEED_KEYS = ["id", "version", "category", "subject", "targetField", "contextZh", "referenceUrls", "suggestedLocations", "qualifiedEvidenceZh", "disqualifiedEvidenceZh", "replyTemplateZh", "estimatedMinutes", "generatedWeek", "materialVersion", "supersedesTaskId"] as const;
 const SEED_ARTIFACT_KEYS = ["schemaVersion", "generatedAt", "generatedWeek", "seeds"] as const;
-const ISSUE_KEYS = ["number", "taskId", "taskVersion", "state", "labels", "authorLogin", "authorAssociation", "createdAt", "updatedAt", "closedAt", "evidenceUrls", "acceptedContributors", "acceptedEvidence"] as const;
+const ISSUE_KEYS = ["number", "taskId", "taskVersion", "state", "labels", "authorLogin", "authorAssociation", "createdAt", "updatedAt", "closedAt", "evidenceUrls", "submittedEvidence", "acceptedContributors", "acceptedEvidence"] as const;
+const LEGACY_ISSUE_KEYS = ISSUE_KEYS.filter((key) => key !== "submittedEvidence");
+const ISSUE_SUBMITTED_EVIDENCE_KEYS = ["contributor", "evidenceUrl", "submittedAt"] as const;
 const ISSUE_ACCEPTED_EVIDENCE_KEYS = ["contributor", "evidenceUrl"] as const;
 const ISSUE_SNAPSHOT_KEYS = ["schemaVersion", "fetchedAt", "repo", "issues"] as const;
 const TASK_LEDGER_ENTRY_KEYS = ["taskId", "taskVersion", "category", "subject", "targetField", "materialVersion", "supersedesTaskId", "issueNumber", "issueUrl", "state", "createdAt", "updatedAt", "lastActivityAt", "closedAt"] as const;
@@ -249,6 +259,22 @@ function positiveInteger(value: unknown): value is number {
   return Number.isInteger(value) && Number(value) > 0;
 }
 
+export function isPositiveCommunityIssueNumber(value: unknown): value is number {
+  return positiveInteger(value);
+}
+
+function githubActorLogin(value: unknown): value is string {
+  return typeof value === "string" && (HUMAN_LOGIN.test(value) || GITHUB_BOT_LOGIN.test(value));
+}
+
+function humanLogin(value: unknown): value is string {
+  return typeof value === "string" && HUMAN_LOGIN.test(value);
+}
+
+export function isHumanContributorLogin(value: unknown): value is string {
+  return humanLogin(value);
+}
+
 function canonicalTimestamp(value: unknown): value is string {
   if (typeof value !== "string" || !TIMESTAMP.test(value)) return false;
   const parsed = Date.parse(value);
@@ -282,6 +308,40 @@ function normalizedHttpsUrl(value: unknown): value is string {
   } catch {
     return false;
   }
+}
+
+export function isNormalizedCommunityHttpsUrl(value: unknown): value is string {
+  return normalizedHttpsUrl(value);
+}
+
+export function isNormalizedCommunityPublicTargetUrl(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:"
+      && Boolean(url.hostname)
+      && !url.username
+      && !url.password
+      && url.toString() === value;
+  } catch {
+    return false;
+  }
+}
+
+export function isCanonicalCommunityTimestamp(value: unknown): value is string {
+  return canonicalTimestamp(value);
+}
+
+export function isCommunityEvidenceTaskId(value: unknown): value is string {
+  return typeof value === "string" && TASK_ID.test(value);
+}
+
+export function isEvidenceTargetField(value: unknown): value is EvidenceTargetField {
+  return TARGET_FIELDS.has(value as EvidenceTargetField);
+}
+
+export function assertCommunityEvidencePrivateBoundary(value: unknown, path = "artifact"): void {
+  scanPrivateBoundary(value, path);
 }
 
 function sortedUniqueStrings(value: unknown, path: string, options: { min?: number; max?: number; https?: boolean } = {}): asserts value is string[] {
@@ -351,6 +411,19 @@ export function buildEvidenceTaskId(subject: EvidenceSubject, targetField: Evide
   return `evidence-task-${createHash("sha256").update(identity).digest("hex").slice(0, 24)}`;
 }
 
+export function buildContributionEventId(input: {
+  taskId: string;
+  issueNumber: number;
+  contributor: string;
+  evidenceUrl: string;
+  state: ContributionState;
+  occurredAt: string;
+}): string {
+  return createHash("sha256")
+    .update(`${input.taskId}${input.issueNumber}${input.contributor}${input.evidenceUrl}${input.state}${input.occurredAt}`)
+    .digest("hex");
+}
+
 export function assertEvidenceTaskSeed(value: unknown, path = "seed"): asserts value is EvidenceTaskSeed {
   scanPrivateBoundary(value, path);
   exactKeys(value, SEED_KEYS, path);
@@ -408,7 +481,7 @@ export function assertEvidenceIssue(value: unknown, path = "issue"): asserts val
   ensure(positiveInteger(value.taskVersion), `${path}.taskVersion must be a positive integer`);
   ensure(value.state === "open" || value.state === "closed", `${path}.state is invalid`);
   sortedUniqueStrings(value.labels, `${path}.labels`);
-  ensure(LOGIN.test(String(value.authorLogin)), `${path}.authorLogin is invalid`);
+  ensure(githubActorLogin(value.authorLogin), `${path}.authorLogin is invalid`);
   ensure(ISSUE_ASSOCIATIONS.has(value.authorAssociation as EvidenceIssue["authorAssociation"]), `${path}.authorAssociation is invalid`);
   ensure(canonicalTimestamp(value.createdAt) && canonicalTimestamp(value.updatedAt), `${path} timestamps must be canonical ISO timestamps`);
   assertOptionalTimestamp(value.closedAt, `${path}.closedAt`);
@@ -419,19 +492,39 @@ export function assertEvidenceIssue(value: unknown, path = "issue"): asserts val
   sortedUniqueStrings(value.acceptedContributors, `${path}.acceptedContributors`);
   const evidenceUrls = value.evidenceUrls as string[];
   const acceptedContributors = value.acceptedContributors as string[];
-  ensure(acceptedContributors.every((login) => LOGIN.test(login)), `${path}.acceptedContributors contains an invalid login`);
+  ensure(Array.isArray(value.submittedEvidence), `${path}.submittedEvidence must be an array`);
+  value.submittedEvidence.forEach((item, index) => {
+    exactKeys(item, ISSUE_SUBMITTED_EVIDENCE_KEYS, `${path}.submittedEvidence[${index}]`);
+    ensure(humanLogin(item.contributor), `${path}.submittedEvidence[${index}].contributor is invalid`);
+    ensure(normalizedHttpsUrl(item.evidenceUrl), `${path}.submittedEvidence[${index}].evidenceUrl must be normalized HTTPS`);
+    ensure(canonicalTimestamp(item.submittedAt), `${path}.submittedEvidence[${index}].submittedAt must be a canonical ISO timestamp`);
+    ensure(Date.parse(item.submittedAt as string) >= Date.parse(value.createdAt as string)
+      && Date.parse(item.submittedAt as string) <= Date.parse(value.updatedAt as string), `${path}.submittedEvidence[${index}] has invalid clock order`);
+  });
+  const submittedEvidence = value.submittedEvidence as unknown as EvidenceIssueSubmittedEvidence[];
+  ensure(submittedEvidence.every((item, index) => index === 0 || compareIssueSubmittedEvidence(submittedEvidence[index - 1]!, item) < 0), `${path}.submittedEvidence must be sorted and deduplicated`);
+  ensure(submittedEvidence.every((item) => evidenceUrls.includes(item.evidenceUrl)), `${path}.submittedEvidence must reference evidenceUrls`);
+  ensure(acceptedContributors.every((login) => HUMAN_LOGIN.test(login)), `${path}.acceptedContributors contains an invalid login`);
   ensure(Array.isArray(value.acceptedEvidence), `${path}.acceptedEvidence must be an array`);
   value.acceptedEvidence.forEach((item, index) => {
     exactKeys(item, ISSUE_ACCEPTED_EVIDENCE_KEYS, `${path}.acceptedEvidence[${index}]`);
-    ensure(LOGIN.test(String(item.contributor)), `${path}.acceptedEvidence[${index}].contributor is invalid`);
+    ensure(HUMAN_LOGIN.test(String(item.contributor)), `${path}.acceptedEvidence[${index}].contributor is invalid`);
     ensure(normalizedHttpsUrl(item.evidenceUrl), `${path}.acceptedEvidence[${index}].evidenceUrl must be normalized HTTPS`);
   });
   const acceptedEvidence = value.acceptedEvidence as unknown as EvidenceIssueAcceptedEvidence[];
   ensure(acceptedEvidence.every((item, index) => index === 0 || compareIssueAcceptedEvidence(acceptedEvidence[index - 1]!, item) < 0), `${path}.acceptedEvidence must be sorted and deduplicated`);
   ensure(acceptedEvidence.every((item) => evidenceUrls.includes(item.evidenceUrl)), `${path}.acceptedEvidence must reference evidenceUrls`);
+  const submittedPairs = new Set(submittedEvidence.map((item) => `${item.contributor}\n${item.evidenceUrl}`));
+  ensure(acceptedEvidence.every((item) => submittedPairs.has(`${item.contributor}\n${item.evidenceUrl}`)), `${path}.acceptedEvidence must reference submittedEvidence`);
   const acceptedLogins = [...new Set(acceptedEvidence.map((item) => item.contributor))].sort(compareStrings);
   ensure(acceptedLogins.length === acceptedContributors.length
     && acceptedLogins.every((login, index) => login === acceptedContributors[index]), `${path}.acceptedEvidence must exactly bind acceptedContributors`);
+}
+
+function compareIssueSubmittedEvidence(left: EvidenceIssueSubmittedEvidence, right: EvidenceIssueSubmittedEvidence): number {
+  return compareStrings(left.contributor, right.contributor)
+    || compareStrings(left.evidenceUrl, right.evidenceUrl)
+    || compareStrings(left.submittedAt, right.submittedAt);
 }
 
 function compareIssueAcceptedEvidence(left: EvidenceIssueAcceptedEvidence, right: EvidenceIssueAcceptedEvidence): number {
@@ -451,6 +544,27 @@ export function assertEvidenceIssueSnapshot(value: unknown): asserts value is Ev
   uniqueBy(issues, (issue) => issue.number, "artifact.issues");
   uniqueBy(issues, (issue) => issue.taskId, "artifact.issues");
   ensure(issues.every((issue, index) => index === 0 || issues[index - 1]!.number < issue.number), "artifact.issues must be sorted by issue number");
+}
+
+/** One-time, fail-closed reader for pre-attribution schemaVersion 1 snapshots.
+ * Accepted pairs receive the only causally safe legacy clock available; other
+ * unbound URLs remain unattributed rather than guessing a contributor. */
+export function migrateLegacyEvidenceIssueSnapshot(value: unknown): EvidenceIssueSnapshot {
+  exactKeys(value, ISSUE_SNAPSHOT_KEYS, "legacy artifact");
+  ensure(Array.isArray(value.issues), "legacy artifact.issues must be an array");
+  const migratedIssues = value.issues.map((item, index) => {
+    if (isObject(item) && Object.hasOwn(item, "submittedEvidence")) return item;
+    exactKeys(item, LEGACY_ISSUE_KEYS, `legacy artifact.issues[${index}]`);
+    ensure(Array.isArray(item.acceptedEvidence), `legacy artifact.issues[${index}].acceptedEvidence must be an array`);
+    const submittedEvidence = item.acceptedEvidence.map((accepted) => {
+      exactKeys(accepted, ISSUE_ACCEPTED_EVIDENCE_KEYS, `legacy artifact.issues[${index}].acceptedEvidence`);
+      return { contributor: accepted.contributor, evidenceUrl: accepted.evidenceUrl, submittedAt: item.updatedAt };
+    });
+    return { ...item, submittedEvidence };
+  });
+  const migrated = { ...value, issues: migratedIssues };
+  assertEvidenceIssueSnapshot(migrated);
+  return migrated;
 }
 
 export function assertEvidenceTaskLedgerEntry(value: unknown, path = "entry"): asserts value is EvidenceTaskLedgerEntry {
@@ -506,9 +620,18 @@ export function assertAcceptedEvidenceEntry(value: unknown, path = "entry"): ass
   assertTargetField(value.targetField, `${path}.targetField`);
   assertCategoryTarget(value.category, value.targetField, path);
   assertCategorySubject(value.category, value.subject, path);
-  ensure(LOGIN.test(String(value.contributor)), `${path}.contributor is invalid`);
+  ensure(humanLogin(value.contributor), `${path}.contributor is invalid`);
   ensure(normalizedHttpsUrl(value.evidenceUrl), `${path}.evidenceUrl must be normalized HTTPS`);
   ensure(canonicalTimestamp(value.acceptedAt), `${path}.acceptedAt must be a canonical ISO timestamp`);
+  const entry = value as unknown as AcceptedEvidenceEntry;
+  ensure(entry.id === buildContributionEventId({
+    taskId: entry.taskId,
+    issueNumber: entry.issueNumber,
+    contributor: entry.contributor,
+    evidenceUrl: entry.evidenceUrl,
+    state: "accepted",
+    occurredAt: entry.acceptedAt,
+  }), `${path}.id is not the stable accepted contribution identity`);
 }
 
 export function assertAcceptedEvidenceArtifact(value: unknown): asserts value is AcceptedEvidenceArtifact {
@@ -530,7 +653,7 @@ export function assertContributionStateEvent(value: unknown, path = "event"): as
   ensure(nonEmptyString(value.id), `${path}.id is invalid`);
   assertTaskIdentity(value.taskId, `${path}.taskId`);
   ensure(positiveInteger(value.issueNumber), `${path}.issueNumber must be a positive integer`);
-  ensure(LOGIN.test(String(value.contributor)), `${path}.contributor is invalid`);
+  ensure(humanLogin(value.contributor), `${path}.contributor is invalid`);
   ensure(normalizedHttpsUrl(value.evidenceUrl), `${path}.evidenceUrl must be normalized HTTPS`);
   assertCategory(value.category, `${path}.category`);
   assertEvidenceSubject(value.subject, `${path}.subject`);
@@ -540,8 +663,10 @@ export function assertContributionStateEvent(value: unknown, path = "event"): as
   ensure(CONTRIBUTION_STATES.has(value.state as ContributionState), `${path}.state is invalid`);
   ensure(canonicalTimestamp(value.occurredAt), `${path}.occurredAt must be a canonical ISO timestamp`);
   ensure(normalizedHttpsUrl(value.sourceUrl), `${path}.sourceUrl must be normalized HTTPS`);
-  ensure(value.publicTargetUrl === null || normalizedHttpsUrl(value.publicTargetUrl), `${path}.publicTargetUrl must be null or normalized HTTPS`);
+  ensure(value.publicTargetUrl === null || isNormalizedCommunityPublicTargetUrl(value.publicTargetUrl), `${path}.publicTargetUrl must be null or normalized HTTPS`);
   ensure(value.state === "promoted" ? value.publicTargetUrl !== null : value.publicTargetUrl === null, `${path}.state and publicTargetUrl disagree`);
+  const event = value as unknown as ContributionStateEvent;
+  ensure(event.id === buildContributionEventId(event), `${path}.id is not the stable contribution identity`);
 }
 
 export function assertContributionLedgerArtifact(value: unknown): asserts value is ContributionLedgerArtifact {
@@ -558,7 +683,19 @@ export function assertContributionLedgerArtifact(value: unknown): asserts value 
 }
 
 function compareContributionEvent(left: ContributionStateEvent, right: ContributionStateEvent): number {
-  return compareStrings(left.occurredAt, right.occurredAt) || compareStrings(left.id, right.id);
+  const samePair = left.taskId === right.taskId
+    && left.issueNumber === right.issueNumber
+    && left.contributor === right.contributor
+    && left.evidenceUrl === right.evidenceUrl;
+  const submittedOrder = samePair && left.occurredAt === right.occurredAt
+    ? left.state === "submitted" && right.state !== "submitted" ? -1
+      : right.state === "submitted" && left.state !== "submitted" ? 1 : 0
+    : 0;
+  const acceptedPromotionOrder = samePair && left.occurredAt === right.occurredAt
+    ? left.state === "accepted" && right.state === "promoted" ? -1
+      : left.state === "promoted" && right.state === "accepted" ? 1 : 0
+    : 0;
+  return compareStrings(left.occurredAt, right.occurredAt) || submittedOrder || acceptedPromotionOrder || compareStrings(left.id, right.id);
 }
 
 export function assertCommunityTaskPublicView(value: unknown, path = "task"): asserts value is CommunityTaskPublicView {

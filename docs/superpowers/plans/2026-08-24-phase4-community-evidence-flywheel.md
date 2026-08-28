@@ -417,13 +417,13 @@ git commit -m "feat: automate evidence task WIP"
 
 **Interfaces:**
 - Consumes: Task 2 seeds, Task 4 GitHub projection, previous LKG artifacts, and the existing evidence enrichment/canonical promotion pipeline.
-- Produces atomically: `review/evidence-task-seeds.json`, `review/evidence-task-ledger.json`, `review/accepted-evidence.json`, `community/contributions.json`, and `site/data/community-tasks.json`.
+- Produces atomically: `review/evidence-task-seeds.json`, `review/evidence-task-ledger.json`, `review/accepted-evidence.json`, `review/accepted-evidence-revalidation.json`, `community/contributions.json`, and `site/data/community-tasks.json`.
 
 - [ ] **Step 1: Write a failing fixed-input integration test**
 
 Create a fixture with one task in each category and one accepted evidence Issue. Assert after generation:
 
-- all five artifacts exist and pass exact validators;
+- all six artifacts exist and pass exact validators;
 - accepted evidence appears in the enrichment/revalidation input;
 - it does not appear in canonical events, company profiles, research cards, or the homepage until normal evidence gates pass;
 - two fixed-input runs are byte-identical;
@@ -447,6 +447,8 @@ export function buildAcceptedEvidenceEnrichmentTargets(
 ```
 
 Each target keeps its actual evidence URL/domain and subject/target field. It must be fetched and pass existing entity, source-tier, field-consistency, conflict, and date checks before it can influence a canonical record.
+
+Implementation clarification from final review: the queue is not evidence. The daily transaction writes `review/accepted-evidence-revalidation.json` with bounded exact-URL fetch observations and structured outcomes. `canonical-promoted` is annotation-only; a `promoted` contribution event is derived solely from a current successful result whose exact subject, single field, URL, source tier, conflict/date checks, and canonical record binding are revalidated by the release gate.
 
 - [ ] **Step 4: Integrate the artifacts into the daily `FileTransaction`**
 

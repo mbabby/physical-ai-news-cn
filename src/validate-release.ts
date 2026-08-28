@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 import { isObject, readJsonStrict } from "./runtime/storage.js";
-import { validateCommunityEvidenceRelease, validateDecisionProductPublication, validateDualLedgerPublication, validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
+import { canonicalDashboardFacts, validateCommunityEvidenceRelease, validateDecisionProductPublication, validateDualLedgerPublication, validatePublication, validatePublicationArtifacts } from "./runtime/validation.js";
 import { validatePipelineHealthArtifact } from "./runtime/health.js";
 import type { DailyArchive, EventStore, PipelineHealth, ResearchRegistry, RunHistory, RunManifest } from "./types.js";
 import { isPublishableResearch } from "./event-center.js";
@@ -43,6 +43,10 @@ import {
   type EvidenceTaskLedgerArtifact,
   type EvidenceTaskSeedArtifact,
 } from "./community-evidence/contracts.js";
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  type AcceptedEvidenceRevalidationArtifact,
+} from "./community-evidence/revalidation.js";
 
 const defaultRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const execFileAsync = promisify(execFile);
@@ -82,6 +86,18 @@ async function publicTasksAtRevision(root: string, revision: string): Promise<Co
   return value;
 }
 
+async function revalidationAtRevision(root: string, revision: string): Promise<AcceptedEvidenceRevalidationArtifact | undefined> {
+  let stdout: string;
+  try {
+    ({ stdout } = await execFileAsync("git", ["-C", root, "show", `${revision}:review/accepted-evidence-revalidation.json`], { encoding: "utf8" }));
+  } catch {
+    return undefined;
+  }
+  const value: unknown = JSON.parse(stdout);
+  assertAcceptedEvidenceRevalidationArtifact(value);
+  return value;
+}
+
 async function revisionsForPath(root: string, path: string): Promise<string[]> {
   try {
     const { stdout } = await execFileAsync("git", ["-C", root, "rev-list", "HEAD^", "--", path], { encoding: "utf8" });
@@ -107,11 +123,28 @@ async function nearestPublicTasksAncestor(root: string): Promise<CommunityTaskPu
   return undefined;
 }
 
+async function nearestRevalidationAncestor(root: string): Promise<AcceptedEvidenceRevalidationArtifact | undefined> {
+  for (const revision of await revisionsForPath(root, "review/accepted-evidence-revalidation.json")) {
+    const artifact = await revalidationAtRevision(root, revision);
+    if (artifact) return artifact;
+  }
+  return undefined;
+}
+
 export function selectContributionHistoryBaseline(
   current: ContributionLedgerArtifact,
   head: ContributionLedgerArtifact | undefined,
   parent: ContributionLedgerArtifact | undefined,
 ): ContributionLedgerArtifact | undefined {
+  if (!head) return parent;
+  return stableBytes(current) === stableBytes(head) ? parent : head;
+}
+
+export function selectRevalidationHistoryBaseline(
+  current: AcceptedEvidenceRevalidationArtifact,
+  head: AcceptedEvidenceRevalidationArtifact | undefined,
+  parent: AcceptedEvidenceRevalidationArtifact | undefined,
+): AcceptedEvidenceRevalidationArtifact | undefined {
   if (!head) return parent;
   return stableBytes(current) === stableBytes(head) ? parent : head;
 }
@@ -126,6 +159,12 @@ async function committedPublicTaskArtifact(root: string, current: CommunityTaskP
   const head = await publicTasksAtRevision(root, "HEAD");
   if (head && stableBytes(current) !== stableBytes(head)) return head;
   return nearestPublicTasksAncestor(root);
+}
+
+async function committedRevalidationArtifact(root: string, current: AcceptedEvidenceRevalidationArtifact): Promise<AcceptedEvidenceRevalidationArtifact | undefined> {
+  const head = await revalidationAtRevision(root, "HEAD");
+  const parent = !head || stableBytes(current) === stableBytes(head) ? await nearestRevalidationAncestor(root) : undefined;
+  return selectRevalidationHistoryBaseline(current, head, parent);
 }
 
 function watchlistView(dashboard: DashboardData): WatchlistPublicView {
@@ -237,13 +276,15 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
   const acceptedEvidence = await readJsonStrict<AcceptedEvidenceArtifact>(join(root, "review", "accepted-evidence.json"), { label: "已采纳社区证据", validate: exactCommunityArtifact(assertAcceptedEvidenceArtifact) });
   const contributions = await readJsonStrict<ContributionLedgerArtifact>(join(root, "community", "contributions.json"), { label: "社区贡献历史", validate: exactCommunityArtifact(assertContributionLedgerArtifact) });
   const publicCommunityTasks = await readJsonStrict<CommunityTaskPublicArtifact>(join(root, "site", "data", "community-tasks.json"), { label: "公开社区任务", validate: exactCommunityArtifact(assertCommunityTaskPublicArtifact) });
+  const acceptedEvidenceRevalidation = await readJsonStrict<AcceptedEvidenceRevalidationArtifact>(join(root, "review", "accepted-evidence-revalidation.json"), { label: "已采纳证据复核", validate: exactCommunityArtifact(assertAcceptedEvidenceRevalidationArtifact) });
   const communityMetricsBytes = await readFile(join(root, "metrics", "community.json"), "utf8");
   const publicCommunityMetricsBytes = await readFile(join(root, "site", "data", "community.json"), "utf8");
   const readme = await readFile(join(root, "README.md"), "utf8");
-  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !decisionProducts || !decisionProductRetention || !decisionFeedManifest || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds || !evidenceTaskSeeds || !evidenceIssueSnapshot || !evidenceTaskLedger || !acceptedEvidence || !contributions || !publicCommunityTasks) throw new Error("发布产物不完整");
+  if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !decisionProducts || !decisionProductRetention || !decisionFeedManifest || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds || !evidenceTaskSeeds || !evidenceIssueSnapshot || !evidenceTaskLedger || !acceptedEvidence || !acceptedEvidenceRevalidation || !contributions || !publicCommunityTasks) throw new Error("发布产物不完整");
   if (communityMetricsBytes !== publicCommunityMetricsBytes) throw new Error("社区指标两个公开镜像不一致");
   const previousContributions = await committedContributionArtifact(root, contributions);
   const previousPublicTasks = await committedPublicTaskArtifact(root, publicCommunityTasks);
+  const previousRevalidation = await committedRevalidationArtifact(root, acceptedEvidenceRevalidation);
   const communityMetrics: unknown = JSON.parse(communityMetricsBytes);
   validateCommunityEvidenceRelease({
     seeds: evidenceTaskSeeds,
@@ -254,8 +295,20 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     publicTasks: publicCommunityTasks,
     previousPublicTasks,
     previousContributions,
+    previousRevalidation,
     communityMetrics,
-    canonicalPublicFacts: [archive, events, research, companies, dashboard, decisionProducts, readme],
+    revalidation: acceptedEvidenceRevalidation,
+    canonicalMatchContext: {
+      companies,
+      companyClaimLedger,
+      events: events.events,
+      researchDecisionCards: researchDecisionArtifact.cards,
+      researchRecords: research.records,
+      benchmarkResultLedger,
+      decisionProducts,
+      pagesBaseUrl: "https://mbabby.github.io/physical-ai-news-cn",
+    },
+    canonicalPublicFacts: [archive, events, research, companies, canonicalDashboardFacts(dashboard), decisionProducts, readme],
   });
   await validateCurrentWatchlistHistoryFiles(root, watchlistSnapshot);
   const historyFiles = (await readdir(join(root, "watchlist", "history"))).filter((file) => /^\d{4}-W\d{2}-v\d+\.json$/.test(file)).sort();

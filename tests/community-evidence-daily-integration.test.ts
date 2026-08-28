@@ -9,6 +9,7 @@ import {
   assertContributionLedgerArtifact,
   assertEvidenceTaskLedgerArtifact,
   assertEvidenceTaskSeedArtifact,
+  buildContributionEventId,
   buildEvidenceTaskId,
   type EvidenceIssue,
   type EvidenceIssueSnapshot,
@@ -29,6 +30,7 @@ const ARTIFACT_PATHS = [
   "review/evidence-issue-snapshot.json",
   "review/evidence-task-ledger.json",
   "review/accepted-evidence.json",
+  "review/accepted-evidence-revalidation.json",
   "community/contributions.json",
   "site/data/community-tasks.json",
 ] as const;
@@ -86,6 +88,7 @@ function issue(task: EvidenceTaskSeed, number: number, accepted = false): Eviden
     updatedAt: accepted ? "2026-08-25T07:00:00.000Z" : "2026-08-24T08:00:00.000Z",
     closedAt: null,
     evidenceUrls: accepted ? [EVIDENCE_URL] : [],
+    submittedEvidence: accepted ? [{ contributor: "alice", evidenceUrl: EVIDENCE_URL, submittedAt: "2026-08-24T08:00:00.000Z" }] : [],
     acceptedContributors: accepted ? ["alice"] : [],
     acceptedEvidence: accepted ? [{ contributor: "alice", evidenceUrl: EVIDENCE_URL }] : [],
   };
@@ -136,11 +139,13 @@ test("daily community evidence projection is exact, revalidation-only, determini
     const storedSeeds = JSON.parse(stored["review/evidence-task-seeds.json"]!);
     const storedLedger = JSON.parse(stored["review/evidence-task-ledger.json"]!);
     const storedAccepted = JSON.parse(stored["review/accepted-evidence.json"]!);
+    const storedRevalidation = JSON.parse(stored["review/accepted-evidence-revalidation.json"]!);
     const storedContributions = JSON.parse(stored["community/contributions.json"]!);
     const storedPublic = JSON.parse(stored["site/data/community-tasks.json"]!);
     assert.doesNotThrow(() => assertEvidenceTaskSeedArtifact(storedSeeds));
     assert.doesNotThrow(() => assertEvidenceTaskLedgerArtifact(storedLedger));
     assert.doesNotThrow(() => assertAcceptedEvidenceArtifact(storedAccepted));
+    assert.equal(storedRevalidation.status, "degraded");
     assert.doesNotThrow(() => assertContributionLedgerArtifact(storedContributions));
     assert.doesNotThrow(() => assertCommunityTaskPublicArtifact(storedPublic));
     assert.deepEqual(storedSeeds.seeds.map((item: EvidenceTaskSeed) => item.category), ["company-funding", "product-deployment", "research-metadata"]);
@@ -198,6 +203,75 @@ test("GitHub failure reuses the prior valid projection and reports degradation",
   }
 });
 
+test("GitHub failure migrates an exact legacy v1 Issue snapshot instead of losing the LKG", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-evidence-legacy-snapshot-"));
+  try {
+    await initializeRoot(root);
+    const artifact = seeds();
+    const firstTransaction = new FileTransaction("community-evidence-legacy-first");
+    await project(root, firstTransaction, artifact, async () => snapshot(artifact));
+    await firstTransaction.commit();
+    const snapshotPath = join(root, "review", "evidence-issue-snapshot.json");
+    const legacy = JSON.parse(await readFile(snapshotPath, "utf8"));
+    legacy.issues.forEach((item: Record<string, unknown>) => { delete item.submittedEvidence; });
+    await writeFile(snapshotPath, `${JSON.stringify(legacy, null, 2)}\n`);
+
+    const transaction = new FileTransaction("community-evidence-legacy-fallback");
+    const result = await project(root, transaction, seeds("-changed"), async () => { throw new Error("GitHub unavailable"); });
+    await transaction.commit();
+    assert.equal(result.status.status, "部分降级");
+    const migrated = JSON.parse(await readFile(snapshotPath, "utf8"));
+    assert.ok(migrated.issues.every((item: { submittedEvidence?: unknown[] }) => Array.isArray(item.submittedEvidence)));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("GitHub failure preserves and safely upgrades a nonempty pre-revalidation v1 LKG", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-evidence-legacy-group-"));
+  try {
+    await initializeRoot(root);
+    const artifact = seeds();
+    const firstTransaction = new FileTransaction("community-evidence-legacy-group-first");
+    await project(root, firstTransaction, artifact, async () => snapshot(artifact));
+    await firstTransaction.commit();
+
+    const snapshotPath = join(root, "review", "evidence-issue-snapshot.json");
+    const legacySnapshot = JSON.parse(await readFile(snapshotPath, "utf8"));
+    legacySnapshot.issues.forEach((item: Record<string, unknown>) => { delete item.submittedEvidence; });
+    await writeFile(snapshotPath, `${JSON.stringify(legacySnapshot, null, 2)}\n`);
+    await rm(join(root, "review", "accepted-evidence-revalidation.json"));
+
+    const contributionsPath = join(root, "community", "contributions.json");
+    const legacyContributions = JSON.parse(await readFile(contributionsPath, "utf8"));
+    legacyContributions.events = legacyContributions.events.filter((event: { state: string }) => event.state !== "submitted");
+    assert.doesNotThrow(() => assertContributionLedgerArtifact(legacyContributions));
+    await writeFile(contributionsPath, `${JSON.stringify(legacyContributions, null, 2)}\n`);
+
+    const preservedPaths = ARTIFACT_PATHS.filter((path) => path !== "review/evidence-issue-snapshot.json"
+      && path !== "review/accepted-evidence-revalidation.json");
+    const preserved = Object.fromEntries(await Promise.all(preservedPaths.map(async (path) => [path, await readFile(join(root, path), "utf8")] as const)));
+
+    const transaction = new FileTransaction("community-evidence-legacy-group-fallback");
+    const result = await project(root, transaction, seeds("-changed"), async () => { throw new Error("GitHub unavailable"); });
+    await transaction.commit();
+
+    assert.equal(result.status.status, "部分降级");
+    assert.equal(result.revalidation.status, "degraded");
+    assert.equal(result.revalidationStatus.attempted, result.accepted.entries.length);
+    assert.equal(result.revalidationStatus.failed, result.accepted.entries.length);
+    assert.ok(result.revalidation.results.every((item) => item.outcome === "deferred" && item.canonicalMatch === null));
+    assert.equal(result.publication.recentContributions.some((item) => item.state === "promoted"), false);
+    for (const [path, content] of Object.entries(preserved)) {
+      assert.equal(await readFile(join(root, path), "utf8"), content, path);
+    }
+    const migratedSnapshot = JSON.parse(await readFile(snapshotPath, "utf8"));
+    assert.ok(migratedSnapshot.issues.every((item: { submittedEvidence?: unknown[] }) => Array.isArray(item.submittedEvidence)));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("shape-valid accepted evidence inconsistent with the ledger fails closed without changing disk LKG", async () => {
   const root = await mkdtemp(join(tmpdir(), "community-evidence-relational-lkg-"));
   try {
@@ -210,6 +284,14 @@ test("shape-valid accepted evidence inconsistent with the ledger fails closed wi
     const acceptedPath = join(root, "review", "accepted-evidence.json");
     const accepted = JSON.parse(await readFile(acceptedPath, "utf8"));
     accepted.entries[0].taskId = artifact.seeds[1]!.id;
+    accepted.entries[0].id = buildContributionEventId({
+      taskId: accepted.entries[0].taskId,
+      issueNumber: accepted.entries[0].issueNumber,
+      contributor: accepted.entries[0].contributor,
+      evidenceUrl: accepted.entries[0].evidenceUrl,
+      state: "accepted",
+      occurredAt: accepted.entries[0].acceptedAt,
+    });
     assert.doesNotThrow(() => assertAcceptedEvidenceArtifact(accepted));
     await writeFile(acceptedPath, `${JSON.stringify(accepted, null, 2)}\n`);
     const before = await bytes(root);
@@ -274,6 +356,7 @@ test("append-only contribution history survives removal of its URL from a correc
     correctedIssue.labels = ["evidence-task", "evidence-task-company-funding", "source-withdrawn", "two-minute-task"].sort();
     correctedIssue.updatedAt = NOW;
     correctedIssue.evidenceUrls = [];
+    correctedIssue.submittedEvidence = [];
     correctedIssue.acceptedContributors = [];
     correctedIssue.acceptedEvidence = [];
     const secondTransaction = new FileTransaction("community-evidence-corrected-second");
@@ -283,7 +366,7 @@ test("append-only contribution history survives removal of its URL from a correc
     const accepted = JSON.parse(await readFile(join(root, "review", "accepted-evidence.json"), "utf8"));
     const contributions = JSON.parse(await readFile(join(root, "community", "contributions.json"), "utf8"));
     assert.deepEqual(accepted.entries, []);
-    assert.deepEqual(contributions.events.map((event: { state: string }) => event.state), ["accepted", "corrected"]);
+    assert.deepEqual(contributions.events.map((event: { state: string }) => event.state), ["submitted", "accepted", "corrected"]);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -304,13 +387,14 @@ test("accepted then corrected contribution history survives omission from a thir
     correctedIssue.labels = ["evidence-task", "evidence-task-company-funding", "source-withdrawn", "two-minute-task"].sort();
     correctedIssue.updatedAt = NOW;
     correctedIssue.evidenceUrls = [];
+    correctedIssue.submittedEvidence = [];
     correctedIssue.acceptedContributors = [];
     correctedIssue.acceptedEvidence = [];
     const secondTransaction = new FileTransaction("community-evidence-three-refresh-second");
     await project(root, secondTransaction, artifact, async () => correctedSnapshot);
     await secondTransaction.commit();
     const beforeOmission = JSON.parse(await readFile(join(root, "community", "contributions.json"), "utf8"));
-    assert.deepEqual(beforeOmission.events.map((event: { state: string }) => event.state), ["accepted", "corrected"]);
+    assert.deepEqual(beforeOmission.events.map((event: { state: string }) => event.state), ["submitted", "accepted", "corrected"]);
 
     const omittedSnapshot = structuredClone(correctedSnapshot);
     omittedSnapshot.issues = omittedSnapshot.issues.slice(1);
@@ -357,7 +441,7 @@ test("a changed-material seed may receive its ledger-derived supersession link",
   }
 });
 
-test("a shape-valid promoted contribution cannot target an unrelated public URL", async () => {
+test("canonical-promoted label alone cannot create a promoted contribution", async () => {
   const root = await mkdtemp(join(tmpdir(), "community-evidence-promoted-target-"));
   try {
     await initializeRoot(root);
@@ -370,19 +454,7 @@ test("a shape-valid promoted contribution cannot target an unrelated public URL"
 
     const contributionsPath = join(root, "community", "contributions.json");
     const contributions = JSON.parse(await readFile(contributionsPath, "utf8"));
-    const promoted = contributions.events.find((event: { state: string }) => event.state === "promoted");
-    assert.ok(promoted);
-    promoted.publicTargetUrl = "https://unrelated.example/wrong-target";
-    assert.doesNotThrow(() => assertContributionLedgerArtifact(contributions));
-    await writeFile(contributionsPath, `${JSON.stringify(contributions, null, 2)}\n`);
-    const before = await bytes(root);
-
-    const fallback = new FileTransaction("community-evidence-promoted-fallback");
-    await assert.rejects(
-      () => project(root, fallback, seeds("-changed"), async () => { throw new Error("GitHub unavailable"); }),
-      /promoted|promotion|public|公开|贡献/i,
-    );
-    assert.deepEqual(await bytes(root), before);
+    assert.equal(contributions.events.some((event: { state: string }) => event.state === "promoted"), false);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

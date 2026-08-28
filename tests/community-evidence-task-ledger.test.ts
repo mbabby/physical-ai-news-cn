@@ -87,6 +87,7 @@ function issue(task: EvidenceTaskSeed, overrides: Partial<EvidenceIssue> = {}): 
     updatedAt: "2026-08-24T00:00:00Z",
     closedAt: null,
     evidenceUrls: [],
+    submittedEvidence: [],
     acceptedContributors: [],
     acceptedEvidence: [],
     ...overrides,
@@ -214,6 +215,63 @@ test("a bot-applied stale label does not reset the fourteen-day inactivity clock
   assert.deepEqual(second.actions, [{ action: "close", issueNumber: 41, taskId: task.id, reason: "inactive-14-days" }]);
 });
 
+test("the first observed stale label preserves activity even while the prior ledger is still open", () => {
+  const task = seed("company-funding", "stale-label-race");
+  const day0 = "2026-08-10T12:00:00Z";
+  const labelAppliedAt = "2026-08-17T18:00:00Z";
+  const result = planEvidenceIssueActions({
+    seeds: seeds([task]),
+    issues: issues([issue(task, {
+      number: 41,
+      createdAt: day0,
+      updatedAt: labelAppliedAt,
+      labels: ["evidence-task", "stale"],
+    })]),
+    previousLedger: ledger([entry(task, {
+      issueNumber: 41,
+      issueUrl: `https://github.com/${REPO}/issues/41`,
+      state: "open",
+      createdAt: day0,
+      updatedAt: day0,
+      lastActivityAt: day0,
+    })]),
+    now: NOW,
+  });
+
+  assert.deepEqual(result.actions, [{ action: "close", issueNumber: 41, taskId: task.id, reason: "inactive-14-days" }]);
+  assert.equal(result.ledger.entries.find((item) => item.taskId === task.id)?.lastActivityAt, day0);
+});
+
+test("a bot-applied stale label preserves an earlier clock even when prior evidence exists", () => {
+  const task = seed("company-funding", "stale-label-with-evidence");
+  const day0 = "2026-08-10T12:00:00Z";
+  const labelAppliedAt = "2026-08-17T18:00:00Z";
+  const evidenceUrl = "https://evidence.example/prior-proof";
+  const result = planEvidenceIssueActions({
+    seeds: seeds([task]),
+    issues: issues([issue(task, {
+      number: 41,
+      createdAt: day0,
+      updatedAt: labelAppliedAt,
+      labels: ["evidence-task", "stale"],
+      evidenceUrls: [evidenceUrl],
+      submittedEvidence: [{ contributor: "alice", evidenceUrl, submittedAt: day0 }],
+    })]),
+    previousLedger: ledger([entry(task, {
+      issueNumber: 41,
+      issueUrl: `https://github.com/${REPO}/issues/41`,
+      state: "open",
+      createdAt: day0,
+      updatedAt: day0,
+      lastActivityAt: day0,
+    })]),
+    now: NOW,
+  });
+
+  assert.deepEqual(result.actions, [{ action: "close", issueNumber: 41, taskId: task.id, reason: "inactive-14-days" }]);
+  assert.equal(result.ledger.entries.find((item) => item.taskId === task.id)?.lastActivityAt, day0);
+});
+
 test("genuine activity after stale resets the inactivity clock", () => {
   const task = seed("company-funding", "stale-new-activity");
   const day0 = "2026-08-10T12:00:00Z";
@@ -234,6 +292,7 @@ test("genuine activity after stale resets the inactivity clock", () => {
       updatedAt: contributionAt,
       labels: ["evidence-task", "stale"],
       evidenceUrls: ["https://evidence.example/new"],
+      submittedEvidence: [{ contributor: "alice", evidenceUrl: "https://evidence.example/new", submittedAt: contributionAt }],
     })]),
     previousLedger: first.ledger,
     now: NOW,
@@ -251,6 +310,7 @@ test("genuine activity after stale resets the inactivity clock", () => {
       updatedAt: contributionAt,
       labels: ["evidence-task", "stale"],
       evidenceUrls: ["https://evidence.example/new"],
+      submittedEvidence: [{ contributor: "alice", evidenceUrl: "https://evidence.example/new", submittedAt: contributionAt }],
     })]),
     previousLedger: second.ledger,
     now: NOW,

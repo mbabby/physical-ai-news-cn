@@ -16,7 +16,7 @@ const FIXTURE_PATHS = [
 ];
 const COMMUNITY_PATHS = [
   "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
-  "review/accepted-evidence.json", "community/contributions.json", "site/data/community-tasks.json",
+  "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json", "site/data/community-tasks.json",
 ];
 
 async function fixtureCopy(target: string): Promise<void> {
@@ -100,6 +100,9 @@ test("fixture CLI is offline, fixed-clock, transactional, and byte-stable across
     assert.deepEqual(manifest.services.find((item) => item.component === "GitHub")
       && [manifest.services.find((item) => item.component === "GitHub")!.status,
         manifest.services.find((item) => item.component === "GitHub")!.attempted], ["成功", 1]);
+    assert.deepEqual(manifest.services.find((item) => item.component === "EvidenceRevalidation")
+      && [manifest.services.find((item) => item.component === "EvidenceRevalidation")!.status,
+        manifest.services.find((item) => item.component === "EvidenceRevalidation")!.attempted], ["成功", 0]);
     for (const path of COMMUNITY_PATHS) assert.ok(first[path], `${path} must be staged by the real transaction`);
     assert.match(firstRun.stdout, /完成/);
   } finally {

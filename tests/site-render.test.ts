@@ -99,3 +99,14 @@ test("browser renderer source retains the expected task affordances without addi
   assert.match(app, /证据门槛/);
   assert.doesNotMatch(app, /communityTasks\.sort|recentContributions\.sort/);
 });
+
+test("decision company cards and research passports expose their stable IDs as deep-link anchors", async () => {
+  const [app, sharePages] = await Promise.all([
+    readFile(join(root, "site", "app.js"), "utf8"),
+    readFile(join(root, "site", "share-pages.js"), "utf8"),
+  ]);
+  assert.match(app, /id="\$\{safe\(item\.cardId\)\}"[^>]*data-card-id=/);
+  assert.match(app, /id="\$\{safe\(item\.passportId\)\}"[^>]*data-passport-id=/);
+  assert.match(sharePages, /id="\$\{safe\(item\.cardId\)\}"[^>]*data-card-id=/);
+  assert.match(sharePages, /id="\$\{safe\(item\.passportId\)\}"[^>]*data-passport-id=/);
+});

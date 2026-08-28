@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
+import { assertEvidenceIssueSnapshot } from "../src/community-evidence/contracts.js";
 
 const root = process.cwd();
 
@@ -76,6 +77,41 @@ test("Issue snapshot export aborts on malformed, duplicate, or conflicting task 
     assert.notEqual(result.status, 0, body);
     assert.match(result.stderr, /malformed or duplicate task marker/i);
   }
+
+  const validBot = spawnSync("jq", ["-s", "--arg", "fetchedAt", "2026-08-25T00:00:00Z", "--arg", "repo", "acme/repo", filter], {
+    input: `${JSON.stringify({
+      ...baseIssue,
+      body: `<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-version:1 -->`,
+      user: { login: "github-actions[bot]" },
+    })}\n`,
+    encoding: "utf8",
+  });
+  assert.equal(validBot.status, 0, validBot.stderr);
+  assert.doesNotThrow(() => assertEvidenceIssueSnapshot(JSON.parse(validBot.stdout)));
+
+  const ordinaryComment = spawnSync("jq", ["-s", "--arg", "fetchedAt", "2026-08-25T00:00:00Z", "--arg", "repo", "acme/repo", filter], {
+    input: `${JSON.stringify({
+      ...baseIssue,
+      body: `<!-- evidence-task-id:${validId} -->\n<!-- evidence-task-version:1 -->`,
+      updated_at: "2026-08-24T02:00:00Z",
+      comments: [{
+        body: "Ordinary reply https://evidence.example/human-proof",
+        user: { login: "helper" },
+        author_association: "NONE",
+        created_at: "2026-08-24T01:30:00Z",
+        updated_at: "2026-08-24T01:30:00Z",
+      }],
+    })}\n`,
+    encoding: "utf8",
+  });
+  assert.equal(ordinaryComment.status, 0, ordinaryComment.stderr);
+  const ordinarySnapshot = JSON.parse(ordinaryComment.stdout);
+  assert.deepEqual(ordinarySnapshot.issues[0]?.submittedEvidence, [{
+    contributor: "helper",
+    evidenceUrl: "https://evidence.example/human-proof",
+    submittedAt: "2026-08-24T01:30:00Z",
+  }]);
+  assert.doesNotThrow(() => assertEvidenceIssueSnapshot(ordinarySnapshot));
 });
 
 test("weekly evidence automation previews or idempotently applies only planner Issue actions", async () => {
@@ -99,4 +135,11 @@ test("weekly evidence automation previews or idempotently applies only planner I
   assert.doesNotMatch(workflow, /git\s+(?:add|commit|push)\b/);
   assert.doesNotMatch(workflow, /(?:>|>>|tee|cp|mv|install|sed\s+-i)[^\n]*(?:events\/|company-profiles|research-cards|README|site\/data)/i);
   assert.doesNotMatch(workflow, /review\/watchlist-issue-seeds\.json/);
+});
+
+test("daily summary exposes credential-free accepted-evidence revalidation status", async () => {
+  const workflow = await readFile(join(root, ".github", "workflows", "daily-digest.yml"), "utf8");
+  assert.match(workflow, /EvidenceRevalidation/);
+  assert.match(workflow, /社区证据/);
+  assert.doesNotMatch(workflow, /echo .*GITHUB_TOKEN/);
 });

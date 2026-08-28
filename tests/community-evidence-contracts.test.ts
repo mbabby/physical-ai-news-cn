@@ -8,7 +8,9 @@ import {
   assertEvidenceTaskLedgerArtifact,
   assertEvidenceTaskSeed,
   assertEvidenceTaskSeedArtifact,
+  buildContributionEventId,
   buildEvidenceTaskId,
+  migrateLegacyEvidenceIssueSnapshot,
   type EvidenceSubject,
   type EvidenceTaskSeed,
 } from "../src/community-evidence/contracts.js";
@@ -129,6 +131,7 @@ test("every artifact validator enforces exact nested keys and canonical clocks",
       updatedAt: "2026-08-23T01:00:00Z",
       closedAt: null,
       evidenceUrls: ["https://alpha.example/funding"],
+      submittedEvidence: [],
       acceptedContributors: [],
       acceptedEvidence: [],
     }],
@@ -161,7 +164,14 @@ test("every artifact validator enforces exact nested keys and canonical clocks",
     schemaVersion: 1,
     generatedAt: "2026-08-24T01:00:00Z",
     entries: [{
-      id: "accepted-evidence-1",
+      id: buildContributionEventId({
+        taskId: validSeed().id,
+        issueNumber: 42,
+        contributor: "alice",
+        evidenceUrl: "https://alpha.example/funding",
+        state: "accepted",
+        occurredAt: "2026-08-24T01:00:00Z",
+      }),
       taskId: validSeed().id,
       issueNumber: 42,
       category: "company-funding",
@@ -178,7 +188,14 @@ test("every artifact validator enforces exact nested keys and canonical clocks",
     schemaVersion: 1,
     generatedAt: "2026-08-24T01:00:00Z",
     events: [{
-      id: "contribution-event-1",
+      id: buildContributionEventId({
+        taskId: validSeed().id,
+        issueNumber: 42,
+        contributor: "alice",
+        evidenceUrl: "https://alpha.example/funding",
+        state: "accepted",
+        occurredAt: "2026-08-24T01:00:00Z",
+      }),
       taskId: validSeed().id,
       issueNumber: 42,
       contributor: "alice",
@@ -238,6 +255,10 @@ test("issue snapshots retain exact contributor-to-evidence attribution", () => {
       updatedAt: "2026-08-23T01:00:00Z",
       closedAt: null,
       evidenceUrls: ["https://alpha.example/funding", "https://investor.example/alpha"],
+      submittedEvidence: [
+        { contributor: "alice", evidenceUrl: "https://alpha.example/funding", submittedAt: "2026-08-21T01:00:00Z" },
+        { contributor: "bob", evidenceUrl: "https://investor.example/alpha", submittedAt: "2026-08-22T01:00:00Z" },
+      ],
       acceptedContributors: ["alice", "bob"],
       acceptedEvidence: [
         { contributor: "alice", evidenceUrl: "https://alpha.example/funding" },
@@ -250,6 +271,62 @@ test("issue snapshots retain exact contributor-to-evidence attribution", () => {
     ...base,
     issues: [{ ...base.issues[0], acceptedEvidence: [{ contributor: "alice", evidenceUrl: "https://investor.example/alpha" }] }],
   }), /acceptedEvidence/);
+});
+
+test("Issue authors accept GitHub bot actors without allowing bots as evidence contributors", () => {
+  const base = {
+    schemaVersion: 1,
+    fetchedAt: "2026-08-24T01:00:00Z",
+    repo: "acme/physical-ai-news-cn",
+    issues: [{
+      number: 42,
+      taskId: validSeed().id,
+      taskVersion: 1,
+      state: "open",
+      labels: ["two-minute-task"],
+      authorLogin: "github-actions[bot]",
+      authorAssociation: "NONE",
+      createdAt: "2026-08-20T01:00:00Z",
+      updatedAt: "2026-08-23T01:00:00Z",
+      closedAt: null,
+      evidenceUrls: ["https://alpha.example/funding"],
+      submittedEvidence: [],
+      acceptedContributors: [],
+      acceptedEvidence: [],
+    }],
+  };
+  assert.doesNotThrow(() => assertEvidenceIssueSnapshot(base));
+  assert.throws(() => assertEvidenceIssueSnapshot({
+    ...base,
+    issues: [{
+      ...base.issues[0],
+      acceptedContributors: ["github-actions[bot]"],
+      acceptedEvidence: [{ contributor: "github-actions[bot]", evidenceUrl: "https://alpha.example/funding" }],
+    }],
+  }), /contributor|login/i);
+});
+
+test("migrates only the exact legacy v1 Issue shape and fail-closes unknown fields", () => {
+  const current = {
+    schemaVersion: 1,
+    fetchedAt: "2026-08-24T01:00:00Z",
+    repo: "acme/physical-ai-news-cn",
+    issues: [{
+      number: 42, taskId: validSeed().id, taskVersion: 1, state: "open", labels: ["accepted-evidence", "two-minute-task"],
+      authorLogin: "alice", authorAssociation: "CONTRIBUTOR", createdAt: "2026-08-20T01:00:00Z",
+      updatedAt: "2026-08-23T01:00:00Z", closedAt: null, evidenceUrls: ["https://alpha.example/funding"],
+      submittedEvidence: [{ contributor: "alice", evidenceUrl: "https://alpha.example/funding", submittedAt: "2026-08-21T01:00:00Z" }],
+      acceptedContributors: ["alice"], acceptedEvidence: [{ contributor: "alice", evidenceUrl: "https://alpha.example/funding" }],
+    }],
+  };
+  const legacy = structuredClone(current) as typeof current & { issues: Array<Record<string, unknown>> };
+  delete legacy.issues[0]!.submittedEvidence;
+  const migrated = migrateLegacyEvidenceIssueSnapshot(legacy);
+  assert.deepEqual(migrated.issues[0]?.submittedEvidence, [{
+    contributor: "alice", evidenceUrl: "https://alpha.example/funding", submittedAt: "2026-08-23T01:00:00Z",
+  }]);
+  assert.doesNotThrow(() => assertEvidenceIssueSnapshot(migrated));
+  assert.throws(() => migrateLegacyEvidenceIssueSnapshot({ ...legacy, unsafeLegacyField: true }), /exact keys|legacy/i);
 });
 
 test("category contracts bind the canonical subject kind", () => {
@@ -273,6 +350,7 @@ test("issue and ledger lifecycle clocks must be causally ordered", () => {
     updatedAt: "2026-08-23T01:00:00Z",
     closedAt: "2026-08-22T01:00:00Z",
     evidenceUrls: [],
+    submittedEvidence: [],
     acceptedContributors: [],
     acceptedEvidence: [],
   };
@@ -300,7 +378,14 @@ test("issue and ledger lifecycle clocks must be causally ordered", () => {
 test("accepted and contribution records cannot be newer than their artifacts", () => {
   const seed = validSeed();
   const acceptedEntry = {
-    id: "accepted-evidence-1",
+    id: buildContributionEventId({
+      taskId: seed.id,
+      issueNumber: 42,
+      contributor: "alice",
+      evidenceUrl: "https://alpha.example/funding",
+      state: "accepted",
+      occurredAt: "2026-08-25T01:00:00Z",
+    }),
     taskId: seed.id,
     issueNumber: 42,
     category: seed.category,
@@ -313,7 +398,14 @@ test("accepted and contribution records cannot be newer than their artifacts", (
   assert.throws(() => assertAcceptedEvidenceArtifact({ schemaVersion: 1, generatedAt: "2026-08-24T01:00:00Z", entries: [acceptedEntry] }), /newer than generatedAt/);
 
   const event = {
-    id: "contribution-event-1",
+    id: buildContributionEventId({
+      taskId: seed.id,
+      issueNumber: 42,
+      contributor: "alice",
+      evidenceUrl: "https://alpha.example/funding",
+      state: "accepted",
+      occurredAt: "2026-08-25T01:00:00Z",
+    }),
     taskId: seed.id,
     issueNumber: 42,
     contributor: "alice",
@@ -327,4 +419,50 @@ test("accepted and contribution records cannot be newer than their artifacts", (
     publicTargetUrl: null,
   };
   assert.throws(() => assertContributionLedgerArtifact({ schemaVersion: 1, generatedAt: "2026-08-24T01:00:00Z", events: [event] }), /newer than generatedAt/);
+});
+
+test("stable contribution IDs are public and independently enforced by exact validators", () => {
+  const identity = {
+    taskId: "evidence-task-0123456789abcdef01234567",
+    issueNumber: 42,
+    contributor: "alice",
+    evidenceUrl: "https://alpha.example/funding",
+    state: "accepted" as const,
+    occurredAt: "2026-08-24T01:00:00Z",
+  };
+  const expected = "d58bf5898ce669dd4479313f543355b8fbab2202622652b8e1b167c602a86acc";
+  assert.equal(buildContributionEventId(identity), expected);
+
+  const acceptedEntry = {
+    id: expected,
+    taskId: identity.taskId,
+    issueNumber: identity.issueNumber,
+    category: "company-funding" as const,
+    subject,
+    targetField: "funding.amount" as const,
+    contributor: identity.contributor,
+    evidenceUrl: identity.evidenceUrl,
+    acceptedAt: identity.occurredAt,
+  };
+  const event = {
+    ...identity,
+    id: expected,
+    category: "company-funding" as const,
+    subject,
+    targetField: "funding.amount" as const,
+    sourceUrl: "https://github.com/acme/repo/issues/42",
+    publicTargetUrl: null,
+  };
+  assert.doesNotThrow(() => assertAcceptedEvidenceArtifact({ schemaVersion: 1, generatedAt: identity.occurredAt, entries: [acceptedEntry] }));
+  assert.doesNotThrow(() => assertContributionLedgerArtifact({ schemaVersion: 1, generatedAt: identity.occurredAt, events: [event] }));
+  assert.throws(() => assertAcceptedEvidenceArtifact({
+    schemaVersion: 1,
+    generatedAt: identity.occurredAt,
+    entries: [{ ...acceptedEntry, id: "forged-but-matching" }],
+  }), /stable|identity|id/i);
+  assert.throws(() => assertContributionLedgerArtifact({
+    schemaVersion: 1,
+    generatedAt: identity.occurredAt,
+    events: [{ ...event, id: "forged-but-matching" }],
+  }), /stable|identity|id/i);
 });

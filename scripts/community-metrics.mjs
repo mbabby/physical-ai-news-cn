@@ -1,9 +1,9 @@
 import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { assertContributionLedgerArtifact } from "../src/community-evidence/contracts.ts";
 
 const DEFAULT_REPOSITORY = "mbabby/physical-ai-news-cn";
-const ACCEPTED_EVIDENCE_LABELS = ["accepted-evidence", "evidence-accepted"];
 
 function uniqueLogins(logins) {
   const automationAccounts = new Set(["actions-user", "github-actions", "dependabot"]);
@@ -179,15 +179,12 @@ async function collectTraffic(fetchImpl, apiBase, repository, token) {
   }
 }
 
-async function collectAcceptedEvidenceContributors(fetchImpl, apiBase, repository, token) {
-  if (!token) return null;
+function collectAcceptedEvidenceContributors(contributions) {
   try {
-    const issuesByLabel = await Promise.all(
-      ACCEPTED_EVIDENCE_LABELS.map((label) =>
-        githubJson(fetchImpl, `${apiBase}/repos/${repository}/issues?state=all&labels=${encodeURIComponent(label)}&per_page=100`, token),
-      ),
-    );
-    return uniqueLogins(issuesByLabel.flatMap((issues) => Array.isArray(issues) ? issues.map((issue) => issue?.user?.login) : []));
+    assertContributionLedgerArtifact(contributions);
+    return uniqueLogins(contributions.events
+      .filter((event) => event.state === "accepted")
+      .map((event) => event.contributor));
   } catch {
     return null;
   }
@@ -200,17 +197,18 @@ export async function collectCommunityMetrics({
   now = new Date(),
   previous,
   flywheel,
+  contributions,
   apiBase = "https://api.github.com",
 } = {}) {
   const repo = safeRepository(repository);
   const generatedAt = now.toISOString();
   const result = normalizeExisting(previous, generatedAt);
 
-  const [repositoryResult, codeContributorsResult, traffic, acceptedEvidenceContributors] = await Promise.all([
+  const acceptedEvidenceContributors = collectAcceptedEvidenceContributors(contributions);
+  const [repositoryResult, codeContributorsResult, traffic] = await Promise.all([
     githubJson(fetchImpl, `${apiBase}/repos/${repo}`, "").catch(() => null),
     githubJson(fetchImpl, `${apiBase}/repos/${repo}/contributors?per_page=100&anon=false`, "").catch(() => null),
     collectTraffic(fetchImpl, apiBase, repo, token),
-    collectAcceptedEvidenceContributors(fetchImpl, apiBase, repo, token),
   ]);
 
   if (repositoryResult) {
@@ -249,7 +247,7 @@ async function readFlywheelArtifacts(root) {
     readPrevious(resolve(root, "review/evidence-task-ledger.json")),
     readPrevious(resolve(root, "community/contributions.json")),
   ]);
-  return publicTasks && ledger && contributions ? { publicTasks, ledger, contributions } : undefined;
+  return { publicTasks, ledger, contributions };
 }
 
 async function publishMirrorPair({ canonicalPath, publicPath, content, renameImpl = rename, transactionId = `${process.pid}-${Date.now()}` }) {
@@ -302,8 +300,14 @@ export async function runCommunityMetrics({
   const siteOutputPath = resolve(root, siteOutput);
   const previous = options.previous ?? await readPrevious(outputPath);
   const artifacts = await readFlywheelArtifacts(root);
-  const flywheel = options.flywheel ?? (artifacts ? buildFlywheelMetrics({ ...artifacts, now: options.now ?? new Date() }) : undefined);
-  const metrics = await collectCommunityMetrics({ ...options, previous, flywheel });
+  const completeFlywheel = artifacts.publicTasks && artifacts.ledger && artifacts.contributions;
+  const flywheel = options.flywheel ?? (completeFlywheel ? buildFlywheelMetrics({ ...artifacts, now: options.now ?? new Date() }) : undefined);
+  const metrics = await collectCommunityMetrics({
+    ...options,
+    previous,
+    flywheel,
+    contributions: options.contributions ?? artifacts.contributions,
+  });
   await publishMirrorPair({
     canonicalPath: outputPath,
     publicPath: siteOutputPath,

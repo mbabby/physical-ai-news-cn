@@ -128,14 +128,15 @@ function reconcileIssue(input: {
   const { issue, snapshot, prior, seed, now, nowMs, actions } = input;
   const current = seed ? { ...prior, category: seed.category, subject: seed.subject, targetField: seed.targetField, materialVersion: seed.materialVersion } : prior;
   const remoteTerminal = terminalLabel(issue);
-  const preserveStaleActivity = current.state === "stale"
-    && issue.labels.includes("stale")
-    && issue.evidenceUrls.length === 0;
-  const newEvidenceActivity = current.state === "stale"
-    && issue.evidenceUrls.length > 0
-    && Date.parse(issue.updatedAt) > Date.parse(current.updatedAt);
-  const remoteStale = issue.labels.includes("stale") && issue.evidenceUrls.length === 0;
-  const activityAt = preserveStaleActivity ? current.lastActivityAt : issue.updatedAt;
+  const latestSubmissionAt = issue.submittedEvidence.reduce(
+    (activityAt, submission) => latest(activityAt, submission.submittedAt),
+    current.lastActivityAt,
+  );
+  const newEvidenceActivity = Date.parse(latestSubmissionAt) > Date.parse(current.lastActivityAt);
+  const staleLabelWithoutNewEvidence = issue.labels.includes("stale") && !newEvidenceActivity;
+  const preserveStaleActivity = staleLabelWithoutNewEvidence;
+  const remoteStale = staleLabelWithoutNewEvidence && current.state !== "contributed";
+  const activityAt = newEvidenceActivity ? latestSubmissionAt : preserveStaleActivity ? current.lastActivityAt : issue.updatedAt;
   let state = current.state;
   let updatedAt = latest(current.updatedAt, issue.updatedAt);
   let closedAt = current.closedAt;
@@ -187,7 +188,7 @@ function reconcileIssue(input: {
     state,
     createdAt: Date.parse(current.createdAt) <= Date.parse(issue.createdAt) ? current.createdAt : issue.createdAt,
     updatedAt,
-    lastActivityAt: preserveStaleActivity ? current.lastActivityAt : latest(current.lastActivityAt, issue.updatedAt),
+    lastActivityAt: latest(current.lastActivityAt, activityAt),
     closedAt,
   };
 }

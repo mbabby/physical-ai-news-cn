@@ -154,6 +154,26 @@ jobs:
               ([.body | scan("(?im)(?:^|\\n)\\s*(?:证据链接|evidence url)\\s*[：:]\\s*(https://[^\\s<>\\\"\\x27)\\]]+)") | .[0]]
                 + [.comments[].body | scan("https://[^\\s<>\\\"\\x27)\\]]+")])
               | map(sub("[.,;:!?]+$"; "")) | unique | sort;
+            def human_login: type == "string" and test("^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$");
+            def submitted_evidence:
+              (([
+                  . as $issue
+                  | select($issue.user.login | human_login)
+                  | $issue.body
+                  | scan("(?im)(?:^|\\n)\\s*(?:证据链接|evidence url)\\s*[：:]\\s*(https://[^\\s<>\\\"\\x27)\\]]+)")
+                  | {contributor: $issue.user.login, evidenceUrl: (.[0] | sub("[.,;:!?]+$"; "")), submittedAt: $issue.created_at}
+                ] + [
+                  .comments[] as $comment
+                  | select($comment.user.login | human_login)
+                  | select(($comment.body | contains("<!-- accepted-contributor:")) | not)
+                  | $comment.body
+                  | scan("https://[^\\s<>\\\"\\x27)\\]]+")
+                  | {contributor: $comment.user.login, evidenceUrl: (. | sub("[.,;:!?]+$"; "")), submittedAt: $comment.created_at}
+                ])
+                | sort_by(.contributor, .evidenceUrl, .submittedAt)
+                | group_by([.contributor, .evidenceUrl])
+                | map(.[0])
+                | sort_by(.contributor, .evidenceUrl, .submittedAt));
             {
               schemaVersion: 1,
               fetchedAt: $fetchedAt,
@@ -173,6 +193,7 @@ jobs:
                     updatedAt: .updated_at,
                     closedAt: .closed_at,
                     evidenceUrls: evidence_urls,
+                    submittedEvidence: submitted_evidence,
                     acceptedContributors: [],
                     acceptedEvidence: []
                   }
@@ -184,18 +205,34 @@ jobs:
             import { readFile, writeFile } from "node:fs/promises";
             const [inputPath, outputPath] = process.argv.slice(1);
             const snapshot = JSON.parse(await readFile(inputPath, "utf8"));
+            const normalizeUrl = (candidate) => {
+              try {
+                const url = new URL(candidate);
+                if (url.protocol !== "https:" || !url.hostname || url.username || url.password) return undefined;
+                url.hash = "";
+                return url.toString();
+              } catch {
+                return undefined;
+              }
+            };
             for (const issue of snapshot.issues) {
-              const normalized = issue.evidenceUrls.flatMap((candidate) => {
-                try {
-                  const url = new URL(candidate);
-                  if (url.protocol !== "https:" || !url.hostname || url.username || url.password) return [];
-                  url.hash = "";
-                  return [url.toString()];
-                } catch {
-                  return [];
-                }
-              });
-              issue.evidenceUrls = [...new Set(normalized)].sort();
+              const earliestSubmission = new Map();
+              for (const submission of issue.submittedEvidence) {
+                const evidenceUrl = normalizeUrl(submission.evidenceUrl);
+                if (!evidenceUrl) continue;
+                const normalized = {...submission, evidenceUrl};
+                const identity = `${normalized.contributor}\n${normalized.evidenceUrl}`;
+                const prior = earliestSubmission.get(identity);
+                if (!prior || normalized.submittedAt < prior.submittedAt) earliestSubmission.set(identity, normalized);
+              }
+              issue.submittedEvidence = [...earliestSubmission.values()].sort((left, right) =>
+                left.contributor.localeCompare(right.contributor)
+                  || left.evidenceUrl.localeCompare(right.evidenceUrl)
+                  || left.submittedAt.localeCompare(right.submittedAt));
+              issue.evidenceUrls = [...new Set([
+                ...issue.evidenceUrls.map(normalizeUrl).filter(Boolean),
+                ...issue.submittedEvidence.map((submission) => submission.evidenceUrl),
+              ])].sort();
             }
             await writeFile(outputPath, `${JSON.stringify(snapshot)}\n`, "utf8");
           ' "$UNNORMALIZED_ISSUE_SNAPSHOT" "$ISSUE_SNAPSHOT"

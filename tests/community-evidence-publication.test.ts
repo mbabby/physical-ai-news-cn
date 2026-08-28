@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  buildContributionEventId,
   buildEvidenceTaskId,
   type AcceptedEvidenceArtifact,
   type ContributionLedgerArtifact,
@@ -71,7 +72,10 @@ function fixture() {
     schemaVersion: 1,
     generatedAt: NOW,
     entries: [{
-      id: "accepted-evidence-4ec2a8dc6ee7b53a02bb71a3",
+      id: buildContributionEventId({
+        taskId: seeds[0]!.id, issueNumber: 41, contributor: "alice", evidenceUrl: "https://evidence.example/alpha",
+        state: "accepted", occurredAt: "2026-08-24T09:00:00.000Z",
+      }),
       taskId: seeds[0]!.id,
       issueNumber: 41,
       category: seeds[0]!.category,
@@ -86,20 +90,23 @@ function fixture() {
   const contributions: ContributionLedgerArtifact = {
     schemaVersion: 1,
     generatedAt: NOW,
-    events: states.map((state, index) => ({
-      id: `contribution-event-${String(index).padStart(24, "0")}`,
-      taskId: seeds[index % seeds.length]!.id,
-      issueNumber: 41 + (index % seeds.length),
-      contributor: index === 0 ? "alice" : "bob",
-      evidenceUrl: `https://evidence.example/${state}`,
-      category: seeds[index % seeds.length]!.category,
-      subject: seeds[index % seeds.length]!.subject,
-      targetField: seeds[index % seeds.length]!.targetField,
-      state,
-      occurredAt: `2026-08-24T${String(9 + index).padStart(2, "0")}:00:00.000Z`,
-      sourceUrl: `https://github.com/${REPOSITORY}/issues/${41 + (index % seeds.length)}`,
-      publicTargetUrl: state === "promoted" ? seeds[index % seeds.length]!.subject.url : null,
-    })).sort((left, right) => left.occurredAt.localeCompare(right.occurredAt)),
+    events: states.map((state, index) => {
+      const taskId = seeds[index % seeds.length]!.id;
+      const issueNumber = 41 + (index % seeds.length);
+      const contributor = index === 0 ? "alice" : "bob";
+      const evidenceUrl = `https://evidence.example/${state}`;
+      const occurredAt = `2026-08-24T${String(9 + index).padStart(2, "0")}:00:00.000Z`;
+      return {
+        id: buildContributionEventId({ taskId, issueNumber, contributor, evidenceUrl, state, occurredAt }),
+        taskId, issueNumber, contributor, evidenceUrl,
+        category: seeds[index % seeds.length]!.category,
+        subject: seeds[index % seeds.length]!.subject,
+        targetField: seeds[index % seeds.length]!.targetField,
+        state, occurredAt,
+        sourceUrl: `https://github.com/${REPOSITORY}/issues/${issueNumber}`,
+        publicTargetUrl: state === "promoted" ? seeds[index % seeds.length]!.subject.url : null,
+      };
+    }).sort((left, right) => left.occurredAt.localeCompare(right.occurredAt)),
   };
   return { seeds: seedArtifact, ledger, accepted, contributions };
 }

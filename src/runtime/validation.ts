@@ -18,6 +18,7 @@ import {
   assertEvidenceIssueSnapshot,
   assertEvidenceTaskLedgerArtifact,
   assertEvidenceTaskSeedArtifact,
+  buildContributionEventId,
   type AcceptedEvidenceArtifact,
   type CommunityTaskPublicArtifact,
   type ContributionLedgerArtifact,
@@ -25,6 +26,11 @@ import {
   type EvidenceTaskLedgerArtifact,
   type EvidenceTaskSeedArtifact,
 } from "../community-evidence/contracts.js";
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  canonicalMatchMatchesArtifacts,
+  type AcceptedEvidenceRevalidationArtifact,
+} from "../community-evidence/revalidation.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -46,8 +52,26 @@ export interface CommunityEvidenceReleaseValidationInput {
   publicTasks: CommunityTaskPublicArtifact;
   previousPublicTasks?: CommunityTaskPublicArtifact;
   previousContributions?: ContributionLedgerArtifact;
+  previousRevalidation?: AcceptedEvidenceRevalidationArtifact;
   communityMetrics: unknown;
+  revalidation: AcceptedEvidenceRevalidationArtifact;
+  canonicalMatchContext?: {
+    companies: import("../types.js").CompanyProfile[];
+    companyClaimLedger: CompanyClaimLedger;
+    events: EventStore["events"];
+    researchDecisionCards: ResearchDecisionCard[];
+    researchRecords: ResearchRecord[];
+    benchmarkResultLedger: BenchmarkResultLedger;
+    decisionProducts: DecisionProductArtifact;
+    pagesBaseUrl: string;
+  };
   canonicalPublicFacts?: readonly unknown[];
+}
+
+/** Exclude public attribution/progress data from the canonical-fact evidence scan. */
+export function canonicalDashboardFacts(dashboard: DashboardData): Omit<DashboardData, "communityEvidence"> {
+  const { communityEvidence: _communityEvidence, ...canonicalFacts } = dashboard;
+  return canonicalFacts;
 }
 
 function sameValue(left: unknown, right: unknown): boolean {
@@ -125,6 +149,12 @@ function validateCommunityMetrics(input: CommunityEvidenceReleaseValidationInput
     || value.contributors.count !== new Set([...code, ...acceptedContributors]).size) {
     throw new Error("Community metrics contributor aggregate is invalid");
   }
+  const expectedAcceptedContributors = [...new Set(input.contributions.events
+    .filter((event) => event.state === "accepted")
+    .map((event) => event.contributor))].sort();
+  if (!sameValue(acceptedContributors, expectedAcceptedContributors)) {
+    throw new Error("Community metrics accepted evidence contributors do not match the validated contribution ledger");
+  }
 
   const generatedAt = new Date(value.generatedAt);
   const day = generatedAt.getUTCDay() || 7;
@@ -160,17 +190,24 @@ export function validateCommunityEvidenceRelease(input: CommunityEvidenceRelease
   assertAcceptedEvidenceArtifact(input.accepted);
   assertContributionLedgerArtifact(input.contributions);
   assertCommunityTaskPublicArtifact(input.publicTasks);
+  assertAcceptedEvidenceRevalidationArtifact(input.revalidation);
   if (input.previousPublicTasks) assertCommunityTaskPublicArtifact(input.previousPublicTasks);
   if (input.previousContributions) assertContributionLedgerArtifact(input.previousContributions);
+  if (input.previousRevalidation) assertAcceptedEvidenceRevalidationArtifact(input.previousRevalidation);
 
   const generatedAt = input.ledger.generatedAt;
   if (input.seeds.generatedAt !== generatedAt || input.accepted.generatedAt !== generatedAt
-    || input.contributions.generatedAt !== generatedAt || input.publicTasks.generatedAt !== generatedAt) {
+    || input.contributions.generatedAt !== generatedAt || input.publicTasks.generatedAt !== generatedAt
+    || input.revalidation.generatedAt !== generatedAt) {
     throw new Error("Community evidence release artifacts do not share one generation clock");
   }
   if (input.previousContributions && !input.previousContributions.events.every((event, index) =>
     sameValue(event, input.contributions.events[index]))) {
     throw new Error("Contribution history must retain the previous event list as an exact append-only prefix");
+  }
+  if (input.previousRevalidation && !input.previousRevalidation.results.every((result, index) =>
+    sameValue(result, input.revalidation.results[index]))) {
+    throw new Error("Accepted evidence revalidation history must retain the previous result list as an exact append-only prefix");
   }
 
   const seeds = new Map(input.seeds.seeds.map((seed) => [seed.id, seed]));
@@ -211,13 +248,21 @@ export function validateCommunityEvidenceRelease(input: CommunityEvidenceRelease
   const activePairs = new Set<string>();
   const activeAcceptance = new Map<string, ContributionLedgerArtifact["events"][number]>();
   const promotedPairs = new Set<string>();
+  const promotionAcceptanceIds = new Map<string, string>();
   const submittedPairs = new Set<string>();
+  const grandfatheredAcceptanceIds = new Set<string>();
+  const previousSubmittedPairs = new Set<string>();
+  for (const event of input.previousContributions?.events ?? []) {
+    const key = contributionPair(event);
+    if (event.state === "submitted") previousSubmittedPairs.add(key);
+    else if (event.state === "accepted" && !previousSubmittedPairs.has(key)) grandfatheredAcceptanceIds.add(event.id);
+  }
   for (const event of input.contributions.events) {
+    if (event.id !== buildContributionEventId(event)) throw new Error(`Community contribution ${event.id} has an invalid stable identity`);
     const task = ledger.get(event.taskId);
     if (!task || task.issueNumber !== event.issueNumber || task.category !== event.category
       || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
-      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`
-      || (event.state === "promoted" && event.publicTargetUrl !== task.subject.url)) {
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`) {
       throw new Error(`Community contribution ${event.id} does not match its task or Issue reference`);
     }
     const key = contributionPair(event);
@@ -225,19 +270,19 @@ export function validateCommunityEvidenceRelease(input: CommunityEvidenceRelease
       if (activePairs.has(key) || submittedPairs.has(key)) throw new Error(`Community contribution ${event.id} has a duplicate submitted lifecycle`);
       submittedPairs.add(key);
     } else if (event.state === "accepted") {
-      if (activePairs.has(key)) throw new Error(`Community contribution ${event.id} has a duplicate accepted lifecycle`);
+      if ((!submittedPairs.has(key) && !grandfatheredAcceptanceIds.has(event.id)) || activePairs.has(key)) throw new Error(`Community contribution ${event.id} has an accepted lifecycle without a submitted event or has a duplicate acceptance`);
       activePairs.add(key);
       activeAcceptance.set(key, event);
     }
     else if (event.state === "promoted") {
       if (!activePairs.has(key) || promotedPairs.has(key)) throw new Error(`Community contribution ${event.id} has an invalid promotion lifecycle`);
+      promotionAcceptanceIds.set(event.id, activeAcceptance.get(key)!.id);
       promotedPairs.add(key);
     } else if (event.state === "corrected" || event.state === "withdrawn") {
       if (!activePairs.has(key)) throw new Error(`Community contribution ${event.id} ended before acceptance`);
       activePairs.delete(key);
       activeAcceptance.delete(key);
       promotedPairs.delete(key);
-      submittedPairs.delete(key);
     }
   }
 
@@ -247,7 +292,8 @@ export function validateCommunityEvidenceRelease(input: CommunityEvidenceRelease
     const issue = issues.get(entry.taskId);
     const key = contributionPair(entry);
     const acceptance = activeAcceptance.get(key);
-    if (!task || !issue || task.state !== "accepted" || task.issueNumber !== entry.issueNumber
+    if (entry.id !== buildContributionEventId({ ...entry, state: "accepted", occurredAt: entry.acceptedAt })
+      || !task || !issue || task.state !== "accepted" || task.issueNumber !== entry.issueNumber
       || !issue.labels.includes("accepted-evidence") || task.category !== entry.category
       || !sameValue(task.subject, entry.subject) || task.targetField !== entry.targetField
       || !issue.acceptedEvidence.some((item) => item.contributor === entry.contributor && item.evidenceUrl === entry.evidenceUrl)
@@ -257,6 +303,56 @@ export function validateCommunityEvidenceRelease(input: CommunityEvidenceRelease
   }
   if (activePairs.size !== acceptedPairs.size || [...activePairs].some((key) => !acceptedPairs.has(key))) {
     throw new Error("Active contribution history and accepted-evidence records disagree");
+  }
+
+  const acceptanceEvents = new Map(input.contributions.events.filter((event) => event.state === "accepted").map((event) => [event.id, event]));
+  for (const result of input.revalidation.results) {
+    const acceptance = acceptanceEvents.get(result.acceptedEvidenceId);
+    if (!acceptance || acceptance.taskId !== result.taskId || acceptance.issueNumber !== result.issueNumber
+      || acceptance.contributor !== result.contributor || acceptance.evidenceUrl !== result.evidenceUrl
+      || acceptance.subject.id !== result.subjectId || acceptance.targetField !== result.targetField
+      || Date.parse(acceptance.occurredAt) > Date.parse(result.attemptedAt)) {
+      throw new Error(`Accepted evidence revalidation result ${result.acceptedEvidenceId} is not bound to its historical acceptance event`);
+    }
+  }
+  const currentResults = input.revalidation.results.filter((result) => result.attemptedAt === generatedAt);
+  if (currentResults.length !== input.accepted.entries.length) {
+    throw new Error("Every active accepted evidence entry must have exactly one current revalidation result");
+  }
+  const currentByAcceptedId = new Map(currentResults.map((result) => [result.acceptedEvidenceId, result]));
+  if (currentByAcceptedId.size !== currentResults.length) throw new Error("Current accepted evidence revalidation results are duplicated");
+  for (const entry of input.accepted.entries) {
+    const result = currentByAcceptedId.get(entry.id);
+    if (!result || result.taskId !== entry.taskId || result.issueNumber !== entry.issueNumber
+      || result.contributor !== entry.contributor || result.evidenceUrl !== entry.evidenceUrl
+      || result.subjectId !== entry.subject.id || result.targetField !== entry.targetField) {
+      throw new Error(`Active accepted evidence ${entry.id} lacks an exact current revalidation binding`);
+    }
+  }
+
+  const previousPromotionIds = new Set((input.previousContributions?.events ?? []).filter((event) => event.state === "promoted").map((event) => event.id));
+  const previousProofs = input.previousRevalidation?.results ?? [];
+  for (const [eventIndex, event] of input.contributions.events.entries()) {
+    if (event.state !== "promoted") continue;
+    const proof = input.revalidation.results.find((result) => result.outcome === "matched" && result.canonicalMatch
+      && result.acceptedEvidenceId === promotionAcceptanceIds.get(event.id)
+      && result.taskId === event.taskId && result.issueNumber === event.issueNumber && result.contributor === event.contributor
+      && result.evidenceUrl === event.evidenceUrl && result.subjectId === event.subject.id && result.targetField === event.targetField
+      && result.canonicalMatch.matchedAt === event.occurredAt && result.canonicalMatch.publicTargetUrl === event.publicTargetUrl);
+    const laterTerminal = input.contributions.events.slice(eventIndex + 1).some((candidate) => contributionPair(candidate) === contributionPair(event)
+      && (candidate.state === "corrected" || candidate.state === "withdrawn"));
+    const inheritedPromotion = previousPromotionIds.has(event.id);
+    const inheritedProof = inheritedPromotion && proof
+      && previousProofs.some((candidate) => sameValue(candidate, proof));
+    const currentCanonicalProof = proof?.canonicalMatch && input.canonicalMatchContext
+      ? canonicalMatchMatchesArtifacts(event, proof.canonicalMatch, { ...input.canonicalMatchContext, now: new Date(proof.canonicalMatch.matchedAt) })
+      : false;
+    const validProof = inheritedPromotion
+      ? laterTerminal ? Boolean(inheritedProof) : currentCanonicalProof
+      : proof?.attemptedAt === input.revalidation.generatedAt && currentCanonicalProof;
+    if (!proof?.canonicalMatch || !validProof) {
+      throw new Error(`Promoted community contribution ${event.id} lacks a successful canonical revalidation proof`);
+    }
   }
 
   const priorPublicById = new Map((input.previousPublicTasks?.tasks ?? []).map((task) => [task.id, task]));

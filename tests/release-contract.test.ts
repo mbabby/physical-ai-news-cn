@@ -482,15 +482,17 @@ test("release validation reads and cross-validates the complete community eviden
     ["review", "evidence-issue-snapshot.json"],
     ["review", "evidence-task-ledger.json"],
     ["review", "accepted-evidence.json"],
+    ["review", "accepted-evidence-revalidation.json"],
     ["community", "contributions.json"],
     ["site", "data", "community-tasks.json"],
   ]) assert.match(source, new RegExp(`join\\(root, ${path.map((part) => `"${part}"`).join(", ")}\\)`));
   assert.match(source, /validateCommunityEvidenceRelease\(\{/);
+  assert.match(source, /canonicalDashboardFacts\(dashboard\)/);
   assert.match(source, /HEAD\^/);
 });
 
 test("checked-in bootstrap community evidence group is exact-valid at repository root", async () => {
-  const [seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics] = await Promise.all([
+  const [seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, revalidation] = await Promise.all([
     json<EvidenceTaskSeedArtifact>(join(root, "review", "evidence-task-seeds.json")),
     json<EvidenceIssueSnapshot>(join(root, "review", "evidence-issue-snapshot.json")),
     json<EvidenceTaskLedgerArtifact>(join(root, "review", "evidence-task-ledger.json")),
@@ -498,9 +500,10 @@ test("checked-in bootstrap community evidence group is exact-valid at repository
     json<ContributionLedgerArtifact>(join(root, "community", "contributions.json")),
     json<CommunityTaskPublicArtifact>(join(root, "site", "data", "community-tasks.json")),
     json<unknown>(join(root, "metrics", "community.json")),
+    json<import("../src/community-evidence/revalidation.js").AcceptedEvidenceRevalidationArtifact>(join(root, "review", "accepted-evidence-revalidation.json")),
   ]);
   assert.doesNotThrow(() => validateCommunityEvidenceRelease({
-    seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, canonicalPublicFacts: [],
+    seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, revalidation, canonicalPublicFacts: [],
   }));
   assert.doesNotMatch(JSON.stringify({ seeds, snapshot, ledger, accepted, contributions, publicTasks }),
     /candidateId|seedId|rawModelOutput|prompt|apiKey|token|secret|score|rank/i);

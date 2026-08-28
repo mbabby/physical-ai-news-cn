@@ -1,9 +1,9 @@
-import { createHash } from "node:crypto";
 import {
   assertAcceptedEvidenceArtifact,
   assertContributionLedgerArtifact,
   assertEvidenceIssueSnapshot,
   assertEvidenceTaskLedgerArtifact,
+  buildContributionEventId,
   buildEvidenceTaskId,
   type AcceptedEvidenceArtifact,
   type AcceptedEvidenceEntry,
@@ -14,19 +14,10 @@ import {
   type EvidenceTaskLedgerArtifact,
   type EvidenceTaskLedgerEntry,
 } from "./contracts.js";
-
-function eventIdentity(input: {
-  taskId: string;
-  issueNumber: number;
-  contributor: string;
-  evidenceUrl: string;
-  state: ContributionState;
-  occurredAt: string;
-}): string {
-  return createHash("sha256")
-    .update(`${input.taskId}${input.issueNumber}${input.contributor}${input.evidenceUrl}${input.state}${input.occurredAt}`)
-    .digest("hex");
-}
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  type AcceptedEvidenceRevalidationArtifact,
+} from "./revalidation.js";
 
 function pairIdentity(input: { taskId: string; issueNumber: number; contributor: string; evidenceUrl: string }): string {
   return `${input.taskId}\n${input.issueNumber}\n${input.contributor}\n${input.evidenceUrl}`;
@@ -35,7 +26,7 @@ function pairIdentity(input: { taskId: string; issueNumber: number; contributor:
 function validateHistory(previous: ContributionLedgerArtifact): void {
   assertContributionLedgerArtifact(previous);
   for (const event of previous.events) {
-    if (event.id !== eventIdentity(event)) throw new Error(`Contribution history event identity was mutated: ${event.id}`);
+    if (event.id !== buildContributionEventId(event)) throw new Error(`Contribution history event identity was mutated: ${event.id}`);
   }
 }
 
@@ -53,14 +44,18 @@ function resolveTask(issue: EvidenceIssue, ledger: EvidenceTaskLedgerArtifact): 
 
 function desiredState(issue: EvidenceIssue): ContributionState | null {
   if (issue.labels.includes("source-withdrawn")) return "corrected";
-  if (issue.labels.includes("canonical-promoted")) return "promoted";
   if (issue.labels.includes("accepted-evidence")) return "accepted";
   return null;
 }
 
 function compareEvents(left: ContributionStateEvent, right: ContributionStateEvent): number {
-  return left.occurredAt < right.occurredAt ? -1 : left.occurredAt > right.occurredAt ? 1
-    : left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
+  if (left.occurredAt !== right.occurredAt) return left.occurredAt < right.occurredAt ? -1 : 1;
+  const samePair = pairIdentity(left) === pairIdentity(right);
+  if (samePair && left.state === "submitted" && right.state !== "submitted") return -1;
+  if (samePair && right.state === "submitted" && left.state !== "submitted") return 1;
+  if (samePair && left.state === "accepted" && right.state === "promoted") return -1;
+  if (samePair && left.state === "promoted" && right.state === "accepted") return 1;
+  return left.id < right.id ? -1 : left.id > right.id ? 1 : 0;
 }
 
 function activeAcceptedTransition(events: ContributionStateEvent[]): ContributionStateEvent | undefined {
@@ -82,6 +77,7 @@ export function projectAcceptedEvidence(input: {
   taskLedger: EvidenceTaskLedgerArtifact;
   previousAccepted: AcceptedEvidenceArtifact;
   previousContributions: ContributionLedgerArtifact;
+  revalidation?: AcceptedEvidenceRevalidationArtifact;
   now: string;
 }): { accepted: AcceptedEvidenceArtifact; contributions: ContributionLedgerArtifact } {
   assertEvidenceIssueSnapshot(input.issues);
@@ -122,16 +118,44 @@ export function projectAcceptedEvidence(input: {
 
   for (const issue of input.issues.issues) {
     const state = desiredState(issue);
-    if (!state) continue;
+    if (!state && issue.submittedEvidence.length === 0) continue;
     const task = resolveTask(issue, input.taskLedger);
-    if ((state === "accepted" || state === "promoted") && issue.acceptedEvidence.length === 0) {
+    for (const submission of issue.submittedEvidence) {
+      const identity = pairIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...submission });
+      if ((historyByPair.get(identity) ?? []).length > 0) continue;
+      const event: ContributionStateEvent = {
+        id: buildContributionEventId({
+          taskId: issue.taskId,
+          issueNumber: issue.number,
+          contributor: submission.contributor,
+          evidenceUrl: submission.evidenceUrl,
+          state: "submitted",
+          occurredAt: submission.submittedAt,
+        }),
+        taskId: issue.taskId,
+        issueNumber: issue.number,
+        contributor: submission.contributor,
+        evidenceUrl: submission.evidenceUrl,
+        category: task.category,
+        subject: task.subject,
+        targetField: task.targetField,
+        state: "submitted",
+        occurredAt: submission.submittedAt,
+        sourceUrl: `https://github.com/${input.issues.repo}/issues/${issue.number}`,
+        publicTargetUrl: null,
+      };
+      transitions.push(event);
+      latestByPair.set(identity, event);
+    }
+    if (!state) continue;
+    if (state === "accepted" && issue.acceptedEvidence.length === 0) {
       throw new Error(`Accepted Issue ${issue.number} must bind at least one accepted evidence URL`);
     }
     for (const pair of issue.acceptedEvidence) {
       const identity = pairIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair });
       currentPairs.add(identity);
       let activeAcceptedEntry: AcceptedEvidenceEntry | undefined;
-      if (state === "accepted" || state === "promoted") {
+      if (state === "accepted") {
         const priorActive = previousAcceptedByPair.get(identity);
         const acceptedTransition = activeAcceptedTransition(historyByPair.get(identity) ?? []);
         if (priorActive) {
@@ -153,7 +177,7 @@ export function projectAcceptedEvidence(input: {
           };
         } else {
           const newAcceptance: ContributionStateEvent = {
-            id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state: "accepted", occurredAt: issue.updatedAt }),
+            id: buildContributionEventId({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state: "accepted", occurredAt: issue.updatedAt }),
             taskId: issue.taskId,
             issueNumber: issue.number,
             contributor: pair.contributor,
@@ -182,11 +206,9 @@ export function projectAcceptedEvidence(input: {
         }
         currentAccepted.push(activeAcceptedEntry);
       }
-      const sameAcceptancePromotion = state === "promoted" && activeAcceptedEntry !== undefined
-        && (historyByPair.get(identity) ?? []).some((event) => event.state === "promoted" && event.occurredAt === activeAcceptedEntry.acceptedAt);
-      if (state === "accepted" || sameAcceptancePromotion || latestByPair.get(identity)?.state === state) continue;
+      if (state === "accepted" || latestByPair.get(identity)?.state === state) continue;
       const event: ContributionStateEvent = {
-        id: eventIdentity({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state, occurredAt: issue.updatedAt }),
+        id: buildContributionEventId({ taskId: issue.taskId, issueNumber: issue.number, ...pair, state, occurredAt: issue.updatedAt }),
         taskId: issue.taskId,
         issueNumber: issue.number,
         contributor: pair.contributor,
@@ -197,7 +219,43 @@ export function projectAcceptedEvidence(input: {
         state,
         occurredAt: issue.updatedAt,
         sourceUrl: `https://github.com/${input.issues.repo}/issues/${issue.number}`,
-        publicTargetUrl: state === "promoted" ? task.subject.url : null,
+        publicTargetUrl: null,
+      };
+      transitions.push(event);
+      latestByPair.set(identity, event);
+    }
+  }
+
+  if (input.revalidation) {
+    assertAcceptedEvidenceRevalidationArtifact(input.revalidation);
+    if (input.revalidation.generatedAt !== input.now) throw new Error("Promotion proof must be current for this projection");
+    const acceptedById = new Map(currentAccepted.map((entry) => [entry.id, entry]));
+    for (const result of input.revalidation.results) {
+      if (result.attemptedAt !== input.revalidation.generatedAt || result.outcome !== "matched" || !result.canonicalMatch) continue;
+      if (result.canonicalMatch.matchedAt !== input.revalidation.generatedAt) throw new Error("Promotion proof match clock is stale");
+      const entry = acceptedById.get(result.acceptedEvidenceId);
+      if (!entry || entry.taskId !== result.taskId || entry.issueNumber !== result.issueNumber
+        || entry.contributor !== result.contributor || entry.evidenceUrl !== result.evidenceUrl
+        || entry.subject.id !== result.subjectId || entry.targetField !== result.targetField
+        || result.canonicalMatch.subjectId !== entry.subject.id || result.canonicalMatch.targetField !== entry.targetField
+        || result.canonicalMatch.evidenceUrl !== entry.evidenceUrl) {
+        throw new Error("Promotion proof does not bind the active accepted evidence entry");
+      }
+      const identity = pairIdentity(entry);
+      if (latestByPair.get(identity)?.state === "promoted") continue;
+      const event: ContributionStateEvent = {
+        id: buildContributionEventId({ ...entry, state: "promoted", occurredAt: result.canonicalMatch.matchedAt }),
+        taskId: entry.taskId,
+        issueNumber: entry.issueNumber,
+        contributor: entry.contributor,
+        evidenceUrl: entry.evidenceUrl,
+        category: entry.category,
+        subject: entry.subject,
+        targetField: entry.targetField,
+        state: "promoted",
+        occurredAt: result.canonicalMatch.matchedAt,
+        sourceUrl: `https://github.com/${input.issues.repo}/issues/${entry.issueNumber}`,
+        publicTargetUrl: result.canonicalMatch.publicTargetUrl,
       };
       transitions.push(event);
       latestByPair.set(identity, event);
@@ -213,7 +271,7 @@ export function projectAcceptedEvidence(input: {
     if (latestByPair.get(identity)?.state === state) continue;
     const task = resolveTask(issue, input.taskLedger);
     const event: ContributionStateEvent = {
-      id: eventIdentity({ ...entry, state, occurredAt: issue.updatedAt }),
+      id: buildContributionEventId({ ...entry, state, occurredAt: issue.updatedAt }),
       taskId: entry.taskId,
       issueNumber: entry.issueNumber,
       contributor: entry.contributor,

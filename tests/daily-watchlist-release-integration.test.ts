@@ -71,7 +71,9 @@ function communityEvidenceFixture(): { seeds: EvidenceTaskSeedArtifact; snapshot
       labels: ["evidence-task", `evidence-task-${item.category}`, ...(index === 0 ? ["accepted-evidence"] : []), "two-minute-task"].sort(),
       authorLogin: index === 0 ? "alice" : "maintainer", authorAssociation: index === 0 ? "FIRST_TIME_CONTRIBUTOR" : "MEMBER",
       createdAt: "2026-08-15T08:00:00.000Z", updatedAt: index === 0 ? "2026-08-16T07:00:00.000Z" : "2026-08-15T08:00:00.000Z", closedAt: null,
-      evidenceUrls: index === 0 ? [evidenceUrl] : [], acceptedContributors: index === 0 ? ["alice"] : [],
+      evidenceUrls: index === 0 ? [evidenceUrl] : [],
+      submittedEvidence: index === 0 ? [{ contributor: "alice", evidenceUrl, submittedAt: "2026-08-15T08:00:00.000Z" }] : [],
+      acceptedContributors: index === 0 ? ["alice"] : [],
       acceptedEvidence: index === 0 ? [{ contributor: "alice", evidenceUrl }] : [],
     })),
   };
@@ -146,7 +148,7 @@ async function copyFixture(target: string): Promise<void> {
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
   await Promise.all([
     "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
-    "review/accepted-evidence.json", "community/contributions.json", "site/data/community-tasks.json",
+    "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json", "site/data/community-tasks.json",
   ].map((path) => rm(join(target, path), { force: true })));
   await rm(join(target, "site/data/decision-products.json"), { force: true });
   // Daily archives, research metadata and source registries are mutable
@@ -277,6 +279,8 @@ async function runFixedGeneration(root: string, options: {
   now?: Date;
   llmOutage?: boolean;
   communityEvidence?: ReturnType<typeof communityEvidenceFixture>;
+  evidenceFetch?: typeof fetch;
+  evidenceResolve?: (hostname: string) => Promise<string[]>;
 } = {}): Promise<RunManifest> {
   const priorLlmKey = process.env.LLM_API_KEY;
   const priorLlmBaseUrl = process.env.LLM_BASE_URL;
@@ -312,6 +316,8 @@ async function runFixedGeneration(root: string, options: {
       transaction: options.transaction,
       communityEvidenceSeeds: options.communityEvidence?.seeds,
       fetchCommunityEvidenceSnapshot: options.communityEvidence ? async () => options.communityEvidence!.snapshot : undefined,
+      fetchAcceptedEvidence: options.evidenceFetch,
+      resolveAcceptedEvidenceHost: options.evidenceResolve,
     });
   } finally {
     globalThis.fetch = priorFetch;
@@ -347,6 +353,7 @@ async function capturePublicGroup(root: string): Promise<PublicGroup> {
     "review/evidence-issue-snapshot.json",
     "review/evidence-task-ledger.json",
     "review/accepted-evidence.json",
+    "review/accepted-evidence-revalidation.json",
     "community/contributions.json",
     "site/data/community-tasks.json",
     "site/feeds/manifest.json",
@@ -408,11 +415,20 @@ test("accepted community evidence reaches daily revalidation without entering ca
     await copyFixture(root);
     await seedNonEmptyPriorPreview(root);
     const fixture = communityEvidenceFixture();
-    const manifest = await runFixedGeneration(root, { communityEvidence: fixture });
+    const manifest = await runFixedGeneration(root, {
+      communityEvidence: fixture,
+      evidenceFetch: async (input) => {
+        const response = new Response("Daily Alpha Robotics raised $10M on 2026-08-16", { headers: { "content-type": "text/plain" } });
+        Object.defineProperty(response, "url", { value: String(input) });
+        return response;
+      },
+      evidenceResolve: async () => ["8.8.8.8"],
+    });
     const artifactPaths = {
       seeds: "review/evidence-task-seeds.json",
       ledger: "review/evidence-task-ledger.json",
       accepted: "review/accepted-evidence.json",
+      revalidation: "review/accepted-evidence-revalidation.json",
       contributions: "community/contributions.json",
       public: "site/data/community-tasks.json",
     } as const;
@@ -420,6 +436,8 @@ test("accepted community evidence reaches daily revalidation without entering ca
     assert.doesNotThrow(() => assertEvidenceTaskSeedArtifact(artifacts.seeds));
     assert.doesNotThrow(() => assertEvidenceTaskLedgerArtifact(artifacts.ledger));
     assert.doesNotThrow(() => assertAcceptedEvidenceArtifact(artifacts.accepted));
+    assert.equal(artifacts.revalidation.results[0].fetch.status, "success");
+    assert.equal(artifacts.revalidation.results[0].outcome, "insufficient");
     assert.doesNotThrow(() => assertContributionLedgerArtifact(artifacts.contributions));
     assert.doesNotThrow(() => assertCommunityTaskPublicArtifact(artifacts.public));
     const enrichment = JSON.parse(await readFile(join(root, "review/evidence-enrichment.json"), "utf8")) as { revalidationTargets?: Array<{ evidenceUrl: string; disposition: string; mayPublish: boolean }> };
@@ -442,6 +460,7 @@ test("accepted community evidence reaches daily revalidation without entering ca
       assert.doesNotMatch(await readFile(join(root, path), "utf8"), /accepted-daily-evidence/);
     }
     assert.equal(manifest.services.find((service) => service.component === "GitHub")?.status, "成功");
+    assert.equal(manifest.services.find((service) => service.component === "EvidenceRevalidation")?.status, "成功");
   } finally {
     await rm(root, { recursive: true, force: true });
   }

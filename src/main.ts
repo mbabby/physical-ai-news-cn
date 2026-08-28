@@ -80,6 +80,7 @@ import {
   assertEvidenceIssueSnapshot,
   assertEvidenceTaskLedgerArtifact,
   assertEvidenceTaskSeedArtifact,
+  migrateLegacyEvidenceIssueSnapshot,
   type AcceptedEvidenceArtifact,
   type CommunityTaskPublicArtifact,
   type ContributionLedgerArtifact,
@@ -92,6 +93,12 @@ import { fetchEvidenceIssueSnapshot } from "./community-evidence/github-issues.j
 import { planEvidenceIssueActions } from "./community-evidence/task-ledger.js";
 import { buildEvidenceTaskSeeds } from "./community-evidence/task-seeds.js";
 import { buildCommunityEvidencePublication, type CommunityEvidencePublication } from "./community-evidence/publication.js";
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  revalidateAcceptedEvidence,
+  type AcceptedEvidenceRevalidationArtifact,
+  type AcceptedEvidenceRevalidationOptions,
+} from "./community-evidence/revalidation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
@@ -194,8 +201,7 @@ function validateCommunityEvidenceProjection(input: {
       || (issue && (issue.number !== event.issueNumber || issue.taskVersion !== task.taskVersion))
       || task.category !== event.category
       || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
-      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`
-      || (event.state === "promoted" ? event.publicTargetUrl !== task.subject.url : event.publicTargetUrl !== null)) {
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`) {
       throw new Error(`社区贡献事件 ${event.id} 与任务账本或 Issue 不一致`);
     }
   }
@@ -241,16 +247,14 @@ function validateCommunityEvidenceProjection(input: {
     const issue = issues.get(exemplar.taskId);
     const currentPair = issue?.acceptedEvidence.some((item) => item.contributor === exemplar.contributor && item.evidenceUrl === exemplar.evidenceUrl) ?? false;
     const desired = issue?.labels.includes("source-withdrawn") ? "corrected"
-      : issue?.labels.includes("canonical-promoted") ? "promoted"
-        : issue?.labels.includes("accepted-evidence") ? "accepted" : undefined;
+      : issue?.labels.includes("accepted-evidence") ? "accepted" : undefined;
     const acceptedEntry = acceptedByPair.get(key);
     if (active) {
-      if (!issue || !acceptedEntry || !currentPair || (desired !== "accepted" && desired !== "promoted")
-        || (desired === "promoted" && !epochPromoted)) {
+      if (!issue || !acceptedEntry || !currentPair || desired !== "accepted") {
         throw new Error(`社区贡献 ${key} 的活跃采纳生命周期与 Issue/accepted-evidence 不一致`);
       }
     } else if (acceptedEntry || (!issue && lastTerminal !== "corrected" && lastTerminal !== "withdrawn")
-      || (currentPair && (desired === "accepted" || desired === "promoted"))
+      || (currentPair && desired === "accepted")
       || (desired === "corrected" && lastTerminal !== "corrected")) {
       throw new Error(`社区贡献 ${key} 的终止生命周期与 Issue/accepted-evidence 不一致`);
     }
@@ -306,6 +310,18 @@ export interface StageCommunityEvidenceArtifactsInput {
     repo?: string;
     fetchSnapshot?: () => Promise<EvidenceIssueSnapshot>;
   };
+  revalidation?: {
+    companies: CompanyProfile[];
+    events: EventRecord[];
+    companyClaimLedger: CompanyClaimLedger;
+    researchDecisionCards: import("./research-decision-card.js").ResearchDecisionCard[];
+    researchRecords: ResearchRegistry["records"];
+    benchmarkResultLedger: BenchmarkResultLedger;
+    decisionProducts: DecisionProductArtifact;
+    pagesBaseUrl: string;
+    sources: SourceConfig[];
+    options?: AcceptedEvidenceRevalidationOptions;
+  };
 }
 
 export interface StageCommunityEvidenceArtifactsResult {
@@ -313,6 +329,8 @@ export interface StageCommunityEvidenceArtifactsResult {
   enrichmentTargets: EvidenceEnrichmentTarget[];
   publication: CommunityEvidencePublication;
   status: RuntimeStatus;
+  revalidation: AcceptedEvidenceRevalidationArtifact;
+  revalidationStatus: RuntimeStatus;
 }
 
 /** Strictly project the GitHub review state and stage every community artifact
@@ -324,16 +342,20 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   const reviewDir = join(input.root, "review");
   const previous = await Promise.all([
     readJsonStrict<EvidenceTaskSeedArtifact>(join(reviewDir, "evidence-task-seeds.json"), { optional: true, label: "社区证据任务种子", validate: exactArtifact(assertEvidenceTaskSeedArtifact) }),
-    readJsonStrict<EvidenceIssueSnapshot>(join(reviewDir, "evidence-issue-snapshot.json"), { optional: true, label: "社区证据 Issue 快照", validate: exactArtifact(assertEvidenceIssueSnapshot) }),
+    readJsonStrict<unknown>(join(reviewDir, "evidence-issue-snapshot.json"), { optional: true, label: "社区证据 Issue 快照" }),
     readJsonStrict<EvidenceTaskLedgerArtifact>(join(reviewDir, "evidence-task-ledger.json"), { optional: true, label: "社区证据任务账本", validate: exactArtifact(assertEvidenceTaskLedgerArtifact) }),
     readJsonStrict<AcceptedEvidenceArtifact>(join(reviewDir, "accepted-evidence.json"), { optional: true, label: "已采纳社区证据", validate: exactArtifact(assertAcceptedEvidenceArtifact) }),
     readJsonStrict<ContributionLedgerArtifact>(join(input.root, "community", "contributions.json"), { optional: true, label: "社区贡献账本", validate: exactArtifact(assertContributionLedgerArtifact) }),
     readJsonStrict<CommunityTaskPublicArtifact>(join(input.root, "site", "data", "community-tasks.json"), { optional: true, label: "公开社区任务", validate: exactArtifact(assertCommunityTaskPublicArtifact) }),
+    readJsonStrict<AcceptedEvidenceRevalidationArtifact>(join(reviewDir, "accepted-evidence-revalidation.json"), { optional: true, label: "已采纳证据复核", validate: exactArtifact(assertAcceptedEvidenceRevalidationArtifact) }),
   ]);
-  const [previousSeeds, previousSnapshot, previousLedger, previousAccepted, previousContributions, previousPublic] = previous;
+  const [previousSeeds, previousSnapshotValue, previousLedger, previousAccepted, previousContributions, previousPublic, previousRevalidation] = previous;
+  const previousSnapshot = previousSnapshotValue === undefined ? undefined : migrateLegacyEvidenceIssueSnapshot(previousSnapshotValue);
   const projectionCount = [previousSeeds, previousLedger, previousAccepted, previousContributions, previousPublic].filter(Boolean).length;
   if (projectionCount !== 0 && projectionCount !== 5) throw new Error("社区证据上一有效投影不完整；已停止发布且保留上一版。");
-  if (projectionCount === 5) {
+  const hasPreviousProjection = projectionCount === 5;
+  if (previousRevalidation && !hasPreviousProjection) throw new Error("社区证据上一有效复核凭据缺少完整投影；已停止发布且保留上一版。");
+  if (hasPreviousProjection) {
     if (!previousSnapshot) throw new Error("社区证据上一有效 Issue 快照缺失；已停止发布且保留上一版。");
     validateCommunityEvidenceProjection({
       seeds: previousSeeds!, snapshot: previousSnapshot, ledger: previousLedger!, accepted: previousAccepted!,
@@ -357,28 +379,59 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
       status = { component: "GitHub", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "GitHub Issue 刷新失败；已保留上一有效社区任务与贡献投影。" };
     }
   } else {
-    status = { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: projectionCount === 5
+    status = { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: hasPreviousProjection
       ? "未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。"
       : "未配置 GitHub 上下文；已初始化空的内部社区证据投影，未清除任何既有公开任务。" };
   }
 
-  if (remoteFailed && projectionCount === 0) {
+  if (remoteFailed && !hasPreviousProjection) {
     throw new Error("GitHub Issue 刷新失败且没有上一有效社区证据投影；已停止发布。");
   }
 
   const serialize = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
-  if (!snapshot && projectionCount === 5) {
+  const performRevalidation = async (
+    accepted: AcceptedEvidenceArtifact,
+    runAt: Date,
+    prior: AcceptedEvidenceRevalidationArtifact | undefined,
+    options: AcceptedEvidenceRevalidationOptions,
+  ) => {
+    const runAtIso = runAt.toISOString();
+    return revalidateAcceptedEvidence({
+      accepted,
+      previous: prior,
+      companies: input.revalidation?.companies ?? [],
+      events: input.revalidation?.events ?? [],
+      companyClaimLedger: input.revalidation?.companyClaimLedger ?? { generatedAt: runAtIso, limit: 0, companies: [], metrics: { populatedFields: 0, totalFields: 0, fieldCompletenessRate: 1, staleClaimCount: 0, staleEvidenceCount: 0, eligibleEventCount: 0, attributedEventCount: 0, eventCoverageRate: 0, selectedCompanyCount: 0, companiesWithEligibleEvents: 0 } },
+      researchDecisionCards: input.revalidation?.researchDecisionCards ?? [],
+      researchRecords: input.revalidation?.researchRecords ?? [],
+      benchmarkResultLedger: input.revalidation?.benchmarkResultLedger ?? { generatedAt: runAtIso, entries: [] },
+      decisionProducts: input.revalidation?.decisionProducts ?? { schemaVersion: 1, generatedAt: runAtIso, periodStart: runAtIso.slice(0, 10), topSignals: [], companyCards: [], researchPassports: [], subscriptions: { generatedAt: runAtIso, entries: [] } },
+      pagesBaseUrl: input.revalidation?.pagesBaseUrl ?? pagesBaseUrl,
+      sources: input.revalidation?.sources ?? [],
+      now: runAt,
+    }, options);
+  };
+  const revalidationBaseline = previousRevalidation ?? (hasPreviousProjection
+    ? (await performRevalidation(previousAccepted!, new Date(previousLedger!.generatedAt), undefined, { maxTargets: 0 })).artifact
+    : undefined);
+  if (!snapshot && hasPreviousProjection) {
     input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(previousSeeds));
     input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(previousLedger));
     input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(previousAccepted));
     input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(previousContributions));
     input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(previousPublic));
     if (previousSnapshot) input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(previousSnapshot));
+    input.transaction.stage(join(reviewDir, "accepted-evidence-revalidation.json"), serialize(revalidationBaseline));
     const publication = buildCommunityEvidencePublication({
       seeds: previousSeeds!, ledger: previousLedger!, accepted: previousAccepted!, contributions: previousContributions!,
       previousTasks: previousPublic!, repository: previousSnapshot!.repo, generatedAt: previousLedger!.generatedAt,
     });
-    return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status };
+    const revalidationStatus: RuntimeStatus = {
+      component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
+      failed: previousAccepted!.entries.length,
+      detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
+    };
+    return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status, revalidation: revalidationBaseline!, revalidationStatus };
   }
 
   snapshot ??= previousSnapshot ?? { schemaVersion: 1, fetchedAt: now, repo: input.github?.repo ?? "mbabby/physical-ai-news-cn", issues: [] };
@@ -387,11 +440,25 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   const emptyAccepted: AcceptedEvidenceArtifact = { schemaVersion: 1, generatedAt: now, entries: [] };
   const emptyContributions: ContributionLedgerArtifact = { schemaVersion: 1, generatedAt: now, events: [] };
   const planned = planEvidenceIssueActions({ seeds: input.seeds, issues: snapshot, previousLedger: previousLedger ?? emptyLedger, now });
-  const projection = projectAcceptedEvidence({
+  const baseProjection = projectAcceptedEvidence({
     issues: snapshot,
     taskLedger: planned.ledger,
     previousAccepted: previousAccepted ?? emptyAccepted,
     previousContributions: previousContributions ?? emptyContributions,
+    now,
+  });
+  const revalidation = await performRevalidation(
+    baseProjection.accepted,
+    input.now,
+    revalidationBaseline,
+    input.revalidation?.options ?? { maxTargets: 0 },
+  );
+  const projection = projectAcceptedEvidence({
+    issues: snapshot,
+    taskLedger: planned.ledger,
+    previousAccepted: baseProjection.accepted,
+    previousContributions: baseProjection.contributions,
+    revalidation: revalidation.artifact,
     now,
   });
   const publication = buildCommunityEvidencePublication({
@@ -420,9 +487,10 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(snapshot));
   input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(planned.ledger));
   input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(projection.accepted));
+  input.transaction.stage(join(reviewDir, "accepted-evidence-revalidation.json"), serialize(revalidation.artifact));
   input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(projection.contributions));
   input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(publicArtifact));
-  return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), publication, status };
+  return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), publication, status, revalidation: revalidation.artifact, revalidationStatus: revalidation.status };
 }
 
 export type DailyGenerationFailureCode =
@@ -692,6 +760,10 @@ export interface GenerateOptions {
   transaction?: FileTransaction;
   communityEvidenceSeeds?: EvidenceTaskSeedArtifact;
   fetchCommunityEvidenceSnapshot?: () => Promise<EvidenceIssueSnapshot>;
+  fetchAcceptedEvidence?: typeof fetch;
+  resolveAcceptedEvidenceHost?: (hostname: string) => Promise<string[]>;
+  sleepAcceptedEvidence?: (ms: number) => Promise<void>;
+  acceptedEvidenceTimeoutMs?: number;
 }
 
 /** Production daily orchestration with fixture seams for deterministic release verification. */
@@ -919,49 +991,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     generatedAt: candidateVerification.generatedAt,
     seeds: verificationIssueSeeds(candidateVerification),
   }, null, 2) + "\n", "utf8");
-  const evidenceTaskSeeds = options.communityEvidenceSeeds ?? buildEvidenceTaskSeeds({
-    generatedAt: now.toISOString(),
-    generatedWeek: isoWeek(now),
-    companyCandidates,
-    events: eventStore,
-    researchRecords: researchRegistry.records,
-    researchCards: researchDecisionCards,
-  });
-  const communityEvidence = await stageCommunityEvidenceArtifacts({
-    root: outputRoot,
-    transaction,
-    seeds: evidenceTaskSeeds,
-    now,
-    github: {
-      token: process.env.GITHUB_TOKEN,
-      repo: process.env.GITHUB_REPOSITORY,
-      fetchSnapshot: options.fetchCommunityEvidenceSnapshot,
-    },
-  });
-  statuses.push(communityEvidence.status);
-  const previousEnrichment = await readJsonStrict<EvidenceEnrichmentArtifact>(join(reviewDir, "evidence-enrichment.json"), {
-    optional: true,
-    label: "定向取证计划",
-    validate: (value): value is EvidenceEnrichmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.plans),
-  });
-  const evidenceEnrichment = buildEvidenceEnrichmentPlan({
-    verification: candidateVerification,
-    companies,
-    sources: registrySources,
-    evidencePool: verificationEvidencePool,
-    previous: previousEnrichment,
-    acceptedEvidence: communityEvidence.accepted,
-  }, {
-    maxPlansPerRun: 20,
-    maxProbesPerPlan: 6,
-    maxCandidateEvidencePerPlan: 5,
-  }, now);
-  // This output is review-only. Planner findings can never publish or upgrade
-  // evidence automatically; they must re-enter entity, independence and
-  // human-review gates first.
-  await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
-  // Build public data after verification so “正在发生” reflects evidence
-  // found in this run instead of the previous review artifact.
   const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger });
   const benchmarkResultLedger = buildBenchmarkResultLedger(researchRegistry.records, researchDecisionCards, { now, previous: previousBenchmarkResultLedger });
   validateDualLedgers({
@@ -973,6 +1002,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     decisionCards: researchDecisionCards,
     expectedGeneratedAt: now.toISOString(),
   });
+  const evidenceTaskSeeds = options.communityEvidenceSeeds ?? buildEvidenceTaskSeeds({
+    generatedAt: now.toISOString(),
+    generatedWeek: isoWeek(now),
+    companyCandidates,
+    events: eventStore,
+    researchRecords: researchRegistry.records,
+    researchCards: researchDecisionCards,
+  });
+  // Build public data after verification so “正在发生” reflects evidence
+  // found in this run instead of the previous review artifact.
   const dualLedgerMetrics = buildDualLedgerMetrics(companyClaimLedger, benchmarkResultLedger);
   const companyBoards = buildCompanyBoards(companies, eventStore.events, {
     now,
@@ -1106,8 +1145,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     snapshots: [...watchlistHistory, watchlistSnapshot],
     views: watchlistChangePageViews,
   });
-  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
-  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
     ...eventStore.events
       .filter((event) => event.status !== "已归档" && event.status !== "待复核")
@@ -1164,6 +1201,59 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     artifact: decisionProducts,
     previousArtifact: previousDecisionProductArtifact,
   });
+  const communityEvidence = await stageCommunityEvidenceArtifacts({
+    root: outputRoot,
+    transaction,
+    seeds: evidenceTaskSeeds,
+    now,
+    github: {
+      token: process.env.GITHUB_TOKEN,
+      repo: process.env.GITHUB_REPOSITORY,
+      fetchSnapshot: options.fetchCommunityEvidenceSnapshot,
+    },
+    revalidation: {
+      companies,
+      events: eventStore.events,
+      companyClaimLedger,
+      researchDecisionCards,
+      researchRecords: researchRegistry.records,
+      benchmarkResultLedger,
+      decisionProducts,
+      pagesBaseUrl,
+      sources: registrySources,
+      options: {
+        fetchImpl: options.fetchAcceptedEvidence,
+        resolveHost: options.resolveAcceptedEvidenceHost,
+        sleep: options.sleepAcceptedEvidence,
+        timeoutMs: options.acceptedEvidenceTimeoutMs,
+      },
+    },
+  });
+  statuses.push(communityEvidence.status);
+  statuses.push(communityEvidence.revalidationStatus);
+  const previousEnrichment = await readJsonStrict<EvidenceEnrichmentArtifact>(join(reviewDir, "evidence-enrichment.json"), {
+    optional: true,
+    label: "定向取证计划",
+    validate: (value): value is EvidenceEnrichmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.plans),
+  });
+  const evidenceEnrichment = buildEvidenceEnrichmentPlan({
+    verification: candidateVerification,
+    companies,
+    sources: registrySources,
+    evidencePool: verificationEvidencePool,
+    previous: previousEnrichment,
+    acceptedEvidence: communityEvidence.accepted,
+  }, {
+    maxPlansPerRun: 20,
+    maxProbesPerPlan: 6,
+    maxCandidateEvidencePerPlan: 5,
+  }, now);
+  // This output is review-only. Planner findings can never publish or upgrade
+  // evidence automatically; they must re-enter entity, independence and
+  // human-review gates first.
+  await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
+  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
