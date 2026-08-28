@@ -2,11 +2,14 @@
 
 ## Status
 
-Local implementation complete on `feat/phase4-community-evidence`; push and online acceptance remain intentionally unauthorized.
+Local implementation and release validation complete on `feat/phase4-community-evidence`; push and online acceptance remain intentionally unauthorized.
 
 ## Commit
 
 - `45a3de4 feat: enforce community evidence release gates`
+- `9e85877 fix: add deterministic release fixture mode`
+- `8b85057 fix: roll back fixture preparation failures`
+- Final report correction commit: recorded in the final handoff.
 
 ## Delivered
 
@@ -20,41 +23,11 @@ Local implementation complete on `feat/phase4-community-evidence`; push and onli
 - Updated README, contributor guidance, evidence review, and release standards for the two-minute task contract, accepted-versus-published distinction, co-contributor marker, stale/close lifecycle, contribution center, and append-only correction/withdrawal history.
 - No workflows were changed. The checked metric mirrors were upgraded to the new aggregate schema.
 
-## Strict TDD evidence
-
-- Initial release RED: the suite failed because `validateCommunityEvidenceRelease` did not exist.
-- Initial metrics RED: the suite failed because `buildFlywheelMetrics` did not exist.
-- Review fixes were each driven by failing regressions for clean-checkout predecessor selection, accepted ID/time drift, closed Issues, Markdown URL bypass, metrics forgery/ranking leakage, LKG metric preservation, and aged-out active seeds.
-- Final focused release/metrics suite: 44/44 passed.
-- Final full suite: 742/742 passed.
-- `CI=true pnpm run check`: passed.
-- `git diff --check`: passed.
-
-## Local release validation
-
-- Fixed-fixture filesystem release validation: passed, including two generation passes inside the release contract fixture.
-- Direct full-suite fixed-clock community/daily idempotence and LKG tests: passed.
-- Public-boundary scan: no placeholder Chinese summary, community private fields, contributor ranking, or accepted-evidence bypass was introduced.
-- `validate:health` loader fallback: ran successfully and reported degraded because LLM, OpenAlex, and GitHub were unconfigured and historical date gaps remain.
-
-## Command limitations and concerns
-
-- `pnpm test`, `pnpm start`, `pnpm run validate:release`, and `pnpm run validate:health` invoke the `tsx` CLI, whose IPC socket is blocked by this sandbox (`listen EPERM`). Equivalent `node --import tsx` commands were used.
-- The documented `--fixture-mode` flag is not parsed by `src/main.ts`; two repository-root CLI runs used wall-clock receipts, so the complete repository diff was not byte-identical. The community evidence artifacts themselves were byte-identical, and the existing fixed-clock integration tests passed. Generated run outputs were removed after validation.
-- The real repository-root generated dataset reached health validation but release validation stopped at a pre-existing Decision Product JSON rebuild mismatch. The isolated release fixture passes the same release validator.
-- No GitHub Issue was created or changed, no workflow was dispatched, no Pages state was checked, and nothing was pushed. Those steps require explicit authorization.
-
-## Independent review
-
-- Initial review found five Important release-boundary gaps; all received red-first regressions and fixes.
-- First rereview found two LKG edge cases; both were fixed with ancestor lookup and independently loaded prior public-task context.
-- Final rereview: no remaining Critical or Important findings; ready to merge.
-
-## Fix round 1/5
+## Fix round 1/5 final acceptance
 
 Status: locally verified; push and online acceptance remain unauthorized.
 
-Commit: `9e85877 fix: add deterministic release fixture mode` plus the current review-fix commit recorded in the final handoff.
+Commits: `9e85877 fix: add deterministic release fixture mode`; `8b85057 fix: roll back fixture preparation failures`; final report correction recorded in the handoff.
 
 ### Review findings resolved
 
@@ -86,3 +59,8 @@ Commit: `9e85877 fix: add deterministic release fixture mode` plus the current r
 - Inside the managed sandbox, direct `tsx` CLI commands still cannot create their IPC socket. The two required pnpm fixture runs and release/health commands were therefore executed with local sandbox escalation; no network service was contacted by fixture mode.
 - Health remains stale until a newly authorized real daily publication succeeds.
 - No push, live Issue mutation, workflow dispatch, or Pages check was performed.
+
+## Independent review
+
+- Final code rereview found no remaining Critical or Important implementation gaps.
+- The final documentation rereview is recorded in the handoff after removal of obsolete acceptance claims.
