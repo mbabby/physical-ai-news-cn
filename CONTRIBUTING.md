@@ -35,6 +35,12 @@
 
 详细判定口径见 [Evidence Review 手册](community/evidence-review.md)。
 
+### 两分钟任务契约
+
+[贡献中心](https://mbabby.github.io/physical-ai-news-cn/contribute.html)中的每个任务只请求一个字段、一个客观目标，并明确标注 `预计 2 分钟`。请按 Issue 模板只提交该字段的原始 HTTPS 链接和可定位摘录；不要顺手扩展成多个事实。七天没有有效活动会标记 `stale`，十四天没有有效活动会关闭；新的有效证据会重置活动时间。
+
+自动任务没有覆盖的证据仍可使用现有的[通用 Issue 模板](https://github.com/mbabby/physical-ai-news-cn/issues/new/choose)提交，不需要等待自动任务。
+
 ## Watchlist 补证与纠错
 
 请只针对当前公开 Watchlist 的公司、判断或固定技术路线提交补证与纠错，并提供原始 URL、受影响事实、规范公司 ID、事件日期和简短说明。分享链接不是投稿入口：它只能筛选当前快照的公司与固定路线，未知或不安全的参数会被忽略。
@@ -47,7 +53,9 @@ Issue 是审阅记录，不是发布指令。维护者接受证据后，内容�
 
 - **代码与文档贡献**：通过合并记录出现在 [GitHub Contributors](https://github.com/mbabby/physical-ai-news-cn/graphs/contributors)。
 - **证据贡献**：Issue 被维护者标记为 `accepted-evidence` 后，Issue 作者会出现在[已采纳证据列表](https://github.com/mbabby/physical-ai-news-cn/issues?q=is%3Aissue+label%3Aaccepted-evidence)。
-- **联合贡献**：请在 Issue 中 @ 共同补证者；维护者会保留证据讨论记录。不要提交不必要的真实姓名、邮箱或其他个人信息。
+- **联合贡献**：请在 Issue 中 @ 共同补证者。采纳时，维护者可在一条只含一个证据 URL 的评论中加入 `<!-- accepted-contributor:@login -->`，把该 URL 明确绑定给共同补证者；普通评论或 @ 提及不会自动获得采纳署名。不要提交不必要的真实姓名、邮箱或其他个人信息。
+
+贡献历史采用追加记录：首次采纳、进入规范事实、证据纠错和来源撤回分别保留为 `accepted`、`promoted`、`corrected`、`withdrawn`，不得删除或重排旧记录。
 
 署名代表对证据或代码的贡献，不代表项目为相关公司、产品或观点背书。
 

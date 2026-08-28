@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, readFile, rename, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { collectCommunityMetrics, runCommunityMetrics } from "../scripts/community-metrics.mjs";
+import { buildFlywheelMetrics, collectCommunityMetrics, runCommunityMetrics } from "../scripts/community-metrics.mjs";
 
 function response(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -24,7 +24,36 @@ test("collects public repository metrics without sending an authorization header
   assert.deepEqual(metrics.repository, { stars: 42, forks: 7, subscribers: 5, openIssues: 3 });
   assert.deepEqual(metrics.traffic, { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null });
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: [], count: 1 });
+  assert.deepEqual({ openTasks: metrics.openTasks, categoryCoverage: metrics.categoryCoverage, acceptedThisWeek: metrics.acceptedThisWeek,
+    newContributorsThisWeek: metrics.newContributorsThisWeek, staleRatio: metrics.staleRatio, invalidRatio: metrics.invalidRatio,
+    promotionConversion: metrics.promotionConversion }, {
+    openTasks: 0, categoryCoverage: [], acceptedThisWeek: 0, newContributorsThisWeek: 0,
+    staleRatio: 0, invalidRatio: 0, promotionConversion: 0,
+  });
   assert.ok(requests.every((request) => request.authorization === undefined));
+});
+
+test("builds aggregate flywheel metrics without contributor rankings or per-user scores", () => {
+  const accepted = (contributor: string, occurredAt: string, promoted = false) => [{
+    taskId: `task-${contributor}`, issueNumber: contributor === "alice" ? 41 : 42, contributor,
+    evidenceUrl: `https://evidence.example/${contributor}`, state: "accepted", occurredAt,
+  }, ...(promoted ? [{ taskId: `task-${contributor}`, issueNumber: contributor === "alice" ? 41 : 42, contributor,
+    evidenceUrl: `https://evidence.example/${contributor}`, state: "promoted", occurredAt: "2026-08-25T09:00:00.000Z" }] : [])];
+  const metrics = buildFlywheelMetrics({
+    publicTasks: { tasks: [{ category: "company-funding" }, { category: "research-metadata" }] },
+    ledger: { entries: [{ state: "open" }, { state: "stale" }, { state: "rejected" }, { state: "accepted" }] },
+    contributions: { events: [
+      ...accepted("alice", "2026-08-18T08:00:00.000Z"),
+      ...accepted("alice", "2026-08-25T08:00:00.000Z", true),
+      ...accepted("bob", "2026-08-25T08:30:00.000Z"),
+    ] },
+    now: new Date("2026-08-25T10:00:00.000Z"),
+  });
+  assert.deepEqual(metrics, {
+    openTasks: 2, categoryCoverage: ["company-funding", "research-metadata"], acceptedThisWeek: 2,
+    newContributorsThisWeek: 1, staleRatio: 0.5, invalidRatio: 0.25, promotionConversion: 0.5,
+  });
+  assert.doesNotMatch(JSON.stringify(metrics), /ranking|score|topContributors|alice|bob/i);
 });
 
 test("collects privileged traffic and accepted evidence contributors when a token is available", async () => {
@@ -96,6 +125,8 @@ test("degrades privileged failures and preserves last public metrics when GitHub
   const previous = {
     repository: { stars: 21, forks: 4, subscribers: 3, openIssues: 2 },
     contributors: { codeContributors: ["alice"], acceptedEvidenceContributors: ["bob"], count: 2 },
+    openTasks: 4, categoryCoverage: ["company-funding"], acceptedThisWeek: 2, newContributorsThisWeek: 1,
+    staleRatio: 0.25, invalidRatio: 0.1, promotionConversion: 0.5,
   };
   const fetchImpl = async () => response({ message: "unavailable" }, 503);
   const metrics = await collectCommunityMetrics({ repository: "example/project", token: "secret-token", fetchImpl, previous });
@@ -103,6 +134,12 @@ test("degrades privileged failures and preserves last public metrics when GitHub
   assert.deepEqual(metrics.repository, previous.repository);
   assert.deepEqual(metrics.traffic, { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null });
   assert.deepEqual(metrics.contributors, { codeContributors: ["alice"], acceptedEvidenceContributors: ["bob"], count: 2 });
+  assert.deepEqual({ openTasks: metrics.openTasks, categoryCoverage: metrics.categoryCoverage, acceptedThisWeek: metrics.acceptedThisWeek,
+    newContributorsThisWeek: metrics.newContributorsThisWeek, staleRatio: metrics.staleRatio, invalidRatio: metrics.invalidRatio,
+    promotionConversion: metrics.promotionConversion }, {
+    openTasks: 4, categoryCoverage: ["company-funding"], acceptedThisWeek: 2, newContributorsThisWeek: 1,
+    staleRatio: 0.25, invalidRatio: 0.1, promotionConversion: 0.5,
+  });
 });
 
 test("writes the same stable contract to metrics and public site data", async () => {
@@ -119,7 +156,10 @@ test("writes the same stable contract to metrics and public site data", async ()
 
   assert.deepEqual(canonical, metrics);
   assert.deepEqual(publicCopy, metrics);
-  assert.deepEqual(Object.keys(metrics), ["generatedAt", "repository", "traffic", "contributors"]);
+  assert.deepEqual(Object.keys(metrics), [
+    "generatedAt", "repository", "traffic", "contributors", "openTasks", "categoryCoverage", "acceptedThisWeek",
+    "newContributorsThisWeek", "staleRatio", "invalidRatio", "promotionConversion",
+  ]);
 });
 
 test("restores both community mirrors when the second public swap fails", async () => {

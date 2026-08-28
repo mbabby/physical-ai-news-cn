@@ -468,6 +468,20 @@ test("release validation reads the complete staged Watchlist public group from i
   assert.match(source, /communityMetricsBytes !== publicCommunityMetricsBytes/);
 });
 
+test("release validation reads and cross-validates the complete community evidence group", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+  for (const path of [
+    ["review", "evidence-task-seeds.json"],
+    ["review", "evidence-issue-snapshot.json"],
+    ["review", "evidence-task-ledger.json"],
+    ["review", "accepted-evidence.json"],
+    ["community", "contributions.json"],
+    ["site", "data", "community-tasks.json"],
+  ]) assert.match(source, new RegExp(`join\\(root, ${path.map((part) => `"${part}"`).join(", ")}\\)`));
+  assert.match(source, /validateCommunityEvidenceRelease\(\{/);
+  assert.match(source, /HEAD\^/);
+});
+
 test("release validation rejects stale or forged Watchlist publication surfaces before a public release", async () => {
   const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
 
