@@ -6,6 +6,7 @@ import { dirname, join, relative } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { parseCliOptions, runFixtureGeneration } from "../src/main.js";
+import { FileTransaction } from "../src/runtime/storage.js";
 import type { DailyArchive, RunManifest } from "../src/types.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -106,11 +107,23 @@ test("fixture CLI is offline, fixed-clock, transactional, and byte-stable across
   }
 });
 
-test("fixture runner exposes deterministic setup failures to integration callers", async () => {
+test("fixture runner restores every pre-run byte after an injected transaction failure", async () => {
   const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-runner-"));
   try {
     await fixtureCopy(root);
-    await assert.doesNotReject(() => runFixtureGeneration(root));
+    const before = await bytes(root);
+    await assert.rejects(() => runFixtureGeneration(root, new FileTransaction("fixture-rollback", { failAfterSwaps: 1 })), /transaction|事务|failed/i);
+    assert.deepEqual(await bytes(root), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("fixture runner rejects an unrecognized root before creating publication paths", async () => {
+  const root = await mkdtemp(join(tmpdir(), "physical-ai-unsafe-root-"));
+  try {
+    await assert.rejects(() => runFixtureGeneration(root), /fixture root|夹具根目录/i);
+    assert.deepEqual(await readdir(root), []);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

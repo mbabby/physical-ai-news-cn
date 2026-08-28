@@ -1388,6 +1388,50 @@ const FIXTURE_NOW = new Date("2026-08-24T08:05:05.893Z");
 const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
 const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
+const FIXTURE_INPUT_PATHS = [
+  `daily/${FIXTURE_NOW.toISOString().slice(0, 10)}.json`,
+  "research/benchmark-result-ledger.json",
+  "research/decision-cards.json",
+  "site/data/decision-products.json",
+  "research/registry.json",
+  "sources/registry.json",
+] as const;
+
+async function assertFixtureRoot(outputRoot: string): Promise<void> {
+  try {
+    const [readme, companies, metrics] = await Promise.all([
+      readFile(join(outputRoot, "README.md"), "utf8"),
+      readJsonStrict<unknown>(join(outputRoot, "events", "companies.json")),
+      readJsonStrict<unknown>(join(outputRoot, "metrics", "community.json")),
+    ]);
+    if (!readme.includes("物理 AI 产业情报库") || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
+  } catch (error) {
+    throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
+  }
+}
+
+async function snapshotFixtureInputs(outputRoot: string): Promise<Map<string, Buffer | undefined>> {
+  const snapshot = new Map<string, Buffer | undefined>();
+  await Promise.all(FIXTURE_INPUT_PATHS.map(async (path) => {
+    try { snapshot.set(path, await readFile(join(outputRoot, path))); }
+    catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      snapshot.set(path, undefined);
+    }
+  }));
+  return snapshot;
+}
+
+async function restoreFixtureInputs(outputRoot: string, snapshot: Map<string, Buffer | undefined>): Promise<void> {
+  await Promise.all([...snapshot].map(async ([path, content]) => {
+    const target = join(outputRoot, path);
+    if (content === undefined) await rm(target, { force: true });
+    else {
+      await mkdir(dirname(target), { recursive: true });
+      await writeFileDirect(target, content);
+    }
+  }));
+}
 
 async function prepareFixtureInputs(outputRoot: string): Promise<void> {
   await Promise.all([
@@ -1407,7 +1451,9 @@ async function prepareFixtureInputs(outputRoot: string): Promise<void> {
   ]);
 }
 
-export async function runFixtureGeneration(outputRoot: string): Promise<RunManifest> {
+export async function runFixtureGeneration(outputRoot: string, transaction?: FileTransaction): Promise<RunManifest> {
+  await assertFixtureRoot(outputRoot);
+  const fixtureInputs = await snapshotFixtureInputs(outputRoot);
   const environmentKeys = ["LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "OPENALEX_API_KEY", "X_BEARER_TOKEN", "GITHUB_TOKEN", "GITHUB_REPOSITORY"] as const;
   const previousEnvironment = Object.fromEntries(environmentKeys.map((key) => [key, process.env[key]]));
   const previousFetch = globalThis.fetch;
@@ -1436,7 +1482,11 @@ export async function runFixtureGeneration(outputRoot: string): Promise<RunManif
       collectX: fixtureXCollection,
       communityEvidenceSeeds: seeds,
       fetchCommunityEvidenceSnapshot: async () => snapshot,
+      transaction,
     });
+  } catch (error) {
+    await restoreFixtureInputs(outputRoot, fixtureInputs);
+    throw error;
   } finally {
     globalThis.fetch = previousFetch;
     for (const key of environmentKeys) {
