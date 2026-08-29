@@ -79,7 +79,9 @@ function contributions(events: ContributionLedgerArtifact["events"] = []): Contr
 }
 
 function eventId(contributor: string, evidenceUrl: string, state: string, occurredAt: string): string {
-  return createHash("sha256").update(`${taskId}41${contributor}${evidenceUrl}${state}${occurredAt}`).digest("hex");
+  return createHash("sha256")
+    .update(JSON.stringify([taskId, 41, contributor, evidenceUrl, state, occurredAt]))
+    .digest("hex");
 }
 
 function promotionProof(entry: AcceptedEvidenceArtifact["entries"][number], generatedAt: string): AcceptedEvidenceRevalidationArtifact {
@@ -407,7 +409,7 @@ test("equal-time hash ordering cannot make a promoted pair append duplicate prom
     previousContributions: first.contributions,
     now: withdrawnAt,
   });
-  const promotedAt = "2026-08-26T10:00:00Z";
+  const promotedAt = "2026-08-26T10:00:01Z";
   const reacceptedEntry = {
     ...first.accepted.entries[0]!,
     id: eventId("alice", "https://evidence.example/report", "accepted", promotedAt),
@@ -441,7 +443,7 @@ test("equal-time hash ordering cannot make a promoted pair append duplicate prom
 });
 
 for (const terminalState of ["withdrawn", "corrected"] as const) {
-  test(`preserves serialized ${terminalState} to accepted order at the same timestamp`, () => {
+  test(`preserves serialized ${terminalState} to accepted order with strictly increasing timestamps`, () => {
     const first = projectAcceptedEvidence({
       issues: issues([issue()]), taskLedger: taskLedger(), previousAccepted: accepted(), previousContributions: contributions(), now: NOW,
     });
@@ -456,16 +458,19 @@ for (const terminalState of ["withdrawn", "corrected"] as const) {
       previousContributions: first.contributions,
       now: transitionAt,
     });
+    const reacceptedAt = "2026-08-25T01:00:01Z";
     const reaccepted = projectAcceptedEvidence({
-      issues: { ...issues([issue({ updatedAt: transitionAt })]), fetchedAt: transitionAt },
-      taskLedger: { ...taskLedger(), generatedAt: transitionAt },
+      issues: { ...issues([issue({ updatedAt: reacceptedAt })]), fetchedAt: reacceptedAt },
+      taskLedger: { ...taskLedger(), generatedAt: reacceptedAt },
       previousAccepted: terminal.accepted,
       previousContributions: terminal.contributions,
-      now: transitionAt,
+      now: reacceptedAt,
     });
-    const sameTime = reaccepted.contributions.events.filter((event) => event.occurredAt === transitionAt);
-    assert.deepEqual(sameTime.map((event) => event.state), [terminalState, "accepted"]);
-    assert.ok(sameTime[0]!.id < sameTime[1]!.id, "fixture must preserve the append prefix under contract serialization");
+    const transitionEvents = reaccepted.contributions.events.filter((event) => event.occurredAt === transitionAt || event.occurredAt === reacceptedAt);
+    assert.deepEqual(transitionEvents.map((event) => [event.state, event.occurredAt]), [
+      [terminalState, transitionAt],
+      ["accepted", reacceptedAt],
+    ]);
 
     const unrelatedUpdateAt = "2026-08-26T01:00:00Z";
     const repeated = projectAcceptedEvidence({

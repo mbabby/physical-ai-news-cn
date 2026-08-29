@@ -419,8 +419,16 @@ export function buildContributionEventId(input: {
   state: ContributionState;
   occurredAt: string;
 }): string {
+  const identity = JSON.stringify([
+    input.taskId,
+    input.issueNumber,
+    input.contributor,
+    input.evidenceUrl,
+    input.state,
+    input.occurredAt,
+  ]);
   return createHash("sha256")
-    .update(`${input.taskId}${input.issueNumber}${input.contributor}${input.evidenceUrl}${input.state}${input.occurredAt}`)
+    .update(identity)
     .digest("hex");
 }
 

@@ -430,7 +430,7 @@ test("stable contribution IDs are public and independently enforced by exact val
     state: "accepted" as const,
     occurredAt: "2026-08-24T01:00:00Z",
   };
-  const expected = "d58bf5898ce669dd4479313f543355b8fbab2202622652b8e1b167c602a86acc";
+  const expected = "084b85e4435c73d8df80c0e8fdb910ff522de7b4967e30d3a2bd0557d5b9abd5";
   assert.equal(buildContributionEventId(identity), expected);
 
   const acceptedEntry = {
@@ -465,4 +465,58 @@ test("stable contribution IDs are public and independently enforced by exact val
     generatedAt: identity.occurredAt,
     events: [{ ...event, id: "forged-but-matching" }],
   }), /stable|identity|id/i);
+});
+
+test("contribution IDs preserve issue-number and contributor field boundaries", () => {
+  const shared = {
+    taskId: "evidence-task-0123456789abcdef01234567",
+    evidenceUrl: "https://alpha.example/funding",
+    state: "accepted" as const,
+    occurredAt: "2026-08-24T01:00:00Z",
+  };
+  const first = { ...shared, issueNumber: 1, contributor: "23" };
+  const second = { ...shared, issueNumber: 12, contributor: "3" };
+
+  assert.notEqual(buildContributionEventId(first), buildContributionEventId(second));
+});
+
+test("accepted and contribution validators reject an ID copied across a field-boundary collision", () => {
+  const shared = {
+    taskId: "evidence-task-0123456789abcdef01234567",
+    evidenceUrl: "https://alpha.example/funding",
+    state: "accepted" as const,
+    occurredAt: "2026-08-24T01:00:00Z",
+  };
+  const first = { ...shared, issueNumber: 1, contributor: "23" };
+  const second = { ...shared, issueNumber: 12, contributor: "3" };
+  const copiedId = buildContributionEventId(first);
+  const acceptedEntry = {
+    id: copiedId,
+    taskId: second.taskId,
+    issueNumber: second.issueNumber,
+    category: "company-funding" as const,
+    subject,
+    targetField: "funding.amount" as const,
+    contributor: second.contributor,
+    evidenceUrl: second.evidenceUrl,
+    acceptedAt: second.occurredAt,
+  };
+  const event = {
+    ...second,
+    id: copiedId,
+    category: "company-funding" as const,
+    subject,
+    targetField: "funding.amount" as const,
+    sourceUrl: "https://github.com/acme/repo/issues/12",
+    publicTargetUrl: null,
+  };
+
+  assert.throws(
+    () => assertAcceptedEvidenceArtifact({ schemaVersion: 1, generatedAt: second.occurredAt, entries: [acceptedEntry] }),
+    /stable|identity|id/i,
+  );
+  assert.throws(
+    () => assertContributionLedgerArtifact({ schemaVersion: 1, generatedAt: second.occurredAt, events: [event] }),
+    /stable|identity|id/i,
+  );
 });
