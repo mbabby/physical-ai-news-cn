@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T08:05:05.893Z",
+  "generatedAt": "2026-08-29T03:56:24.110Z",
   "cards": [
     {
       "identity": {
@@ -576,7 +576,6 @@
           "Xinjiang Agricultural University",
           "Xinjiang Institute of Water Resources and Hydropower Research",
           "Huazhong University of Science and Technology",
-          "University of Hong Kong",
           "Tsinghua University",
           "清华大学"
         ],
@@ -2170,207 +2169,6 @@
     {
       "identity": {
         "paperId": {
-          "value": "cff8ac6d7c4c16ee",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.19589v1"
-          ]
-        },
-        "openAlexWorkId": {
-          "value": "W7203943488",
-          "evidenceUrls": [
-            "https://openalex.org/W7203943488"
-          ]
-        },
-        "version": {
-          "value": 1,
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.19589v1"
-          ]
-        }
-      },
-      "titleZh": {
-        "value": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ]
-      },
-      "factsZh": {
-        "value": [
-          "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。",
-          "大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ]
-      },
-      "task": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "embodiment": {
-        "value": [
-          "真实机器人"
-        ],
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ]
-      },
-      "datasetTrainingScale": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "benchmark": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "baselineDelta": {
-        "value": "Architecture-based approaches improve retention by isolating skills but lead to increased inference footprint.",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ]
-      },
-      "realRobotTrials": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "artifacts": {
-        "code": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "weights": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "data": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "projectPage": {
-          "value": "unknown",
-          "evidenceUrls": []
-        },
-        "license": {
-          "value": "unknown",
-          "evidenceUrls": []
-        }
-      },
-      "limitations": {
-        "value": "unknown",
-        "evidenceUrls": []
-      },
-      "reproducibilityCost": {
-        "value": "unknown",
-        "evidenceUrls": [],
-        "rationale": "unknown"
-      },
-      "author": {
-        "value": [
-          "Jiaqi Wang",
-          "Zhou Fang",
-          "Qiongfeng Shi"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7203943488"
-        ]
-      },
-      "lab": {
-        "value": [
-          "Southeast University"
-        ],
-        "evidenceUrls": [
-          "https://openalex.org/W7203943488"
-        ]
-      },
-      "openAlex": {
-        "match": {
-          "value": "matched",
-          "evidenceUrls": [
-            "https://openalex.org/W7203943488"
-          ]
-        },
-        "retraction": {
-          "value": false,
-          "evidenceUrls": [
-            "https://openalex.org/W7203943488"
-          ]
-        },
-        "freshness": {
-          "value": "fresh",
-          "evidenceUrls": [
-            "https://openalex.org/W7203943488"
-          ]
-        }
-      },
-      "whyWorthAttention": {
-        "value": "原文摘要明确出现真实机器人证据；OpenAlex 作者/机构元数据包含Southeast University。",
-        "evidenceUrls": [
-          "https://arxiv.org/abs/2608.19589v1",
-          "https://openalex.org/W7203943488"
-        ]
-      },
-      "rankScore": 46,
-      "fieldEvidence": {
-        "identity": [
-          "https://arxiv.org/abs/2608.19589v1",
-          "https://openalex.org/W7203943488",
-          "https://arxiv.org/abs/2608.19589v1"
-        ],
-        "title": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ],
-        "facts": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ],
-        "task": [],
-        "embodiment": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ],
-        "datasetTrainingScale": [],
-        "benchmark": [],
-        "baselineDelta": [
-          "https://arxiv.org/abs/2608.19589v1"
-        ],
-        "realRobotTrials": [],
-        "artifacts.code": [],
-        "artifacts.weights": [],
-        "artifacts.data": [],
-        "artifacts.projectPage": [],
-        "artifacts.license": [],
-        "limitations": [],
-        "reproducibilityCost": [],
-        "author": [
-          "https://openalex.org/W7203943488"
-        ],
-        "lab": [
-          "https://openalex.org/W7203943488"
-        ],
-        "openAlex.match": [
-          "https://openalex.org/W7203943488"
-        ],
-        "openAlex.retraction": [
-          "https://openalex.org/W7203943488"
-        ],
-        "openAlex.freshness": [
-          "https://openalex.org/W7203943488"
-        ],
-        "whyWorthAttention": [
-          "https://arxiv.org/abs/2608.19589v1",
-          "https://openalex.org/W7203943488"
-        ]
-      },
-      "completeness": {
-        "totalFields": 24,
-        "knownFields": 13,
-        "unknownFields": 11,
-        "completeOrUnknown": true
-      },
-      "gates": [],
-      "eligibleForTopResearch": true
-    },
-    {
-      "identity": {
-        "paperId": {
           "value": "da3b393a8a0b1c93",
           "evidenceUrls": [
             "https://arxiv.org/abs/2608.12860v1"
@@ -2577,6 +2375,209 @@
         "totalFields": 24,
         "knownFields": 15,
         "unknownFields": 9,
+        "completeOrUnknown": true
+      },
+      "gates": [],
+      "eligibleForTopResearch": true
+    },
+    {
+      "identity": {
+        "paperId": {
+          "value": "d827be18151f4e34",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06375v1"
+          ]
+        },
+        "openAlexWorkId": {
+          "value": "W7201888151",
+          "evidenceUrls": [
+            "https://openalex.org/W7201888151"
+          ]
+        },
+        "version": {
+          "value": 1,
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.06375v1"
+          ]
+        }
+      },
+      "titleZh": {
+        "value": "ω-0：实现人形机器人移动与操作并行的潜在预测世界动作模型",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ]
+      },
+      "factsZh": {
+        "value": [
+          "提出 ω-0，一个全身潜在预测世界动作模型，直接由语言指令、视觉与本体状态生成可执行的全身动作隐变量。",
+          "在 11 项真实家庭任务上，单一模型即优于模仿学习、VLA 与人形基线。"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ]
+      },
+      "task": {
+        "value": [
+          "机器人操作",
+          "机器人运动"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ]
+      },
+      "embodiment": {
+        "value": [
+          "真实机器人",
+          "人形机器人"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ]
+      },
+      "datasetTrainingScale": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "benchmark": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "baselineDelta": {
+        "value": "Real-world experiments on 11 household tasks demonstrate that a single $ω$-0 model can produce smooth manipulate-while-moving behaviors and consistently outperform representative imitation learning, VLA, humanoid, and WAM baselines.",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ]
+      },
+      "realRobotTrials": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "artifacts": {
+        "code": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "weights": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "data": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "projectPage": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "license": {
+          "value": "unknown",
+          "evidenceUrls": []
+        }
+      },
+      "limitations": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "reproducibilityCost": {
+        "value": "unknown",
+        "evidenceUrls": [],
+        "rationale": "unknown"
+      },
+      "author": {
+        "value": [
+          "Zhe Li",
+          "Zhenzhe Zhang",
+          "Yangyang Wei"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7201888151"
+        ]
+      },
+      "lab": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "openAlex": {
+        "match": {
+          "value": "matched",
+          "evidenceUrls": [
+            "https://openalex.org/W7201888151"
+          ]
+        },
+        "retraction": {
+          "value": false,
+          "evidenceUrls": [
+            "https://openalex.org/W7201888151"
+          ]
+        },
+        "freshness": {
+          "value": "fresh",
+          "evidenceUrls": [
+            "https://openalex.org/W7201888151"
+          ]
+        }
+      },
+      "whyWorthAttention": {
+        "value": "原文摘要明确出现真实机器人证据。",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.06375v1",
+          "https://openalex.org/W7201888151"
+        ]
+      },
+      "rankScore": 42,
+      "fieldEvidence": {
+        "identity": [
+          "https://arxiv.org/abs/2608.06375v1",
+          "https://openalex.org/W7201888151",
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "title": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "facts": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "task": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "embodiment": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "datasetTrainingScale": [],
+        "benchmark": [],
+        "baselineDelta": [
+          "https://arxiv.org/abs/2608.06375v1"
+        ],
+        "realRobotTrials": [],
+        "artifacts.code": [],
+        "artifacts.weights": [],
+        "artifacts.data": [],
+        "artifacts.projectPage": [],
+        "artifacts.license": [],
+        "limitations": [],
+        "reproducibilityCost": [],
+        "author": [
+          "https://openalex.org/W7201888151"
+        ],
+        "lab": [],
+        "openAlex.match": [
+          "https://openalex.org/W7201888151"
+        ],
+        "openAlex.retraction": [
+          "https://openalex.org/W7201888151"
+        ],
+        "openAlex.freshness": [
+          "https://openalex.org/W7201888151"
+        ],
+        "whyWorthAttention": [
+          "https://arxiv.org/abs/2608.06375v1",
+          "https://openalex.org/W7201888151"
+        ]
+      },
+      "completeness": {
+        "totalFields": 24,
+        "knownFields": 13,
+        "unknownFields": 11,
         "completeOrUnknown": true
       },
       "gates": [],

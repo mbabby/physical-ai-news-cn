@@ -28,9 +28,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-24 | 0 | 49 | 104 | 12 / 28 |
+| 2026-08-29 | 0 | 49 | 112 | 12 / 28 |
 
-**运行健康**：近 30 天日历覆盖 22/30（73%） · 已归档运行成功 22/22（100%） · A/B 级证据比例 样本积累中 · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 23/30（77%） · 已归档运行成功 23/23（100%） · A/B 级证据比例 样本积累中 · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -60,7 +60,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-24 · 暂无满足首页发布门槛的产业事件。
+> 数据刷新至 2026-08-29 · 暂无满足首页发布门槛的产业事件。
 
 <!-- EVENT_CENTER_END -->
 

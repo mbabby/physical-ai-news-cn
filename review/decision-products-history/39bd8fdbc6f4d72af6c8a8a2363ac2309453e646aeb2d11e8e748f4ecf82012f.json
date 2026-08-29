@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-29T03:56:24.110Z",
-  "periodStart": "2026-08-23",
+  "generatedAt": "2026-08-24T08:05:05.893Z",
+  "periodStart": "2026-08-18",
   "topSignals": [],
   "companyCards": [],
   "researchPassports": [
@@ -71,6 +71,153 @@
         "assets.code",
         "assets.data",
         "assets.weights",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-1dd2aebcb57f195f61c4",
+      "paperId": "7e4a09414f545820",
+      "titleZh": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
+      "factsZh": [
+        "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。",
+        "其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.03682v2",
+      "task": "unknown",
+      "embodiment": "unknown",
+      "methods": "unknown",
+      "benchmark": {
+        "name": "LIBERO",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.03682v2"
+        ]
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "https://github.com/mingti-org/phyai",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7201914260",
+        "authors": [
+          "Chenghua Wang",
+          "Daliang Xu",
+          "Dongqi Cai"
+        ],
+        "labs": [
+          "Beijing University of Posts and Telecommunications",
+          "Nanjing University",
+          "Ming Chi University of Technology",
+          "Tsinghua University",
+          "Peking University",
+          "University of Cambridge",
+          "Suzhou University of Science and Technology",
+          "清华大学"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-24T08:06:46.367Z"
+      },
+      "limitations": [
+        "Cosmos3 remains generation-dominated and gains only 14.3% throughput as batch size increases from 1 to 16."
+      ],
+      "whyWorthAttention": "原文摘要明确出现基准、开源证据；OpenAlex 作者/机构元数据包含Beijing University of Posts and Telecommunications、Nanjing University。",
+      "rankReasons": [
+        "代码已公开"
+      ],
+      "gaps": [
+        "assets.data",
+        "assets.weights",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-5de26311e0e05c88549c",
+      "paperId": "6868169cc6e01001",
+      "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
+      "factsZh": [
+        "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。",
+        "配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.16222v1",
+      "task": "unknown",
+      "embodiment": [
+        "真实机器人",
+        "人形机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "high",
+        "rationale": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object-Interaction"
+      },
+      "authority": {
+        "openAlexWorkId": "W7203683909",
+        "authors": [
+          "Jiahao Ji",
+          "Ji Ma",
+          "Runhan Zhang"
+        ],
+        "labs": [
+          "Minzu University of China",
+          "China University of Mining and Technology",
+          "Inner Mongolia University of Science and Technology",
+          "Institute of Disaster Prevention",
+          "Robotics Research (United States)",
+          "Hebei Seismological Bureau",
+          "Inner Mongolia University of Technology",
+          "Beihang University",
+          "Xinjiang Agricultural University",
+          "Xinjiang Institute of Water Resources and Hydropower Research",
+          "Huazhong University of Science and Technology",
+          "University of Hong Kong",
+          "Tsinghua University",
+          "清华大学"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-24T08:06:46.403Z"
+      },
+      "limitations": [
+        "However, existing embodied datasets remain fundamentally limited: internet-scale video data lack precise physical states and interaction grounding, while laboratory motion datasets provide high fidelity but only narrow behavioral coverage."
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Minzu University of China、China University of Mining and Technology。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
         "benchmark.metric",
         "benchmark.result",
         "benchmark.baseline",
@@ -272,7 +419,7 @@
     }
   ],
   "subscriptions": {
-    "generatedAt": "2026-08-29T03:56:24.110Z",
+    "generatedAt": "2026-08-24T08:05:05.893Z",
     "entries": [
       {
         "subscriptionId": "github-watch",
