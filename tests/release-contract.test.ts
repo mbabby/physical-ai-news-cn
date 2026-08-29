@@ -4,8 +4,15 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { validatePublicationArtifacts } from "../src/runtime/validation.js";
-import { validateDecisionProductPublication } from "../src/runtime/validation.js";
+import { validateCommunityEvidenceRelease, validateDecisionProductPublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
+import type {
+  AcceptedEvidenceArtifact,
+  CommunityTaskPublicArtifact,
+  ContributionLedgerArtifact,
+  EvidenceIssueSnapshot,
+  EvidenceTaskLedgerArtifact,
+  EvidenceTaskSeedArtifact,
+} from "../src/community-evidence/contracts.js";
 import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "../src/decision-products/subscriptions.js";
 import { formatDecisionProductReadme } from "../src/decision-products/markdown.js";
@@ -25,7 +32,7 @@ const PAGES_URL = "https://mbabby.github.io/physical-ai-news-cn";
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events",
-  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
+  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 const RELEASE_MUTATION_PATHS = [
   "events/index.json", "research/benchmark-result-ledger.json", "README.md",
@@ -107,6 +114,7 @@ async function writeJson(path: string, value: unknown): Promise<void> {
 async function generatedReleaseFixture(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "task7-release-contract-"));
   for (const path of FIXTURE_PATHS) await cp(join(root, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
   await rm(join(target, "watchlist", "history"), { recursive: true, force: true });
@@ -465,6 +473,40 @@ test("release validation reads the complete staged Watchlist public group from i
   assert.match(source, /validateWatchlistReviewIssueArtifact\(/);
   assert.match(source, /decodeWatchlistConfig\(/);
   assert.match(source, /communityMetricsBytes !== publicCommunityMetricsBytes/);
+});
+
+test("release validation reads and cross-validates the complete community evidence group", async () => {
+  const source = await readFile(join(root, "src", "validate-release.ts"), "utf8");
+  for (const path of [
+    ["review", "evidence-task-seeds.json"],
+    ["review", "evidence-issue-snapshot.json"],
+    ["review", "evidence-task-ledger.json"],
+    ["review", "accepted-evidence.json"],
+    ["review", "accepted-evidence-revalidation.json"],
+    ["community", "contributions.json"],
+    ["site", "data", "community-tasks.json"],
+  ]) assert.match(source, new RegExp(`join\\(root, ${path.map((part) => `"${part}"`).join(", ")}\\)`));
+  assert.match(source, /validateCommunityEvidenceRelease\(\{/);
+  assert.match(source, /canonicalDashboardFacts\(dashboard\)/);
+  assert.match(source, /HEAD\^/);
+});
+
+test("checked-in bootstrap community evidence group is exact-valid at repository root", async () => {
+  const [seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, revalidation] = await Promise.all([
+    json<EvidenceTaskSeedArtifact>(join(root, "review", "evidence-task-seeds.json")),
+    json<EvidenceIssueSnapshot>(join(root, "review", "evidence-issue-snapshot.json")),
+    json<EvidenceTaskLedgerArtifact>(join(root, "review", "evidence-task-ledger.json")),
+    json<AcceptedEvidenceArtifact>(join(root, "review", "accepted-evidence.json")),
+    json<ContributionLedgerArtifact>(join(root, "community", "contributions.json")),
+    json<CommunityTaskPublicArtifact>(join(root, "site", "data", "community-tasks.json")),
+    json<unknown>(join(root, "metrics", "community.json")),
+    json<import("../src/community-evidence/revalidation.js").AcceptedEvidenceRevalidationArtifact>(join(root, "review", "accepted-evidence-revalidation.json")),
+  ]);
+  assert.doesNotThrow(() => validateCommunityEvidenceRelease({
+    seeds, snapshot, ledger, accepted, contributions, publicTasks, communityMetrics, revalidation, canonicalPublicFacts: [],
+  }));
+  assert.doesNotMatch(JSON.stringify({ seeds, snapshot, ledger, accepted, contributions, publicTasks }),
+    /candidateId|seedId|rawModelOutput|prompt|apiKey|token|secret|score|rank/i);
 });
 
 test("release validation rejects stale or forged Watchlist publication surfaces before a public release", async () => {

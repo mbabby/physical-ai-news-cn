@@ -11,6 +11,26 @@ import { validateDecisionProductArtifact, type DecisionProductArtifact } from ".
 import { buildDecisionFeedManifest, renderDecisionFeed } from "../decision-products/subscriptions.js";
 import type { DashboardData } from "../site-data.js";
 import type { WatchlistPublicView } from "../watchlist/public-view.js";
+import {
+  assertAcceptedEvidenceArtifact,
+  assertCommunityTaskPublicArtifact,
+  assertContributionLedgerArtifact,
+  assertEvidenceIssueSnapshot,
+  assertEvidenceTaskLedgerArtifact,
+  assertEvidenceTaskSeedArtifact,
+  buildContributionEventId,
+  type AcceptedEvidenceArtifact,
+  type CommunityTaskPublicArtifact,
+  type ContributionLedgerArtifact,
+  type EvidenceIssueSnapshot,
+  type EvidenceTaskLedgerArtifact,
+  type EvidenceTaskSeedArtifact,
+} from "../community-evidence/contracts.js";
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  canonicalMatchMatchesArtifacts,
+  type AcceptedEvidenceRevalidationArtifact,
+} from "../community-evidence/revalidation.js";
 
 export interface PublicationValidationInput {
   archive: DailyArchive;
@@ -21,6 +41,353 @@ export interface PublicationValidationInput {
   expectedDate: string;
   previousCompleteResearchCount?: number;
   watchlist?: WatchlistReleaseValidationInput;
+}
+
+export interface CommunityEvidenceReleaseValidationInput {
+  seeds: EvidenceTaskSeedArtifact;
+  snapshot: EvidenceIssueSnapshot;
+  ledger: EvidenceTaskLedgerArtifact;
+  accepted: AcceptedEvidenceArtifact;
+  contributions: ContributionLedgerArtifact;
+  publicTasks: CommunityTaskPublicArtifact;
+  previousPublicTasks?: CommunityTaskPublicArtifact;
+  previousContributions?: ContributionLedgerArtifact;
+  previousRevalidation?: AcceptedEvidenceRevalidationArtifact;
+  communityMetrics: unknown;
+  revalidation: AcceptedEvidenceRevalidationArtifact;
+  canonicalMatchContext?: {
+    companies: import("../types.js").CompanyProfile[];
+    companyClaimLedger: CompanyClaimLedger;
+    events: EventStore["events"];
+    researchDecisionCards: ResearchDecisionCard[];
+    researchRecords: ResearchRecord[];
+    benchmarkResultLedger: BenchmarkResultLedger;
+    decisionProducts: DecisionProductArtifact;
+    pagesBaseUrl: string;
+  };
+  canonicalPublicFacts?: readonly unknown[];
+}
+
+/** Exclude public attribution/progress data from the canonical-fact evidence scan. */
+export function canonicalDashboardFacts(dashboard: DashboardData): Omit<DashboardData, "communityEvidence"> {
+  const { communityEvidence: _communityEvidence, ...canonicalFacts } = dashboard;
+  return canonicalFacts;
+}
+
+function sameValue(left: unknown, right: unknown): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function contributionPair(value: { taskId: string; issueNumber: number; contributor: string; evidenceUrl: string }): string {
+  return `${value.taskId}\n${value.issueNumber}\n${value.contributor}\n${value.evidenceUrl}`;
+}
+
+function collectPublicUrls(value: unknown, result = new Set<string>()): Set<string> {
+  if (typeof value === "string") {
+    for (const match of value.matchAll(/https:\/\/[^\s<>"']+/g)) {
+      const candidate = match[0].replace(/[),.;\]}]+$/g, "");
+      try { result.add(new URL(candidate).href); } catch { /* validated elsewhere */ }
+    }
+  } else if (Array.isArray(value)) value.forEach((item) => collectPublicUrls(item, result));
+  else if (value && typeof value === "object") Object.values(value).forEach((item) => collectPublicUrls(item, result));
+  return result;
+}
+
+function rejectOfficialAggregators(value: unknown): void {
+  if (Array.isArray(value)) {
+    value.forEach(rejectOfficialAggregators);
+    return;
+  }
+  if (!value || typeof value !== "object") return;
+  const record = value as Record<string, unknown>;
+  const candidateUrl = [record.link, record.url, record.aggregatorLink].find((item): item is string => typeof item === "string");
+  const aggregator = candidateUrl && /(?:^|\.)(?:news\.google\.com|feedly\.com|flipboard\.com|news\.bing\.com)$/i.test((() => {
+    try { return new URL(candidateUrl).hostname; } catch { return ""; }
+  })());
+  const classifiedOfficial = record.grade === "A" || record.evidenceState === "official"
+    || (typeof record.sourceClass === "string" && record.sourceClass.includes("official"));
+  if ((aggregator || Boolean(record.discoveredViaAggregator)) && classifiedOfficial) {
+    throw new Error("Aggregator evidence cannot be classified as official");
+  }
+  Object.values(record).forEach(rejectOfficialAggregators);
+}
+
+function exactObject(value: unknown, keys: readonly string[], label: string): asserts value is Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)
+    || !sameValue(Object.keys(value).sort(), [...keys].sort())) throw new Error(`Community metrics ${label} must have exact keys`);
+}
+
+function metricCount(value: unknown): value is number {
+  return Number.isInteger(value) && Number(value) >= 0;
+}
+
+function metricRatio(numerator: number, denominator: number): number {
+  return denominator === 0 ? 0 : Number((numerator / denominator).toFixed(4));
+}
+
+function validateCommunityMetrics(input: CommunityEvidenceReleaseValidationInput): void {
+  const value = input.communityMetrics;
+  exactObject(value, ["generatedAt", "repository", "traffic", "contributors", "openTasks", "categoryCoverage", "acceptedThisWeek",
+    "newContributorsThisWeek", "staleRatio", "invalidRatio", "promotionConversion"], "artifact");
+  if (typeof value.generatedAt !== "string" || !Number.isFinite(Date.parse(value.generatedAt))) throw new Error("Community metrics generatedAt is invalid");
+  exactObject(value.repository, ["stars", "forks", "subscribers", "openIssues"], "repository");
+  if (!Object.values(value.repository).every(metricCount)) throw new Error("Community metrics repository counts are invalid");
+  exactObject(value.traffic, ["status", "views14d", "uniqueVisitors14d", "clones14d", "uniqueCloners14d", "referrers"], "traffic");
+  if (value.traffic.status !== "available" && value.traffic.status !== "unavailable") throw new Error("Community metrics traffic status is invalid");
+  const trafficCounts = [value.traffic.views14d, value.traffic.uniqueVisitors14d, value.traffic.clones14d, value.traffic.uniqueCloners14d];
+  if (value.traffic.status === "unavailable") {
+    if (trafficCounts.some((item) => item !== null) || value.traffic.referrers !== null) throw new Error("Unavailable community traffic must use null values");
+  } else if (!trafficCounts.every(metricCount) || !Array.isArray(value.traffic.referrers)) {
+    throw new Error("Available community traffic is incomplete");
+  }
+  exactObject(value.contributors, ["codeContributors", "acceptedEvidenceContributors", "count"], "contributors");
+  const code = value.contributors.codeContributors;
+  const acceptedContributors = value.contributors.acceptedEvidenceContributors;
+  if (!Array.isArray(code) || !Array.isArray(acceptedContributors)
+    || !code.every((item) => typeof item === "string") || !acceptedContributors.every((item) => typeof item === "string")
+    || !metricCount(value.contributors.count)
+    || value.contributors.count !== new Set([...code, ...acceptedContributors]).size) {
+    throw new Error("Community metrics contributor aggregate is invalid");
+  }
+  const expectedAcceptedContributors = [...new Set(input.contributions.events
+    .filter((event) => event.state === "accepted")
+    .map((event) => event.contributor))].sort();
+  if (!sameValue(acceptedContributors, expectedAcceptedContributors)) {
+    throw new Error("Community metrics accepted evidence contributors do not match the validated contribution ledger");
+  }
+
+  const generatedAt = new Date(value.generatedAt);
+  const day = generatedAt.getUTCDay() || 7;
+  const start = Date.UTC(generatedAt.getUTCFullYear(), generatedAt.getUTCMonth(), generatedAt.getUTCDate() - day + 1);
+  const end = start + 7 * 86_400_000;
+  const acceptedThisWeek = input.contributions.events.filter((event) => event.state === "accepted"
+    && Date.parse(event.occurredAt) >= start && Date.parse(event.occurredAt) < end);
+  const previousContributors = new Set(input.contributions.events.filter((event) => event.state === "accepted"
+    && Date.parse(event.occurredAt) < start).map((event) => event.contributor));
+  const acceptedPairs = new Set(input.contributions.events.filter((event) => event.state === "accepted").map(contributionPair));
+  const promotedPairs = new Set(input.contributions.events.filter((event) => event.state === "promoted").map(contributionPair));
+  const wip = input.ledger.entries.filter((entry) => ["open", "contributed", "stale"].includes(entry.state));
+  const expected = {
+    openTasks: input.publicTasks.tasks.length,
+    categoryCoverage: [...new Set(input.publicTasks.tasks.map((task) => task.category))].sort(),
+    acceptedThisWeek: acceptedThisWeek.length,
+    newContributorsThisWeek: new Set(acceptedThisWeek.map((event) => event.contributor)
+      .filter((contributor) => !previousContributors.has(contributor))).size,
+    staleRatio: metricRatio(wip.filter((entry) => entry.state === "stale").length, wip.length),
+    invalidRatio: metricRatio(input.ledger.entries.filter((entry) => entry.state === "rejected").length, input.ledger.entries.length),
+    promotionConversion: metricRatio([...promotedPairs].filter((pair) => acceptedPairs.has(pair)).length, acceptedPairs.size),
+  };
+  for (const [key, expectedValue] of Object.entries(expected)) {
+    if (!sameValue(value[key], expectedValue)) throw new Error(`Community metrics ${key} does not match current evidence artifacts`);
+  }
+}
+
+/** Validate every community-evidence projection as one release unit. */
+export function validateCommunityEvidenceRelease(input: CommunityEvidenceReleaseValidationInput): void {
+  assertEvidenceTaskSeedArtifact(input.seeds);
+  assertEvidenceIssueSnapshot(input.snapshot);
+  assertEvidenceTaskLedgerArtifact(input.ledger);
+  assertAcceptedEvidenceArtifact(input.accepted);
+  assertContributionLedgerArtifact(input.contributions);
+  assertCommunityTaskPublicArtifact(input.publicTasks);
+  assertAcceptedEvidenceRevalidationArtifact(input.revalidation);
+  if (input.previousPublicTasks) assertCommunityTaskPublicArtifact(input.previousPublicTasks);
+  if (input.previousContributions) assertContributionLedgerArtifact(input.previousContributions);
+  if (input.previousRevalidation) assertAcceptedEvidenceRevalidationArtifact(input.previousRevalidation);
+
+  const generatedAt = input.ledger.generatedAt;
+  if (input.seeds.generatedAt !== generatedAt || input.accepted.generatedAt !== generatedAt
+    || input.contributions.generatedAt !== generatedAt || input.publicTasks.generatedAt !== generatedAt
+    || input.revalidation.generatedAt !== generatedAt) {
+    throw new Error("Community evidence release artifacts do not share one generation clock");
+  }
+  if (input.previousContributions && !input.previousContributions.events.every((event, index) =>
+    sameValue(event, input.contributions.events[index]))) {
+    throw new Error("Contribution history must retain the previous event list as an exact append-only prefix");
+  }
+  if (input.previousRevalidation && !input.previousRevalidation.results.every((result, index) =>
+    sameValue(result, input.revalidation.results[index]))) {
+    throw new Error("Accepted evidence revalidation history must retain the previous result list as an exact append-only prefix");
+  }
+
+  const seeds = new Map(input.seeds.seeds.map((seed) => [seed.id, seed]));
+  const ledger = new Map(input.ledger.entries.map((entry) => [entry.taskId, entry]));
+  const issues = new Map(input.snapshot.issues.map((issue) => [issue.taskId, issue]));
+  const wip = input.ledger.entries.filter((entry) => ["open", "contributed", "stale"].includes(entry.state));
+  if (wip.length > 5) throw new Error(`Community evidence WIP exceeds the hard cap of five: ${wip.length}`);
+  const activeMaterial = new Set<string>();
+  for (const entry of wip) {
+    const identity = `${entry.subject.kind}\n${entry.subject.id}\n${entry.targetField}`;
+    if (activeMaterial.has(identity)) throw new Error(`Duplicate open community evidence task: ${entry.taskId}`);
+    activeMaterial.add(identity);
+  }
+
+  for (const entry of input.ledger.entries) {
+    const seed = seeds.get(entry.taskId);
+    if (seed && (seed.version !== entry.taskVersion || seed.category !== entry.category
+      || !sameValue(seed.subject, entry.subject) || seed.targetField !== entry.targetField
+      || seed.materialVersion !== entry.materialVersion || seed.supersedesTaskId !== entry.supersedesTaskId)) {
+      throw new Error(`Community evidence task ${entry.taskId} does not match its seed subject/reference identity`);
+    }
+    if (entry.issueNumber === null) continue;
+    const expectedIssueUrl = `https://github.com/${input.snapshot.repo}/issues/${entry.issueNumber}`;
+    if (entry.issueUrl !== expectedIssueUrl) throw new Error(`Community evidence task ${entry.taskId} has a mismatched Issue link`);
+    const issue = issues.get(entry.taskId);
+    if (issue && (issue.number !== entry.issueNumber || issue.taskVersion !== entry.taskVersion
+      || !issue.labels.includes(`evidence-task-${entry.category}`))) {
+      throw new Error(`Community evidence task ${entry.taskId} does not match its Issue identity/state`);
+    }
+  }
+  for (const issue of input.snapshot.issues) {
+    const entry = ledger.get(issue.taskId);
+    if (!entry || entry.issueNumber !== issue.number || entry.taskVersion !== issue.taskVersion) {
+      throw new Error(`Community evidence Issue ${issue.number} cannot resolve to exactly one ledger task`);
+    }
+  }
+
+  const activePairs = new Set<string>();
+  const activeAcceptance = new Map<string, ContributionLedgerArtifact["events"][number]>();
+  const promotedPairs = new Set<string>();
+  const promotionAcceptanceIds = new Map<string, string>();
+  const submittedPairs = new Set<string>();
+  const grandfatheredAcceptanceIds = new Set<string>();
+  const previousSubmittedPairs = new Set<string>();
+  for (const event of input.previousContributions?.events ?? []) {
+    const key = contributionPair(event);
+    if (event.state === "submitted") previousSubmittedPairs.add(key);
+    else if (event.state === "accepted" && !previousSubmittedPairs.has(key)) grandfatheredAcceptanceIds.add(event.id);
+  }
+  for (const event of input.contributions.events) {
+    if (event.id !== buildContributionEventId(event)) throw new Error(`Community contribution ${event.id} has an invalid stable identity`);
+    const task = ledger.get(event.taskId);
+    if (!task || task.issueNumber !== event.issueNumber || task.category !== event.category
+      || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`) {
+      throw new Error(`Community contribution ${event.id} does not match its task or Issue reference`);
+    }
+    const key = contributionPair(event);
+    if (event.state === "submitted") {
+      if (activePairs.has(key) || submittedPairs.has(key)) throw new Error(`Community contribution ${event.id} has a duplicate submitted lifecycle`);
+      submittedPairs.add(key);
+    } else if (event.state === "accepted") {
+      if ((!submittedPairs.has(key) && !grandfatheredAcceptanceIds.has(event.id)) || activePairs.has(key)) throw new Error(`Community contribution ${event.id} has an accepted lifecycle without a submitted event or has a duplicate acceptance`);
+      activePairs.add(key);
+      activeAcceptance.set(key, event);
+    }
+    else if (event.state === "promoted") {
+      if (!activePairs.has(key) || promotedPairs.has(key)) throw new Error(`Community contribution ${event.id} has an invalid promotion lifecycle`);
+      promotionAcceptanceIds.set(event.id, activeAcceptance.get(key)!.id);
+      promotedPairs.add(key);
+    } else if (event.state === "corrected" || event.state === "withdrawn") {
+      if (!activePairs.has(key)) throw new Error(`Community contribution ${event.id} ended before acceptance`);
+      activePairs.delete(key);
+      activeAcceptance.delete(key);
+      promotedPairs.delete(key);
+    }
+  }
+
+  const acceptedPairs = new Set(input.accepted.entries.map(contributionPair));
+  for (const entry of input.accepted.entries) {
+    const task = ledger.get(entry.taskId);
+    const issue = issues.get(entry.taskId);
+    const key = contributionPair(entry);
+    const acceptance = activeAcceptance.get(key);
+    if (entry.id !== buildContributionEventId({ ...entry, state: "accepted", occurredAt: entry.acceptedAt })
+      || !task || !issue || task.state !== "accepted" || task.issueNumber !== entry.issueNumber
+      || !issue.labels.includes("accepted-evidence") || task.category !== entry.category
+      || !sameValue(task.subject, entry.subject) || task.targetField !== entry.targetField
+      || !issue.acceptedEvidence.some((item) => item.contributor === entry.contributor && item.evidenceUrl === entry.evidenceUrl)
+      || !acceptance || entry.id !== acceptance.id || entry.acceptedAt !== acceptance.occurredAt) {
+      throw new Error(`Accepted contributor/evidence record ${entry.id} is not active in the Issue lifecycle`);
+    }
+  }
+  if (activePairs.size !== acceptedPairs.size || [...activePairs].some((key) => !acceptedPairs.has(key))) {
+    throw new Error("Active contribution history and accepted-evidence records disagree");
+  }
+
+  const acceptanceEvents = new Map(input.contributions.events.filter((event) => event.state === "accepted").map((event) => [event.id, event]));
+  for (const result of input.revalidation.results) {
+    const acceptance = acceptanceEvents.get(result.acceptedEvidenceId);
+    if (!acceptance || acceptance.taskId !== result.taskId || acceptance.issueNumber !== result.issueNumber
+      || acceptance.contributor !== result.contributor || acceptance.evidenceUrl !== result.evidenceUrl
+      || acceptance.subject.id !== result.subjectId || acceptance.targetField !== result.targetField
+      || Date.parse(acceptance.occurredAt) > Date.parse(result.attemptedAt)) {
+      throw new Error(`Accepted evidence revalidation result ${result.acceptedEvidenceId} is not bound to its historical acceptance event`);
+    }
+  }
+  const currentResults = input.revalidation.results.filter((result) => result.attemptedAt === generatedAt);
+  if (currentResults.length !== input.accepted.entries.length) {
+    throw new Error("Every active accepted evidence entry must have exactly one current revalidation result");
+  }
+  const currentByAcceptedId = new Map(currentResults.map((result) => [result.acceptedEvidenceId, result]));
+  if (currentByAcceptedId.size !== currentResults.length) throw new Error("Current accepted evidence revalidation results are duplicated");
+  for (const entry of input.accepted.entries) {
+    const result = currentByAcceptedId.get(entry.id);
+    if (!result || result.taskId !== entry.taskId || result.issueNumber !== entry.issueNumber
+      || result.contributor !== entry.contributor || result.evidenceUrl !== entry.evidenceUrl
+      || result.subjectId !== entry.subject.id || result.targetField !== entry.targetField) {
+      throw new Error(`Active accepted evidence ${entry.id} lacks an exact current revalidation binding`);
+    }
+  }
+
+  const previousPromotionIds = new Set((input.previousContributions?.events ?? []).filter((event) => event.state === "promoted").map((event) => event.id));
+  const previousProofs = input.previousRevalidation?.results ?? [];
+  for (const [eventIndex, event] of input.contributions.events.entries()) {
+    if (event.state !== "promoted") continue;
+    const proof = input.revalidation.results.find((result) => result.outcome === "matched" && result.canonicalMatch
+      && result.acceptedEvidenceId === promotionAcceptanceIds.get(event.id)
+      && result.taskId === event.taskId && result.issueNumber === event.issueNumber && result.contributor === event.contributor
+      && result.evidenceUrl === event.evidenceUrl && result.subjectId === event.subject.id && result.targetField === event.targetField
+      && result.canonicalMatch.matchedAt === event.occurredAt && result.canonicalMatch.publicTargetUrl === event.publicTargetUrl);
+    const laterTerminal = input.contributions.events.slice(eventIndex + 1).some((candidate) => contributionPair(candidate) === contributionPair(event)
+      && (candidate.state === "corrected" || candidate.state === "withdrawn"));
+    const inheritedPromotion = previousPromotionIds.has(event.id);
+    const inheritedProof = inheritedPromotion && proof
+      && previousProofs.some((candidate) => sameValue(candidate, proof));
+    const currentCanonicalProof = proof?.canonicalMatch && input.canonicalMatchContext
+      ? canonicalMatchMatchesArtifacts(event, proof.canonicalMatch, { ...input.canonicalMatchContext, now: new Date(proof.canonicalMatch.matchedAt) })
+      : false;
+    const validProof = inheritedPromotion
+      ? laterTerminal ? Boolean(inheritedProof) : currentCanonicalProof
+      : proof?.attemptedAt === input.revalidation.generatedAt && currentCanonicalProof;
+    if (!proof?.canonicalMatch || !validProof) {
+      throw new Error(`Promoted community contribution ${event.id} lacks a successful canonical revalidation proof`);
+    }
+  }
+
+  const priorPublicById = new Map((input.previousPublicTasks?.tasks ?? []).map((task) => [task.id, task]));
+  const expectedPublic = input.ledger.entries
+    .filter((entry) => entry.state === "open" || entry.state === "contributed")
+    .map((entry) => {
+      const seed = seeds.get(entry.taskId);
+      const issue = issues.get(entry.taskId);
+      const prior = priorPublicById.get(entry.taskId);
+      if ((!seed && !prior) || !issue || entry.issueNumber === null) throw new Error(`Public community task ${entry.taskId} lacks a seed, LKG projection, or Issue`);
+      if (issue.state !== "open" || issue.closedAt !== null
+        || issue.labels.some((label) => ["accepted-evidence", "evidence-rejected", "rejected-evidence"].includes(label))) {
+        throw new Error(`Public community task ${entry.taskId} points to a closed or terminal Issue`);
+      }
+      return {
+        id: entry.taskId, version: entry.taskVersion, category: entry.category, subject: entry.subject,
+        targetField: entry.targetField, contextZh: seed?.contextZh ?? prior!.contextZh, issueNumber: entry.issueNumber,
+        issueUrl: entry.issueUrl!, estimatedMinutes: 2 as const, generatedWeek: seed?.generatedWeek ?? prior!.generatedWeek, state: entry.state,
+      };
+    })
+    .sort((left, right) => left.category.localeCompare(right.category) || left.subject.name.localeCompare(right.subject.name)
+      || left.targetField.localeCompare(right.targetField) || left.id.localeCompare(right.id));
+  if (!sameValue(input.publicTasks.tasks, expectedPublic)) {
+    throw new Error("Public community tasks are not the exact ordered open-task ledger subset");
+  }
+
+  const canonicalFacts = input.canonicalPublicFacts ?? [];
+  canonicalFacts.forEach(rejectOfficialAggregators);
+  const publicUrls = collectPublicUrls(canonicalFacts);
+  for (const entry of input.accepted.entries) {
+    if (publicUrls.has(new URL(entry.evidenceUrl).href) && !promotedPairs.has(contributionPair(entry))) {
+      throw new Error(`Accepted evidence entered a canonical public fact without a normal promotion record: ${entry.id}`);
+    }
+  }
+  validateCommunityMetrics(input);
 }
 
 export function validateDualLedgerPublication(input: {

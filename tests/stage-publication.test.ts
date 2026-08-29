@@ -15,6 +15,7 @@ const publicationFixtures: Record<string, string> = {
   "weekly/2026-W34.md": "old weekly\n",
   "sources/registry.json": "old sources\n",
   "review/run-manifest.json": "old review\n",
+  "community/contributions.json": "old contributions\n",
   "resources/radar.json": "old resources\n",
   "events/index.json": "old events\n",
   "research/registry.json": "old research\n",

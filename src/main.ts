@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -50,8 +50,8 @@ import {
 import type { DecisionFunnelTransition, DecisionUnitArtifact, DecisionUnitSeed } from "./decision-units.js";
 import { buildReviewAssignmentArtifact } from "./review-assignment.js";
 import type { ReviewAssignmentArtifact, ReviewOwner } from "./review-assignment.js";
-import { buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
-import type { EvidenceEnrichmentArtifact } from "./evidence-enrichment-planner.js";
+import { buildAcceptedEvidenceEnrichmentTargets, buildEvidenceEnrichmentPlan } from "./evidence-enrichment-planner.js";
+import type { EvidenceEnrichmentArtifact, EvidenceEnrichmentTarget } from "./evidence-enrichment-planner.js";
 import { buildDomainHealth } from "./domain-health.js";
 import { buildCompanyBoards } from "./company-boards.js";
 import { derivePublication } from "./facts-contract.js";
@@ -73,6 +73,32 @@ import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, shouldDegradeResearchPassportProjection, stageDecisionProducts } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
+import {
+  assertAcceptedEvidenceArtifact,
+  assertCommunityTaskPublicArtifact,
+  assertContributionLedgerArtifact,
+  assertEvidenceIssueSnapshot,
+  assertEvidenceTaskLedgerArtifact,
+  assertEvidenceTaskSeedArtifact,
+  migrateLegacyEvidenceIssueSnapshot,
+  type AcceptedEvidenceArtifact,
+  type CommunityTaskPublicArtifact,
+  type ContributionLedgerArtifact,
+  type EvidenceIssueSnapshot,
+  type EvidenceTaskLedgerArtifact,
+  type EvidenceTaskSeedArtifact,
+} from "./community-evidence/contracts.js";
+import { projectAcceptedEvidence } from "./community-evidence/contributions.js";
+import { fetchEvidenceIssueSnapshot } from "./community-evidence/github-issues.js";
+import { planEvidenceIssueActions } from "./community-evidence/task-ledger.js";
+import { buildEvidenceTaskSeeds } from "./community-evidence/task-seeds.js";
+import { buildCommunityEvidencePublication, type CommunityEvidencePublication } from "./community-evidence/publication.js";
+import {
+  assertAcceptedEvidenceRevalidationArtifact,
+  revalidateAcceptedEvidence,
+  type AcceptedEvidenceRevalidationArtifact,
+  type AcceptedEvidenceRevalidationOptions,
+} from "./community-evidence/revalidation.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesBaseUrl = "https://mbabby.github.io/physical-ai-news-cn";
@@ -87,6 +113,385 @@ const researchStart = "<!-- RESEARCH_UPDATES_START -->";
 const researchEnd = "<!-- RESEARCH_UPDATES_END -->";
 const statusStart = "<!-- PROJECT_STATUS_START -->";
 const statusEnd = "<!-- PROJECT_STATUS_END -->";
+
+function exactArtifact<T>(assertArtifact: (value: unknown) => asserts value is T): (value: unknown) => value is T {
+  return (value: unknown): value is T => {
+    try { assertArtifact(value); return true; }
+    catch { return false; }
+  };
+}
+
+function sameValue(left: unknown, right: unknown): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function validateCommunityEvidenceProjection(input: {
+  seeds: EvidenceTaskSeedArtifact;
+  snapshot: EvidenceIssueSnapshot;
+  ledger: EvidenceTaskLedgerArtifact;
+  accepted: AcceptedEvidenceArtifact;
+  contributions: ContributionLedgerArtifact;
+  publicTasks: CommunityTaskPublicArtifact;
+}): void {
+  assertEvidenceTaskSeedArtifact(input.seeds);
+  assertEvidenceIssueSnapshot(input.snapshot);
+  assertEvidenceTaskLedgerArtifact(input.ledger);
+  assertAcceptedEvidenceArtifact(input.accepted);
+  assertContributionLedgerArtifact(input.contributions);
+  assertCommunityTaskPublicArtifact(input.publicTasks);
+  const generatedAt = input.ledger.generatedAt;
+  if (input.seeds.generatedAt !== generatedAt || input.accepted.generatedAt !== generatedAt
+    || input.contributions.generatedAt !== generatedAt || input.publicTasks.generatedAt !== generatedAt) {
+    throw new Error("社区证据投影生成时钟不一致");
+  }
+
+  const seeds = new Map(input.seeds.seeds.map((seed) => [seed.id, seed]));
+  const ledger = new Map(input.ledger.entries.map((entry) => [entry.taskId, entry]));
+  const issues = new Map(input.snapshot.issues.map((issue) => [issue.taskId, issue]));
+  const snapshotRequiredTaskIds = new Set([
+    ...input.accepted.entries.map((entry) => entry.taskId),
+    ...input.publicTasks.tasks.map((task) => task.id),
+  ]);
+  for (const entry of input.ledger.entries) {
+    const seed = seeds.get(entry.taskId);
+    if (seed && (seed.category !== entry.category || !sameValue(seed.subject, entry.subject)
+      || seed.targetField !== entry.targetField || seed.materialVersion !== entry.materialVersion)) {
+      throw new Error(`社区证据任务 ${entry.taskId} 与种子不一致`);
+    }
+    if (entry.issueNumber === null) {
+      if (entry.state !== "ready" || !seed || issues.has(entry.taskId)) throw new Error(`社区证据 ready 任务 ${entry.taskId} 关系不一致`);
+      continue;
+    }
+    const issue = issues.get(entry.taskId);
+    if (!issue) {
+      if (snapshotRequiredTaskIds.has(entry.taskId)
+        || entry.issueUrl !== `https://github.com/${input.snapshot.repo}/issues/${entry.issueNumber}`) {
+        throw new Error(`社区证据任务 ${entry.taskId} 缺少当前 Issue 关系`);
+      }
+      continue;
+    }
+    if (issue.number !== entry.issueNumber || issue.taskVersion !== entry.taskVersion
+      || entry.issueUrl !== `https://github.com/${input.snapshot.repo}/issues/${issue.number}`
+      || !issue.labels.includes(`evidence-task-${entry.category}`)) {
+      throw new Error(`社区证据任务 ${entry.taskId} 与 Issue/版本关系不一致`);
+    }
+  }
+  for (const issue of input.snapshot.issues) {
+    const entry = ledger.get(issue.taskId);
+    if (!entry || entry.issueNumber !== issue.number || entry.taskVersion !== issue.taskVersion) {
+      throw new Error(`社区证据 Issue ${issue.number} 不能唯一解析到任务账本`);
+    }
+  }
+
+  for (const entry of input.accepted.entries) {
+    const task = ledger.get(entry.taskId);
+    const issue = issues.get(entry.taskId);
+    if (!task || !issue || task.state !== "accepted" || task.issueNumber !== entry.issueNumber
+      || issue.number !== entry.issueNumber || issue.taskVersion !== task.taskVersion
+      || task.category !== entry.category || !sameValue(task.subject, entry.subject) || task.targetField !== entry.targetField
+      || !issue.acceptedEvidence.some((item) => item.contributor === entry.contributor && item.evidenceUrl === entry.evidenceUrl)) {
+      throw new Error(`已采纳证据 ${entry.id} 与任务账本或 Issue 不一致`);
+    }
+  }
+
+  for (const event of input.contributions.events) {
+    const task = ledger.get(event.taskId);
+    const issue = issues.get(event.taskId);
+    if (!task || task.issueNumber !== event.issueNumber
+      || (issue && (issue.number !== event.issueNumber || issue.taskVersion !== task.taskVersion))
+      || task.category !== event.category
+      || !sameValue(task.subject, event.subject) || task.targetField !== event.targetField
+      || event.sourceUrl !== `https://github.com/${input.snapshot.repo}/issues/${event.issueNumber}`) {
+      throw new Error(`社区贡献事件 ${event.id} 与任务账本或 Issue 不一致`);
+    }
+  }
+
+  const pairIdentity = (value: { taskId: string; issueNumber: number; contributor: string; evidenceUrl: string }): string =>
+    `${value.taskId}\n${value.issueNumber}\n${value.contributor}\n${value.evidenceUrl}`;
+  const acceptedByPair = new Map(input.accepted.entries.map((entry) => [pairIdentity(entry), entry]));
+  const historyByPair = new Map<string, ContributionLedgerArtifact["events"]>();
+  for (const event of input.contributions.events) {
+    const key = pairIdentity(event);
+    const history = historyByPair.get(key) ?? [];
+    history.push(event);
+    historyByPair.set(key, history);
+  }
+  for (const [key, history] of historyByPair) {
+    let active = false;
+    let epochSubmitted = false;
+    let epochAccepted = false;
+    let epochPromoted = false;
+    let lastTerminal: "corrected" | "withdrawn" | undefined;
+    for (const event of history) {
+      if (event.state === "submitted") {
+        if (active || epochSubmitted) throw new Error(`社区贡献 ${key} 的 submitted 生命周期不合法`);
+        epochSubmitted = true;
+      } else if (event.state === "accepted") {
+        if (epochAccepted) throw new Error(`社区贡献 ${key} 重复进入 accepted 生命周期`);
+        epochAccepted = true;
+        active = true;
+      } else if (event.state === "promoted") {
+        if (epochPromoted) throw new Error(`社区贡献 ${key} 重复进入 promoted 生命周期`);
+        epochPromoted = true;
+      } else {
+        if (!epochAccepted) throw new Error(`社区贡献 ${key} 在未采纳时进入终止生命周期`);
+        active = false;
+        lastTerminal = event.state;
+        epochSubmitted = false;
+        epochAccepted = false;
+        epochPromoted = false;
+      }
+    }
+    if (epochPromoted && !epochAccepted) throw new Error(`社区贡献 ${key} 在未采纳时进入 promoted 生命周期`);
+    const exemplar = history.at(-1)!;
+    const issue = issues.get(exemplar.taskId);
+    const currentPair = issue?.acceptedEvidence.some((item) => item.contributor === exemplar.contributor && item.evidenceUrl === exemplar.evidenceUrl) ?? false;
+    const desired = issue?.labels.includes("source-withdrawn") ? "corrected"
+      : issue?.labels.includes("accepted-evidence") ? "accepted" : undefined;
+    const acceptedEntry = acceptedByPair.get(key);
+    if (active) {
+      if (!issue || !acceptedEntry || !currentPair || desired !== "accepted") {
+        throw new Error(`社区贡献 ${key} 的活跃采纳生命周期与 Issue/accepted-evidence 不一致`);
+      }
+    } else if (acceptedEntry || (!issue && lastTerminal !== "corrected" && lastTerminal !== "withdrawn")
+      || (currentPair && desired === "accepted")
+      || (desired === "corrected" && lastTerminal !== "corrected")) {
+      throw new Error(`社区贡献 ${key} 的终止生命周期与 Issue/accepted-evidence 不一致`);
+    }
+  }
+  for (const entry of input.accepted.entries) {
+    if (!historyByPair.has(pairIdentity(entry))) throw new Error(`已采纳证据 ${entry.id} 缺少贡献生命周期`);
+  }
+
+  const expectedPublicIds = input.ledger.entries
+    .filter((entry) => (entry.state === "open" || entry.state === "contributed") && entry.issueNumber !== null)
+    .map((entry) => entry.taskId).sort();
+  if (!sameValue(input.publicTasks.tasks.map((task) => task.id).sort(), expectedPublicIds)) {
+    throw new Error("公开社区任务与活跃任务账本集合不一致");
+  }
+  for (const item of input.publicTasks.tasks) {
+    const task = ledger.get(item.id);
+    const issue = issues.get(item.id);
+    const seed = seeds.get(item.id);
+    if (!task || !issue || task.issueNumber !== item.issueNumber || task.taskVersion !== item.version
+      || task.state !== item.state || task.category !== item.category || !sameValue(task.subject, item.subject)
+      || task.targetField !== item.targetField || (seed && (seed.contextZh !== item.contextZh || seed.generatedWeek !== item.generatedWeek))
+      || task.issueUrl !== item.issueUrl) {
+      throw new Error(`公开社区任务 ${item.id} 与种子、账本或 Issue 不一致`);
+    }
+  }
+
+  const replanned = planEvidenceIssueActions({
+    seeds: input.seeds,
+    issues: input.snapshot,
+    previousLedger: input.ledger,
+    now: generatedAt,
+  });
+  if (!sameValue(replanned.ledger, input.ledger)) throw new Error("社区证据任务账本生命周期投影不一致");
+  const replayed = projectAcceptedEvidence({
+    issues: input.snapshot,
+    taskLedger: input.ledger,
+    previousAccepted: input.accepted,
+    previousContributions: input.contributions,
+    now: generatedAt,
+  });
+  if (!sameValue(replayed.accepted, input.accepted) || !sameValue(replayed.contributions, input.contributions)) {
+    throw new Error("社区证据采纳或贡献生命周期投影不一致");
+  }
+}
+
+export interface StageCommunityEvidenceArtifactsInput {
+  root: string;
+  transaction: Pick<FileTransaction, "stage">;
+  seeds: EvidenceTaskSeedArtifact;
+  now: Date;
+  github?: {
+    token?: string;
+    repo?: string;
+    fetchSnapshot?: () => Promise<EvidenceIssueSnapshot>;
+  };
+  revalidation?: {
+    companies: CompanyProfile[];
+    events: EventRecord[];
+    companyClaimLedger: CompanyClaimLedger;
+    researchDecisionCards: import("./research-decision-card.js").ResearchDecisionCard[];
+    researchRecords: ResearchRegistry["records"];
+    benchmarkResultLedger: BenchmarkResultLedger;
+    decisionProducts: DecisionProductArtifact;
+    pagesBaseUrl: string;
+    sources: SourceConfig[];
+    options?: AcceptedEvidenceRevalidationOptions;
+  };
+}
+
+export interface StageCommunityEvidenceArtifactsResult {
+  accepted: AcceptedEvidenceArtifact;
+  enrichmentTargets: EvidenceEnrichmentTarget[];
+  publication: CommunityEvidencePublication;
+  status: RuntimeStatus;
+  revalidation: AcceptedEvidenceRevalidationArtifact;
+  revalidationStatus: RuntimeStatus;
+}
+
+/** Strictly project the GitHub review state and stage every community artifact
+ * in the caller's daily transaction. Remote failure preserves the complete
+ * prior projection instead of replacing public tasks with an empty view. */
+export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvidenceArtifactsInput): Promise<StageCommunityEvidenceArtifactsResult> {
+  assertEvidenceTaskSeedArtifact(input.seeds);
+  const now = input.now.toISOString();
+  const reviewDir = join(input.root, "review");
+  const previous = await Promise.all([
+    readJsonStrict<EvidenceTaskSeedArtifact>(join(reviewDir, "evidence-task-seeds.json"), { optional: true, label: "社区证据任务种子", validate: exactArtifact(assertEvidenceTaskSeedArtifact) }),
+    readJsonStrict<unknown>(join(reviewDir, "evidence-issue-snapshot.json"), { optional: true, label: "社区证据 Issue 快照" }),
+    readJsonStrict<EvidenceTaskLedgerArtifact>(join(reviewDir, "evidence-task-ledger.json"), { optional: true, label: "社区证据任务账本", validate: exactArtifact(assertEvidenceTaskLedgerArtifact) }),
+    readJsonStrict<AcceptedEvidenceArtifact>(join(reviewDir, "accepted-evidence.json"), { optional: true, label: "已采纳社区证据", validate: exactArtifact(assertAcceptedEvidenceArtifact) }),
+    readJsonStrict<ContributionLedgerArtifact>(join(input.root, "community", "contributions.json"), { optional: true, label: "社区贡献账本", validate: exactArtifact(assertContributionLedgerArtifact) }),
+    readJsonStrict<CommunityTaskPublicArtifact>(join(input.root, "site", "data", "community-tasks.json"), { optional: true, label: "公开社区任务", validate: exactArtifact(assertCommunityTaskPublicArtifact) }),
+    readJsonStrict<AcceptedEvidenceRevalidationArtifact>(join(reviewDir, "accepted-evidence-revalidation.json"), { optional: true, label: "已采纳证据复核", validate: exactArtifact(assertAcceptedEvidenceRevalidationArtifact) }),
+  ]);
+  const [previousSeeds, previousSnapshotValue, previousLedger, previousAccepted, previousContributions, previousPublic, previousRevalidation] = previous;
+  const previousSnapshot = previousSnapshotValue === undefined ? undefined : migrateLegacyEvidenceIssueSnapshot(previousSnapshotValue);
+  const projectionCount = [previousSeeds, previousLedger, previousAccepted, previousContributions, previousPublic].filter(Boolean).length;
+  if (projectionCount !== 0 && projectionCount !== 5) throw new Error("社区证据上一有效投影不完整；已停止发布且保留上一版。");
+  const hasPreviousProjection = projectionCount === 5;
+  if (previousRevalidation && !hasPreviousProjection) throw new Error("社区证据上一有效复核凭据缺少完整投影；已停止发布且保留上一版。");
+  if (hasPreviousProjection) {
+    if (!previousSnapshot) throw new Error("社区证据上一有效 Issue 快照缺失；已停止发布且保留上一版。");
+    validateCommunityEvidenceProjection({
+      seeds: previousSeeds!, snapshot: previousSnapshot, ledger: previousLedger!, accepted: previousAccepted!,
+      contributions: previousContributions!, publicTasks: previousPublic!,
+    });
+  }
+
+  const configured = Boolean(input.github?.token && input.github?.repo);
+  let snapshot: EvidenceIssueSnapshot | undefined;
+  let status: RuntimeStatus;
+  let remoteFailed = false;
+  if (configured) {
+    try {
+      snapshot = input.github?.fetchSnapshot
+        ? await input.github.fetchSnapshot()
+        : await fetchEvidenceIssueSnapshot({ repo: input.github!.repo!, token: input.github!.token!, now });
+      assertEvidenceIssueSnapshot(snapshot);
+      status = { component: "GitHub", status: "成功", attempted: 1, succeeded: 1, failed: 0, detail: "社区证据 Issue 快照已刷新并通过严格校验。" };
+    } catch {
+      remoteFailed = true;
+      status = { component: "GitHub", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "GitHub Issue 刷新失败；已保留上一有效社区任务与贡献投影。" };
+    }
+  } else {
+    status = { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: hasPreviousProjection
+      ? "未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。"
+      : "未配置 GitHub 上下文；已初始化空的内部社区证据投影，未清除任何既有公开任务。" };
+  }
+
+  if (remoteFailed && !hasPreviousProjection) {
+    throw new Error("GitHub Issue 刷新失败且没有上一有效社区证据投影；已停止发布。");
+  }
+
+  const serialize = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
+  const performRevalidation = async (
+    accepted: AcceptedEvidenceArtifact,
+    runAt: Date,
+    prior: AcceptedEvidenceRevalidationArtifact | undefined,
+    options: AcceptedEvidenceRevalidationOptions,
+  ) => {
+    const runAtIso = runAt.toISOString();
+    return revalidateAcceptedEvidence({
+      accepted,
+      previous: prior,
+      companies: input.revalidation?.companies ?? [],
+      events: input.revalidation?.events ?? [],
+      companyClaimLedger: input.revalidation?.companyClaimLedger ?? { generatedAt: runAtIso, limit: 0, companies: [], metrics: { populatedFields: 0, totalFields: 0, fieldCompletenessRate: 1, staleClaimCount: 0, staleEvidenceCount: 0, eligibleEventCount: 0, attributedEventCount: 0, eventCoverageRate: 0, selectedCompanyCount: 0, companiesWithEligibleEvents: 0 } },
+      researchDecisionCards: input.revalidation?.researchDecisionCards ?? [],
+      researchRecords: input.revalidation?.researchRecords ?? [],
+      benchmarkResultLedger: input.revalidation?.benchmarkResultLedger ?? { generatedAt: runAtIso, entries: [] },
+      decisionProducts: input.revalidation?.decisionProducts ?? { schemaVersion: 1, generatedAt: runAtIso, periodStart: runAtIso.slice(0, 10), topSignals: [], companyCards: [], researchPassports: [], subscriptions: { generatedAt: runAtIso, entries: [] } },
+      pagesBaseUrl: input.revalidation?.pagesBaseUrl ?? pagesBaseUrl,
+      sources: input.revalidation?.sources ?? [],
+      now: runAt,
+    }, options);
+  };
+  const revalidationBaseline = previousRevalidation ?? (hasPreviousProjection
+    ? (await performRevalidation(previousAccepted!, new Date(previousLedger!.generatedAt), undefined, { maxTargets: 0 })).artifact
+    : undefined);
+  if (!snapshot && hasPreviousProjection) {
+    input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(previousSeeds));
+    input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(previousLedger));
+    input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(previousAccepted));
+    input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(previousContributions));
+    input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(previousPublic));
+    if (previousSnapshot) input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(previousSnapshot));
+    input.transaction.stage(join(reviewDir, "accepted-evidence-revalidation.json"), serialize(revalidationBaseline));
+    const publication = buildCommunityEvidencePublication({
+      seeds: previousSeeds!, ledger: previousLedger!, accepted: previousAccepted!, contributions: previousContributions!,
+      previousTasks: previousPublic!, repository: previousSnapshot!.repo, generatedAt: previousLedger!.generatedAt,
+    });
+    const revalidationStatus: RuntimeStatus = {
+      component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
+      failed: previousAccepted!.entries.length,
+      detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
+    };
+    return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status, revalidation: revalidationBaseline!, revalidationStatus };
+  }
+
+  snapshot ??= previousSnapshot ?? { schemaVersion: 1, fetchedAt: now, repo: input.github?.repo ?? "mbabby/physical-ai-news-cn", issues: [] };
+  assertEvidenceIssueSnapshot(snapshot);
+  const emptyLedger: EvidenceTaskLedgerArtifact = { schemaVersion: 1, generatedAt: now, entries: [] };
+  const emptyAccepted: AcceptedEvidenceArtifact = { schemaVersion: 1, generatedAt: now, entries: [] };
+  const emptyContributions: ContributionLedgerArtifact = { schemaVersion: 1, generatedAt: now, events: [] };
+  const planned = planEvidenceIssueActions({ seeds: input.seeds, issues: snapshot, previousLedger: previousLedger ?? emptyLedger, now });
+  const baseProjection = projectAcceptedEvidence({
+    issues: snapshot,
+    taskLedger: planned.ledger,
+    previousAccepted: previousAccepted ?? emptyAccepted,
+    previousContributions: previousContributions ?? emptyContributions,
+    now,
+  });
+  const revalidation = await performRevalidation(
+    baseProjection.accepted,
+    input.now,
+    revalidationBaseline,
+    input.revalidation?.options ?? { maxTargets: 0 },
+  );
+  const projection = projectAcceptedEvidence({
+    issues: snapshot,
+    taskLedger: planned.ledger,
+    previousAccepted: baseProjection.accepted,
+    previousContributions: baseProjection.contributions,
+    revalidation: revalidation.artifact,
+    now,
+  });
+  const publication = buildCommunityEvidencePublication({
+    seeds: input.seeds,
+    ledger: planned.ledger,
+    accepted: projection.accepted,
+    contributions: projection.contributions,
+    previousTasks: previousPublic,
+    repository: snapshot.repo,
+    generatedAt: now,
+  });
+  const publicArtifact = publication.taskArtifact;
+  assertEvidenceTaskLedgerArtifact(planned.ledger);
+  assertAcceptedEvidenceArtifact(projection.accepted);
+  assertContributionLedgerArtifact(projection.contributions);
+  assertCommunityTaskPublicArtifact(publicArtifact);
+  validateCommunityEvidenceProjection({
+    seeds: input.seeds,
+    snapshot,
+    ledger: planned.ledger,
+    accepted: projection.accepted,
+    contributions: projection.contributions,
+    publicTasks: publicArtifact,
+  });
+  input.transaction.stage(join(reviewDir, "evidence-task-seeds.json"), serialize(input.seeds));
+  input.transaction.stage(join(reviewDir, "evidence-issue-snapshot.json"), serialize(snapshot));
+  input.transaction.stage(join(reviewDir, "evidence-task-ledger.json"), serialize(planned.ledger));
+  input.transaction.stage(join(reviewDir, "accepted-evidence.json"), serialize(projection.accepted));
+  input.transaction.stage(join(reviewDir, "accepted-evidence-revalidation.json"), serialize(revalidation.artifact));
+  input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(projection.contributions));
+  input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(publicArtifact));
+  return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), publication, status, revalidation: revalidation.artifact, revalidationStatus: revalidation.status };
+}
 
 export type DailyGenerationFailureCode =
   | "corrupt-watchlist-current"
@@ -108,6 +513,20 @@ export class DailyGenerationError extends Error {
 }
 
 function parseWindow(argv: string[]): number { const value = Number(argv[argv.indexOf("--hours") + 1]); return argv.includes("--hours") && Number.isFinite(value) && value > 0 ? value : DEFAULT_WINDOW_HOURS; }
+
+export interface CliOptions {
+  fixtureMode: boolean;
+  fixtureRoot: string | undefined;
+}
+
+export function parseCliOptions(argv: string[]): CliOptions {
+  const fixtureMode = argv.includes("--fixture-mode");
+  const rootIndex = argv.indexOf("--fixture-root");
+  const fixtureRoot = rootIndex >= 0 ? argv[rootIndex + 1] : undefined;
+  if (rootIndex >= 0 && (!fixtureRoot || fixtureRoot.startsWith("--"))) throw new Error("--fixture-root requires a path");
+  if (fixtureRoot && !fixtureMode) throw new Error("--fixture-root requires --fixture-mode");
+  return { fixtureMode, fixtureRoot };
+}
 
 function replaceSection(readme: string, start: string, end: string, content: string): string {
   const expression = new RegExp(`${start}[\\s\\S]*?${end}`);
@@ -339,6 +758,12 @@ export interface GenerateOptions {
   collect?: typeof collect;
   collectX?: typeof collectX;
   transaction?: FileTransaction;
+  communityEvidenceSeeds?: EvidenceTaskSeedArtifact;
+  fetchCommunityEvidenceSnapshot?: () => Promise<EvidenceIssueSnapshot>;
+  fetchAcceptedEvidence?: typeof fetch;
+  resolveAcceptedEvidenceHost?: (hostname: string) => Promise<string[]>;
+  sleepAcceptedEvidence?: (ms: number) => Promise<void>;
+  acceptedEvidenceTimeoutMs?: number;
 }
 
 /** Production daily orchestration with fixture seams for deterministic release verification. */
@@ -566,28 +991,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     generatedAt: candidateVerification.generatedAt,
     seeds: verificationIssueSeeds(candidateVerification),
   }, null, 2) + "\n", "utf8");
-  const previousEnrichment = await readJsonStrict<EvidenceEnrichmentArtifact>(join(reviewDir, "evidence-enrichment.json"), {
-    optional: true,
-    label: "定向取证计划",
-    validate: (value): value is EvidenceEnrichmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.plans),
-  });
-  const evidenceEnrichment = buildEvidenceEnrichmentPlan({
-    verification: candidateVerification,
-    companies,
-    sources: registrySources,
-    evidencePool: verificationEvidencePool,
-    previous: previousEnrichment,
-  }, {
-    maxPlansPerRun: 20,
-    maxProbesPerPlan: 6,
-    maxCandidateEvidencePerPlan: 5,
-  }, now);
-  // This output is review-only. Planner findings can never publish or upgrade
-  // evidence automatically; they must re-enter entity, independence and
-  // human-review gates first.
-  await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
-  // Build public data after verification so “正在发生” reflects evidence
-  // found in this run instead of the previous review artifact.
   const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger });
   const benchmarkResultLedger = buildBenchmarkResultLedger(researchRegistry.records, researchDecisionCards, { now, previous: previousBenchmarkResultLedger });
   validateDualLedgers({
@@ -599,6 +1002,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     decisionCards: researchDecisionCards,
     expectedGeneratedAt: now.toISOString(),
   });
+  const evidenceTaskSeeds = options.communityEvidenceSeeds ?? buildEvidenceTaskSeeds({
+    generatedAt: now.toISOString(),
+    generatedWeek: isoWeek(now),
+    companyCandidates,
+    events: eventStore,
+    researchRecords: researchRegistry.records,
+    researchCards: researchDecisionCards,
+  });
+  // Build public data after verification so “正在发生” reflects evidence
+  // found in this run instead of the previous review artifact.
   const dualLedgerMetrics = buildDualLedgerMetrics(companyClaimLedger, benchmarkResultLedger);
   const companyBoards = buildCompanyBoards(companies, eventStore.events, {
     now,
@@ -732,8 +1145,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     snapshots: [...watchlistHistory, watchlistSnapshot],
     views: watchlistChangePageViews,
   });
-  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
-  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const decisionSeeds: DecisionUnitSeed[] = [
     ...eventStore.events
       .filter((event) => event.status !== "已归档" && event.status !== "待复核")
@@ -790,6 +1201,59 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     artifact: decisionProducts,
     previousArtifact: previousDecisionProductArtifact,
   });
+  const communityEvidence = await stageCommunityEvidenceArtifacts({
+    root: outputRoot,
+    transaction,
+    seeds: evidenceTaskSeeds,
+    now,
+    github: {
+      token: process.env.GITHUB_TOKEN,
+      repo: process.env.GITHUB_REPOSITORY,
+      fetchSnapshot: options.fetchCommunityEvidenceSnapshot,
+    },
+    revalidation: {
+      companies,
+      events: eventStore.events,
+      companyClaimLedger,
+      researchDecisionCards,
+      researchRecords: researchRegistry.records,
+      benchmarkResultLedger,
+      decisionProducts,
+      pagesBaseUrl,
+      sources: registrySources,
+      options: {
+        fetchImpl: options.fetchAcceptedEvidence,
+        resolveHost: options.resolveAcceptedEvidenceHost,
+        sleep: options.sleepAcceptedEvidence,
+        timeoutMs: options.acceptedEvidenceTimeoutMs,
+      },
+    },
+  });
+  statuses.push(communityEvidence.status);
+  statuses.push(communityEvidence.revalidationStatus);
+  const previousEnrichment = await readJsonStrict<EvidenceEnrichmentArtifact>(join(reviewDir, "evidence-enrichment.json"), {
+    optional: true,
+    label: "定向取证计划",
+    validate: (value): value is EvidenceEnrichmentArtifact => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.plans),
+  });
+  const evidenceEnrichment = buildEvidenceEnrichmentPlan({
+    verification: candidateVerification,
+    companies,
+    sources: registrySources,
+    evidencePool: verificationEvidencePool,
+    previous: previousEnrichment,
+    acceptedEvidence: communityEvidence.accepted,
+  }, {
+    maxPlansPerRun: 20,
+    maxProbesPerPlan: 6,
+    maxCandidateEvidencePerPlan: 5,
+  }, now);
+  // This output is review-only. Planner findings can never publish or upgrade
+  // evidence automatically; they must re-enter entity, independence and
+  // human-review gates first.
+  await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
+  await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
+  await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
     activeSources: activeSources.length + activeXSources.length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
@@ -798,6 +1262,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     researchIndustryEdges: researchIndustryRelations.edges,
     watchlist: watchlistView,
     decisionProducts,
+    communityEvidence: communityEvidence.publication,
   });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
@@ -1008,8 +1473,124 @@ export async function generate(options: GenerateOptions = {}): Promise<RunManife
     throw new DailyGenerationError("generation-failed", "日报生成失败；已停止发布并保留上一版。", { cause: error });
   }
 }
+
+const FIXTURE_NOW = new Date("2026-08-24T08:05:05.893Z");
+const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
+const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
+const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
+const FIXTURE_INPUT_PATHS = [
+  `daily/${FIXTURE_NOW.toISOString().slice(0, 10)}.json`,
+  "research/benchmark-result-ledger.json",
+  "research/decision-cards.json",
+  "site/data/decision-products.json",
+  "research/registry.json",
+  "sources/registry.json",
+] as const;
+
+async function assertFixtureRoot(outputRoot: string): Promise<void> {
+  try {
+    const [readme, companies, metrics] = await Promise.all([
+      readFile(join(outputRoot, "README.md"), "utf8"),
+      readJsonStrict<unknown>(join(outputRoot, "events", "companies.json")),
+      readJsonStrict<unknown>(join(outputRoot, "metrics", "community.json")),
+    ]);
+    if (!readme.includes("物理 AI 产业情报库") || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
+  } catch (error) {
+    throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
+  }
+}
+
+async function snapshotFixtureInputs(outputRoot: string): Promise<Map<string, Buffer | undefined>> {
+  const snapshot = new Map<string, Buffer | undefined>();
+  await Promise.all(FIXTURE_INPUT_PATHS.map(async (path) => {
+    try { snapshot.set(path, await readFile(join(outputRoot, path))); }
+    catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      snapshot.set(path, undefined);
+    }
+  }));
+  return snapshot;
+}
+
+async function restoreFixtureInputs(outputRoot: string, snapshot: Map<string, Buffer | undefined>): Promise<void> {
+  await Promise.all([...snapshot].map(async ([path, content]) => {
+    const target = join(outputRoot, path);
+    if (content === undefined) await rm(target, { force: true });
+    else {
+      await mkdir(dirname(target), { recursive: true });
+      await writeFileDirect(target, content);
+    }
+  }));
+}
+
+async function prepareFixtureInputs(outputRoot: string): Promise<void> {
+  await Promise.all([
+    rm(join(outputRoot, "daily", `${FIXTURE_NOW.toISOString().slice(0, 10)}.json`), { force: true }),
+    rm(join(outputRoot, "research", "benchmark-result-ledger.json"), { force: true }),
+    rm(join(outputRoot, "research", "decision-cards.json"), { force: true }),
+    rm(join(outputRoot, "site", "data", "decision-products.json"), { force: true }),
+    writeFileDirect(join(outputRoot, "research", "registry.json"), `${JSON.stringify({
+      updatedAt: FIXTURE_NOW.toISOString(),
+      records: [],
+    }, null, 2)}\n`, "utf8"),
+    writeFileDirect(join(outputRoot, "sources", "registry.json"), `${JSON.stringify({
+      updatedAt: FIXTURE_NOW.toISOString(),
+      windowDays: 30,
+      sources: [],
+    }, null, 2)}\n`, "utf8"),
+  ]);
+}
+
+export async function runFixtureGeneration(outputRoot: string, transaction?: FileTransaction): Promise<RunManifest> {
+  await assertFixtureRoot(outputRoot);
+  const fixtureInputs = await snapshotFixtureInputs(outputRoot);
+  const environmentKeys = ["LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "OPENALEX_API_KEY", "X_BEARER_TOKEN", "GITHUB_TOKEN", "GITHUB_REPOSITORY"] as const;
+  const previousEnvironment = Object.fromEntries(environmentKeys.map((key) => [key, process.env[key]]));
+  const previousFetch = globalThis.fetch;
+  for (const key of environmentKeys) delete process.env[key];
+  process.env.GITHUB_TOKEN = "offline-fixture-token";
+  process.env.GITHUB_REPOSITORY = FIXTURE_REPOSITORY;
+  globalThis.fetch = async () => { throw new Error("fixture mode blocks external network access"); };
+  const seeds: EvidenceTaskSeedArtifact = {
+    schemaVersion: 1,
+    generatedAt: FIXTURE_NOW.toISOString(),
+    generatedWeek: isoWeek(FIXTURE_NOW),
+    seeds: [],
+  };
+  const snapshot: EvidenceIssueSnapshot = {
+    schemaVersion: 1,
+    fetchedAt: FIXTURE_NOW.toISOString(),
+    repo: FIXTURE_REPOSITORY,
+    issues: [],
+  };
+  try {
+    await prepareFixtureInputs(outputRoot);
+    return await generate({
+      root: outputRoot,
+      now: FIXTURE_NOW,
+      collect: fixtureCollection,
+      collectX: fixtureXCollection,
+      communityEvidenceSeeds: seeds,
+      fetchCommunityEvidenceSnapshot: async () => snapshot,
+      transaction,
+    });
+  } catch (error) {
+    await restoreFixtureInputs(outputRoot, fixtureInputs);
+    throw error;
+  } finally {
+    globalThis.fetch = previousFetch;
+    for (const key of environmentKeys) {
+      const value = previousEnvironment[key];
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
 async function main(): Promise<void> {
-  await withFileLock(join(root, ".daily-generation.lock"), generate);
+  const options = parseCliOptions(process.argv.slice(2));
+  const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
+  await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   main().catch((error) => {

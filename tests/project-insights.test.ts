@@ -37,6 +37,7 @@ test("community review queue labels candidates instead of promoting them", () =>
   assert.match(output, /Nova 融资线索/);
   assert.match(output, /需要官网/);
   assert.doesNotMatch(output, /已确证/);
+  assert.doesNotMatch(output, /\b\d+\/100\b|verificationScore|rankScore|评分|排名/i);
 });
 
 test("builds auditable Issue seeds without promoting candidates", () => {

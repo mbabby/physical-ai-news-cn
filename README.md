@@ -15,6 +15,7 @@
   <a href="https://mbabby.github.io/physical-ai-news-cn/weekly.html">本周 Top Signals</a> ·
   <a href="https://mbabby.github.io/physical-ai-news-cn/companies.html">公司动量雷达</a> ·
   <a href="https://mbabby.github.io/physical-ai-news-cn/research.html">Research → Industry</a> ·
+  <a href="https://mbabby.github.io/physical-ai-news-cn/contribute.html">两分钟补证中心</a> ·
   <a href="#产业进展">今日产业进展</a> ·
   <a href="resources/companies.md">公司与资本地图</a> ·
   <a href="resources/industry-landscape-and-tech-routes.md">竞争路线图</a> ·
@@ -124,6 +125,7 @@
 - [研究决策卡 v2](research/decision-cards.json)：任务、本体、基准、实机、复现资产、限制与 OpenAlex 新鲜度均按字段提供证据或 unknown。
 - [研究—产业显式关系](research/industry-relations.json)：只有可追溯的采用、合作、机构、代码或复现证据才能成为强关系边。
 - [社区影响指标](metrics/community.json)：每日同步 Star、Fork、Watch、Issue、贡献者与可用的 14 天 Traffic；权限不足时明确标记不可用，不把缺失值写成 0。
+- [两分钟补证中心](https://mbabby.github.io/physical-ai-news-cn/contribute.html)：只展示至多五个单目标公开任务；采纳表示证据进入复核链路，不等于事实已经发布。
 - [贡献者与 Evidence Review](CONTRIBUTORS.md)：代码贡献与已采纳证据分别留痕；采纳证据不会绕过校验直接进入公开页面。
 - [社区 Review 队列](review/community-queue.md)：高质量候选在此等待补证，审核前不会进入公开结论。
 - [第一篇项目更新帖](posts/2026-08-project-update.md)：说明数据口径、开放贡献方向与本周发现。

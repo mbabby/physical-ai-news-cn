@@ -13,13 +13,14 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events",
-  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist",
+  "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 
 const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], failures: [], sourceOutcomes: [] });
 
 async function copyFixture(target: string): Promise<void> {
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
   await rm(join(target, "watchlist", "history"), { recursive: true, force: true });

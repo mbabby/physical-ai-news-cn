@@ -110,7 +110,7 @@ test("stages the sanitized Issue artifact atomically with a Watchlist snapshot",
   }
 });
 
-test("public Watchlist templates and automation do not materialize private issue seeds", async () => {
+test("public Watchlist templates stay manual while automation materializes only evidence tasks", async () => {
   const [evidenceTemplate, correctionTemplate, workflow] = await Promise.all([
     readFile(join(root, ".github", "ISSUE_TEMPLATE", "watchlist-evidence.yml"), "utf8"),
     readFile(join(root, ".github", "ISSUE_TEMPLATE", "watchlist-correction.yml"), "utf8"),
@@ -124,14 +124,11 @@ test("public Watchlist templates and automation do not materialize private issue
     assert.match(template, /说明/);
     assert.match(template, /公开.*review.*不会自动发布/i);
   }
-  assert.match(workflow, /review\/watchlist-issue-seeds\.json/);
+  assert.doesNotMatch(workflow, /review\/watchlist-issue-seeds\.json/);
   assert.doesNotMatch(workflow, /review\/issue-seeds\.json/);
-  assert.match(workflow, /\[\[ "\$LIMIT" =~ \^\[0-9\]\+\$ \]\]/);
-  assert.match(workflow, /jq -e/);
-  assert.match(workflow, /\^watchlist-\(evidence\|correction\)-\[0-9a-f\]\{20\}\$/);
-  assert.match(workflow, /\$sort_keys\[\. - 1\] <= \$sort_keys\[\.\]/);
-  assert.match(workflow, /--label "evidence-review" --label "\$kind_label"/);
-  assert.match(workflow, /correction\) kind_label="correction"/);
+  assert.match(workflow, /review\/evidence-task-seeds\.json/);
+  assert.match(workflow, /plan-issue-actions\.ts/);
+  assert.match(workflow, /--wip-limit 5/);
   assert.match(workflow, /requires canonical promotion in a later generation/i);
   assert.doesNotMatch(workflow, /git (add|commit|push)/);
 });

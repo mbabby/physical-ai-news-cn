@@ -19,6 +19,8 @@
 
 > `accepted-evidence` 表示证据已被人工采纳，不表示候选会自动进入公开页面。公开内容仍需通过实体匹配、质量门槛与生成校验。
 
+共同补证者只有在维护者评论用 `<!-- accepted-contributor:@login -->` 将其与该评论中唯一的证据 URL 明确绑定后才会被计入；普通评论者不会自动署名。采纳、规范发布、纠错和撤回历史均追加保留，不以删除旧记录来改写贡献状态。
+
 ## 如何加入
 
-从 [社区 Review 队列](review/community-queue.md) 选择候选，或通过 [Issue 模板](https://github.com/mbabby/physical-ai-news-cn/issues/new/choose) 提交新证据。流程与判定口径见 [贡献指南](CONTRIBUTING.md) 和 [Evidence Review 手册](community/evidence-review.md)。
+从[两分钟补证中心](https://mbabby.github.io/physical-ai-news-cn/contribute.html)选择一个单字段任务，或通过 [Issue 模板](https://github.com/mbabby/physical-ai-news-cn/issues/new/choose)提交自动任务未覆盖的新证据。流程与判定口径见 [贡献指南](CONTRIBUTING.md) 和 [Evidence Review 手册](community/evidence-review.md)。

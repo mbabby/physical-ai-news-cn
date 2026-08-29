@@ -28,12 +28,18 @@
 1. **候选**：自动任务或社区成员提交线索，Issue 标记为 `evidence-review` 和 `needs-evidence`。
 2. **补证**：贡献者补充主体、日期、原始链接和中文事实说明；融资优先公司/投资方公告，媒体线索需要独立交叉来源。
 3. **人工审阅**：维护者判断主体、事件类型和证据边界，并检查是否与已有事件重复或冲突。
-4. **采纳证据**：维护者手动添加 `accepted-evidence`。系统会记录 Issue 作者并移除 `needs-evidence`。
-5. **进入生成链路**：采纳标签本身**不会自动发布内容**。数据仍须通过实体匹配、公开内容门槛和下一次生成校验，才能进入日报、公司档案或常青资源。
+4. **采纳证据**：维护者手动添加 `accepted-evidence`。系统会从结构化提交中先保留 `submitted`，采纳后追加 `accepted`；明确绑定的共同补证者也会保留各自的提交时间。
+5. **进入生成链路**：采纳标签或 `canonical-promoted` 标签本身**都不会自动发布内容**。下一次生成只访问已采纳的精确 URL，并重新执行实体、来源等级、字段一致性、冲突与日期校验；随后还必须与同一规范主体和字段的公开证据精确匹配，才能追加 `promoted`。
 
 如果证据不足，Issue 会继续停留在候选层；若证据被反驳或失效，维护者会说明原因后关闭，而不会污染公开页面。
 
 详细判定口径见 [Evidence Review 手册](community/evidence-review.md)。
+
+### 两分钟任务契约
+
+[贡献中心](https://mbabby.github.io/physical-ai-news-cn/contribute.html)中的每个任务只请求一个字段、一个客观目标，并明确标注 `预计 2 分钟`。请按 Issue 模板只提交该字段的原始 HTTPS 链接和可定位摘录；不要顺手扩展成多个事实。七天没有有效活动会标记 `stale`，十四天没有有效活动会关闭；新的有效证据会重置活动时间。
+
+自动任务没有覆盖的证据仍可使用现有的[通用 Issue 模板](https://github.com/mbabby/physical-ai-news-cn/issues/new/choose)提交，不需要等待自动任务。
 
 ## Watchlist 补证与纠错
 
@@ -47,7 +53,9 @@ Issue 是审阅记录，不是发布指令。维护者接受证据后，内容�
 
 - **代码与文档贡献**：通过合并记录出现在 [GitHub Contributors](https://github.com/mbabby/physical-ai-news-cn/graphs/contributors)。
 - **证据贡献**：Issue 被维护者标记为 `accepted-evidence` 后，Issue 作者会出现在[已采纳证据列表](https://github.com/mbabby/physical-ai-news-cn/issues?q=is%3Aissue+label%3Aaccepted-evidence)。
-- **联合贡献**：请在 Issue 中 @ 共同补证者；维护者会保留证据讨论记录。不要提交不必要的真实姓名、邮箱或其他个人信息。
+- **联合贡献**：请在 Issue 中 @ 共同补证者。采纳时，维护者可在一条只含一个证据 URL 的评论中加入 `<!-- accepted-contributor:@login -->`，把该 URL 明确绑定给共同补证者；普通评论或 @ 提及不会自动获得采纳署名。不要提交不必要的真实姓名、邮箱或其他个人信息。
+
+贡献历史采用追加记录：安全提交、首次采纳、进入规范事实、证据纠错和来源撤回分别保留为 `submitted`、`accepted`、`promoted`、`corrected`、`withdrawn`，不得删除或重排旧记录。
 
 署名代表对证据或代码的贡献，不代表项目为相关公司、产品或观点背书。
 

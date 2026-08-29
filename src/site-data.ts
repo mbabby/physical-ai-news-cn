@@ -12,6 +12,7 @@ import { buildCompanyBoards } from "./company-boards.js";
 import type { CompanyBoards } from "./company-boards.js";
 import type { WatchlistPublicView } from "./watchlist/public-view.js";
 import type { DecisionProductArtifact } from "./decision-products/contracts.js";
+import type { CommunityEvidencePublication } from "./community-evidence/publication.js";
 
 export interface DashboardItem {
   title: string;
@@ -88,6 +89,8 @@ export interface DashboardData {
   routes: Array<{ name: string; focus: string; companies: string[]; }>;
   /** Canonical validated source for all Phase 3 public product surfaces. */
   decisionProducts?: DecisionProductArtifact;
+  /** Safe public community projection; contains no private review records. */
+  communityEvidence?: CommunityEvidencePublication;
 }
 
 export interface DashboardContext {
@@ -100,6 +103,7 @@ export interface DashboardContext {
   researchIndustryEdges?: ResearchIndustryRelationEdge[];
   watchlist?: WatchlistPublicView;
   decisionProducts?: DecisionProductArtifact;
+  communityEvidence?: CommunityEvidencePublication;
 }
 
 function eventFact(event: EventRecord): string {
@@ -425,5 +429,6 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
       source: "Reproducibility Passport",
     }));
   }
+  if (context.communityEvidence) dashboard.communityEvidence = context.communityEvidence;
   return dashboard;
 }

@@ -1,9 +1,9 @@
 import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { assertContributionLedgerArtifact } from "../src/community-evidence/contracts.ts";
 
 const DEFAULT_REPOSITORY = "mbabby/physical-ai-news-cn";
-const ACCEPTED_EVIDENCE_LABELS = ["accepted-evidence", "evidence-accepted"];
 
 function uniqueLogins(logins) {
   const automationAccounts = new Set(["actions-user", "github-actions", "dependabot"]);
@@ -28,6 +28,57 @@ function fallbackMetrics(generatedAt) {
     repository: { stars: 0, forks: 0, subscribers: 0, openIssues: 0 },
     traffic: unavailableTraffic(),
     contributors: { codeContributors: [], acceptedEvidenceContributors: [], count: 0 },
+    ...emptyFlywheelMetrics(),
+  };
+}
+
+function emptyFlywheelMetrics() {
+  return {
+    openTasks: 0,
+    categoryCoverage: [],
+    acceptedThisWeek: 0,
+    newContributorsThisWeek: 0,
+    staleRatio: 0,
+    invalidRatio: 0,
+    promotionConversion: 0,
+  };
+}
+
+function weekStart(now) {
+  const day = now.getUTCDay() || 7;
+  return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - day + 1);
+}
+
+function ratio(numerator, denominator) {
+  return denominator === 0 ? 0 : Number((numerator / denominator).toFixed(4));
+}
+
+function contributionPair(event) {
+  return [event.taskId, event.issueNumber, event.contributor, event.evidenceUrl].join("\n");
+}
+
+export function buildFlywheelMetrics({ publicTasks, ledger, contributions, now = new Date() } = {}) {
+  const tasks = Array.isArray(publicTasks?.tasks) ? publicTasks.tasks : [];
+  const entries = Array.isArray(ledger?.entries) ? ledger.entries : [];
+  const events = Array.isArray(contributions?.events) ? contributions.events : [];
+  const start = weekStart(now);
+  const end = start + 7 * 86_400_000;
+  const acceptedThisWeek = events.filter((event) => event?.state === "accepted"
+    && Date.parse(event.occurredAt) >= start && Date.parse(event.occurredAt) < end);
+  const priorContributors = new Set(events.filter((event) => event?.state === "accepted" && Date.parse(event.occurredAt) < start)
+    .map((event) => event.contributor));
+  const acceptedPairs = new Set(events.filter((event) => event?.state === "accepted").map(contributionPair));
+  const promotedPairs = new Set(events.filter((event) => event?.state === "promoted").map(contributionPair));
+  const wip = entries.filter((entry) => ["open", "contributed", "stale"].includes(entry?.state));
+  return {
+    openTasks: tasks.length,
+    categoryCoverage: [...new Set(tasks.map((task) => task?.category).filter((value) => typeof value === "string"))].sort(),
+    acceptedThisWeek: acceptedThisWeek.length,
+    newContributorsThisWeek: new Set(acceptedThisWeek.map((event) => event.contributor)
+      .filter((contributor) => !priorContributors.has(contributor))).size,
+    staleRatio: ratio(wip.filter((entry) => entry.state === "stale").length, wip.length),
+    invalidRatio: ratio(entries.filter((entry) => entry.state === "rejected").length, entries.length),
+    promotionConversion: ratio([...promotedPairs].filter((pair) => acceptedPairs.has(pair)).length, acceptedPairs.size),
   };
 }
 
@@ -78,6 +129,16 @@ function normalizeExisting(value, generatedAt) {
       acceptedEvidenceContributors,
       count: new Set([...codeContributors, ...acceptedEvidenceContributors]).size,
     },
+    openTasks: isCount(value.openTasks) ? value.openTasks : fallback.openTasks,
+    categoryCoverage: Array.isArray(value.categoryCoverage)
+      ? [...new Set(value.categoryCoverage.filter((item) => typeof item === "string"))].sort()
+      : fallback.categoryCoverage,
+    acceptedThisWeek: isCount(value.acceptedThisWeek) ? value.acceptedThisWeek : fallback.acceptedThisWeek,
+    newContributorsThisWeek: isCount(value.newContributorsThisWeek) ? value.newContributorsThisWeek : fallback.newContributorsThisWeek,
+    staleRatio: typeof value.staleRatio === "number" && value.staleRatio >= 0 && value.staleRatio <= 1 ? value.staleRatio : fallback.staleRatio,
+    invalidRatio: typeof value.invalidRatio === "number" && value.invalidRatio >= 0 && value.invalidRatio <= 1 ? value.invalidRatio : fallback.invalidRatio,
+    promotionConversion: typeof value.promotionConversion === "number" && value.promotionConversion >= 0 && value.promotionConversion <= 1
+      ? value.promotionConversion : fallback.promotionConversion,
   };
 }
 
@@ -118,15 +179,12 @@ async function collectTraffic(fetchImpl, apiBase, repository, token) {
   }
 }
 
-async function collectAcceptedEvidenceContributors(fetchImpl, apiBase, repository, token) {
-  if (!token) return null;
+function collectAcceptedEvidenceContributors(contributions) {
   try {
-    const issuesByLabel = await Promise.all(
-      ACCEPTED_EVIDENCE_LABELS.map((label) =>
-        githubJson(fetchImpl, `${apiBase}/repos/${repository}/issues?state=all&labels=${encodeURIComponent(label)}&per_page=100`, token),
-      ),
-    );
-    return uniqueLogins(issuesByLabel.flatMap((issues) => Array.isArray(issues) ? issues.map((issue) => issue?.user?.login) : []));
+    assertContributionLedgerArtifact(contributions);
+    return uniqueLogins(contributions.events
+      .filter((event) => event.state === "accepted")
+      .map((event) => event.contributor));
   } catch {
     return null;
   }
@@ -138,17 +196,19 @@ export async function collectCommunityMetrics({
   fetchImpl = globalThis.fetch,
   now = new Date(),
   previous,
+  flywheel,
+  contributions,
   apiBase = "https://api.github.com",
 } = {}) {
   const repo = safeRepository(repository);
   const generatedAt = now.toISOString();
   const result = normalizeExisting(previous, generatedAt);
 
-  const [repositoryResult, codeContributorsResult, traffic, acceptedEvidenceContributors] = await Promise.all([
+  const acceptedEvidenceContributors = collectAcceptedEvidenceContributors(contributions);
+  const [repositoryResult, codeContributorsResult, traffic] = await Promise.all([
     githubJson(fetchImpl, `${apiBase}/repos/${repo}`, "").catch(() => null),
     githubJson(fetchImpl, `${apiBase}/repos/${repo}/contributors?per_page=100&anon=false`, "").catch(() => null),
     collectTraffic(fetchImpl, apiBase, repo, token),
-    collectAcceptedEvidenceContributors(fetchImpl, apiBase, repo, token),
   ]);
 
   if (repositoryResult) {
@@ -169,6 +229,7 @@ export async function collectCommunityMetrics({
     acceptedEvidenceContributors: accepted,
     count: new Set([...codeContributors, ...accepted]).size,
   };
+  if (flywheel) Object.assign(result, flywheel);
   return result;
 }
 
@@ -178,6 +239,15 @@ async function readPrevious(path) {
   } catch {
     return undefined;
   }
+}
+
+async function readFlywheelArtifacts(root) {
+  const [publicTasks, ledger, contributions] = await Promise.all([
+    readPrevious(resolve(root, "site/data/community-tasks.json")),
+    readPrevious(resolve(root, "review/evidence-task-ledger.json")),
+    readPrevious(resolve(root, "community/contributions.json")),
+  ]);
+  return { publicTasks, ledger, contributions };
 }
 
 async function publishMirrorPair({ canonicalPath, publicPath, content, renameImpl = rename, transactionId = `${process.pid}-${Date.now()}` }) {
@@ -229,7 +299,15 @@ export async function runCommunityMetrics({
   const outputPath = resolve(root, output);
   const siteOutputPath = resolve(root, siteOutput);
   const previous = options.previous ?? await readPrevious(outputPath);
-  const metrics = await collectCommunityMetrics({ ...options, previous });
+  const artifacts = await readFlywheelArtifacts(root);
+  const completeFlywheel = artifacts.publicTasks && artifacts.ledger && artifacts.contributions;
+  const flywheel = options.flywheel ?? (completeFlywheel ? buildFlywheelMetrics({ ...artifacts, now: options.now ?? new Date() }) : undefined);
+  const metrics = await collectCommunityMetrics({
+    ...options,
+    previous,
+    flywheel,
+    contributions: options.contributions ?? artifacts.contributions,
+  });
   await publishMirrorPair({
     canonicalPath: outputPath,
     publicPath: siteOutputPath,

@@ -269,7 +269,7 @@ function renderResearchFeed(items) {
         `实机：${item.realRobotTrials}`,
         `复现成本：${item.reproducibilityCost?.level || "unknown"}`,
       ];
-      return `<article class="feed-item research-decision" data-passport-id="${safe(item.passportId)}"><div class="item-meta"><span>Reproducibility Passport</span></div><h3><a href="${safeUrl(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.titleZh)}</a></h3><p>${safe(list(item.factsZh).join(" "))}</p><div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div><details><summary>缺口与复现资产</summary><p>OpenAlex <a href="${safeUrl(`https://openalex.org/${item.authority?.openAlexWorkId}`)}" target="_blank" rel="noopener noreferrer">${safe(item.authority?.openAlexWorkId)}</a></p><p>缺口：${safe(list(item.gaps).join(" · ") || "无")}</p><p>代码 ${safe(item.assets?.code)} · 数据 ${safe(item.assets?.data)} · 权重 ${safe(item.assets?.weights)}</p></details></article>`;
+      return `<article class="feed-item research-decision" id="${safe(item.passportId)}" data-passport-id="${safe(item.passportId)}"><div class="item-meta"><span>Reproducibility Passport</span></div><h3><a href="${safeUrl(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.titleZh)}</a></h3><p>${safe(list(item.factsZh).join(" "))}</p><div class="decision-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join("")}</div><details><summary>缺口与复现资产</summary><p>OpenAlex <a href="${safeUrl(`https://openalex.org/${item.authority?.openAlexWorkId}`)}" target="_blank" rel="noopener noreferrer">${safe(item.authority?.openAlexWorkId)}</a></p><p>缺口：${safe(list(item.gaps).join(" · ") || "无")}</p><p>代码 ${safe(item.assets?.code)} · 数据 ${safe(item.assets?.data)} · 权重 ${safe(item.assets?.weights)}</p></details></article>`;
     }
     const card = item.decisionCard;
     if (!card) return itemCard(item, true);
@@ -292,7 +292,7 @@ function renderResearchFeed(items) {
 const validDecisionProducts = (value) => globalThis.DecisionProductsContract?.validate(value) === true;
 
 function decisionCompanyCards(items) {
-  return list(items).map((item) => `<article class="company-card" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.companyName)}</a></h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(list(item.routes).join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital?.summary)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment?.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(list(item.recentChanges).map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(list(item.watchlist?.nextValidationPoints).map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(list(item.unknownFields).join(" · ") || "无")}</p><div class="watchlist-evidence">${[...list(item.capital?.evidence), ...list(item.productDeployment?.evidence)].map((evidence) => `<a href="${safeUrl(evidence.url)}" target="_blank" rel="noopener noreferrer">${safe(evidence.source)} · ${safe(evidence.grade)}级</a>`).join("") || '<span class="radar-muted">公开证据待补充</span>'}</div></details></article>`).join("");
+  return list(items).map((item) => `<article class="company-card" id="${safe(item.cardId)}" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer">${safe(item.companyName)}</a></h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(list(item.routes).join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital?.summary)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment?.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(list(item.recentChanges).map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(list(item.watchlist?.nextValidationPoints).map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(list(item.unknownFields).join(" · ") || "无")}</p><div class="watchlist-evidence">${[...list(item.capital?.evidence), ...list(item.productDeployment?.evidence)].map((evidence) => `<a href="${safeUrl(evidence.url)}" target="_blank" rel="noopener noreferrer">${safe(evidence.source)} · ${safe(evidence.grade)}级</a>`).join("") || '<span class="radar-muted">公开证据待补充</span>'}</div></details></article>`).join("");
 }
 
 function fillOptions(id, values, firstLabel) {
@@ -737,6 +737,10 @@ function setupCompanyRadar(items) {
 
 function render(data) {
   if (document.body?.dataset?.view === "subscribe") return;
+  if (document.body?.dataset?.view === "contribute") {
+    loadCommunityTasks().then((tasks) => renderCommunityEvidence(data.communityEvidence, tasks));
+    return;
+  }
   detailItems.clear();
   const stats = data.stats || fallback.stats;
   byId("event-count").textContent = text(stats.events, "0");
@@ -772,10 +776,11 @@ function render(data) {
   byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
   const deepLinkedSignal = new URL(window.location.href).searchParams.get("signal");
   if (deepLinkedSignal && detailItems.has(deepLinkedSignal)) openDetail(deepLinkedSignal, null, { updateUrl: false });
+  if (typeof fetch === "function" && byId("homepage-community-tasks")) loadCommunityTasks().then((tasks) => renderCommunityEvidence(data.communityEvidence, tasks));
 }
 
 function renderCommunity(data) {
-  if (document.body?.dataset?.view === "subscribe") return;
+  if (document.body?.dataset?.view) return;
   const community = data && typeof data === "object" ? data : {};
   const repository = community.repository && typeof community.repository === "object" ? community.repository : {};
   byId("community-stars").textContent = formattedCount(repository.stars);
@@ -816,6 +821,70 @@ function renderCommunity(data) {
     : "贡献者明细尚未同步；欢迎提交信源、证据与纠错。";
 }
 
+const communityCategories = {
+  "company-funding": { label: "公司 / 融资", threshold: "证据门槛：公司、投资方或监管机构的原始公告。" },
+  "product-deployment": { label: "产品 / 部署", threshold: "证据门槛：产品官方页，或客户与部署方可交叉核验的原始信息。" },
+  "research-metadata": { label: "研究元数据", threshold: "证据门槛：论文、作者机构或官方代码与数据仓库。" },
+};
+
+const targetLabels = {
+  "company.officialName": "确认公司官方名称", "company.officialUrl": "找到公司官方网站",
+  "funding.round": "确认融资轮次", "funding.amount": "确认融资金额", "funding.valuation": "确认公司估值",
+  "funding.investors": "确认投资方", "funding.regulatoryFiling": "找到监管申报文件",
+  "product.officialUrl": "找到产品官方页面", "product.releaseDate": "确认产品发布日期",
+  "deployment.customer": "确认部署客户", "deployment.location": "确认部署地点", "deployment.scale": "确认部署规模",
+  "research.codeUrl": "找到官方代码仓库", "research.datasetUrl": "找到官方数据集",
+  "research.weightsUrl": "找到官方模型权重", "research.realRobotEvidence": "确认真实机器人实验",
+  "research.institutions": "确认作者或实验室机构",
+};
+
+const contributionStates = { accepted: "已采纳", promoted: "已晋升", corrected: "已纠错", withdrawn: "已撤回" };
+
+function communityTaskCard(task) {
+  const category = communityCategories[task.category] || { label: "公开补证", threshold: "证据门槛：可公开核验的原始来源。" };
+  return `<article id="community-task-${safe(task.id)}" class="community-task-card" data-community-task-id="${safe(task.id)}">
+    <div class="community-task-meta"><span class="category-badge">${safe(category.label)}</span><span>预计 2 分钟</span></div>
+    <h3><a href="${safeUrl(task.subject?.url)}" target="_blank" rel="noopener noreferrer">${safe(task.subject?.name || "待核验主体")}</a></h3>
+    <p class="task-objective"><strong>唯一目标</strong>${safe(targetLabels[task.targetField] || "补充一个公开字段")}</p>
+    <p>${safe(task.contextZh || "该字段仍需原始来源确认。")}</p>
+    <small>${safe(category.threshold)}</small>
+    <a class="task-issue-link" href="${safeUrl(task.issueUrl)}" target="_blank" rel="noopener noreferrer">前往 Issue #${safe(task.issueNumber)} 提交证据 ↗</a>
+  </article>`;
+}
+
+function communityTaskGroups(tasks) {
+  if (!tasks.length) return '<p class="empty">当前没有达到公开任务门槛的缺口</p>';
+  return Object.entries(communityCategories).map(([category, copy]) => {
+    const matching = tasks.filter((task) => task.category === category);
+    if (!matching.length) return "";
+    return `<section class="community-task-group" aria-labelledby="community-category-${safe(category)}"><h3 id="community-category-${safe(category)}">${safe(copy.label)}</h3><div>${matching.map(communityTaskCard).join("")}</div></section>`;
+  }).join("");
+}
+
+function renderCommunityEvidence(publication, taskArtifact) {
+  const view = publication && typeof publication === "object" ? publication : {};
+  const metrics = view.metrics && typeof view.metrics === "object" ? view.metrics : {};
+  const tasks = list(taskArtifact?.tasks);
+  const values = [
+    ["community-open-count", tasks.length], ["community-weekly-accepted", metrics.weeklyAccepted], ["community-new-contributors", metrics.newContributors],
+    ["homepage-community-open-count", tasks.length], ["homepage-community-weekly-accepted", metrics.weeklyAccepted], ["homepage-community-new-contributors", metrics.newContributors],
+  ];
+  values.forEach(([id, value]) => { const element = byId(id); if (element) element.textContent = formattedCount(value); });
+
+  const center = byId("community-task-groups");
+  if (center) center.innerHTML = communityTaskGroups(tasks);
+  const homepage = byId("homepage-community-tasks");
+  if (homepage) homepage.innerHTML = tasks.length ? tasks.slice(0, 5).map(communityTaskCard).join("") : '<p class="empty">当前没有达到公开任务门槛的缺口</p>';
+
+  const recent = list(view.recentContributions);
+  const recentRoot = byId("community-recent-contributions");
+  if (recentRoot) recentRoot.innerHTML = recent.length ? recent.map((item) => {
+    const category = communityCategories[item.category] || { label: "公开补证" };
+    const target = item.state === "promoted" && item.publicTargetUrl ? item.publicTargetUrl : item.issueUrl;
+    return `<article class="community-contribution-record"><div><span class="category-badge">${safe(category.label)}</span><span class="state-badge">${safe(contributionStates[item.state] || "状态更新")}</span></div><h3>${safe(item.subjectName || "公开补证")}</h3><p>@${safe(item.contributor)} · ${date(item.occurredAt)}</p><a href="${safeUrl(target)}" target="_blank" rel="noopener noreferrer">查看${item.state === "promoted" ? "公开内容" : " Issue"} ↗</a></article>`;
+  }).join("") : '<p class="empty">当前没有可公开展示的贡献记录。</p>';
+}
+
 async function loadDashboard() {
   if (document.body?.dataset?.view === "subscribe") return fallback;
   const localPath = "data/dashboard.json";
@@ -843,6 +912,22 @@ async function loadCommunity() {
   } catch (error) {
     console.warn("Community data unavailable; rendering explicit unavailable state.", error);
     return null;
+  }
+}
+
+async function loadCommunityTasks() {
+  if (document.body?.dataset?.view === "subscribe") return { tasks: [] };
+  const localPath = "data/community-tasks.json";
+  const remotePath = "https://raw.githubusercontent.com/mbabby/physical-ai-news-cn/main/site/data/community-tasks.json";
+  const source = window.location.protocol === "file:" ? remotePath : localPath;
+  try {
+    const response = await fetch(`${source}${source.includes("?") ? "&" : "?"}v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const artifact = await response.json();
+    return artifact && Array.isArray(artifact.tasks) ? artifact : { tasks: [] };
+  } catch (error) {
+    console.warn("Community task data unavailable; rendering safe empty state.", error);
+    return { tasks: [] };
   }
 }
 

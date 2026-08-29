@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type { CandidateVerificationArtifact, CandidateVerificationRecord, EvidenceSourceClass } from "./candidate-verification.js";
+import { assertAcceptedEvidenceArtifact, type AcceptedEvidenceArtifact, type EvidenceSubject, type EvidenceTargetField, type EvidenceTaskCategory } from "./community-evidence/contracts.js";
 import type { Article, CompanyProfile, SourceConfig } from "./types.js";
 
 export type EvidenceGap = "missing-subject" | "missing-official" | "missing-second-independent-source" | "amount-conflict";
@@ -29,6 +30,22 @@ export interface PlannedCandidateEvidence {
   addresses: EvidenceGap[];
   extractedAmount?: string;
   disposition: "candidate-only";
+  mayPublish: false;
+  mayUpgradeFactGrade: false;
+}
+
+export interface EvidenceEnrichmentTarget {
+  id: string;
+  taskId: string;
+  issueNumber: number;
+  category: EvidenceTaskCategory;
+  subject: EvidenceSubject;
+  targetField: EvidenceTargetField;
+  evidenceUrl: string;
+  domain: string;
+  acceptedAt: string;
+  disposition: "revalidation-only";
+  requiredChecks: ["entity", "source-tier", "field-consistency", "conflict", "date"];
   mayPublish: false;
   mayUpgradeFactGrade: false;
 }
@@ -64,6 +81,7 @@ export interface EvidenceEnrichmentArtifact {
   budget: { maxPlansPerRun: number; attemptedPlans: number; deferredPlans: number; maxProbesPerPlan: number };
   status: "healthy" | "degraded";
   errors: string[];
+  revalidationTargets: EvidenceEnrichmentTarget[];
   plans: EvidenceEnrichmentPlan[];
 }
 
@@ -74,6 +92,8 @@ export interface EvidenceEnrichmentPlannerInput {
   /** Already-fetched corpus only. The planner itself performs no network write or publication. */
   evidencePool?: Article[];
   previous?: EvidenceEnrichmentArtifact;
+  /** Human-accepted URLs still awaiting the normal canonical evidence gates. */
+  acceptedEvidence?: AcceptedEvidenceArtifact;
   /** Additional reviewed domains; values may be bare domains or HTTPS URLs. */
   allowedDomains?: string[];
 }
@@ -111,6 +131,32 @@ function domain(value: string): string | undefined {
     const host = parsed.hostname.replace(/^www\./, "");
     return host.includes(".") && !/\s/.test(host) ? host : undefined;
   } catch { return undefined; }
+}
+
+/** Convert human acceptance into a bounded revalidation queue. Acceptance is
+ * never a source tier or publication decision; every target must still be
+ * fetched and pass the declared canonical checks. */
+export function buildAcceptedEvidenceEnrichmentTargets(accepted: AcceptedEvidenceArtifact): EvidenceEnrichmentTarget[] {
+  assertAcceptedEvidenceArtifact(accepted);
+  return accepted.entries.map((entry) => {
+    const host = domain(entry.evidenceUrl);
+    if (!host) throw new Error(`Accepted evidence URL has no valid domain: ${entry.evidenceUrl}`);
+    return {
+      id: entry.id,
+      taskId: entry.taskId,
+      issueNumber: entry.issueNumber,
+      category: entry.category,
+      subject: entry.subject,
+      targetField: entry.targetField,
+      evidenceUrl: entry.evidenceUrl,
+      domain: host,
+      acceptedAt: entry.acceptedAt,
+      disposition: "revalidation-only",
+      requiredChecks: ["entity", "source-tier", "field-consistency", "conflict", "date"],
+      mayPublish: false,
+      mayUpgradeFactGrade: false,
+    };
+  });
 }
 function articleDomain(article: Article): string | undefined { return domain(article.link); }
 function sourceUrl(source: SourceConfig): string | undefined {
@@ -325,6 +371,7 @@ export function buildEvidenceEnrichmentPlan(
     policy: { allowedDomains: unique(allowlist.sources.map((source) => source.domain)).sort(), candidateOnly: true, automaticPublication: false, automaticGradeUpgrade: false },
     budget: { maxPlansPerRun, attemptedPlans, deferredPlans, maxProbesPerPlan },
     status: errors.length ? "degraded" : "healthy", errors,
+    revalidationTargets: input.acceptedEvidence ? buildAcceptedEvidenceEnrichmentTargets(input.acceptedEvidence) : [],
     plans: plans.sort((a, b) => b.priority - a.priority || a.recordId.localeCompare(b.recordId)),
   };
 }

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="用两分钟为物理 AI 公开情报补充可核验证据。" />
+    <title>物理 AI 贡献中心</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-view="contribute">
+    <div class="grid-glow"></div>
+    <header class="shell share-hero contribution-hero">
+      <a class="brand" href="index.html"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
+      <nav aria-label="贡献中心导航"><a href="index.html">首页</a> · <a href="https://github.com/mbabby/physical-ai-news-cn/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">贡献指南 ↗</a></nav>
+      <p class="eyebrow">COMMUNITY EVIDENCE CENTER</p>
+      <h1>两分钟，补全一条<br />可核验的物理 AI 情报</h1>
+      <p>每项任务只核验一个字段。选择任务，找到原始来源，再回到对应 GitHub Issue 提交证据。</p>
+    </header>
+    <main class="shell contribution-center">
+      <section class="community-evidence-metrics" aria-label="贡献任务指标">
+        <div><strong id="community-open-count">—</strong><span>当前开放</span></div>
+        <div><strong id="community-weekly-accepted">—</strong><span>本周采纳</span></div>
+        <div><strong id="community-new-contributors">—</strong><span>本周新贡献者</span></div>
+      </section>
+      <p class="publication-notice">证据被采纳后仍需经过日报复核，不会自动进入公开事实。</p>
+      <section class="section" aria-labelledby="open-task-title">
+        <div class="section-head"><div><p class="eyebrow">OPEN TASKS</p><h2 id="open-task-title">当前公开补证任务</h2></div></div>
+        <div id="community-task-groups" class="community-task-groups" aria-live="polite"><p class="empty">当前没有达到公开任务门槛的缺口</p></div>
+      </section>
+      <section class="section" aria-labelledby="recent-contribution-title">
+        <div class="section-head"><div><p class="eyebrow">RECENT ACTIVITY</p><h2 id="recent-contribution-title">最近贡献记录</h2></div></div>
+        <p class="section-note">徽章只表示证据类别和状态，不按采纳数量评价或排列贡献者。</p>
+        <div id="community-recent-contributions" class="community-recent-contributions" aria-live="polite"><p class="empty">当前没有可公开展示的贡献记录。</p></div>
+      </section>
+    </main>
+    <footer class="shell"><a href="index.html">← 返回情报终端</a><span>所有证据仍须经过日报复核</span></footer>
+    <noscript><p class="shell empty">请启用 JavaScript 读取公开补证任务。</p></noscript>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
