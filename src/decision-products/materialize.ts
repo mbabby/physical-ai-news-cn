@@ -231,7 +231,9 @@ export function validateDecisionProductRetentionReceipt(value: unknown): asserts
   if (record.previousArtifactSha256 !== null && (typeof record.previousArtifactSha256 !== "string" || !/^[a-f0-9]{64}$/.test(record.previousArtifactSha256))) {
     throw new Error("Decision Product 保留凭据摘要无效");
   }
-  if ((record.retainedCompanyIds.length > 0 || record.retainedPaperIds.length > 0) !== (record.previousArtifactSha256 !== null)) throw new Error("Decision Product 保留凭据摘要与 identity 不一致");
+  if ((record.retainedCompanyIds.length > 0 || record.retainedPaperIds.length > 0) && record.previousArtifactSha256 === null) {
+    throw new Error("Decision Product 保留凭据摘要与 identity 不一致");
+  }
 }
 
 const stableArtifactBytes = (artifact: DecisionProductArtifact): string => `${JSON.stringify(artifact, null, 2)}\n`;
@@ -251,7 +253,9 @@ export function buildDecisionProductRetentionReceipt(input: {
   const retainedCompanyIds = input.artifact.companyCards.filter((card) => !currentCompanyIds.has(card.companyId)).map((card) => card.companyId);
   const retainedPaperIds = input.artifact.researchPassports.filter((passport) => !currentPaperIds.has(passport.paperId)).map((passport) => passport.paperId);
   const retained = retainedCompanyIds.length > 0 || retainedPaperIds.length > 0;
-  if (retained && !input.previousArtifact) throw new Error("Decision Product 发布工件包含无保留来源的条目");
+  const previousInfluencedArtifact = stableArtifactBytes(input.currentArtifact) !== stableArtifactBytes(input.artifact);
+  const requiresPreviousArtifact = retained || previousInfluencedArtifact;
+  if (requiresPreviousArtifact && !input.previousArtifact) throw new Error("Decision Product 发布工件包含无保留来源的历史影响");
   if (retained && (!retainedCompanyIds.every((id) => input.previousArtifact!.companyCards.some((card) => card.companyId === id))
     || !retainedPaperIds.every((id) => input.previousArtifact!.researchPassports.some((passport) => passport.paperId === id)))) {
     throw new Error("Decision Product 发布工件的保留 identity 不属于上一版公开工件");
@@ -259,7 +263,7 @@ export function buildDecisionProductRetentionReceipt(input: {
   const receipt = {
     schemaVersion: 1,
     generatedAt: input.artifact.generatedAt,
-    previousArtifactSha256: retained ? decisionProductArtifactSha256(input.previousArtifact!) : null,
+    previousArtifactSha256: requiresPreviousArtifact ? decisionProductArtifactSha256(input.previousArtifact!) : null,
     retainedCompanyIds,
     retainedPaperIds,
   } satisfies DecisionProductRetentionReceipt;

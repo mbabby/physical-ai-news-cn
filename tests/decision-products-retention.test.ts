@@ -4,7 +4,11 @@ import test from "node:test";
 import type { BenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
 import type { CompanyClaimLedger } from "../src/company-claim-ledger.js";
 import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
-import { buildDecisionProductArtifact } from "../src/decision-products/materialize.js";
+import {
+  buildDecisionProductArtifact,
+  buildDecisionProductRetentionReceipt,
+  decisionProductArtifactSha256,
+} from "../src/decision-products/materialize.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import type { CompanyProfile, EventRecord, ResearchRecord } from "../src/types.js";
 import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
@@ -142,6 +146,28 @@ test("a sparse degraded run retains prior valid cards and passports without chan
   assert.deepEqual(retained.researchPassports.map((passport) => passport.passportId), first.researchPassports.map((passport) => passport.passportId));
   assert.equal(retained.companyCards[0]!.updatedAt, PRIOR_TIME);
   assert.equal(retained.researchPassports[0]!.authority.checkedAt, PRIOR_TIME);
+});
+
+test("retention receipt records prior influence even when current and published artifacts share every identity", () => {
+  const previous = priorArtifact();
+  const current = structuredClone(previous);
+  current.generatedAt = NOW.toISOString();
+  current.periodStart = "2026-08-18";
+  current.subscriptions.generatedAt = NOW.toISOString();
+  current.researchPassports[0]!.factsZh = ["当前输入生成第一条事实。", "当前输入生成第二条事实。"];
+
+  const published = structuredClone(current);
+  published.researchPassports[0]!.factsZh = [...previous.researchPassports[0]!.factsZh] as [string, string];
+
+  const receipt = buildDecisionProductRetentionReceipt({
+    currentArtifact: current,
+    artifact: published,
+    previousArtifact: previous,
+  });
+
+  assert.equal(receipt.previousArtifactSha256, decisionProductArtifactSha256(previous));
+  assert.deepEqual(receipt.retainedCompanyIds, []);
+  assert.deepEqual(receipt.retainedPaperIds, []);
 });
 
 test("retention drops a company card whose referenced event is now withdrawn", () => {
