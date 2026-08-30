@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-29T03:56:24.110Z",
+  "generatedAt": "2026-08-30T03:12:57.844Z",
   "units": [
     {
       "unitId": "decision-11dadecc97b99204",
@@ -741,6 +741,47 @@
       ]
     },
     {
+      "unitId": "decision-80dabba02374c106",
+      "actorId": "public-intelligence",
+      "decisionKey": "research:eb7745b52639baf0",
+      "references": [
+        {
+          "kind": "research-decision-card",
+          "id": "eb7745b52639baf0"
+        }
+      ],
+      "stage": "shortlisted",
+      "status": "active",
+      "createdAt": "2026-08-30T03:12:57.844Z",
+      "updatedAt": "2026-08-30T03:12:57.844Z",
+      "auditTrail": [
+        {
+          "eventId": "decision-80dabba02374c106:created",
+          "at": "2026-08-30T03:12:57.844Z",
+          "action": "created",
+          "fromStage": null,
+          "toStage": "discovered",
+          "actorId": "system",
+          "detail": "Decision unit created from stable references",
+          "referenceIds": [
+            "research-decision-card:eb7745b52639baf0"
+          ]
+        },
+        {
+          "eventId": "decision-80dabba02374c106:public-shortlist",
+          "at": "2026-08-30T03:12:57.844Z",
+          "action": "stage-transition",
+          "fromStage": "discovered",
+          "toStage": "shortlisted",
+          "actorId": "daily-pipeline",
+          "detail": "Qualified fact reference entered the public decision shortlist",
+          "referenceIds": [
+            "research-decision-card:eb7745b52639baf0"
+          ]
+        }
+      ]
+    },
+    {
       "unitId": "decision-8a0587899467ee89",
       "actorId": "public-intelligence",
       "decisionKey": "event:evt-68f6088c2e06",
@@ -1398,19 +1439,19 @@
     }
   ],
   "funnel": {
-    "totalUnits": 34,
+    "totalUnits": 35,
     "byStage": {
       "discovered": 0,
-      "shortlisted": 34,
+      "shortlisted": 35,
       "evaluating": 0,
       "decided": 0,
       "acted": 0,
       "dismissed": 0
     },
-    "active": 34,
+    "active": 35,
     "converted": 0,
     "rejected": 0,
-    "transitionEvents": 34,
+    "transitionEvents": 35,
     "conversionRate": 0
   }
 }

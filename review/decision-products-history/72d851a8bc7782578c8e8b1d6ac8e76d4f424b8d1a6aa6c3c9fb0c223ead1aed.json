@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-30T03:12:57.844Z",
-  "periodStart": "2026-08-24",
+  "generatedAt": "2026-08-29T03:56:24.110Z",
+  "periodStart": "2026-08-23",
   "topSignals": [],
   "companyCards": [],
   "researchPassports": [
@@ -144,6 +144,70 @@
       ]
     },
     {
+      "passportId": "decision-research-0377955207f537fd253e",
+      "paperId": "d296eb9c0886d703",
+      "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
+      "factsZh": [
+        "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。",
+        "在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2607.27782v1",
+      "task": [
+        "机器人操作"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "LIBERO",
+        "metric": "success rate",
+        "result": "74.7%",
+        "baseline": "56.7%",
+        "delta": "+18 percentage points",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2607.27782v1"
+        ]
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7172172425",
+        "authors": [
+          "Zehong Yan",
+          "Junhao Li",
+          "Fangqi Zhu"
+        ],
+        "labs": [
+          "Hong Kong University of Science and Technology"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-14T01:30:23.106Z"
+      },
+      "limitations": [
+        "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy"
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Hong Kong University of Science and Technology。",
+      "rankReasons": [
+        "真实机器人证据",
+        "精确基准比较"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "realRobotTrials"
+      ]
+    },
+    {
       "passportId": "decision-research-ef579c88364957eac7f8",
       "paperId": "8c419dab7bc8d2c0",
       "titleZh": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
@@ -208,7 +272,7 @@
     }
   ],
   "subscriptions": {
-    "generatedAt": "2026-08-30T03:12:57.844Z",
+    "generatedAt": "2026-08-29T03:56:24.110Z",
     "entries": [
       {
         "subscriptionId": "github-watch",

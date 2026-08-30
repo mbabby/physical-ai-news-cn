@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T03:56:24.110Z",
+  "generatedAt": "2026-08-30T03:12:57.844Z",
   "periodLabel": "本周 2026-W35 · 近 30 天滚动证据池",
   "stats": {
     "events": 0,
@@ -21,7 +21,7 @@
       "link": "https://arxiv.org/abs/2608.06729v1",
       "type": "研究论文",
       "route": "机器人操作",
-      "date": "2026-08-29",
+      "date": "2026-08-30",
       "source": "Reproducibility Passport"
     },
     {
@@ -31,17 +31,7 @@
       "link": "https://arxiv.org/abs/2608.06688v1",
       "type": "研究论文",
       "route": "机器人导航",
-      "date": "2026-08-29",
-      "source": "Reproducibility Passport"
-    },
-    {
-      "passportId": "decision-research-0377955207f537fd253e",
-      "title": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-      "summary": "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。 在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。",
-      "link": "https://arxiv.org/abs/2607.27782v1",
-      "type": "研究论文",
-      "route": "机器人操作",
-      "date": "2026-08-29",
+      "date": "2026-08-30",
       "source": "Reproducibility Passport"
     },
     {
@@ -51,7 +41,7 @@
       "link": "https://arxiv.org/abs/2608.05674v1",
       "type": "研究论文",
       "route": "机器人操作",
-      "date": "2026-08-29",
+      "date": "2026-08-30",
       "source": "Reproducibility Passport"
     }
   ],
@@ -103,6 +93,21 @@
     },
     {
       "paper": {
+        "title": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
+        "summary": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
+        "link": "https://arxiv.org/abs/2608.27406v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-27",
+        "source": "arXiv · Robotics"
+      },
+      "route": "世界模型与空间智能",
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
+    },
+    {
+      "paper": {
         "title": "TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架",
         "summary": "提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。",
         "link": "https://arxiv.org/abs/2608.07314v1",
@@ -130,26 +135,11 @@
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
-    },
-    {
-      "paper": {
-        "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-        "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-        "link": "https://arxiv.org/abs/2608.05970v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-06",
-        "source": "arXiv · Robotics"
-      },
-      "route": "VLA 与具身模型",
-      "companies": [],
-      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
-      "relations": []
     }
   ],
   "companyRadar": [],
   "companyBoards": {
-    "generatedAt": "2026-08-29T03:56:24.110Z",
+    "generatedAt": "2026-08-30T03:12:57.844Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -509,8 +499,8 @@
   ],
   "decisionProducts": {
     "schemaVersion": 1,
-    "generatedAt": "2026-08-29T03:56:24.110Z",
-    "periodStart": "2026-08-23",
+    "generatedAt": "2026-08-30T03:12:57.844Z",
+    "periodStart": "2026-08-24",
     "topSignals": [],
     "companyCards": [],
     "researchPassports": [
@@ -653,70 +643,6 @@
         ]
       },
       {
-        "passportId": "decision-research-0377955207f537fd253e",
-        "paperId": "d296eb9c0886d703",
-        "titleZh": "RedFlow：将失败经验重定向为动作级纠正的流匹配 VLA 策略",
-        "factsZh": [
-          "RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。",
-          "在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。"
-        ],
-        "sourceUrl": "https://arxiv.org/abs/2607.27782v1",
-        "task": [
-          "机器人操作"
-        ],
-        "embodiment": [
-          "真实机器人"
-        ],
-        "methods": "unknown",
-        "benchmark": {
-          "name": "LIBERO",
-          "metric": "success rate",
-          "result": "74.7%",
-          "baseline": "56.7%",
-          "delta": "+18 percentage points",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2607.27782v1"
-          ]
-        },
-        "realRobotTrials": "unknown",
-        "assets": {
-          "code": "unknown",
-          "data": "unknown",
-          "weights": "unknown"
-        },
-        "reproducibilityCost": {
-          "level": "unknown",
-          "rationale": "unknown"
-        },
-        "authority": {
-          "openAlexWorkId": "W7172172425",
-          "authors": [
-            "Zehong Yan",
-            "Junhao Li",
-            "Fangqi Zhu"
-          ],
-          "labs": [
-            "Hong Kong University of Science and Technology"
-          ],
-          "citedByCount": 0,
-          "checkedAt": "2026-08-14T01:30:23.106Z"
-        },
-        "limitations": [
-          "RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy"
-        ],
-        "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Hong Kong University of Science and Technology。",
-        "rankReasons": [
-          "真实机器人证据",
-          "精确基准比较"
-        ],
-        "gaps": [
-          "assets.code",
-          "assets.data",
-          "assets.weights",
-          "realRobotTrials"
-        ]
-      },
-      {
         "passportId": "decision-research-ef579c88364957eac7f8",
         "paperId": "8c419dab7bc8d2c0",
         "titleZh": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
@@ -781,7 +707,7 @@
       }
     ],
     "subscriptions": {
-      "generatedAt": "2026-08-29T03:56:24.110Z",
+      "generatedAt": "2026-08-30T03:12:57.844Z",
       "entries": [
         {
           "subscriptionId": "github-watch",
@@ -870,7 +796,7 @@
   "communityEvidence": {
     "taskArtifact": {
       "schemaVersion": 1,
-      "generatedAt": "2026-08-29T03:56:24.110Z",
+      "generatedAt": "2026-08-30T03:12:57.844Z",
       "tasks": []
     },
     "metrics": {
