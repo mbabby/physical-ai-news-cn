@@ -207,7 +207,7 @@ export function shouldDegradeResearchPassportProjection(input: {
   runtimeStatuses: readonly RuntimeStatus[];
 }): boolean {
   return Boolean(input.previousArtifact && input.researchDecisionCards.length > 0
-    && input.runtimeStatuses.some((status) => (status.component === "LLM" || status.component === "OpenAlex") && status.status !== "成功"));
+    && input.runtimeStatuses.some((status) => (status.component === "LLM" || status.component === "OpenAlex") && status.status === "部分降级"));
 }
 
 export interface DecisionProductRetentionReceipt {

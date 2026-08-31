@@ -8,6 +8,7 @@ import {
   buildDecisionProductArtifact,
   buildDecisionProductRetentionReceipt,
   decisionProductArtifactSha256,
+  shouldDegradeResearchPassportProjection,
 } from "../src/decision-products/materialize.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import type { CompanyProfile, EventRecord, ResearchRecord } from "../src/types.js";
@@ -128,6 +129,18 @@ function buildInput(previousArtifact?: DecisionProductArtifact) {
     researchPassportProjectionDegraded: false,
   };
 }
+
+test("passport projection degrades only on an attempted partial external-service failure", () => {
+  const previousArtifact = priorArtifact();
+  const researchDecisionCards = [materializeResearchDecisionCard(structuredClone(researchRecord), { now: NOW })];
+  const status = (component: "LLM" | "OpenAlex", state: "成功" | "部分降级" | "未配置") => ({
+    component, status: state, attempted: state === "未配置" ? 0 : 1,
+    succeeded: state === "成功" ? 1 : 0, failed: state === "部分降级" ? 1 : 0, detail: state,
+  });
+  assert.equal(shouldDegradeResearchPassportProjection({ previousArtifact, researchDecisionCards, runtimeStatuses: [status("OpenAlex", "未配置")] }), false);
+  assert.equal(shouldDegradeResearchPassportProjection({ previousArtifact, researchDecisionCards, runtimeStatuses: [status("LLM", "成功")] }), false);
+  assert.equal(shouldDegradeResearchPassportProjection({ previousArtifact, researchDecisionCards, runtimeStatuses: [status("OpenAlex", "部分降级")] }), true);
+});
 
 test("a sparse degraded run retains prior valid cards and passports without changing item clocks", () => {
   const completeInput = buildInput();
