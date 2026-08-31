@@ -96,13 +96,20 @@ jobs:
           title="Physical AI 资本与产品部署 Top Signals · ${WEEK}"
           notes="$NOTES"
           expected_body_b64="$(base64 < "$notes" | tr -d '\n')"
-          if release_json="$(gh release view "$tag" --json name,body,url 2>/dev/null)"; then
+          if release_json="$(gh release view "$tag" --json name,body,url,isDraft,isPrerelease 2>/dev/null)"; then
             current_title="$(jq -r '.name' <<<"$release_json")"
             current_body_b64="$(jq -r '.body | @base64' <<<"$release_json")"
-            if [[ "$current_title" == "$title" && "$current_body_b64" == "$expected_body_b64" ]]; then
+            current_draft="$(jq -r '.isDraft | tostring' <<<"$release_json")"
+            current_prerelease="$(jq -r '.isPrerelease | tostring' <<<"$release_json")"
+            latest_tag="$(gh release view --json tagName --jq '.tagName' 2>/dev/null || true)"
+            if [[ "$current_title" == "$title" \
+              && "$current_body_b64" == "$expected_body_b64" \
+              && "$current_draft" == "false" \
+              && "$current_prerelease" == "false" \
+              && "$latest_tag" == "$tag" ]]; then
               action="verified"
             else
-              gh release edit "$tag" --title "$title" --notes-file "$notes" --latest
+              gh release edit "$tag" --title "$title" --notes-file "$notes" --draft=false --prerelease=false --latest
               action="refreshed"
             fi
           else
