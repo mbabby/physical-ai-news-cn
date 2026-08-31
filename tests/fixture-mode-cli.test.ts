@@ -84,19 +84,20 @@ test("parses documented fixture flags and scopes output root to fixture mode", (
 });
 
 test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leaves its worktree unchanged", async () => {
-  const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-cli-"));
+  const firstRoot = await mkdtemp(join(tmpdir(), "physical-ai-fixture-cli-first-"));
+  const secondRoot = await mkdtemp(join(tmpdir(), "physical-ai-fixture-cli-second-"));
   const repositoryBefore = await mkdtemp(join(tmpdir(), "physical-ai-fixture-before-"));
   const repositoryAfter = await mkdtemp(join(tmpdir(), "physical-ai-fixture-after-"));
   try {
     await fixtureCopy(repositoryBefore);
-    await fixtureCopy(root);
-    const firstRun = await runFixtureCli(root);
-    const first = await bytes(root);
-    const secondRun = await runFixtureCli(root);
-    const second = await bytes(root);
+    await Promise.all([fixtureCopy(firstRoot), fixtureCopy(secondRoot)]);
+    const firstRun = await runFixtureCli(firstRoot);
+    const first = await bytes(firstRoot);
+    const secondRun = await runFixtureCli(secondRoot);
+    const second = await bytes(secondRoot);
     const changedPaths = [...new Set([...Object.keys(first), ...Object.keys(second)])]
       .filter((path) => first[path] !== second[path]);
-    assert.deepEqual(changedPaths, [], `fixture rerun changed: ${changedPaths.join(", ")}`);
+    assert.deepEqual(changedPaths, [], `fixture roots differ: ${changedPaths.join(", ")}`);
     assert.equal(firstRun.stderr, "");
     assert.equal(secondRun.stderr, "");
 
@@ -114,11 +115,15 @@ test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leave
       && [manifest.services.find((item) => item.component === "EvidenceRevalidation")!.status,
         manifest.services.find((item) => item.component === "EvidenceRevalidation")!.attempted], ["成功", 0]);
     for (const path of COMMUNITY_PATHS) assert.ok(first[path], `${path} must be staged by the real transaction`);
+    const firstDraft = await readFile(join(firstRoot, "review", "top-signals-drafts", "2026-W36.json"), "utf8");
+    const secondDraft = await readFile(join(secondRoot, "review", "top-signals-drafts", "2026-W36.json"), "utf8");
+    assert.ok(firstDraft.length > 0, "fixture must stage the W36 Top Signals draft");
+    assert.equal(secondDraft, firstDraft, "two fixture roots must stage identical Top Signals drafts");
     assert.match(firstRun.stdout, /完成/);
     await fixtureCopy(repositoryAfter);
     assert.deepEqual(await bytes(repositoryAfter), await bytes(repositoryBefore));
   } finally {
-    await Promise.all([root, repositoryBefore, repositoryAfter].map((path) => rm(path, { recursive: true, force: true })));
+    await Promise.all([firstRoot, secondRoot, repositoryBefore, repositoryAfter].map((path) => rm(path, { recursive: true, force: true })));
   }
 });
 

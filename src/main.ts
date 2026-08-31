@@ -763,6 +763,7 @@ function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
 export interface GenerateOptions {
   root?: string;
   now?: Date;
+  topSignalsDraftNow?: Date;
   collect?: typeof collect;
   collectX?: typeof collectX;
   transaction?: FileTransaction;
@@ -777,6 +778,7 @@ export interface GenerateOptions {
 /** Production daily orchestration with fixture seams for deterministic release verification. */
 async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const now = options.now ?? new Date();
+  const topSignalsDraftNow = options.topSignalsDraftNow ?? now;
   const outputRoot = options.root ?? root;
   const startedAt = now;
   const transaction = options.transaction ?? new FileTransaction();
@@ -1223,7 +1225,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     previousArtifact: previousDecisionProductArtifact,
   });
   const growthConfig = await loadGrowthExperimentConfig(outputRoot);
-  const growthDraft = buildTopSignalsDraft({ artifact: decisionProducts, now, config: growthConfig });
+  const growthDraft = buildTopSignalsDraft({ artifact: decisionProducts, now: topSignalsDraftNow, config: growthConfig });
   if (growthDraft.status === "in-experiment") {
     stageTopSignalsDraft({ root: outputRoot, transaction, draft: growthDraft.draft });
   }
@@ -1503,6 +1505,7 @@ export async function generate(options: GenerateOptions = {}): Promise<RunManife
 }
 
 const FIXTURE_NOW = new Date("2026-08-24T08:05:05.893Z");
+const FIXTURE_TOP_SIGNALS_NOW = new Date("2026-09-03T12:00:00.000Z");
 const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
 const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
@@ -1596,6 +1599,7 @@ export async function runFixtureGeneration(outputRoot: string, transaction?: Fil
     return await generate({
       root: outputRoot,
       now: FIXTURE_NOW,
+      topSignalsDraftNow: FIXTURE_TOP_SIGNALS_NOW,
       collect: fixtureCollection,
       collectX: fixtureXCollection,
       communityEvidenceSeeds: seeds,
