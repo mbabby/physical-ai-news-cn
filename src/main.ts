@@ -75,6 +75,8 @@ import { validateDecisionProductArtifact, type DecisionProductArtifact } from ".
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
 import { loadGrowthExperimentConfig } from "./top-signals-growth/contracts.js";
 import { buildTopSignalsDraft, stageTopSignalsDraft } from "./top-signals-growth/materialize.js";
+import { validatePublishedTopSignalsArtifact } from "./top-signals-growth/publish.js";
+import type { PublishedTopSignalsArtifact } from "./top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -784,8 +786,9 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   let previousCompanyClaimLedger: CompanyClaimLedger | undefined;
   let previousBenchmarkResultLedger: BenchmarkResultLedger | undefined;
   let previousDecisionProductArtifact: DecisionProductArtifact | undefined;
+  let publishedTopSignals: PublishedTopSignalsArtifact | undefined;
   try {
-    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact] = await Promise.all([
+    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact, publishedTopSignals] = await Promise.all([
       readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
         optional: true, label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact,
       }),
@@ -797,6 +800,14 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
         label: "上一版 Decision Product",
         validate: (value): value is DecisionProductArtifact => {
           try { validateDecisionProductArtifact(value); return true; }
+          catch { return false; }
+        },
+      }),
+      readJsonStrict<PublishedTopSignalsArtifact>(join(outputRoot, "weekly", "top-signals", "latest.json"), {
+        optional: true,
+        label: "上一期已发布 Top Signals",
+        validate: (value): value is PublishedTopSignalsArtifact => {
+          try { validatePublishedTopSignalsArtifact(value); return true; }
           catch { return false; }
         },
       }),
@@ -1379,6 +1390,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     watchlist: watchlistView,
     retentionReceipt: decisionProductRetentionReceipt,
     retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
+    publishedTopSignals,
   });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
@@ -1406,6 +1418,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     repositoryUrl: repositoryBaseUrl,
     pagesUrl: pagesBaseUrl,
     watchlist: watchlistView,
+    publishedTopSignals,
   });
   const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, metrics: watchlistMetrics, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({

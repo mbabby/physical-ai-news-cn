@@ -545,22 +545,36 @@ test("independent watchdog checks freshness without write permissions", async ()
   assert.match(workflow, /package-manager-cache:\s*false/);
 });
 
-test("weekly release publishes a stable evidence-backed brief", async () => {
+test("weekly release publishes Top Signals through a release-first transaction", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
-  assert.match(workflow, /cron: "0 13 \* \* 0"/);
+  const release = workflow.indexOf("gh release create");
+  const publish = workflow.indexOf("pnpm top-signals:publish");
+  const push = workflow.indexOf("git push origin HEAD:main");
+
+  assert.ok(release >= 0 && publish > release && push > publish);
+  assert.match(workflow, /cron: "0 13 \* \* 4"/);
   assert.match(workflow, /contents:\s*write/);
-  assert.match(workflow, /description: "Optional ISO week to publish \(YYYY-Www\); must match watchlist\/current\.json"/);
-  assert.match(workflow, /jq -er '\.week' watchlist\/current\.json/);
-  assert.match(workflow, /jq -er '\.snapshotVersion' watchlist\/current\.json/);
-  assert.match(workflow, /watchlist\/history\/\$\{week\}-v\$\{snapshot_version\}\.json/);
-  assert.match(workflow, /cmp -s watchlist\/current\.json "\$snapshot"/);
-  assert.match(workflow, /\^\[0-9\]\{4\}-W\(0\[1-9\]\|\[1-4\]\[0-9\]\|5\[0-3\]\)\$/);
-  assert.match(workflow, /weekly\/\$\{week\}-report\.md/);
-  assert.match(workflow, /brief-\$\{WEEK\}-v\$\{SNAPSHOT_VERSION\}/);
-  assert.match(workflow, /Watchlist snapshot.*\$\{WEEK\}.*v\$\{SNAPSHOT_VERSION\}/);
+  assert.match(workflow, /default:\s*"2026-W36"/);
+  assert.match(workflow, /node-version:\s*24/);
+  assert.match(workflow, /pnpm install --frozen-lockfile/);
+  assert.match(workflow, /pnpm run check/);
+  assert.match(workflow, /pnpm exec tsx --test tests\/top-signals-growth-workflow\.test\.ts/);
+  assert.match(workflow, /pnpm top-signals:prepare -- --week "\$WEEK" --out "\$PREPARE_DIR"/);
+  assert.match(workflow, /tag="top-signals-\$\{WEEK\}"/);
   assert.match(workflow, /gh release view "\$tag"/);
   assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes" --latest/);
   assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$notes" --latest/);
-  assert.doesNotMatch(workflow, /date \+%G-W%V/);
-  assert.doesNotMatch(workflow, /find weekly/);
+  assert.match(workflow, /gh release view "\$tag" --json url --jq '\.url'/);
+  assert.match(workflow, /pnpm top-signals:publish -- --week "\$WEEK" --release-url "\$RELEASE_URL"/);
+  assert.match(workflow, /pnpm top-signals:validate -- --week "\$WEEK"/);
+  assert.match(workflow, /git add weekly\/top-signals review\/top-signals-publication-receipt\.json README\.md/);
+  assert.match(workflow, /Release outcome/);
+  assert.match(workflow, /README outcome/);
+});
+
+test("package scripts expose the three local Top Signals release commands", async () => {
+  const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8")) as { scripts: Record<string, string> };
+  assert.equal(packageJson.scripts["top-signals:prepare"], "tsx src/top-signals-growth/cli.ts prepare");
+  assert.equal(packageJson.scripts["top-signals:publish"], "tsx src/top-signals-growth/cli.ts publish");
+  assert.equal(packageJson.scripts["top-signals:validate"], "tsx src/top-signals-growth/cli.ts validate");
 });

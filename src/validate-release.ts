@@ -29,6 +29,8 @@ import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultL
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, shouldDegradeResearchPassportProjection, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, type DecisionFeedManifest } from "./decision-products/subscriptions.js";
+import { validatePublishedTopSignalsArtifact } from "./top-signals-growth/publish.js";
+import type { PublishedTopSignalsArtifact } from "./top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -238,6 +240,14 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
       catch { return false; }
     },
   });
+  const publishedTopSignals = await readJsonStrict<PublishedTopSignalsArtifact>(join(root, "weekly", "top-signals", "latest.json"), {
+    optional: true,
+    label: "最近一期已发布 Top Signals",
+    validate: (value): value is PublishedTopSignalsArtifact => {
+      try { validatePublishedTopSignalsArtifact(value); return true; }
+      catch { return false; }
+    },
+  });
   const previousDecisionProducts = decisionProductRetention?.previousArtifactSha256
     ? await readJsonStrict<DecisionProductArtifact>(join(root, "review", "decision-products-history", `${decisionProductRetention.previousArtifactSha256}.json`), {
       label: "Decision Product 上一版公开快照",
@@ -389,6 +399,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     repositoryUrl: "https://github.com/mbabby/physical-ai-news-cn",
     pagesUrl: "https://mbabby.github.io/physical-ai-news-cn",
     watchlist: currentView,
+    publishedTopSignals,
   });
   await validateWatchlistFeeds(root, currentView, watchlistFeedManifest);
   validateWatchlistConfigCatalog(currentView);

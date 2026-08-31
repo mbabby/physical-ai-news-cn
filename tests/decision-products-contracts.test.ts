@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { stableDecisionId, validateDecisionProductArtifact } from "../src/decision-products/contracts.js";
+import { formatDecisionProductReadme } from "../src/decision-products/markdown.js";
+import { renderTopSignalsArchive } from "../src/top-signals-growth/render.js";
+import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 
 function validDecisionProductArtifact(): any {
   return {
@@ -116,6 +119,35 @@ test("stable decision identities ignore generation clocks", () => {
   assert.equal(stableDecisionId("signal", "evt-1"), stableDecisionId("signal", "evt-1"));
   assert.notEqual(stableDecisionId("signal", "evt-1"), stableDecisionId("company", "evt-1"));
   assert.equal(stableDecisionId("signal", "evt-1"), "decision-signal-4b6d7fb3f935a7c77819");
+});
+
+test("README prefers the latest published Top Signals over a new daily projection", () => {
+  const artifact = validDecisionProductArtifact();
+  const source = artifact.topSignals[0];
+  const draft: TopSignalsDraft = {
+    schemaVersion: 1,
+    experimentId: "github-top-signals-2026-08",
+    week: "2026-W36",
+    generatedAt: "2026-09-03T10:00:00.000Z",
+    periodStart: "2026-08-31",
+    periodEnd: "2026-09-06",
+    signals: [{
+      ...source,
+      occurredAt: "2026-09-02T02:00:00.000Z",
+      verifiedAt: "2026-09-03T01:00:00.000Z",
+      nextValidationPoint: "继续核验真实客户采用与规模部署。",
+      scoreBreakdown: { industryCapitalImpact: 5, evidenceQuality: 5, recency: 5, informationGain: 4, strategicRelevance: 4, total: 23 },
+    }],
+  };
+  const releaseUrl = "https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-2026-W36";
+  const published = renderTopSignalsArchive(draft, releaseUrl, "2026-09-03T13:05:00.000Z");
+  artifact.topSignals = [];
+
+  const readme = formatDecisionProductReadme(artifact, published);
+
+  assert.match(readme, new RegExp(`<!-- top-signal:${draft.signals[0]!.signalId} -->`));
+  assert.match(readme, new RegExp(releaseUrl.replace(/[.?]/g, "\\$&")));
+  assert.doesNotMatch(readme, /本周暂无满足公开证据门槛/);
 });
 
 test("rejects undeclared keys at every nested object boundary", () => {
