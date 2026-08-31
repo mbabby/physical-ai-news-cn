@@ -44,7 +44,7 @@ async function bytes(root: string): Promise<Record<string, string>> {
 
 async function runFixtureCli(root: string): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, ["--import", "tsx", "src/main.ts", "--", "--fixture-mode", "--fixture-root", root], {
+    const child = spawn(process.execPath, ["--import", "tsx", "src/main.ts", "--", "--fixture", "--output-root", root], {
       cwd: repositoryRoot,
       env: {
         ...process.env,
@@ -67,18 +67,28 @@ async function runFixtureCli(root: string): Promise<{ stdout: string; stderr: st
   });
 }
 
-test("parses pnpm's separator and scopes fixture root to fixture mode", () => {
-  assert.deepEqual(parseCliOptions(["--", "--fixture-mode", "--fixture-root", "/tmp/physical-ai-fixture"]), {
+test("parses documented fixture flags and scopes output root to fixture mode", () => {
+  assert.deepEqual(parseCliOptions(["--", "--fixture", "--output-root", "/tmp/physical-ai-fixture"]), {
+    fixtureMode: true,
+    fixtureRoot: "/tmp/physical-ai-fixture",
+  });
+  assert.deepEqual(parseCliOptions(["--fixture-mode", "--fixture-root", "/tmp/physical-ai-fixture"]), {
     fixtureMode: true,
     fixtureRoot: "/tmp/physical-ai-fixture",
   });
   assert.deepEqual(parseCliOptions(["--hours", "48"]), { fixtureMode: false, fixtureRoot: undefined });
-  assert.throws(() => parseCliOptions(["--fixture-root", "/tmp/not-allowed"]), /fixture-mode/);
+  assert.throws(() => parseCliOptions(["--output-root", "/tmp/not-allowed"]), /fixture/);
+  assert.throws(() => parseCliOptions(["--fixture", "--output-root", ""]), /output-root requires a path/);
+  assert.throws(() => parseCliOptions(["--fixture", "--output-root", "   "]), /output-root requires a path/);
+  assert.throws(() => parseCliOptions(["--fixture", "--output-root", "--hours"]), /output-root requires a path/);
 });
 
-test("fixture CLI is offline, fixed-clock, transactional, and byte-stable across two runs", async () => {
+test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leaves its worktree unchanged", async () => {
   const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-cli-"));
+  const repositoryBefore = await mkdtemp(join(tmpdir(), "physical-ai-fixture-before-"));
+  const repositoryAfter = await mkdtemp(join(tmpdir(), "physical-ai-fixture-after-"));
   try {
+    await fixtureCopy(repositoryBefore);
     await fixtureCopy(root);
     const firstRun = await runFixtureCli(root);
     const first = await bytes(root);
@@ -105,8 +115,10 @@ test("fixture CLI is offline, fixed-clock, transactional, and byte-stable across
         manifest.services.find((item) => item.component === "EvidenceRevalidation")!.attempted], ["成功", 0]);
     for (const path of COMMUNITY_PATHS) assert.ok(first[path], `${path} must be staged by the real transaction`);
     assert.match(firstRun.stdout, /完成/);
+    await fixtureCopy(repositoryAfter);
+    assert.deepEqual(await bytes(repositoryAfter), await bytes(repositoryBefore));
   } finally {
-    await rm(root, { recursive: true, force: true });
+    await Promise.all([root, repositoryBefore, repositoryAfter].map((path) => rm(path, { recursive: true, force: true })));
   }
 });
 
@@ -129,5 +141,16 @@ test("fixture runner rejects an unrecognized root before creating publication pa
     assert.deepEqual(await readdir(root), []);
   } finally {
     await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("fixture CLI rejects an unrecognized output root before acquiring a lock", async () => {
+  const parent = await mkdtemp(join(tmpdir(), "physical-ai-unsafe-cli-root-"));
+  const root = join(parent, "unrecognized");
+  try {
+    await assert.rejects(() => runFixtureCli(root), /generation-failed/);
+    await assert.rejects(stat(root), { code: "ENOENT" });
+  } finally {
+    await rm(parent, { recursive: true, force: true });
   }
 });

@@ -525,11 +525,14 @@ export interface CliOptions {
 }
 
 export function parseCliOptions(argv: string[]): CliOptions {
-  const fixtureMode = argv.includes("--fixture-mode");
-  const rootIndex = argv.indexOf("--fixture-root");
+  const fixtureMode = argv.includes("--fixture") || argv.includes("--fixture-mode");
+  const outputRootIndex = argv.indexOf("--output-root");
+  const fixtureRootIndex = argv.indexOf("--fixture-root");
+  const rootFlag = outputRootIndex >= 0 ? "--output-root" : "--fixture-root";
+  const rootIndex = outputRootIndex >= 0 ? outputRootIndex : fixtureRootIndex;
   const fixtureRoot = rootIndex >= 0 ? argv[rootIndex + 1] : undefined;
-  if (rootIndex >= 0 && (!fixtureRoot || fixtureRoot.startsWith("--"))) throw new Error("--fixture-root requires a path");
-  if (fixtureRoot && !fixtureMode) throw new Error("--fixture-root requires --fixture-mode");
+  if (rootIndex >= 0 && (!fixtureRoot || !fixtureRoot.trim() || fixtureRoot.startsWith("--"))) throw new Error(`${rootFlag} requires a path`);
+  if (fixtureRoot && !fixtureMode) throw new Error(`${rootFlag} requires --fixture`);
   return { fixtureMode, fixtureRoot };
 }
 
@@ -1615,6 +1618,7 @@ export async function runFixtureGeneration(outputRoot: string, transaction?: Fil
 async function main(): Promise<void> {
   const options = parseCliOptions(process.argv.slice(2));
   const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
+  if (options.fixtureMode) await assertFixtureRoot(outputRoot);
   await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
