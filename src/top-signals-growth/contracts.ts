@@ -164,6 +164,7 @@ export function validateTopSignalsDraft(value: unknown): asserts value is TopSig
     && value.periodStart >= FIXED_EXPERIMENT.startDate
     && value.periodEnd <= FIXED_EXPERIMENT.endDate, "draft period must stay within the fixed experiment");
   ensure(Array.isArray(value.signals), "draft.signals must be an array");
+  ensure(value.signals.length <= FIXED_EXPERIMENT.maxSignals, `draft.signals must contain at most ${FIXED_EXPERIMENT.maxSignals} items`);
   value.signals.forEach((signal, index) => validateGrowthTopSignal(signal, `draft.signals[${index}]`));
   const signalIds = value.signals.map((signal) => signal.signalId);
   ensure(new Set(signalIds).size === signalIds.length, "draft signal IDs must be unique");

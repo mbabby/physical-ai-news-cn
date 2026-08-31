@@ -114,6 +114,24 @@ test("prepare writes exact Release notes and a publishable gate to the caller di
   }
 });
 
+test("prepare rejects a draft that no longer matches the current canonical Decision Product", async () => {
+  const draft = draftFixture();
+  const root = await fixtureRoot(draft);
+  const out = await mkdtemp(join(tmpdir(), "top-signals-stale-prepare-"));
+  try {
+    const path = join(root, "site", "data", "decision-products.json");
+    const artifact = await readJson<DecisionProductArtifact>(path);
+    artifact.topSignals[0]!.titleZh = "当前 Decision Product 已更新标题";
+    await writeFile(path, `${JSON.stringify(artifact, null, 2)}\n`);
+    await assert.rejects(() => prepareTopSignalsRelease(root, draft.week, out), /Decision Product|canonical|规范/i);
+    await assert.rejects(() => access(join(out, "notes.md")));
+    await assert.rejects(() => access(join(out, "gate.json")));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+    await rm(out, { recursive: true, force: true });
+  }
+});
+
 test("release trigger resolution limits manual W36 and scheduled W37 to the fixed experiment", () => {
   assert.deepEqual(resolveTopSignalsReleaseRun({ eventName: "workflow_dispatch", requestedWeek: "2026-W36", today: "2026-09-03", config: CONFIG }), {
     run: true,

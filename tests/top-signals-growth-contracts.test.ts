@@ -189,6 +189,14 @@ test("strict contracts reject extra keys and invalid week", () => {
   assert.throws(() => validateTopSignalsDraft(draftFixture({ periodEnd: "2026-09-14" })), /period|experiment/i);
   assert.throws(() => validateTopSignalsDraft(draftFixture({ experimentId: "another-experiment" })), /experiment/i);
 
+  const baseSignal = draftFixture().signals[0]!;
+  const excessiveSignals = Array.from({ length: 6 }, (_, index) => ({
+    ...structuredClone(baseSignal),
+    signalId: stableDecisionId("signal", `event-excess-${index}`),
+    eventId: `event-excess-${index}`,
+  }));
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ signals: excessiveSignals })), /signals|maximum|5|最多/i);
+
   const approval = {
     schemaVersion: 1,
     experimentId: "github-top-signals-2026-08",

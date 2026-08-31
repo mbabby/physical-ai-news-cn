@@ -138,6 +138,21 @@ test("a fully rebuilt draft still fails when its evidence is absent from the cur
   assert.throws(() => validatePublishedTopSignals(input), /Decision Product|evidence|证据/i);
 });
 
+test("shared validation independently rejects a forged publishable gate below the automatic minimum", () => {
+  const input = releaseFixture();
+  input.draft.signals = input.draft.signals.slice(0, 2);
+  input.gate = evaluateTopSignalsGate({ draft: input.draft, config: CONFIG });
+  input.gate.status = "publishable";
+  input.gate.reasons = [];
+  input.published = renderTopSignalsArchive(input.draft, RELEASE_URL, input.published.publishedAt);
+  input.latest = structuredClone(input.published);
+  input.markdown = `${renderTopSignalsRelease(input.draft)}\n`;
+  input.readme = replacePublishedTopSignalsReadme(README_TEMPLATE, input.published);
+  input.decisionProducts = decisionProducts(input.draft);
+
+  assert.throws(() => validatePublishedTopSignals(input), /signals|minimum|gate|publishable|不足|门禁/i);
+});
+
 test("public Top Signals JSON omits Review clocks, ranking reasons, and private score breakdowns", () => {
   const input = releaseFixture();
   const serialized = JSON.stringify(input.published);

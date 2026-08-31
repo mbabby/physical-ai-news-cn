@@ -573,6 +573,8 @@ test("independent watchdog checks freshness without write permissions", async ()
 
 test("weekly release publishes Top Signals through a release-first transaction", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
+  const releaseStep = workflow.split("- name: Create or refresh canonical GitHub Release")[1]?.split("- name: Publish repository surfaces after Release success")[0];
+  assert.ok(releaseStep);
   const release = workflow.indexOf("gh release create");
   const publish = workflow.indexOf("pnpm top-signals:publish");
   const pull = workflow.indexOf("git pull --rebase origin main");
@@ -599,6 +601,12 @@ test("weekly release publishes Top Signals through a release-first transaction",
   assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes" --latest/);
   assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$notes" --latest/);
   assert.match(workflow, /gh release view "\$tag" --json url --jq '\.url'/);
+  assert.doesNotMatch(releaseStep, /already_published != 'true'/);
+  assert.match(releaseStep, /expected_body_b64=/);
+  assert.match(releaseStep, /\.body \| @base64/);
+  assert.match(releaseStep, /action="verified"/);
+  assert.match(releaseStep, /gh release edit "\$tag"/);
+  assert.match(releaseStep, /gh release create "\$tag"/);
   assert.match(workflow, /pnpm top-signals:publish -- --week "\$WEEK" --release-url "\$RELEASE_URL"/);
   assert.match(workflow, /pnpm top-signals:validate -- --week "\$WEEK"/);
   assert.match(workflow, /Post-rebase Top Signals content changed/);

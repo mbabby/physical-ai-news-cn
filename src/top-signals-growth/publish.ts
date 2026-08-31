@@ -233,6 +233,7 @@ export function validatePublishedTopSignals(input: ValidatePublishedTopSignalsIn
 
   if (gate.experimentId !== draft.experimentId || gate.week !== draft.week || gate.contentSha256 !== contentSha256
     || gate.mode !== expectedMode || (expectedMode === "manual" && gate.approval === null)
+    || (expectedMode === "automatic" && draft.signals.length < 3)
     || gate.status !== "publishable" || gate.reasons.length !== 0) {
     throw new Error("Top Signals publication gate is not publishable for the canonical draft");
   }
@@ -292,6 +293,12 @@ export async function prepareTopSignalsRelease(root: string, week: string, outDi
     validate: strictDraft,
   });
   if (!draft || draft.week !== week || draft.experimentId !== config.experimentId) throw new Error(`Top Signals draft does not match requested week ${week}`);
+  const decisionProducts = await readJsonStrict<DecisionProductArtifact>(join(root, "site", "data", "decision-products.json"), {
+    label: "current canonical Decision Product",
+    validate: strictDecisionProducts,
+  });
+  if (!decisionProducts) throw new Error("Current canonical Decision Product is missing");
+  validatePublishedTopSignals({ draft, gate: null, published: null, latest: null, readme: "", decisionProducts });
   const approval = await readJsonStrict<TopSignalsApproval>(join(root, "review", "top-signals-approvals", `${week}.json`), {
     optional: true,
     label: `Top Signals approval ${week}`,

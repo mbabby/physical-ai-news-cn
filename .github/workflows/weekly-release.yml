@@ -83,25 +83,40 @@ jobs:
           echo "already_published=$already_published" >> "$GITHUB_OUTPUT"
       - name: Create or refresh canonical GitHub Release
         id: release
-        if: steps.week.outputs.run == 'true' && steps.prepare.outputs.already_published != 'true'
+        if: steps.week.outputs.run == 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           WEEK: ${{ steps.week.outputs.week }}
           NOTES: ${{ steps.prepare.outputs.notes }}
+          ALREADY_PUBLISHED: ${{ steps.prepare.outputs.already_published }}
         run: |
           set -euo pipefail
           tag="top-signals-${WEEK}"
           title="Physical AI 资本与产品部署 Top Signals · ${WEEK}"
           notes="$NOTES"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            gh release edit "$tag" --title "$title" --notes-file "$notes" --latest
-            action="refreshed"
+          expected_body_b64="$(base64 < "$notes" | tr -d '\n')"
+          if release_json="$(gh release view "$tag" --json name,body,url 2>/dev/null)"; then
+            current_title="$(jq -r '.name' <<<"$release_json")"
+            current_body_b64="$(jq -r '.body | @base64' <<<"$release_json")"
+            if [[ "$current_title" == "$title" && "$current_body_b64" == "$expected_body_b64" ]]; then
+              action="verified"
+            else
+              gh release edit "$tag" --title "$title" --notes-file "$notes" --latest
+              action="refreshed"
+            fi
           else
             gh release create "$tag" --target main --title "$title" --notes-file "$notes" --latest
             action="created"
           fi
           release_url="$(gh release view "$tag" --json url --jq '.url')"
+          if [[ "$ALREADY_PUBLISHED" == "true" ]]; then
+            archived_url="$(jq -er '.releaseUrl' "weekly/top-signals/${WEEK}.json")"
+            if [[ "$release_url" != "$archived_url" ]]; then
+              echo "GitHub Release URL does not match the immutable local publication." >&2
+              exit 1
+            fi
+          fi
           echo "url=$release_url" >> "$GITHUB_OUTPUT"
           echo "action=$action" >> "$GITHUB_OUTPUT"
           echo "### Release outcome" >> "$GITHUB_STEP_SUMMARY"
