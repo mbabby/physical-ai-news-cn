@@ -1,7 +1,64 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-29T04:00:43.829Z",
+  "updatedAt": "2026-08-30T03:15:35.657Z",
   "runs": [
+    {
+      "schemaVersion": 1,
+      "runId": "2026-08-30-2026-08-30T03-12-57-844Z",
+      "date": "2026-08-30",
+      "startedAt": "2026-08-30T03:12:57.844Z",
+      "finishedAt": "2026-08-30T03:15:35.657Z",
+      "status": "degraded",
+      "quality": {
+        "publicIndustryItems": 0,
+        "publicResearchItems": 6,
+        "candidates": 16,
+        "sourceFailures": 2
+      },
+      "services": [
+        {
+          "component": "LLM",
+          "status": "部分降级",
+          "attempted": 6,
+          "succeeded": 3,
+          "failed": 3,
+          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
+        },
+        {
+          "component": "OpenAlex",
+          "status": "部分降级",
+          "attempted": 36,
+          "succeeded": 35,
+          "failed": 1,
+          "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
+        },
+        {
+          "component": "Watchlist",
+          "status": "成功",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 0 家。"
+        },
+        {
+          "component": "GitHub",
+          "status": "成功",
+          "attempted": 1,
+          "succeeded": 1,
+          "failed": 0,
+          "detail": "社区证据 Issue 快照已刷新并通过严格校验。"
+        },
+        {
+          "component": "EvidenceRevalidation",
+          "status": "成功",
+          "attempted": 0,
+          "succeeded": 0,
+          "failed": 0,
+          "detail": "已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。"
+        }
+      ],
+      "outputs": 89
+    },
     {
       "schemaVersion": 1,
       "runId": "2026-08-29-2026-08-29T03-56-24-110Z",
@@ -1206,39 +1263,6 @@
         }
       ],
       "outputs": 58
-    },
-    {
-      "schemaVersion": 1,
-      "runId": "2026-08-14-2026-08-14T01-26-39-396Z",
-      "date": "2026-08-14",
-      "startedAt": "2026-08-14T01:26:39.396Z",
-      "finishedAt": "2026-08-14T01:30:24.173Z",
-      "status": "degraded",
-      "quality": {
-        "publicIndustryItems": 2,
-        "publicResearchItems": 6,
-        "candidates": 18,
-        "sourceFailures": 2
-      },
-      "services": [
-        {
-          "component": "LLM",
-          "status": "部分降级",
-          "attempted": 6,
-          "succeeded": 4,
-          "failed": 2,
-          "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
-        },
-        {
-          "component": "OpenAlex",
-          "status": "成功",
-          "attempted": 36,
-          "succeeded": 36,
-          "failed": 0,
-          "detail": "论文引用与作者机构元数据已刷新。"
-        }
-      ],
-      "outputs": 56
     }
   ]
 }

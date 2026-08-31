@@ -28,9 +28,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-08-29 | 0 | 49 | 112 | 12 / 28 |
+| 2026-08-30 | 0 | 49 | 106 | 12 / 27 |
 
-**运行健康**：近 30 天日历覆盖 23/30（77%） · 已归档运行成功 23/23（100%） · A/B 级证据比例 样本积累中 · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 24/24（100%） · A/B 级证据比例 样本积累中 · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -60,7 +60,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-08-29 · 暂无满足首页发布门槛的产业事件。
+> 数据刷新至 2026-08-30 · 暂无满足首页发布门槛的产业事件。
 
 <!-- EVENT_CENTER_END -->
 
@@ -99,7 +99,7 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
+> arXiv 暂未刷新，以下为最近一次成功抓取（2026-08-29）的完整研究卡。
 
 - [HiPHI：大规模高精度人体运动与物体交互基准数据集](https://arxiv.org/abs/2608.16222v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>清华大学</kbd><br>研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。<br>值得关注：来自 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Jiahao Ji · 清华大学</sub>
 
@@ -107,11 +107,11 @@
 
 - [PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎](https://arxiv.org/abs/2608.03682v2) <kbd>基准</kbd> <kbd>开源</kbd> <kbd>清华大学</kbd><br>构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。<br>值得关注：来自 清华大学；提供基准、开源证据。<br><sub>重点作者 / 实验室：Dongqi Cai · 清华大学</sub>
 
+- [CLAP：跨本体动作条件视频世界模型实现零样本物理模拟](https://arxiv.org/abs/2608.27406v1) <kbd>真实机器人</kbd> <kbd>开源</kbd><br>CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。<br>值得关注：提供真实机器人、开源证据。
+
 - [TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架](https://arxiv.org/abs/2608.07314v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Ziheng Liu</sub>
 
 - [CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架](https://arxiv.org/abs/2608.06688v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yao Wang</sub>
-
-- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 
