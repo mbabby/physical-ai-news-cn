@@ -9,6 +9,7 @@
     "check": "tsc --noEmit",
     "test": "tsx --test tests/**/*.test.ts",
     "community:metrics": "node scripts/community-metrics.mjs",
+    "top-signals:metrics": "tsx src/top-signals-growth/metrics-cli.ts",
     "validate:release": "tsx src/validate-release.ts",
     "validate:health": "tsx src/validate-health.ts"
   },
