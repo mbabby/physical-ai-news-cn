@@ -90,7 +90,6 @@ test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leave
   const repositoryAfter = await mkdtemp(join(tmpdir(), "physical-ai-fixture-after-"));
   try {
     await fixtureCopy(repositoryBefore);
-    await Promise.all([fixtureCopy(firstRoot), fixtureCopy(secondRoot)]);
     const firstRun = await runFixtureCli(firstRoot);
     const first = await bytes(firstRoot);
     const secondRun = await runFixtureCli(secondRoot);

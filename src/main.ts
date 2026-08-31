@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -1517,6 +1517,15 @@ const FIXTURE_INPUT_PATHS = [
   "research/registry.json",
   "sources/registry.json",
 ] as const;
+const FIXTURE_SEED_PATHS = [
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes",
+  "metrics", "site/data", "site/feeds", "watchlist", "community",
+] as const;
+const FIXTURE_RESET_PATHS = [
+  "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
+  "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json",
+  "site/data/community-tasks.json",
+] as const;
 
 async function assertFixtureRoot(outputRoot: string): Promise<void> {
   try {
@@ -1529,6 +1538,25 @@ async function assertFixtureRoot(outputRoot: string): Promise<void> {
   } catch (error) {
     throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
   }
+}
+
+async function prepareFixtureCliRoot(outputRoot: string): Promise<void> {
+  let entries: string[];
+  try {
+    entries = await readdir(outputRoot);
+  } catch (error) {
+    throw new Error(`fixture output root must be an existing empty directory or a recognized checkout: ${outputRoot}`, { cause: error });
+  }
+  if (entries.length > 0) {
+    await assertFixtureRoot(outputRoot);
+    return;
+  }
+  await Promise.all(FIXTURE_SEED_PATHS.map(async (path) => {
+    try { await cp(join(root, path), join(outputRoot, path), { recursive: true }); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
+  }));
+  await Promise.all(FIXTURE_RESET_PATHS.map((path) => rm(join(outputRoot, path), { force: true })));
+  await assertFixtureRoot(outputRoot);
 }
 
 async function snapshotFixtureInputs(outputRoot: string): Promise<Map<string, Buffer | undefined>> {
@@ -1622,7 +1650,8 @@ export async function runFixtureGeneration(outputRoot: string, transaction?: Fil
 async function main(): Promise<void> {
   const options = parseCliOptions(process.argv.slice(2));
   const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
-  if (options.fixtureMode) await assertFixtureRoot(outputRoot);
+  if (options.fixtureMode && options.fixtureRoot) await prepareFixtureCliRoot(outputRoot);
+  else if (options.fixtureMode) await assertFixtureRoot(outputRoot);
   await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
