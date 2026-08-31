@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -78,6 +78,20 @@ test("counts one verified reference per external author", () => {
   assert.equal(metrics.verifiedExternalAuthors, 2);
 });
 
+test("ignores verified reference decisions without absolute http urls", () => {
+  const metrics = buildGrowthMetrics({
+    config: config(),
+    snapshots: [snapshot(11)],
+    candidates: [],
+    decisions: [
+      verified("not-a-url", "alice"),
+      verified("ftp://github.com/example/b/issues/2", "bob"),
+      verified("https://github.com/example/c/issues/3", "carol"),
+    ],
+  });
+  assert.equal(metrics.verifiedExternalAuthors, 1);
+});
+
 test("collects public stars while privileged traffic and search failures become unknown", async () => {
   const requests: Array<{ url: string; authorization?: string }> = [];
   const fetchImpl = async (input: string | URL | Request, init?: RequestInit) => {
@@ -120,6 +134,33 @@ test("preserves previous stars as stale only when the public repository endpoint
   assert.equal(collected.stale, true);
   assert.equal(collected.traffic, "unknown");
   assert.equal(collected.referenceSearch, "unknown");
+});
+
+test("rejects malformed nested local history snapshots before writing metrics", async () => {
+  const root = await mkdtemp(join(tmpdir(), "top-signals-growth-bad-history-"));
+  await mkdir(join(root, "metrics"), { recursive: true });
+  await writeFile(join(root, "metrics/top-signals-growth-history.json"), `${JSON.stringify({
+    schemaVersion: 1,
+    snapshots: [{
+      observedAt: "2026-09-02T00:00:00.000Z",
+      stars: 6,
+      stale: false,
+      traffic: { status: "available", views14d: 20, uniqueVisitors14d: "7", referrers: [] },
+      referenceSearch: { status: "available", candidates: [] },
+    }],
+  })}\n`, "utf8");
+
+  await assert.rejects(
+    () => runGrowthMetrics({
+      root,
+      config: config(),
+      repository: "example/project",
+      token: "",
+      fetchImpl: async () => response({ stargazers_count: 7 }),
+      now: new Date("2026-09-01T00:00:00.000Z"),
+    }),
+    /history snapshot 0/i,
+  );
 });
 
 test("writes growth metrics, history, and automated reference candidates", async () => {

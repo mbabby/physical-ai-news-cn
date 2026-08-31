@@ -145,6 +145,22 @@ function canonicalTimestamp(value: unknown): value is string {
   return Number.isFinite(parsed) && new Date(parsed).toISOString() === value;
 }
 
+function exactKeys(value: Record<string, unknown>, keys: readonly string[]): boolean {
+  const actual = Object.keys(value).sort();
+  const expected = [...keys].sort();
+  return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
+}
+
+function httpUrl(value: unknown): value is string {
+  if (!nonEmptyString(value)) return false;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function safeRepository(repository: string | undefined): string {
   const normalized = String(repository || DEFAULT_REPOSITORY).trim();
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(normalized)) {
@@ -310,7 +326,7 @@ function isProjectLocalUrl(url: string, repository: string): boolean {
 
 function validDecision(value: unknown): GrowthReferenceDecision | null {
   if (!isRecord(value)) return null;
-  if (!nonEmptyString(value.url) || !nonEmptyString(value.author) || !nonEmptyString(value.reviewedBy)
+  if (!httpUrl(value.url) || !nonEmptyString(value.author) || !nonEmptyString(value.reviewedBy)
     || !canonicalTimestamp(value.reviewedAt) || value.reason !== "external-user-reference") return null;
   return {
     url: value.url,
@@ -396,6 +412,42 @@ async function readJson(path: string): Promise<unknown | undefined> {
   }
 }
 
+function validHistoryTraffic(value: unknown): value is GrowthTrafficSummary | "unknown" {
+  if (value === "unknown") return true;
+  if (!isRecord(value) || !exactKeys(value, ["status", "views14d", "uniqueVisitors14d", "referrers"])) return false;
+  return value.status === "available" && isCount(value.views14d) && isCount(value.uniqueVisitors14d)
+    && Array.isArray(value.referrers) && value.referrers.every((item) => isRecord(item)
+      && exactKeys(item, ["referrer", "count", "uniques"])
+      && nonEmptyString(item.referrer) && isCount(item.count) && isCount(item.uniques));
+}
+
+function validHistoryCandidate(value: unknown): value is GrowthReferenceCandidate {
+  return isRecord(value) && exactKeys(value, ["url", "author", "source", "title"])
+    && httpUrl(value.url) && nonEmptyString(value.author) && (value.source === "issues" || value.source === "code")
+    && nonEmptyString(value.title);
+}
+
+function validHistoryReferenceSearch(value: unknown): value is GrowthReferenceSearch | "unknown" {
+  if (value === "unknown") return true;
+  return isRecord(value) && exactKeys(value, ["status", "candidates"])
+    && value.status === "available" && Array.isArray(value.candidates)
+    && value.candidates.every(validHistoryCandidate);
+}
+
+function validateHistorySnapshot(value: unknown, index: number): GrowthSnapshot {
+  if (!isRecord(value)) throw new Error(`Invalid Top Signals growth local artifact: history snapshot ${index} is malformed`);
+  const allowedKeys = Object.hasOwn(value, "clones14d")
+    ? ["observedAt", "stars", "stale", "traffic", "referenceSearch", "clones14d"]
+    : ["observedAt", "stars", "stale", "traffic", "referenceSearch"];
+  if (!exactKeys(value, allowedKeys) || !canonicalTimestamp(value.observedAt) || !isCount(value.stars)
+    || typeof value.stale !== "boolean" || !validHistoryTraffic(value.traffic)
+    || !validHistoryReferenceSearch(value.referenceSearch)
+    || (Object.hasOwn(value, "clones14d") && !isCount(value.clones14d))) {
+    throw new Error(`Invalid Top Signals growth local artifact: history snapshot ${index} is malformed`);
+  }
+  return value as unknown as GrowthSnapshot;
+}
+
 function assertHistory(value: unknown | undefined): GrowthHistoryArtifact {
   if (value === undefined) return { schemaVersion: 1, snapshots: [] };
   if (!isRecord(value) || value.schemaVersion !== 1 || !Array.isArray(value.snapshots)) {
@@ -403,13 +455,7 @@ function assertHistory(value: unknown | undefined): GrowthHistoryArtifact {
   }
   return {
     schemaVersion: 1,
-    snapshots: value.snapshots.map((snapshot, index) => {
-      if (!isRecord(snapshot) || !canonicalTimestamp(snapshot.observedAt) || !isCount(snapshot.stars)
-        || typeof snapshot.stale !== "boolean" || !("traffic" in snapshot) || !("referenceSearch" in snapshot)) {
-        throw new Error(`Invalid Top Signals growth local artifact: history snapshot ${index} is malformed`);
-      }
-      return snapshot as unknown as GrowthSnapshot;
-    }),
+    snapshots: value.snapshots.map(validateHistorySnapshot),
   };
 }
 
