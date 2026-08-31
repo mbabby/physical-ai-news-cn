@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-08-30-2026-08-30T03-12-57-844Z",
-  "date": "2026-08-30",
-  "startedAt": "2026-08-30T03:12:57.844Z",
-  "finishedAt": "2026-08-30T03:15:35.657Z",
+  "runId": "2026-08-31-2026-08-31T07-57-24-490Z",
+  "date": "2026-08-31",
+  "startedAt": "2026-08-31T07:57:24.490Z",
+  "finishedAt": "2026-08-31T08:00:48.860Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 16,
-    "sourceFailures": 2
+    "candidates": 17,
+    "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
       "attempted": 6,
-      "succeeded": 3,
-      "failed": 3,
+      "succeeded": 4,
+      "failed": 2,
       "detail": "摘要服务连续不可用，已触发本轮熔断；其余内容使用已验证缓存或留在候选层。"
     },
     {
@@ -53,5 +53,5 @@
       "detail": "已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。"
     }
   ],
-  "outputs": 89
+  "outputs": 91
 }

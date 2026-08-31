@@ -100,6 +100,27 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 中国小鹏上周发布VLA 6.3.0，机器人部门 · 候选 · 32/100
+
+- 路线：VLA 与具身模型
+- 证据：[维度网](https://news.google.com/rss/articles/CBMiWEFVX3lxTE5jYnJTSGxneERQdVVJQmdjYUxOSWNIYzcyb0c3b3pncWd2X3FDSVN1Zm1Pb2oyMHVjSG1VN0tMRVNlMENLclZGTXQ1dE9Bd2I1bXNRVXI1dmI?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%B0%8F%E9%B9%8F%E4%B8%8A%E5%91%A8%E5%8F%91%E5%B8%83VLA%206.3.0%EF%BC%8C%E6%9C%BA%E5%99%A8%E4%BA%BA%E9%83%A8%E9%97%A8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%B8%AD%E5%9B%BD%E5%B0%8F%E9%B9%8F%E4%B8%8A%E5%91%A8%E5%8F%91%E5%B8%83VLA%206.3.0%EF%BC%8C%E6%9C%BA%E5%99%A8%E4%BA%BA%E9%83%A8%E9%97%A8%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Andreessen Horowitz · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Pulse 2.0](https://news.google.com/rss/articles/CBMitwFBVV95cUxQQ0ZONTVKbVFVY1BvdmgwNWZjX1k5M29jaFJhTE0weUZuRE0yS0RNWjlONEktMUo1dEl6RTdxWHpITklXdFlSVEJVXzlpYTZ6RkJNQktiNU12aTJHekdtRjBVSW5ycUhiWTJhOVlBeXBfSjd3UDJNUEtDU1hhYzdjY05Ea0NTaGNjNVBLbjV5WEotbWp3b2w3RVRxN1BqUjlsOEZFR0tnRFNDdEtyaWd3VVhmTTViMDTSAbwBQVVfeXFMT09zTlBRQVgxa0ItR3JQSjRDbmRncF9kbzRxNmR0Zk92ZkUzQVpvZEk0VGUxQkZGQlNqUVZneG0tNklsQjRWOUhwenpuQ1pQd1VLV3ViSGY3aFJycml6R210TXpYLVNsYTNIRzZwSEI2NHZSeTNJYkdhODIzUzgwYm5UUzdpZ0JGaTdmNmdWWC1US0M4YUhIVmJvQ2VmT01reVZqNUJGTkFGdUJMbGVWaHFWdmp2Y1hQRnc4XzA?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Andreessen%20Horowitz%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Andreessen%20Horowitz%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 机器人E：8月28日 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[搜狐网](https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUHp6YWhrQmpaUEVkYmkwYTVPZUQ5cEhGc29kNFotczRyTjl3MGJnUDZDRTBSRlFXalpRQ1Fsa2NxTWlLMTRuNi1WWmgxV1F5YW5IZ2lEcW43SFlnLVo1NThCcThPS29SWXMzLVBudVpydnhsd0drd0VlbHR6OUhRb1hoMEJoZUtV?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAE%EF%BC%9A8%E6%9C%8828%E6%97%A5%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BAE%EF%BC%9A8%E6%9C%8828%E6%97%A5%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 小鹏机器人 · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -224,6 +245,20 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 京津冀新能源汽车与机器人投 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[ncsti.gov.cn](https://news.google.com/rss/articles/CBMihAFBVV95cUxONWNFX0hnZEM3UXBXTW9IRGdMNzZKdXcwOHpMNl9GR0U3X2JVRHlrQmNZazJFMkxTRTdFcmFSMk9Dd0RlNDZCWW5malU1RjI5TlowaUg1Vi1ZaUFKUDBlLWpEWXduUnVkcXRNbXZudVQ2M2VVNkNTSFFPTHM0NHYyblU1T1o?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%AC%E6%B4%A5%E5%86%80%E6%96%B0%E8%83%BD%E6%BA%90%E6%B1%BD%E8%BD%A6%E4%B8%8E%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8A%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%AC%E6%B4%A5%E5%86%80%E6%96%B0%E8%83%BD%E6%BA%90%E6%B1%BD%E8%BD%A6%E4%B8%8E%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8A%95%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 机器人赛道 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[新浪网](https://news.google.com/rss/articles/CBMiY0FVX3lxTFBLWWItVDB5VGZfVzdSaURZU2JscDV5ckp6a1FHOS1aWGgyREhEZnM3WnNwMDB6Vmw3OWtrYjVhOHN1UzFoU1lYVzI4RFBObU5oVHktZ01naEUzV3NtMDJ4dFhWcw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%B5%9B%E9%81%93%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%B5%9B%E9%81%93%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 【投 · 候选 · 22/100

@@ -1,142 +1,40 @@
 {
-  "updatedAt": "2026-08-30T03:12:57.844Z",
+  "updatedAt": "2026-08-31T07:57:24.490Z",
   "records": [
     {
-      "id": "eb7745b52639baf0",
+      "id": "2ee030f5311c0bbd",
       "article": {
-        "id": "eb7745b52639baf0",
-        "title": "CLAP: Cross-Embodiment Video World Models are Zero-Shot Physical Simulators",
-        "link": "https://arxiv.org/abs/2608.27406v1",
-        "publishedAt": "2026-08-27T17:35:10.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
+        "id": "2ee030f5311c0bbd",
+        "title": "ChainSplat: A Physics-Inspired Screw-Theoretic Model for Learning Deformable Linear Object Dynamics from Multi-View RGB Videos",
+        "link": "https://arxiv.org/abs/2608.28570v1",
+        "publishedAt": "2026-08-28T17:46:38.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 9,
-        "excerpt": "State-of-the-art action-conditioned video models are typically restricted to a single robot embodiment, preventing them from leveraging the vast corpus of heterogeneous video data that contains rich signals for learning generalizable physics. To bridge this gap, we introduce CLAP, a framework for cross-embodiment action-conditioned video generation capable of being trained on diverse, internet-scale videos across human and robotic agents. CLAP is grounded in the insight that universal physical laws govern spatiotemporal dynamics regardless of the actor. However, cross-embodiment learning is non-trivial because action representations vary sharply across robot platforms and are typically absent in human videos. CLAP addresses this fundamental challenge through the following core contributions. First, CLAP reconciles disparate action spaces using end-effector poses, language instructions, and latent actions. Second, to resolve their individual limitations, CLAP introduces a curriculum-based cross-embodiment learning recipe that first learns foundational physical priors across unlabeled video data using latent actions and subsequently grounds them in end-effector action spaces for zero-shot deployment to real-world tasks. Crucially, CLAP approaches or surpasses state-of-the-art single-embodiment video models in challenging environments like DROID. These performance advantages compound via few-shot adaptation to establish a novel paradigm for training single-embodiment video world models. Ultimately, CLAP delivers the most comprehensive suite of action-conditioned video world models to date - spanning diverse action-conditioning spaces (end-effector, language, and latent) and robot morphologies (including cross-embodiment, DROID, Bridge, bimanual YAM robots, and G1 humanoids). We open-source all code and models. Project Website at https://omni-clap.github.io .",
+        "excerpt": "Identifying the underlying dynamics and 3D geometry of deformable linear objects (DLOs), such as cables, ropes, and hoses, is essential for accurate robotic manipulation, but remains challenging due to their high-dimensional configuration spaces and diverse behaviors arising from varying material properties. Existing methods often rely on multi-stage pipelines and auxiliary depth inputs, which are prone to errors under dynamic interactions, while their high-dimensional state representations make model-based control computationally expensive. In this paper, we introduce ChainSplat, a physics-inspired framework that jointly learns the 3D geometry, appearance, kinematics, and dynamics of DLOs solely from multi-view RGB videos. ChainSplat represents a DLO as an open-chain structure of rigid links connected by revolute joints, yielding an analytic, screw-theoretic model with a compact state representation parameterized by joint configurations. By integrating this formulation with Gaussian splatting, ChainSplat jointly recovers DLO dynamics, kinematics-aware 3D geometry, and appearance, while enabling high-fidelity RGB rendering from arbitrary states. Through real-world experiments, we demonstrate that ChainSplat achieves state-of-the-art performance in dynamics predictions, 3D geometry reconstruction, and RGB rendering across dynamic interactions. ChainSplat further enables real-time state and force estimation, as well as accurate model-based trajectory optimization, highlighting its practical utility for real-world robotic manipulation of DLOs. Accompanying source code and video are available at: https://chainsplat.github.io.",
         "tags": [
           "研究",
           "robot",
-          "humanoid",
-          "world model"
+          "manipulation"
         ],
         "authors": [
-          "Kechen Liu"
+          "Seungyeon Kim"
         ],
         "sourceTier": "官方公司与实验室",
         "kind": "研究与数据",
-        "score": 106,
-        "titleZh": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
-        "summaryZh": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7204604373",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Kechen Liu",
-              "institutions": []
-            },
-            {
-              "name": "Ola Shorinwa",
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-30T03:15:29.786Z"
-        }
-      },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
-      "arxivVersion": 1,
-      "factHash": "89f129007ffb5221",
-      "status": "候选资源",
-      "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 2,
-      "evidenceTags": [
-        "真实机器人",
-        "开源"
-      ],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
-          "excerpt": "Second, to resolve their individual limitations, CLAP introduces a curriculum-based cross-embodiment learning recipe that first learns foundational physical priors across unlabeled video data using latent actions and subsequently grounds them in end-effector action spaces for zero-shot deployment to real-world tasks.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "基准",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "开源",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
-          "excerpt": "We open-source all code and models.",
-          "polarity": "supporting"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Kechen Liu",
-      "changes": [
-        {
-          "date": "2026-08-29T03:56:24.110Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-30T03:12:57.844Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "918132589f591389",
-      "article": {
-        "id": "918132589f591389",
-        "title": "FlashVLA: Streaming Action Decoding for Fast and Asynchronous VLA Inference",
-        "link": "https://arxiv.org/abs/2608.27384v1",
-        "publishedAt": "2026-08-27T17:19:29.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Vision-Language-Action (VLA) models are increasingly promising for robotic manipulation, yet their real-world deployment remains bottlenecked by high inference latency and unstable asynchronous execution. This challenge is particularly pronounced in flow-matching-based VLA models, where action decoding requires multiple iterative steps conditioned on the VLM context. While efficient inference methods improve control frequency and asynchronous methods reduce execution idle time, existing approaches often fail to jointly achieve low-latency inference and accurate, temporally consistent asynchronous execution. We introduce \\textbf{FlashVLA}, a streaming action decoding framework that addresses both challenges in a unified formulation. FlashVLA maintains a streaming action buffer with multiple chunks at different noise levels and decodes them using chunk-wise causal attention. This design allows FlashVLA to produce one executable action chunk per inference step. Moreover, its chunk-wise autoregressive formulation implicitly preserves action continuity, enabling smooth asynchronous execution without extra future-state conditioning. Across extensive simulated and real-world experiments, FlashVLA substantially improves inference speed while maintaining strong task performance. It can achieve $\\geq$30\\,Hz control frequency on a single GPU with smooth asynchronous inference in real-world deployment.",
-        "tags": [
-          "研究",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Zekai Li"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "研究与数据",
-        "score": 110,
-        "titleZh": "FlashVLA: Streaming Action Decoding for Fast and Asynchronous VLA Inference",
+        "score": 102,
+        "titleZh": "ChainSplat: A Physics-Inspired Screw-Theoretic Model for Learning Deformable Linear Object Dynamics from Multi-View RGB Videos",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "firstSeenAt": "2026-08-31T07:57:24.490Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
-      "factHash": "31e42d51c778b3f6",
+      "factHash": "2ac711ac02c7c715",
       "status": "待复核",
       "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 1,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -145,15 +43,15 @@
           "kind": "真实机器人",
           "status": "verified",
           "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
-          "excerpt": "Vision-Language-Action (VLA) models are increasingly promising for robotic manipulation, yet their real-world deployment remains bottlenecked by high inference latency and unstable asynchronous execution.",
+          "sourceUrl": "https://arxiv.org/abs/2608.28570v1",
+          "excerpt": "Through real-world experiments, we demonstrate that ChainSplat achieves state-of-the-art performance in dynamics predictions, 3D geometry reconstruction, and RGB rendering across dynamic interactions.",
           "polarity": "supporting"
         },
         {
           "kind": "基准",
           "status": "unknown",
           "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
+          "sourceUrl": "https://arxiv.org/abs/2608.28570v1",
           "excerpt": "",
           "polarity": "absent"
         },
@@ -161,7 +59,7 @@
           "kind": "开源",
           "status": "unknown",
           "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
+          "sourceUrl": "https://arxiv.org/abs/2608.28570v1",
           "excerpt": "",
           "polarity": "absent"
         }
@@ -169,415 +67,46 @@
       "authorityLabels": [],
       "changes": [
         {
-          "date": "2026-08-29T03:56:24.110Z",
+          "date": "2026-08-31T07:57:24.490Z",
           "kind": "新收录",
           "detail": "进入近 30 天论文池。"
         }
       ]
     },
     {
-      "id": "4dcd0ce6360f35ff",
+      "id": "4bae5ef301312efc",
       "article": {
-        "id": "4dcd0ce6360f35ff",
-        "title": "SpatialCrafter: Single Image World Modeling with Generative 3D Proxies",
-        "link": "https://arxiv.org/abs/2608.27073v1",
-        "publishedAt": "2026-08-27T12:58:37.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
+        "id": "4bae5ef301312efc",
+        "title": "AcrossVAM1.0: Particle World Modeling for Text-Assisted Robot Video Prediction",
+        "link": "https://arxiv.org/abs/2608.28491v1",
+        "publishedAt": "2026-08-28T16:19:24.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
         "source": "arXiv · Robotics",
         "sourceWeight": 9,
-        "excerpt": "Explorable image-to-scene generation is essential for applications in gaming, robotics, and virtual reality. Existing methods based on video diffusion model (VDM) commonly rely on incomplete conditioning signals such as sparse point clouds or 2D panoramas, leading to stochastic hallucinations, long-term drifts and suboptimal 3D consistency. We present SpatialCrafter, a novel two-stage framework that addresses these issues by introducing a global 3D proxy for high-fidelity image-to-scene generation. Specifically, we decompose the generation process into global proxy generation and appearance refinement. For proxy generation, we propose a Point-anchored Sparse Structure~(PaSS) Flow module that predicts a spatially aligned and geometrically consistent 3D proxy. For appearance refinement, we re-frame the VDM as a Generative Deferred Refiner which synthesizes high-frequency photorealistic details upon proxy-defined scene geometry. To better integrate the proxy with the pre-trained VDM, we introduce Parallel Geometry Injection and Proxy-Aware Corruption training strategies, which improve robustness to proxy artifacts without disrupting the pretrained generative manifold. Furthermore, as no suitable dataset exists for this explorable scene generation task, we construct a new large-scale dataset of 115K scenes. To the best of our knowledge, it is the first hybrid dataset for image-to-scene generation. Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes. Code, models, and the newly constructed dataset will be publicly released. See more at https://fangchuan.github.io/SpatialCrafter/.",
+        "excerpt": "Predicting robot videos requires both precise motion reasoning and preservation of high-frequency appearance, yet monolithic pixel models entangle these objectives and often conceal their progress behind a strong last-frame baseline. We present AcrossVAM1.0, a lightweight, text-assisted video action model that factorizes future prediction into object-centric motion and dense appearance. A frozen SAM3-DLP codec decomposes four context frames into semantic particles for the robot, arm, and gripper, together with a background latent. A 0.28M-parameter spatio-temporal Transformer aligns particle identities, rolls their states forward, and is modulated by a frozen OpenCLIP instruction embedding through FiLM. A causal dual-stream decoder combines particle-rendered motion with appearance encoded exclusively from the last observed frame; a residual refiner and learned delivery mask produce five future frames without access to future appearance. On our VRS benchmark constructed from diverse real-robot trajectories, particle dynamics reduce trajectory error by 21.0\\% over persistence. Across three delivery-mask seeds, AcrossVAM1.0 improves future-frame PSNR/SSIM from 19.97/0.796 to 20.573/0.8004, while raw particle generation improves motion-region PSNR from 11.89 to 13.23. The delivered model does not yet beat persistence in LPIPS, and correct-versus- shuffled language changes trajectory error by only 2.8--3.1%. We report these limitations alongside oracle, negative-control, multi-seed, and per-robot analyses. The results show that explicit particle dynamics are a promising low-dimensional interface for robot video prediction, while robust language grounding and appearance delivery remain the principal open challenges.",
         "tags": [
           "研究",
           "robot",
-          "robotics",
           "world model"
         ],
         "authors": [
-          "Chuan Fang"
+          "Yafei Zhang"
         ],
         "sourceTier": "官方公司与实验室",
         "kind": "研究与数据",
-        "score": 106,
-        "titleZh": "SpatialCrafter: Single Image World Modeling with Generative 3D Proxies",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7204530983",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Chuan Fang",
-              "institutions": []
-            },
-            {
-              "name": "Lingteng Qiu",
-              "institutions": []
-            },
-            {
-              "name": "Yixun Liang",
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-30T03:15:29.731Z"
-        }
+        "score": 102,
+        "titleZh": "AcrossVAM1.0: Particle World Modeling for Text-Assisted Robot Video Prediction",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "firstSeenAt": "2026-08-31T07:57:24.490Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
-      "factHash": "1259040501f0ac7a",
+      "factHash": "a8b6515dde92e40f",
       "status": "待复核",
       "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
+        "2026-08-31"
       ],
-      "appearances": 2,
-      "evidenceTags": [
-        "真实机器人"
-      ],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
-          "excerpt": "Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "基准",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "开源",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
-          "excerpt": "",
-          "polarity": "absent"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Chuan Fang",
-      "changes": [
-        {
-          "date": "2026-08-29T03:56:24.110Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-30T03:12:57.844Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "560cdd49b8f2be12",
-      "article": {
-        "id": "560cdd49b8f2be12",
-        "title": "Riemann-1.0: An Embodied World Action Model for Physical AI",
-        "link": "https://arxiv.org/abs/2608.27033v1",
-        "publishedAt": "2026-08-27T12:21:26.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "We introduce Riemann-1.0, a fully causal autoregressive World Action Model for embodied intelligence. Riemann-1.0 jointly models multi-view visual observations, robot states, and embodiment-specific actions within a unified causal autoregressive sequence, representing robot actions and world evolution as causal state transitions. Unlike existing WAMs based on joint generation, video-first prediction, or decoupled modeling paradigms, Riemann-1.0 unifies online robot policy execution and action-conditioned world simulation within a single model, enabling it to function as both an executable robot policy and a multi-embodiment visual world simulator. To scale embodied experience across heterogeneous data sources, we further develop a progressive embodied pretraining framework that unifies learning from egocentric human videos, handheld-gripper demonstrations, and heterogeneous robot trajectories under a shared World Action Modeling objective. Built upon 200K+ hours of interaction data, Riemann-1.0 progressively transfers large-scale embodied experience into executable robot manipulation capabilities. Riemann-1.0 achieves state-of-the-art performance across both simulation benchmarks and real-world manipulation tasks. It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR. These results demonstrate that unified World Action Modeling together with progressive embodied pretraining effectively transforms large-scale embodied experience into generalizable robot manipulation capabilities.",
-        "tags": [
-          "研究",
-          "robot",
-          "embodied",
-          "physical ai"
-        ],
-        "authors": [
-          "Haofeng Sun"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "研究与数据",
-        "score": 110,
-        "titleZh": "Riemann-1.0: An Embodied World Action Model for Physical AI",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7204573472",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "Haofeng Sun",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            },
-            {
-              "name": "Jiangbo Pei",
-              "totalCitations": 79,
-              "hIndex": 4,
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-30T03:15:29.997Z"
-        }
-      },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "arxivVersion": 1,
-      "factHash": "19294401058d9a5c",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 2,
-      "evidenceTags": [
-        "真实机器人",
-        "基准",
-        "开源"
-      ],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
-          "excerpt": "Riemann-1.0 achieves state-of-the-art performance across both simulation benchmarks and real-world manipulation tasks.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "基准",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
-          "excerpt": "It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "开源",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
-          "excerpt": "It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR.",
-          "polarity": "supporting"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Jiangbo Pei",
-      "changes": [
-        {
-          "date": "2026-08-29T03:56:24.110Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-30T03:12:57.844Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "982ac6225b1568e5",
-      "article": {
-        "id": "982ac6225b1568e5",
-        "title": "PredVLA: A Sub-Million-Parameter Predictive-Coding Policy for Robot Manipulation",
-        "link": "https://arxiv.org/abs/2608.26673v1",
-        "publishedAt": "2026-08-27T06:27:11.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Large pretrained vision-language-action models dominate modern robot-manipulation benchmarks, but it remains unclear how much model scale is necessary for strong language-conditioned control, or whether fundamentally different control architectures can remain competitive at much smaller parameter budgets. We present PredVLA, a language-conditioned predictive-coding policy with only 0.68 million trainable network parameters and no robot-data pretraining, whose hierarchical generative recurrent dynamics predict visual features and proprioception while observations influence latent state only through online inference from the resulting sensory prediction errors. On LIBERO, PredVLA achieves an 86.9% mean success rate across the three short-horizon suites and 75.4% when the long-horizon suite is included. Under a controlled comparison using the same frozen front end, demonstrations, action decoder, and evaluation protocol, PredVLA achieves 3.7x and 7.4x mean success rates of parameter-matched Transformer and LSTM policies, respectively. The predictive-coding formulation also makes the contribution of observation-driven correction directly measurable: because observations influence the recurrent state only through prediction-error-based latent inference, disabling this inference yields an exact open-loop control condition. Together, these results show that a sub-million-parameter recurrent generative policy can achieve strong performance on modern language-conditioned manipulation benchmarks while providing an explicit mechanism for prediction-error-driven online state correction.",
-        "tags": [
-          "研究",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Hiroki Sawada"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "研究与数据",
-        "score": 110,
-        "titleZh": "PredVLA: A Sub-Million-Parameter Predictive-Coding Policy for Robot Manipulation",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7204559754",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [
-            "Okinawa Institute of Science and Technology Graduate University",
-            "Sony Computer Science Laboratories"
-          ],
-          "authors": [
-            {
-              "name": "Hiroki Sawada",
-              "totalCitations": 44,
-              "hIndex": 4,
-              "institutions": []
-            },
-            {
-              "name": "Shunichi Kasahara",
-              "totalCitations": 1228,
-              "hIndex": 19,
-              "institutions": [
-                "Okinawa Institute of Science and Technology Graduate University",
-                "Sony Computer Science Laboratories"
-              ]
-            }
-          ],
-          "checkedAt": "2026-08-30T03:15:30.217Z"
-        }
-      },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "arxivVersion": 1,
-      "factHash": "264202d0e066e76e",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 2,
-      "evidenceTags": [
-        "基准"
-      ],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "基准",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
-          "excerpt": "On LIBERO, PredVLA achieves an 86.9% mean success rate across the three short-horizon suites and 75.4% when the long-horizon suite is included.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "开源",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
-          "excerpt": "",
-          "polarity": "absent"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Shunichi Kasahara",
-      "changes": [
-        {
-          "date": "2026-08-29T03:56:24.110Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-30T03:12:57.844Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "815da00b996995d4",
-      "article": {
-        "id": "815da00b996995d4",
-        "title": "TrapVLA: Trapping Vision-Language-Action Models in Configured Failure Modes",
-        "link": "https://arxiv.org/abs/2608.26578v1",
-        "publishedAt": "2026-08-27T03:44:49.000Z",
-        "fetchedAt": "2026-08-29T03:56:26.261Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "This work introduces Configured Failure Trapping, a novel backdoor attack task against Vision-Language-Action (VLA) models, which aims to activate attacks through stealthy textual triggers and induce configured failure modes. Unlike prior backdoor attacks that treat any task failure as a successful attack, Configured Failure Trapping requires the attacker to control how the robot fails (e.g., causing the robot to grasp with a specified positional offset), making it substantially more challenging and hard to detect. To support the new task, we propose an effective data engine for synthesizing high-quality target trajectories and an automated suite for measuring configured-failure fidelity. Then, based on this foundation, we construct two new benchmarks, namely Trap-LIBERO and Trap-RoboTwin, that instantiate Configured Failure Trapping across four representative failure modes. To address this task, we identify sparse action deviation as a critical challenge and accordingly propose a novel method named TrapVLA, which explicitly learns trigger-induced action residuals to steer the policy toward the configured failure behavior. Extensive experiments across simulation benchmarks and real-world robotic settings show that TrapVLA effectively injects configured failure modes into VLA models while largely preserving performance on clean data. Project page: https://john-liua.github.io/TrapVLA/",
-        "tags": [
-          "研究",
-          "robot",
-          "vla",
-          "vision-language-action"
-        ],
-        "authors": [
-          "Jun-Hui Liu"
-        ],
-        "sourceTier": "官方公司与实验室",
-        "kind": "研究与数据",
-        "score": 106,
-        "titleZh": "TrapVLA: Trapping Vision-Language-Action Models in Configured Failure Modes",
-        "summaryZh": "暂未生成中文摘要，请阅读原文。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7204530163",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [
-            "Yunnan Nationalities University",
-            "Yunnan University",
-            "Xiamen University",
-            "Southwest Forestry University",
-            "Shaoguan University",
-            "Wuhan University",
-            "Brain (Germany)",
-            "Zhongnan Hospital of Wuhan University",
-            "Wuchang University of Technology",
-            "Economic Research Institute",
-            "Hubei University",
-            "Zhejiang University",
-            "National Sun Yat-sen University",
-            "Sun Yat-sen University"
-          ],
-          "authors": [
-            {
-              "name": "Junhui Liu",
-              "totalCitations": 578,
-              "hIndex": 11,
-              "institutions": [
-                "Yunnan Nationalities University",
-                "Yunnan University",
-                "Xiamen University",
-                "Southwest Forestry University",
-                "Shaoguan University",
-                "Wuhan University",
-                "Brain (Germany)",
-                "Zhongnan Hospital of Wuhan University",
-                "Wuchang University of Technology",
-                "Economic Research Institute",
-                "Hubei University",
-                "Zhejiang University"
-              ]
-            },
-            {
-              "name": "Yi-Lin Wei",
-              "totalCitations": 85,
-              "hIndex": 4,
-              "institutions": [
-                "National Sun Yat-sen University",
-                "Sun Yat-sen University"
-              ]
-            }
-          ],
-          "checkedAt": "2026-08-30T03:15:30.242Z"
-        }
-      },
-      "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "arxivVersion": 1,
-      "factHash": "a6ce4a0a463e3677",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 2,
+      "appearances": 1,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -587,39 +116,33 @@
           "kind": "真实机器人",
           "status": "verified",
           "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
-          "excerpt": "Extensive experiments across simulation benchmarks and real-world robotic settings show that TrapVLA effectively injects configured failure modes into VLA models while largely preserving performance on clean data.",
+          "sourceUrl": "https://arxiv.org/abs/2608.28491v1",
+          "excerpt": "On our VRS benchmark constructed from diverse real-robot trajectories, particle dynamics reduce trajectory error by 21.0\\% over persistence.",
           "polarity": "supporting"
         },
         {
           "kind": "基准",
           "status": "verified",
           "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
-          "excerpt": "Then, based on this foundation, we construct two new benchmarks, namely Trap-LIBERO and Trap-RoboTwin, that instantiate Configured Failure Trapping across four representative failure modes.",
+          "sourceUrl": "https://arxiv.org/abs/2608.28491v1",
+          "excerpt": "On our VRS benchmark constructed from diverse real-robot trajectories, particle dynamics reduce trajectory error by 21.0\\% over persistence.",
           "polarity": "supporting"
         },
         {
           "kind": "开源",
           "status": "unknown",
           "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
+          "sourceUrl": "https://arxiv.org/abs/2608.28491v1",
           "excerpt": "",
           "polarity": "absent"
         }
       ],
       "authorityLabels": [],
-      "notableAuthor": "Junhui Liu",
       "changes": [
         {
-          "date": "2026-08-29T03:56:24.110Z",
+          "date": "2026-08-31T07:57:24.490Z",
           "kind": "新收录",
           "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-30T03:12:57.844Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
         }
       ]
     },
@@ -678,13 +201,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:30.697Z"
+          "checkedAt": "2026-08-31T08:00:22.259Z"
         },
         "titleZh": "HAF: Adapting Generalist VLAs to Humanoid Whole-Body Loco-manipulation via Hierarchical Action Flow and Spectral Latent RL",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c81524ee244cd6ad",
       "status": "待复核",
@@ -696,9 +219,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -790,7 +314,7 @@
           "authors": [
             {
               "name": "Jiahao Ji",
-              "totalCitations": 682,
+              "totalCitations": 685,
               "hIndex": 11,
               "institutions": [
                 "Minzu University of China",
@@ -822,14 +346,14 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:30.591Z"
+          "checkedAt": "2026-08-31T08:00:16.287Z"
         },
         "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
         "summaryZh": "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "845bd9c4134f0b6e",
       "status": "里程碑精读候选",
@@ -841,9 +365,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -944,13 +469,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:30.827Z"
+          "checkedAt": "2026-08-31T08:00:22.259Z"
         },
         "titleZh": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "0c43230b7cecebd3",
       "status": "待复核",
@@ -966,9 +491,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1079,13 +605,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.036Z"
+          "checkedAt": "2026-08-31T08:00:27.110Z"
         },
         "titleZh": "LAWM-3D：从人类视频学习三维感知潜在动作，构建可泛化机器人世界模型",
         "summaryZh": "LAWM-3D以多视角统一动作标记、几何对齐和RGB-D重建，从人类视频学习三维感知潜在动作。实验显示其生成质量、物理一致性和泛化能力达到SOTA，但摘要未提供真实机器人、具体基准或开源证据。"
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-23T01:01:32.642Z",
       "arxivVersion": 1,
       "factHash": "ba345674e1e0c0fd",
@@ -1105,9 +631,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -1213,7 +740,7 @@
             },
             {
               "name": "Dongqi Cai",
-              "totalCitations": 755,
+              "totalCitations": 756,
               "hIndex": 14,
               "institutions": [
                 "Beijing University of Posts and Telecommunications",
@@ -1223,14 +750,14 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.122Z"
+          "checkedAt": "2026-08-31T08:00:23.827Z"
         },
         "titleZh": "PhyAI：边缘实时与云端可扩展的统一物理 AI 推理引擎",
         "summaryZh": "构建统一推理引擎 PhyAI，以单一运行时经模型适配器在机载、边缘与云端多 GPU 上运行 VLA 与世界-动作模型。其较 pi0、GR00T N1.7 等官方实现提速 1.40–4.65 倍，在 LIBERO 套件上给出基准分析并开源代码。"
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 2,
       "factHash": "804c12275805a1e9",
       "status": "里程碑精读候选",
@@ -1251,9 +778,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "基准",
         "开源"
@@ -1377,7 +905,7 @@
             },
             {
               "name": "Qiongfeng Shi",
-              "totalCitations": 14061,
+              "totalCitations": 14079,
               "hIndex": 61,
               "institutions": [
                 "Southeast University",
@@ -1385,13 +913,13 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.251Z"
+          "checkedAt": "2026-08-31T08:00:28.476Z"
         },
         "titleZh": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
         "summaryZh": "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "5f33989cc272b88b",
       "status": "候选资源",
@@ -1400,9 +928,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -1485,7 +1014,7 @@
           "authors": [
             {
               "name": "Yiyan Peng",
-              "totalCitations": 486,
+              "totalCitations": 488,
               "hIndex": 11,
               "institutions": [
                 "International Isotopes (United States)",
@@ -1494,7 +1023,7 @@
             },
             {
               "name": "Philip Wang",
-              "totalCitations": 12929,
+              "totalCitations": 12935,
               "hIndex": 26,
               "institutions": [
                 "University of Florida"
@@ -1507,11 +1036,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.373Z"
+          "checkedAt": "2026-08-31T08:00:29.476Z"
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "9a9d4c97570b6605",
       "status": "待复核",
@@ -1521,9 +1050,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "基准"
       ],
@@ -1563,6 +1093,833 @@
         },
         {
           "date": "2026-08-22T12:54:06.990Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "4bed703e3de47b73",
+      "article": {
+        "id": "4bed703e3de47b73",
+        "title": "PHR-VLA: Planning Horizon Reasoning for Vision-Language-Action Models",
+        "link": "https://arxiv.org/abs/2608.27609v1",
+        "publishedAt": "2026-08-27T18:42:35.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Vision-language-action models (VLAs) have shown strong promise for general-purpose robotic manipulation by mapping language instructions and vision observations directly to actions. However, most VLAs primarily condition action prediction on current observations and lack an explicit mechanism for reasoning over future task dynamics, which is particularly important for fine-grained, contact-rich manipulation. We present PHR-VLA, a framework that enables planning-horizon reasoning in VLAs through privileged latent representations of future dynamics. PHR-VLA introduces a lightweight auxiliary future head that, during training, aligns the VLA's internal representations with latent dynamics extracted from future observations. Evaluation results demonstrate that local, contact-centric, patch-level latent dynamics supervision from the wrist camera improves success rate on LIBERO from 84.1% to 88.4% and on real-world disassembly tasks from 63.3% to 82.5%. Patch-level supervision from a third-person camera also improves performance on Meta-World from 56.70% to 57.8%. These results demonstrate that privileged latent dynamics alignment provides an effective training signal for improving anticipatory reasoning in VLA policies. Project website: \\href{https://davoodsz.github.io/PHR-VLA.github.io/}{https://davoodsz.github.io/PHR-VLA.github.io/}",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Davood Soleymanzadeh"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 110,
+        "titleZh": "PHR-VLA: Planning Horizon Reasoning for Vision-Language-Action Models",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-31T07:57:24.490Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "6e65fedf881f4d46",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-31"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27609v1",
+          "excerpt": "Evaluation results demonstrate that local, contact-centric, patch-level latent dynamics supervision from the wrist camera improves success rate on LIBERO from 84.1% to 88.4% and on real-world disassembly tasks from 63.3% to 82.5%.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27609v1",
+          "excerpt": "Evaluation results demonstrate that local, contact-centric, patch-level latent dynamics supervision from the wrist camera improves success rate on LIBERO from 84.1% to 88.4% and on real-world disassembly tasks from 63.3% to 82.5%.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27609v1",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "changes": [
+        {
+          "date": "2026-08-31T07:57:24.490Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "eb7745b52639baf0",
+      "article": {
+        "id": "eb7745b52639baf0",
+        "title": "CLAP: Cross-Embodiment Video World Models are Zero-Shot Physical Simulators",
+        "link": "https://arxiv.org/abs/2608.27406v1",
+        "publishedAt": "2026-08-27T17:35:10.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "State-of-the-art action-conditioned video models are typically restricted to a single robot embodiment, preventing them from leveraging the vast corpus of heterogeneous video data that contains rich signals for learning generalizable physics. To bridge this gap, we introduce CLAP, a framework for cross-embodiment action-conditioned video generation capable of being trained on diverse, internet-scale videos across human and robotic agents. CLAP is grounded in the insight that universal physical laws govern spatiotemporal dynamics regardless of the actor. However, cross-embodiment learning is non-trivial because action representations vary sharply across robot platforms and are typically absent in human videos. CLAP addresses this fundamental challenge through the following core contributions. First, CLAP reconciles disparate action spaces using end-effector poses, language instructions, and latent actions. Second, to resolve their individual limitations, CLAP introduces a curriculum-based cross-embodiment learning recipe that first learns foundational physical priors across unlabeled video data using latent actions and subsequently grounds them in end-effector action spaces for zero-shot deployment to real-world tasks. Crucially, CLAP approaches or surpasses state-of-the-art single-embodiment video models in challenging environments like DROID. These performance advantages compound via few-shot adaptation to establish a novel paradigm for training single-embodiment video world models. Ultimately, CLAP delivers the most comprehensive suite of action-conditioned video world models to date - spanning diverse action-conditioning spaces (end-effector, language, and latent) and robot morphologies (including cross-embodiment, DROID, Bridge, bimanual YAM robots, and G1 humanoids). We open-source all code and models. Project Website at https://omni-clap.github.io .",
+        "tags": [
+          "研究",
+          "robot",
+          "humanoid",
+          "world model"
+        ],
+        "authors": [
+          "Kechen Liu"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 106,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204604373",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [],
+          "authors": [
+            {
+              "name": "Kechen Liu",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Ola Shorinwa",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:30.389Z"
+        },
+        "titleZh": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
+        "summaryZh": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。"
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "89f129007ffb5221",
+      "status": "候选资源",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "真实机器人",
+        "开源"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
+          "excerpt": "Second, to resolve their individual limitations, CLAP introduces a curriculum-based cross-embodiment learning recipe that first learns foundational physical priors across unlabeled video data using latent actions and subsequently grounds them in end-effector action spaces for zero-shot deployment to real-world tasks.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
+          "excerpt": "",
+          "polarity": "absent"
+        },
+        {
+          "kind": "开源",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
+          "excerpt": "We open-source all code and models.",
+          "polarity": "supporting"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Kechen Liu",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-30T03:12:57.844Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "918132589f591389",
+      "article": {
+        "id": "918132589f591389",
+        "title": "FlashVLA: Streaming Action Decoding for Fast and Asynchronous VLA Inference",
+        "link": "https://arxiv.org/abs/2608.27384v1",
+        "publishedAt": "2026-08-27T17:19:29.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Vision-Language-Action (VLA) models are increasingly promising for robotic manipulation, yet their real-world deployment remains bottlenecked by high inference latency and unstable asynchronous execution. This challenge is particularly pronounced in flow-matching-based VLA models, where action decoding requires multiple iterative steps conditioned on the VLM context. While efficient inference methods improve control frequency and asynchronous methods reduce execution idle time, existing approaches often fail to jointly achieve low-latency inference and accurate, temporally consistent asynchronous execution. We introduce \\textbf{FlashVLA}, a streaming action decoding framework that addresses both challenges in a unified formulation. FlashVLA maintains a streaming action buffer with multiple chunks at different noise levels and decodes them using chunk-wise causal attention. This design allows FlashVLA to produce one executable action chunk per inference step. Moreover, its chunk-wise autoregressive formulation implicitly preserves action continuity, enabling smooth asynchronous execution without extra future-state conditioning. Across extensive simulated and real-world experiments, FlashVLA substantially improves inference speed while maintaining strong task performance. It can achieve $\\geq$30\\,Hz control frequency on a single GPU with smooth asynchronous inference in real-world deployment.",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Zekai Li"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 110,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204671285",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "Central Intelligence Agency",
+            "Nanjing Normal University",
+            "Moscow Institute of Thermal Technology",
+            "Design Intelligence (United States)",
+            "National Intelligence University"
+          ],
+          "authors": [
+            {
+              "name": "Jiaming Tang",
+              "totalCitations": 542,
+              "hIndex": 8,
+              "institutions": [
+                "Central Intelligence Agency",
+                "Nanjing Normal University",
+                "Moscow Institute of Thermal Technology",
+                "Design Intelligence (United States)",
+                "National Intelligence University"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:30.652Z"
+        },
+        "titleZh": "FlashVLA: Streaming Action Decoding for Fast and Asynchronous VLA Inference",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。"
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "d6ca8383897191c3",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "真实机器人"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
+          "excerpt": "Vision-Language-Action (VLA) models are increasingly promising for robotic manipulation, yet their real-world deployment remains bottlenecked by high inference latency and unstable asynchronous execution.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
+          "excerpt": "",
+          "polarity": "absent"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27384v1",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Jiaming Tang",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-31T07:57:24.490Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "00af7812b52a8abc",
+      "article": {
+        "id": "00af7812b52a8abc",
+        "title": "SpatialCrafter: Single Image World Modeling with Generative 3D Proxies",
+        "link": "https://arxiv.org/abs/2608.27073v2",
+        "publishedAt": "2026-08-27T12:58:37.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Explorable image-to-scene generation is essential for applications in gaming, robotics, and virtual reality. Existing methods based on video diffusion model (VDM) commonly rely on incomplete conditioning signals such as sparse point clouds or 2D panoramas, leading to stochastic hallucinations, long-term drifts and suboptimal 3D consistency. We present SpatialCrafter, a novel two-stage framework that addresses these issues by introducing a global 3D proxy for high-fidelity image-to-scene generation. Specifically, we decompose the generation process into global proxy generation and appearance refinement. For proxy generation, we propose a Point-anchored Sparse Structure~(PaSS) Flow module that predicts a spatially aligned and geometrically consistent 3D proxy. For appearance refinement, we re-frame the VDM as a Generative Deferred Refiner which synthesizes high-frequency photorealistic details upon proxy-defined scene geometry. To better integrate the proxy with the pre-trained VDM, we introduce Parallel Geometry Injection and Proxy-Aware Corruption training strategies, which improve robustness to proxy artifacts without disrupting the pretrained generative manifold. Furthermore, as no suitable dataset exists for this explorable scene generation task, we construct a new large-scale dataset of 115K scenes. To the best of our knowledge, it is the first hybrid dataset for image-to-scene generation. Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes. Our project page: \\href{https://fangchuan.github.io/SpatialCrafter/}{fangchuan.github.io/SpatialCrafter/}",
+        "tags": [
+          "研究",
+          "robot",
+          "robotics",
+          "world model"
+        ],
+        "authors": [
+          "Chuan Fang"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 106,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204530983",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [],
+          "authors": [
+            {
+              "name": "Chuan Fang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Lingteng Qiu",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Yixun Liang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:31.086Z"
+        }
+      },
+      "firstSeenAt": "2026-08-31T07:57:24.490Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 2,
+      "factHash": "ad9dc7e4a283f06e",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-31"
+      ],
+      "appearances": 1,
+      "evidenceTags": [
+        "真实机器人"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v2",
+          "excerpt": "Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v2",
+          "excerpt": "",
+          "polarity": "absent"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v2",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Chuan Fang",
+      "changes": [
+        {
+          "date": "2026-08-31T07:57:24.490Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        }
+      ]
+    },
+    {
+      "id": "4dcd0ce6360f35ff",
+      "article": {
+        "id": "4dcd0ce6360f35ff",
+        "title": "SpatialCrafter: Single Image World Modeling with Generative 3D Proxies",
+        "link": "https://arxiv.org/abs/2608.27073v1",
+        "publishedAt": "2026-08-27T12:58:37.000Z",
+        "fetchedAt": "2026-08-29T03:56:26.261Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Explorable image-to-scene generation is essential for applications in gaming, robotics, and virtual reality. Existing methods based on video diffusion model (VDM) commonly rely on incomplete conditioning signals such as sparse point clouds or 2D panoramas, leading to stochastic hallucinations, long-term drifts and suboptimal 3D consistency. We present SpatialCrafter, a novel two-stage framework that addresses these issues by introducing a global 3D proxy for high-fidelity image-to-scene generation. Specifically, we decompose the generation process into global proxy generation and appearance refinement. For proxy generation, we propose a Point-anchored Sparse Structure~(PaSS) Flow module that predicts a spatially aligned and geometrically consistent 3D proxy. For appearance refinement, we re-frame the VDM as a Generative Deferred Refiner which synthesizes high-frequency photorealistic details upon proxy-defined scene geometry. To better integrate the proxy with the pre-trained VDM, we introduce Parallel Geometry Injection and Proxy-Aware Corruption training strategies, which improve robustness to proxy artifacts without disrupting the pretrained generative manifold. Furthermore, as no suitable dataset exists for this explorable scene generation task, we construct a new large-scale dataset of 115K scenes. To the best of our knowledge, it is the first hybrid dataset for image-to-scene generation. Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes. Code, models, and the newly constructed dataset will be publicly released. See more at https://fangchuan.github.io/SpatialCrafter/.",
+        "tags": [
+          "研究",
+          "robot",
+          "robotics",
+          "world model"
+        ],
+        "authors": [
+          "Chuan Fang"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 106,
+        "titleZh": "SpatialCrafter: Single Image World Modeling with Generative 3D Proxies",
+        "summaryZh": "暂未生成中文摘要，请阅读原文。",
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204530983",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [],
+          "authors": [
+            {
+              "name": "Chuan Fang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Lingteng Qiu",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Yixun Liang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:32.602Z"
+        }
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "1259040501f0ac7a",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "真实机器人"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
+          "excerpt": "Extensive experiments on both synthetic and real-world datasets show that SpatialCrafter outperforms state-of-the-art methods, mitigates long-term drift, and remains robust and consistent under rapid camera motion and extreme viewpoint changes.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
+          "excerpt": "",
+          "polarity": "absent"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.27073v1",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Chuan Fang",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-30T03:12:57.844Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "560cdd49b8f2be12",
+      "article": {
+        "id": "560cdd49b8f2be12",
+        "title": "Riemann-1.0: An Embodied World Action Model for Physical AI",
+        "link": "https://arxiv.org/abs/2608.27033v1",
+        "publishedAt": "2026-08-27T12:21:26.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "We introduce Riemann-1.0, a fully causal autoregressive World Action Model for embodied intelligence. Riemann-1.0 jointly models multi-view visual observations, robot states, and embodiment-specific actions within a unified causal autoregressive sequence, representing robot actions and world evolution as causal state transitions. Unlike existing WAMs based on joint generation, video-first prediction, or decoupled modeling paradigms, Riemann-1.0 unifies online robot policy execution and action-conditioned world simulation within a single model, enabling it to function as both an executable robot policy and a multi-embodiment visual world simulator. To scale embodied experience across heterogeneous data sources, we further develop a progressive embodied pretraining framework that unifies learning from egocentric human videos, handheld-gripper demonstrations, and heterogeneous robot trajectories under a shared World Action Modeling objective. Built upon 200K+ hours of interaction data, Riemann-1.0 progressively transfers large-scale embodied experience into executable robot manipulation capabilities. Riemann-1.0 achieves state-of-the-art performance across both simulation benchmarks and real-world manipulation tasks. It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR. These results demonstrate that unified World Action Modeling together with progressive embodied pretraining effectively transforms large-scale embodied experience into generalizable robot manipulation capabilities.",
+        "tags": [
+          "研究",
+          "robot",
+          "embodied",
+          "physical ai"
+        ],
+        "authors": [
+          "Haofeng Sun"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 110,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204573472",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [],
+          "authors": [
+            {
+              "name": "Haofeng Sun",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Jiangbo Pei",
+              "totalCitations": 80,
+              "hIndex": 4,
+              "institutions": []
+            },
+            {
+              "name": "Fei Kang",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:34.079Z"
+        }
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "19294401058d9a5c",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "真实机器人",
+        "基准",
+        "开源"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
+          "excerpt": "Riemann-1.0 achieves state-of-the-art performance across both simulation benchmarks and real-world manipulation tasks.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
+          "excerpt": "It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "开源",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.27033v1",
+          "excerpt": "It achieves success rates of 94.3% on RoboTwin2.0, 99.0% on LIBERO, and 62.6% on the long-horizon compositional benchmark RoboCasa-365, outperforming the previous best method by 8.4% On long-horizon real-world manipulation tasks, Riemann-1.0 achieves a Success Rate (SR) of 85.0% and a Progress Success Rate (PSR) of 94.4%, exceeding the strongest open-source baseline by 15% in SR.",
+          "polarity": "supporting"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Jiangbo Pei",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-30T03:12:57.844Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "982ac6225b1568e5",
+      "article": {
+        "id": "982ac6225b1568e5",
+        "title": "PredVLA: A Sub-Million-Parameter Predictive-Coding Policy for Robot Manipulation",
+        "link": "https://arxiv.org/abs/2608.26673v1",
+        "publishedAt": "2026-08-27T06:27:11.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "Large pretrained vision-language-action models dominate modern robot-manipulation benchmarks, but it remains unclear how much model scale is necessary for strong language-conditioned control, or whether fundamentally different control architectures can remain competitive at much smaller parameter budgets. We present PredVLA, a language-conditioned predictive-coding policy with only 0.68 million trainable network parameters and no robot-data pretraining, whose hierarchical generative recurrent dynamics predict visual features and proprioception while observations influence latent state only through online inference from the resulting sensory prediction errors. On LIBERO, PredVLA achieves an 86.9% mean success rate across the three short-horizon suites and 75.4% when the long-horizon suite is included. Under a controlled comparison using the same frozen front end, demonstrations, action decoder, and evaluation protocol, PredVLA achieves 3.7x and 7.4x mean success rates of parameter-matched Transformer and LSTM policies, respectively. The predictive-coding formulation also makes the contribution of observation-driven correction directly measurable: because observations influence the recurrent state only through prediction-error-based latent inference, disabling this inference yields an exact open-loop control condition. Together, these results show that a sub-million-parameter recurrent generative policy can achieve strong performance on modern language-conditioned manipulation benchmarks while providing an explicit mechanism for prediction-error-driven online state correction.",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Hiroki Sawada"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 110,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204559754",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "Okinawa Institute of Science and Technology Graduate University",
+            "Sony Computer Science Laboratories"
+          ],
+          "authors": [
+            {
+              "name": "Hiroki Sawada",
+              "totalCitations": 44,
+              "hIndex": 4,
+              "institutions": []
+            },
+            {
+              "name": "Shunichi Kasahara",
+              "totalCitations": 1228,
+              "hIndex": 19,
+              "institutions": [
+                "Okinawa Institute of Science and Technology Graduate University",
+                "Sony Computer Science Laboratories"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:33.651Z"
+        }
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "264202d0e066e76e",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "基准"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
+          "excerpt": "",
+          "polarity": "absent"
+        },
+        {
+          "kind": "基准",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
+          "excerpt": "On LIBERO, PredVLA achieves an 86.9% mean success rate across the three short-horizon suites and 75.4% when the long-horizon suite is included.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.26673v1",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Shunichi Kasahara",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-30T03:12:57.844Z",
+          "kind": "元数据更新",
+          "detail": "作者、机构、引用或来源元数据已更新。"
+        }
+      ]
+    },
+    {
+      "id": "815da00b996995d4",
+      "article": {
+        "id": "815da00b996995d4",
+        "title": "TrapVLA: Trapping Vision-Language-Action Models in Configured Failure Modes",
+        "link": "https://arxiv.org/abs/2608.26578v1",
+        "publishedAt": "2026-08-27T03:44:49.000Z",
+        "fetchedAt": "2026-08-31T07:57:26.443Z",
+        "source": "arXiv · Robotics",
+        "sourceWeight": 9,
+        "excerpt": "This work introduces Configured Failure Trapping, a novel backdoor attack task against Vision-Language-Action (VLA) models, which aims to activate attacks through stealthy textual triggers and induce configured failure modes. Unlike prior backdoor attacks that treat any task failure as a successful attack, Configured Failure Trapping requires the attacker to control how the robot fails (e.g., causing the robot to grasp with a specified positional offset), making it substantially more challenging and hard to detect. To support the new task, we propose an effective data engine for synthesizing high-quality target trajectories and an automated suite for measuring configured-failure fidelity. Then, based on this foundation, we construct two new benchmarks, namely Trap-LIBERO and Trap-RoboTwin, that instantiate Configured Failure Trapping across four representative failure modes. To address this task, we identify sparse action deviation as a critical challenge and accordingly propose a novel method named TrapVLA, which explicitly learns trigger-induced action residuals to steer the policy toward the configured failure behavior. Extensive experiments across simulation benchmarks and real-world robotic settings show that TrapVLA effectively injects configured failure modes into VLA models while largely preserving performance on clean data. Project page: https://john-liua.github.io/TrapVLA/",
+        "tags": [
+          "研究",
+          "robot",
+          "vla",
+          "vision-language-action"
+        ],
+        "authors": [
+          "Jun-Hui Liu"
+        ],
+        "sourceTier": "官方公司与实验室",
+        "kind": "研究与数据",
+        "score": 106,
+        "scholar": {
+          "provider": "OpenAlex",
+          "workId": "https://openalex.org/W7204530163",
+          "citedByCount": 0,
+          "isRetracted": false,
+          "institutions": [
+            "National Sun Yat-sen University",
+            "Sun Yat-sen University"
+          ],
+          "authors": [
+            {
+              "name": "Junhui Liu",
+              "totalCitations": 579,
+              "hIndex": 11,
+              "institutions": []
+            },
+            {
+              "name": "Kun-Yu Lin",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Yi-Lin Wei",
+              "totalCitations": 85,
+              "hIndex": 4,
+              "institutions": [
+                "National Sun Yat-sen University",
+                "Sun Yat-sen University"
+              ]
+            }
+          ],
+          "checkedAt": "2026-08-31T08:00:33.853Z"
+        }
+      },
+      "firstSeenAt": "2026-08-29T03:56:24.110Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "arxivVersion": 1,
+      "factHash": "a6ce4a0a463e3677",
+      "status": "待复核",
+      "seenDates": [
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31"
+      ],
+      "appearances": 3,
+      "evidenceTags": [
+        "真实机器人",
+        "基准"
+      ],
+      "researchClaims": [
+        {
+          "kind": "真实机器人",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
+          "excerpt": "Extensive experiments across simulation benchmarks and real-world robotic settings show that TrapVLA effectively injects configured failure modes into VLA models while largely preserving performance on clean data.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "基准",
+          "status": "verified",
+          "sourceField": "abstract",
+          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
+          "excerpt": "Then, based on this foundation, we construct two new benchmarks, namely Trap-LIBERO and Trap-RoboTwin, that instantiate Configured Failure Trapping across four representative failure modes.",
+          "polarity": "supporting"
+        },
+        {
+          "kind": "开源",
+          "status": "unknown",
+          "sourceField": "none",
+          "sourceUrl": "https://arxiv.org/abs/2608.26578v1",
+          "excerpt": "",
+          "polarity": "absent"
+        }
+      ],
+      "authorityLabels": [],
+      "notableAuthor": "Junhui Liu",
+      "changes": [
+        {
+          "date": "2026-08-29T03:56:24.110Z",
+          "kind": "新收录",
+          "detail": "进入近 30 天论文池。"
+        },
+        {
+          "date": "2026-08-30T03:12:57.844Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
         }
@@ -1609,21 +1966,34 @@
               "institutions": [
                 "Purdue University West Lafayette"
               ]
+            },
+            {
+              "name": "Yi Wei",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
+              "name": "Ruiqi Ni",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.577Z"
+          "checkedAt": "2026-08-31T08:00:34.966Z"
         }
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c4b5b8414861b6dd",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -1715,21 +2085,22 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.698Z"
+          "checkedAt": "2026-08-31T08:00:36.690Z"
         },
         "titleZh": "StreamPI: Streaming Multimodal Temporal Modeling for Vision-Language-Action Models",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "395009ba92cbb5de",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -1807,27 +2178,34 @@
               "institutions": []
             },
             {
+              "name": "University of Macau",
+              "totalCitations": 0,
+              "hIndex": 0,
+              "institutions": []
+            },
+            {
               "name": ":",
               "totalCitations": 0,
               "hIndex": 0,
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:31.893Z"
+          "checkedAt": "2026-08-31T08:00:37.159Z"
         },
         "titleZh": "One Policy, Many Embodiments: Unified Camera-Centric Action Geometry Pre-training for Heterogeneous Embodied Manipulation",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "2031892123d23d6d",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -1914,21 +2292,22 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.002Z"
+          "checkedAt": "2026-08-31T08:00:36.425Z"
         },
         "titleZh": "MA-VLA: Multi-Arm Vision-Language-Action Model for Collaboration and Compositional Generalization",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8e5eebc2287df57c",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [
         "真实机器人",
         "基准",
@@ -2019,21 +2398,22 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.139Z"
+          "checkedAt": "2026-08-31T08:00:37.297Z"
         },
         "titleZh": "RA-VLA: Retrieval-Augmented VLA for Test-Time Adaptation",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "bf66163d1f22b4c0",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2123,21 +2503,22 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.233Z"
+          "checkedAt": "2026-08-31T08:00:37.892Z"
         },
         "titleZh": "ConfAL-WM: Confidence-Guided Active Learning for Action-Conditioned World Models",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-29T03:56:24.110Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "0c9009bd67bd43c1",
       "status": "待复核",
       "seenDates": [
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 2,
+      "appearances": 3,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -2224,13 +2605,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.386Z"
+          "checkedAt": "2026-08-31T08:00:38.019Z"
         },
         "titleZh": "EXIMO: VLM Guided Exploration of VLA Policies",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "de11a75a669acfc2",
       "status": "待复核",
@@ -2239,9 +2620,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -2335,20 +2717,21 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.597Z"
+          "checkedAt": "2026-08-31T08:00:39.118Z"
         }
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "9340b87c08795ace",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [
         "基准"
       ],
@@ -2419,16 +2802,17 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "12e94f30e649a093",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [
         "基准"
       ],
@@ -2517,20 +2901,21 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.869Z"
+          "checkedAt": "2026-08-31T08:00:41.510Z"
         }
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "70d78b76f80baf08",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [
         "基准"
       ],
@@ -2626,20 +3011,21 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:32.945Z"
+          "checkedAt": "2026-08-31T08:00:38.994Z"
         }
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "d6b1a8aa6c84085d",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -2709,16 +3095,17 @@
         "score": 102
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c8e6d3ac0055bc36",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -2803,20 +3190,21 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:33.255Z"
+          "checkedAt": "2026-08-31T08:00:43.361Z"
         }
       },
       "firstSeenAt": "2026-08-24T08:05:05.893Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c4a00fc242abcb52",
       "status": "待复核",
       "seenDates": [
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 3,
+      "appearances": 4,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -2903,7 +3291,7 @@
             },
             {
               "name": "Xixi Wang",
-              "totalCitations": 846,
+              "totalCitations": 848,
               "hIndex": 16,
               "institutions": [
                 "Anhui University",
@@ -2920,11 +3308,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:33.284Z"
+          "checkedAt": "2026-08-31T08:00:44.973Z"
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "53cc38ca74f3c3a1",
       "status": "待复核",
@@ -2933,9 +3321,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -3035,13 +3424,13 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:33.411Z"
+          "checkedAt": "2026-08-31T08:00:43.552Z"
         },
         "titleZh": "RoMAN-Flow: Taming Autoregressive Normalizing Flows for Offline Reinforcement Learning in Robotic Manipulation",
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "3a3093b22ab31bb0",
       "status": "待复核",
@@ -3050,9 +3439,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "真实机器人",
         "开源"
@@ -3124,7 +3514,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "2a9073a531381719",
       "status": "待复核",
@@ -3133,9 +3523,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -3226,11 +3617,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:33.959Z"
+          "checkedAt": "2026-08-31T08:00:47.150Z"
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "e044687971fc6ebb",
       "status": "待复核",
@@ -3239,9 +3630,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -3345,11 +3737,11 @@
               ]
             }
           ],
-          "checkedAt": "2026-08-30T03:15:33.945Z"
+          "checkedAt": "2026-08-31T08:00:46.925Z"
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "b7674cee5eb55c7a",
       "status": "待复核",
@@ -3358,9 +3750,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -3453,11 +3846,11 @@
               "institutions": []
             }
           ],
-          "checkedAt": "2026-08-30T03:15:34.080Z"
+          "checkedAt": "2026-08-31T08:00:47.516Z"
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c2cd7430df4cbc79",
       "status": "待复核",
@@ -3466,9 +3859,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "开源"
       ],
@@ -3571,7 +3965,7 @@
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "673b6e56a1343c11",
       "status": "待复核",
@@ -3580,9 +3974,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "基准"
       ],
@@ -3651,7 +4046,7 @@
         "score": 102
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "1df040e2deae9ebe",
       "status": "待复核",
@@ -3660,9 +4055,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -3754,7 +4150,7 @@
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "c53fa0b01ecf60e5",
       "status": "待复核",
@@ -3763,9 +4159,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "基准"
       ],
@@ -3835,7 +4232,7 @@
         "score": 110
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "fe429a1c26252854",
       "status": "待复核",
@@ -3844,9 +4241,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -3936,7 +4334,7 @@
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "f3d0a47170ecf410",
       "status": "待复核",
@@ -3945,9 +4343,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -4043,7 +4442,7 @@
         }
       },
       "firstSeenAt": "2026-08-22T12:54:06.990Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "cf197a5f636cf4f0",
       "status": "待复核",
@@ -4052,9 +4451,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 13,
+      "appearances": 14,
       "evidenceTags": [
         "基准"
       ],
@@ -4124,7 +4524,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8e9da5c20271bf46",
       "status": "待复核",
@@ -4134,9 +4534,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "基准"
       ],
@@ -4234,7 +4635,7 @@
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "0e58a55f5a41f1c4",
       "status": "待复核",
@@ -4244,9 +4645,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -4344,7 +4746,7 @@
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "eaf87ac8990e9bbd",
       "status": "待复核",
@@ -4354,9 +4756,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -4457,7 +4860,7 @@
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "11abf1e207cbf99f",
       "status": "待复核",
@@ -4467,9 +4870,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -4539,7 +4943,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "a08853da5224b2b7",
       "status": "待复核",
@@ -4549,9 +4953,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -4650,7 +5055,7 @@
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "093c4ec028747620",
       "status": "待复核",
@@ -4660,9 +5065,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -4732,7 +5138,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "fd378e1f3f684fa4",
       "status": "待复核",
@@ -4742,9 +5148,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -4839,7 +5246,7 @@
         }
       },
       "firstSeenAt": "2026-08-20T00:56:47.599Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8726ac2ddc9b6b8a",
       "status": "待复核",
@@ -4849,9 +5256,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 14,
+      "appearances": 15,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -4950,7 +5358,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "630b1c6e9e462e3c",
       "status": "待复核",
@@ -4962,9 +5370,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "基准"
       ],
@@ -5068,7 +5477,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "5a500029f2916cec",
       "status": "待复核",
@@ -5080,9 +5489,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -5180,7 +5590,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "a12b1e54df545280",
       "status": "待复核",
@@ -5192,9 +5602,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人",
         "开源"
@@ -5295,7 +5706,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "beedb7bbc83ade02",
       "status": "待复核",
@@ -5307,9 +5718,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -5419,7 +5831,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8770784f329be270",
       "status": "待复核",
@@ -5431,9 +5843,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -5537,7 +5950,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "cda6c449f8171067",
       "status": "待复核",
@@ -5549,9 +5962,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -5652,7 +6066,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "f7ee74320fd72de7",
       "status": "待复核",
@@ -5664,9 +6078,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -5781,8 +6196,8 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "04cc5456f04b1000",
       "status": "里程碑精读候选",
@@ -5801,9 +6216,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -5908,7 +6324,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "61d0e38984e839de",
       "status": "待复核",
@@ -5920,9 +6336,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "基准"
       ],
@@ -6027,7 +6444,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "625dbb591d276872",
       "status": "待复核",
@@ -6039,9 +6456,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -6111,7 +6529,7 @@
         "score": 110
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "9d7ad33df7c6f2a3",
       "status": "待复核",
@@ -6123,9 +6541,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -6209,7 +6628,7 @@
         }
       },
       "firstSeenAt": "2026-08-18T03:54:07.709Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "f72ef5af192703ae",
       "status": "待复核",
@@ -6221,9 +6640,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 18,
+      "appearances": 19,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -6322,7 +6742,7 @@
         "summaryZh": "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。"
       },
       "firstSeenAt": "2026-08-14T03:42:35.045Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8052248fa0ac60fc",
       "status": "候选资源",
@@ -6337,9 +6757,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 30,
+      "appearances": 31,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -6443,7 +6864,7 @@
         "summaryZh": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。"
       },
       "firstSeenAt": "2026-08-14T03:42:35.045Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "85ace8f463b33e5f",
       "status": "候选资源",
@@ -6458,9 +6879,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 30,
+      "appearances": 31,
       "evidenceTags": [
         "基准"
       ],
@@ -6560,7 +6982,7 @@
         }
       },
       "firstSeenAt": "2026-08-14T03:42:35.045Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-23T01:01:32.642Z",
       "arxivVersion": 1,
       "factHash": "b42ea428e577a9e1",
@@ -6576,9 +6998,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 30,
+      "appearances": 31,
       "evidenceTags": [
         "基准"
       ],
@@ -6650,7 +7073,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-14T03:42:35.045Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "10b33ad9e3236f31",
       "status": "待复核",
@@ -6665,9 +7088,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 30,
+      "appearances": 31,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -6763,7 +7187,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "92d339a6f338d2f3",
       "status": "待复核",
@@ -6779,9 +7203,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准"
       ],
@@ -6881,7 +7306,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "7b4bf5c5df890e3d",
       "status": "待复核",
@@ -6897,9 +7322,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -7004,7 +7430,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-14T03:42:35.045Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "ccdfd9949e4f5826",
       "status": "待复核",
@@ -7019,9 +7445,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 30,
+      "appearances": 31,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -7116,8 +7543,8 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "d8493bd02a81880b",
       "status": "候选资源",
@@ -7136,9 +7563,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -7253,8 +7681,8 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
+      "lastShownAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "a47d44a73eb71263",
       "status": "候选资源",
@@ -7273,9 +7701,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -7374,7 +7803,7 @@
         }
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "b24f0739a269fdfb",
       "status": "待复核",
@@ -7390,9 +7819,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准"
       ],
@@ -7495,7 +7925,7 @@
         }
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "1d9b63c779694600",
       "status": "待复核",
@@ -7511,9 +7941,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -7611,7 +8042,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-09T08:43:57.688Z",
       "arxivVersion": 1,
       "factHash": "2c80f17802bc34a2",
@@ -7633,9 +8064,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -7751,7 +8183,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "b3e26e6df1425048",
       "status": "待复核",
@@ -7770,9 +8202,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -7900,7 +8333,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-08T15:04:22.013Z",
       "arxivVersion": 1,
       "factHash": "6aab7b2b653560c6",
@@ -7922,9 +8355,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -8047,7 +8481,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-29T03:56:24.110Z",
       "arxivVersion": 1,
       "factHash": "4e63ba499ae83fb1",
@@ -8069,9 +8503,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -8182,7 +8617,7 @@
         "summaryZh": "研究提出 GAUGE，用真实轨迹与校准物理元数据构建 22 类受控任务，联合评估仿真引擎与视频世界模型的物理保真度。对 Isaac Sim、Genesis、Newton 及 6 个视频模型的测试显示无普遍保真方案，偏差集中在冲击接触、快速布料运动与体积形变。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-12T01:25:08.608Z",
       "arxivVersion": 1,
       "factHash": "58bce87a50133253",
@@ -8204,9 +8639,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -8322,7 +8758,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "f8e92df08fb88bd1",
       "status": "待复核",
@@ -8343,9 +8779,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -8444,7 +8881,7 @@
         "summaryZh": "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-10T11:48:46.705Z",
       "arxivVersion": 1,
       "factHash": "52fbdf575151ef1f",
@@ -8466,9 +8903,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -8580,7 +9018,7 @@
         }
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 2,
       "factHash": "04a89156920f8ba7",
       "status": "待复核",
@@ -8596,9 +9034,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准"
       ],
@@ -8698,7 +9137,7 @@
         }
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "2887851fed836659",
       "status": "待复核",
@@ -8714,9 +9153,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [
         "基准",
         "开源"
@@ -8789,7 +9229,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-13T15:08:41.266Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "fd7cb486baf18e6b",
       "status": "待复核",
@@ -8805,9 +9245,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 32,
+      "appearances": 33,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -8909,7 +9350,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8fc285be30f0f59e",
       "status": "待复核",
@@ -8928,9 +9369,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -9047,7 +9489,7 @@
         "summaryZh": "该工作为 BridgeVLA 增加统一时空记忆，以建模空间上下文与交互历史并保持数据效率和泛化。它在两个记忆依赖基准上达到最优，还支持双臂操作并经真实机器人平台验证。"
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-10T11:48:46.705Z",
       "arxivVersion": 1,
       "factHash": "c49a225a140aa68e",
@@ -9069,9 +9511,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -9171,7 +9614,7 @@
         "summaryZh": "暂未生成中文摘要，请阅读原文。"
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "5dc860587a8f967c",
       "status": "待复核",
@@ -9192,9 +9635,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -9303,7 +9747,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "68319b7f46db9731",
       "status": "待复核",
@@ -9324,9 +9768,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -9429,7 +9874,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "73b51cd87c38a454",
       "status": "待复核",
@@ -9450,9 +9895,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -9521,7 +9967,7 @@
         "summaryZh": "AtVLA 向视觉编码器注入可学习寄存器 token 以消除注意力伪影，并按不确定度触发局部高分辨率细化，LIBERO 成功率由94.2%升至98.4%，真实场景由46.5%升至69.0%。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-08T02:26:12.468Z",
       "arxivVersion": 1,
       "factHash": "b1fc4b62a70542e8",
@@ -9544,9 +9990,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 72,
+      "appearances": 73,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -9648,7 +10095,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-08T08:02:23.088Z",
       "arxivVersion": 1,
       "factHash": "0d2d8a4628688df9",
@@ -9671,9 +10118,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 72,
+      "appearances": 73,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -9786,7 +10234,7 @@
         }
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-08T08:02:23.088Z",
       "arxivVersion": 1,
       "factHash": "1343c65378f38f85",
@@ -9809,9 +10257,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 72,
+      "appearances": 73,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -9854,119 +10303,6 @@
         },
         {
           "date": "2026-08-08T03:37:04.139Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
-        }
-      ]
-    },
-    {
-      "id": "fddc3c5fc1e79bee",
-      "article": {
-        "id": "fddc3c5fc1e79bee",
-        "title": "BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning",
-        "link": "https://arxiv.org/abs/2607.29302v1",
-        "publishedAt": "2026-07-31T11:18:17.000Z",
-        "fetchedAt": "2026-08-03T14:30:59.209Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "Reliable robot learning requires a world simulator that can predict action consequences before execution on physical hardware, including risky and failure-prone outcomes. Existing physics simulators require substantial asset construction and calibration and still face a sim-to-real gap, while video generators often lack precise control over their responses to fine-grained robot actions. In this paper, we present the Boundless World Model (BWM), an open-source, low-cost, high-fidelity world simulator for robot manipulation. BWM is an action-conditioned world model that combines initial-environment guidance, dynamic visual history, and temporally aligned robot-action conditioning for stateful autoregressive prediction of future observations. We construct action-aligned training clips through trajectory replay, overlapping clip sampling, and initial-observation enhancement. BWM serves as a data engine that augments imitation-learning data with action-aligned rollouts, and as a policy evaluator for closed-loop assessment, risk anticipation, and policy ranking. Experiments on the WorldArena benchmark and physical robots demonstrate improved simulator fidelity and functional utility across the data-engine and policy-evaluator settings. BWM ranks first overall in the WorldArena Challenge across Track 1 and its two Track 2 applications. We release the BWM open-source ecosystem, including model checkpoints, training and inference code, and interfaces for data generation and policy evaluation.",
-        "tags": [
-          "研究",
-          "robot",
-          "manipulation",
-          "world model"
-        ],
-        "authors": [
-          "BWM Team"
-        ],
-        "kind": "研究与数据",
-        "score": 130,
-        "titleZh": "BWM：面向机器人学习的低成本高保真世界模拟器",
-        "summaryZh": "BWM 是开源的低成本高保真世界模拟器，以动作条件化自回归预测未来观测，可扩充模仿学习数据并闭环评估策略，在 WorldArena 挑战赛中位列第一。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7172473375",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [],
-          "authors": [
-            {
-              "name": "BWM Team",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-16T16:12:13.013Z"
-        }
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "lastShownAt": "2026-08-08T08:02:23.088Z",
-      "arxivVersion": 1,
-      "factHash": "6f98d7709c853ebb",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-05",
-        "2026-08-08",
-        "2026-08-09",
-        "2026-08-10",
-        "2026-08-11",
-        "2026-08-12",
-        "2026-08-13",
-        "2026-08-14",
-        "2026-08-15",
-        "2026-08-16",
-        "2026-08-18",
-        "2026-08-19",
-        "2026-08-20",
-        "2026-08-22",
-        "2026-08-23",
-        "2026-08-24",
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 72,
-      "evidenceTags": [
-        "基准",
-        "开源"
-      ],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2607.29302v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "基准",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2607.29302v1",
-          "excerpt": "Experiments on the WorldArena benchmark and physical robots demonstrate improved simulator fidelity and functional utility across the data-engine and policy-evaluator settings.",
-          "polarity": "supporting"
-        },
-        {
-          "kind": "开源",
-          "status": "verified",
-          "sourceField": "abstract",
-          "sourceUrl": "https://arxiv.org/abs/2607.29302v1",
-          "excerpt": "In this paper, we present the Boundless World Model (BWM), an open-source, low-cost, high-fidelity world simulator for robot manipulation.",
-          "polarity": "supporting"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "BWM Team",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-05T14:15:04.572Z",
           "kind": "元数据更新",
           "detail": "作者、机构、引用或来源元数据已更新。"
         }
@@ -10035,7 +10371,7 @@
         }
       },
       "firstSeenAt": "2026-08-06T03:46:50.218Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-23T01:01:32.642Z",
       "arxivVersion": 1,
       "factHash": "0b5152973553cfc8",
@@ -10058,9 +10394,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 68,
+      "appearances": 69,
       "evidenceTags": [
         "真实机器人",
         "开源"
@@ -10198,7 +10535,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "934ff7636a128577",
       "status": "待复核",
@@ -10217,9 +10554,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -10313,7 +10651,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "914f046edbb7dca3",
       "status": "待复核",
@@ -10332,9 +10670,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -10452,7 +10791,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "a0813510b47bc26d",
       "status": "待复核",
@@ -10473,9 +10812,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -10603,7 +10943,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "3227b1458315a205",
       "status": "待复核",
@@ -10624,9 +10964,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "真实机器人"
       ],
@@ -10717,7 +11058,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "f24015ebc1c0cbe9",
       "status": "待复核",
@@ -10736,9 +11077,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -10827,7 +11169,7 @@
         }
       },
       "firstSeenAt": "2026-08-10T07:09:17.273Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "0c7f779899042941",
       "status": "待复核",
@@ -10846,9 +11188,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 41,
+      "appearances": 42,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -10958,7 +11301,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "e8c23fae4e5d19d5",
       "status": "待复核",
@@ -10979,9 +11322,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -11057,7 +11401,7 @@
         "score": 110
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "18b84d59ad8051b1",
       "status": "待复核",
@@ -11078,9 +11422,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -11190,7 +11535,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "ea4506ab07e451f6",
       "status": "待复核",
@@ -11211,9 +11556,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "真实机器人",
         "基准"
@@ -11337,7 +11683,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T03:15:06.954Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "47d9aaffe06127ad",
       "status": "待复核",
@@ -11358,9 +11704,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 63,
+      "appearances": 64,
       "evidenceTags": [
         "基准"
       ],
@@ -11432,7 +11779,7 @@
         "summaryZh": "综述以权重与技能为轴梳理机器人学习，按自我改进程度划分代码即策略方法，考察77个代表系统，并讨论技能经济的开放问题。"
       },
       "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "lastShownAt": "2026-08-07T02:35:05.321Z",
       "arxivVersion": 1,
       "factHash": "897d13a34880b35d",
@@ -11455,9 +11802,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 72,
+      "appearances": 73,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -11491,135 +11839,6 @@
           "date": "2026-08-05T09:37:22.609Z",
           "kind": "新收录",
           "detail": "进入近 30 天论文池。"
-        }
-      ]
-    },
-    {
-      "id": "7514484769050fb5",
-      "article": {
-        "id": "7514484769050fb5",
-        "title": "Balancing of Humanoid with Object Mass: Trade-off Analyses and Lifting Control",
-        "link": "https://arxiv.org/abs/2607.29625v1",
-        "publishedAt": "2026-07-31T16:57:51.000Z",
-        "fetchedAt": "2026-08-03T14:30:59.209Z",
-        "source": "arXiv · Robotics",
-        "sourceWeight": 9,
-        "excerpt": "The demand for humanoid loco-manipulation tasks with an object has recently increased, and most existing control approaches for stability in such tasks rely on heuristics or machine-learning techniques. This study rigorously analyzes and exploits the dynamic effects of the object mass on balance stability. By formulating the object mass parameters in the whole-body dynamics with distributed contact wrenches and centers of pressure at the stance contacts, their nonlinear effects on the system momenta and constraints are quantified. The dynamic models and constraints are incorporated into the construction of the balanced state basin/boundary (BSB), a partition of the center-of-mass state space for a biped system to maintain balance in its desired contacts. The implications of the BSB for prediction and control are highlighted using a humanoid robot and an analytically tractable reduced-order mechanism. The BSBs under different conditions of base of support, actuation capacity, and pose provide systematic analyses of the effects of object mass on the balancing capability of a system. In particular, the trade-off relationships between momentum regulation and limiting factors in balancing are characterized, introducing two key quantities of the object: the critical mass, at which the system's balancing capability is maximum, and the transition mass, which activates different limiting factors. In addition, sufficient conditions for imposing balanced states on a trajectory are established and implemented with BSBs as explicit threshold constraints in the whole-body trajectory optimization for stable object-lifting control of the humanoid, demonstrating the lift-and-hold and lift-and-release tasks with distinct mass properties in simulations and experiments.",
-        "tags": [
-          "研究",
-          "robot",
-          "humanoid",
-          "manipulation"
-        ],
-        "authors": [
-          "Hyunjong Song"
-        ],
-        "kind": "研究与数据",
-        "score": 130,
-        "titleZh": "人形机器人持物平衡的质量权衡分析与搬举控制",
-        "summaryZh": "研究量化了物体质量对人形机器人平衡的非线性影响，构建平衡状态域并定义临界质量与转变质量，将其作为约束融入全身轨迹优化，在仿真与实验中实现稳定搬举。",
-        "scholar": {
-          "provider": "OpenAlex",
-          "workId": "https://openalex.org/W7172473125",
-          "citedByCount": 0,
-          "isRetracted": false,
-          "institutions": [
-            "New York University",
-            "Sangji University"
-          ],
-          "authors": [
-            {
-              "name": "Hyunjong Song",
-              "totalCitations": 282,
-              "hIndex": 8,
-              "institutions": [
-                "New York University",
-                "Sangji University"
-              ]
-            },
-            {
-              "name": "William Z. Peng",
-              "totalCitations": 140,
-              "hIndex": 6,
-              "institutions": [
-                "New York University"
-              ]
-            },
-            {
-              "name": "Joo H. Kim",
-              "totalCitations": 0,
-              "hIndex": 0,
-              "institutions": []
-            }
-          ],
-          "checkedAt": "2026-08-10T01:21:29.157Z"
-        }
-      },
-      "firstSeenAt": "2026-08-05T09:37:22.609Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
-      "arxivVersion": 1,
-      "factHash": "4ab8cabc8bbdf723",
-      "status": "待复核",
-      "seenDates": [
-        "2026-08-05",
-        "2026-08-08",
-        "2026-08-09",
-        "2026-08-10",
-        "2026-08-11",
-        "2026-08-12",
-        "2026-08-13",
-        "2026-08-14",
-        "2026-08-15",
-        "2026-08-16",
-        "2026-08-18",
-        "2026-08-19",
-        "2026-08-20",
-        "2026-08-22",
-        "2026-08-23",
-        "2026-08-24",
-        "2026-08-29",
-        "2026-08-30"
-      ],
-      "appearances": 72,
-      "evidenceTags": [],
-      "researchClaims": [
-        {
-          "kind": "真实机器人",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2607.29625v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "基准",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2607.29625v1",
-          "excerpt": "",
-          "polarity": "absent"
-        },
-        {
-          "kind": "开源",
-          "status": "unknown",
-          "sourceField": "none",
-          "sourceUrl": "https://arxiv.org/abs/2607.29625v1",
-          "excerpt": "",
-          "polarity": "absent"
-        }
-      ],
-      "authorityLabels": [],
-      "notableAuthor": "Hyunjong Song",
-      "changes": [
-        {
-          "date": "2026-08-05T09:37:22.609Z",
-          "kind": "新收录",
-          "detail": "进入近 30 天论文池。"
-        },
-        {
-          "date": "2026-08-05T14:15:04.572Z",
-          "kind": "元数据更新",
-          "detail": "作者、机构、引用或来源元数据已更新。"
         }
       ]
     },
@@ -11648,7 +11867,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "8d8438266f306e25",
       "status": "待复核",
@@ -11669,9 +11888,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -11733,7 +11953,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "68a7a3070d23aacb",
       "status": "待复核",
@@ -11754,9 +11974,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -11852,7 +12073,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T02:26:12.468Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "9b1b36ac3003fdb1",
       "status": "待复核",
@@ -11873,9 +12094,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 64,
+      "appearances": 65,
       "evidenceTags": [
         "基准"
       ],
@@ -11955,7 +12177,7 @@
         "score": 106
       },
       "firstSeenAt": "2026-08-10T01:19:16.896Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "603c7d9ec7742fe2",
       "status": "待复核",
@@ -11974,9 +12196,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 42,
+      "appearances": 43,
       "evidenceTags": [],
       "researchClaims": [
         {
@@ -12060,7 +12283,7 @@
         }
       },
       "firstSeenAt": "2026-08-08T07:15:30.021Z",
-      "lastCheckedAt": "2026-08-30T03:12:57.844Z",
+      "lastCheckedAt": "2026-08-31T07:57:24.490Z",
       "arxivVersion": 1,
       "factHash": "edc2236e59ac537e",
       "status": "待复核",
@@ -12081,9 +12304,10 @@
         "2026-08-23",
         "2026-08-24",
         "2026-08-29",
-        "2026-08-30"
+        "2026-08-30",
+        "2026-08-31"
       ],
-      "appearances": 58,
+      "appearances": 59,
       "evidenceTags": [],
       "researchClaims": [
         {
