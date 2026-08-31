@@ -14,6 +14,7 @@ import { replaceDecisionProductReadme } from "./markdown.js";
 import { buildReproducibilityPassports } from "./repro-passport.js";
 import { buildSubscriptionCatalog, stageDecisionFeeds } from "./subscriptions.js";
 import { buildDecisionTopSignals } from "./top-signals.js";
+import type { PublishedTopSignalsArtifact } from "../top-signals-growth/render.js";
 
 const DEFAULT_REPOSITORY_URL = "https://github.com/mbabby/physical-ai-news-cn";
 const DEFAULT_PAGES_URL = "https://mbabby.github.io/physical-ai-news-cn";
@@ -324,6 +325,7 @@ export interface StageDecisionProductsInput {
   watchlist: WatchlistPublicView;
   retentionReceipt: DecisionProductRetentionReceipt;
   retentionSource?: DecisionProductArtifact;
+  publishedTopSignals?: PublishedTopSignalsArtifact;
 }
 
 /** Validate all projections before placing any decision-product bytes in the shared transaction. */
@@ -336,7 +338,7 @@ export function stageDecisionProducts(input: StageDecisionProductsInput): string
     validateDecisionProductArtifact(input.retentionSource);
     if (decisionProductArtifactSha256(input.retentionSource) !== input.retentionReceipt.previousArtifactSha256) throw new Error("Decision Product 上一版公开快照摘要不一致");
   } else if (input.retentionSource) throw new Error("Decision Product 未使用保留条目时不得新增历史快照");
-  const readme = replaceDecisionProductReadme(input.readme, input.artifact);
+  const readme = replaceDecisionProductReadme(input.readme, input.artifact, input.publishedTopSignals);
   const expectedCatalog = buildSubscriptionCatalog(input.artifact, input);
   if (JSON.stringify(expectedCatalog) !== JSON.stringify(input.artifact.subscriptions)) {
     throw new Error("Decision Product 订阅目录与发布 URL 不一致");

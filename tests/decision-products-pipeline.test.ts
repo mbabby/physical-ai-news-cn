@@ -12,11 +12,13 @@ import { formatDecisionProductReadme } from "../src/decision-products/markdown.j
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { DigestResult } from "../src/types.js";
 import type { CompanyProfile } from "../src/types.js";
+import { publishTopSignalsRelease } from "../src/top-signals-growth/publish.js";
+import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
-  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 const DECISION_PATHS = [
@@ -43,18 +45,27 @@ async function fixedRepository(): Promise<string> {
   return target;
 }
 
-async function generateFixed(root: string, transaction?: FileTransaction) {
+async function generateFixed(root: string, transaction?: FileTransaction, now = FIXED_NOW) {
   const keys = ["LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "OPENALEX_API_KEY"] as const;
   const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
   keys.forEach((key) => { delete process.env[key]; });
   try {
-    return await generate({ root, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection, transaction });
+    return await generate({ root, now, collect: emptyCollection, collectX: emptyCollection, transaction });
   } finally {
     keys.forEach((key) => {
       const value = previous[key];
       if (value === undefined) delete process.env[key];
       else process.env[key] = value;
     });
+  }
+}
+
+class RecordingTransaction extends FileTransaction {
+  readonly paths: string[] = [];
+
+  override stage(path: string, content: string): void {
+    this.paths.push(path);
+    super.stage(path, content);
   }
 }
 
@@ -94,6 +105,58 @@ test("one artifact drives JSON, dashboard, README and feeds without reorder", as
     await generateFixed(root);
     assert.deepEqual(await decisionProductBytes(root), first);
     assert.equal((await readdir(join(root, "watchlist", "history"))).length, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily orchestration stages the experiment draft only under review", async () => {
+  const root = await fixedRepository();
+  const transaction = new RecordingTransaction();
+  try {
+    await generateFixed(root, transaction, new Date("2026-09-03T12:00:00.000Z"));
+    const expected = join(root, "review", "top-signals-drafts", "2026-W36.json");
+    assert.deepEqual(transaction.paths.filter((path) => path.includes("top-signals")), [expected]);
+    const draft = JSON.parse(await readFile(expected, "utf8")) as { week: string; signals: unknown[] };
+    assert.equal(draft.week, "2026-W36");
+    assert.ok(Array.isArray(draft.signals));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("a later daily generation preserves the latest published Top Signals README entry", async () => {
+  const root = await fixedRepository();
+  const draft: TopSignalsDraft = {
+    schemaVersion: 1,
+    experimentId: "github-top-signals-2026-08",
+    week: "2026-W36",
+    generatedAt: "2026-09-03T10:00:00.000Z",
+    periodStart: "2026-08-31",
+    periodEnd: "2026-09-06",
+    signals: [],
+  };
+  const releaseUrl = "https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-2026-W36";
+  try {
+    await publishTopSignalsRelease({ root, draft, releaseUrl, publishedAt: "2026-09-03T13:05:00.000Z" });
+    await generateFixed(root);
+    const readme = await readFile(join(root, "README.md"), "utf8");
+    assert.match(readme, new RegExp(releaseUrl.replace(/[.?]/g, "\\$&")));
+    assert.doesNotMatch(readme, /<!-- decision-signal:/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily generation reports corrupt published Top Signals separately", async () => {
+  const root = await fixedRepository();
+  try {
+    await mkdir(join(root, "weekly", "top-signals"), { recursive: true });
+    await writeFile(join(root, "weekly", "top-signals", "latest.json"), "{not-json\n", "utf8");
+    await assert.rejects(
+      () => generateFixed(root),
+      (error: unknown) => (error as { code?: string }).code === "corrupt-top-signals-publication",
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }

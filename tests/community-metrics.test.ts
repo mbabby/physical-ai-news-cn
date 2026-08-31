@@ -246,11 +246,19 @@ test("restores both community mirrors when the second public swap fails", async 
 
 test("workflow schedules refreshes and explicitly deploys token-authored commits", async () => {
   const workflow = await readFile(".github/workflows/community-metrics.yml", "utf8");
+  const manifest = JSON.parse(await readFile("package.json", "utf8"));
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /contents: write/);
   assert.match(workflow, /actions: write/);
   assert.match(workflow, /COMMUNITY_METRICS_TOKEN: \$\{\{ github\.token \}\}/);
+  assert.match(workflow, /pnpm run community:metrics/);
+  assert.match(workflow, /pnpm run top-signals:metrics/);
+  assert.ok(workflow.indexOf("pnpm run community:metrics") < workflow.indexOf("pnpm run top-signals:metrics"));
+  assert.match(workflow, /metrics\/top-signals-growth\.json/);
+  assert.match(workflow, /metrics\/top-signals-growth-history\.json/);
+  assert.match(workflow, /review\/top-signals-reference-candidates\.json/);
   assert.match(workflow, /gh workflow run deploy-pages\.yml --ref main/);
   assert.doesNotMatch(workflow, /echo .*COMMUNITY_METRICS_TOKEN/);
+  assert.equal(manifest.scripts["top-signals:metrics"], "tsx src/top-signals-growth/metrics-cli.ts");
 });

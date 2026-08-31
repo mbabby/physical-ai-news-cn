@@ -30,7 +30,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
 const FIXTURE_RESEARCH_TITLE = "固定机器人基准：真实机器人操作与开源复现";
 const FIXTURE_PATHS = [
-  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 

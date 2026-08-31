@@ -11,6 +11,7 @@ import { validateDecisionProductArtifact, type DecisionProductArtifact } from ".
 import { buildDecisionFeedManifest, renderDecisionFeed } from "../decision-products/subscriptions.js";
 import type { DashboardData } from "../site-data.js";
 import type { WatchlistPublicView } from "../watchlist/public-view.js";
+import type { PublishedTopSignalsArtifact } from "../top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -415,6 +416,7 @@ export interface DecisionProductPublicationValidationInput {
   repositoryUrl: string;
   pagesUrl: string;
   watchlist: WatchlistPublicView;
+  publishedTopSignals?: PublishedTopSignalsArtifact;
 }
 
 const stableBytes = (value: unknown): string => `${JSON.stringify(value, null, 2)}\n`;
@@ -460,8 +462,14 @@ export function validateDecisionProductPublication(input: DecisionProductPublica
   assertSameIds(orderedIds(input.dashboard.topSignals, "signalId"), artifact.topSignals.map((item) => item.signalId), "dashboard Top Signals");
   assertSameIds(orderedIds(input.dashboard.companyRadar, "cardId"), artifact.companyCards.map((item) => item.cardId), "dashboard 公司卡");
   assertSameIds(orderedIds(input.dashboard.research, "passportId"), artifact.researchPassports.map((item) => item.passportId), "dashboard Research Passports");
-  const readmeIds = [...input.readme.matchAll(/<!-- decision-signal:([^ ]+) -->/g)].map((match) => match[1]!);
-  assertSameIds(readmeIds, artifact.topSignals.map((item) => item.signalId), "README Top Signals");
+  if (input.publishedTopSignals) {
+    const readmeIds = [...input.readme.matchAll(/<!-- top-signal:([^ ]+) -->/g)].map((match) => match[1]!);
+    assertSameIds(readmeIds, input.publishedTopSignals.signals.slice(0, 3).map((item) => item.signalId), "README 已发布 Top Signals");
+    if ([...input.readme.matchAll(/<!-- decision-signal:([^ ]+) -->/g)].length > 0) throw new Error("README 不得用日报 Top Signals 覆盖已发布内容");
+  } else {
+    const readmeIds = [...input.readme.matchAll(/<!-- decision-signal:([^ ]+) -->/g)].map((match) => match[1]!);
+    assertSameIds(readmeIds, artifact.topSignals.map((item) => item.signalId), "README Top Signals");
+  }
   for (const card of artifact.companyCards) for (const change of card.recentChanges) {
     if (input.companyEventOwners.get(change.eventId) !== card.companyId) throw new Error(`公司卡事件归属不一致：${card.companyId}:${change.eventId}`);
   }

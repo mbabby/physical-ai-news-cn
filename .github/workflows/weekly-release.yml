@@ -1,90 +1,178 @@
-name: Publish weekly Physical AI brief
+name: Publish weekly Top Signals
 
 on:
   schedule:
-    # Sunday 21:00 Beijing time. The daily pipeline has already refreshed the
-    # evidence pool, company dossiers and research cards for the week.
-    - cron: "0 13 * * 0"
+    # W37 automatic publication: Thursday 13:00 UTC.
+    - cron: "0 13 * * 4"
   workflow_dispatch:
     inputs:
       week:
-        description: "Optional ISO week to publish (YYYY-Www); must match watchlist/current.json"
-        required: false
+        description: "Configured Top Signals ISO week (W36 requires exact approval)"
+        required: true
+        default: "2026-W36"
         type: string
 
 permissions:
   contents: write
 
 concurrency:
-  group: weekly-physical-ai-release
+  group: weekly-top-signals-release
   cancel-in-progress: false
 
 jobs:
   release:
-    timeout-minutes: 6
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           ref: main
-      - name: Resolve the immutable current Watchlist snapshot
-        id: report
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - run: pnpm run check
+      - name: Run focused Top Signals release contracts
+        run: pnpm exec tsx --test tests/top-signals-growth-workflow.test.ts tests/top-signals-growth-render.test.ts tests/decision-products-contracts.test.ts tests/release-contract.test.ts
+      - name: Resolve configured week
+        id: week
         shell: bash
         env:
           REQUESTED_WEEK: ${{ inputs.week }}
         run: |
           set -euo pipefail
-
-          week="$(jq -er '.week' watchlist/current.json)"
-          snapshot_version="$(jq -er '.snapshotVersion' watchlist/current.json)"
-
-          if [[ -n "${REQUESTED_WEEK}" && "${REQUESTED_WEEK}" != "${week}" ]]; then
-            echo "Requested week ${REQUESTED_WEEK} does not match current Watchlist snapshot ${week}." >&2
-            exit 1
-          fi
-
-          if [[ ! "${week}" =~ ^[0-9]{4}-W(0[1-9]|[1-4][0-9]|5[0-3])$ ]]; then
-            echo "Invalid ISO week: ${week}. Expected YYYY-Www." >&2
-            exit 1
-          fi
-
-          report="weekly/${week}-report.md"
-          snapshot="watchlist/history/${week}-v${snapshot_version}.json"
-          test -s "$report"
-          test -s "$snapshot"
-          cmp -s watchlist/current.json "$snapshot"
-          grep -Fq "# 物理 AI 周报 · ${week}" "$report"
+          resolution="$(pnpm --silent exec tsx src/top-signals-growth/cli.ts resolve \
+            --event-name "${{ github.event_name }}" \
+            --requested-week "$REQUESTED_WEEK" \
+            --today "$(date -u +%F)")"
+          run="$(jq -r '.run | tostring' <<<"$resolution")"
+          week="$(jq -r '.week // ""' <<<"$resolution")"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
           echo "week=$week" >> "$GITHUB_OUTPUT"
-          echo "snapshot_version=$snapshot_version" >> "$GITHUB_OUTPUT"
-          echo "snapshot=$snapshot" >> "$GITHUB_OUTPUT"
-          echo "report=$report" >> "$GITHUB_OUTPUT"
-      - name: Create or refresh the weekly GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          WEEK: ${{ steps.report.outputs.week }}
-          SNAPSHOT_VERSION: ${{ steps.report.outputs.snapshot_version }}
-          SNAPSHOT: ${{ steps.report.outputs.snapshot }}
-          REPORT: ${{ steps.report.outputs.report }}
+      - name: Prepare and gate canonical Release notes
+        id: prepare
+        if: steps.week.outputs.run == 'true'
         shell: bash
+        env:
+          WEEK: ${{ steps.week.outputs.week }}
+          PREPARE_DIR: ${{ runner.temp }}/top-signals-prepare
         run: |
           set -euo pipefail
-          tag="brief-${WEEK}-v${SNAPSHOT_VERSION}"
-          title="Physical AI Intelligence Brief · ${WEEK} · Watchlist v${SNAPSHOT_VERSION}"
-          notes="$RUNNER_TEMP/weekly-release-notes.md"
-          {
-            echo "Watchlist snapshot: ${WEEK} · v${SNAPSHOT_VERSION}"
-            echo
-            cat "$REPORT"
-          } > "$notes"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            gh release edit "$tag" --title "$title" --notes-file "$notes" --latest
-            action="refreshed"
+          pnpm top-signals:prepare -- --week "$WEEK" --out "$PREPARE_DIR"
+          content_sha="$(jq -er '.contentSha256' "$PREPARE_DIR/gate.json")"
+          already_published="false"
+          archive="weekly/top-signals/${WEEK}.json"
+          if [[ -f "$archive" ]]; then
+            pnpm top-signals:validate -- --week "$WEEK"
+            existing_sha="$(jq -er '.contentSha256' "$archive")"
+            if [[ "$existing_sha" != "$content_sha" ]]; then
+              echo "Top Signals ${WEEK} is already published with different canonical content." >&2
+              exit 1
+            fi
+            already_published="true"
+          elif [[ -f "weekly/top-signals/${WEEK}.md" ]] \
+            || [[ "$(jq -r '.week // ""' weekly/top-signals/latest.json 2>/dev/null || true)" == "$WEEK" ]] \
+            || [[ "$(jq -r '.week // ""' review/top-signals-publication-receipt.json 2>/dev/null || true)" == "$WEEK" ]]; then
+            echo "Top Signals ${WEEK} has an incomplete existing publication." >&2
+            exit 1
+          fi
+          echo "notes=$PREPARE_DIR/notes.md" >> "$GITHUB_OUTPUT"
+          echo "content_sha=$content_sha" >> "$GITHUB_OUTPUT"
+          echo "already_published=$already_published" >> "$GITHUB_OUTPUT"
+      - name: Create or refresh canonical GitHub Release
+        id: release
+        if: steps.week.outputs.run == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WEEK: ${{ steps.week.outputs.week }}
+          NOTES: ${{ steps.prepare.outputs.notes }}
+          ALREADY_PUBLISHED: ${{ steps.prepare.outputs.already_published }}
+        run: |
+          set -euo pipefail
+          tag="top-signals-${WEEK}"
+          title="Physical AI 资本与产品部署 Top Signals · ${WEEK}"
+          notes="$NOTES"
+          expected_body_b64="$(base64 < "$notes" | tr -d '\n')"
+          if release_json="$(gh release view "$tag" --json name,body,url,isDraft,isPrerelease 2>/dev/null)"; then
+            current_title="$(jq -r '.name' <<<"$release_json")"
+            current_body_b64="$(jq -r '.body | @base64' <<<"$release_json")"
+            current_draft="$(jq -r '.isDraft | tostring' <<<"$release_json")"
+            current_prerelease="$(jq -r '.isPrerelease | tostring' <<<"$release_json")"
+            latest_tag="$(gh release view --json tagName --jq '.tagName' 2>/dev/null || true)"
+            if [[ "$current_title" == "$title" \
+              && "$current_body_b64" == "$expected_body_b64" \
+              && "$current_draft" == "false" \
+              && "$current_prerelease" == "false" \
+              && "$latest_tag" == "$tag" ]]; then
+              action="verified"
+            else
+              gh release edit "$tag" --title "$title" --notes-file "$notes" --draft=false --prerelease=false --latest
+              action="refreshed"
+            fi
           else
             gh release create "$tag" --target main --title "$title" --notes-file "$notes" --latest
             action="created"
           fi
-          echo "## Weekly brief published" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Release: ${tag}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Action: ${action}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Source: ${REPORT}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Watchlist snapshot: ${WEEK} · v${SNAPSHOT_VERSION} (${SNAPSHOT})" >> "$GITHUB_STEP_SUMMARY"
+          release_url="$(gh release view "$tag" --json url --jq '.url')"
+          if [[ "$ALREADY_PUBLISHED" == "true" ]]; then
+            archived_url="$(jq -er '.releaseUrl' "weekly/top-signals/${WEEK}.json")"
+            if [[ "$release_url" != "$archived_url" ]]; then
+              echo "GitHub Release URL does not match the immutable local publication." >&2
+              exit 1
+            fi
+          fi
+          echo "url=$release_url" >> "$GITHUB_OUTPUT"
+          echo "action=$action" >> "$GITHUB_OUTPUT"
+          echo "### Release outcome" >> "$GITHUB_STEP_SUMMARY"
+          echo "- ${action}: ${release_url}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish repository surfaces after Release success
+        id: publish
+        if: steps.week.outputs.run == 'true' && steps.prepare.outputs.already_published != 'true'
+        shell: bash
+        env:
+          WEEK: ${{ steps.week.outputs.week }}
+          RELEASE_URL: ${{ steps.release.outputs.url }}
+          EXPECTED_SHA: ${{ steps.prepare.outputs.content_sha }}
+          PREPARE_DIR: ${{ runner.temp }}/top-signals-prepare
+        run: |
+          set -euo pipefail
+          pnpm top-signals:publish -- --week "$WEEK" --release-url "$RELEASE_URL"
+          pnpm top-signals:validate -- --week "$WEEK"
+          pnpm run validate:release
+          git add weekly/top-signals review/top-signals-publication-receipt.json README.md
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "### README outcome" >> "$GITHUB_STEP_SUMMARY"
+            echo "- unchanged; canonical publication already materialized" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "physical-ai-news-bot"
+          git config user.email "actions@github.com"
+          git commit -m "chore: publish Top Signals ${WEEK}"
+          git pull --rebase origin main
+          post_rebase_dir="$PREPARE_DIR/post-rebase"
+          pnpm top-signals:prepare -- --week "$WEEK" --out "$post_rebase_dir"
+          post_rebase_sha="$(jq -er '.contentSha256' "$post_rebase_dir/gate.json")"
+          if [[ "$post_rebase_sha" != "$EXPECTED_SHA" ]]; then
+            echo "Post-rebase Top Signals content changed; aborting stale publication push." >&2
+            exit 1
+          fi
+          pnpm top-signals:validate -- --week "$WEEK"
+          pnpm run validate:release
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "### README outcome" >> "$GITHUB_STEP_SUMMARY"
+          echo "- updated after canonical Release confirmation" >> "$GITHUB_STEP_SUMMARY"
+      - name: Report separate Release and README outcomes
+        if: always()
+        shell: bash
+        run: |
+          echo "## Release-first outcomes" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Release outcome: ${{ steps.release.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- README outcome: ${{ steps.publish.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${{ steps.prepare.outputs.already_published }}" == "true" ]]; then
+            echo "- Idempotent no-op: repository publication already matches the canonical content hash." >> "$GITHUB_STEP_SUMMARY"
+          fi

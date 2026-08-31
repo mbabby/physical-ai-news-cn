@@ -34,7 +34,9 @@ jobs:
           # are unavailable, it publishes traffic.status=unavailable and exits
           # successfully while retaining public repository metrics.
           COMMUNITY_METRICS_TOKEN: ${{ github.token }}
-        run: pnpm run community:metrics
+        run: |
+          pnpm run community:metrics
+          pnpm run top-signals:metrics
       - name: Validate community metrics contract
         shell: bash
         run: |
@@ -51,7 +53,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add metrics/community.json site/data/community.json
+          git add metrics/community.json site/data/community.json metrics/top-signals-growth.json metrics/top-signals-growth-history.json review/top-signals-reference-candidates.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No community metric changes." >> "$GITHUB_STEP_SUMMARY"

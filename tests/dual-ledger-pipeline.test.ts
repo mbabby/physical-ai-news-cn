@@ -12,7 +12,7 @@ import type { DigestResult } from "../src/types.js";
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
-  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 

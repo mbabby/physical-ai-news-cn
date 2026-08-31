@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile as writeFileDirect } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_WINDOW_HOURS, MAX_DAILY_ARTICLES, SOURCES, X_SOURCES } from "./config.js";
@@ -73,6 +73,10 @@ import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, shouldDegradeResearchPassportProjection, stageDecisionProducts } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
+import { loadGrowthExperimentConfig } from "./top-signals-growth/contracts.js";
+import { buildTopSignalsDraft, stageTopSignalsDraft } from "./top-signals-growth/materialize.js";
+import { validatePublishedTopSignalsArtifact } from "./top-signals-growth/publish.js";
+import type { PublishedTopSignalsArtifact } from "./top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -497,6 +501,7 @@ export type DailyGenerationFailureCode =
   | "corrupt-watchlist-current"
   | "corrupt-watchlist-history"
   | "corrupt-dual-ledger"
+  | "corrupt-top-signals-publication"
   | "invalid-company-id"
   | "evidence-withdrawal"
   | "transaction-swap-failure"
@@ -520,11 +525,14 @@ export interface CliOptions {
 }
 
 export function parseCliOptions(argv: string[]): CliOptions {
-  const fixtureMode = argv.includes("--fixture-mode");
-  const rootIndex = argv.indexOf("--fixture-root");
+  const fixtureMode = argv.includes("--fixture") || argv.includes("--fixture-mode");
+  const outputRootIndex = argv.indexOf("--output-root");
+  const fixtureRootIndex = argv.indexOf("--fixture-root");
+  const rootFlag = outputRootIndex >= 0 ? "--output-root" : "--fixture-root";
+  const rootIndex = outputRootIndex >= 0 ? outputRootIndex : fixtureRootIndex;
   const fixtureRoot = rootIndex >= 0 ? argv[rootIndex + 1] : undefined;
-  if (rootIndex >= 0 && (!fixtureRoot || fixtureRoot.startsWith("--"))) throw new Error("--fixture-root requires a path");
-  if (fixtureRoot && !fixtureMode) throw new Error("--fixture-root requires --fixture-mode");
+  if (rootIndex >= 0 && (!fixtureRoot || !fixtureRoot.trim() || fixtureRoot.startsWith("--"))) throw new Error(`${rootFlag} requires a path`);
+  if (fixtureRoot && !fixtureMode) throw new Error(`${rootFlag} requires --fixture`);
   return { fixtureMode, fixtureRoot };
 }
 
@@ -755,6 +763,7 @@ function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
 export interface GenerateOptions {
   root?: string;
   now?: Date;
+  topSignalsDraftNow?: Date;
   collect?: typeof collect;
   collectX?: typeof collectX;
   transaction?: FileTransaction;
@@ -769,6 +778,7 @@ export interface GenerateOptions {
 /** Production daily orchestration with fixture seams for deterministic release verification. */
 async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const now = options.now ?? new Date();
+  const topSignalsDraftNow = options.topSignalsDraftNow ?? now;
   const outputRoot = options.root ?? root;
   const startedAt = now;
   const transaction = options.transaction ?? new FileTransaction();
@@ -782,6 +792,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   let previousCompanyClaimLedger: CompanyClaimLedger | undefined;
   let previousBenchmarkResultLedger: BenchmarkResultLedger | undefined;
   let previousDecisionProductArtifact: DecisionProductArtifact | undefined;
+  let publishedTopSignals: PublishedTopSignalsArtifact | undefined;
   try {
     [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact] = await Promise.all([
       readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
@@ -801,6 +812,18 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     ]);
   } catch (error) {
     throw new DailyGenerationError("corrupt-dual-ledger", "双账本或 Decision Product 历史状态损坏；已停止发布并保留上一版。", { cause: error });
+  }
+  try {
+    publishedTopSignals = await readJsonStrict<PublishedTopSignalsArtifact>(join(outputRoot, "weekly", "top-signals", "latest.json"), {
+      optional: true,
+      label: "上一期已发布 Top Signals",
+      validate: (value): value is PublishedTopSignalsArtifact => {
+        try { validatePublishedTopSignalsArtifact(value); return true; }
+        catch { return false; }
+      },
+    });
+  } catch (error) {
+    throw new DailyGenerationError("corrupt-top-signals-publication", "已发布 Top Signals 状态损坏；已停止日报并保留上一版公开内容。", { cause: error });
   }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
@@ -1201,6 +1224,11 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     artifact: decisionProducts,
     previousArtifact: previousDecisionProductArtifact,
   });
+  const growthConfig = await loadGrowthExperimentConfig(outputRoot);
+  const growthDraft = buildTopSignalsDraft({ artifact: decisionProducts, now: topSignalsDraftNow, config: growthConfig });
+  if (growthDraft.status === "in-experiment") {
+    stageTopSignalsDraft({ root: outputRoot, transaction, draft: growthDraft.draft });
+  }
   const communityEvidence = await stageCommunityEvidenceArtifacts({
     root: outputRoot,
     transaction,
@@ -1372,6 +1400,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     watchlist: watchlistView,
     retentionReceipt: decisionProductRetentionReceipt,
     retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
+    publishedTopSignals,
   });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
@@ -1399,6 +1428,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     repositoryUrl: repositoryBaseUrl,
     pagesUrl: pagesBaseUrl,
     watchlist: watchlistView,
+    publishedTopSignals,
   });
   const watchlistRelease = { snapshot: watchlistSnapshot, theses: watchlistTheses, dashboard, readme, changePage: watchlistChangePage, metrics: watchlistMetrics, companies, events: eventStore.events, history: watchlistHistory };
   validatePublication({
@@ -1475,6 +1505,7 @@ export async function generate(options: GenerateOptions = {}): Promise<RunManife
 }
 
 const FIXTURE_NOW = new Date("2026-08-24T08:05:05.893Z");
+const FIXTURE_TOP_SIGNALS_NOW = new Date("2026-09-03T12:00:00.000Z");
 const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
 const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
@@ -1485,6 +1516,15 @@ const FIXTURE_INPUT_PATHS = [
   "site/data/decision-products.json",
   "research/registry.json",
   "sources/registry.json",
+] as const;
+const FIXTURE_SEED_PATHS = [
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes",
+  "metrics", "site/data", "site/feeds", "watchlist", "community",
+] as const;
+const FIXTURE_RESET_PATHS = [
+  "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
+  "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json",
+  "site/data/community-tasks.json",
 ] as const;
 
 async function assertFixtureRoot(outputRoot: string): Promise<void> {
@@ -1498,6 +1538,25 @@ async function assertFixtureRoot(outputRoot: string): Promise<void> {
   } catch (error) {
     throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
   }
+}
+
+async function prepareFixtureCliRoot(outputRoot: string): Promise<void> {
+  let entries: string[];
+  try {
+    entries = await readdir(outputRoot);
+  } catch (error) {
+    throw new Error(`fixture output root must be an existing empty directory or a recognized checkout: ${outputRoot}`, { cause: error });
+  }
+  if (entries.length > 0) {
+    await assertFixtureRoot(outputRoot);
+    return;
+  }
+  await Promise.all(FIXTURE_SEED_PATHS.map(async (path) => {
+    try { await cp(join(root, path), join(outputRoot, path), { recursive: true }); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
+  }));
+  await Promise.all(FIXTURE_RESET_PATHS.map((path) => rm(join(outputRoot, path), { force: true })));
+  await assertFixtureRoot(outputRoot);
 }
 
 async function snapshotFixtureInputs(outputRoot: string): Promise<Map<string, Buffer | undefined>> {
@@ -1568,6 +1627,7 @@ export async function runFixtureGeneration(outputRoot: string, transaction?: Fil
     return await generate({
       root: outputRoot,
       now: FIXTURE_NOW,
+      topSignalsDraftNow: FIXTURE_TOP_SIGNALS_NOW,
       collect: fixtureCollection,
       collectX: fixtureXCollection,
       communityEvidenceSeeds: seeds,
@@ -1590,6 +1650,8 @@ export async function runFixtureGeneration(outputRoot: string, transaction?: Fil
 async function main(): Promise<void> {
   const options = parseCliOptions(process.argv.slice(2));
   const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
+  if (options.fixtureMode && options.fixtureRoot) await prepareFixtureCliRoot(outputRoot);
+  else if (options.fixtureMode) await assertFixtureRoot(outputRoot);
   await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {

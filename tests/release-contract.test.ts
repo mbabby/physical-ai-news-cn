@@ -23,6 +23,7 @@ import type { LedgerField } from "../src/ledger-contracts.js";
 import { generate } from "../src/main.js";
 import { validateRelease } from "../src/validate-release.js";
 import type { CompanyProfile, DigestResult, EventStore } from "../src/types.js";
+import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
@@ -31,7 +32,7 @@ const REPOSITORY_URL = "https://github.com/mbabby/physical-ai-news-cn";
 const PAGES_URL = "https://mbabby.github.io/physical-ai-news-cn";
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
-  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 const RELEASE_MUTATION_PATHS = [
@@ -234,12 +235,37 @@ test("filesystem release validation rebuilds canonical sources and rejects every
     assert.equal(artifact.topSignals.length, 2);
     assert.equal(artifact.companyCards.length, 3);
     assert.ok(artifact.researchPassports.some((passport) => passport.benchmark.evidenceUrls.length > 0));
+    const reviewDraftPath = "review/top-signals-drafts/2026-W37.json";
+    const reviewDraft: TopSignalsDraft = {
+      schemaVersion: 1,
+      experimentId: "github-top-signals-2026-08",
+      week: "2026-W37",
+      generatedAt: "2026-09-10T10:00:00.000Z",
+      periodStart: "2026-09-07",
+      periodEnd: "2026-09-13",
+      signals: artifact.topSignals.map((signal) => ({
+        ...signal,
+        nextValidationPoint: "继续核验客户采用、交付范围与规模复制情况。",
+        scoreBreakdown: { industryCapitalImpact: 25, evidenceQuality: 25, recency: 6, informationGain: 15, strategicRelevance: 8, total: 79 },
+      })),
+    };
+    await mkdir(dirname(join(fixture, reviewDraftPath)), { recursive: true });
+    await writeJson(join(fixture, reviewDraftPath), reviewDraft);
     await assert.doesNotReject(() => validateRelease(fixture));
 
     const retention = await json<{ previousArtifactSha256: string }>(join(fixture, "review/decision-products-retention.json"));
     const retentionHistoryPath = `review/decision-products-history/${retention.previousArtifactSha256}.json`;
-    const original = new Map(await Promise.all([...RELEASE_MUTATION_PATHS, retentionHistoryPath].map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
+    const original = new Map(await Promise.all([...RELEASE_MUTATION_PATHS, retentionHistoryPath, reviewDraftPath].map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
     const mutations: Array<{ name: string; mutate: (rootPath: string) => Promise<void> }> = [
+      {
+        name: "Review-only Top Signals canonical binding",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, reviewDraftPath);
+          const value = await json<TopSignalsDraft>(path);
+          value.signals[0]!.titleZh = "与当前 Decision Product 不一致的标题";
+          await writeJson(path, value);
+        },
+      },
       {
         name: "required Decision Product path",
         mutate: async (rootPath) => { await rm(join(rootPath, "site/data/decision-products.json")); },
@@ -545,22 +571,58 @@ test("independent watchdog checks freshness without write permissions", async ()
   assert.match(workflow, /package-manager-cache:\s*false/);
 });
 
-test("weekly release publishes a stable evidence-backed brief", async () => {
+test("weekly release publishes Top Signals through a release-first transaction", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
-  assert.match(workflow, /cron: "0 13 \* \* 0"/);
+  const releaseStep = workflow.split("- name: Create or refresh canonical GitHub Release")[1]?.split("- name: Publish repository surfaces after Release success")[0];
+  assert.ok(releaseStep);
+  const release = workflow.indexOf("gh release create");
+  const publish = workflow.indexOf("pnpm top-signals:publish");
+  const pull = workflow.indexOf("git pull --rebase origin main");
+  const postRebasePrepare = workflow.indexOf("post-rebase", pull);
+  const postRebaseValidate = workflow.indexOf("pnpm top-signals:validate", postRebasePrepare);
+  const push = workflow.indexOf("git push origin HEAD:main");
+
+  assert.ok(release >= 0 && publish > release && push > publish);
+  assert.ok(pull > publish && postRebasePrepare > pull && postRebaseValidate > postRebasePrepare && push > postRebaseValidate);
+  assert.match(workflow, /cron: "0 13 \* \* 4"/);
   assert.match(workflow, /contents:\s*write/);
-  assert.match(workflow, /description: "Optional ISO week to publish \(YYYY-Www\); must match watchlist\/current\.json"/);
-  assert.match(workflow, /jq -er '\.week' watchlist\/current\.json/);
-  assert.match(workflow, /jq -er '\.snapshotVersion' watchlist\/current\.json/);
-  assert.match(workflow, /watchlist\/history\/\$\{week\}-v\$\{snapshot_version\}\.json/);
-  assert.match(workflow, /cmp -s watchlist\/current\.json "\$snapshot"/);
-  assert.match(workflow, /\^\[0-9\]\{4\}-W\(0\[1-9\]\|\[1-4\]\[0-9\]\|5\[0-3\]\)\$/);
-  assert.match(workflow, /weekly\/\$\{week\}-report\.md/);
-  assert.match(workflow, /brief-\$\{WEEK\}-v\$\{SNAPSHOT_VERSION\}/);
-  assert.match(workflow, /Watchlist snapshot.*\$\{WEEK\}.*v\$\{SNAPSHOT_VERSION\}/);
+  assert.match(workflow, /default:\s*"2026-W36"/);
+  assert.match(workflow, /node-version:\s*24/);
+  assert.match(workflow, /pnpm install --frozen-lockfile/);
+  assert.match(workflow, /pnpm run check/);
+  assert.match(workflow, /pnpm exec tsx --test tests\/top-signals-growth-workflow\.test\.ts/);
+  assert.match(workflow, /pnpm top-signals:prepare -- --week "\$WEEK" --out "\$PREPARE_DIR"/);
+  assert.match(workflow, /src\/top-signals-growth\/cli\.ts resolve/);
+  assert.match(workflow, /if: steps\.week\.outputs\.run == 'true'/);
+  assert.match(workflow, /content_sha=/);
+  assert.match(workflow, /already_published=/);
+  assert.match(workflow, /tag="top-signals-\$\{WEEK\}"/);
   assert.match(workflow, /gh release view "\$tag"/);
-  assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes" --latest/);
+  assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes".*--latest/);
   assert.match(workflow, /gh release create "\$tag" --target main --title "\$title" --notes-file "\$notes" --latest/);
-  assert.doesNotMatch(workflow, /date \+%G-W%V/);
-  assert.doesNotMatch(workflow, /find weekly/);
+  assert.match(workflow, /gh release view "\$tag" --json url --jq '\.url'/);
+  assert.doesNotMatch(releaseStep, /already_published != 'true'/);
+  assert.match(releaseStep, /expected_body_b64=/);
+  assert.match(releaseStep, /\.body \| @base64/);
+  assert.match(releaseStep, /isDraft,isPrerelease/);
+  assert.match(releaseStep, /gh release view --json tagName --jq '\.tagName'/);
+  assert.match(releaseStep, /current_draft.*false/);
+  assert.match(releaseStep, /current_prerelease.*false/);
+  assert.match(releaseStep, /latest_tag.*tag/);
+  assert.match(releaseStep, /action="verified"/);
+  assert.match(releaseStep, /gh release edit "\$tag".*--draft=false.*--prerelease=false.*--latest/);
+  assert.match(releaseStep, /gh release create "\$tag"/);
+  assert.match(workflow, /pnpm top-signals:publish -- --week "\$WEEK" --release-url "\$RELEASE_URL"/);
+  assert.match(workflow, /pnpm top-signals:validate -- --week "\$WEEK"/);
+  assert.match(workflow, /Post-rebase Top Signals content changed/);
+  assert.match(workflow, /git add weekly\/top-signals review\/top-signals-publication-receipt\.json README\.md/);
+  assert.match(workflow, /Release outcome/);
+  assert.match(workflow, /README outcome/);
+});
+
+test("package scripts expose the three local Top Signals release commands", async () => {
+  const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8")) as { scripts: Record<string, string> };
+  assert.equal(packageJson.scripts["top-signals:prepare"], "tsx src/top-signals-growth/cli.ts prepare");
+  assert.equal(packageJson.scripts["top-signals:publish"], "tsx src/top-signals-growth/cli.ts publish");
+  assert.equal(packageJson.scripts["top-signals:validate"], "tsx src/top-signals-growth/cli.ts validate");
 });

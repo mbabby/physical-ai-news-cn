@@ -29,6 +29,8 @@ import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultL
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, shouldDegradeResearchPassportProjection, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, type DecisionFeedManifest } from "./decision-products/subscriptions.js";
+import { validatePublishedTopSignalsArtifact, validateTopSignalsPublication } from "./top-signals-growth/publish.js";
+import type { PublishedTopSignalsArtifact } from "./top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -185,6 +187,22 @@ async function validateWatchlistFeeds(root: string, view: WatchlistPublicView, m
   }
 }
 
+async function validateTopSignalsSurfaces(root: string, latest: PublishedTopSignalsArtifact | undefined): Promise<void> {
+  if (latest) {
+    await validateTopSignalsPublication(root, latest.week);
+    return;
+  }
+  let draftFiles: string[];
+  try {
+    draftFiles = await readdir(join(root, "review", "top-signals-drafts"));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return;
+    throw error;
+  }
+  const currentDraft = draftFiles.filter((name) => name.endsWith(".json")).sort().at(-1);
+  if (currentDraft) await validateTopSignalsPublication(root, currentDraft.slice(0, -".json".length));
+}
+
 function validateWatchlistConfigCatalog(view: WatchlistPublicView): void {
   const catalog = buildWatchlistConfigCatalog(view);
   const encoded = encodeWatchlistConfig(catalog);
@@ -235,6 +253,14 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     label: "Decision Product 保留凭据",
     validate: (value): value is DecisionProductRetentionReceipt => {
       try { validateDecisionProductRetentionReceipt(value); return true; }
+      catch { return false; }
+    },
+  });
+  const publishedTopSignals = await readJsonStrict<PublishedTopSignalsArtifact>(join(root, "weekly", "top-signals", "latest.json"), {
+    optional: true,
+    label: "最近一期已发布 Top Signals",
+    validate: (value): value is PublishedTopSignalsArtifact => {
+      try { validatePublishedTopSignalsArtifact(value); return true; }
       catch { return false; }
     },
   });
@@ -372,6 +398,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
   if (decisionProductBytes !== stableBytes(expectedDecisionProducts)) throw new Error("Decision Product JSON 字节与规范输入重建结果不一致");
   if (decisionRetentionBytes !== stableBytes(expectedRetention)) throw new Error("Decision Product 保留凭据与规范输入重建结果不一致");
   if (decisionFeedManifestBytes !== stableBytes(buildDecisionFeedManifest(expectedDecisionProducts))) throw new Error("Decision Feed manifest 字节与规范工件不一致");
+  await validateTopSignalsSurfaces(root, publishedTopSignals);
   const decisionFeeds = Object.fromEntries(await Promise.all(decisionFeedManifest.feeds.map(async (feed) => [
     feed.path,
     await readFile(join(root, "site", feed.path), "utf8"),
@@ -389,6 +416,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     repositoryUrl: "https://github.com/mbabby/physical-ai-news-cn",
     pagesUrl: "https://mbabby.github.io/physical-ai-news-cn",
     watchlist: currentView,
+    publishedTopSignals,
   });
   await validateWatchlistFeeds(root, currentView, watchlistFeedManifest);
   validateWatchlistConfigCatalog(currentView);
