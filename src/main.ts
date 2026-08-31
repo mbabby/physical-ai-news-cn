@@ -73,6 +73,8 @@ import { mergeWatchlistThesisArtifact, stageWatchlistRelease } from "./watchlist
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, shouldDegradeResearchPassportProjection, stageDecisionProducts } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, renderDecisionFeed } from "./decision-products/subscriptions.js";
+import { loadGrowthExperimentConfig } from "./top-signals-growth/contracts.js";
+import { buildTopSignalsDraft, stageTopSignalsDraft } from "./top-signals-growth/materialize.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -1201,6 +1203,11 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     artifact: decisionProducts,
     previousArtifact: previousDecisionProductArtifact,
   });
+  const growthConfig = await loadGrowthExperimentConfig(outputRoot);
+  const growthDraft = buildTopSignalsDraft({ artifact: decisionProducts, now, config: growthConfig });
+  if (growthDraft.status === "in-experiment") {
+    stageTopSignalsDraft({ root: outputRoot, transaction, draft: growthDraft.draft });
+  }
   const communityEvidence = await stageCommunityEvidenceArtifacts({
     root: outputRoot,
     transaction,

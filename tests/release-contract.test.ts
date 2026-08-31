@@ -31,7 +31,7 @@ const REPOSITORY_URL = "https://github.com/mbabby/physical-ai-news-cn";
 const PAGES_URL = "https://mbabby.github.io/physical-ai-news-cn";
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
 const FIXTURE_PATHS = [
-  "README.md", "daily", "weekly", "sources", "review", "resources", "events",
+  "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments",
   "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community",
 ];
 const RELEASE_MUTATION_PATHS = [
