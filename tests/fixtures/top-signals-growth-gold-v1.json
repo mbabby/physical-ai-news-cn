@@ -1,0 +1,14 @@
+[
+  {"caseId":"official-funding","eligible":true,"event":{"type":"投融资"},"company":{}},
+  {"caseId":"official-product","eligible":true,"event":{"type":"产品发布"},"company":{}},
+  {"caseId":"official-deployment","eligible":true,"event":{"type":"部署案例"},"company":{}},
+  {"caseId":"independent-bb-acquisition","eligible":true,"event":{"type":"公司商业","title":"Alpha Robotics 完成并购交割"},"company":{}},
+  {"caseId":"single-b-funding","eligible":false,"event":{"type":"投融资","evidenceMode":"single-b"},"company":{}},
+  {"caseId":"discovery-only-roundup","eligible":false,"event":{"type":"公司商业","evidenceMode":"discovery-only"},"company":{}},
+  {"caseId":"ambiguous-company","eligible":false,"event":{"primaryEntity":"Unknown Robotics"},"company":null},
+  {"caseId":"conflicted-amount","eligible":false,"event":{"openQuestions":["金额待核验"]},"company":{}},
+  {"caseId":"stale-no-new-evidence","eligible":false,"event":{"occurredAt":"2026-07-01T00:00:00.000Z","lastMaterialChangeAt":"2026-07-01T00:00:00.000Z"},"company":{}},
+  {"caseId":"stale-with-new-deployment-evidence","eligible":true,"event":{"type":"部署案例","occurredAt":"2026-07-01T00:00:00.000Z","lastMaterialChangeAt":"2026-09-02T00:00:00.000Z"},"company":{}},
+  {"caseId":"placeholder-chinese-copy","eligible":false,"event":{"facts":["中文简介暂未生成。","Alpha Robotics 发布进展。"]},"company":{}},
+  {"caseId":"opinion-commentary","eligible":false,"event":{"type":"公司商业","title":"我们如何看待机器人行业未来"},"company":{}}
+]
