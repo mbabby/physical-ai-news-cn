@@ -68,7 +68,21 @@ const DECISION_SIGNAL_KEYS = [
 ] as const;
 const GROWTH_SIGNAL_KEYS = [...DECISION_SIGNAL_KEYS, "nextValidationPoint", "scoreBreakdown"] as const;
 const SCORE_KEYS = ["industryCapitalImpact", "evidenceQuality", "recency", "informationGain", "strategicRelevance", "total"] as const;
-const CHANNELS = new Set(["github-release", "readme", "github-value-contribution"]);
+const FIXED_EXPERIMENT = {
+  experimentId: "github-top-signals-2026-08",
+  startDate: "2026-08-31",
+  endDate: "2026-09-13",
+  manualWeek: "2026-W36",
+  automaticWeek: "2026-W37",
+  baselineStars: 1,
+  targetStars: 11,
+  targetExternalAuthors: 3,
+  minSignals: 3,
+  maxSignals: 5,
+  maxSignalsPerEntity: 2,
+  maxSignalsPerKind: 3,
+  channels: ["github-release", "readme", "github-value-contribution"],
+} as const;
 
 function object(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -101,25 +115,6 @@ function canonicalTimestamp(value: unknown): value is string {
   return Number.isFinite(parsed) && new Date(parsed).toISOString() === value;
 }
 
-function isoWeeksInYear(year: number): number {
-  const januaryFirst = new Date(Date.UTC(year, 0, 1)).getUTCDay() || 7;
-  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
-  return januaryFirst === 4 || (januaryFirst === 3 && leapYear) ? 53 : 52;
-}
-
-function isoWeek(value: unknown): value is string {
-  if (typeof value !== "string") return false;
-  const match = /^(\d{4})-W(\d{2})$/.exec(value);
-  if (!match) return false;
-  const year = Number(match[1]);
-  const week = Number(match[2]);
-  return week >= 1 && week <= isoWeeksInYear(year);
-}
-
-function positiveInteger(value: unknown): value is number {
-  return Number.isInteger(value) && (value as number) > 0;
-}
-
 function finiteNonNegative(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value) && value >= 0;
 }
@@ -138,16 +133,12 @@ function validateGrowthTopSignal(value: unknown, path: string): asserts value is
 export function validateGrowthExperimentConfig(value: unknown): asserts value is GrowthExperimentConfig {
   exactKeys(value, CONFIG_KEYS, "config");
   ensure(value.schemaVersion === 1, "config.schemaVersion must be 1");
-  ensure(nonEmpty(value.experimentId), "config.experimentId must be non-empty");
-  ensure(canonicalDate(value.startDate) && canonicalDate(value.endDate) && value.startDate <= value.endDate, "config dates are invalid");
-  ensure(isoWeek(value.manualWeek) && isoWeek(value.automaticWeek), "config weeks are invalid");
-  for (const key of ["baselineStars", "targetStars", "targetExternalAuthors", "minSignals", "maxSignals", "maxSignalsPerEntity", "maxSignalsPerKind"] as const) {
-    ensure(positiveInteger(value[key]), `config.${key} must be a positive integer`);
+  for (const key of ["experimentId", "startDate", "endDate", "manualWeek", "automaticWeek", "baselineStars", "targetStars", "targetExternalAuthors", "minSignals", "maxSignals", "maxSignalsPerEntity", "maxSignalsPerKind"] as const) {
+    ensure(value[key] === FIXED_EXPERIMENT[key], `config.${key} must match the fixed experiment`);
   }
-  const numeric = value as Pick<GrowthExperimentConfig, "baselineStars" | "targetStars" | "minSignals" | "maxSignals" | "maxSignalsPerEntity" | "maxSignalsPerKind">;
-  ensure(numeric.baselineStars <= numeric.targetStars, "config star targets are invalid");
-  ensure(numeric.minSignals <= numeric.maxSignals && numeric.maxSignalsPerEntity <= numeric.maxSignals && numeric.maxSignalsPerKind <= numeric.maxSignals, "config signal limits are invalid");
-  ensure(Array.isArray(value.channels) && value.channels.length > 0 && value.channels.every((channel) => CHANNELS.has(channel)) && new Set(value.channels).size === value.channels.length, "config.channels are invalid");
+  ensure(Array.isArray(value.channels)
+    && value.channels.length === FIXED_EXPERIMENT.channels.length
+    && value.channels.every((channel, index) => channel === FIXED_EXPERIMENT.channels[index]), "config.channels must match the fixed experiment");
 }
 
 export async function loadGrowthExperimentConfig(root: string): Promise<GrowthExperimentConfig> {
@@ -165,10 +156,13 @@ export async function loadGrowthExperimentConfig(root: string): Promise<GrowthEx
 export function validateTopSignalsDraft(value: unknown): asserts value is TopSignalsDraft {
   exactKeys(value, DRAFT_KEYS, "draft");
   ensure(value.schemaVersion === 1, "draft.schemaVersion must be 1");
-  ensure(nonEmpty(value.experimentId), "draft.experimentId must be non-empty");
-  ensure(isoWeek(value.week), "draft.week is invalid");
+  ensure(value.experimentId === FIXED_EXPERIMENT.experimentId, "draft.experimentId must match the fixed experiment");
+  ensure(value.week === FIXED_EXPERIMENT.manualWeek || value.week === FIXED_EXPERIMENT.automaticWeek, "draft.week must match a fixed experiment week");
   ensure(canonicalTimestamp(value.generatedAt), "draft.generatedAt is invalid");
-  ensure(canonicalDate(value.periodStart) && canonicalDate(value.periodEnd) && value.periodStart <= value.periodEnd, "draft period is invalid");
+  ensure(canonicalDate(value.periodStart) && canonicalDate(value.periodEnd)
+    && value.periodStart <= value.periodEnd
+    && value.periodStart >= FIXED_EXPERIMENT.startDate
+    && value.periodEnd <= FIXED_EXPERIMENT.endDate, "draft period must stay within the fixed experiment");
   ensure(Array.isArray(value.signals), "draft.signals must be an array");
   value.signals.forEach((signal, index) => validateGrowthTopSignal(signal, `draft.signals[${index}]`));
   const signalIds = value.signals.map((signal) => signal.signalId);
@@ -197,8 +191,8 @@ export function topSignalsContentSha256(draft: TopSignalsDraft): string {
 export function validateTopSignalsApproval(value: unknown): asserts value is TopSignalsApproval {
   exactKeys(value, APPROVAL_KEYS, "approval");
   ensure(value.schemaVersion === 1, "approval.schemaVersion must be 1");
-  ensure(nonEmpty(value.experimentId), "approval.experimentId must be non-empty");
-  ensure(isoWeek(value.week), "approval.week is invalid");
+  ensure(value.experimentId === FIXED_EXPERIMENT.experimentId, "approval.experimentId must match the fixed experiment");
+  ensure(value.week === FIXED_EXPERIMENT.manualWeek || value.week === FIXED_EXPERIMENT.automaticWeek, "approval.week must match a fixed experiment week");
   ensure(typeof value.contentSha256 === "string" && /^[a-f0-9]{64}$/.test(value.contentSha256), "approval.contentSha256 is invalid");
   ensure(nonEmpty(value.approvedBy), "approval.approvedBy must be non-empty");
   ensure(canonicalTimestamp(value.approvedAt), "approval.approvedAt is invalid");

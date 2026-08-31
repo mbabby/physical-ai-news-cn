@@ -145,6 +145,26 @@ test("loads the fixed Top Signals growth experiment configuration", async () => 
     channels: ["github-release", "readme", "github-value-contribution"],
   });
   assert.throws(() => validateGrowthExperimentConfig({ ...config, unexpected: true }), /keys|字段/i);
+
+  const fixedFields = {
+    experimentId: "another-experiment",
+    startDate: "2026-09-01",
+    endDate: "2026-09-14",
+    manualWeek: "2026-W35",
+    automaticWeek: "2026-W38",
+    baselineStars: 2,
+    targetStars: 12,
+    targetExternalAuthors: 4,
+    minSignals: 2,
+    maxSignals: 6,
+    maxSignalsPerEntity: 1,
+    maxSignalsPerKind: 2,
+  };
+  for (const [field, value] of Object.entries(fixedFields)) {
+    assert.throws(() => validateGrowthExperimentConfig({ ...config, [field]: value }), /fixed|experiment/i, field);
+  }
+  assert.throws(() => validateGrowthExperimentConfig({ ...config, channels: ["github-release", "readme"] }), /fixed|experiment/i);
+  assert.throws(() => validateGrowthExperimentConfig({ ...config, channels: [...config.channels].reverse() }), /fixed|experiment/i);
 });
 
 test("approval binds canonical content but ignores retry timestamp", () => {
@@ -163,18 +183,72 @@ test("approval binds canonical content but ignores retry timestamp", () => {
 
 test("strict contracts reject extra keys and invalid week", () => {
   assert.throws(() => validateTopSignalsDraft({ ...draftFixture(), forged: true }), /keys|字段/i);
-  assert.throws(() => validateTopSignalsDraft(draftFixture({ week: "2026-W99" })), /week|周/i);
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ week: "2026-W35" })), /week|experiment/i);
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ week: "2026-W38" })), /week|experiment/i);
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ periodStart: "2026-08-30" })), /period|experiment/i);
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ periodEnd: "2026-09-14" })), /period|experiment/i);
+  assert.throws(() => validateTopSignalsDraft(draftFixture({ experimentId: "another-experiment" })), /experiment/i);
+
+  const approval = {
+    schemaVersion: 1,
+    experimentId: "github-top-signals-2026-08",
+    week: "2026-W36",
+    contentSha256: topSignalsContentSha256(draftFixture()),
+    approvedBy: "mbabby",
+    approvedAt: "2026-09-03T10:10:00.000Z",
+  };
+  assert.throws(() => validateTopSignalsApproval({ ...approval, week: "2026-W35" }), /week|experiment/i);
+  assert.throws(() => validateTopSignalsApproval({ ...approval, week: "2026-W38" }), /week|experiment/i);
+  assert.throws(() => validateTopSignalsApproval({ ...approval, experimentId: "another-experiment" }), /experiment/i);
 });
 
-test("gold set materializes complete events without fixture-only evidence modes", async () => {
+test("gold set fixes its case IDs and eligibility labels", async () => {
   const cases = JSON.parse(await readFile(new URL("./fixtures/top-signals-growth-gold-v1.json", import.meta.url), "utf8")) as GrowthGoldCase[];
-  assert.equal(cases.length, 12);
-  assert.equal(new Set(cases.map((item) => item.caseId)).size, cases.length);
+  assert.deepEqual(cases.map(({ caseId, eligible }) => [caseId, eligible]), [
+    ["official-funding", true],
+    ["official-product", true],
+    ["official-deployment", true],
+    ["independent-bb-acquisition", true],
+    ["single-b-funding", false],
+    ["discovery-only-roundup", false],
+    ["ambiguous-company", false],
+    ["conflicted-amount", false],
+    ["stale-no-new-evidence", false],
+    ["stale-with-new-deployment-evidence", true],
+    ["placeholder-chinese-copy", false],
+    ["opinion-commentary", false],
+  ]);
+
+  const byId = new Map(cases.map((item) => [item.caseId, item]));
+  assert.equal(byId.get("single-b-funding")?.event.evidenceMode, "single-b");
+  assert.equal(byId.get("discovery-only-roundup")?.event.evidenceMode, "discovery-only");
+  assert.equal(byId.get("ambiguous-company")?.company, null);
+  assert.deepEqual(byId.get("conflicted-amount")?.event.openQuestions, ["金额待核验"]);
+  assert.deepEqual(byId.get("placeholder-chinese-copy")?.event.facts, ["中文简介暂未生成。", "Alpha Robotics 发布进展。"]);
+});
+
+test("gold set materializes Task 1 source-qualification inclusions and exclusions", async () => {
+  const cases = JSON.parse(await readFile(new URL("./fixtures/top-signals-growth-gold-v1.json", import.meta.url), "utf8")) as GrowthGoldCase[];
+  const sourceQualification = new Map<string, boolean>([
+    ["official-funding", true],
+    ["official-product", true],
+    ["official-deployment", true],
+    ["independent-bb-acquisition", true],
+    ["single-b-funding", false],
+    ["discovery-only-roundup", false],
+    ["ambiguous-company", false],
+    ["conflicted-amount", false],
+    ["placeholder-chinese-copy", false],
+  ]);
 
   for (const item of cases) {
     const { event, companies } = materializeGoldCase(item);
     assert.equal(Object.hasOwn(event, "evidenceMode"), false, item.caseId);
     assert.equal(companies.length === 1, item.company !== null, item.caseId);
-    assert.ok(Array.isArray(buildDecisionTopSignals([event], companies, new Date("2026-09-03T12:00:00.000Z"))), item.caseId);
+    const expected = sourceQualification.get(item.caseId);
+    if (expected !== undefined) {
+      const selected = buildDecisionTopSignals([event], companies, new Date("2026-09-03T12:00:00.000Z"));
+      assert.equal(selected.some((signal) => signal.eventId === item.caseId), expected, item.caseId);
+    }
   }
 });
