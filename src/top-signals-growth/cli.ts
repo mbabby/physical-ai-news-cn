@@ -4,7 +4,8 @@ import { join, resolve } from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { prepareTopSignalsRelease, publishTopSignalsRelease, validateTopSignalsPublication } from "./publish.js";
+import { loadGrowthExperimentConfig } from "./contracts.js";
+import { prepareTopSignalsRelease, publishTopSignalsRelease, resolveTopSignalsReleaseRun, validateTopSignalsPublication } from "./publish.js";
 
 const defaultRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -18,6 +19,17 @@ function option(args: string[], name: string, required = true): string | undefin
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2);
   const root = resolve(option(args, "--root", false) ?? defaultRoot);
+  if (command === "resolve") {
+    const config = await loadGrowthExperimentConfig(root);
+    const result = resolveTopSignalsReleaseRun({
+      eventName: option(args, "--event-name")!,
+      requestedWeek: option(args, "--requested-week", false),
+      today: option(args, "--today")!,
+      config,
+    });
+    console.log(JSON.stringify(result));
+    return;
+  }
   const week = option(args, "--week")!;
   if (command === "prepare") {
     const out = resolve(option(args, "--out")!);
@@ -40,7 +52,7 @@ async function main(): Promise<void> {
     await validateTopSignalsPublication(root, week);
     return;
   }
-  throw new Error("Usage: cli.ts <prepare|publish|validate> --week YYYY-Www [options]");
+  throw new Error("Usage: cli.ts <resolve|prepare|publish|validate> [options]");
 }
 
 main().catch((error) => {

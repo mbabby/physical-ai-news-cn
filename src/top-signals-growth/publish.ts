@@ -8,6 +8,8 @@ import {
   topSignalsContentSha256,
   validateTopSignalsApproval,
   validateTopSignalsDraft,
+  validateGrowthExperimentConfig,
+  type GrowthExperimentConfig,
   type TopSignalsApproval,
   type TopSignalsDraft,
 } from "./contracts.js";
@@ -40,6 +42,8 @@ export interface PreparedTopSignalsRelease {
   gate: TopSignalsGateReceipt;
 }
 
+export type TopSignalsReleaseRun = { run: true; week: string } | { run: false; week: null };
+
 export class TopSignalsGateBlockedError extends Error {
   constructor(readonly gate: TopSignalsGateReceipt) {
     super(`Top Signals publication blocked:\n- ${gate.reasons.join("\n- ")}`);
@@ -67,6 +71,28 @@ function requireCanonicalReleaseUrl(releaseUrl: string, week: string): void {
   if (releaseUrl !== expectedReleaseUrl(week)) {
     throw new Error(`Top Signals canonical Release URL must be ${expectedReleaseUrl(week)}`);
   }
+}
+
+export function resolveTopSignalsReleaseRun(input: {
+  eventName: string;
+  requestedWeek?: string;
+  today: string;
+  config: GrowthExperimentConfig;
+}): TopSignalsReleaseRun {
+  validateGrowthExperimentConfig(input.config);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.today) || new Date(`${input.today}T00:00:00.000Z`).toISOString().slice(0, 10) !== input.today) {
+    throw new Error("Top Signals release trigger requires a canonical UTC date");
+  }
+  if (input.eventName === "workflow_dispatch") {
+    if (input.requestedWeek !== input.config.manualWeek) throw new Error(`Manual Top Signals dispatch is restricted to ${input.config.manualWeek}`);
+    return { run: true, week: input.config.manualWeek };
+  }
+  if (input.eventName !== "schedule") throw new Error(`Unsupported Top Signals release event: ${input.eventName}`);
+  const automaticDate = new Date(`${input.config.endDate}T00:00:00.000Z`);
+  automaticDate.setUTCDate(automaticDate.getUTCDate() - 3);
+  return input.today === automaticDate.toISOString().slice(0, 10)
+    ? { run: true, week: input.config.automaticWeek }
+    : { run: false, week: null };
 }
 
 function draftFromPublished(value: PublishedTopSignalsArtifact): TopSignalsDraft {
@@ -152,6 +178,29 @@ export async function publishTopSignalsRelease(input: {
 }): Promise<PublishedTopSignalsArtifact> {
   validateTopSignalsDraft(input.draft);
   requireCanonicalReleaseUrl(input.releaseUrl, input.draft.week);
+  const [existingArchive, existingLatest] = await Promise.all([
+    readJsonStrict<PublishedTopSignalsArtifact>(join(input.root, "weekly", "top-signals", `${input.draft.week}.json`), {
+      optional: true,
+      label: `existing Top Signals archive ${input.draft.week}`,
+      validate: strictPublished,
+    }),
+    readJsonStrict<PublishedTopSignalsArtifact>(join(input.root, "weekly", "top-signals", "latest.json"), {
+      optional: true,
+      label: "existing Top Signals Latest",
+      validate: strictPublished,
+    }),
+  ]);
+  const requestedHash = topSignalsContentSha256(input.draft);
+  if (existingArchive) {
+    if (!existingLatest || existingLatest.week !== input.draft.week || existingArchive.contentSha256 !== requestedHash
+      || existingArchive.releaseUrl !== input.releaseUrl) {
+      throw new Error(`Top Signals week ${input.draft.week} is already published and cannot be replaced`);
+    }
+    await validateTopSignalsPublication(input.root, input.draft.week);
+    return existingArchive;
+  }
+  if (existingLatest?.week === input.draft.week) throw new Error(`Top Signals week ${input.draft.week} has an incomplete existing publication`);
+  if (existingLatest && existingLatest.week > input.draft.week) throw new Error(`Top Signals week ${input.draft.week} is older than the current published week`);
   const published = renderTopSignalsArchive(input.draft, input.releaseUrl, input.publishedAt);
   validatePublishedTopSignalsArtifact(published);
   const receipt: TopSignalsPublicationReceipt = {

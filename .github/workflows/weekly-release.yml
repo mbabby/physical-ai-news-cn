@@ -43,14 +43,17 @@ jobs:
           REQUESTED_WEEK: ${{ inputs.week }}
         run: |
           set -euo pipefail
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            week="2026-W37"
-          else
-            week="$REQUESTED_WEEK"
-          fi
+          resolution="$(pnpm --silent exec tsx src/top-signals-growth/cli.ts resolve \
+            --event-name "${{ github.event_name }}" \
+            --requested-week "$REQUESTED_WEEK" \
+            --today "$(date -u +%F)")"
+          run="$(jq -r '.run | tostring' <<<"$resolution")"
+          week="$(jq -r '.week // ""' <<<"$resolution")"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
           echo "week=$week" >> "$GITHUB_OUTPUT"
       - name: Prepare and gate canonical Release notes
         id: prepare
+        if: steps.week.outputs.run == 'true'
         shell: bash
         env:
           WEEK: ${{ steps.week.outputs.week }}
@@ -58,9 +61,29 @@ jobs:
         run: |
           set -euo pipefail
           pnpm top-signals:prepare -- --week "$WEEK" --out "$PREPARE_DIR"
+          content_sha="$(jq -er '.contentSha256' "$PREPARE_DIR/gate.json")"
+          already_published="false"
+          archive="weekly/top-signals/${WEEK}.json"
+          if [[ -f "$archive" ]]; then
+            pnpm top-signals:validate -- --week "$WEEK"
+            existing_sha="$(jq -er '.contentSha256' "$archive")"
+            if [[ "$existing_sha" != "$content_sha" ]]; then
+              echo "Top Signals ${WEEK} is already published with different canonical content." >&2
+              exit 1
+            fi
+            already_published="true"
+          elif [[ -f "weekly/top-signals/${WEEK}.md" ]] \
+            || [[ "$(jq -r '.week // ""' weekly/top-signals/latest.json 2>/dev/null || true)" == "$WEEK" ]] \
+            || [[ "$(jq -r '.week // ""' review/top-signals-publication-receipt.json 2>/dev/null || true)" == "$WEEK" ]]; then
+            echo "Top Signals ${WEEK} has an incomplete existing publication." >&2
+            exit 1
+          fi
           echo "notes=$PREPARE_DIR/notes.md" >> "$GITHUB_OUTPUT"
+          echo "content_sha=$content_sha" >> "$GITHUB_OUTPUT"
+          echo "already_published=$already_published" >> "$GITHUB_OUTPUT"
       - name: Create or refresh canonical GitHub Release
         id: release
+        if: steps.week.outputs.run == 'true' && steps.prepare.outputs.already_published != 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -85,10 +108,13 @@ jobs:
           echo "- ${action}: ${release_url}" >> "$GITHUB_STEP_SUMMARY"
       - name: Publish repository surfaces after Release success
         id: publish
+        if: steps.week.outputs.run == 'true' && steps.prepare.outputs.already_published != 'true'
         shell: bash
         env:
           WEEK: ${{ steps.week.outputs.week }}
           RELEASE_URL: ${{ steps.release.outputs.url }}
+          EXPECTED_SHA: ${{ steps.prepare.outputs.content_sha }}
+          PREPARE_DIR: ${{ runner.temp }}/top-signals-prepare
         run: |
           set -euo pipefail
           pnpm top-signals:publish -- --week "$WEEK" --release-url "$RELEASE_URL"
@@ -105,6 +131,15 @@ jobs:
           git config user.email "actions@github.com"
           git commit -m "chore: publish Top Signals ${WEEK}"
           git pull --rebase origin main
+          post_rebase_dir="$PREPARE_DIR/post-rebase"
+          pnpm top-signals:prepare -- --week "$WEEK" --out "$post_rebase_dir"
+          post_rebase_sha="$(jq -er '.contentSha256' "$post_rebase_dir/gate.json")"
+          if [[ "$post_rebase_sha" != "$EXPECTED_SHA" ]]; then
+            echo "Post-rebase Top Signals content changed; aborting stale publication push." >&2
+            exit 1
+          fi
+          pnpm top-signals:validate -- --week "$WEEK"
+          pnpm run validate:release
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
           echo "### README outcome" >> "$GITHUB_STEP_SUMMARY"
@@ -116,3 +151,6 @@ jobs:
           echo "## Release-first outcomes" >> "$GITHUB_STEP_SUMMARY"
           echo "- Release outcome: ${{ steps.release.outcome }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- README outcome: ${{ steps.publish.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${{ steps.prepare.outputs.already_published }}" == "true" ]]; then
+            echo "- Idempotent no-op: repository publication already matches the canonical content hash." >> "$GITHUB_STEP_SUMMARY"
+          fi

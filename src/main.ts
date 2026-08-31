@@ -501,6 +501,7 @@ export type DailyGenerationFailureCode =
   | "corrupt-watchlist-current"
   | "corrupt-watchlist-history"
   | "corrupt-dual-ledger"
+  | "corrupt-top-signals-publication"
   | "invalid-company-id"
   | "evidence-withdrawal"
   | "transaction-swap-failure"
@@ -788,7 +789,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   let previousDecisionProductArtifact: DecisionProductArtifact | undefined;
   let publishedTopSignals: PublishedTopSignalsArtifact | undefined;
   try {
-    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact, publishedTopSignals] = await Promise.all([
+    [previousCompanyClaimLedger, previousBenchmarkResultLedger, previousDecisionProductArtifact] = await Promise.all([
       readJsonStrict<CompanyClaimLedger>(join(eventsDir, "company-claim-ledger.json"), {
         optional: true, label: "公司 Claim Ledger", validate: isCompanyClaimLedgerArtifact,
       }),
@@ -803,17 +804,21 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
           catch { return false; }
         },
       }),
-      readJsonStrict<PublishedTopSignalsArtifact>(join(outputRoot, "weekly", "top-signals", "latest.json"), {
-        optional: true,
-        label: "上一期已发布 Top Signals",
-        validate: (value): value is PublishedTopSignalsArtifact => {
-          try { validatePublishedTopSignalsArtifact(value); return true; }
-          catch { return false; }
-        },
-      }),
     ]);
   } catch (error) {
     throw new DailyGenerationError("corrupt-dual-ledger", "双账本或 Decision Product 历史状态损坏；已停止发布并保留上一版。", { cause: error });
+  }
+  try {
+    publishedTopSignals = await readJsonStrict<PublishedTopSignalsArtifact>(join(outputRoot, "weekly", "top-signals", "latest.json"), {
+      optional: true,
+      label: "上一期已发布 Top Signals",
+      validate: (value): value is PublishedTopSignalsArtifact => {
+        try { validatePublishedTopSignalsArtifact(value); return true; }
+        catch { return false; }
+      },
+    });
+  } catch (error) {
+    throw new DailyGenerationError("corrupt-top-signals-publication", "已发布 Top Signals 状态损坏；已停止日报并保留上一版公开内容。", { cause: error });
   }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
   const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];

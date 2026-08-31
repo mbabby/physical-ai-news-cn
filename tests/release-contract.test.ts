@@ -549,9 +549,13 @@ test("weekly release publishes Top Signals through a release-first transaction",
   const workflow = await readFile(join(root, ".github", "workflows", "weekly-release.yml"), "utf8");
   const release = workflow.indexOf("gh release create");
   const publish = workflow.indexOf("pnpm top-signals:publish");
+  const pull = workflow.indexOf("git pull --rebase origin main");
+  const postRebasePrepare = workflow.indexOf("post-rebase", pull);
+  const postRebaseValidate = workflow.indexOf("pnpm top-signals:validate", postRebasePrepare);
   const push = workflow.indexOf("git push origin HEAD:main");
 
   assert.ok(release >= 0 && publish > release && push > publish);
+  assert.ok(pull > publish && postRebasePrepare > pull && postRebaseValidate > postRebasePrepare && push > postRebaseValidate);
   assert.match(workflow, /cron: "0 13 \* \* 4"/);
   assert.match(workflow, /contents:\s*write/);
   assert.match(workflow, /default:\s*"2026-W36"/);
@@ -560,6 +564,10 @@ test("weekly release publishes Top Signals through a release-first transaction",
   assert.match(workflow, /pnpm run check/);
   assert.match(workflow, /pnpm exec tsx --test tests\/top-signals-growth-workflow\.test\.ts/);
   assert.match(workflow, /pnpm top-signals:prepare -- --week "\$WEEK" --out "\$PREPARE_DIR"/);
+  assert.match(workflow, /src\/top-signals-growth\/cli\.ts resolve/);
+  assert.match(workflow, /if: steps\.week\.outputs\.run == 'true'/);
+  assert.match(workflow, /content_sha=/);
+  assert.match(workflow, /already_published=/);
   assert.match(workflow, /tag="top-signals-\$\{WEEK\}"/);
   assert.match(workflow, /gh release view "\$tag"/);
   assert.match(workflow, /gh release edit "\$tag" --title "\$title" --notes-file "\$notes" --latest/);
@@ -567,6 +575,7 @@ test("weekly release publishes Top Signals through a release-first transaction",
   assert.match(workflow, /gh release view "\$tag" --json url --jq '\.url'/);
   assert.match(workflow, /pnpm top-signals:publish -- --week "\$WEEK" --release-url "\$RELEASE_URL"/);
   assert.match(workflow, /pnpm top-signals:validate -- --week "\$WEEK"/);
+  assert.match(workflow, /Post-rebase Top Signals content changed/);
   assert.match(workflow, /git add weekly\/top-signals review\/top-signals-publication-receipt\.json README\.md/);
   assert.match(workflow, /Release outcome/);
   assert.match(workflow, /README outcome/);

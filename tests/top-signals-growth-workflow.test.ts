@@ -10,7 +10,11 @@ import { fileURLToPath } from "node:url";
 import { stableDecisionId } from "../src/decision-products/contracts.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import { topSignalsContentSha256, type TopSignalsApproval, type TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
-import { prepareTopSignalsRelease, publishTopSignalsRelease } from "../src/top-signals-growth/publish.js";
+import {
+  prepareTopSignalsRelease,
+  publishTopSignalsRelease,
+  resolveTopSignalsReleaseRun,
+} from "../src/top-signals-growth/publish.js";
 import { renderTopSignalsRelease } from "../src/top-signals-growth/render.js";
 
 const CONFIG = {
@@ -97,6 +101,17 @@ test("prepare writes exact Release notes and a publishable gate to the caller di
     await rm(root, { recursive: true, force: true });
     await rm(out, { recursive: true, force: true });
   }
+});
+
+test("release trigger resolution limits manual W36 and scheduled W37 to the fixed experiment", () => {
+  assert.deepEqual(resolveTopSignalsReleaseRun({ eventName: "workflow_dispatch", requestedWeek: "2026-W36", today: "2026-09-03", config: CONFIG }), {
+    run: true,
+    week: "2026-W36",
+  });
+  assert.deepEqual(resolveTopSignalsReleaseRun({ eventName: "schedule", today: "2026-09-03", config: CONFIG }), { run: false, week: null });
+  assert.deepEqual(resolveTopSignalsReleaseRun({ eventName: "schedule", today: "2026-09-10", config: CONFIG }), { run: true, week: "2026-W37" });
+  assert.deepEqual(resolveTopSignalsReleaseRun({ eventName: "schedule", today: "2026-09-17", config: CONFIG }), { run: false, week: null });
+  assert.throws(() => resolveTopSignalsReleaseRun({ eventName: "workflow_dispatch", requestedWeek: "2026-W37", today: "2026-09-10", config: CONFIG }), /manual|dispatch|W36/i);
 });
 
 test("prepare writes stable blocked reasons before exiting non-zero", async () => {
@@ -197,6 +212,50 @@ test("publish rejects a noncanonical Release URL without changing public files",
     }), /canonical|规范|Release URL/i);
     assert.equal(await readFile(join(root, "README.md"), "utf8"), before);
     await assert.rejects(() => access(join(root, "weekly", "top-signals", "latest.json")));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("an identical publish retry reuses the original timestamp and bytes", async () => {
+  const draft = draftFixture();
+  const root = await fixtureRoot(draft);
+  const releaseUrl = `https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-${draft.week}`;
+  const paths = [
+    `weekly/top-signals/${draft.week}.json`,
+    `weekly/top-signals/${draft.week}.md`,
+    "weekly/top-signals/latest.json",
+    "review/top-signals-publication-receipt.json",
+    "README.md",
+  ];
+  try {
+    const first = await publishTopSignalsRelease({ root, draft, releaseUrl, publishedAt: "2026-09-10T13:05:00.000Z" });
+    const before = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
+    const retry = await publishTopSignalsRelease({ root, draft, releaseUrl, publishedAt: "2026-09-10T13:10:00.000Z" });
+    assert.deepEqual(retry, first);
+    assert.equal(retry.publishedAt, "2026-09-10T13:05:00.000Z");
+    assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("a published week cannot be replaced with different canonical content", async () => {
+  const draft = draftFixture();
+  const root = await fixtureRoot(draft);
+  const releaseUrl = `https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-${draft.week}`;
+  try {
+    await publishTopSignalsRelease({ root, draft, releaseUrl, publishedAt: "2026-09-10T13:05:00.000Z" });
+    const before = await readFile(join(root, "weekly", "top-signals", `${draft.week}.json`), "utf8");
+    const changed = structuredClone(draft);
+    changed.signals[0]!.titleZh = "修改后的已发布标题";
+    await assert.rejects(() => publishTopSignalsRelease({
+      root,
+      draft: changed,
+      releaseUrl,
+      publishedAt: "2026-09-10T13:10:00.000Z",
+    }), /already published|已发布|replace|替换/i);
+    assert.equal(await readFile(join(root, "weekly", "top-signals", `${draft.week}.json`), "utf8"), before);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

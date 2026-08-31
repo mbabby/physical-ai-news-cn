@@ -148,6 +148,20 @@ test("a later daily generation preserves the latest published Top Signals README
   }
 });
 
+test("daily generation reports corrupt published Top Signals separately", async () => {
+  const root = await fixedRepository();
+  try {
+    await mkdir(join(root, "weekly", "top-signals"), { recursive: true });
+    await writeFile(join(root, "weekly", "top-signals", "latest.json"), "{not-json\n", "utf8");
+    await assert.rejects(
+      () => generateFixed(root),
+      (error: unknown) => (error as { code?: string }).code === "corrupt-top-signals-publication",
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("a decision feed swap failure rolls back all decision surfaces", async () => {
   const root = await fixedRepository();
   try {
