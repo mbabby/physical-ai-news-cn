@@ -29,7 +29,7 @@ import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultL
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, shouldDegradeResearchPassportProjection, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
 import { validateDecisionProductArtifact, type DecisionProductArtifact } from "./decision-products/contracts.js";
 import { buildDecisionFeedManifest, type DecisionFeedManifest } from "./decision-products/subscriptions.js";
-import { validatePublishedTopSignalsArtifact } from "./top-signals-growth/publish.js";
+import { validatePublishedTopSignalsArtifact, validateTopSignalsPublication } from "./top-signals-growth/publish.js";
 import type { PublishedTopSignalsArtifact } from "./top-signals-growth/render.js";
 import {
   assertAcceptedEvidenceArtifact,
@@ -185,6 +185,22 @@ async function validateWatchlistFeeds(root: string, view: WatchlistPublicView, m
     const actual = await readFile(join(root, "site", path), "utf8");
     if (actual !== buildRouteFeed(view, route, baseUrl)) throw new Error(`Watchlist 路线 Feed 与 current 快照不一致：${path}`);
   }
+}
+
+async function validateTopSignalsSurfaces(root: string, latest: PublishedTopSignalsArtifact | undefined): Promise<void> {
+  if (latest) {
+    await validateTopSignalsPublication(root, latest.week);
+    return;
+  }
+  let draftFiles: string[];
+  try {
+    draftFiles = await readdir(join(root, "review", "top-signals-drafts"));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return;
+    throw error;
+  }
+  const currentDraft = draftFiles.filter((name) => name.endsWith(".json")).sort().at(-1);
+  if (currentDraft) await validateTopSignalsPublication(root, currentDraft.slice(0, -".json".length));
 }
 
 function validateWatchlistConfigCatalog(view: WatchlistPublicView): void {
@@ -382,6 +398,7 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
   if (decisionProductBytes !== stableBytes(expectedDecisionProducts)) throw new Error("Decision Product JSON 字节与规范输入重建结果不一致");
   if (decisionRetentionBytes !== stableBytes(expectedRetention)) throw new Error("Decision Product 保留凭据与规范输入重建结果不一致");
   if (decisionFeedManifestBytes !== stableBytes(buildDecisionFeedManifest(expectedDecisionProducts))) throw new Error("Decision Feed manifest 字节与规范工件不一致");
+  await validateTopSignalsSurfaces(root, publishedTopSignals);
   const decisionFeeds = Object.fromEntries(await Promise.all(decisionFeedManifest.feeds.map(async (feed) => [
     feed.path,
     await readFile(join(root, "site", feed.path), "utf8"),

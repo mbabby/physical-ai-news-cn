@@ -3,6 +3,7 @@ import test from "node:test";
 import { stableDecisionId } from "../src/decision-products/contracts.js";
 import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 import {
+  publicGrowthTopSignal,
   renderTopSignalsArchive,
   renderTopSignalsReadme,
   renderTopSignalsRelease,
@@ -83,5 +84,6 @@ test("archive preserves the draft data with its published release identity", () 
 
   assert.equal(archive.releaseUrl, RELEASE_URL);
   assert.equal(archive.publishedAt, "2026-09-04T10:00:00.000Z");
-  assert.deepEqual(archive.signals, draft.signals);
+  assert.deepEqual(archive.signals, draft.signals.map(publicGrowthTopSignal));
+  assert.equal("generatedAt" in archive, false);
 });

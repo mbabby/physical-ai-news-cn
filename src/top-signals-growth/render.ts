@@ -9,14 +9,15 @@ export interface PublishedTopSignalsArtifact {
   schemaVersion: 1;
   experimentId: string;
   week: string;
-  generatedAt: string;
   periodStart: string;
   periodEnd: string;
-  signals: GrowthTopSignal[];
+  signals: PublicGrowthTopSignal[];
   releaseUrl: string;
   publishedAt: string;
   contentSha256: string;
 }
+
+export type PublicGrowthTopSignal = Omit<GrowthTopSignal, "changedThisWeek" | "rankReasons" | "scoreBreakdown">;
 
 function markdownText(value: string): string {
   return value.replace(/[\\`*_[\]<>]/g, "\\$&").replace(/\r?\n/g, " ");
@@ -42,11 +43,11 @@ function requireCanonicalTimestamp(value: string): void {
   }
 }
 
-function renderEvidence(signal: GrowthTopSignal): string[] {
+function renderEvidence(signal: PublicGrowthTopSignal): string[] {
   return signal.evidence.map((item) => `  - [${markdownText(item.source)}（${item.grade}）](<${markdownUrl(item.url)}>)`);
 }
 
-function renderSignal(signal: GrowthTopSignal, position: number): string {
+function renderSignal(signal: PublicGrowthTopSignal, position: number): string {
   return [
     `<!-- top-signal:${signal.signalId} -->`,
     `## ${position}. ${markdownText(signal.titleZh)}`,
@@ -73,11 +74,30 @@ export function renderTopSignalsRelease(draft: TopSignalsDraft): string {
 /** Render the first three canonical signals for the README and retain their evidence detail. */
 export function renderTopSignalsReadme(draft: TopSignalsDraft, releaseUrl: string): string {
   validateTopSignalsDraft(draft);
+  return renderTopSignalsReadmeSignals(draft.signals, releaseUrl);
+}
+
+function renderTopSignalsReadmeSignals(signalsInput: PublicGrowthTopSignal[], releaseUrl: string): string {
   requireReleaseUrl(releaseUrl);
   const releaseLink = `[查看完整 Release](<${markdownUrl(releaseUrl)}>)`;
-  const signals = draft.signals.slice(0, 3).map((signal, index) => renderSignal(signal, index + 1));
+  const signals = signalsInput.slice(0, 3).map((signal, index) => renderSignal(signal, index + 1));
   if (signals.length === 0) return `> 本周暂无满足公开证据门槛的 Top Signals。\n\n${releaseLink}`;
   return [...signals, releaseLink].join("\n\n");
+}
+
+export function renderPublishedTopSignalsReadme(published: PublishedTopSignalsArtifact): string {
+  return renderTopSignalsReadmeSignals(published.signals, published.releaseUrl);
+}
+
+export function publicGrowthTopSignal(signal: GrowthTopSignal): PublicGrowthTopSignal {
+  const { changedThisWeek: _changedThisWeek, rankReasons: _rankReasons, scoreBreakdown: _scoreBreakdown, ...published } = signal;
+  return {
+    ...published,
+    factsZh: [...published.factsZh],
+    routes: [...published.routes],
+    evidence: published.evidence.map((item) => ({ ...item })),
+    impact: [...published.impact],
+  };
 }
 
 /** Build the published JSON archive directly from the validated, canonical draft. */
@@ -93,10 +113,9 @@ export function renderTopSignalsArchive(
     schemaVersion: 1,
     experimentId: draft.experimentId,
     week: draft.week,
-    generatedAt: draft.generatedAt,
     periodStart: draft.periodStart,
     periodEnd: draft.periodEnd,
-    signals: draft.signals,
+    signals: draft.signals.map(publicGrowthTopSignal),
     releaseUrl,
     publishedAt,
     contentSha256: topSignalsContentSha256(draft),

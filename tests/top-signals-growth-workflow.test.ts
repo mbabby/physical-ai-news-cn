@@ -7,7 +7,7 @@ import test from "node:test";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 
-import { stableDecisionId } from "../src/decision-products/contracts.js";
+import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import { topSignalsContentSha256, type TopSignalsApproval, type TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 import {
@@ -75,8 +75,19 @@ async function fixtureRoot(draft: TopSignalsDraft, approval?: TopSignalsApproval
   const root = await mkdtemp(join(tmpdir(), "top-signals-release-first-"));
   await mkdir(join(root, "experiments"), { recursive: true });
   await mkdir(join(root, "review", "top-signals-drafts"), { recursive: true });
+  await mkdir(join(root, "site", "data"), { recursive: true });
+  const decisionProducts: DecisionProductArtifact = {
+    schemaVersion: 1,
+    generatedAt: draft.generatedAt,
+    periodStart: draft.periodStart,
+    topSignals: draft.signals.map(({ nextValidationPoint: _next, scoreBreakdown: _score, ...signal }) => signal),
+    companyCards: [],
+    researchPassports: [],
+    subscriptions: { generatedAt: draft.generatedAt, entries: [] },
+  };
   await writeFile(join(root, "experiments", "top-signals-growth.json"), `${JSON.stringify(CONFIG, null, 2)}\n`);
   await writeFile(join(root, "review", "top-signals-drafts", `${draft.week}.json`), `${JSON.stringify(draft, null, 2)}\n`);
+  await writeFile(join(root, "site", "data", "decision-products.json"), `${JSON.stringify(decisionProducts, null, 2)}\n`);
   if (approval) {
     await mkdir(join(root, "review", "top-signals-approvals"), { recursive: true });
     await writeFile(join(root, "review", "top-signals-approvals", `${draft.week}.json`), `${JSON.stringify(approval, null, 2)}\n`);

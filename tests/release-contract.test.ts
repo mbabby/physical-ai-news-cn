@@ -23,6 +23,7 @@ import type { LedgerField } from "../src/ledger-contracts.js";
 import { generate } from "../src/main.js";
 import { validateRelease } from "../src/validate-release.js";
 import type { CompanyProfile, DigestResult, EventStore } from "../src/types.js";
+import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
@@ -234,12 +235,37 @@ test("filesystem release validation rebuilds canonical sources and rejects every
     assert.equal(artifact.topSignals.length, 2);
     assert.equal(artifact.companyCards.length, 3);
     assert.ok(artifact.researchPassports.some((passport) => passport.benchmark.evidenceUrls.length > 0));
+    const reviewDraftPath = "review/top-signals-drafts/2026-W37.json";
+    const reviewDraft: TopSignalsDraft = {
+      schemaVersion: 1,
+      experimentId: "github-top-signals-2026-08",
+      week: "2026-W37",
+      generatedAt: "2026-09-10T10:00:00.000Z",
+      periodStart: "2026-09-07",
+      periodEnd: "2026-09-13",
+      signals: artifact.topSignals.map((signal) => ({
+        ...signal,
+        nextValidationPoint: "继续核验客户采用、交付范围与规模复制情况。",
+        scoreBreakdown: { industryCapitalImpact: 25, evidenceQuality: 25, recency: 6, informationGain: 15, strategicRelevance: 8, total: 79 },
+      })),
+    };
+    await mkdir(dirname(join(fixture, reviewDraftPath)), { recursive: true });
+    await writeJson(join(fixture, reviewDraftPath), reviewDraft);
     await assert.doesNotReject(() => validateRelease(fixture));
 
     const retention = await json<{ previousArtifactSha256: string }>(join(fixture, "review/decision-products-retention.json"));
     const retentionHistoryPath = `review/decision-products-history/${retention.previousArtifactSha256}.json`;
-    const original = new Map(await Promise.all([...RELEASE_MUTATION_PATHS, retentionHistoryPath].map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
+    const original = new Map(await Promise.all([...RELEASE_MUTATION_PATHS, retentionHistoryPath, reviewDraftPath].map(async (path) => [path, await readFile(join(fixture, path), "utf8")] as const)));
     const mutations: Array<{ name: string; mutate: (rootPath: string) => Promise<void> }> = [
+      {
+        name: "Review-only Top Signals canonical binding",
+        mutate: async (rootPath) => {
+          const path = join(rootPath, reviewDraftPath);
+          const value = await json<TopSignalsDraft>(path);
+          value.signals[0]!.titleZh = "与当前 Decision Product 不一致的标题";
+          await writeJson(path, value);
+        },
+      },
       {
         name: "required Decision Product path",
         mutate: async (rootPath) => { await rm(join(rootPath, "site/data/decision-products.json")); },

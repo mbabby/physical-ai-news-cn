@@ -82,9 +82,17 @@ test("standalone share pages expose the three flagship product views", async () 
   for (const html of [home, weekly, companies, research]) assert.match(html, /subscribe\.html/);
 });
 
-test("README reserves a canonical decision signal marker section", async () => {
-  const readme = await readFile(join(root, "README.md"), "utf8");
+test("README reserves one canonical Top Signals marker and stable latest-Release propagation link", async () => {
+  const [readme, english] = await Promise.all([
+    readFile(join(root, "README.md"), "utf8"),
+    readFile(join(root, "README.en.md"), "utf8"),
+  ]);
+  assert.equal(readme.match(/<!-- DECISION_SIGNALS_START -->/g)?.length, 1);
+  assert.equal(readme.match(/<!-- DECISION_SIGNALS_END -->/g)?.length, 1);
   assert.match(readme, /<!-- DECISION_SIGNALS_START -->[\s\S]*<!-- DECISION_SIGNALS_END -->/);
+  for (const contents of [readme, english]) {
+    assert.match(contents, /https:\/\/github\.com\/mbabby\/physical-ai-news-cn\/releases\/latest/);
+  }
 });
 
 test("weekly reporting assets explain their public and review boundaries", async () => {

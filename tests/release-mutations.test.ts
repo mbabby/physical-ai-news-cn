@@ -17,6 +17,9 @@ import { canonicalDashboardFacts, validateCommunityEvidenceRelease } from "../sr
 import { selectContributionHistoryBaseline, selectRevalidationHistoryBaseline } from "../src/validate-release.js";
 import { buildCompanyClaimLedger } from "../src/company-claim-ledger.js";
 import { stableDecisionId } from "../src/decision-products/contracts.js";
+import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
+import { validatePublishedTopSignalsArtifact } from "../src/top-signals-growth/publish.js";
+import { renderTopSignalsArchive } from "../src/top-signals-growth/render.js";
 import type { CompanyProfile, EventRecord } from "../src/types.js";
 
 const NOW = "2026-08-25T10:00:00.000Z";
@@ -356,6 +359,55 @@ test("rejects private key, score, and model-output leakage", () => {
   const input = releaseFixture();
   (input.publicTasks.tasks[0] as unknown as Record<string, unknown>).rawModelOutput = { score: 99 };
   assert.throws(() => validateCommunityEvidenceRelease(input), /private|exact keys|boundary/i);
+});
+
+test("rejects Review metadata and ranking diagnostics from public Top Signals JSON", () => {
+  const draft: TopSignalsDraft = {
+    schemaVersion: 1,
+    experimentId: "github-top-signals-2026-08",
+    week: "2026-W37",
+    generatedAt: "2026-09-10T10:00:00.000Z",
+    periodStart: "2026-09-07",
+    periodEnd: "2026-09-13",
+    signals: [{
+      signalId: stableDecisionId("signal", "release-mutation-event"),
+      eventId: "release-mutation-event",
+      entityId: "company-release-mutation",
+      entityName: "Release Mutation Robotics",
+      titleZh: "Release Mutation Robotics 完成产品部署",
+      factsZh: ["Release Mutation Robotics 完成产品部署。", "该部署已获得官方证据确认。"],
+      kind: "部署案例",
+      routes: ["部署与商业化"],
+      occurredAt: "2026-09-09T02:00:00.000Z",
+      verifiedAt: "2026-09-10T09:00:00.000Z",
+      changedThisWeek: true,
+      evidenceState: "official",
+      evidence: [{ evidenceId: stableDecisionId("evidence", "release-mutation-event\nhttps://alpha.example/deployment"), url: "https://alpha.example/deployment", source: "Alpha", grade: "A" }],
+      impact: ["company", "product-deployment"],
+      whyItMatters: "AI 研究判断：该部署提供了可复核的商业化信号。",
+      rankReasons: ["官方一手证据"],
+      nextValidationPoint: "继续核验部署数量与付费客户。",
+      scoreBreakdown: { industryCapitalImpact: 28, evidenceQuality: 25, recency: 16, informationGain: 15, strategicRelevance: 10, total: 94 },
+    }],
+  };
+  const releaseUrl = "https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-2026-W37";
+  assert.doesNotThrow(() => validatePublishedTopSignalsArtifact(renderTopSignalsArchive(draft, releaseUrl, "2026-09-10T13:05:00.000Z")));
+
+  for (const key of ["generatedAt", "changedThisWeek", "rankReasons", "scoreBreakdown", "rawModelOutput"]) {
+    const artifact = renderTopSignalsArchive(draft, releaseUrl, "2026-09-10T13:05:00.000Z");
+    const target = key === "generatedAt" ? artifact as unknown as Record<string, unknown> : artifact.signals[0] as unknown as Record<string, unknown>;
+    target[key] = key === "scoreBreakdown" ? { total: 99 } : "private";
+    assert.throws(() => validatePublishedTopSignalsArtifact(artifact), undefined, key);
+  }
+
+  const invalidWeek = renderTopSignalsArchive(draft, releaseUrl, "2026-09-10T13:05:00.000Z");
+  invalidWeek.week = "2026-W99";
+  invalidWeek.releaseUrl = "https://github.com/mbabby/physical-ai-news-cn/releases/tag/top-signals-2026-W99";
+  assert.throws(() => validatePublishedTopSignalsArtifact(invalidWeek), /week|artifact|contract|周/i);
+
+  const invalidPeriod = renderTopSignalsArchive(draft, releaseUrl, "2026-09-10T13:05:00.000Z");
+  invalidPeriod.periodStart = "2026-99-99";
+  assert.throws(() => validatePublishedTopSignalsArtifact(invalidPeriod), /period|date|artifact|contract|日期/i);
 });
 
 test("rejects a task carrying multiple target fields", () => {
