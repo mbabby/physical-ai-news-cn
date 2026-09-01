@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { cp, mkdir, mkdtemp, readFile, readdir, rm, stat } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import test from "node:test";
@@ -133,6 +133,23 @@ test("fixture runner restores every pre-run byte after an injected transaction f
     const before = await bytes(root);
     await assert.rejects(() => runFixtureGeneration(root, new FileTransaction("fixture-rollback", { failAfterSwaps: 1 })), /transaction|事务|failed/i);
     assert.deepEqual(await bytes(root), before);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("fixture runner isolates an existing immutable Watchlist identity", async () => {
+  const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-watchlist-"));
+  try {
+    await fixtureCopy(root);
+    const historyPath = join(root, "watchlist", "history", "2026-W35-v1.json");
+    await mkdir(dirname(historyPath), { recursive: true });
+    await writeFile(historyPath, '{"sentinel":"must-not-enter-fixture-generation"}\n', "utf8");
+    await runFixtureGeneration(root);
+    const generated = JSON.parse(await readFile(historyPath, "utf8")) as { week?: string; snapshotVersion?: number; sentinel?: string };
+    assert.equal(generated.week, "2026-W35");
+    assert.equal(generated.snapshotVersion, 1);
+    assert.equal(generated.sentinel, undefined);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

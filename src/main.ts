@@ -1516,6 +1516,8 @@ const FIXTURE_INPUT_PATHS = [
   "site/data/decision-products.json",
   "research/registry.json",
   "sources/registry.json",
+  "watchlist/current.json",
+  "watchlist/theses.json",
 ] as const;
 const FIXTURE_SEED_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes",
@@ -1568,10 +1570,25 @@ async function snapshotFixtureInputs(outputRoot: string): Promise<Map<string, Bu
       snapshot.set(path, undefined);
     }
   }));
+  const historyRoot = join(outputRoot, "watchlist", "history");
+  try {
+    for (const entry of await readdir(historyRoot, { withFileTypes: true })) {
+      if (!entry.isFile()) continue;
+      const path = join("watchlist", "history", entry.name);
+      snapshot.set(path, await readFile(join(outputRoot, path)));
+    }
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
   return snapshot;
 }
 
 async function restoreFixtureInputs(outputRoot: string, snapshot: Map<string, Buffer | undefined>): Promise<void> {
+  await Promise.all([
+    rm(join(outputRoot, "watchlist", "current.json"), { force: true }),
+    rm(join(outputRoot, "watchlist", "theses.json"), { force: true }),
+    rm(join(outputRoot, "watchlist", "history"), { recursive: true, force: true }),
+  ]);
   await Promise.all([...snapshot].map(async ([path, content]) => {
     const target = join(outputRoot, path);
     if (content === undefined) await rm(target, { force: true });
@@ -1588,6 +1605,9 @@ async function prepareFixtureInputs(outputRoot: string): Promise<void> {
     rm(join(outputRoot, "research", "benchmark-result-ledger.json"), { force: true }),
     rm(join(outputRoot, "research", "decision-cards.json"), { force: true }),
     rm(join(outputRoot, "site", "data", "decision-products.json"), { force: true }),
+    rm(join(outputRoot, "watchlist", "current.json"), { force: true }),
+    rm(join(outputRoot, "watchlist", "theses.json"), { force: true }),
+    rm(join(outputRoot, "watchlist", "history"), { recursive: true, force: true }),
     writeFileDirect(join(outputRoot, "research", "registry.json"), `${JSON.stringify({
       updatedAt: FIXTURE_NOW.toISOString(),
       records: [],
@@ -1598,6 +1618,7 @@ async function prepareFixtureInputs(outputRoot: string): Promise<void> {
       sources: [],
     }, null, 2)}\n`, "utf8"),
   ]);
+  await mkdir(join(outputRoot, "watchlist", "history"), { recursive: true });
 }
 
 export async function runFixtureGeneration(outputRoot: string, transaction?: FileTransaction): Promise<RunManifest> {
