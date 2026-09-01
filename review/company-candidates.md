@@ -16,6 +16,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Hadrian%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Hadrian%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
+## Reframe Systems · 观察中 · 73/100
+
+- 路线：部署与商业化
+- 证据：[The Robot Report](https://www.therobotreport.com/reframe-systems-raises-40m-scale-robotic-microfactories-home-building/) · [The Information](https://news.google.com/rss/articles/CBMiwgFBVV95cUxQaFdMWXZhRkN1ZFVVSXZLZmNzQXZxc0tvZWoyenlrU19NMWtHRzFIQkVYR1dTbFdGbmczZ0tnTFJ6TW9yQnEzRmhQbWRieFZ4NTd1ZWdCOEhtWTBGWjRDR3IxblpPdFdjUWM2MjJVUXNZc0QwM2dIa2JCRGhQZUM2N1NTWHFmZWhiM05vd1I3Y2NDMmJGRGd4ZThtWW9COC1faXQzcjlhb2tQc2RqRzBfZnhGRV9pclFoU2N6Ymp2Wnl3Zw?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Reframe%20Systems%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Reframe%20Systems%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
 ## Gravis Robotics · 观察中 · 73/100
 
 - 路线：部署与商业化
@@ -49,6 +56,13 @@
 - 路线：部署与商业化
 - 证据：[集微网](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5) · [新浪财经](https://news.google.com/rss/articles/CBMicEFVX3lxTE03Mi1lZklkN2V2RHY3dEdpbFhTTUdGd1lWa1FaWlROQk9KZEdhQjFBY0xvbm8zdHdQSEhsOEs5bmFwYllZMVYwb1Bkb3hiNW9NY1F1QnN0V3UtT2xZQmYzVHJTbExOOEhaTHhpcGpndVg?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
+## 玄创机器人 · 观察中 · 57/100
+
+- 路线：部署与商业化
+- 证据：[finance.tom.com](https://news.google.com/rss/articles/CBMiWkFVX3lxTE51TnQ2ZDNnX2U0NmRGQThUdG9rZEZURk9sVko4ZC1JV0l0VzVfNHlQcHZ5S1RYZkdtdHVLNGFkalBRYkpWM0ZwSmF0akFXaGw3NTZBTmJGMTZvQQ?oc=5) · [投资界](https://news.google.com/rss/articles/CBMiVkFVX3lxTE9KODh3UmJGYWUwZmFGbnZlSHVHbEpVWjZqQ2poRHIyTU5ENHVkQVVDYklfUTRKTWdPRlVqV3c4NUZDUXVGcHl2VmNhY2RFOXpvM2IyVUNB?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E7%8E%84%E5%88%9B%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E7%8E%84%E5%88%9B%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
 ## Peppy · 观察中 · 57/100
@@ -98,6 +112,13 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiYkFVX3lxTE40NnZQbkg4Qmk0OXBxNy1aTlgzOGVuWHlaVXhobTBLYjh3RzJ1dWItUmp1QzQ0WlI0d1dxeEFSbmxUOHo0YWFzMkh5Z0E3ZDBOaUs0UU41eWJwZ204V3F3RnJB?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Genrobot AI · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Dealroom](https://news.google.com/rss/articles/CBMiowFBVV95cUxQaXpHNjRJOHhtdkM1RDVYd0dsZlRBNjR6SXdLVEZqclV3TGM0ZVFSYjhBRVh4QXdkWFJQa1Awa0hIRXRNVXNqeW84MmdkMTctc2l5cFF3MEZCY1FlYWNwODk5azZWNFF3RW9aRG4tU0tJSGxSZGFBTDByQzJhYzNFNFZpWUt4S2lpOXVNdk5vNkNLZUh1NGpWcGVKWngwVUhuRURZ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Genrobot%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Genrobot%20AI%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 中国小鹏上周发布VLA 6.3.0，机器人部门 · 候选 · 32/100
@@ -247,6 +268,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## A轮 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[电子工程专辑](https://news.google.com/rss/articles/CBMiU0FVX3lxTFA2Mk1PbnczSVRac3hZd1BCVGM1QVBtNW5NcmpGNE02Q2c3WE9LVk1RMFpjUkRoQVdwcXpBN1VpUTFuQjY5dE1fblluRmZreldBdm13?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22A%E8%BD%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22A%E8%BD%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## XPeng · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Law.asia](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9ySEU0WC1WSTlEYUZyZnpoZ1lWMXBZWlJwR0F2QVpNSHk2SFhKTkM0RmZPUHo3YjhSWmFtSldOdDUzTWN2dF9nZG96OTltMHVwS2h1MmRPUQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22XPeng%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22XPeng%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## 京津冀新能源汽车与机器人投 · 候选 · 22/100
 
 - 路线：部署与商业化
@@ -266,13 +301,6 @@
 - 路线：部署与商业化
 - 证据：[搜狐网](https://news.google.com/rss/articles/CBMijAFBVV95cUxPLUI4NlZMNjlPNHpzUkJoblhrR2FGSXJ5VE1OdDBNaGViLXlCeTdLZUtaQjNmMXA2RW5Za3o5NXc0RnhQZ0NhZkJQZ0xnb0g1dy02Umx0Sk1JSkpyMFlnai1kdGxJd09EckFQRjRHbWdGUWh2VnZIajZ0dmxVdlh4VmlnaUlHWWtvNkQ0ZA?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E3%80%90%E6%8A%95%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E3%80%90%E6%8A%95%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 玄创机器人 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[finance.tom.com](https://news.google.com/rss/articles/CBMiWkFVX3lxTE51TnQ2ZDNnX2U0NmRGQThUdG9rZEZURk9sVko4ZC1JV0l0VzVfNHlQcHZ5S1RYZkdtdHVLNGFkalBRYkpWM0ZwSmF0akFXaGw3NTZBTmJGMTZvQQ?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E7%8E%84%E5%88%9B%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E7%8E%84%E5%88%9B%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 哈工大校友做特种机器人 · 候选 · 22/100
