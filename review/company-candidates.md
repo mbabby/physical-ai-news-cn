@@ -268,6 +268,20 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 人形机器人“关节之眼”企业 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[电子工程专辑](https://news.google.com/rss/articles/CBMiU0FVX3lxTFA2Mk1PbnczSVRac3hZd1BCVGM1QVBtNW5NcmpGNE02Q2c3WE9LVk1RMFpjUkRoQVdwcXpBN1VpUTFuQjY5dE1fblluRmZreldBdm13?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%85%B3%E8%8A%82%E4%B9%8B%E7%9C%BC%E2%80%9D%E4%BC%81%E4%B8%9A%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%9C%E5%85%B3%E8%8A%82%E4%B9%8B%E7%9C%BC%E2%80%9D%E4%BC%81%E4%B8%9A%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## XPeng 旗下机器人公司 Dogotix · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Law.asia](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9ySEU0WC1WSTlEYUZyZnpoZ1lWMXBZWlJwR0F2QVpNSHk2SFhKTkM0RmZPUHo3YjhSWmFtSldOdDUzTWN2dF9nZG96OTltMHVwS2h1MmRPUQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22XPeng%20%E6%97%97%E4%B8%8B%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%20Dogotix%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22XPeng%20%E6%97%97%E4%B8%8B%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%20Dogotix%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## A轮 · 候选 · 22/100
 
 - 路线：本体与硬件

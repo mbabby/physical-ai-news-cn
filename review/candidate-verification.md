@@ -38,6 +38,15 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMicEFVX3lxTE03Mi1lZklkN2V2RHY3dEdpbFhTTUdGd1lWa1FaWlROQk9KZEdhQjFBY0xvbm8zdHdQSEhsOEs5bmFwYllZMVYwb1Bkb3hiNW9NY1F1QnN0V3UtT2xZQmYzVHJTbExOOEhaTHhpcGpndVg?oc=5) · [线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiQ0FVX3lxTE14bG9zUk9zUmdvdU5IejVIdWJUR2JZU2NlSWZTZHF3eEFES3BRLVF1RlNVM1p4RWZMcGpTX2EzQm1ndG8?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
+## 人形机器人“关节之眼”企业 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 98
+- 尝试：1；下次复核 2026-09-02
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiU0FVX3lxTFA2Mk1PbnczSVRac3hZd1BCVGM1QVBtNW5NcmpGNE02Q2c3WE9LVk1RMFpjUkRoQVdwcXpBN1VpUTFuQjY5dE1fblluRmZreldBdm13?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
 ## 首发| 弓望传感 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
@@ -63,15 +72,6 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiYkFVX3lxTE02THFwdk55WWNUWlplWEk2NU03YTg0UXBERE5pSUN2Z1VVa1VCc3NnWW4xWm1NQzdQVmhQYmliaHFVUnNrOVIyMDhzMm1xcVdhM05BcEpkRk53MWp4cVFVREZB?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
-## A轮 · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 98
-- 尝试：1；下次复核 2026-09-02
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiU0FVX3lxTFA2Mk1PbnczSVRac3hZd1BCVGM1QVBtNW5NcmpGNE02Q2c3WE9LVk1RMFpjUkRoQVdwcXpBN1VpUTFuQjY5dE1fblluRmZreldBdm13?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## Eurobotics · 投融资 · 等待重试
@@ -414,6 +414,15 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMirwFBVV95cUxQeVYxdmpYMzNOdE02dFoyNGI0V1hUZTdTdXVXSFd2M05qMlBpd2V3UFRQWjAwLUQ0cjhGdmdzMklHN2ZhYkgtRlMxVXlwZnJ5Qkg5VU40b1c0VDdJQThydWgzbnBaSDRNY21MdnNVS3I1TUtvdi1lU2htZHdmSzdsazRqR0ZpNlVlc3FYOVUxVEJTaldEbnowRGdMUlhoOEFfd1NRODZFZWc3RlA5dUk0?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## XPeng 旗下机器人公司 Dogotix · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 88
+- 尝试：1；下次复核 2026-09-02
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9ySEU0WC1WSTlEYUZyZnpoZ1lWMXBZWlJwR0F2QVpNSHk2SFhKTkM0RmZPUHo3YjhSWmFtSldOdDUzTWN2dF9nZG96OTltMHVwS2h1MmRPUQ?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## Xpeng机器人部门 · 投融资 · 等待重试
@@ -1170,15 +1179,6 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMidkFVX3lxTE1kSHdLUTFZbkw2YWJPSFpoZGNDTWFicGJEQ1h4VF9FSW55UWZLQnVZbDA3MnpUeEJoaHhfR24zMF9pVVBnanFCM1ZDaFBhcVBoTERHbWtoTHVuTDZlY3ZXcVo1bXM1UnY0bHRNWllXeW9HdTJHNnc?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
-## XPeng · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-09-02
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiV0FVX3lxTE9ySEU0WC1WSTlEYUZyZnpoZ1lWMXBZWlJwR0F2QVpNSHk2SFhKTkM0RmZPUHo3YjhSWmFtSldOdDUzTWN2dF9nZG96OTltMHVwS2h1MmRPUQ?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## Humanoid · 部署案例 · 等待重试
