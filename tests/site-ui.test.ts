@@ -6,11 +6,17 @@ import { decodeWatchlistConfig as decodeTypeScriptConfig } from "../src/watchlis
 import { stableDecisionId } from "../src/decision-products/contracts.js";
 
 const readSite = async (name: string) => readFile(new URL(`../site/${name}`, import.meta.url), "utf8");
+const shanghaiDate = () => {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" })
+    .formatToParts(new Date()).map((part) => [part.type, part.value]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+};
 
 test("homepage keeps data-engineering mount points while presenting one decision briefing", async () => {
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry", "research",
+    "publication-status",
     "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
     "company-boards", "company-board-grid", "company-radar", "research-graph-grid", "routes-grid",
     "detail-drawer-root",
@@ -36,6 +42,39 @@ test("evidence UI supports safe fallback, deep-linked details and honest empty s
   assert.match(styles, /body\.detail-open/);
   assert.match(styles, /min-height:44px/);
   assert.match(styles, /prefers-reduced-motion/);
+});
+
+test("homepage renders current and missing publication status from safe health fields", async () => {
+  const current = await loadAppCompanyRenderer();
+  current.render({
+    generatedAt: "2026-08-02T01:30:00.000Z", stats: {}, routes: [],
+    publicationHealth: {
+      daily: { expectedDate: shanghaiDate(), latestPublishedDate: shanghaiDate(), state: "current", publicationDue: false },
+      publicIndustryItems: 2, publicResearchItems: 3, candidateBacklog: 4, degradedComponents: [],
+    },
+  });
+  assert.match(current.mounts["publication-status"].innerHTML, /今日日报已生成/);
+  assert.match(current.mounts["publication-status"].innerHTML, /产业 2.*研究 3.*候选待补证 4/);
+
+  const missing = await loadAppCompanyRenderer();
+  missing.render({
+    generatedAt: "2026-08-02T02:00:00.000Z", stats: {}, routes: [],
+    publicationHealth: {
+      daily: { expectedDate: shanghaiDate(), state: "missing", publicationDue: true },
+      publicIndustryItems: 0, publicResearchItems: 0, candidateBacklog: 5, degradedComponents: ["LLM"],
+    },
+  });
+  assert.match(missing.mounts["publication-status"].innerHTML, /日报延迟.*自动恢复/);
+  assert.match(missing.mounts["publication-status"].innerHTML, /服务降级：LLM/);
+});
+
+test("homepage keeps empty top signals honest when public health is absent or malformed", async () => {
+  const site = await loadAppCompanyRenderer();
+  site.render({ stats: {}, routes: [], publicationHealth: { daily: { expectedDate: "2026-02-30", latestPublishedDate: "2026-99-99", state: "current", publicationDue: false } } });
+  assert.match(site.mounts["publication-status"].innerHTML, /日报状态待确认/);
+  assert.match(site.mounts["top-signals"].innerHTML, /当前没有满足公开门槛的产业信号/);
+  assert.match(site.mounts["top-signals"].innerHTML, /主体确认、第二独立来源或完整中文事实简介/);
+  assert.match(site.mounts["top-signals"].innerHTML, /不会进入首页/);
 });
 
 test("subscription center is static, privacy preserving and links every subscription route", async () => {
@@ -117,6 +156,7 @@ const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", val
 async function loadAppCompanyRenderer() {
   const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js")]);
   const mounts: Record<string, Mount> = {
+    "publication-status": mount(),
     "top-signals": mount(),
     "developing-signals": mount(),
     "company-radar": mount(),

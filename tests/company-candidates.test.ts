@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { updateCandidateCompanies } from "../src/company-candidates.js";
+import { isIncomingCandidateSubjectAdmissible, updateCandidateCompanies } from "../src/company-candidates.js";
 import type { Article, CompanyProfile } from "../src/types.js";
 
 function funding(overrides: Partial<Article> = {}): Article {
@@ -31,6 +31,21 @@ test("does not create a dossier for a generic or non-physical-AI financing headl
     excerpt: "A generic market update without a physical AI subject.",
   })]);
   assert.equal(registry.companies.length, 0);
+});
+
+test("quarantines incoming roundup subjects without changing historical candidate records", () => {
+  const existing = updateCandidateCompanies(undefined, [funding({
+    title: "Atlas Robotics raises funding", titleZh: "Atlas Robotics 完成融资",
+  })], new Date("2026-08-05T01:00:00Z"));
+  const before = structuredClone(existing);
+
+  assert.equal(isIncomingCandidateSubjectAdmissible("2026年8月具身智能赛道融资盘点"), false);
+  const next = updateCandidateCompanies(existing, [funding({
+    id: "roundup", title: "2026 embodied AI funding roundup", titleZh: "2026年8月具身智能赛道融资盘点",
+    link: "https://news.example.com/roundup",
+  })], new Date("2026-08-06T01:00:00Z"));
+
+  assert.deepEqual(next.companies, before.companies);
 });
 
 test("resolves a funding lead to an existing Chinese company profile without treating its profile as financing proof", () => {

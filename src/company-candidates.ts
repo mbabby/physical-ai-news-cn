@@ -6,6 +6,15 @@ const GENERIC = /^(?:行业公司|机器人公司|具身智能公司|人形机�
 const DESCRIPTIVE_SUBJECT = /(?:孵化|旗下|一家|这家|某家).{0,12}(?:初创公司|初创企业|创业公司|机器人公司)$|产业园|园区|基金|政府|揭牌|融资买入|ETF|总投资/i;
 const FUNDING = /融资|投资|收购|估值|funding|raises?|raised|seed|series\s+[a-d]|acquisition|valuation/i;
 const TECH = /robot|robotics|humanoid|embodied|physical ai|vla|world model|具身|机器人|人形/i;
+const INCOMING_EDITORIAL_SUBJECT = /盘点|周报|观察|评论|报告|榜单|赛道|行业/i;
+const INCOMING_DATE_OR_COUNT_SUBJECT = /20\d{2}\s*年|\d{1,2}\s*月(?:\s*\d{1,2}\s*[日号])?|近\s*\d+\s*(?:天|日|周|个月|月)|^(?:\d+|[一二三四五六七八九十]+)\s*(?:家|个|项|笔|起|位)/i;
+
+/** Reject editorial/date/count phrases only for newly extracted financing subjects.
+ * Historical registry compaction deliberately keeps its existing behavior. */
+export function isIncomingCandidateSubjectAdmissible(value: string): boolean {
+  const subject = value.trim();
+  return Boolean(subject) && !INCOMING_EDITORIAL_SUBJECT.test(subject) && !INCOMING_DATE_OR_COUNT_SUBJECT.test(subject);
+}
 
 function cleanedEntityName(value: string): string | undefined {
   let name = value
@@ -127,6 +136,7 @@ export function updateCandidateCompanies(existing: CandidateCompanyRegistry | un
   const companies = compactCompanies([...(existing?.companies ?? [])].map((company) => ({ ...company, aliases: [...company.aliases], routes: [...company.routes], evidence: company.evidence.map((item) => ({ ...item })), openQuestions: [...company.openQuestions] })));
   for (const article of articles.filter((item) => item.kind === "投融资" && FUNDING.test(`${item.title} ${item.titleZh ?? ""}`) && TECH.test(`${item.title} ${item.titleZh ?? ""} ${item.excerpt}`))) {
     const extractedName = entity(article); if (!extractedName) continue;
+    if (!isIncomingCandidateSubjectAdmissible(extractedName)) continue;
     const knownProfile = profileFor(extractedName, profiles);
     const name = knownProfile?.name ?? extractedName;
     const key = normalized(name);

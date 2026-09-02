@@ -101,9 +101,11 @@ test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leave
     assert.equal(secondRun.stderr, "");
 
     const manifest = JSON.parse(first["review/run-manifest.json"]!) as RunManifest;
+    const history = JSON.parse(first["review/run-history.json"]!) as { runs: RunManifest[] };
     const archive = JSON.parse(first[`daily/${manifest.date}.json`]!) as DailyArchive;
     assert.equal(manifest.startedAt, "2026-08-24T08:05:05.893Z");
     assert.equal(manifest.finishedAt, manifest.startedAt);
+    assert.deepEqual(history.runs.find((run) => run.runId === manifest.runId), manifest);
     assert.deepEqual(archive.sourceOutcomes, []);
     assert.deepEqual(manifest.services.filter((item) => item.component === "LLM" || item.component === "OpenAlex")
       .map((item) => [item.component, item.status, item.attempted]), [["LLM", "未配置", 0], ["OpenAlex", "未配置", 0]]);

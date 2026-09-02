@@ -14,7 +14,7 @@ import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, d
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
 import { buildCompanyDossiers, buildRouteCompetitionMap, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchCards, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, routeCorrections, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
-import { buildDashboard } from "./site-data.js";
+import { buildDashboard, projectPublicationHealth } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
 import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry } from "./research-registry.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
@@ -1289,16 +1289,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
-  const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
-    activeSources: activeSources.length + activeXSources.length,
-    periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
-    companyClaimLedger,
-    researchDecisionCards,
-    researchIndustryEdges: researchIndustryRelations.edges,
-    watchlist: watchlistView,
-    decisionProducts,
-    communityEvidence: communityEvidence.publication,
-  });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "event-anomalies.md"), [
@@ -1316,6 +1306,38 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     ...(anomalyReport.alerts.length ? anomalyReport.alerts.map((alert) => `- **${alert.severity} · ${alert.code}**：${alert.message}`) : ["- 无异常。"]),
     "",
   ].join("\n"), "utf8");
+  const finishedAt = options.now ?? new Date();
+  const runManifest: RunManifest = {
+    schemaVersion: 1,
+    runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
+    date: archive.date,
+    startedAt: startedAt.toISOString(),
+    finishedAt: finishedAt.toISOString(),
+    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
+    quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
+    services: statuses,
+    // The final transaction count remains assigned after dashboard staging.
+    outputs: 0,
+  };
+  const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
+    optional: true,
+    label: "运行历史",
+    validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
+  });
+  const dashboardRunHistory = updateRunHistory(previousRunHistory, runManifest);
+  const dashboardPipelineHealth = buildPipelineHealth(dashboardRunHistory, finishedAt);
+  const publicationHealth = projectPublicationHealth(dashboardPipelineHealth, runManifest, anomalyReport.metrics.candidateBacklog);
+  const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
+    activeSources: activeSources.length + activeXSources.length,
+    periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
+    companyClaimLedger,
+    researchDecisionCards,
+    researchIndustryEdges: researchIndustryRelations.edges,
+    watchlist: watchlistView,
+    decisionProducts,
+    communityEvidence: communityEvidence.publication,
+    publicationHealth,
+  });
   const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
   const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
@@ -1453,23 +1475,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   // intentionally unreachable from GitHub Issue automation.
   stageWatchlistReviewIssueSeeds({ transaction, root: outputRoot, view: watchlistView });
   await stageWatchlistRelease({ transaction, root: outputRoot, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
-  const finishedAt = options.now ?? new Date();
-  const runManifest: RunManifest = {
-    schemaVersion: 1,
-    runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
-    date: archive.date,
-    startedAt: startedAt.toISOString(),
-    finishedAt: finishedAt.toISOString(),
-    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
-    quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
-    services: statuses,
-    outputs: transaction.size + 4,
-  };
-  const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
-    optional: true,
-    label: "运行历史",
-    validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
-  });
+  runManifest.outputs = transaction.size + 4;
   const runHistory = updateRunHistory(previousRunHistory, runManifest);
   const pipelineHealth = buildPipelineHealth(runHistory, finishedAt);
   const domainHealth = buildDomainHealth({

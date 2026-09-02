@@ -52,6 +52,53 @@ const formattedCount = (value) => {
   const number = finiteNumber(value);
   return number === null ? "—" : new Intl.NumberFormat("zh-CN", { notation: number >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(number);
 };
+const PUBLIC_COMPONENTS = new Set(["LLM", "OpenAlex", "Watchlist", "GitHub", "EvidenceRevalidation"]);
+
+function shanghaiDateTime(value = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).formatToParts(value).map((part) => [part.type, part.value]));
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour), minute: Number(parts.minute) };
+}
+
+function isCalendarDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text(value))) return false;
+  const timestamp = Date.parse(`${value}T00:00:00.000Z`);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value;
+}
+
+function currentPublicationState(daily) {
+  const now = shanghaiDateTime();
+  if (daily.expectedDate === now.date) return daily.state;
+  if (daily.expectedDate > now.date) return "pending";
+  return now.hour > 9 || (now.hour === 9 && now.minute >= 20) ? "missing" : "pending";
+}
+
+function publicHealthCount(value) {
+  const number = finiteNumber(value);
+  return number === null || number < 0 ? "—" : String(Math.floor(number));
+}
+
+function renderPublicationStatus(value) {
+  const container = byId("publication-status");
+  if (!container) return;
+  const health = value && typeof value === "object" ? value : null;
+  const daily = health?.daily && typeof health.daily === "object" ? health.daily : null;
+  const states = new Set(["current", "pending", "missing"]);
+  if (!daily || !states.has(daily.state) || !isCalendarDate(daily.expectedDate)) {
+    container.innerHTML = '<p class="empty">日报状态待确认。</p>';
+    return;
+  }
+  const state = currentPublicationState(daily);
+  const label = state === "current"
+    ? "今日日报已生成"
+    : state === "pending"
+      ? "等待当日日报"
+      : "日报延迟，等待自动恢复检查";
+  const components = list(health.degradedComponents).filter((component) => PUBLIC_COMPONENTS.has(component));
+  const latest = isCalendarDate(daily.latestPublishedDate) ? `上次发布 ${safe(daily.latestPublishedDate)}` : "";
+  container.innerHTML = `<div class="publication-status__summary publication-status__summary--${safe(state)}"><strong>${label}</strong><span>产业 ${publicHealthCount(health.publicIndustryItems)} · 研究 ${publicHealthCount(health.publicResearchItems)} · 候选待补证 ${publicHealthCount(health.candidateBacklog)}</span>${latest ? `<small>${latest}</small>` : ""}${components.length ? `<small>服务降级：${components.map(safe).join(" · ")}</small>` : ""}</div>`;
+}
 
 const evidenceStates = {
   official: { label: "官方确认", tone: "verified" },
@@ -749,6 +796,7 @@ function render(data) {
   byId("source-count").textContent = text(stats.sources, "—");
   const generated = new Date(data.generatedAt);
   byId("updated").textContent = Number.isNaN(generated.getTime()) ? "UPDATE PENDING" : `UPDATED ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
+  renderPublicationStatus(data.publicationHealth);
 
   const hasDecisionProducts = Object.prototype.hasOwnProperty.call(data, "decisionProducts");
   const decisionProducts = hasDecisionProducts && validDecisionProducts(data.decisionProducts) ? data.decisionProducts : null;
@@ -760,7 +808,7 @@ function render(data) {
     return;
   }
   const topSignals = decisionProducts ? decisionProducts.topSignals : (list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents)));
-  byId("top-signals").innerHTML = topSignals.length ? topSignals.slice(0, 10).map(signalCard).join("") : '<p class="empty">正在接收满足公开门槛的验证信号…</p>';
+  byId("top-signals").innerHTML = topSignals.length ? topSignals.slice(0, 10).map(signalCard).join("") : '<p class="empty">当前没有满足公开门槛的产业信号。候选内容仍缺主体确认、第二独立来源或完整中文事实简介，不会进入首页。</p>';
   const renderedFacts = new Set(topSignals.map((item, index) => signalId(item, index)));
   const developingSignals = list(data.developingSignals).filter((item, index) => !renderedFacts.has(signalId(item, index))).slice(0, 5);
   byId("developing-signals").innerHTML = developingSignals.length ? developingSignals.map(developingCard).join("") : '<p class="empty">当前没有主体明确、达到单一可信来源门槛的新线索。</p>';
