@@ -45,6 +45,18 @@ export function preferKnownGoodArticles(current: Article[], historical: Article[
   });
 }
 
+/** A no-translation fallback for complete Chinese first-party announcements.
+ * It is intentionally unavailable to research, media and discovery sources. */
+export function withDeterministicChineseOfficialFallback(article: Article): Article {
+  const mayReuseOriginalChinese = article.kind !== "研究与数据"
+    && !article.source.startsWith("arXiv ·")
+    && article.sourceTier === "官方公司与实验室"
+    && article.sourceWeight >= 9
+    && hasCompleteChineseCopy({ titleZh: article.title, summaryZh: article.excerpt });
+  if (!mayReuseOriginalChinese || hasCompleteChineseCopy(article)) return article;
+  return { ...article, titleZh: article.title.trim(), summaryZh: article.excerpt.trim() };
+}
+
 /** Recover the actual cards that cleared publication in recent archives.
  * Registry refreshes may update metadata or copy, but they must not erase a
  * previously published, still-valid Chinese card during an upstream outage. */

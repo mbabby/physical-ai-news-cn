@@ -24,7 +24,7 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
+import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
 import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
@@ -647,7 +647,7 @@ async function collectX(sources: SourceConfig[], windowHours: number, bearerToke
   return { articles, failures, sourceOutcomes };
 }
 
-async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 2): Promise<Article[]> {
+async function summarizeInSmallBatches(summarizer: Pick<CompatibleSummarizer, "summarize">, articles: Article[], batchSize = 2): Promise<Article[]> {
   const output: Article[] = [];
   for (let index = 0; index < articles.length; index += batchSize) {
     output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
@@ -655,14 +655,15 @@ async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, article
   return output;
 }
 
-async function summarizeWithCache(summarizer: CompatibleSummarizer, articles: Article[], historical: Article[]): Promise<Article[]> {
+export async function summarizeWithCache(summarizer: Pick<CompatibleSummarizer, "summarize">, articles: Article[], historical: Article[]): Promise<Article[]> {
   const cached = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
   const pending = articles.filter((article) => {
     const prior = cached.get(article.id);
     return !prior || prior.title !== article.title || prior.excerpt !== article.excerpt;
   });
   const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending)).map((article) => [article.id, article]));
-  return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical);
+  return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical)
+    .map(withDeterministicChineseOfficialFallback);
 }
 
 function mergePulseSummaries(pulse: IndustryPulse, summaries: Article[]): IndustryPulse {
@@ -948,7 +949,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
       writeFile(join(resourcesDir, "simulation-and-tools.md"), formatResourcePage("tools", resourceCatalog, radarArticles, now), "utf8"),
     ]);
   }
-  const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
+  const pulseCandidates = uniqueArticles([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))]);
+  const pulseSummaries = await summarizeWithCache(summarizer, pulseCandidates, [...articles, ...historicalArticles]);
   const summarizedPulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const pulse: IndustryPulse = {
     viewpoints: summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length === 0),
