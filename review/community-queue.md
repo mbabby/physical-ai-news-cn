@@ -26,12 +26,12 @@
 
 ## 待评估信源
 
-- **github.com** · 连续成功 22 次 · 样例：[Launch HN: Hebbian Robotics (YC S26) – Build scalable robotics data pipelines](https://github.com/Hebbian-Robotics/hflow) · [提交信源建议](../../issues/new/choose)
-- **wired.com** · 连续成功 3 次 · 样例：[Meta's push to put robots to work in data centers](https://www.wired.com/story/inside-metas-experiments-with-data-center-robots/) · [提交信源建议](../../issues/new/choose)
-- **404media.co** · 连续成功 3 次 · 样例：[ICE Plans to Spend Millions on Boston Dynamics Dog Robots](https://www.404media.co/ice-plans-to-spends-millions-on-boston-dynamics-dog-robots/) · [提交信源建议](../../issues/new/choose)
-- **mashable.com** · 连续成功 7 次 · 样例：[Robots running into walls go viral ahead of 2026 World Humanoid Robot Games](https://mashable.com/tech/world-humanoid-robot-games-2026-running-fall-accident) · [提交信源建议](../../issues/new/choose)
-- **simonroses.com** · 连续成功 6 次 · 样例：[The Death of the Job: How AI and Robots Will Rewrite Work in the Next 10 Years](https://simonroses.com/2026/08/the-death-of-the-job-how-ai-and-robots-will-rewrite-work-in-the-next-10-years/) · [提交信源建议](../../issues/new/choose)
-- **news.crunchbase.com** · 连续成功 7 次 · 样例：[VCs Pour Billions into Physical AI as the Next Wave of AI Investing Takes Shape](https://news.crunchbase.com/venture/physical-ai-funding-startups-robotics-aerospace-h1-2026/) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 23 次 · 样例：[Show HN: I kept finding robot datasets with skewed clocks, so I built a checker](https://github.com/anicut-ai/embodied-sync) · [提交信源建议](../../issues/new/choose)
+- **livescience.com** · 连续成功 2 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
+- **wired.com** · 连续成功 4 次 · 样例：[Meta's push to put robots to work in data centers](https://www.wired.com/story/inside-metas-experiments-with-data-center-robots/) · [提交信源建议](../../issues/new/choose)
+- **abc7news.com** · 连续成功 2 次 · 样例：[An 'old school' San Jose barber is now teaching robots to cut hair with AI](https://abc7news.com/post/heres-old-school-san-jose-barber-taiyadi-magic-day-is-now-teaching-robots-cut-hair-ai-instawork-robotics/19754964/) · [提交信源建议](../../issues/new/choose)
+- **theverge.com** · 连续成功 2 次 · 样例：[China's robots race ahead](https://www.theverge.com/tech/986167/china-humanoid-robot-games-race) · [提交信源建议](../../issues/new/choose)
+- **404media.co** · 连续成功 4 次 · 样例：[ICE Plans to Spend Millions on Boston Dynamics Dog Robots](https://www.404media.co/ice-plans-to-spends-millions-on-boston-dynamics-dog-robots/) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

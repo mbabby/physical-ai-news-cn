@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-01T07:16:04.194Z",
+  "generatedAt": "2026-09-02T02:31:12.713Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -67,7 +67,7 @@
   "budget": {
     "maxPlansPerRun": 20,
     "attemptedPlans": 20,
-    "deferredPlans": 26,
+    "deferredPlans": 17,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -649,10 +649,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-08-31T07:57:24.490Z",
-      "nextAttemptAt": "2026-09-01T07:57:24.490Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2233,10 +2233,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-08-31T07:57:24.490Z",
-      "nextAttemptAt": "2026-09-01T07:57:24.490Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3203,10 +3203,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-08-31T07:57:24.490Z",
-      "nextAttemptAt": "2026-09-01T07:57:24.490Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3403,6 +3403,119 @@
       "nextAttemptAt": "2026-09-28T03:56:24.110Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-d8130f06b73f4c5ee499",
+      "recordId": "verify-6ff78b44227be6",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "24e9a941cf771a9d1506",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "candidate-found",
+      "probes": [
+        {
+          "id": "probe-38a21efa08ef7abeb560",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-832a076fb26e0f33f5e1",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b4b2b8aa9f30a53a04ff",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b180a3e6ebde1a08be07",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-7a904271556832767170",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-6b7c178e9ff021ef9e62",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"ENOV: Acquisition of a surgical robotics leader for up to €211M to boost innovation and market reach - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [
+        {
+          "articleId": "5a43e3d88fecad0e",
+          "link": "https://www.agilityrobotics.com/content/agility-robotics-strengthens-executive-leadership-team-with-appointment-of-michael-beer-as-chief-financial-officer",
+          "domain": "agilityrobotics.com",
+          "source": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "title": "Agility Robotics Strengthens Executive Leadership Team with Appointment of Michael Beer as Chief Financial Officer Press Release July 23, 2026",
+          "publishedAt": "2026-07-23T00:00:00.000Z",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "disposition": "candidate-only",
+          "mayPublish": false,
+          "mayUpgradeFactGrade": false
+        }
+      ],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "errors": [],
+      "auditNote": "发现的材料仅进入内部候选证据层；必须重新走主体、独立性、事实冲突和人工审核门槛。"
     },
     {
       "id": "plan-73dccc70c2453255f2be",
@@ -3880,10 +3993,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-08-31T07:57:24.490Z",
-      "nextAttemptAt": "2026-09-01T07:57:24.490Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4272,6 +4385,103 @@
       "createdAt": "2026-08-29T03:56:24.110Z",
       "lastAttemptAt": "2026-08-31T07:57:24.490Z",
       "nextAttemptAt": "2026-09-03T07:57:24.490Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-5d5beb1388052f406f44",
+      "recordId": "verify-cd5a54a3cf6a0d",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "9c300cdade12cda64c63",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-02badeb0b08cccaa521c",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-81d550982eea95c31c46",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-c40818737bec6c544581",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-33470a65667929e260da",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-33b2375db1c2fa4d968c",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0d6758e51ef2f457b139",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"ENOV: Acquisition accelerates robotics innovation, unifies platforms, and targets above-market growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4757,6 +4967,103 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-23T01:01:32.642Z",
       "nextAttemptAt": "2026-09-22T01:01:32.642Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-baabf26497eaa542429e",
+      "recordId": "verify-fb55f144bf9233",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "5de3271578fa54ece83a",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-f44332f4ed2304d551ea",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-32e5015f86a4fbe14d9b",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-1c5055462d8d604b3257",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-a048c13c9feb14011ff8",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-f37d05e1892211691234",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b177ca68fdc05298cda5",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"ENOV: Acquisition of a robotics innovator enhances the tech ecosystem and drives future growth - TradingView\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6208,10 +6515,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-08-31T07:57:24.490Z",
-      "nextAttemptAt": "2026-09-01T07:57:24.490Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -7859,6 +8166,103 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-23T10:13:59.373Z",
       "nextAttemptAt": "2026-09-22T10:13:59.373Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-e929a171bd34f6074455",
+      "recordId": "verify-e081007257d799",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "6227e874068aea7ab215",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 71,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-f5e6dc360c33803d84e1",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1a4bd532519c76c107c3",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9c9818a1e4d79eec1b14",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2aefd26ee1f113db986c",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0c88b1855aa23e0e5190",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0c638b9dab8c45ad66d0",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Visko launches Orbis live model and closes pre-seed funding round\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -12030,6 +12434,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-6217396eb697df89a69e",
+      "recordId": "verify-c0ac83b27e3d17",
+      "companyName": "获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn",
+      "eventKind": "投融资",
+      "fingerprint": "fcfd213ef554c4ca3dc3",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-1626451790864d234e45",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7509a6b6b329972d2aa0",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ff6d55bd28736467609e",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7af13e80281d11b49f35",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-31cf346b35e00c4fee42",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-cef6a5e4cd7f287ec35d",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-bcb11e8c9e475103c3a3",
       "recordId": "verify-c48474f0544ba7",
       "companyName": "肯塔基州西部五所学校",
@@ -12806,6 +13307,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-131bf1f22b68bba69146",
+      "recordId": "verify-f173c97912e1f7",
+      "companyName": "待识别公司",
+      "eventKind": "产品发布",
+      "fingerprint": "ef526aab424e49f0296b",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 63,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-335f7fa5f8ea37b86a8f",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-4306b7c0ad50593b194e",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-759c3e4641f68104cd4c",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-c601f482aeb0c567d6fa",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a70da9eda6ef973f01ac",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ffea978d0ee92161c62a",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"From spreadsheets to AI: Deere gives farmers new features in Operations Center, JD\" product launch release 产品 发布",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-02T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-a6969241309ab94d3927",
       "recordId": "verify-12fafe7602bb0d",
       "companyName": "待识别公司",
@@ -12895,10 +13493,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -12992,10 +13590,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13089,10 +13687,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13184,10 +13782,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13281,10 +13879,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13378,10 +13976,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13473,10 +14071,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13570,10 +14168,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13667,10 +14265,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-10T08:13:44.563Z",
-      "lastAttemptAt": "2026-08-18T04:04:24.770Z",
-      "nextAttemptAt": "2026-08-25T04:04:24.770Z",
+      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
+      "nextAttemptAt": "2026-10-02T02:31:12.713Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
