@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const MISSING_FRESHNESS_SELECTOR = 'type == "object" and .dailyPublicationFreshness.state == "missing"';
 
 function job(workflow: string, id: string): string {
   const start = workflow.indexOf(`  ${id}:\n`);
@@ -17,15 +19,16 @@ function job(workflow: string, id: string): string {
 test("pipeline health recovery dispatches only missing 09:25 Shanghai digests", async () => {
   const workflow = await readFile(join(root, ".github", "workflows", "pipeline-health.yml"), "utf8");
   const recovery = job(workflow, "recover_missing_daily");
+  const globalPermissions = workflow.split("\njobs:")[0]!;
 
   assert.match(workflow, /cron:\s*["']25 1 \* \* \*["']/);
-  assert.match(workflow, /contents:\s*read/);
-  assert.match(workflow, /actions:\s*write/);
+  assert.match(globalPermissions, /contents:\s*read/);
+  assert.doesNotMatch(globalPermissions, /actions:\s*write/);
+  assert.match(recovery, /permissions:\s*\n\s*contents:\s*read\s*\n\s*actions:\s*write/);
   assert.doesNotMatch(workflow, /contents:\s*write/);
   assert.match(recovery, /github\.event\.schedule\s*==\s*['"]25 1 \* \* \*['"]/);
   assert.match(recovery, /pnpm run validate:health/);
-  assert.match(recovery, /\.dailyPublicationFreshness\.state\s*\/\/\s*empty/);
-  assert.match(recovery, /\[\[ "\$freshness_state" != "missing" \]\]/);
+  assert.match(recovery, /jq -e\s+['"]type == "object" and \.dailyPublicationFreshness\.state == "missing"['"]/);
   assert.match(recovery, /gh run list\s+--workflow\s+["']Daily physical AI digest["']/);
   assert.match(recovery, /--status\s+in_progress/);
   assert.match(recovery, /--status\s+queued/);
@@ -34,6 +37,18 @@ test("pipeline health recovery dispatches only missing 09:25 Shanghai digests", 
   assert.ok(recovery.indexOf("dailyPublicationFreshness.state") < recovery.indexOf("gh workflow run"), "freshness must be checked before dispatch");
   assert.match(recovery, /GITHUB_STEP_SUMMARY/);
   assert.doesNotMatch(recovery, /git\s+(?:add|commit|push)\b/);
+});
+
+test("recovery freshness selector fail-closes for absent or empty health JSON", () => {
+  const matchesMissing = (input: string): boolean => spawnSync("jq", ["-e", MISSING_FRESHNESS_SELECTOR], {
+    input,
+    encoding: "utf8",
+  }).status === 0;
+
+  for (const healthJson of ["", "{}", '{"dailyPublicationFreshness": {}}', '{"dailyPublicationFreshness": {"state": "current"}}']) {
+    assert.equal(matchesMissing(healthJson), false, `health JSON must not dispatch recovery: ${healthJson || "<empty>"}`);
+  }
+  assert.equal(matchesMissing('{"dailyPublicationFreshness": {"state": "missing"}}'), true);
 });
 
 test("daily digest recovery is receipt-aware while force remains manual-only", async () => {

@@ -17,7 +17,6 @@ on:
 
 permissions:
   contents: read
-  actions: write
 
 concurrency:
   group: physical-ai-pipeline-health
@@ -45,6 +44,9 @@ jobs:
     if: >-
       always() && github.event_name == 'schedule' &&
       github.event.schedule == '25 1 * * *'
+    permissions:
+      contents: read
+      actions: write
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
@@ -62,34 +64,17 @@ jobs:
         run: |
           set +e
           pnpm run validate:health > "$RUNNER_TEMP/pipeline-health.stdout"
-          health_exit=$?
           set -e
 
           # pnpm writes its command banner before the CLI's final JSON. Keep
           # only that JSON object and let jq reject anything malformed.
           awk '/^\{/ { capture = 1 } capture { print }' "$RUNNER_TEMP/pipeline-health.stdout" > "$RUNNER_TEMP/pipeline-health.json"
 
-          freshness_state="$(jq -r '.dailyPublicationFreshness.state // empty' "$RUNNER_TEMP/pipeline-health.json" 2>/dev/null || true)"
-          freshness_source="health"
-          if [[ -z "$freshness_state" ]]; then
-            # Compatibility fallback for a rollout where the new health field
-            # is not yet available. It uses only the current Shanghai date and
-            # public aggregate fields, never errors or private diagnostics.
-            expected_date="$(TZ=Asia/Shanghai date +%F)"
-            freshness_state="$(jq -r --arg expected_date "$expected_date" '
-              if .latestDate == $expected_date and ((.latestPublicItems // 0) > 0)
-              then "current" else "missing" end
-            ' "$RUNNER_TEMP/pipeline-health.json" 2>/dev/null || true)"
-            freshness_source="workflow fallback"
-          fi
-
           echo "## Daily publication recovery" >> "$GITHUB_STEP_SUMMARY"
-          if [[ "$freshness_state" != "missing" ]]; then
-            if [[ "$health_exit" -ne 0 ]]; then
-              echo "- Health validation did not provide a missing-SLA result; no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
-            else
-              echo "- Freshness: ${freshness_state:-unavailable} (${freshness_source}); no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
-            fi
+          # Fail closed. A malformed, absent, or legacy health result can
+          # never synthesize a recovery dispatch.
+          if ! jq -e 'type == "object" and .dailyPublicationFreshness.state == "missing"' "$RUNNER_TEMP/pipeline-health.json" >/dev/null 2>&1; then
+            echo "- Health JSON did not explicitly report a missing daily SLA; no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
 
@@ -101,4 +86,4 @@ jobs:
           fi
 
           gh workflow run "Daily physical AI digest" --ref main -f recovery=true
-          echo "- Freshness: missing (${freshness_source}); dispatched one recovery run." >> "$GITHUB_STEP_SUMMARY"
+          echo "- Freshness: missing; dispatched one recovery run." >> "$GITHUB_STEP_SUMMARY"
