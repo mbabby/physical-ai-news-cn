@@ -9,7 +9,7 @@ import { fetchXSource } from "./fetchers/x.js";
 import { filterAndRank, filterIndustryAndRank, publicHoldReasons } from "./filter.js";
 import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
-import { CompatibleSummarizer } from "./summarize.js";
+import { CompatibleSummarizer, type SummaryLane } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
 import { buildCompanyDossiers, buildRouteCompetitionMap, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchCards, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, routeCorrections, upsertEvents } from "./event-center.js";
@@ -647,21 +647,24 @@ async function collectX(sources: SourceConfig[], windowHours: number, bearerToke
   return { articles, failures, sourceOutcomes };
 }
 
-async function summarizeInSmallBatches(summarizer: Pick<CompatibleSummarizer, "summarize">, articles: Article[], batchSize = 2): Promise<Article[]> {
+type SummaryClient = Pick<CompatibleSummarizer, "summarize"> & { recordCacheHits?: (count: number, lane: SummaryLane) => void };
+
+async function summarizeInSmallBatches(summarizer: SummaryClient, articles: Article[], lane: SummaryLane, batchSize = 2): Promise<Article[]> {
   const output: Article[] = [];
   for (let index = 0; index < articles.length; index += batchSize) {
-    output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
+    output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article, lane))));
   }
   return output;
 }
 
-export async function summarizeWithCache(summarizer: Pick<CompatibleSummarizer, "summarize">, articles: Article[], historical: Article[]): Promise<Article[]> {
+export async function summarizeWithCache(summarizer: SummaryClient, articles: Article[], historical: Article[], lane: SummaryLane = "industry"): Promise<Article[]> {
   const cached = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
   const pending = articles.filter((article) => {
     const prior = cached.get(article.id);
     return !prior || prior.title !== article.title || prior.excerpt !== article.excerpt;
   });
-  const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending)).map((article) => [article.id, article]));
+  summarizer.recordCacheHits?.(articles.length - pending.length, lane);
+  const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending, lane)).map((article) => [article.id, article]));
   return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical)
     .map(withDeterministicChineseOfficialFallback);
 }
@@ -867,12 +870,12 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const llmSettings = { apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL };
   const summarizer = new CompatibleSummarizer(llmSettings);
-  const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles);
+  const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles, "industry");
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough
   // complete cards to publish six. Any incomplete card remains private.
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
-  const researchArticles = await summarizeWithCache(summarizer, researchSelected, [...registeredResearch, ...cachedResearch, ...historicalArticles]);
+  const researchArticles = await summarizeWithCache(summarizer, researchSelected, [...registeredResearch, ...cachedResearch, ...historicalArticles], "research");
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
@@ -950,7 +953,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     ]);
   }
   const pulseCandidates = uniqueArticles([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))]);
-  const pulseSummaries = await summarizeWithCache(summarizer, pulseCandidates, [...articles, ...historicalArticles]);
+  const pulseSummaries = await summarizeWithCache(summarizer, pulseCandidates, [...articles, ...historicalArticles], "pulse");
   const summarizedPulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const pulse: IndustryPulse = {
     viewpoints: summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length === 0),

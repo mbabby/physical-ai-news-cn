@@ -55,6 +55,44 @@ test("rejects title-only model output without opening the provider circuit", asy
   }
 });
 
+test("rejects canonical placeholder and one-sentence research completion as invalid output", async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    const content = calls === 1
+      ? "标题：机器人新品\n摘要：原文摘要：请查看英文页面。"
+      : "标题：机器人操作基准研究\n摘要：论文提出机器人操作基准并报告实验设置。";
+    return new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
+  };
+  try {
+    const summarizer = new CompatibleSummarizer({ apiKey: "test", baseUrl: "https://llm.invalid/v1", model: "test" });
+    await summarizer.summarize({ ...base, id: "placeholder", excerpt: "Official release details." });
+    await summarizer.summarize({ ...base, id: "paper", source: "arXiv · Robotics", kind: "研究与数据", excerpt: "Research abstract." });
+    const status = summarizer.status();
+    assert.equal(status.succeeded, 0);
+    assert.equal(status.failed, 0);
+    assert.match(status.detail, /无效模型输出 2/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("counts malformed HTTP 200 bodies as invalid output rather than provider failure", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response("not-json", { status: 200 });
+  try {
+    const summarizer = new CompatibleSummarizer({ apiKey: "test", baseUrl: "https://llm.invalid/v1", model: "test" });
+    await summarizer.summarize({ ...base, excerpt: "Official source details." });
+    const status = summarizer.status();
+    assert.equal(status.failed, 0);
+    assert.match(status.detail, /无效模型输出 1/);
+    assert.match(status.detail, /提供方失败 0/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("opens a circuit after repeated provider failures", async () => {
   const originalFetch = globalThis.fetch;
   let calls = 0;
@@ -72,20 +110,52 @@ test("opens a circuit after repeated provider failures", async () => {
   }
 });
 
-test("limits uncached pulse summaries to two in-flight calls", async () => {
+test("keeps provider circuits isolated by lane and reports mixed outcomes safely", async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    if (calls === 1) return new Response(JSON.stringify({ choices: [{ message: { content: "标题：机器人新品" } }] }), { status: 200 });
+    if (calls <= 5) throw new TypeError("provider unavailable");
+    return new Response(JSON.stringify({ choices: [{ message: { content: "标题：研究机器人进展\n摘要：论文提出机器人操作方法。实验在真实机器人上完成验证。" } }] }), { status: 200 });
+  };
+  try {
+    const summarizer = new CompatibleSummarizer({ apiKey: "test", baseUrl: "https://llm.invalid/v1", model: "test" });
+    await summarizer.summarize({ ...base, id: "invalid", excerpt: "Industry source." }, "pulse");
+    await summarizer.summarize({ ...base, id: "industry-one", excerpt: "Industry source." }, "industry");
+    await summarizer.summarize({ ...base, id: "industry-two", excerpt: "Industry source." }, "industry");
+    const research = await summarizer.summarize({ ...base, id: "research", source: "arXiv · Robotics", kind: "研究与数据", excerpt: "Research source." }, "research");
+    assert.equal(calls, 6, "research must not inherit the industry circuit");
+    assert.equal(research.titleZh, "研究机器人进展");
+    assert.match(summarizer.status().detail, /提供方失败 2/);
+    assert.match(summarizer.status().detail, /无效模型输出 1/);
+    assert.match(summarizer.status().detail, /缓存命中 0/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("routes pulse through cache-first batches of at most two calls", async () => {
   let active = 0;
   let peak = 0;
+  let cacheHits = 0;
+  const lanes: string[] = [];
   const summarizer = {
-    async summarize(article: Article): Promise<Article> {
+    recordCacheHits(count: number): void { cacheHits += count; },
+    async summarize(article: Article, lane?: string): Promise<Article> {
       active += 1;
       peak = Math.max(peak, active);
+      lanes.push(lane ?? "");
       await new Promise((resolve) => setTimeout(resolve, 5));
       active -= 1;
       return { ...article, titleZh: `中文标题${article.id}`, summaryZh: "完整的中文事实简介。" };
     },
   };
   const pulseArticles = Array.from({ length: 5 }, (_, index) => ({ ...base, id: `pulse-${index}`, excerpt: "完整来源摘要" }));
-  const output = await summarizeWithCache(summarizer, pulseArticles, []);
+  const cached = { ...pulseArticles[0]!, titleZh: "缓存中文标题", summaryZh: "缓存的完整中文事实简介。" };
+  const output = await summarizeWithCache(summarizer, pulseArticles, [cached], "pulse");
   assert.equal(output.length, 5);
   assert.equal(peak, 2);
+  assert.equal(cacheHits, 1);
+  assert.deepEqual(lanes, ["pulse", "pulse", "pulse", "pulse"]);
 });

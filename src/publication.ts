@@ -37,7 +37,14 @@ export function publicArticlesOnly<T extends Pick<Article, "titleZh" | "summaryZ
 
 /** Reuse verified copy for the same source item when today's LLM call fails. */
 export function preferKnownGoodArticles(current: Article[], historical: Article[]): Article[] {
-  const known = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
+  const known = new Map<string, Article>();
+  const newestFirst = [...historical].filter(hasCompleteChineseCopy).sort((left, right) =>
+    right.publishedAt.getTime() - left.publishedAt.getTime()
+    || right.fetchedAt.getTime() - left.fetchedAt.getTime()
+    || right.titleZh!.localeCompare(left.titleZh!, "zh-Hans")
+    || right.summaryZh!.localeCompare(left.summaryZh!, "zh-Hans"),
+  );
+  for (const article of newestFirst) if (!known.has(article.id)) known.set(article.id, article);
   return current.map((article) => {
     const prior = known.get(article.id);
     if (!prior || hasCompleteChineseCopy(article)) return article;
@@ -48,11 +55,13 @@ export function preferKnownGoodArticles(current: Article[], historical: Article[
 /** A no-translation fallback for complete Chinese first-party announcements.
  * It is intentionally unavailable to research, media and discovery sources. */
 export function withDeterministicChineseOfficialFallback(article: Article): Article {
+  const entirelyChinese = (value: string): boolean => hasChineseText(value) && !/[A-Za-z]/.test(value) && !isPlaceholderCopy(value);
   const mayReuseOriginalChinese = article.kind !== "研究与数据"
     && !article.source.startsWith("arXiv ·")
     && article.sourceTier === "官方公司与实验室"
     && article.sourceWeight >= 9
-    && hasCompleteChineseCopy({ titleZh: article.title, summaryZh: article.excerpt });
+    && entirelyChinese(article.title)
+    && entirelyChinese(article.excerpt);
   if (!mayReuseOriginalChinese || hasCompleteChineseCopy(article)) return article;
   return { ...article, titleZh: article.title.trim(), summaryZh: article.excerpt.trim() };
 }
