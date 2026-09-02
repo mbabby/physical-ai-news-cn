@@ -6,9 +6,9 @@ import { decodeWatchlistConfig as decodeTypeScriptConfig } from "../src/watchlis
 import { stableDecisionId } from "../src/decision-products/contracts.js";
 
 const readSite = async (name: string) => readFile(new URL(`../site/${name}`, import.meta.url), "utf8");
-const shanghaiDate = () => {
+const shanghaiDate = (value = new Date()) => {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" })
-    .formatToParts(new Date()).map((part) => [part.type, part.value]));
+    .formatToParts(value).map((part) => [part.type, part.value]));
   return `${parts.year}-${parts.month}-${parts.day}`;
 };
 
@@ -75,6 +75,19 @@ test("homepage keeps empty top signals honest when public health is absent or ma
   assert.match(site.mounts["top-signals"].innerHTML, /当前没有满足公开门槛的产业信号/);
   assert.match(site.mounts["top-signals"].innerHTML, /主体确认、第二独立来源或完整中文事实简介/);
   assert.match(site.mounts["top-signals"].innerHTML, /不会进入首页/);
+});
+
+test("homepage fails closed for a valid but future publication date", async () => {
+  const site = await loadAppCompanyRenderer();
+  site.render({
+    stats: {}, routes: [],
+    publicationHealth: {
+      daily: { expectedDate: shanghaiDate(new Date(Date.now() + 2 * 86_400_000)), state: "pending", publicationDue: false },
+      publicIndustryItems: 0, publicResearchItems: 0, candidateBacklog: 0, degradedComponents: [],
+    },
+  });
+  assert.match(site.mounts["publication-status"].innerHTML, /日报状态待确认/);
+  assert.doesNotMatch(site.mounts["publication-status"].innerHTML, /等待当日日报/);
 });
 
 test("subscription center is static, privacy preserving and links every subscription route", async () => {

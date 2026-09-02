@@ -70,7 +70,7 @@ function isCalendarDate(value) {
 function currentPublicationState(daily) {
   const now = shanghaiDateTime();
   if (daily.expectedDate === now.date) return daily.state;
-  if (daily.expectedDate > now.date) return "pending";
+  if (daily.expectedDate > now.date) return undefined;
   return now.hour > 9 || (now.hour === 9 && now.minute >= 20) ? "missing" : "pending";
 }
 
@@ -90,6 +90,10 @@ function renderPublicationStatus(value) {
     return;
   }
   const state = currentPublicationState(daily);
+  if (!state) {
+    container.innerHTML = '<p class="empty">日报状态待确认。</p>';
+    return;
+  }
   const label = state === "current"
     ? "今日日报已生成"
     : state === "pending"

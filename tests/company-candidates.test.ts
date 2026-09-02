@@ -48,6 +48,24 @@ test("quarantines incoming roundup subjects without changing historical candidat
   assert.deepEqual(next.companies, before.companies);
 });
 
+test("refreshes a legacy candidate even when its subject now fails incoming admissibility", () => {
+  const existing = {
+    updatedAt: "2026-08-05T00:00:00.000Z",
+    companies: [{
+      id: "legacy-roundup", name: "2026年8月具身智能赛道", aliases: ["2026年8月具身智能赛道"], status: "候选" as const,
+      verificationScore: 0, routes: [], firstSeenAt: "2026-08-05T00:00:00.000Z", lastSeenAt: "2026-08-05T00:00:00.000Z", evidence: [], openQuestions: [],
+    }],
+  };
+  const next = updateCandidateCompanies(existing, [funding({
+    id: "legacy-refresh", title: "2026 embodied AI sector raises funding", titleZh: "2026年8月具身智能赛道完成融资",
+    link: "https://news.example.com/legacy-refresh",
+  })], new Date("2026-08-06T01:00:00Z"));
+
+  assert.equal(next.companies.length, 1);
+  assert.equal(next.companies[0]?.evidence[0]?.link, "https://news.example.com/legacy-refresh");
+  assert.equal(next.companies[0]?.lastSeenAt, "2026-08-06T01:00:00.000Z");
+});
+
 test("resolves a funding lead to an existing Chinese company profile without treating its profile as financing proof", () => {
   const galaxea: CompanyProfile = {
     entityId: "company-galaxea", name: "星海图", aliases: ["Galaxea", "Galaxea AI"], region: "中国", stage: "创业公司",

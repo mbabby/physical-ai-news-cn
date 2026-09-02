@@ -136,12 +136,12 @@ export function updateCandidateCompanies(existing: CandidateCompanyRegistry | un
   const companies = compactCompanies([...(existing?.companies ?? [])].map((company) => ({ ...company, aliases: [...company.aliases], routes: [...company.routes], evidence: company.evidence.map((item) => ({ ...item })), openQuestions: [...company.openQuestions] })));
   for (const article of articles.filter((item) => item.kind === "投融资" && FUNDING.test(`${item.title} ${item.titleZh ?? ""}`) && TECH.test(`${item.title} ${item.titleZh ?? ""} ${item.excerpt}`))) {
     const extractedName = entity(article); if (!extractedName) continue;
-    if (!isIncomingCandidateSubjectAdmissible(extractedName)) continue;
     const knownProfile = profileFor(extractedName, profiles);
     const name = knownProfile?.name ?? extractedName;
     const key = normalized(name);
     let company = companies.find((item) => [item.name, ...item.aliases].some((alias) => sameCompanyName(alias, name)));
     if (!company) {
+      if (!isIncomingCandidateSubjectAdmissible(extractedName)) continue;
       company = { id: `candidate-${createHash("sha256").update(key).digest("hex").slice(0, 12)}`, name, aliases: [...new Set([name, extractedName, ...(knownProfile?.aliases ?? [])])], status: "候选", verificationScore: 0, routes: [], officialUrl: knownProfile?.officialUrl, firstSeenAt: now.toISOString(), lastSeenAt: now.toISOString(), evidence: [], openQuestions: [] };
       companies.push(company);
     }
