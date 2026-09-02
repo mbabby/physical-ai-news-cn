@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
-import { assessDailyPublicationFreshness, buildPipelineHealth, updateRunHistory, validateHistoryContinuity } from "../src/runtime/health.js";
-import type { RunManifest } from "../src/types.js";
+import { assessDailyPublicationFreshness, buildPipelineHealth, updateRunHistory, validateHistoryContinuity, validatePipelineHealthArtifact } from "../src/runtime/health.js";
+import type { PipelineHealth, RunHistory, RunManifest } from "../src/types.js";
 
 const run = (id: string, finishedAt: string, status: RunManifest["status"] = "success", items = 3): RunManifest => ({
   schemaVersion: 1,
@@ -96,25 +99,42 @@ test("a non-failed same-day run satisfies the daily publication SLA and is proje
   });
 });
 
-const validateHealthAt = (now: string) => spawnSync(
+const validateHealthAt = (root: string, now: string) => spawnSync(
   process.execPath,
-  ["--require", "./tests/helpers/freeze-now.cjs", "--import", "tsx", "src/validate-health.ts"],
-  { cwd: process.cwd(), encoding: "utf8", env: { ...process.env, FREEZE_NOW: now } },
+  ["--import", "tsx", "src/validate-health.ts"],
+  { cwd: process.cwd(), encoding: "utf8", env: { ...process.env, PIPELINE_HEALTH_ROOT: root, PIPELINE_HEALTH_NOW: now } },
 );
 
-test("validate health accepts a pending daily publication before the Beijing cutoff", () => {
-  const result = validateHealthAt("2026-09-02T01:19:00Z");
+async function withRunHistoryFixture(history: RunHistory, check: (root: string) => void | Promise<void>): Promise<void> {
+  const root = await mkdtemp(join(tmpdir(), "pipeline-health-"));
+  await mkdir(join(root, "review"), { recursive: true });
+  await writeFile(join(root, "review", "run-history.json"), `${JSON.stringify(history)}\n`);
+  try {
+    await check(root);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+}
 
-  assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /"state": "pending"/);
+test("validate health accepts a pending daily publication before the Beijing cutoff", async () => {
+  const latest = run("yesterday", "2026-08-17T01:00:00Z");
+  await withRunHistoryFixture({ schemaVersion: 1, updatedAt: latest.finishedAt, runs: [latest] }, (root) => {
+    const result = validateHealthAt(root, "2026-08-18T01:19:00Z");
+
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /"state": "pending"/);
+  });
 });
 
-test("validate health rejects a missing daily publication at the Beijing cutoff", () => {
-  const result = validateHealthAt("2026-09-02T01:20:00Z");
+test("validate health rejects a missing daily publication at the Beijing cutoff", async () => {
+  const latest = run("yesterday", "2026-08-17T01:00:00Z");
+  await withRunHistoryFixture({ schemaVersion: 1, updatedAt: latest.finishedAt, runs: [latest] }, (root) => {
+    const result = validateHealthAt(root, "2026-08-18T01:20:00Z");
 
-  assert.equal(result.status, 1);
-  assert.match(result.stdout, /"state": "missing"/);
-  assert.match(result.stderr, /北京时间日报未在 09:20 前成功发布/);
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /"state": "missing"/);
+    assert.match(result.stderr, /北京时间日报未在 09:20 前成功发布/);
+  });
 });
 
 test("pipeline health reports a missed day as degraded without making future publication stale", () => {
@@ -152,6 +172,17 @@ test("pipeline health artifact validation binds its clock to the latest run rece
   const forgedHistory = { ...history, updatedAt: "2026-08-19T00:00:00Z" };
   const forgedArtifact = buildPipelineHealth(forgedHistory, new Date(forgedHistory.updatedAt));
   assert.match(validate(forgedHistory, forgedArtifact).join(" "), /运行历史更新时间没有绑定最新运行/);
+});
+
+test("checked-in pipeline health retains the release-validation freshness projection", async () => {
+  const [historyText, healthText] = await Promise.all([
+    readFile(join(process.cwd(), "review", "run-history.json"), "utf8"),
+    readFile(join(process.cwd(), "review", "pipeline-health.json"), "utf8"),
+  ]);
+  const history = JSON.parse(historyText) as RunHistory;
+  const health = JSON.parse(healthText) as PipelineHealth;
+
+  assert.deepEqual(validatePipelineHealthArtifact(history, health), []);
 });
 
 test("continuity validator detects duplicate ids and multi-day gaps", () => {
