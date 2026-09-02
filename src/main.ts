@@ -9,12 +9,12 @@ import { fetchXSource } from "./fetchers/x.js";
 import { filterAndRank, filterIndustryAndRank, publicHoldReasons } from "./filter.js";
 import { formatMarkdown, formatWeeklyMarkdown } from "./formatter.js";
 import { pulseArticleIds, selectIndustryPulse } from "./pulse.js";
-import { CompatibleSummarizer } from "./summarize.js";
+import { CompatibleSummarizer, type SummaryLane } from "./summarize.js";
 import { applyRegistryWeights, aggregateSourceCandidates, buildSourceRegistry, discoverSourceCandidates, formatReviewMarkdown, formatWatchlistMarkdown, selectWatchlistCandidates } from "./content-flywheel.js";
 import { dynamicSources, resolveCandidateFeeds, sourceNetworkSummary, updateCandidateRegistry } from "./source-pipeline.js";
 import { buildCompanyDossiers, buildRouteCompetitionMap, buildRouteIndex, formatCompanyDossiers, formatCompanyRadar, formatIndustryMap, formatRecentEvents, formatResearchCards, isPublishableResearch, primaryEntityForArticle, rankResearchArticles, routeCorrections, upsertEvents } from "./event-center.js";
 import { formatResourcePage } from "./resource-radar.js";
-import { buildDashboard } from "./site-data.js";
+import { buildDashboard, projectPublicationHealth } from "./site-data.js";
 import { enrichResearchWithOpenAlex } from "./openalex.js";
 import { rankResearchRecords, researchPromotionMarkdown, updateResearchRegistry } from "./research-registry.js";
 import { formatCandidateCompanyReview, updateCandidateCompanies } from "./company-candidates.js";
@@ -24,8 +24,9 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords } from "./publication.js";
+import { hasCompleteChineseCopy, newestKnownGoodById, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
+import { shanghaiDailyDate, shanghaiDailyDateForTimestamp } from "./runtime/daily-date.js";
 import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
@@ -430,11 +431,16 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
       seeds: previousSeeds!, ledger: previousLedger!, accepted: previousAccepted!, contributions: previousContributions!,
       previousTasks: previousPublic!, repository: previousSnapshot!.repo, generatedAt: previousLedger!.generatedAt,
     });
-    const revalidationStatus: RuntimeStatus = {
-      component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
-      failed: previousAccepted!.entries.length,
-      detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
-    };
+    const revalidationStatus: RuntimeStatus = previousAccepted!.entries.length === 0
+      ? {
+        component: "EvidenceRevalidation", status: "成功", attempted: 0, succeeded: 0, failed: 0,
+        detail: "上一有效社区投影没有已采纳证据，无需复核。",
+      }
+      : {
+        component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
+        failed: previousAccepted!.entries.length,
+        detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
+      };
     return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status, revalidation: revalidationBaseline!, revalidationStatus };
   }
 
@@ -647,22 +653,27 @@ async function collectX(sources: SourceConfig[], windowHours: number, bearerToke
   return { articles, failures, sourceOutcomes };
 }
 
-async function summarizeInSmallBatches(summarizer: CompatibleSummarizer, articles: Article[], batchSize = 2): Promise<Article[]> {
+type SummaryClient = Pick<CompatibleSummarizer, "summarize"> & { recordCacheHits?: (count: number, lane: SummaryLane) => void };
+type DailySummarizer = SummaryClient & Pick<CompatibleSummarizer, "status">;
+
+async function summarizeInSmallBatches(summarizer: SummaryClient, articles: Article[], lane: SummaryLane, batchSize = 2): Promise<Article[]> {
   const output: Article[] = [];
   for (let index = 0; index < articles.length; index += batchSize) {
-    output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article))));
+    output.push(...await Promise.all(articles.slice(index, index + batchSize).map((article) => summarizer.summarize(article, lane))));
   }
   return output;
 }
 
-async function summarizeWithCache(summarizer: CompatibleSummarizer, articles: Article[], historical: Article[]): Promise<Article[]> {
-  const cached = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
+export async function summarizeWithCache(summarizer: SummaryClient, articles: Article[], historical: Article[], lane: SummaryLane = "industry"): Promise<Article[]> {
+  const cached = newestKnownGoodById(historical);
   const pending = articles.filter((article) => {
     const prior = cached.get(article.id);
     return !prior || prior.title !== article.title || prior.excerpt !== article.excerpt;
   });
-  const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending)).map((article) => [article.id, article]));
-  return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical);
+  summarizer.recordCacheHits?.(articles.length - pending.length, lane);
+  const refreshed = new Map((await summarizeInSmallBatches(summarizer, pending, lane)).map((article) => [article.id, article]));
+  return preferKnownGoodArticles(articles.map((article) => refreshed.get(article.id) ?? article), historical)
+    .map(withDeterministicChineseOfficialFallback);
 }
 
 function mergePulseSummaries(pulse: IndustryPulse, summaries: Article[]): IndustryPulse {
@@ -766,6 +777,7 @@ export interface GenerateOptions {
   topSignalsDraftNow?: Date;
   collect?: typeof collect;
   collectX?: typeof collectX;
+  summarizer?: DailySummarizer;
   transaction?: FileTransaction;
   communityEvidenceSeeds?: EvidenceTaskSeedArtifact;
   fetchCommunityEvidenceSnapshot?: () => Promise<EvidenceIssueSnapshot>;
@@ -778,6 +790,7 @@ export interface GenerateOptions {
 /** Production daily orchestration with fixture seams for deterministic release verification. */
 async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const now = options.now ?? new Date();
+  const dailyDate = shanghaiDailyDate(now);
   const topSignalsDraftNow = options.topSignalsDraftNow ?? now;
   const outputRoot = options.root ?? root;
   const startedAt = now;
@@ -865,13 +878,13 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const llmSettings = { apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL };
-  const summarizer = new CompatibleSummarizer(llmSettings);
-  const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles);
+  const summarizer = options.summarizer ?? new CompatibleSummarizer(llmSettings);
+  const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles, "industry");
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough
   // complete cards to publish six. Any incomplete card remains private.
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
-  const researchArticles = await summarizeWithCache(summarizer, researchSelected, [...registeredResearch, ...cachedResearch, ...historicalArticles]);
+  const researchArticles = await summarizeWithCache(summarizer, researchSelected, [...registeredResearch, ...cachedResearch, ...historicalArticles], "research");
   // A public intelligence product must not oscillate between polished Chinese
   // cards and half-translated raw abstracts. The homepage falls back to the
   // latest complete cards; unfinished research stays in the candidate layer.
@@ -948,7 +961,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
       writeFile(join(resourcesDir, "simulation-and-tools.md"), formatResourcePage("tools", resourceCatalog, radarArticles, now), "utf8"),
     ]);
   }
-  const pulseSummaries = await Promise.all([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))].map((article) => summarizer.summarize(article)));
+  const pulseCandidates = uniqueArticles([...rawPulse.viewpoints, ...rawPulse.events.filter((event) => !industrySelected.some((article) => article.id === event.id))]);
+  const pulseSummaries = await summarizeWithCache(summarizer, pulseCandidates, [...articles, ...historicalArticles], "pulse");
   const summarizedPulse = mergePulseSummaries(rawPulse, [...articles, ...pulseSummaries]);
   const pulse: IndustryPulse = {
     viewpoints: summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length === 0),
@@ -956,7 +970,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   };
   const heldPulse = [...summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length > 0).map((article) => candidateArticle(article, publicHoldReasons(article, true, false))), ...summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)))];
   const visibleArticles = publicArticles.filter((article) => !pulseArticleIds(pulse).has(article.id));
-  const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
+  const path = join(outputDir, `${dailyDate}.md`);
   const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry, registrySources.length), publicResearch);
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
@@ -968,8 +982,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const archiveArticles = uniqueArticles([...publicArticles, ...publicResearch]);
   const candidates = uniqueArticles([...heldArticles, ...heldPulse, ...heldResearch]).map((article) => article as CandidateArticle);
   const statuses: RuntimeStatus[] = [summarizer.status(), openAlex.status];
-  const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => change.date.slice(0, 10) === now.toISOString().slice(0, 10) && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: now.toISOString().slice(0, 10) })));
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
+  const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => shanghaiDailyDateForTimestamp(change.date) === dailyDate && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: dailyDate })));
+  const archive: DailyArchive = { date: dailyDate, articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
   const archives = [...recentArchives.filter((item) => item.date !== archive.date), archive].sort((a, b) => a.date.localeCompare(b.date));
   const weeklyArticles = archives.flatMap((item) => item.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
   const weekly = selectWeekly(weeklyArticles, 10);
@@ -1282,16 +1296,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "evidence-enrichment.json"), JSON.stringify(evidenceEnrichment, null, 2) + "\n", "utf8");
   await writeFile(join(outputDir, `${archive.date}.json`), JSON.stringify(archive, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "runtime-status.md"), formatRuntimeStatus(statuses, archive.sourceOutcomes ?? [], archive.date), "utf8");
-  const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
-    activeSources: activeSources.length + activeXSources.length,
-    periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
-    companyClaimLedger,
-    researchDecisionCards,
-    researchIndustryEdges: researchIndustryRelations.edges,
-    watchlist: watchlistView,
-    decisionProducts,
-    communityEvidence: communityEvidence.publication,
-  });
   const anomalyReport = buildEventAnomalyReport(eventStore, archives, now);
   await writeFile(join(reviewDir, "event-anomalies.json"), JSON.stringify(anomalyReport, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "event-anomalies.md"), [
@@ -1309,6 +1313,38 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     ...(anomalyReport.alerts.length ? anomalyReport.alerts.map((alert) => `- **${alert.severity} · ${alert.code}**：${alert.message}`) : ["- 无异常。"]),
     "",
   ].join("\n"), "utf8");
+  const finishedAt = options.now ?? new Date();
+  const runManifest: RunManifest = {
+    schemaVersion: 1,
+    runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
+    date: archive.date,
+    startedAt: startedAt.toISOString(),
+    finishedAt: finishedAt.toISOString(),
+    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
+    quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
+    services: statuses,
+    // The final transaction count remains assigned after dashboard staging.
+    outputs: 0,
+  };
+  const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
+    optional: true,
+    label: "运行历史",
+    validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
+  });
+  const dashboardRunHistory = updateRunHistory(previousRunHistory, runManifest);
+  const dashboardPipelineHealth = buildPipelineHealth(dashboardRunHistory, finishedAt);
+  const publicationHealth = projectPublicationHealth(dashboardPipelineHealth, runManifest, anomalyReport.metrics.candidateBacklog);
+  const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
+    activeSources: activeSources.length + activeXSources.length,
+    periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
+    companyClaimLedger,
+    researchDecisionCards,
+    researchIndustryEdges: researchIndustryRelations.edges,
+    watchlist: watchlistView,
+    decisionProducts,
+    communityEvidence: communityEvidence.publication,
+    publicationHealth,
+  });
   const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
   const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
@@ -1446,23 +1482,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   // intentionally unreachable from GitHub Issue automation.
   stageWatchlistReviewIssueSeeds({ transaction, root: outputRoot, view: watchlistView });
   await stageWatchlistRelease({ transaction, root: outputRoot, ...watchlistRelease, feeds: { baseUrl: pagesBaseUrl } });
-  const finishedAt = options.now ?? new Date();
-  const runManifest: RunManifest = {
-    schemaVersion: 1,
-    runId: `${archive.date}-${startedAt.toISOString().replace(/[:.]/g, "-")}`,
-    date: archive.date,
-    startedAt: startedAt.toISOString(),
-    finishedAt: finishedAt.toISOString(),
-    status: archive.sourceOutcomes?.some((outcome) => outcome.status === "failure") || statuses.some((status) => status.status !== "成功") ? "degraded" : "success",
-    quality: { publicIndustryItems: publicArticles.length, publicResearchItems: publicResearch.length, candidates: candidates.length, sourceFailures: archive.sourceOutcomes?.filter((outcome) => outcome.status === "failure").length ?? 0 },
-    services: statuses,
-    outputs: transaction.size + 4,
-  };
-  const previousRunHistory = await readJsonStrict<RunHistory>(join(reviewDir, "run-history.json"), {
-    optional: true,
-    label: "运行历史",
-    validate: (value): value is RunHistory => isObject(value) && value.schemaVersion === 1 && Array.isArray(value.runs),
-  });
+  runManifest.outputs = transaction.size + 4;
   const runHistory = updateRunHistory(previousRunHistory, runManifest);
   const pipelineHealth = buildPipelineHealth(runHistory, finishedAt);
   const domainHealth = buildDomainHealth({

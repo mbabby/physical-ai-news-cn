@@ -203,6 +203,34 @@ test("GitHub failure reuses the prior valid projection and reports degradation",
   }
 });
 
+test("an unconfigured GitHub rerun treats an empty accepted-evidence LKG as successful revalidation", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-evidence-empty-revalidation-"));
+  try {
+    await initializeRoot(root);
+    const artifact = seeds();
+    const firstTransaction = new FileTransaction("community-evidence-empty-first");
+    await stageCommunityEvidenceArtifacts({ root, transaction: firstTransaction, seeds: artifact, now: new Date(NOW) });
+    await firstTransaction.commit();
+    const previous = await bytes(root);
+
+    const rerunTransaction = new FileTransaction("community-evidence-empty-rerun");
+    const rerun = await stageCommunityEvidenceArtifacts({ root, transaction: rerunTransaction, seeds: artifact, now: new Date(NOW) });
+    await rerunTransaction.commit();
+
+    assert.deepEqual(rerun.revalidationStatus, {
+      component: "EvidenceRevalidation",
+      status: "成功",
+      attempted: 0,
+      succeeded: 0,
+      failed: 0,
+      detail: "上一有效社区投影没有已采纳证据，无需复核。",
+    });
+    assert.deepEqual(await bytes(root), previous);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("GitHub failure migrates an exact legacy v1 Issue snapshot instead of losing the LKG", async () => {
   const root = await mkdtemp(join(tmpdir(), "community-evidence-legacy-snapshot-"));
   try {

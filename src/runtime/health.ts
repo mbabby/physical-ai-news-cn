@@ -1,6 +1,9 @@
-import type { PipelineHealth, RunHistory, RunManifest } from "../types.js";
+import type { DailyPublicationFreshness, PipelineHealth, RunHistory, RunManifest } from "../types.js";
+import { shanghaiDateTime } from "./daily-date.js";
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
+const DAILY_PUBLICATION_CUTOFF_HOUR = 9;
+const DAILY_PUBLICATION_CUTOFF_MINUTE = 20;
 
 export interface HistoryContinuityIssue {
   kind: "duplicate" | "order" | "gap";
@@ -9,6 +12,23 @@ export interface HistoryContinuityIssue {
 
 function isPublished(run: RunManifest): boolean {
   return run.status !== "failed" && run.quality.publicIndustryItems + run.quality.publicResearchItems > 0;
+}
+
+export function assessDailyPublicationFreshness(history: RunHistory, now: Date): DailyPublicationFreshness {
+  const currentTime = shanghaiDateTime(now);
+  const publicationDue = currentTime.hour > DAILY_PUBLICATION_CUTOFF_HOUR
+    || (currentTime.hour === DAILY_PUBLICATION_CUTOFF_HOUR && currentTime.minute >= DAILY_PUBLICATION_CUTOFF_MINUTE);
+  const runs = [...history.runs].sort((a, b) => b.finishedAt.localeCompare(a.finishedAt));
+  const latestPublished = runs.find(isPublished);
+  const latestPublishedDate = latestPublished?.date ?? "";
+  const hasCurrentPublication = runs.some((run) => isPublished(run) && run.date === currentTime.date);
+
+  return {
+    expectedDate: currentTime.date,
+    latestPublishedDate,
+    state: hasCurrentPublication ? "current" : publicationDue ? "missing" : "pending",
+    publicationDue,
+  };
 }
 
 export function updateRunHistory(previous: RunHistory | undefined, current: RunManifest, limit = 30): RunHistory {
@@ -40,6 +60,7 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
   if (recent.length >= 3 && successful / recent.length < 0.8) reasons.push("最近运行成功发布率低于 80%");
   reasons.push(...inspectHistoryContinuity(history).filter((issue) => issue.kind === "gap").map((issue) => issue.message));
   const latestPublicItems = latest.quality.publicIndustryItems + latest.quality.publicResearchItems;
+  const dailyPublicationFreshness = assessDailyPublicationFreshness(history, now);
   return {
     schemaVersion: 1,
     checkedAt: now.toISOString(),
@@ -50,6 +71,7 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
     recentRunCount: recent.length,
     recentSuccessRate: recent.length ? Number((successful / recent.length).toFixed(4)) : 0,
     latestPublicItems,
+    dailyPublicationFreshness,
     reasons,
   };
 }
@@ -101,6 +123,7 @@ export function validatePipelineHealthArtifact(history: RunHistory, artifact: Pi
     "latestPublicItems",
   ] as const;
   const differs = scalarKeys.some((key) => artifact[key] !== expected[key])
+    || JSON.stringify(artifact.dailyPublicationFreshness) !== JSON.stringify(expected.dailyPublicationFreshness)
     || JSON.stringify(artifact.reasons) !== JSON.stringify(expected.reasons);
   return differs ? ["流水线健康状态没有由运行历史正确派生"] : [];
 }

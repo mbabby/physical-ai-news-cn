@@ -21,6 +21,16 @@ on:
         description: "回填窗口（首次初始化填 720；日更留空）"
         required: false
         default: ""
+      recovery:
+        description: "仅供健康看门狗恢复缺失日报；已有当天回执时不生成"
+        required: false
+        type: boolean
+        default: false
+      force:
+        description: "人工强制重跑；不用于自动恢复"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -50,12 +60,36 @@ jobs:
         shell: bash
         run: |
           echo "run=true" >> "$GITHUB_OUTPUT"
+          digest_date="$(TZ=Asia/Shanghai date +%F)"
+          recovery="${{ inputs.recovery }}"
+          force="${{ inputs.force }}"
+
+          # Recovery is intentionally narrower than a manual force run. A
+          # current public receipt proves that its missing-SLA observation is
+          # stale, so do not create another writer.
+          if [[ "$recovery" == "true" ]]; then
+            if jq -e --arg digest_date "$digest_date" '
+              .date == $digest_date
+              and (.status != "failed")
+              and (((.quality.publicIndustryItems // 0) + (.quality.publicResearchItems // 0)) > 0)
+            ' review/run-manifest.json >/dev/null 2>&1; then
+              echo "run=false" >> "$GITHUB_OUTPUT"
+              echo "Recovery skipped: ${digest_date} already has a current public receipt."
+            fi
+            exit 0
+          fi
+
+          # Explicit forced manual work remains distinct from automatic
+          # recovery and keeps the existing manual rerun behavior.
+          if [[ "$force" == "true" ]]; then
+            exit 0
+          fi
+
           # Every scheduled trigger is idempotent. The earliest trigger that
           # reaches a runner generates the digest; later delayed triggers skip.
           if [[ -z "${{ github.event.schedule }}" ]]; then
             exit 0
           fi
-          digest_date="$(TZ=Asia/Shanghai date +%F)"
           if git log --format='%an' --since="${digest_date} 00:00:00 +0800" -- "daily/${digest_date}.md" | grep -qx "physical-ai-news-bot"; then
             echo "run=false" >> "$GITHUB_OUTPUT"
             echo "A digest was already committed for ${digest_date}; this scheduled retry is skipped."

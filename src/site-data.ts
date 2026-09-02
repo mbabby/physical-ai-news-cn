@@ -1,4 +1,4 @@
-import type { Article, CompanyDossier, CompanyProfile, EventRecord, EventStore, TechnicalRoute, ValidationStage } from "./types.js";
+import type { Article, CompanyDossier, CompanyProfile, EventRecord, EventStore, PipelineHealth, RunManifest, RuntimeStatus, TechnicalRoute, ValidationStage } from "./types.js";
 import { buildCompanyDossiers } from "./event-center.js";
 import { eventMaterialChangeAt } from "./event-time.js";
 import { hasChineseText, hasCompleteChineseResearchCopy, isPlaceholderCopy } from "./publication.js";
@@ -66,6 +66,19 @@ export interface ResearchIndustryLink {
   relations?: Array<{ company: string; type: string; state: "verified" | "developing"; evidenceLinks: string[]; }>;
 }
 export interface DashboardResearchItem extends DashboardItem { passportId?: string; decisionCard?: ResearchDecisionCard; }
+export interface PublicationHealth {
+  daily: {
+    expectedDate: string;
+    latestPublishedDate?: string;
+    state: "pending" | "current" | "missing";
+    publicationDue: boolean;
+  };
+  publicIndustryItems: number;
+  publicResearchItems: number;
+  candidateBacklog: number;
+  sourceFailureCount: number;
+  degradedComponents: RuntimeStatus["component"][];
+}
 export interface DashboardData {
   generatedAt: string;
   periodLabel: string;
@@ -91,6 +104,8 @@ export interface DashboardData {
   decisionProducts?: DecisionProductArtifact;
   /** Safe public community projection; contains no private review records. */
   communityEvidence?: CommunityEvidencePublication;
+  /** Credential-free aggregate freshness and availability state for the homepage. */
+  publicationHealth?: PublicationHealth;
 }
 
 export interface DashboardContext {
@@ -104,6 +119,33 @@ export interface DashboardContext {
   watchlist?: WatchlistPublicView;
   decisionProducts?: DecisionProductArtifact;
   communityEvidence?: CommunityEvidencePublication;
+  publicationHealth?: PublicationHealth;
+}
+
+function publicCount(value: number): number {
+  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+}
+
+/** Build the only health shape allowed to cross into the public dashboard. */
+export function projectPublicationHealth(
+  health: Pick<PipelineHealth, "dailyPublicationFreshness">,
+  run: Pick<RunManifest, "quality" | "services">,
+  candidateBacklog: number,
+): PublicationHealth {
+  const daily = health.dailyPublicationFreshness;
+  return {
+    daily: {
+      expectedDate: daily.expectedDate,
+      ...(daily.latestPublishedDate ? { latestPublishedDate: daily.latestPublishedDate } : {}),
+      state: daily.state,
+      publicationDue: daily.publicationDue,
+    },
+    publicIndustryItems: publicCount(run.quality.publicIndustryItems),
+    publicResearchItems: publicCount(run.quality.publicResearchItems),
+    candidateBacklog: publicCount(candidateBacklog),
+    sourceFailureCount: publicCount(run.quality.sourceFailures),
+    degradedComponents: [...new Set(run.services.filter((service) => service.status === "部分降级").map((service) => service.component))],
+  };
 }
 
 function eventFact(event: EventRecord): string {
@@ -430,5 +472,6 @@ export function buildDashboard(store: EventStore, companies: CompanyProfile[], r
     }));
   }
   if (context.communityEvidence) dashboard.communityEvidence = context.communityEvidence;
+  if (context.publicationHealth) dashboard.publicationHealth = context.publicationHealth;
   return dashboard;
 }

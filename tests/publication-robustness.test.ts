@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { preferKnownGoodArticles, recoverPublishedResearchRecords } from "../src/publication.js";
+import { preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "../src/publication.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import { validateDecisionProductPublication, validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
 import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
@@ -18,6 +18,64 @@ test("last known good copy prevents an LLM outage from degrading a public card",
   const restored = preferKnownGoodArticles([article("one", false)], [article("one", true)]);
   assert.equal(restored[0].titleZh, "中文标题one");
   assert.equal(restored[0].summaryZh, "这是经过核验的中文事实简介。");
+});
+
+test("uses the newest verified LKG before considering a deterministic fallback", () => {
+  const current = {
+    ...article("lkg", false),
+    title: "星河机器人发布新一代操作平台",
+    excerpt: "星河机器人宣布发布新一代操作平台，并说明该平台面向仓储场景的机器人部署。",
+    sourceWeight: 9,
+    sourceTier: "官方公司与实验室" as const,
+  };
+  const old = { ...current, publishedAt: new Date("2026-08-01T00:00:00Z"), titleZh: "旧版中文标题", summaryZh: "旧版经过核验的中文事实简介。" };
+  const newest = { ...current, publishedAt: new Date("2026-08-02T00:00:00Z"), titleZh: "新版中文标题", summaryZh: "新版经过核验的中文事实简介。" };
+  const restored = preferKnownGoodArticles([current], [newest, old]);
+  assert.equal(restored[0].titleZh, "新版中文标题");
+  assert.equal(withDeterministicChineseOfficialFallback(restored[0]).summaryZh, "新版经过核验的中文事实简介。");
+});
+
+test("uses complete Chinese official source copy only as the final deterministic fallback", () => {
+  const source = {
+    ...article("official", false),
+    title: "星河机器人发布新一代操作平台",
+    excerpt: "星河机器人宣布发布新一代操作平台，并说明该平台面向仓储场景的机器人部署。",
+    sourceWeight: 9,
+    sourceTier: "官方公司与实验室" as const,
+  };
+  const restored = withDeterministicChineseOfficialFallback(source);
+  assert.equal(restored.titleZh, source.title);
+  assert.equal(restored.summaryZh, source.excerpt);
+});
+
+test("rejects English or nonofficial source copy as a deterministic fallback", () => {
+  const english = { ...article("english", false), sourceTier: "官方公司与实验室" as const, sourceWeight: 10 };
+  const nonofficial = {
+    ...article("media", false),
+    title: "产业媒体报道机器人平台发布",
+    excerpt: "产业媒体报道一家机器人公司发布了新的操作平台。",
+    sourceTier: "权威产业媒体" as const,
+    sourceWeight: 10,
+  };
+  const research = {
+    ...article("research", false),
+    title: "机器人操作基准研究发布",
+    excerpt: "该研究发布机器人操作基准，并说明了实验设置与评测协议。",
+    sourceTier: "官方公司与实验室" as const,
+    sourceWeight: 10,
+    kind: "研究与数据" as const,
+  };
+  const mixedEnglish = {
+    ...article("mixed", false),
+    title: "星河 Robot 发布新一代操作平台",
+    excerpt: "星河 Robot 宣布发布新一代操作平台，并说明该平台面向仓储场景。",
+    sourceTier: "官方公司与实验室" as const,
+    sourceWeight: 10,
+  };
+  assert.equal(withDeterministicChineseOfficialFallback(english).summaryZh, english.summaryZh);
+  assert.equal(withDeterministicChineseOfficialFallback(nonofficial).summaryZh, nonofficial.summaryZh);
+  assert.equal(withDeterministicChineseOfficialFallback(research).summaryZh, research.summaryZh);
+  assert.equal(withDeterministicChineseOfficialFallback(mixedEnglish).summaryZh, mixedEnglish.summaryZh);
 });
 
 test("publication validation rejects placeholders before any public swap", () => {

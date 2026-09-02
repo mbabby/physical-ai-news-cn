@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildDashboard } from "../src/site-data.js";
+import { buildDashboard, projectPublicationHealth } from "../src/site-data.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import { buildResearchIndustryRelationEdges, researchIndustryCompanyId } from "../src/research-industry-relations.js";
 import type { Article, EventStore } from "../src/types.js";
@@ -38,6 +38,51 @@ test("builds compact dashboard data from verified events and research", () => {
   assert.equal(dashboard.companyBoards?.momentum.entries[0]?.companyName, "Example");
   assert.equal(dashboard.researchGraph[0]?.route, "VLA 与具身模型");
   assert.deepEqual(dashboard.researchGraph[0]?.companies, []);
+});
+
+test("projects only aggregate publication health without diagnostic or candidate content", () => {
+  const health = projectPublicationHealth({
+    dailyPublicationFreshness: {
+      expectedDate: "2026-08-02",
+      latestPublishedDate: "2026-08-01",
+      state: "missing",
+      publicationDue: true,
+    },
+  }, {
+    quality: { publicIndustryItems: 2, publicResearchItems: 3, candidates: 9, sourceFailures: 1 },
+    services: [{ component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "provider error https://private.example/token" }],
+  }, 7);
+
+  assert.deepEqual(health, {
+    daily: { expectedDate: "2026-08-02", latestPublishedDate: "2026-08-01", state: "missing", publicationDue: true },
+    publicIndustryItems: 2,
+    publicResearchItems: 3,
+    candidateBacklog: 7,
+    sourceFailureCount: 1,
+    degradedComponents: ["LLM"],
+  });
+  assert.doesNotMatch(JSON.stringify(health), /provider error|private\.example|token|candidates|sourceFailures/);
+
+  const dashboard = buildDashboard(events, [], [], new Date("2026-08-02"), { publicationHealth: health });
+  assert.deepEqual(dashboard.publicationHealth, health);
+  assert.doesNotMatch(JSON.stringify(dashboard), /provider error|private\.example|token/);
+});
+
+test("projects only partial service degradations and clamps source failures to a safe count", () => {
+  const health = projectPublicationHealth({
+    dailyPublicationFreshness: { expectedDate: "2026-08-02", latestPublishedDate: "2026-08-02", state: "current", publicationDue: false },
+  }, {
+    quality: { publicIndustryItems: 0, publicResearchItems: 0, candidates: 0, sourceFailures: -2 },
+    services: [
+      { component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "provider error https://private.example/token" },
+      { component: "OpenAlex", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "disabled" },
+      { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "disabled" },
+    ],
+  }, 0);
+
+  assert.deepEqual(health.degradedComponents, ["LLM"]);
+  assert.equal(health.sourceFailureCount, 0);
+  assert.doesNotMatch(JSON.stringify(health), /provider error|private\.example|token|disabled/);
 });
 
 test("keeps incomplete research and unowned events out of the public dashboard", () => {

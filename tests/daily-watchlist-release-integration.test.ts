@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { generate } from "../src/main.js";
+import { generate, type GenerateOptions } from "../src/main.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -19,7 +19,7 @@ import {
   type EvidenceTargetField,
 } from "../src/community-evidence/contracts.js";
 import { FileTransaction } from "../src/runtime/storage.js";
-import type { DashboardData } from "../src/site-data.js";
+import type { DashboardData, PublicationHealth } from "../src/site-data.js";
 import type { Article, DailyArchive, DigestResult, EventRecord, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
 import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
@@ -278,6 +278,8 @@ async function runFixedGeneration(root: string, options: {
   transaction?: FileTransaction;
   now?: Date;
   llmOutage?: boolean;
+  collectX?: typeof emptyCollection;
+  summarizer?: GenerateOptions["summarizer"];
   communityEvidence?: ReturnType<typeof communityEvidenceFixture>;
   evidenceFetch?: typeof fetch;
   evidenceResolve?: (hostname: string) => Promise<string[]>;
@@ -312,7 +314,8 @@ async function runFixedGeneration(root: string, options: {
       root,
       now: options.now ?? FIXED_NOW,
       collect: options.collect ?? emptyCollection,
-      collectX: emptyCollection,
+      collectX: options.collectX ?? emptyCollection,
+      summarizer: options.summarizer,
       transaction: options.transaction,
       communityEvidenceSeeds: options.communityEvidence?.seeds,
       fetchCommunityEvidenceSnapshot: options.communityEvidence ? async () => options.communityEvidence!.snapshot : undefined,
@@ -336,7 +339,107 @@ async function runFixedGeneration(root: string, options: {
   }
 }
 
+test("daily orchestration sends pulse through the cache-first bounded pulse lane", async () => {
+  const root = await mkdtemp(join(tmpdir(), "task3-pulse-orchestration-"));
+  const now = new Date();
+  const observedLanes: string[] = [];
+  const cacheHits: Array<{ count: number; lane: string }> = [];
+  let active = 0;
+  let peak = 0;
+  const pulseArticles: Article[] = ["view-a", "view-b", "event-a", "event-b", "event-c"].map((id, index) => ({
+    id: `pulse-${id}`, title: `Robot signal ${id}`, link: `https://x.example/${id}`, publishedAt: now, fetchedAt: now,
+    source: "X fixture", sourceWeight: 7, excerpt: `Robot source excerpt ${id}.`, tags: ["robot"],
+    pulseKind: index < 2 ? "人物观点" : "关键事件", speaker: index < 2 ? "Fixture speaker" : undefined,
+  }));
+  const cached = { ...pulseArticles[0]!, titleZh: "缓存人物观点", summaryZh: "缓存的完整中文事实简介。" };
+  const priorDate = new Date(now.getTime() - 24 * 3_600_000).toISOString().slice(0, 10);
+  const summarizer = {
+    recordCacheHits(count: number, lane: string): void { cacheHits.push({ count, lane }); },
+    async summarize(article: Article, lane?: string): Promise<Article> {
+      observedLanes.push(lane ?? "");
+      active += 1;
+      peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      active -= 1;
+      return { ...article, titleZh: `中文${article.id}`, summaryZh: "完整中文事实简介，保留来源事实。" };
+    },
+    status() { return { component: "LLM" as const, status: "成功" as const, attempted: observedLanes.length, succeeded: observedLanes.length, failed: 0, detail: "fixture" }; },
+  };
+  try {
+    await copyFixture(root);
+    await writeFile(join(root, "daily", `${priorDate}.json`), `${JSON.stringify({ date: priorDate, articles: [cached], candidates: [], runtimeStatus: [] }, null, 2)}\n`);
+    await runFixedGeneration(root, {
+      now,
+      collectX: async () => ({ articles: pulseArticles, failures: [], sourceOutcomes: [] }),
+      summarizer,
+    });
+    assert.deepEqual(cacheHits.find((item) => item.lane === "pulse"), { count: 1, lane: "pulse" });
+    assert.equal(peak, 2);
+    assert.deepEqual(observedLanes, ["pulse", "pulse", "pulse", "pulse"]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily generation uses the Shanghai calendar day for its archive and publication receipt", async () => {
+  const root = await mkdtemp(join(tmpdir(), "daily-shanghai-date-"));
+  try {
+    await copyFixture(root);
+    const manifest = await runFixedGeneration(root, { now: new Date("2026-08-17T16:30:00.000Z") });
+    const archive = JSON.parse(await readFile(join(root, "daily", "2026-08-18.json"), "utf8")) as DailyArchive;
+    const markdown = await readFile(join(root, "daily", "2026-08-18.md"), "utf8");
+
+    assert.equal(manifest.date, "2026-08-18");
+    assert.match(manifest.runId, /^2026-08-18-/);
+    assert.equal(archive.date, "2026-08-18");
+    assert.ok(markdown.length > 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily generation assigns cross-midnight research corrections to its Shanghai archive day", async () => {
+  const root = await mkdtemp(join(tmpdir(), "daily-shanghai-correction-"));
+  try {
+    await copyFixture(root);
+    const registryPath = join(root, "research", "registry.json");
+    const registry = JSON.parse(await readFile(registryPath, "utf8")) as { records: Array<{ changes: unknown[] }> };
+    registry.records[0]!.changes.push({ date: "2026-08-17T16:30:00.000Z", kind: "版本更新", detail: "跨日修正。" });
+    await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
+
+    await runFixedGeneration(root, { now: new Date("2026-08-17T16:30:00.000Z") });
+    const archive = JSON.parse(await readFile(join(root, "daily", "2026-08-18.json"), "utf8")) as DailyArchive;
+
+    assert.deepEqual(archive.sourceCorrections?.map((correction) => correction.date), ["2026-08-18"]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 type PublicGroup = { bytes: Record<string, string>; semantics: unknown };
+
+function dashboardWithoutPublicationHealth(bytes: string): Omit<DashboardData, "publicationHealth"> {
+  const dashboard = JSON.parse(bytes) as DashboardData;
+  delete dashboard.publicationHealth;
+  return dashboard;
+}
+
+/** The LKG contract permits current-run aggregate health, but no decision content. */
+function assertPublicGroupMatchesLkgExceptPublicationHealth(
+  actual: PublicGroup,
+  baseline: PublicGroup,
+  expectedHealth: PublicationHealth,
+): void {
+  const { ["site/data/dashboard.json"]: actualDashboardBytes, ...actualBytes } = actual.bytes;
+  const { ["site/data/dashboard.json"]: baselineDashboardBytes, ...baselineBytes } = baseline.bytes;
+  assert.deepEqual(actualBytes, baselineBytes);
+  assert.deepEqual(dashboardWithoutPublicationHealth(actualDashboardBytes!), dashboardWithoutPublicationHealth(baselineDashboardBytes!));
+  assert.deepEqual(actual.semantics, baseline.semantics);
+  const health = (JSON.parse(actualDashboardBytes!) as DashboardData).publicationHealth;
+  assert.deepEqual(health, expectedHealth);
+  assert.deepEqual(Object.keys(health ?? {}).sort(), ["candidateBacklog", "daily", "degradedComponents", "publicIndustryItems", "publicResearchItems", "sourceFailureCount"].sort());
+  assert.doesNotMatch(JSON.stringify(health), /fixture-source|timeout|provider|error|https?:|prompt|detail/i);
+}
 
 async function capturePublicGroup(root: string): Promise<PublicGroup> {
   const snapshotBytes = await readFile(join(root, "watchlist", "current.json"), "utf8");
@@ -505,7 +608,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
     const fault = async (
       name: string,
       prepare: (root: string) => Promise<() => Promise<unknown>>,
-      expected: { status: "success" | "degraded" } | { status: "failed"; code: string },
+      expected: { status: "success" | "degraded"; health?: (baseline: PublicationHealth) => PublicationHealth } | { status: "failed"; code: string },
     ) => {
       await t.test(name, async () => {
         const root = await mkdtemp(join(tmpdir(), `stage4-${name}-`));
@@ -516,7 +619,10 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
           else {
             const manifest = await run() as RunManifest;
             assert.equal(manifest.status, expected.status);
-            assert.deepEqual(await capturePublicGroup(root), baseline);
+            const current = await capturePublicGroup(root);
+            const baselineHealth = (JSON.parse(baseline.bytes["site/data/dashboard.json"]!) as DashboardData).publicationHealth!;
+            if (expected.health) assertPublicGroupMatchesLkgExceptPublicationHealth(current, baseline, expected.health(baselineHealth));
+            else assert.deepEqual(current, baseline);
           }
         } finally {
           await rm(root, { recursive: true, force: true });
@@ -537,7 +643,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
           detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
         });
         return manifest;
-    }, { status: "degraded" });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 0, degradedComponents: ["Watchlist"] }) });
     await fault("corrupt-prior-json", async (root) => {
       await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
@@ -589,7 +695,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
         fetchedArticles: 0,
       });
       return manifest;
-    }, { status: "degraded" });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 1, degradedComponents: [] }) });
     await fault("file-transaction-swap-failure", async (root) => async () => runFixedGeneration(root, {
       transaction: new FileTransaction("stage4-full-group-failure", { failAfterSwaps: 5 }),
     }), { status: "failed", code: "transaction-swap-failure" });

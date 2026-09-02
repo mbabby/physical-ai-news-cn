@@ -3,6 +3,9 @@ name: Pipeline health watchdog
 on:
   schedule:
     - cron: "17 */3 * * *"
+    # 01:25 UTC = Asia/Shanghai 09:25. This is a dispatch-only recovery
+    # window after the 09:20 daily-publication SLA.
+    - cron: "25 1 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -33,3 +36,54 @@ jobs:
       - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
       - name: Check publication freshness and run continuity
         run: pnpm run validate:health
+
+  recover_missing_daily:
+    # A missing publication makes validate:health fail by design, so this job
+    # must still inspect its structured stdout after verify completes.
+    needs: verify
+    if: >-
+      always() && github.event_name == 'schedule' &&
+      github.event.schedule == '25 1 * * *'
+    permissions:
+      contents: read
+      actions: write
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - name: Recover only a missing daily publication
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          pnpm run validate:health > "$RUNNER_TEMP/pipeline-health.stdout"
+          set -e
+
+          # pnpm writes its command banner before the CLI's final JSON. Keep
+          # only that JSON object and let jq reject anything malformed.
+          awk '/^\{/ { capture = 1 } capture { print }' "$RUNNER_TEMP/pipeline-health.stdout" > "$RUNNER_TEMP/pipeline-health.json"
+
+          echo "## Daily publication recovery" >> "$GITHUB_STEP_SUMMARY"
+          # Fail closed. A malformed, absent, or legacy health result can
+          # never synthesize a recovery dispatch.
+          if ! jq -e 'type == "object" and .dailyPublicationFreshness.state == "missing"' "$RUNNER_TEMP/pipeline-health.json" >/dev/null 2>&1; then
+            echo "- Health JSON did not explicitly report a missing daily SLA; no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          active_runs="$(gh run list --workflow "Daily physical AI digest" --status in_progress --json databaseId --jq 'length')"
+          queued_runs="$(gh run list --workflow "Daily physical AI digest" --status queued --json databaseId --jq 'length')"
+          if (( active_runs > 0 || queued_runs > 0 )); then
+            echo "- Freshness: missing; Daily workflow is already active or queued, so no duplicate dispatch." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          gh workflow run "Daily physical AI digest" --ref main -f recovery=true
+          echo "- Freshness: missing; dispatched one recovery run." >> "$GITHUB_STEP_SUMMARY"
