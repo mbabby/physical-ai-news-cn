@@ -3,6 +3,9 @@ name: Pipeline health watchdog
 on:
   schedule:
     - cron: "17 */3 * * *"
+    # 01:25 UTC = Asia/Shanghai 09:25. This is a dispatch-only recovery
+    # window after the 09:20 daily-publication SLA.
+    - cron: "25 1 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -14,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 concurrency:
   group: physical-ai-pipeline-health
@@ -33,3 +37,68 @@ jobs:
       - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
       - name: Check publication freshness and run continuity
         run: pnpm run validate:health
+
+  recover_missing_daily:
+    # A missing publication makes validate:health fail by design, so this job
+    # must still inspect its structured stdout after verify completes.
+    needs: verify
+    if: >-
+      always() && github.event_name == 'schedule' &&
+      github.event.schedule == '25 1 * * *'
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile --config.strict-dep-builds=false
+      - name: Recover only a missing daily publication
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          pnpm run validate:health > "$RUNNER_TEMP/pipeline-health.stdout"
+          health_exit=$?
+          set -e
+
+          # pnpm writes its command banner before the CLI's final JSON. Keep
+          # only that JSON object and let jq reject anything malformed.
+          awk '/^\{/ { capture = 1 } capture { print }' "$RUNNER_TEMP/pipeline-health.stdout" > "$RUNNER_TEMP/pipeline-health.json"
+
+          freshness_state="$(jq -r '.dailyPublicationFreshness.state // empty' "$RUNNER_TEMP/pipeline-health.json" 2>/dev/null || true)"
+          freshness_source="health"
+          if [[ -z "$freshness_state" ]]; then
+            # Compatibility fallback for a rollout where the new health field
+            # is not yet available. It uses only the current Shanghai date and
+            # public aggregate fields, never errors or private diagnostics.
+            expected_date="$(TZ=Asia/Shanghai date +%F)"
+            freshness_state="$(jq -r --arg expected_date "$expected_date" '
+              if .latestDate == $expected_date and ((.latestPublicItems // 0) > 0)
+              then "current" else "missing" end
+            ' "$RUNNER_TEMP/pipeline-health.json" 2>/dev/null || true)"
+            freshness_source="workflow fallback"
+          fi
+
+          echo "## Daily publication recovery" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$freshness_state" != "missing" ]]; then
+            if [[ "$health_exit" -ne 0 ]]; then
+              echo "- Health validation did not provide a missing-SLA result; no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "- Freshness: ${freshness_state:-unavailable} (${freshness_source}); no recovery dispatch." >> "$GITHUB_STEP_SUMMARY"
+            fi
+            exit 0
+          fi
+
+          active_runs="$(gh run list --workflow "Daily physical AI digest" --status in_progress --json databaseId --jq 'length')"
+          queued_runs="$(gh run list --workflow "Daily physical AI digest" --status queued --json databaseId --jq 'length')"
+          if (( active_runs > 0 || queued_runs > 0 )); then
+            echo "- Freshness: missing; Daily workflow is already active or queued, so no duplicate dispatch." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          gh workflow run "Daily physical AI digest" --ref main -f recovery=true
+          echo "- Freshness: missing (${freshness_source}); dispatched one recovery run." >> "$GITHUB_STEP_SUMMARY"
