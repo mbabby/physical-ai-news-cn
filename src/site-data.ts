@@ -76,6 +76,7 @@ export interface PublicationHealth {
   publicIndustryItems: number;
   publicResearchItems: number;
   candidateBacklog: number;
+  sourceFailureCount: number;
   degradedComponents: RuntimeStatus["component"][];
 }
 export interface DashboardData {
@@ -142,7 +143,8 @@ export function projectPublicationHealth(
     publicIndustryItems: publicCount(run.quality.publicIndustryItems),
     publicResearchItems: publicCount(run.quality.publicResearchItems),
     candidateBacklog: publicCount(candidateBacklog),
-    degradedComponents: [...new Set(run.services.filter((service) => service.status !== "成功").map((service) => service.component))],
+    sourceFailureCount: publicCount(run.quality.sourceFailures),
+    degradedComponents: [...new Set(run.services.filter((service) => service.status === "部分降级").map((service) => service.component))],
   };
 }
 

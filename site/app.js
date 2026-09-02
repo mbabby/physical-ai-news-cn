@@ -100,8 +100,11 @@ function renderPublicationStatus(value) {
       ? "等待当日日报"
       : "日报延迟，等待自动恢复检查";
   const components = list(health.degradedComponents).filter((component) => PUBLIC_COMPONENTS.has(component));
+  const sourceFailures = finiteNumber(health.sourceFailureCount);
+  const sourceFailureCount = sourceFailures === null ? 0 : Math.max(0, Math.floor(sourceFailures));
+  const sourceFailureStatus = sourceFailureCount > 0 ? `信源失败 ${sourceFailureCount}` : "";
   const latest = isCalendarDate(daily.latestPublishedDate) ? `上次发布 ${safe(daily.latestPublishedDate)}` : "";
-  container.innerHTML = `<div class="publication-status__summary publication-status__summary--${safe(state)}"><strong>${label}</strong><span>产业 ${publicHealthCount(health.publicIndustryItems)} · 研究 ${publicHealthCount(health.publicResearchItems)} · 候选待补证 ${publicHealthCount(health.candidateBacklog)}</span>${latest ? `<small>${latest}</small>` : ""}${components.length ? `<small>服务降级：${components.map(safe).join(" · ")}</small>` : ""}</div>`;
+  container.innerHTML = `<div class="publication-status__summary publication-status__summary--${safe(state)}"><strong>${label}</strong><span>产业 ${publicHealthCount(health.publicIndustryItems)} · 研究 ${publicHealthCount(health.publicResearchItems)} · 候选待补证 ${publicHealthCount(health.candidateBacklog)}</span>${latest ? `<small>${latest}</small>` : ""}${sourceFailureStatus ? `<small>${sourceFailureStatus}</small>` : ""}${components.length ? `<small>服务降级：${components.map(safe).join(" · ")}</small>` : ""}</div>`;
 }
 
 const evidenceStates = {

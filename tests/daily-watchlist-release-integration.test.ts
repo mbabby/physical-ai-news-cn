@@ -19,7 +19,7 @@ import {
   type EvidenceTargetField,
 } from "../src/community-evidence/contracts.js";
 import { FileTransaction } from "../src/runtime/storage.js";
-import type { DashboardData } from "../src/site-data.js";
+import type { DashboardData, PublicationHealth } from "../src/site-data.js";
 import type { Article, DailyArchive, DigestResult, EventRecord, EventStore, ResearchRecord, RunManifest } from "../src/types.js";
 import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
@@ -383,6 +383,29 @@ test("daily orchestration sends pulse through the cache-first bounded pulse lane
 
 type PublicGroup = { bytes: Record<string, string>; semantics: unknown };
 
+function dashboardWithoutPublicationHealth(bytes: string): Omit<DashboardData, "publicationHealth"> {
+  const dashboard = JSON.parse(bytes) as DashboardData;
+  delete dashboard.publicationHealth;
+  return dashboard;
+}
+
+/** The LKG contract permits current-run aggregate health, but no decision content. */
+function assertPublicGroupMatchesLkgExceptPublicationHealth(
+  actual: PublicGroup,
+  baseline: PublicGroup,
+  expectedHealth: PublicationHealth,
+): void {
+  const { ["site/data/dashboard.json"]: actualDashboardBytes, ...actualBytes } = actual.bytes;
+  const { ["site/data/dashboard.json"]: baselineDashboardBytes, ...baselineBytes } = baseline.bytes;
+  assert.deepEqual(actualBytes, baselineBytes);
+  assert.deepEqual(dashboardWithoutPublicationHealth(actualDashboardBytes!), dashboardWithoutPublicationHealth(baselineDashboardBytes!));
+  assert.deepEqual(actual.semantics, baseline.semantics);
+  const health = (JSON.parse(actualDashboardBytes!) as DashboardData).publicationHealth;
+  assert.deepEqual(health, expectedHealth);
+  assert.deepEqual(Object.keys(health ?? {}).sort(), ["candidateBacklog", "daily", "degradedComponents", "publicIndustryItems", "publicResearchItems", "sourceFailureCount"].sort());
+  assert.doesNotMatch(JSON.stringify(health), /fixture-source|timeout|provider|error|https?:|prompt|detail/i);
+}
+
 async function capturePublicGroup(root: string): Promise<PublicGroup> {
   const snapshotBytes = await readFile(join(root, "watchlist", "current.json"), "utf8");
   const snapshot = JSON.parse(snapshotBytes) as WatchlistSnapshot;
@@ -550,7 +573,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
     const fault = async (
       name: string,
       prepare: (root: string) => Promise<() => Promise<unknown>>,
-      expected: { status: "success" | "degraded" } | { status: "failed"; code: string },
+      expected: { status: "success" | "degraded"; health?: (baseline: PublicationHealth) => PublicationHealth } | { status: "failed"; code: string },
     ) => {
       await t.test(name, async () => {
         const root = await mkdtemp(join(tmpdir(), `stage4-${name}-`));
@@ -561,7 +584,10 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
           else {
             const manifest = await run() as RunManifest;
             assert.equal(manifest.status, expected.status);
-            assert.deepEqual(await capturePublicGroup(root), baseline);
+            const current = await capturePublicGroup(root);
+            const baselineHealth = (JSON.parse(baseline.bytes["site/data/dashboard.json"]!) as DashboardData).publicationHealth!;
+            if (expected.health) assertPublicGroupMatchesLkgExceptPublicationHealth(current, baseline, expected.health(baselineHealth));
+            else assert.deepEqual(current, baseline);
           }
         } finally {
           await rm(root, { recursive: true, force: true });
@@ -582,7 +608,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
           detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
         });
         return manifest;
-    }, { status: "degraded" });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 0, degradedComponents: ["Watchlist"] }) });
     await fault("corrupt-prior-json", async (root) => {
       await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
@@ -634,7 +660,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
         fetchedArticles: 0,
       });
       return manifest;
-    }, { status: "degraded" });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 1, degradedComponents: [] }) });
     await fault("file-transaction-swap-failure", async (root) => async () => runFixedGeneration(root, {
       transaction: new FileTransaction("stage4-full-group-failure", { failAfterSwaps: 5 }),
     }), { status: "failed", code: "transaction-swap-failure" });

@@ -50,11 +50,12 @@ test("homepage renders current and missing publication status from safe health f
     generatedAt: "2026-08-02T01:30:00.000Z", stats: {}, routes: [],
     publicationHealth: {
       daily: { expectedDate: shanghaiDate(), latestPublishedDate: shanghaiDate(), state: "current", publicationDue: false },
-      publicIndustryItems: 2, publicResearchItems: 3, candidateBacklog: 4, degradedComponents: [],
+      publicIndustryItems: 2, publicResearchItems: 3, candidateBacklog: 4, sourceFailureCount: 2, degradedComponents: [],
     },
   });
   assert.match(current.mounts["publication-status"].innerHTML, /今日日报已生成/);
   assert.match(current.mounts["publication-status"].innerHTML, /产业 2.*研究 3.*候选待补证 4/);
+  assert.match(current.mounts["publication-status"].innerHTML, /信源失败 2/);
 
   const missing = await loadAppCompanyRenderer();
   missing.render({
@@ -66,6 +67,18 @@ test("homepage renders current and missing publication status from safe health f
   });
   assert.match(missing.mounts["publication-status"].innerHTML, /日报延迟.*自动恢复/);
   assert.match(missing.mounts["publication-status"].innerHTML, /服务降级：LLM/);
+});
+
+test("homepage omits malformed fractional source-failure counts", async () => {
+  const site = await loadAppCompanyRenderer();
+  site.render({
+    stats: {}, routes: [],
+    publicationHealth: {
+      daily: { expectedDate: shanghaiDate(), latestPublishedDate: shanghaiDate(), state: "current", publicationDue: false },
+      publicIndustryItems: 0, publicResearchItems: 0, candidateBacklog: 0, sourceFailureCount: 0.5, degradedComponents: [],
+    },
+  });
+  assert.doesNotMatch(site.mounts["publication-status"].innerHTML, /信源失败/);
 });
 
 test("homepage keeps empty top signals honest when public health is absent or malformed", async () => {

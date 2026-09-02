@@ -430,11 +430,16 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
       seeds: previousSeeds!, ledger: previousLedger!, accepted: previousAccepted!, contributions: previousContributions!,
       previousTasks: previousPublic!, repository: previousSnapshot!.repo, generatedAt: previousLedger!.generatedAt,
     });
-    const revalidationStatus: RuntimeStatus = {
-      component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
-      failed: previousAccepted!.entries.length,
-      detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
-    };
+    const revalidationStatus: RuntimeStatus = previousAccepted!.entries.length === 0
+      ? {
+        component: "EvidenceRevalidation", status: "成功", attempted: 0, succeeded: 0, failed: 0,
+        detail: "上一有效社区投影没有已采纳证据，无需复核。",
+      }
+      : {
+        component: "EvidenceRevalidation", status: "部分降级", attempted: previousAccepted!.entries.length, succeeded: 0,
+        failed: previousAccepted!.entries.length,
+        detail: "GitHub 快照未刷新；复核凭据与社区投影一起保留上一有效版本，未授权新的规范晋升。",
+      };
     return { accepted: previousAccepted!, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(previousAccepted!), publication, status, revalidation: revalidationBaseline!, revalidationStatus };
   }
 

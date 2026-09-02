@@ -58,6 +58,7 @@ test("projects only aggregate publication health without diagnostic or candidate
     publicIndustryItems: 2,
     publicResearchItems: 3,
     candidateBacklog: 7,
+    sourceFailureCount: 1,
     degradedComponents: ["LLM"],
   });
   assert.doesNotMatch(JSON.stringify(health), /provider error|private\.example|token|candidates|sourceFailures/);
@@ -65,6 +66,23 @@ test("projects only aggregate publication health without diagnostic or candidate
   const dashboard = buildDashboard(events, [], [], new Date("2026-08-02"), { publicationHealth: health });
   assert.deepEqual(dashboard.publicationHealth, health);
   assert.doesNotMatch(JSON.stringify(dashboard), /provider error|private\.example|token/);
+});
+
+test("projects only partial service degradations and clamps source failures to a safe count", () => {
+  const health = projectPublicationHealth({
+    dailyPublicationFreshness: { expectedDate: "2026-08-02", latestPublishedDate: "2026-08-02", state: "current", publicationDue: false },
+  }, {
+    quality: { publicIndustryItems: 0, publicResearchItems: 0, candidates: 0, sourceFailures: -2 },
+    services: [
+      { component: "LLM", status: "部分降级", attempted: 1, succeeded: 0, failed: 1, detail: "provider error https://private.example/token" },
+      { component: "OpenAlex", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "disabled" },
+      { component: "GitHub", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "disabled" },
+    ],
+  }, 0);
+
+  assert.deepEqual(health.degradedComponents, ["LLM"]);
+  assert.equal(health.sourceFailureCount, 0);
+  assert.doesNotMatch(JSON.stringify(health), /provider error|private\.example|token|disabled/);
 });
 
 test("keeps incomplete research and unowned events out of the public dashboard", () => {
