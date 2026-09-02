@@ -467,6 +467,13 @@ export interface RunHistory {
   runs: RunManifest[];
 }
 
+export interface DailyPublicationFreshness {
+  expectedDate: string;
+  latestPublishedDate: string;
+  state: "pending" | "current" | "missing";
+  publicationDue: boolean;
+}
+
 export interface PipelineHealth {
   schemaVersion: 1;
   checkedAt: string;
@@ -477,6 +484,7 @@ export interface PipelineHealth {
   recentRunCount: number;
   recentSuccessRate: number;
   latestPublicItems: number;
+  dailyPublicationFreshness: DailyPublicationFreshness;
   reasons: string[];
 }
 

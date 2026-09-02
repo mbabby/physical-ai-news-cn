@@ -17,6 +17,7 @@ async function main(): Promise<void> {
   const health = buildPipelineHealth(history, new Date());
   console.log(JSON.stringify(health, null, 2));
   if (health.status === "stale") throw new Error(health.reasons.join("；"));
+  if (health.dailyPublicationFreshness.state === "missing") throw new Error("北京时间日报未在 09:20 前成功发布");
 }
 
 main().catch((error) => { console.error(error instanceof Error ? error.message : String(error)); process.exitCode = 1; });
