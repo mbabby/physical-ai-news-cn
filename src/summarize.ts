@@ -96,7 +96,11 @@ export class CompatibleSummarizer {
         // budget instead of accidentally multiplying retries to four calls.
         }, { timeoutMs: 30_000, attempts: 1 });
         let data: CompletionResponse;
-        try { data = (await response.json()) as CompletionResponse; }
+        try {
+          const payload = await response.json();
+          if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("invalid completion payload");
+          data = payload as CompletionResponse;
+        }
         catch {
           stats.invalid += 1;
           console.warn("[summary] rejected malformed model completion");

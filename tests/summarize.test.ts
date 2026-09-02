@@ -93,6 +93,21 @@ test("counts malformed HTTP 200 bodies as invalid output rather than provider fa
   }
 });
 
+test("counts JSON null completion payloads as invalid output rather than provider failure", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response("null", { status: 200, headers: { "content-type": "application/json" } });
+  try {
+    const summarizer = new CompatibleSummarizer({ apiKey: "test", baseUrl: "https://llm.invalid/v1", model: "test" });
+    await summarizer.summarize({ ...base, excerpt: "Official source details." });
+    const status = summarizer.status();
+    assert.equal(status.failed, 0);
+    assert.match(status.detail, /无效模型输出 1/);
+    assert.match(status.detail, /提供方失败 0/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("opens a circuit after repeated provider failures", async () => {
   const originalFetch = globalThis.fetch;
   let calls = 0;
@@ -158,4 +173,20 @@ test("routes pulse through cache-first batches of at most two calls", async () =
   assert.equal(peak, 2);
   assert.equal(cacheHits, 1);
   assert.deepEqual(lanes, ["pulse", "pulse", "pulse", "pulse"]);
+});
+
+test("uses the newest matching LKG in the cache before scheduling a summary call", async () => {
+  let calls = 0;
+  const summarizer = {
+    async summarize(article: Article): Promise<Article> {
+      calls += 1;
+      return { ...article, titleZh: "不应调用模型", summaryZh: "不应调用模型。" };
+    },
+  };
+  const current = { ...base, id: "duplicate", title: "机器人发布新平台", excerpt: "机器人公司发布新平台，并说明应用场景。" };
+  const newest = { ...current, publishedAt: new Date("2026-08-02T00:00:00Z"), fetchedAt: new Date("2026-08-02T01:00:00Z"), titleZh: "最新缓存标题", summaryZh: "最新缓存的完整中文事实简介。" };
+  const older = { ...current, title: "旧版机器人平台", excerpt: "旧版来源摘要。", publishedAt: new Date("2026-08-01T00:00:00Z"), fetchedAt: new Date("2026-08-01T01:00:00Z"), titleZh: "旧缓存标题", summaryZh: "旧缓存的完整中文事实简介。" };
+  const output = await summarizeWithCache(summarizer, [current], [newest, older]);
+  assert.equal(calls, 0);
+  assert.equal(output[0]?.titleZh, "最新缓存标题");
 });

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { generate } from "../src/main.js";
+import { generate, type GenerateOptions } from "../src/main.js";
 import {
   assertAcceptedEvidenceArtifact,
   assertCommunityTaskPublicArtifact,
@@ -278,6 +278,8 @@ async function runFixedGeneration(root: string, options: {
   transaction?: FileTransaction;
   now?: Date;
   llmOutage?: boolean;
+  collectX?: typeof emptyCollection;
+  summarizer?: GenerateOptions["summarizer"];
   communityEvidence?: ReturnType<typeof communityEvidenceFixture>;
   evidenceFetch?: typeof fetch;
   evidenceResolve?: (hostname: string) => Promise<string[]>;
@@ -312,7 +314,8 @@ async function runFixedGeneration(root: string, options: {
       root,
       now: options.now ?? FIXED_NOW,
       collect: options.collect ?? emptyCollection,
-      collectX: emptyCollection,
+      collectX: options.collectX ?? emptyCollection,
+      summarizer: options.summarizer,
       transaction: options.transaction,
       communityEvidenceSeeds: options.communityEvidence?.seeds,
       fetchCommunityEvidenceSnapshot: options.communityEvidence ? async () => options.communityEvidence!.snapshot : undefined,
@@ -335,6 +338,48 @@ async function runFixedGeneration(root: string, options: {
     else process.env.GITHUB_REPOSITORY = priorGithubRepository;
   }
 }
+
+test("daily orchestration sends pulse through the cache-first bounded pulse lane", async () => {
+  const root = await mkdtemp(join(tmpdir(), "task3-pulse-orchestration-"));
+  const now = new Date();
+  const observedLanes: string[] = [];
+  const cacheHits: Array<{ count: number; lane: string }> = [];
+  let active = 0;
+  let peak = 0;
+  const pulseArticles: Article[] = ["view-a", "view-b", "event-a", "event-b", "event-c"].map((id, index) => ({
+    id: `pulse-${id}`, title: `Robot signal ${id}`, link: `https://x.example/${id}`, publishedAt: now, fetchedAt: now,
+    source: "X fixture", sourceWeight: 7, excerpt: `Robot source excerpt ${id}.`, tags: ["robot"],
+    pulseKind: index < 2 ? "人物观点" : "关键事件", speaker: index < 2 ? "Fixture speaker" : undefined,
+  }));
+  const cached = { ...pulseArticles[0]!, titleZh: "缓存人物观点", summaryZh: "缓存的完整中文事实简介。" };
+  const priorDate = new Date(now.getTime() - 24 * 3_600_000).toISOString().slice(0, 10);
+  const summarizer = {
+    recordCacheHits(count: number, lane: string): void { cacheHits.push({ count, lane }); },
+    async summarize(article: Article, lane?: string): Promise<Article> {
+      observedLanes.push(lane ?? "");
+      active += 1;
+      peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      active -= 1;
+      return { ...article, titleZh: `中文${article.id}`, summaryZh: "完整中文事实简介，保留来源事实。" };
+    },
+    status() { return { component: "LLM" as const, status: "成功" as const, attempted: observedLanes.length, succeeded: observedLanes.length, failed: 0, detail: "fixture" }; },
+  };
+  try {
+    await copyFixture(root);
+    await writeFile(join(root, "daily", `${priorDate}.json`), `${JSON.stringify({ date: priorDate, articles: [cached], candidates: [], runtimeStatus: [] }, null, 2)}\n`);
+    await runFixedGeneration(root, {
+      now,
+      collectX: async () => ({ articles: pulseArticles, failures: [], sourceOutcomes: [] }),
+      summarizer,
+    });
+    assert.deepEqual(cacheHits.find((item) => item.lane === "pulse"), { count: 1, lane: "pulse" });
+    assert.equal(peak, 2);
+    assert.deepEqual(observedLanes, ["pulse", "pulse", "pulse", "pulse"]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
 
 type PublicGroup = { bytes: Record<string, string>; semantics: unknown };
 

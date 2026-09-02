@@ -24,7 +24,7 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { hasCompleteChineseCopy, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
+import { hasCompleteChineseCopy, newestKnownGoodById, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
 import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
@@ -648,6 +648,7 @@ async function collectX(sources: SourceConfig[], windowHours: number, bearerToke
 }
 
 type SummaryClient = Pick<CompatibleSummarizer, "summarize"> & { recordCacheHits?: (count: number, lane: SummaryLane) => void };
+type DailySummarizer = SummaryClient & Pick<CompatibleSummarizer, "status">;
 
 async function summarizeInSmallBatches(summarizer: SummaryClient, articles: Article[], lane: SummaryLane, batchSize = 2): Promise<Article[]> {
   const output: Article[] = [];
@@ -658,7 +659,7 @@ async function summarizeInSmallBatches(summarizer: SummaryClient, articles: Arti
 }
 
 export async function summarizeWithCache(summarizer: SummaryClient, articles: Article[], historical: Article[], lane: SummaryLane = "industry"): Promise<Article[]> {
-  const cached = new Map(historical.filter(hasCompleteChineseCopy).map((article) => [article.id, article]));
+  const cached = newestKnownGoodById(historical);
   const pending = articles.filter((article) => {
     const prior = cached.get(article.id);
     return !prior || prior.title !== article.title || prior.excerpt !== article.excerpt;
@@ -770,6 +771,7 @@ export interface GenerateOptions {
   topSignalsDraftNow?: Date;
   collect?: typeof collect;
   collectX?: typeof collectX;
+  summarizer?: DailySummarizer;
   transaction?: FileTransaction;
   communityEvidenceSeeds?: EvidenceTaskSeedArtifact;
   fetchCommunityEvidenceSnapshot?: () => Promise<EvidenceIssueSnapshot>;
@@ -869,7 +871,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const xSelected = filterAndRank(xCollected.articles, windowHours, 5);
   const rawPulse = selectIndustryPulse(xSelected, industrySelected);
   const llmSettings = { apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL };
-  const summarizer = new CompatibleSummarizer(llmSettings);
+  const summarizer = options.summarizer ?? new CompatibleSummarizer(llmSettings);
   const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles, "industry");
   const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
   // Twelve summaries absorb occasional LLM failures while leaving enough

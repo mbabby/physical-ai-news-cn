@@ -35,8 +35,7 @@ export function publicArticlesOnly<T extends Pick<Article, "titleZh" | "summaryZ
   return articles.filter(hasCompleteChineseCopy);
 }
 
-/** Reuse verified copy for the same source item when today's LLM call fails. */
-export function preferKnownGoodArticles(current: Article[], historical: Article[]): Article[] {
+export function newestKnownGoodById(historical: Article[]): Map<string, Article> {
   const known = new Map<string, Article>();
   const newestFirst = [...historical].filter(hasCompleteChineseCopy).sort((left, right) =>
     right.publishedAt.getTime() - left.publishedAt.getTime()
@@ -45,6 +44,12 @@ export function preferKnownGoodArticles(current: Article[], historical: Article[
     || right.summaryZh!.localeCompare(left.summaryZh!, "zh-Hans"),
   );
   for (const article of newestFirst) if (!known.has(article.id)) known.set(article.id, article);
+  return known;
+}
+
+/** Reuse verified copy for the same source item when today's LLM call fails. */
+export function preferKnownGoodArticles(current: Article[], historical: Article[]): Article[] {
+  const known = newestKnownGoodById(historical);
   return current.map((article) => {
     const prior = known.get(article.id);
     if (!prior || hasCompleteChineseCopy(article)) return article;
