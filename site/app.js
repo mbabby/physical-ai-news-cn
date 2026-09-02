@@ -69,7 +69,10 @@ function isCalendarDate(value) {
 
 function currentPublicationState(daily) {
   const now = shanghaiDateTime();
-  if (daily.expectedDate === now.date) return daily.state;
+  if (daily.expectedDate === now.date) {
+    if (daily.state !== "pending") return daily.state;
+    return now.hour > 9 || (now.hour === 9 && now.minute >= 20) ? "missing" : "pending";
+  }
   if (daily.expectedDate > now.date) return undefined;
   return now.hour > 9 || (now.hour === 9 && now.minute >= 20) ? "missing" : "pending";
 }

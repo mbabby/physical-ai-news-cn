@@ -26,6 +26,7 @@ import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSour
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
 import { hasCompleteChineseCopy, newestKnownGoodById, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
+import { shanghaiDailyDate, shanghaiDailyDateForTimestamp } from "./runtime/daily-date.js";
 import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
 import { buildPipelineHealth, updateRunHistory } from "./runtime/health.js";
 import { buildEntityCoverage, formatEntityCoverage, validateEntitySourceBindings } from "./entity-catalog.js";
@@ -789,6 +790,7 @@ export interface GenerateOptions {
 /** Production daily orchestration with fixture seams for deterministic release verification. */
 async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const now = options.now ?? new Date();
+  const dailyDate = shanghaiDailyDate(now);
   const topSignalsDraftNow = options.topSignalsDraftNow ?? now;
   const outputRoot = options.root ?? root;
   const startedAt = now;
@@ -968,7 +970,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   };
   const heldPulse = [...summarizedPulse.viewpoints.filter((article) => publicHoldReasons(article, true, false).length > 0).map((article) => candidateArticle(article, publicHoldReasons(article, true, false))), ...summarizedPulse.events.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)))];
   const visibleArticles = publicArticles.filter((article) => !pulseArticleIds(pulse).has(article.id));
-  const path = join(outputDir, `${now.toISOString().slice(0, 10)}.md`);
+  const path = join(outputDir, `${dailyDate}.md`);
   const markdown = formatMarkdown(visibleArticles, windowHours, [...collected.failures, ...xCollected.failures], now, pulse, publicArticles.length, sourceNetworkSummary(candidateRegistry, registrySources.length), publicResearch);
   await writeFile(path, markdown, "utf8");
   const discoveredSources = await resolveCandidateFeeds(discoverSourceCandidates(collected.articles, configuredSources));
@@ -980,8 +982,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const archiveArticles = uniqueArticles([...publicArticles, ...publicResearch]);
   const candidates = uniqueArticles([...heldArticles, ...heldPulse, ...heldResearch]).map((article) => article as CandidateArticle);
   const statuses: RuntimeStatus[] = [summarizer.status(), openAlex.status];
-  const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => change.date.slice(0, 10) === now.toISOString().slice(0, 10) && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: now.toISOString().slice(0, 10) })));
-  const archive: DailyArchive = { date: now.toISOString().slice(0, 10), articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
+  const researchCorrections = researchRegistry.records.flatMap((record) => record.changes.filter((change) => shanghaiDailyDateForTimestamp(change.date) === dailyDate && (change.kind === "撤稿" || change.kind === "版本更新")).map((change) => ({ source: record.article.source, reason: `${change.kind}：${record.article.title}`, date: dailyDate })));
+  const archive: DailyArchive = { date: dailyDate, articles: archiveArticles, industryPulse: pulse, sourceOutcomes: [...collected.sourceOutcomes, ...xCollected.sourceOutcomes], candidates, runtimeStatus: statuses, discoveredSources, sourceCorrections: researchCorrections };
   const archives = [...recentArchives.filter((item) => item.date !== archive.date), archive].sort((a, b) => a.date.localeCompare(b.date));
   const weeklyArticles = archives.flatMap((item) => item.articles.map((article) => ({ ...article, publishedAt: new Date(article.publishedAt), fetchedAt: new Date(article.fetchedAt) })));
   const weekly = selectWeekly(weeklyArticles, 10);

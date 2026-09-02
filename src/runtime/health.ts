@@ -1,18 +1,9 @@
 import type { DailyPublicationFreshness, PipelineHealth, RunHistory, RunManifest } from "../types.js";
+import { shanghaiDateTime } from "./daily-date.js";
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
 const DAILY_PUBLICATION_CUTOFF_HOUR = 9;
 const DAILY_PUBLICATION_CUTOFF_MINUTE = 20;
-const SHANGHAI_TIME_ZONE = "Asia/Shanghai";
-const shanghaiDateTimeFormatter = new Intl.DateTimeFormat("en-US", {
-  timeZone: SHANGHAI_TIME_ZONE,
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  hourCycle: "h23",
-});
 
 export interface HistoryContinuityIssue {
   kind: "duplicate" | "order" | "gap";
@@ -23,29 +14,14 @@ function isPublished(run: RunManifest): boolean {
   return run.status !== "failed" && run.quality.publicIndustryItems + run.quality.publicResearchItems > 0;
 }
 
-function shanghaiDateTime(date: Date): { date: string; hour: number; minute: number } {
-  const parts = Object.fromEntries(shanghaiDateTimeFormatter.formatToParts(date).map((part) => [part.type, part.value]));
-  return {
-    date: `${parts.year}-${parts.month}-${parts.day}`,
-    hour: Number(parts.hour),
-    minute: Number(parts.minute),
-  };
-}
-
-function shanghaiDate(value: string | undefined): string {
-  if (!value || !Number.isFinite(Date.parse(value))) return "";
-  return shanghaiDateTime(new Date(value)).date;
-}
-
 export function assessDailyPublicationFreshness(history: RunHistory, now: Date): DailyPublicationFreshness {
   const currentTime = shanghaiDateTime(now);
   const publicationDue = currentTime.hour > DAILY_PUBLICATION_CUTOFF_HOUR
     || (currentTime.hour === DAILY_PUBLICATION_CUTOFF_HOUR && currentTime.minute >= DAILY_PUBLICATION_CUTOFF_MINUTE);
   const runs = [...history.runs].sort((a, b) => b.finishedAt.localeCompare(a.finishedAt));
-  const latest = runs[0];
-  const latestPublished = runs.find((run) => run.status !== "failed");
-  const latestPublishedDate = shanghaiDate(latestPublished?.finishedAt ?? latest?.finishedAt);
-  const hasCurrentPublication = runs.some((run) => run.status !== "failed" && shanghaiDate(run.finishedAt) === currentTime.date);
+  const latestPublished = runs.find(isPublished);
+  const latestPublishedDate = latestPublished?.date ?? "";
+  const hasCurrentPublication = runs.some((run) => isPublished(run) && run.date === currentTime.date);
 
   return {
     expectedDate: currentTime.date,

@@ -63,7 +63,7 @@ test("daily publication freshness is missing at the 09:20 Beijing SLA cutoff", (
 });
 
 test("daily publication freshness uses the Beijing calendar date across a UTC day boundary", () => {
-  const localToday = run("beijing-today", "2026-08-17T16:30:00Z");
+  const localToday = { ...run("beijing-today", "2026-08-17T16:30:00Z"), date: "2026-08-18" };
   const history = { schemaVersion: 1 as const, updatedAt: localToday.finishedAt, runs: [localToday] };
 
   assert.deepEqual(
@@ -72,31 +72,41 @@ test("daily publication freshness uses the Beijing calendar date across a UTC da
   );
 });
 
-test("a failed same-day run does not satisfy the daily publication SLA and is used as the date fallback", () => {
+test("a failed same-day run does not satisfy the daily publication SLA or appear as published", () => {
   const failed = run("failed", "2026-08-18T00:30:00Z", "failed");
   const history = { schemaVersion: 1 as const, updatedAt: failed.finishedAt, runs: [failed] };
 
   assert.deepEqual(
     assessDailyPublicationFreshness(history, new Date("2026-08-18T01:20:00Z")),
-    { expectedDate: "2026-08-18", latestPublishedDate: "2026-08-18", state: "missing", publicationDue: true },
+    { expectedDate: "2026-08-18", latestPublishedDate: "", state: "missing", publicationDue: true },
   );
 });
 
-test("a non-failed same-day run satisfies the daily publication SLA and is projected in pipeline health", () => {
+test("a same-day run with no public items does not satisfy the daily publication SLA", () => {
   const current = run("current", "2026-08-18T00:30:00Z", "success", 0);
   const history = { schemaVersion: 1 as const, updatedAt: current.finishedAt, runs: [current] };
   const now = new Date("2026-08-18T01:20:00Z");
 
   assert.deepEqual(
     assessDailyPublicationFreshness(history, now),
-    { expectedDate: "2026-08-18", latestPublishedDate: "2026-08-18", state: "current", publicationDue: true },
+    { expectedDate: "2026-08-18", latestPublishedDate: "", state: "missing", publicationDue: true },
   );
   assert.deepEqual(buildPipelineHealth(history, now).dailyPublicationFreshness, {
     expectedDate: "2026-08-18",
-    latestPublishedDate: "2026-08-18",
-    state: "current",
+    latestPublishedDate: "",
+    state: "missing",
     publicationDue: true,
   });
+});
+
+test("freshness does not credit a previous logical archive day finished after Shanghai midnight", () => {
+  const oldArchive = { ...run("old-archive", "2026-08-17T16:30:00Z"), date: "2026-08-17", runId: "2026-08-17-old-archive" };
+  const history = { schemaVersion: 1 as const, updatedAt: oldArchive.finishedAt, runs: [oldArchive] };
+
+  assert.deepEqual(
+    assessDailyPublicationFreshness(history, new Date("2026-08-18T01:20:00Z")),
+    { expectedDate: "2026-08-18", latestPublishedDate: "2026-08-17", state: "missing", publicationDue: true },
+  );
 });
 
 const validateHealthAt = (root: string, now: string) => spawnSync(
@@ -129,6 +139,17 @@ test("validate health accepts a pending daily publication before the Beijing cut
 test("validate health rejects a missing daily publication at the Beijing cutoff", async () => {
   const latest = run("yesterday", "2026-08-17T01:00:00Z");
   await withRunHistoryFixture({ schemaVersion: 1, updatedAt: latest.finishedAt, runs: [latest] }, (root) => {
+    const result = validateHealthAt(root, "2026-08-18T01:20:00Z");
+
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /"state": "missing"/);
+    assert.match(result.stderr, /北京时间日报未在 09:20 前成功发布/);
+  });
+});
+
+test("validate health rejects a same-day run that produced no public content at the Beijing cutoff", async () => {
+  const current = run("empty", "2026-08-18T00:30:00Z", "success", 0);
+  await withRunHistoryFixture({ schemaVersion: 1, updatedAt: current.finishedAt, runs: [current] }, (root) => {
     const result = validateHealthAt(root, "2026-08-18T01:20:00Z");
 
     assert.equal(result.status, 1);

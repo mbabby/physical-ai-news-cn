@@ -381,6 +381,41 @@ test("daily orchestration sends pulse through the cache-first bounded pulse lane
   }
 });
 
+test("daily generation uses the Shanghai calendar day for its archive and publication receipt", async () => {
+  const root = await mkdtemp(join(tmpdir(), "daily-shanghai-date-"));
+  try {
+    await copyFixture(root);
+    const manifest = await runFixedGeneration(root, { now: new Date("2026-08-17T16:30:00.000Z") });
+    const archive = JSON.parse(await readFile(join(root, "daily", "2026-08-18.json"), "utf8")) as DailyArchive;
+    const markdown = await readFile(join(root, "daily", "2026-08-18.md"), "utf8");
+
+    assert.equal(manifest.date, "2026-08-18");
+    assert.match(manifest.runId, /^2026-08-18-/);
+    assert.equal(archive.date, "2026-08-18");
+    assert.ok(markdown.length > 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("daily generation assigns cross-midnight research corrections to its Shanghai archive day", async () => {
+  const root = await mkdtemp(join(tmpdir(), "daily-shanghai-correction-"));
+  try {
+    await copyFixture(root);
+    const registryPath = join(root, "research", "registry.json");
+    const registry = JSON.parse(await readFile(registryPath, "utf8")) as { records: Array<{ changes: unknown[] }> };
+    registry.records[0]!.changes.push({ date: "2026-08-17T16:30:00.000Z", kind: "版本更新", detail: "跨日修正。" });
+    await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`);
+
+    await runFixedGeneration(root, { now: new Date("2026-08-17T16:30:00.000Z") });
+    const archive = JSON.parse(await readFile(join(root, "daily", "2026-08-18.json"), "utf8")) as DailyArchive;
+
+    assert.deepEqual(archive.sourceCorrections?.map((correction) => correction.date), ["2026-08-18"]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 type PublicGroup = { bytes: Record<string, string>; semantics: unknown };
 
 function dashboardWithoutPublicationHealth(bytes: string): Omit<DashboardData, "publicationHealth"> {

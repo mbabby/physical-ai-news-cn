@@ -103,6 +103,21 @@ test("homepage fails closed for a valid but future publication date", async () =
   assert.doesNotMatch(site.mounts["publication-status"].innerHTML, /等待当日日报/);
 });
 
+test("homepage changes a stored same-day pending publication to missing at the Shanghai cutoff", async () => {
+  const publicationHealth = {
+    daily: { expectedDate: "2026-08-18", state: "pending", publicationDue: false },
+    publicIndustryItems: 0, publicResearchItems: 0, candidateBacklog: 0, degradedComponents: [],
+  };
+  const beforeCutoff = await loadAppCompanyRenderer(new Date("2026-08-18T01:19:00.000Z"));
+  beforeCutoff.render({ stats: {}, routes: [], publicationHealth });
+  assert.match(beforeCutoff.mounts["publication-status"].innerHTML, /等待当日日报/);
+
+  const afterCutoff = await loadAppCompanyRenderer(new Date("2026-08-18T01:20:00.000Z"));
+  afterCutoff.render({ stats: {}, routes: [], publicationHealth });
+  assert.match(afterCutoff.mounts["publication-status"].innerHTML, /日报延迟.*自动恢复/);
+  assert.doesNotMatch(afterCutoff.mounts["publication-status"].innerHTML, /等待当日日报/);
+});
+
 test("subscription center is static, privacy preserving and links every subscription route", async () => {
   const html = await readSite("subscribe.html");
   assert.match(html, /data-view=["']subscribe["']/);
@@ -179,7 +194,7 @@ type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: s
 
 const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", value: "", addEventListener() {} });
 
-async function loadAppCompanyRenderer() {
+async function loadAppCompanyRenderer(now?: Date) {
   const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js")]);
   const mounts: Record<string, Mount> = {
     "publication-status": mount(),
@@ -200,11 +215,15 @@ async function loadAppCompanyRenderer() {
     "company-boards": mount(),
     "company-board-grid": mount(),
   };
+  const Clock = now ? class extends Date {
+    constructor(value?: string | number) { super(value === undefined ? now.getTime() : value); }
+    static now() { return now.getTime(); }
+  } : Date;
   const context = {
     console,
     URL,
     Intl,
-    Date,
+    Date: Clock,
     document: { getElementById: (id: string) => mounts[id] ?? mount(), addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
     navigator: { clipboard: { writeText: async () => {} } },
     window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
