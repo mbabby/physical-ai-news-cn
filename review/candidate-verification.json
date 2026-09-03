@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-02T05:36:32.624Z",
+  "generatedAt": "2026-09-03T02:38:49.455Z",
   "records": [
     {
       "id": "verify-c27611841da561",
@@ -812,12 +812,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 98,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"人形机器人“关节之眼”企业\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"人形机器人“关节之眼”企业\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"人形机器人“关节之眼”企业\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "电子工程专辑",
+              "value": "https://www.eet-china.com",
+              "query": "\"人形机器人“关节之眼”企业\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:16:04.194Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextReviewAt": "2026-09-02T07:16:04.194Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "10118f09cca79ddea5ec",
       "evidence": [
         {
@@ -1606,6 +1643,108 @@
           "title": "Eurobotics 估值增至三倍，韩国机器人热潮助推 400 亿韩元 A 轮融资",
           "amount": "40 billion",
           "round": "Series A"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-9fa89434fce26b",
+      "companyName": "Lyte",
+      "kind": "投融资",
+      "title": "Lyte Raises $165 Million Series C At $1.6 Billion Valuation For Physical AI Perception Platform - Pulse 2.0",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 98,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPa0dLMzdmazJYeWs5emoxNVNnb3VOUG4xSjhuQ2FMYklmMG9KUERBRTU0ZEhEM3I3cTEwaFEyQ1pGNkl3NkJGd0oxWWtBdFRrRTg0N2ZZSXZxVks5eHFqNzdiUVlwM3pYanZDMDgtNXdWbTVhLTF3ZFhPOWtUeEhUNXp6a9IBiAFBVV95cUxOX0F6OHVUV2V2Tk5oZG5CM0NIeVhVVjRkWmFhTXZUc2gwcG9HVEs5RGFxNDlGdld0YmdraU5lN25XOVFQakxDYWpOYlF4SzJDTXRka203YUJLX3hhYVJYdktEQVd0aHVhbjRTRFhOZG94YTJoTlB1bUExa1IwdjBpa2ZuRzRTbXVV?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Pulse 2.0",
+          "publisherUrl": "https://pulse2.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 98,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Lyte\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Lyte\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Lyte\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Pulse 2.0",
+              "value": "https://pulse2.com",
+              "query": "\"Lyte\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "7d34c213a3212de4c610",
+      "evidence": [
+        {
+          "articleId": "ca6931383313c2d4",
+          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPa0dLMzdmazJYeWs5emoxNVNnb3VOUG4xSjhuQ2FMYklmMG9KUERBRTU0ZEhEM3I3cTEwaFEyQ1pGNkl3NkJGd0oxWWtBdFRrRTg0N2ZZSXZxVks5eHFqNzdiUVlwM3pYanZDMDgtNXdWbTVhLTF3ZFhPOWtUeEhUNXp6a9IBiAFBVV95cUxOX0F6OHVUV2V2Tk5oZG5CM0NIeVhVVjRkWmFhTXZUc2gwcG9HVEs5RGFxNDlGdld0YmdraU5lN25XOVFQakxDYWpOYlF4SzJDTXRka203YUJLX3hhYVJYdktEQVd0aHVhbjRTRFhOZG94YTJoTlB1bUExa1IwdjBpa2ZuRzRTbXVV?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T18:11:43.000Z",
+          "title": "Lyte Raises $165 Million Series C At $1.6 Billion Valuation For Physical AI Perception Platform - Pulse 2.0",
+          "amount": "$165 Million",
+          "round": "Series C"
         }
       ],
       "facts": {},
@@ -6184,6 +6323,106 @@
       }
     },
     {
+      "id": "verify-4cd93e225f3709",
+      "companyName": "天工机器人",
+      "kind": "投融资",
+      "title": "天工机器人完成数亿元融资 初芯基金领投 - t.cj.sina.cn",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1xbHE1WlpwT2dDcmZzT2RuVkVld2lSd00zYlpqSE1vMS1SY0FsSExoQy1TUmtnWl9rQU1Rb3pxMDQtdkUyaHM5bEo4X1RZWkZ1VllPWHhfM0R4clpEX0IzblpsT1RQLTAtRDZHei1ySmQ?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "t.cj.sina.cn",
+          "publisherUrl": "https://t.cj.sina.cn"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"天工机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"天工机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"天工机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "t.cj.sina.cn",
+              "value": "https://t.cj.sina.cn",
+              "query": "\"天工机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "7f764e7f0adfc55f0aa6",
+      "evidence": [
+        {
+          "articleId": "ea9f1643df4c5c05",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1xbHE1WlpwT2dDcmZzT2RuVkVld2lSd00zYlpqSE1vMS1SY0FsSExoQy1TUmtnWl9rQU1Rb3pxMDQtdkUyaHM5bEo4X1RZWkZ1VllPWHhfM0R4clpEX0IzblpsT1RQLTAtRDZHei1ySmQ?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T05:26:00.000Z",
+          "title": "天工机器人完成数亿元融资 初芯基金领投 - t.cj.sina.cn"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-6dfc606f98b725",
       "companyName": "西湖机器人半年",
       "kind": "投融资",
@@ -6971,6 +7210,106 @@
           "publishedAt": "2026-08-30T15:38:41.000Z",
           "title": "Andreessen Horowitz Raises $1.1 Billion Machine Age Fund For AI Infrastructure, Chips And Robotics - Pulse 2.0",
           "amount": "$1.1 Billion"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-5633e7b03cb0bd",
+      "companyName": "Citizens 因机器人",
+      "kind": "投融资",
+      "title": "Citizens 因机器人收购下调 Enovis 股票目标价",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 88,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPcjNnN3J1MHdTengxTHQ5V1FFam9XSVdTUVkyN1Q2U2ZLRnVwRExiZ2FuR2o3Z2ktdTh1MVRYVjRNMkRtOWF5N0tJdUp6ekFOWXpNeFJ6T08zT0hJSkRQdnNNci1tSVdhOGFJMkpiYXNjVVV2UVNvRHVfcFdTeXd6akRkVmxxbFhEX0tQcWFsbF9UR1NwSWNETF9zeS01R3UzRW5EaElXQlFHb21JLVdRMFMyZlljdVFEZXd0QXJXajluMVU2UVdLWDRKUUI3dw?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Investing.com",
+          "publisherUrl": "https://m.investing.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Citizens 因机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Citizens 因机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Citizens 因机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Investing.com",
+              "value": "https://m.investing.com",
+              "query": "\"Citizens 因机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "aed747bd217f447f36c7",
+      "evidence": [
+        {
+          "articleId": "1a92a3b0bba4bd7d",
+          "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPcjNnN3J1MHdTengxTHQ5V1FFam9XSVdTUVkyN1Q2U2ZLRnVwRExiZ2FuR2o3Z2ktdTh1MVRYVjRNMkRtOWF5N0tJdUp6ekFOWXpNeFJ6T08zT0hJSkRQdnNNci1tSVdhOGFJMkpiYXNjVVV2UVNvRHVfcFdTeXd6akRkVmxxbFhEX0tQcWFsbF9UR1NwSWNETF9zeS01R3UzRW5EaElXQlFHb21JLVdRMFMyZlljdVFEZXd0QXJXajluMVU2UVdLWDRKUUI3dw?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T09:04:00.000Z",
+          "title": "Citizens 因机器人收购下调 Enovis 股票目标价"
         }
       ],
       "facts": {},
@@ -8060,12 +8399,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 88,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"XPeng 旗下机器人公司 Dogotix\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"XPeng 旗下机器人公司 Dogotix\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"XPeng 旗下机器人公司 Dogotix\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Law.asia",
+              "value": "https://law.asia",
+              "query": "\"XPeng 旗下机器人公司 Dogotix\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:16:04.194Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextReviewAt": "2026-09-02T07:16:04.194Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "904e2535979d97a69aa2",
       "evidence": [
         {
@@ -10376,6 +10752,107 @@
       }
     },
     {
+      "id": "verify-1094930a20a2bc",
+      "companyName": "立昂机器人",
+      "kind": "投融资",
+      "title": "立昂机器人完成千万级战略融资_财经_24H快讯 - bihainews.com",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 80,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE43TFo1NkJXWTV2ZVFETHBtQnVDdVZzNzlFY1UtUDdvbDJIY3hPMzVaVHpfd1lzdy1CX2p5RVd3dXJaM3FpT0xZOUVvWm9fX21YcUM1cnVJaHctdUQ3elJUc21UTjJyUQ?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "bihainews.com",
+          "publisherUrl": "https://www.bihainews.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"立昂机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"立昂机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"立昂机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "bihainews.com",
+              "value": "https://www.bihainews.com",
+              "query": "\"立昂机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "d0a8e4ce51f9ac717faa",
+      "evidence": [
+        {
+          "articleId": "7a290080dad3bec2",
+          "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE43TFo1NkJXWTV2ZVFETHBtQnVDdVZzNzlFY1UtUDdvbDJIY3hPMzVaVHpfd1lzdy1CX2p5RVd3dXJaM3FpT0xZOUVvWm9fX21YcUM1cnVJaHctdUQ3elJUc21UTjJyUQ?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T11:06:02.000Z",
+          "title": "立昂机器人完成千万级战略融资_财经_24H快讯 - bihainews.com",
+          "round": "战略融资"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-f019c6368a4a0c",
       "companyName": "自主焊接初创公司 TetraGen Robotics",
       "kind": "投融资",
@@ -11378,12 +11855,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Genrobot AI\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Genrobot AI\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Genrobot AI\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Dealroom",
+              "value": "https://app.dealroom.co",
+              "query": "\"Genrobot AI\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextReviewAt": "2026-09-02T07:08:56.956Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "015c4290f7c0d5714f4e",
       "evidence": [
         {
@@ -11691,12 +12205,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 80,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Overseas Research Selection | Goldman Sachs\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Overseas Research Selection | Goldman Sachs\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Overseas Research Selection | Goldman Sachs\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Moomoo",
+              "value": "https://www.moomoo.com",
+              "query": "\"Overseas Research Selection | Goldman Sachs\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextReviewAt": "2026-09-02T07:08:56.956Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "c7aa5432c576ba097b70",
       "evidence": [
         {
@@ -13192,12 +13743,43 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 71,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Reframe Systems\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Reframe Systems\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Reframe Systems\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextReviewAt": "2026-09-02T07:08:56.956Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "3fe2433a990443599b93",
       "evidence": [
         {
@@ -14368,12 +14950,49 @@
           ],
           "outcome": "发现新证据",
           "failureReasons": []
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Reframe\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Reframe\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Reframe\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "The Information",
+              "value": "https://www.theinformation.com",
+              "query": "\"Reframe\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextReviewAt": "2026-09-02T07:08:56.956Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "cf3d39de7b82e6942dde",
       "evidence": [
         {
@@ -16752,6 +17371,204 @@
       }
     },
     {
+      "id": "verify-c14211e5034b8d",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVFpFSUhCdGdFR25wbUdkSjNnTVJtc1ByLXRpYm9KUC1UYXdjamU1b2E3M1B4S0xIVEUwejRIOFUyZnhZQ2s0NXBsVzAxMTVDR1djZTJkekF0QzRia0pqTnE3RTFhdzE4U0pLcXhER2p3OS1oZXh6Zm5FV3Y3SE9ka0EzQ1Z4cF94aG50UEdIbTBMQ3J2?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "手机新浪网",
+          "publisherUrl": "https://tech.sina.cn"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "手机新浪网",
+              "value": "https://tech.sina.cn",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "c4770f056f1db283b108",
+      "evidence": [
+        {
+          "articleId": "637656937d6656dd",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVFpFSUhCdGdFR25wbUdkSjNnTVJtc1ByLXRpYm9KUC1UYXdjamU1b2E3M1B4S0xIVEUwejRIOFUyZnhZQ2s0NXBsVzAxMTVDR1djZTJkekF0QzRia0pqTnE3RTFhdzE4U0pLcXhER2p3OS1oZXh6Zm5FV3Y3SE9ka0EzQ1Z4cF94aG50UEdIbTBMQ3J2?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T05:13:30.000Z",
+          "title": "投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-4e54627abc73de",
+      "companyName": "华尔街视小鹏机器人",
+      "kind": "投融资",
+      "title": "华尔街视小鹏机器人融资为释放价值的催化剂 - Moomoo",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOaTNQN054cEhqdVlPRk5tY2VOcWZnUDM1RlctX2tvSllpMXlKeFZNN2pkUklvdC1tODRNZHIySlR3Zi16RGlaTnlrekdVQnZ5TDViV0Z6SHZNaEZLT3FTYlFfTjgwSlhCSnhhcmVqRUZpcExaZWhUX2xOQXBRNGdVWi1jUVBHQzVLN3BoQnJCQlRQajB1NDVnTFZxTnd0dHB6LUZFQTdQYTlhbkJGY1k5XzBvdHNOLUVrci1F?oc=5",
+          "discoverySource": "Google News · 中国具身融资",
+          "publisher": "Moomoo",
+          "publisherUrl": "https://www.moomoo.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"华尔街视小鹏机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"华尔街视小鹏机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"华尔街视小鹏机器人\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Moomoo",
+              "value": "https://www.moomoo.com",
+              "query": "\"华尔街视小鹏机器人\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "51ab53f65ee1bf04ec22",
+      "evidence": [
+        {
+          "articleId": "529b4e741288117f",
+          "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOaTNQN054cEhqdVlPRk5tY2VOcWZnUDM1RlctX2tvSllpMXlKeFZNN2pkUklvdC1tODRNZHIySlR3Zi16RGlaTnlrekdVQnZ5TDViV0Z6SHZNaEZLT3FTYlFfTjgwSlhCSnhhcmVqRUZpcExaZWhUX2xOQXBRNGdVWi1jUVBHQzVLN3BoQnJCQlRQajB1NDVnTFZxTnd0dHB6LUZFQTdQYTlhbkJGY1k5XzBvdHNOLUVrci1F?oc=5",
+          "source": "Google News · 中国具身融资",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T09:48:48.000Z",
+          "title": "华尔街视小鹏机器人融资为释放价值的催化剂 - Moomoo"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-c0ac83b27e3d17",
       "companyName": "获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn",
       "kind": "投融资",
@@ -16807,12 +17624,49 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "t.cj.sina.cn",
+              "value": "https://t.cj.sina.cn",
+              "query": "\"获亚马逊、英伟达投资，他却想戳破人形机器人泡沫 - t.cj.sina.cn\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-02T02:31:12.713Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextReviewAt": "2026-09-03T02:31:12.713Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "95bc0c7c3bfc0a75f689",
       "evidence": [
         {
@@ -19201,6 +20055,107 @@
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-08-05T10:29:53.000Z",
           "title": "Adiabatic Technologies 融资 8300 万卢比，扩大无人机与机器人用锂离子电池产能"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-ce11f01055128e",
+      "companyName": "Aitan",
+      "kind": "投融资",
+      "title": "Aitan获4100万美元融资，发展实战验证防务机器人",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdVBCQjVPSEF3aGF1cTJqQnFzVTBlQ054X0xlQlNiWXd1SnJpWWstdDNwUVJSRGVaZEhaZmVHSi1ZdEh6NWxHUXB2RWZjbWhUbFdWSDRuYi05bEtfeU42RnB1cTBqeXpQMHJHb0FXVGdWeF9EQ090ZzNna0twdi02YzZCMXdGSDhLelRwckl3?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Dealroom",
+          "publisherUrl": "https://app.dealroom.co"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Aitan\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Aitan\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Aitan\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Dealroom",
+              "value": "https://app.dealroom.co",
+              "query": "\"Aitan\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-04T02:38:49.455Z",
+      "attempts": 1,
+      "evidenceHash": "d13f9dc8b30f1cfea9a4",
+      "evidence": [
+        {
+          "articleId": "730fae95f97170d8",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdVBCQjVPSEF3aGF1cTJqQnFzVTBlQ054X0xlQlNiWXd1SnJpWWstdDNwUVJSRGVaZEhaZmVHSi1ZdEh6NWxHUXB2RWZjbWhUbFdWSDRuYi05bEtfeU42RnB1cTBqeXpQMHJHb0FXVGdWeF9EQ090ZzNna0twdi02YzZCMXdGSDhLelRwckl3?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-02T13:22:01.000Z",
+          "title": "Aitan获4100万美元融资，发展实战验证防务机器人",
+          "amount": "4100万美元"
         }
       ],
       "facts": {},
@@ -21704,12 +22659,55 @@
           "failureReasons": [
             "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
           ]
+        },
+        {
+          "attemptedAt": "2026-09-03T02:38:49.455Z",
+          "trigger": "定时重试",
+          "priority": 53,
+          "targets": [
+            {
+              "kind": "公司官网",
+              "label": "Skild AI 官网",
+              "value": "https://www.skild.ai/",
+              "query": "\"Skild AI\" product launch release 产品 发布"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Skild AI\" product launch release 产品 发布"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Skild AI\" product launch release 产品 发布"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Skild AI\" product launch release 产品 发布"
+            },
+            {
+              "kind": "已启用官方源",
+              "label": "Skild AI Blog",
+              "value": "https://www.skild.ai/blogs",
+              "query": "\"Skild AI\" product launch release 产品 发布"
+            }
+          ],
+          "scannedArticles": 1041,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
         }
       ],
       "firstSeenAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextReviewAt": "2026-09-02T07:08:56.956Z",
-      "attempts": 1,
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextReviewAt": "2026-09-06T02:38:49.455Z",
+      "attempts": 2,
       "evidenceHash": "1f0ff01eecd08bcfea45",
       "evidence": [
         {

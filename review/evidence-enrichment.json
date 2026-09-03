@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-02T05:36:32.624Z",
+  "generatedAt": "2026-09-03T02:38:49.455Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -67,7 +67,7 @@
   "budget": {
     "maxPlansPerRun": 20,
     "attemptedPlans": 20,
-    "deferredPlans": 1,
+    "deferredPlans": 4,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -746,10 +746,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-01T07:16:04.194Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextAttemptAt": "2026-09-02T07:16:04.194Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1041,6 +1041,103 @@
       "createdAt": "2026-08-10T11:48:46.705Z",
       "lastAttemptAt": "2026-08-23T01:01:32.642Z",
       "nextAttemptAt": "2026-09-22T01:01:32.642Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-71d742823c73e141ae90",
+      "recordId": "verify-9fa89434fce26b",
+      "companyName": "Lyte",
+      "eventKind": "投融资",
+      "fingerprint": "be24e0eb43f586afa34f",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 98,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-0eddf5f5ccbdcec333ce",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2a9099520438f16c811d",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-74d2fde9b93f45e39bba",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-3b542b94d1d85982dca7",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-609a579c5fec85172028",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8f4049da9927807e58be",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Lyte\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1942,10 +2039,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-01T07:16:04.194Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextAttemptAt": "2026-09-02T07:16:04.194Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2920,6 +3017,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-843f627bb6fd4593dd18",
+      "recordId": "verify-4cd93e225f3709",
+      "companyName": "天工机器人",
+      "eventKind": "投融资",
+      "fingerprint": "193ea4ad907f5ba2a676",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-8b68f903984786311173",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1225cb30a8d5005f194d",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-dc9d695c0b2a7d3a9a72",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-2bcd95bea3b4e280b9b2",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2b36d7149700f9190ca6",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-65a04384a33d9579afeb",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"天工机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-1a345afc7f8be2e03a25",
       "recordId": "verify-55772134962822",
       "companyName": "DISCOVER Robotics 与 PokeBot 各",
@@ -3013,6 +3207,103 @@
       "createdAt": "2026-08-10T08:13:44.563Z",
       "lastAttemptAt": "2026-08-23T01:01:32.642Z",
       "nextAttemptAt": "2026-09-22T01:01:32.642Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-a1252fb0f15e64fe9ab5",
+      "recordId": "verify-5633e7b03cb0bd",
+      "companyName": "Citizens 因机器人",
+      "eventKind": "投融资",
+      "fingerprint": "805e0c92baa856c4e3b1",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-b65f24408d1f6cf8a1ca",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-8d6b374d33425b901463",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4ea9d67dc84b9b3aae91",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ee60473cf286fa19ee87",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-1039c8b2b05bbb0bbb2e",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ee8711568485f88898d7",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Citizens 因机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4365,10 +4656,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-02T02:31:12.713Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4947,10 +5238,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-02T02:31:12.713Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -5246,6 +5537,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-c596935264897dc18958",
+      "recordId": "verify-1094930a20a2bc",
+      "companyName": "立昂机器人",
+      "eventKind": "投融资",
+      "fingerprint": "497cdef6bb8db7c32a0b",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 80,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-28be351fc494032dc39e",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-3971b12a0efcb2b79a79",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0f76a7c76c1aa83afae4",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-190887c691d693db536e",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2dde94623741a957a508",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0d0919c098ca17dc1877",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"立昂机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-fffa1cfc9524dc55e06f",
       "recordId": "verify-126d37f73d9f73",
       "companyName": "待识别公司",
@@ -5432,10 +5820,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextAttemptAt": "2026-09-02T07:08:56.956Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6208,10 +6596,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextAttemptAt": "2026-09-02T07:08:56.956Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -6887,10 +7275,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-30T03:12:57.844Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextAttemptAt": "2026-09-02T07:08:56.956Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -7952,10 +8340,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-01T07:08:56.956Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextAttemptAt": "2026-09-02T07:08:56.956Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -8146,10 +8534,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-02T02:31:12.713Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -9512,6 +9900,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-c3548280b94ff1619280",
+      "recordId": "verify-4e54627abc73de",
+      "companyName": "华尔街视小鹏机器人",
+      "eventKind": "投融资",
+      "fingerprint": "df8f380b5009dc480bb9",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-441e10fb293fb37b2150",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-63f76f500530b1cc2c32",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-5a51ebc442ee4d56b1ac",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-289d589c7340abb54e88",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ed9d8de21ccdf69f98d6",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-dc59458d45815279372c",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"华尔街视小鹏机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-7023f51a7c82641e1f85",
       "recordId": "verify-4f3d411e872d4f",
       "companyName": "待识别公司",
@@ -10571,10 +11056,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-29T03:56:24.110Z",
-      "lastAttemptAt": "2026-09-01T07:08:56.956Z",
-      "nextAttemptAt": "2026-09-02T07:08:56.956Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -11539,10 +12024,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextAttemptAt": "2026-09-02T07:16:04.194Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -11636,10 +12121,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextAttemptAt": "2026-09-02T07:16:04.194Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -11830,10 +12315,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-01T07:16:04.194Z",
-      "nextAttemptAt": "2026-09-02T07:16:04.194Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -12507,10 +12992,107 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-02T02:31:12.713Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-03T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-06T02:38:49.455Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-54f4471ae16213f309e4",
+      "recordId": "verify-c14211e5034b8d",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "b6eb95a3bb3ee8b6b9ec",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-863281ce4173b4c3a227",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-03a96fc22aa676257fd6",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-048af1832e63becb8e70",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-18d1378b049de9f49967",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-e56a7d19c647f1a4d242",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9bd5e86e9b373af268f4",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"投资深海智人，光合创投再落具身智能关键一子|创业投资基金|机器人|海洋|油气田|订单_手机新浪网 - 手机新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -12804,6 +13386,27 @@
       "nextAttemptAt": "2026-10-01T07:16:04.194Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-6ffd1bf166ef92cdf2d0",
+      "recordId": "verify-ce11f01055128e",
+      "companyName": "Aitan",
+      "eventKind": "投融资",
+      "fingerprint": "63e38d737506ef07934f",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-03T02:38:49.455Z",
+      "nextAttemptAt": "2026-09-03T02:38:49.455Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
     },
     {
       "id": "plan-12a74cf11515ab84010a",
