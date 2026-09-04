@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-03-2026-09-03T02-38-49-455Z",
-  "date": "2026-09-03",
-  "startedAt": "2026-09-03T02:38:49.455Z",
-  "finishedAt": "2026-09-03T02:43:05.142Z",
+  "runId": "2026-09-04-2026-09-04T02-35-32-060Z",
+  "date": "2026-09-04",
+  "startedAt": "2026-09-04T02:35:32.060Z",
+  "finishedAt": "2026-09-04T02:38:19.742Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 20,
+    "candidates": 19,
     "sourceFailures": 1
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 8,
-      "succeeded": 4,
+      "attempted": 6,
+      "succeeded": 2,
       "failed": 4,
-      "detail": "有效完成 4；无效模型输出 0；提供方失败 4；缓存命中 2；industry、research 通道已熔断。"
+      "detail": "有效完成 2；无效模型输出 0；提供方失败 4；缓存命中 3；industry、research 通道已熔断。"
     },
     {
       "component": "OpenAlex",

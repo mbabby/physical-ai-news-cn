@@ -15,22 +15,22 @@
 
 ## 待补事件证据
 
-- [lerobot v0.6.1 发布，含模块重命名破坏性变更](https://github.com/huggingface/lerobot/releases/tag/v0.6.1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [AtVLA：面向视觉-语言-动作模型的自适应视觉细化框架](https://arxiv.org/abs/2608.02197v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
-- [MVUCF：面向纯 RGB 多相机 VLA 策略的几何增强动作表示](https://arxiv.org/abs/2608.01826v1) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [RoboBusiness 大会专家展望机器人未来二十年](https://www.therobotreport.com/experts-look-ahead-at-the-next-20-years-of-robotics-at-robobusiness/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Tacta Systems 发布 TactaBot，瞄准高技能制造工作](https://www.therobotreport.com/tacta-systems-takes-aim-high-skilled-manufacturing-work-tactabot/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Analog Devices 再次成为 MassRobotics 战略赞助商以支持初创企业](https://www.therobotreport.com/analog-devices-returns-strategic-sponsor-aid-massrobotics-startups/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Hadrian融资13.7亿美元，加速美国国防与航空航天制造](https://www.therobotreport.com/hadrian-raises-1-37b-accelerate-u-s-manufacturing/) · 待公司主体确认：公司主体未确认；融资缺少一手或独立媒体交叉证据 · [提交补充证据](../../issues/new/choose)
 - [RoboStore 成立 Robo Inc.，助力美国机构部署机器人](https://www.therobotreport.com/robostore-launches-robo-inc-to-help-u-s-organizations-deploy-robots/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [Tate 在多个工厂部署 58 台 Hirebotics 协作焊接机器人](https://www.therobotreport.com/tate-deploys-58-hirebotics-cobot-welders-across-multiple-facilities/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [防务无人机开发商 Cambridge Aerospace 完成3亿美元融资](https://www.therobotreport.com/defense-drone-developer-cambridge-aerospace-raises-300m/) · 待公司主体确认：公司主体未确认；融资缺少一手或独立媒体交叉证据 · [提交补充证据](../../issues/new/choose)
+- [PlusAI 在自动驾驶卡车发布前达成关键里程碑](https://www.therobotreport.com/plusai-reaches-key-milestones-ahead-launch-autonomous-trucks/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 
 ## 待评估信源
 
+- **theverge.com** · 连续成功 4 次 · 样例：[GoPro acquired, getting into 'defense, government, robotics and aerospace'](https://www.theverge.com/news/987494/gopro-starman-holding-merger-aquisition) · [提交信源建议](../../issues/new/choose)
 - **github.com** · 连续成功 23 次 · 样例：[Show HN: I kept finding robot datasets with skewed clocks, so I built a checker](https://github.com/anicut-ai/embodied-sync) · [提交信源建议](../../issues/new/choose)
-- **livescience.com** · 连续成功 3 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
-- **wired.com** · 连续成功 5 次 · 样例：[Meta's push to put robots to work in data centers](https://www.wired.com/story/inside-metas-experiments-with-data-center-robots/) · [提交信源建议](../../issues/new/choose)
-- **abc7news.com** · 连续成功 3 次 · 样例：[An 'old school' San Jose barber is now teaching robots to cut hair with AI](https://abc7news.com/post/heres-old-school-san-jose-barber-taiyadi-magic-day-is-now-teaching-robots-cut-hair-ai-instawork-robotics/19754964/) · [提交信源建议](../../issues/new/choose)
-- **theverge.com** · 连续成功 3 次 · 样例：[China's robots race ahead](https://www.theverge.com/tech/986167/china-humanoid-robot-games-race) · [提交信源建议](../../issues/new/choose)
+- **livescience.com** · 连续成功 4 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
+- **wired.com** · 连续成功 6 次 · 样例：[Meta's push to put robots to work in data centers](https://www.wired.com/story/inside-metas-experiments-with-data-center-robots/) · [提交信源建议](../../issues/new/choose)
+- **abc7news.com** · 连续成功 4 次 · 样例：[An 'old school' San Jose barber is now teaching robots to cut hair with AI](https://abc7news.com/post/heres-old-school-san-jose-barber-taiyadi-magic-day-is-now-teaching-robots-cut-hair-ai-instawork-robotics/19754964/) · [提交信源建议](../../issues/new/choose)
 - **404media.co** · 连续成功 5 次 · 样例：[ICE Plans to Spend Millions on Boston Dynamics Dog Robots](https://www.404media.co/ice-plans-to-spends-millions-on-boston-dynamics-dog-robots/) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
