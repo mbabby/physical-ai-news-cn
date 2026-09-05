@@ -1334,8 +1334,12 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const dashboardRunHistory = updateRunHistory(previousRunHistory, runManifest);
   const dashboardPipelineHealth = buildPipelineHealth(dashboardRunHistory, finishedAt);
   const publicationHealth = projectPublicationHealth(dashboardPipelineHealth, runManifest, anomalyReport.metrics.candidateBacklog);
+  // Build the registry before rendering the dashboard. A source can be paused
+  // by this run's accumulated outcomes, so the published count must reflect
+  // the same state we persist rather than the prior run's registry.
+  const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
   const dashboard = buildDashboard(eventStore, companies, publicResearch, now, {
-    activeSources: activeSources.length + activeXSources.length,
+    activeSources: registry.sources.filter((source) => source.status !== "已暂停").length,
     periodLabel: `本周 ${isoWeek(now)} · 近 30 天滚动证据池`,
     companyClaimLedger,
     researchDecisionCards,
@@ -1347,7 +1351,6 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   });
   const companyEntities = updateCompanyEntityRegistry(await readJson<CompanyEntityRegistry>(companyEntityPath), companies, companyCandidates, now);
   const nextCandidateRegistry = updateCandidateRegistry(candidateRegistry, discoveredSources, archives, now);
-  const registry = buildSourceRegistry(archives, registrySources, [...activeSources, ...activeXSources], now);
   const watchlist = selectWatchlistCandidates(weekly);
   await writeFile(join(sourcesDir, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
   await writeFile(join(resourcesDir, "source-network.md"), formatSourceNetwork(registry), "utf8");

@@ -110,6 +110,18 @@ test("one artifact drives JSON, dashboard, README and feeds without reorder", as
   }
 });
 
+test("dashboard source count reflects the registry state produced in the same run", async () => {
+  const root = await fixedRepository();
+  try {
+    await generateFixed(root);
+    const dashboard = JSON.parse(await readFile(join(root, "site/data/dashboard.json"), "utf8")) as { stats: { sources: number } };
+    const registry = JSON.parse(await readFile(join(root, "sources/registry.json"), "utf8")) as { sources: Array<{ status: string }> };
+    assert.equal(dashboard.stats.sources, registry.sources.filter((source) => source.status !== "已暂停").length);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("daily orchestration stages the experiment draft only under review", async () => {
   const root = await fixedRepository();
   const transaction = new RecordingTransaction();
