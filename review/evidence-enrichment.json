@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-04T02:35:32.060Z",
+  "generatedAt": "2026-09-05T09:10:00.946Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -67,7 +67,7 @@
   "budget": {
     "maxPlansPerRun": 20,
     "attemptedPlans": 20,
-    "deferredPlans": 3,
+    "deferredPlans": 25,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -649,10 +649,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-12T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1049,7 +1049,7 @@
       "recordId": "verify-9fa89434fce26b",
       "companyName": "Lyte",
       "eventKind": "投融资",
-      "fingerprint": "be24e0eb43f586afa34f",
+      "fingerprint": "4202c74191de8d98f39b",
       "gaps": [
         "missing-subject",
         "missing-official",
@@ -1136,8 +1136,8 @@
       "candidateEvidence": [],
       "attemptCount": 1,
       "createdAt": "2026-09-03T02:38:49.455Z",
-      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
-      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-06T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1328,10 +1328,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -1526,6 +1526,103 @@
       "createdAt": "2026-08-11T01:17:10.261Z",
       "lastAttemptAt": "2026-08-23T01:01:32.642Z",
       "nextAttemptAt": "2026-09-22T01:01:32.642Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-4b386a1ed8fa7663fb49",
+      "recordId": "verify-48c6eead60b02a",
+      "companyName": "Lyte AI",
+      "eventKind": "投融资",
+      "fingerprint": "42662ce2546d204056c5",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 89,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-78a5e2110beb13b89837",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-bf74fce54299ce556ab6",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-70b3d89d5086badb1cbc",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7daa26b7905efcf58acf",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8acb57642fffc080863a",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4cdbdf8e6149bb415ac0",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"Lyte AI\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-06T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2233,10 +2330,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-22T12:54:06.990Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2330,10 +2427,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-12T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2621,10 +2718,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-04T02:35:32.060Z",
-      "lastAttemptAt": "2026-09-04T02:35:32.060Z",
-      "nextAttemptAt": "2026-09-05T02:35:32.060Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -2815,10 +2912,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-20T00:56:47.599Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3009,10 +3106,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3106,10 +3203,107 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-8187dfce5ae8b85e25b9",
+      "recordId": "verify-453c8fd1630a48",
+      "companyName": "ON Semiconductor 拟",
+      "eventKind": "投融资",
+      "fingerprint": "a62e2b3aaeb564566ff7",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 88,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-2c5a36f6797201fc3c5a",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-f6388799785112e3cb8d",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-249b2924092eec025efb",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-5e56fde4cf182c63a56f",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-ceea205195cdb9cbacb2",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-45620b84a6ba6a9fd945",
+          "domain": "ambirobotics.com",
+          "sourceLabel": "Ambi Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:ambirobotics.com \"ON Semiconductor 拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-06T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3203,10 +3397,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-03T02:38:49.455Z",
-      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
-      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3397,10 +3591,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-03T02:38:49.455Z",
-      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
-      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3494,10 +3688,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-04T02:35:32.060Z",
-      "lastAttemptAt": "2026-09-04T02:35:32.060Z",
-      "nextAttemptAt": "2026-09-05T02:35:32.060Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3688,10 +3882,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-12T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -3979,10 +4173,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-04T02:35:32.060Z",
-      "lastAttemptAt": "2026-09-04T02:35:32.060Z",
-      "nextAttemptAt": "2026-09-05T02:35:32.060Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4462,10 +4656,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 2,
+      "attemptCount": 3,
       "createdAt": "2026-08-31T07:57:24.490Z",
-      "lastAttemptAt": "2026-09-02T02:31:12.713Z",
-      "nextAttemptAt": "2026-09-05T02:31:12.713Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-12T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4559,10 +4753,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -4753,10 +4947,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 3,
+      "attemptCount": 4,
       "createdAt": "2026-08-19T00:57:12.856Z",
-      "lastAttemptAt": "2026-08-29T03:56:24.110Z",
-      "nextAttemptAt": "2026-09-05T03:56:24.110Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-10-05T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -5917,10 +6111,10 @@
         }
       ],
       "candidateEvidence": [],
-      "attemptCount": 1,
+      "attemptCount": 2,
       "createdAt": "2026-09-03T02:38:49.455Z",
-      "lastAttemptAt": "2026-09-03T02:38:49.455Z",
-      "nextAttemptAt": "2026-09-04T02:38:49.455Z",
+      "lastAttemptAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-08T09:10:00.946Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -9318,6 +9512,26 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-7540285a4873cbad758c",
+      "recordId": "verify-1496929d2227e1",
+      "companyName": "优必选",
+      "eventKind": "投融资",
+      "fingerprint": "8bf7ad4fddac434bf6f8",
+      "gaps": [
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+    },
+    {
       "id": "plan-bdaba268e9738dfcfd2b",
       "recordId": "verify-1d7150d506eec4",
       "companyName": "待识别公司",
@@ -9607,6 +9821,27 @@
       "nextAttemptAt": "2026-09-11T02:35:32.060Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-4761b32281ac90b8fcbc",
+      "recordId": "verify-2e6e3b1e690d94",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "e6fb8ebfedcb3471c8e6",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
     },
     {
       "id": "plan-acbea1e21d3a35d66c4a",
@@ -12323,6 +12558,26 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-be2dc18b98310b0812de",
+      "recordId": "verify-99af39bb286a5d",
+      "companyName": "Humanoid",
+      "eventKind": "投融资",
+      "fingerprint": "65e26272efe876ec692a",
+      "gaps": [
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+    },
+    {
       "id": "plan-c4e2fdd5a41684c44c06",
       "recordId": "verify-9a569d5d98c219",
       "companyName": "蚂蚁灵波拟",
@@ -12418,6 +12673,27 @@
       "nextAttemptAt": "2026-09-23T00:59:12.156Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-1e953ce2ea4355fb20d7",
+      "recordId": "verify-9b714c257b09e1",
+      "companyName": "Kraken Robotics",
+      "eventKind": "投融资",
+      "fingerprint": "626ad3ae983814c1c13f",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
     },
     {
       "id": "plan-ddb7d80bc28838366f05",
@@ -14162,6 +14438,48 @@
       "nextAttemptAt": "2026-09-04T07:16:04.194Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-129f59d6589fc521b39d",
+      "recordId": "verify-dc9080a53f612c",
+      "companyName": "Haystack Robotics",
+      "eventKind": "投融资",
+      "fingerprint": "8db5f494fb6162d52562",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+    },
+    {
+      "id": "plan-8dc799166e52c2b4980c",
+      "recordId": "verify-e2685e06fa7474",
+      "companyName": "待识别公司",
+      "eventKind": "投融资",
+      "fingerprint": "d81143eb07622a4300a6",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "deferred",
+      "probes": [],
+      "candidateEvidence": [],
+      "attemptCount": 0,
+      "createdAt": "2026-09-05T09:10:00.946Z",
+      "nextAttemptAt": "2026-09-05T09:10:00.946Z",
+      "errors": [],
+      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
     },
     {
       "id": "plan-63b81325673b95fc3e2f",

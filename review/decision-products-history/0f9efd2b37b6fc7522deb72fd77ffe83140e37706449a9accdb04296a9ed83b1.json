@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-05T09:10:00.946Z",
-  "periodStart": "2026-08-30",
+  "generatedAt": "2026-09-04T02:35:32.060Z",
+  "periodStart": "2026-08-29",
   "topSignals": [],
   "companyCards": [],
   "researchPassports": [
@@ -142,10 +142,73 @@
         "realRobotTrials",
         "limitations"
       ]
+    },
+    {
+      "passportId": "decision-research-ef579c88364957eac7f8",
+      "paperId": "8c419dab7bc8d2c0",
+      "titleZh": "JoyAI-RA 0.5：通过双重动作对齐扩展机器人操作学习",
+      "factsZh": [
+        "提出通用VLWA框架JoyAI-RA 0.5，以隐式与显式双重动作对齐利用人类视频、仿真与机器人数据扩展操作学习。",
+        "真实AgiBot基准上已见与未见任务均表现强劲，且随人类数据增加持续提升未见饱和。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.05674v1",
+      "task": [
+        "机器人操作"
+      ],
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7202006027",
+        "authors": [
+          "JoyAI-RA Team",
+          "RA Team"
+        ],
+        "labs": [],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-19T00:59:00.705Z"
+      },
+      "limitations": "unknown",
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials",
+        "limitations",
+        "authority.labs"
+      ]
     }
   ],
   "subscriptions": {
-    "generatedAt": "2026-09-05T09:10:00.946Z",
+    "generatedAt": "2026-09-04T02:35:32.060Z",
     "entries": [
       {
         "subscriptionId": "github-watch",

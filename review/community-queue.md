@@ -26,12 +26,12 @@
 
 ## 待评估信源
 
-- **theverge.com** · 连续成功 4 次 · 样例：[GoPro acquired, getting into 'defense, government, robotics and aerospace'](https://www.theverge.com/news/987494/gopro-starman-holding-merger-aquisition) · [提交信源建议](../../issues/new/choose)
+- **theverge.com** · 连续成功 5 次 · 样例：[GoPro acquired, getting into 'defense, government, robotics and aerospace'](https://www.theverge.com/news/987494/gopro-starman-holding-merger-aquisition) · [提交信源建议](../../issues/new/choose)
+- **secondthoughts.ai** · 连续成功 2 次 · 样例：[Reasons robotics is hard](https://secondthoughts.ai/p/14-reasons-robotics-is-hard) · [提交信源建议](../../issues/new/choose)
+- **spectrum.ieee.org** · 连续成功 2 次 · 样例：[NASA's Cargo-Moving Robotic Arm Named 300th IEEE Milestone](https://spectrum.ieee.org/canadarm-ieee-300th-milestone) · [提交信源建议](../../issues/new/choose)
+- **understandingai.org** · 连续成功 2 次 · 样例：[Why humanoid robots won't catch up to human workers any time soon](https://www.understandingai.org/p/why-humanoid-robots-wont-catch-up) · [提交信源建议](../../issues/new/choose)
 - **github.com** · 连续成功 23 次 · 样例：[Show HN: I kept finding robot datasets with skewed clocks, so I built a checker](https://github.com/anicut-ai/embodied-sync) · [提交信源建议](../../issues/new/choose)
-- **livescience.com** · 连续成功 4 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
-- **wired.com** · 连续成功 6 次 · 样例：[Meta's push to put robots to work in data centers](https://www.wired.com/story/inside-metas-experiments-with-data-center-robots/) · [提交信源建议](../../issues/new/choose)
-- **abc7news.com** · 连续成功 4 次 · 样例：[An 'old school' San Jose barber is now teaching robots to cut hair with AI](https://abc7news.com/post/heres-old-school-san-jose-barber-taiyadi-magic-day-is-now-teaching-robots-cut-hair-ai-instawork-robotics/19754964/) · [提交信源建议](../../issues/new/choose)
-- **404media.co** · 连续成功 5 次 · 样例：[ICE Plans to Spend Millions on Boston Dynamics Dog Robots](https://www.404media.co/ice-plans-to-spends-millions-on-boston-dynamics-dog-robots/) · [提交信源建议](../../issues/new/choose)
+- **livescience.com** · 连续成功 5 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

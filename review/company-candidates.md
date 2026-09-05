@@ -58,6 +58,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%A5%BF%E6%B9%96%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
+## Kraken Robotics · 观察中 · 57/100
+
+- 路线：部署与商业化
+- 证据：[Seeking Alpha](https://news.google.com/rss/articles/CBMi3wFBVV95cUxPSDlQWVhTWENRbEJYdDYyTTNLdkU5X3NIRk8xTXhMbkVDdE5SeU1uLW9XbE1fY1d2R1JZVk1JcnUxWXdNNVZ6YWZSNWpDdHpqbjl1ZVM4SkZUWDVhTEY3Y2xxZ1ZqRnNQNnZFanA1aHl2V205RTlDMlRNbHJxNTBLQ0E4NUYzczNkNVlUZlV6V3V2WWF0LUduSW4tX25TZXVSaXh4MGhNOG1fbnV5YS0xc28zal9XaWhPTENwSkhDNHQwRjlva0ZENHpiZ0tNSnZGNEdOYi1EdnVCS2lvbm9Z?oc=5) · [Pluang](https://news.google.com/rss/articles/CBMiowFBVV95cUxPdWVCc2dmVllINWRWQzFVMEExZGZQX2lBSTZqTFh4S2plN1ctLVp5Wl92RFEzVURLdkphR0lhNnBhN05nSlBlUU1Ua05jQmNjN3pobEI3eTBVT1N0bEcxc05QTXBvTmRiYjN3UG9kVDUyQ2JzdmRoTVA1bU9SN1p5RjUzN21yNlVGd3MzalpyWmdDSU4ySmJFQWFLU3JCRERRd1lB?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
 ## 玄创机器人 · 观察中 · 57/100
 
 - 路线：部署与商业化
@@ -112,6 +119,20 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMiYkFVX3lxTE40NnZQbkg4Qmk0OXBxNy1aTlgzOGVuWHlaVXhobTBLYjh3RzJ1dWItUmp1QzQ0WlI0d1dxeEFSbmxUOHo0YWFzMkh5Z0E3ZDBOaUs0UU41eWJwZ204V3F3RnJB?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%96%B9%E7%9F%B3%E6%9C%BA%E5%99%A8%E4%BA%BA%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Lyte AI · 候选 · 38/100
+
+- 路线：部署与商业化
+- 证据：[The Robot Report](https://www.therobotreport.com/lyte-raises-165m-help-robots-better-sense-their-surroundings/)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Lyte%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Lyte%20AI%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Haystack Robotics · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Dealroom](https://news.google.com/rss/articles/CBMinAFBVV95cUxPaW9qSE5oVGxUUDJibVVvVWNDWkozSFRoaEZHTElzMGpQaFYyZkduR3RYVF9iUnlqVm51ZnVvT3k0dExLVXZiTTVOUDFjMWNnWk91bFYzU2hZbWsxcWZZVWcxUXhpMkVieUFxNzNKVXNKRjhoV3BlTFZzaHpFWV94Rnc3QV9RTmdScldUM1dvc2dtVWMyUU5XNFB1UDg?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Haystack%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Haystack%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 人形机器人头部车企 · 候选 · 32/100
@@ -301,6 +322,20 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## ON Semiconductor 拟 · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[Pluang](https://news.google.com/rss/articles/CBMilAFBVV95cUxOSTZGaEVhaHhhTEtIdjFfcXdPcEhoT3dLcVVJd3F4WVVVMzltUFp3TDRESkhtYVE2X2ZNWURPbVc4YXFib09OS0drdlhpeFdqdm1uYjNQSk5BbUlZcHphNlV1VTFPQk9kS216dWpxUFJ5M2ZiZDJMMHRUS3dtY0hUMGFvejZndGl0Y0hPUEpscFpFOTdm?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22ON%20Semiconductor%20%E6%8B%9F%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22ON%20Semiconductor%20%E6%8B%9F%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## 优必选 · 候选 · 22/100
+
+- 路线：本体与硬件
+- 证据：[Dealroom](https://news.google.com/rss/articles/CBMilwFBVV95cUxOSWdtVWVYNHBaUUQwZXZteU51NHZYUGhTSHk5X1V1a2JwSWJIVDYyY19tUnFrVlRrVmpOSE4tQnhOSEdtdjUzcktaSHFDcjJxa0xKSTlBVjh2ajZkU29WSHJCRVNVRTU2ZUw3dkkwQzlFLU52LTAxX05xNFZnQ3ZhRFFwQVJJcDVsZWR6cl9IemdqSzdJYno0?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BC%98%E5%BF%85%E9%80%89%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BC%98%E5%BF%85%E9%80%89%22%20official%20investors%20funding) · [候选官网](https://www.ubtrobot.com/)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 人形机器人时代已至，成AI · 候选 · 22/100
@@ -546,13 +581,6 @@
 - 路线：世界模型与空间智能
 - 证据：[Unite.AI](https://news.google.com/rss/articles/CBMiswFBVV95cUxNRE1NelhxZFdWSnR2Nm1yRnNrLURHNm84VjBHWnBsUm9fSzRETzhZa3ZUT0Rrb1gxUWNkbWtCRVpQcDB2dmFjRkhxOFV6Ymw1SEt1VEMzSkpFX2JYMnd0WVR5UkhabXY0RUNYQkN5bGMyOWhubFltMnE1LURTU2o3ZXhnV1lmR3RRZGczVW9sdHNrbnh4T2NTUEhVc24zYmdTWEkwT0lFZlpmZmRRYmJZdmtPTQ?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Veeda%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Veeda%20AI%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## Kraken Robotics · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[Seeking Alpha](https://news.google.com/rss/articles/CBMi3wFBVV95cUxPSDlQWVhTWENRbEJYdDYyTTNLdkU5X3NIRk8xTXhMbkVDdE5SeU1uLW9XbE1fY1d2R1JZVk1JcnUxWXdNNVZ6YWZSNWpDdHpqbjl1ZVM4SkZUWDVhTEY3Y2xxZ1ZqRnNQNnZFanA1aHl2V205RTlDMlRNbHJxNTBLQ0E4NUYzczNkNVlUZlV6V3V2WWF0LUduSW4tX25TZXVSaXh4MGhNOG1fbnV5YS0xc28zal9XaWhPTENwSkhDNHQwRjlva0ZENHpiZ0tNSnZGNEdOYi1EdnVCS2lvbm9Z?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Kraken%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 人形机器人成本下降九成，灵巧手 · 候选 · 22/100
