@@ -1578,6 +1578,8 @@ const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
 const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const FIXTURE_INPUT_PATHS = [
+  "config/core-coverage.json", "events/index.json", "events/company-claim-ledger.json",
+  "review/run-history.json", "review/cases.json", "review/assignments.json",
   "site/data/core-coverage.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "events/core-coverage-history.json", "review/core30-backfill.json",
   `daily/${FIXTURE_NOW.toISOString().slice(0, 10)}.json`,
   "research/benchmark-result-ledger.json",
@@ -1671,6 +1673,11 @@ async function restoreFixtureInputs(outputRoot: string, snapshot: Map<string, Bu
 
 async function prepareFixtureInputs(outputRoot: string): Promise<void> {
   await Promise.all([
+    // Canonical release history can contain facts newer than the fixed clock
+    // (or genuinely unknown material clocks). Fixture mode starts a separate
+    // empty event baseline; it never repairs production facts to fit its clock.
+    ...["config/core-coverage.json", "events/company-claim-ledger.json", "review/run-history.json", "review/cases.json", "review/assignments.json"].map((path) => rm(join(outputRoot, path), { force: true })),
+    writeFileDirect(join(outputRoot, "events/index.json"), `${JSON.stringify({ updatedAt: FIXTURE_NOW.toISOString(), events: [] }, null, 2)}\n`, "utf8"),
     ...["site/data/core-coverage.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "events/core-coverage-history.json", "review/core30-backfill.json"].map((path) => rm(join(outputRoot, path), { force: true })),
     rm(join(outputRoot, "daily", `${FIXTURE_NOW.toISOString().slice(0, 10)}.json`), { force: true }),
     rm(join(outputRoot, "research", "benchmark-result-ledger.json"), { force: true }),

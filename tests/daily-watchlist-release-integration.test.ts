@@ -25,6 +25,7 @@ import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConf
 import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/contracts.js";
 import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
 import type { WatchlistPreviewArtifact } from "../src/watchlist/preview.js";
+import { resetPublicationFixture } from "./publication-fixture.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
@@ -146,6 +147,7 @@ async function seedDeterministicResearchState(root: string): Promise<void> {
 async function copyFixture(target: string): Promise<void> {
   await mkdir(target, { recursive: true });
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await resetPublicationFixture(target, FIXED_NOW);
   await Promise.all([
     "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
     "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json", "site/data/community-tasks.json",

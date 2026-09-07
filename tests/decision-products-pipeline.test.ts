@@ -14,6 +14,7 @@ import type { DigestResult } from "../src/types.js";
 import type { CompanyProfile } from "../src/types.js";
 import { publishTopSignalsRelease } from "../src/top-signals-growth/publish.js";
 import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
+import { resetPublicationFixture } from "./publication-fixture.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
@@ -37,6 +38,7 @@ const emptyCollection = async (): Promise<DigestResult> => ({ articles: [], fail
 async function fixedRepository(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "decision-products-pipeline-"));
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
+  await resetPublicationFixture(target, FIXED_NOW);
   await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });

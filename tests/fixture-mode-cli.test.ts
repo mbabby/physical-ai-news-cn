@@ -8,11 +8,13 @@ import { fileURLToPath } from "node:url";
 import { parseCliOptions, runFixtureGeneration } from "../src/main.js";
 import { FileTransaction } from "../src/runtime/storage.js";
 import type { DailyArchive, RunManifest } from "../src/types.js";
+import { event as coreEvent } from "./core-coverage-fixtures.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXTURE_PATHS = [
   "README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes",
   "metrics", "site/data", "site/feeds", "watchlist", "community",
+  "config",
 ];
 const COMMUNITY_PATHS = [
   "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
@@ -155,6 +157,31 @@ test("fixture runner isolates an existing immutable Watchlist identity", async (
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("fixture CLI isolates populated Core publication and canonical event history from its historical clock", async () => {
+  const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-populated-core-"));
+  try {
+    await fixtureCopy(root);
+    // Canonical storage is mutable production input, including reviewed facts
+    // whose material-change clock is genuinely unknown. Fixture mode must not
+    // rewrite those facts into valid historical timestamps to accommodate itself.
+    const storePath = join(root, "events/index.json");
+    const store = JSON.parse(await readFile(storePath, "utf8"));
+    const [company] = JSON.parse(await readFile(join(root, "events/companies.json"), "utf8"));
+    store.updatedAt = "2099-01-01T00:00:00Z";
+    store.events = [coreEvent("product", { id: "future-publication-fixture", primaryEntity: company.name, entities: [company.name],
+      firstSeenAt: store.updatedAt, lastVerifiedAt: store.updatedAt, lastMaterialChangeAt: "unknown", lastUpdatedAt: "unknown" })];
+    await writeFile(storePath, JSON.stringify(store));
+    await runFixtureCli(root);
+    assert.deepEqual(JSON.parse(await readFile(storePath, "utf8")).events, []);
+    for (const path of ["config/core-coverage.json", "site/data/core-coverage.json", "site/data/core-coverage-history.json", "events/core-coverage-history.json", "review/core30-backfill.json"]) {
+      await assert.rejects(() => readFile(join(root, path)), { code: "ENOENT" });
+    }
+    const history = JSON.parse(await readFile(join(root, "review/run-history.json"), "utf8"));
+    assert.equal(history.runs.length, 1);
+    assert.equal(history.runs[0].startedAt, "2026-08-24T08:05:05.893Z");
+  } finally { await rm(root, { recursive: true, force: true }); }
 });
 
 test("fixture runner rejects an unrecognized root before creating publication paths", async () => {

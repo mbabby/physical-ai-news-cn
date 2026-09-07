@@ -24,6 +24,7 @@ import { generate } from "../src/main.js";
 import { validateRelease } from "../src/validate-release.js";
 import type { CompanyProfile, DigestResult, EventStore } from "../src/types.js";
 import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
+import { resetPublicationFixture } from "./publication-fixture.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
@@ -115,6 +116,7 @@ async function writeJson(path: string, value: unknown): Promise<void> {
 async function generatedReleaseFixture(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "task7-release-contract-"));
   for (const path of FIXTURE_PATHS) await cp(join(root, path), join(target, path), { recursive: true });
+  await resetPublicationFixture(target, FIXED_NOW);
   await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });

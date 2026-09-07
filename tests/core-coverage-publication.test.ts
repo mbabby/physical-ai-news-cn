@@ -14,6 +14,7 @@ import { buildReviewAssignmentArtifact } from "../src/review-assignment.js";
 import type { CompanyProfile, DigestResult } from "../src/types.js";
 import type { CoverageVersion } from "../src/core-coverage/contracts.js";
 import { company, event, NOW } from "./core-coverage-fixtures.js";
+import { resetPublicationFixture } from "./publication-fixture.js";
 
 function inputs() {
   const companies: CompanyProfile[] = Array.from({ length: 30 }, (_, index) => index === 0 ? company : { ...company, entityId: `subject-${index}`, name: `Subject ${index}`, profileEvidence: [] });
@@ -258,6 +259,7 @@ test("main publishes Core group, retains legacy facts and assigns bounded P2 tas
   const saved = keys.map((key) => process.env[key]); keys.forEach((key) => delete process.env[key]);
   try {
     for (const path of ["README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community", "config"]) await cp(join(repositoryRoot, path), join(root, path), { recursive: true });
+    await resetPublicationFixture(root, NOW, { coreCoverage: true });
     for (const path of ["site/data/decision-products.json", "site/data/core-coverage.json", "site/data/core-coverage-history.json", "events/core-coverage-history.json", "watchlist/current.json", "watchlist/theses.json", "watchlist/history", "review/core30-backfill.json"]) await rm(join(root, path), { recursive: true, force: true });
     await mkdir(join(root, "watchlist/history"), { recursive: true });
     await writeFile(join(root, "review/owners-config.json"), JSON.stringify({ owners: [{ ownerId: "maintainer", maxActiveCases: 3, priorities: ["P2"], caseTypes: ["company"] }] }));

@@ -16,6 +16,7 @@ import { migrateEventTime } from "../src/event-time.js";
 import { upsertEvents } from "../src/event-center.js";
 import { projectCoreCoverageEventDates } from "../src/core-coverage/timeline.js";
 import { company, event } from "./core-coverage-fixtures.js";
+import { resetPublicationFixture } from "./publication-fixture.js";
 
 test("explicit unknown occurrence, publication and material clocks survive canonical regeneration", () => {
   for (const record of [
@@ -79,6 +80,7 @@ test("Shanghai 01:00 reviewed calendar proof qualifies the Brief through normal 
     events: reviewedInput.events.map((item) => ({ ...item, kind: "product-release", occurredOn: "2026-09-07", publishedOn: "2026-09-07" })) } as ReviewedBackfill;
   try {
     for (const path of ["README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes", "metrics", "site", "watchlist", "community", "config"]) await cp(join(repositoryRoot, path), join(outputRoot, path), { recursive: true });
+    await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
     const paths = ["events/index.json", "events/companies.json", "events/company-claim-ledger.json", "site/data/core-coverage.json", "site/data/core-coverage-history.json", "events/core-coverage-history.json", "review/core30-backfill.json", "site/feeds/core-coverage.xml", "README.md"];
     await runReviewedOfflineGeneration({ outputRoot, now, input });
     const before = await Promise.all(paths.map((path) => readFile(join(outputRoot, path), "utf8")));
@@ -151,6 +153,7 @@ test("next-day first ingestion uses documented review observation without advanc
     for (const path of ["README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes", "metrics", "site", "watchlist", "community", "config"]) await cp(join(repositoryRoot, path), join(outputRoot, path), { recursive: true });
     const input = JSON.parse(await readFile(join(repositoryRoot, "review/core30-reviewed-backfill.json"), "utf8"));
     const now = new Date("2026-09-08T01:00:00.000Z");
+    await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
     await runReviewedOfflineGeneration({ outputRoot, input, now });
     const bytes = await readFile(join(outputRoot, "events/index.json"), "utf8");
     const store = JSON.parse(bytes);
@@ -177,6 +180,7 @@ test("explicit reviewed input enters canonical transactional generation without 
     const empty = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
     const input = { ...reviewedInput, events: reviewedInput.events.map((event) => ({ ...event, kind: "product-release" })) } as ReviewedBackfill;
     const now = new Date(reviewedInput.reviewedAt);
+    await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
     await runReviewedOfflineGeneration({ outputRoot, now, input });
     const events = JSON.parse(await readFile(join(outputRoot, "events/index.json"), "utf8"));
     const record = events.events.find((item: any) => item.evidence.some((proof: any) => proof.link === reviewedInput.events[0].url));
