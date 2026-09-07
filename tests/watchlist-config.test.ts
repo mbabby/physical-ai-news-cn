@@ -1,6 +1,30 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
+import { buildWatchlistConfigCatalog, decodeWatchlistConfig, encodeWatchlistConfig } from "../src/watchlist/config.js";
+import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
+import { CANONICAL_ROUTES } from "../src/watchlist/routes.js";
+
+test("current snapshot catalogs round trip every route combination without false release mismatches", () => {
+  // Reproduce the release gate's exact round trip, including non-lexical
+  // canonical route order, empty snapshots, and overlapping card routes.
+  for (let mask = 0; mask < 1 << CANONICAL_ROUTES.length; mask++) {
+    const routes = CANONICAL_ROUTES.filter((_, index) => mask & (1 << index)).map(({ route }) => route);
+    const card: WatchlistPublicView["forwardRadar"][number] = {
+      companyId: "company-a", companyName: "Alpha", thesisId: "alpha", thesisVersion: 1,
+      track: "forward-radar", group: "priority-focus", lifecycle: "new", lifecycleLabel: "新进入",
+      routes, whyNow: "研究判断", routeAndDependencies: "待验证", nextValidationPoints: [],
+      falsifiers: [], evidenceLinks: [], capital: { status: "evidence-insufficient", summary: "证据不足" },
+    };
+    const view: WatchlistPublicView = {
+      week: "2026-W37", snapshotVersion: 1, methodologyVersion: "v1", lastSuccessfulAt: "2026-09-07T01:00:00.000Z",
+      companyIds: mask ? ["company-a"] : [], forwardRadar: mask ? [card] : [],
+      validatedMomentum: mask ? [{ ...card, track: "validated-momentum" }] : [], changes: [],
+    };
+    const current = buildWatchlistConfigCatalog(view);
+    assert.equal(current.routes.length, routes.length);
+    assert.deepEqual(decodeWatchlistConfig(encodeWatchlistConfig(current), current), { config: current, warnings: [] }, `route mask ${mask}`);
+  }
+});
 
 const catalog = {
   companyIds: ["company-z", "company-a", "company-b", "company-\uD83D\uDE00", "company-\uFFFF"],

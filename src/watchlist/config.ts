@@ -26,7 +26,8 @@ export function buildWatchlistConfigCatalog(view: WatchlistPublicView): Watchlis
   const usedRoutes = new Set([...view.forwardRadar, ...view.validatedMomentum].flatMap((card) => card.routes));
   return {
     companyIds: stableUnique(view.companyIds),
-    routes: CANONICAL_ROUTES.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug),
+    // Match the share codec's canonical ordering without changing display order.
+    routes: stableUnique(CANONICAL_ROUTES.filter(({ route }) => usedRoutes.has(route)).map(({ slug }) => slug)),
   };
 }
 
