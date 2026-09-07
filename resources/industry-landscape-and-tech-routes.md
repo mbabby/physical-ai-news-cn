@@ -6,59 +6,78 @@
 
 | 路线 | 已建档公司 | 有资本信号 | 有产品 / 部署信号 |
 | --- | ---: | ---: | ---: |
-| VLA 与具身模型 | 26 | 0 | 0 |
-| 数据与训练 | 14 | 0 | 0 |
-| 本体与硬件 | 33 | 0 | 0 |
-| 部署与商业化 | 28 | 0 | 0 |
+| 部署与商业化 | 28 | 3 | 6 |
+| VLA 与具身模型 | 26 | 0 | 1 |
+| 数据与训练 | 14 | 0 | 1 |
+| 本体与硬件 | 33 | 0 | 1 |
 | 世界模型与空间智能 | 3 | 0 | 0 |
 
-## 01 · VLA 与具身模型
+## 01 · 部署与商业化
 
-**谁在做**：26 家已建档公司；0 家已有可追溯资本或产品 / 部署信号。  
+**谁在做**：28 家已建档公司；9 家已有可追溯资本或产品 / 部署信号。  
+**怎么做**：场景闭环、客户验证、工厂/仓储部署、量产  
+**资本是否支持**：3 家已证实；0 家有待补强的资本信号。  
+**验证到哪**：6 家有公开产品 / 部署证据；最高为规模部署 / 商业化。
+
+### 本路线领先信号
+
+| 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
+| --- | --- | --- | --- |
+| [Apptronik](https://apptronik.com/)<br><sub>北美 · 成长公司</sub> | 通用人形机器人本体与产业应用。 | [已证实 ·  宣布 5.2 亿美元 Series A-X 扩展轮](https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a) | 证据不足 |
+| [Figure](https://www.figure.ai/)<br><sub>北美 · 成长公司</sub> | 人形本体、端到端机器人智能与工作场景。 | [已证实 ·  宣布 Series C 承诺资本超过 10 亿美元](https://www.figure.ai/news/series-c) | 证据不足 |
+| [小鹏机器人](https://www.xpeng.com/)<br><sub>中国 · 平台公司</sub> | 汽车智能体系延伸的人形机器人软硬件平台。 | [已证实 · 宣布签署逾 9 亿美元融资协议](https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a) | 证据不足 |
+| [优必选](https://www.ubtrobot.com/)<br><sub>中国 · 成长公司</sub> | 人形机器人产品与行业应用。 | 证据不足（不代表未融资） | [规模部署 / 商业化 · 宣布与日立推进 Walker S2 制造现场验证](https://www.ubtrobot.com/en/about/news/826577556529221) |
+| [智元机器人](https://www.agibot.com.cn/)<br><sub>中国 · 创业公司</sub> | 通用人形机器人与产业化。 | 证据不足（不代表未融资） | [规模部署 / 商业化 · 宣布第 10,000 台通用具身机器人下线](https://www.agibot.com.cn/article/315/detail/147.html) |
+| [Agility Robotics](https://agilityrobotics.com/)<br><sub>北美 · 成长公司</sub> | 面向物流和工业场景的双足机器人。 | 证据不足（不代表未融资） | [客户试点 ·  宣布与丰田加拿大签署 Digit 机器人服务协议](https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada) |
+| [Dexterity](https://www.dexterity.ai/)<br><sub>北美 · 成长公司</sub> | 仓储与物流机器人智能。 | 证据不足（不代表未融资） | [客户试点 ·  宣布与 FedEx 扩大 Hagerstown 枢纽自动装车部署](https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment) |
+| [ANYbotics](https://www.anybotics.com/)<br><sub>欧洲 · 成长公司</sub> | 四足机器人与工业巡检。 | 证据不足（不代表未融资） | [概念 / 研究 ·  宣布与 GE Vernova 扩展自主能源巡检合作](https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/) |
+
+**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [Ambi Robotics](https://www.ambirobotics.com/) · [Boston Dynamics](https://bostondynamics.com/) · [DYNA Robotics](https://www.dyna.co/) · [Field AI](https://www.fieldai.com/) · [GrayMatter Robotics](https://graymatter-robotics.com/) · [Humanoid](https://thehumanoid.ai/) · [Intrinsic](https://www.intrinsic.ai/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Robust AI](https://www.robust.ai/) · [Standard Bots](https://standardbots.com/) · [Tesla](https://www.tesla.com/AI) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [傅利叶智能](https://www.fftai.com/) · [开普勒机器人](https://www.keplerbot.com/) · [银河通用](https://galbot.com/) · [魔法原子](https://www.magicrobot.com/)
+
+## 02 · VLA 与具身模型
+
+**谁在做**：26 家已建档公司；1 家已有可追溯资本或产品 / 部署信号。  
 **怎么做**：VLA、策略模型、测试时扩展、多机器人协作  
 **资本是否支持**：0 家已证实；0 家有待补强的资本信号。  
-**验证到哪**：0 家有公开产品 / 部署证据；最高为证据不足。
+**验证到哪**：1 家有公开产品 / 部署证据；最高为实机验证。
 
-> 尚无同时满足公开主体归属与资本 / 产品验证门槛的公司信号；这不是对路线或公司的负面判断。
+### 本路线领先信号
 
+| 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
+| --- | --- | --- | --- |
+| [Hugging Face](https://huggingface.co/lerobot)<br><sub>北美/欧洲 · 平台公司</sub> | 开放机器人模型、数据集、硬件配方与社区协作基础设施。 | 证据不足（不代表未融资） | [实机验证 ·  发布 LeRobot v0.5.0](https://huggingface.co/blog/lerobot-release-v050) |
 
-**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[Ambi Robotics](https://www.ambirobotics.com/) · [Dexterity](https://www.dexterity.ai/) · [DYNA Robotics](https://www.dyna.co/) · [Field AI](https://www.fieldai.com/) · [Figure](https://www.figure.ai/) · [Google DeepMind](https://deepmind.google/) · [GrayMatter Robotics](https://graymatter-robotics.com/) · [Hugging Face](https://huggingface.co/lerobot) · [Mentee Robotics](https://www.menteebot.com/) · [Meta](https://ai.meta.com/) · [NEURA Robotics](https://neura-robotics.com/) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Robust AI](https://www.robust.ai/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Skild AI](https://www.skild.ai/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Toyota Research Institute](https://www.tri.global/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [小鹏机器人](https://www.xpeng.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.zhiyuan-robot.com/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [银河通用](https://galbot.com/)
+**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[Ambi Robotics](https://www.ambirobotics.com/) · [Dexterity](https://www.dexterity.ai/) · [DYNA Robotics](https://www.dyna.co/) · [Field AI](https://www.fieldai.com/) · [Figure](https://www.figure.ai/) · [Google DeepMind](https://deepmind.google/) · [GrayMatter Robotics](https://graymatter-robotics.com/) · [Mentee Robotics](https://www.menteebot.com/) · [Meta](https://ai.meta.com/) · [NEURA Robotics](https://neura-robotics.com/) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Robust AI](https://www.robust.ai/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Skild AI](https://www.skild.ai/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Toyota Research Institute](https://www.tri.global/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [小鹏机器人](https://www.xpeng.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.agibot.com.cn/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [银河通用](https://galbot.com/)
 
-## 02 · 数据与训练
+## 03 · 数据与训练
 
-**谁在做**：14 家已建档公司；0 家已有可追溯资本或产品 / 部署信号。  
+**谁在做**：14 家已建档公司；1 家已有可追溯资本或产品 / 部署信号。  
 **怎么做**：遥操作、数据引擎、合成数据、强化学习  
 **资本是否支持**：0 家已证实；0 家有待补强的资本信号。  
-**验证到哪**：0 家有公开产品 / 部署证据；最高为证据不足。
+**验证到哪**：1 家有公开产品 / 部署证据；最高为实机验证。
 
-> 尚无同时满足公开主体归属与资本 / 产品验证门槛的公司信号；这不是对路线或公司的负面判断。
+### 本路线领先信号
 
+| 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
+| --- | --- | --- | --- |
+| [Hugging Face](https://huggingface.co/lerobot)<br><sub>北美/欧洲 · 平台公司</sub> | 开放机器人模型、数据集、硬件配方与社区协作基础设施。 | 证据不足（不代表未融资） | [实机验证 ·  发布 LeRobot v0.5.0](https://huggingface.co/blog/lerobot-release-v050) |
 
-**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[Google DeepMind](https://deepmind.google/) · [Hugging Face](https://huggingface.co/lerobot) · [Intrinsic](https://www.intrinsic.ai/) · [Meta](https://ai.meta.com/) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Skild AI](https://www.skild.ai/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Toyota Research Institute](https://www.tri.global/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [宇树科技](https://www.unitree.com/) · [星海图](https://galaxea-ai.com/cn/about)
+**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[Google DeepMind](https://deepmind.google/) · [Intrinsic](https://www.intrinsic.ai/) · [Meta](https://ai.meta.com/) · [NVIDIA](https://www.nvidia.com/en-us/ai-robotics/) · [Physical Intelligence](https://www.physicalintelligence.company/) · [Skild AI](https://www.skild.ai/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Toyota Research Institute](https://www.tri.global/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [宇树科技](https://www.unitree.com/) · [星海图](https://galaxea-ai.com/cn/about)
 
-## 03 · 本体与硬件
+## 04 · 本体与硬件
 
-**谁在做**：33 家已建档公司；0 家已有可追溯资本或产品 / 部署信号。  
+**谁在做**：33 家已建档公司；1 家已有可追溯资本或产品 / 部署信号。  
 **怎么做**：执行器、触觉、灵巧手、整机设计  
 **资本是否支持**：0 家已证实；0 家有待补强的资本信号。  
-**验证到哪**：0 家有公开产品 / 部署证据；最高为证据不足。
+**验证到哪**：1 家有公开产品 / 部署证据；最高为原型与演示。
 
-> 尚无同时满足公开主体归属与资本 / 产品验证门槛的公司信号；这不是对路线或公司的负面判断。
+### 本路线领先信号
 
+| 公司 | 技术路径 / 产品打法 | 资本支持 | 验证阶段 |
+| --- | --- | --- | --- |
+| [宇树科技](https://www.unitree.com/)<br><sub>中国 · 成长公司</sub> | 高性能机器人本体与开发者生态。 | 证据不足（不代表未融资） | [原型与演示 · 发布 As2 四足机器人](https://www.unitree.com/about/) |
 
-**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [Agility Robotics](https://agilityrobotics.com/) · [ANYbotics](https://www.anybotics.com/) · [Apptronik](https://apptronik.com/) · [Boston Dynamics](https://bostondynamics.com/) · [Figure](https://www.figure.ai/) · [Humanoid](https://thehumanoid.ai/) · [Mentee Robotics](https://www.menteebot.com/) · [NEURA Robotics](https://neura-robotics.com/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Standard Bots](https://standardbots.com/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Wandercraft](https://www.wandercraft.eu/) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [众擎机器人](https://www.engineai.com.cn/) · [优必选](https://www.ubtrobot.com/) · [傅利叶智能](https://www.fftai.com/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [宇树科技](https://www.unitree.com/) · [小鹏机器人](https://www.xpeng.com/) · [开普勒机器人](https://www.keplerbot.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.zhiyuan-robot.com/) · [松延动力](https://www.noetixrobotics.com/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [魔法原子](https://www.magicrobot.com/)
-
-## 04 · 部署与商业化
-
-**谁在做**：28 家已建档公司；0 家已有可追溯资本或产品 / 部署信号。  
-**怎么做**：场景闭环、客户验证、工厂/仓储部署、量产  
-**资本是否支持**：0 家已证实；0 家有待补强的资本信号。  
-**验证到哪**：0 家有公开产品 / 部署证据；最高为证据不足。
-
-> 尚无同时满足公开主体归属与资本 / 产品验证门槛的公司信号；这不是对路线或公司的负面判断。
-
-
-**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [Agility Robotics](https://agilityrobotics.com/) · [Ambi Robotics](https://www.ambirobotics.com/) · [ANYbotics](https://www.anybotics.com/) · [Apptronik](https://apptronik.com/) · [Boston Dynamics](https://bostondynamics.com/) · [Dexterity](https://www.dexterity.ai/) · [DYNA Robotics](https://www.dyna.co/) · [Field AI](https://www.fieldai.com/) · [Figure](https://www.figure.ai/) · [GrayMatter Robotics](https://graymatter-robotics.com/) · [Humanoid](https://thehumanoid.ai/) · [Intrinsic](https://www.intrinsic.ai/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Robust AI](https://www.robust.ai/) · [Standard Bots](https://standardbots.com/) · [Tesla](https://www.tesla.com/AI) · [Wandercraft](https://www.wandercraft.eu/) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [优必选](https://www.ubtrobot.com/) · [傅利叶智能](https://www.fftai.com/) · [小鹏机器人](https://www.xpeng.com/) · [开普勒机器人](https://www.keplerbot.com/) · [智元机器人](https://www.zhiyuan-robot.com/) · [银河通用](https://galbot.com/) · [魔法原子](https://www.magicrobot.com/)
+**持续跟踪（尚缺可归属的资本或验证事件，不代表未融资或未进展）**：[1X](https://www.1x.tech/) · [Agility Robotics](https://agilityrobotics.com/) · [ANYbotics](https://www.anybotics.com/) · [Apptronik](https://apptronik.com/) · [Boston Dynamics](https://bostondynamics.com/) · [Figure](https://www.figure.ai/) · [Humanoid](https://thehumanoid.ai/) · [Mentee Robotics](https://www.menteebot.com/) · [NEURA Robotics](https://neura-robotics.com/) · [PAL Robotics](https://pal-robotics.com/) · [Pickle Robot](https://www.picklerobot.com/) · [Sanctuary AI](https://www.sanctuary.ai/) · [Standard Bots](https://standardbots.com/) · [Stanford Robotics Center](https://src.stanford.edu/) · [Tesla](https://www.tesla.com/AI) · [Wandercraft](https://www.wandercraft.eu/) · [乐聚机器人](https://www.lejurobot.com/) · [云深处科技](https://www.deeprobotics.cn/) · [众擎机器人](https://www.engineai.com.cn/) · [优必选](https://www.ubtrobot.com/) · [傅利叶智能](https://www.fftai.com/) · [加速进化](https://www.booster.tech/) · [北京人形机器人创新中心](https://www.x-humanoid.com/) · [小鹏机器人](https://www.xpeng.com/) · [开普勒机器人](https://www.keplerbot.com/) · [星动纪元](https://www.robotera.com/) · [星海图](https://galaxea-ai.com/cn/about) · [智元机器人](https://www.agibot.com.cn/) · [松延动力](https://www.noetixrobotics.com/) · [自变量机器人](https://x2robot.com/) · [逐际动力](https://www.limxdynamics.com/) · [魔法原子](https://www.magicrobot.com/)
 
 ## 05 · 世界模型与空间智能
 

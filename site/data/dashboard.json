@@ -1,37 +1,120 @@
 {
-  "generatedAt": "2026-09-05T09:10:00.946Z",
-  "periodLabel": "本周 2026-W36 · 近 30 天滚动证据池",
+  "generatedAt": "2026-09-07T01:56:22.000Z",
+  "periodLabel": "本周 2026-W37 · 近 30 天滚动证据池",
   "stats": {
-    "events": 0,
+    "events": 1,
     "companies": 49,
     "research": 6,
-    "sources": 40
+    "sources": 41
   },
-  "confirmedSignals": [],
+  "confirmedSignals": [
+    {
+      "title": "小鹏机器人宣布签署逾 9 亿美元融资协议",
+      "summary": "小鹏汽车于 2026 年 8 月 24 日宣布，其机器人业务已与多名投资者签署股份购买协议，拟融资超过 9 亿美元，投后估值超过 63 亿美元。公告将该资金明确归属于小鹏机器人业务，并称资金将用于人形机器人量产与 Physical AI 模型研发。",
+      "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+      "type": "投融资",
+      "route": "部署与商业化",
+      "date": "2026-08-25",
+      "source": "XPENG official pressroom",
+      "isThisWeek": false,
+      "lastVerifiedAt": "2026-09-07T01:00:00.000Z",
+      "entity": "小鹏机器人",
+      "evidenceGrade": "A",
+      "verificationStatus": "官方确认",
+      "evidenceCount": 1,
+      "verifiedAt": "2026-09-07T01:00:00.000Z",
+      "whyItMatters": "资本正在为相关技术路线提供资源与估值信号；当前由一手证据支持。",
+      "score": 74
+    }
+  ],
   "developingSignals": [],
   "topSignals": [],
-  "keyEvents": [],
-  "capital": [],
+  "keyEvents": [
+    {
+      "title": "小鹏机器人宣布签署逾 9 亿美元融资协议",
+      "summary": "小鹏汽车于 2026 年 8 月 24 日宣布，其机器人业务已与多名投资者签署股份购买协议，拟融资超过 9 亿美元，投后估值超过 63 亿美元。公告将该资金明确归属于小鹏机器人业务，并称资金将用于人形机器人量产与 Physical AI 模型研发。",
+      "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+      "type": "投融资",
+      "route": "部署与商业化",
+      "date": "2026-08-25",
+      "source": "XPENG official pressroom",
+      "isThisWeek": false,
+      "lastVerifiedAt": "2026-09-07T01:00:00.000Z"
+    }
+  ],
+  "capital": [
+    {
+      "title": "小鹏机器人宣布签署逾 9 亿美元融资协议",
+      "summary": "小鹏汽车于 2026 年 8 月 24 日宣布，其机器人业务已与多名投资者签署股份购买协议，拟融资超过 9 亿美元，投后估值超过 63 亿美元。公告将该资金明确归属于小鹏机器人业务，并称资金将用于人形机器人量产与 Physical AI 模型研发。",
+      "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+      "type": "投融资",
+      "route": "部署与商业化",
+      "date": "2026-08-25",
+      "source": "XPENG official pressroom",
+      "isThisWeek": false,
+      "lastVerifiedAt": "2026-09-07T01:00:00.000Z"
+    }
+  ],
   "industry": [],
   "research": [
     {
-      "passportId": "decision-research-919d7709cdb98f3aa690",
-      "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
-      "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。 在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
-      "link": "https://arxiv.org/abs/2608.06729v1",
+      "passportId": "decision-research-5de26311e0e05c88549c",
+      "title": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
+      "summary": "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。 配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。",
+      "link": "https://arxiv.org/abs/2608.16222v1",
       "type": "研究论文",
-      "route": "机器人操作",
-      "date": "2026-09-05",
+      "route": "具身智能",
+      "date": "2026-09-07",
       "source": "Reproducibility Passport"
     },
     {
-      "passportId": "decision-research-df23912aeb82464d3415",
-      "title": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
-      "summary": "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。 该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。",
-      "link": "https://arxiv.org/abs/2608.06688v1",
+      "passportId": "decision-research-f7d412dee2e1c2a3d23b",
+      "title": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
+      "summary": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。 其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
+      "link": "https://arxiv.org/abs/2608.27406v1",
+      "type": "研究论文",
+      "route": "具身智能",
+      "date": "2026-09-07",
+      "source": "Reproducibility Passport"
+    },
+    {
+      "passportId": "decision-research-787346b3b6198546a3f7",
+      "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
+      "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。 四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
+      "link": "https://arxiv.org/abs/2608.12860v1",
       "type": "研究论文",
       "route": "机器人导航",
-      "date": "2026-09-05",
+      "date": "2026-09-07",
+      "source": "Reproducibility Passport"
+    },
+    {
+      "passportId": "decision-research-1d8b6c6c54eb529c95b3",
+      "title": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
+      "summary": "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。 大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。",
+      "link": "https://arxiv.org/abs/2608.19589v1",
+      "type": "研究论文",
+      "route": "具身智能",
+      "date": "2026-09-07",
+      "source": "Reproducibility Passport"
+    },
+    {
+      "passportId": "decision-research-6f884b4371fc735ef3bb",
+      "title": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
+      "summary": "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。 真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。",
+      "link": "https://arxiv.org/abs/2608.13362v1",
+      "type": "研究论文",
+      "route": "机器人操作",
+      "date": "2026-09-07",
+      "source": "Reproducibility Passport"
+    },
+    {
+      "passportId": "decision-research-ed057751f6f2b6861012",
+      "title": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
+      "summary": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。 对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。",
+      "link": "https://arxiv.org/abs/2608.13049v1",
+      "type": "研究论文",
+      "route": "机器人操作",
+      "date": "2026-09-07",
       "source": "Reproducibility Passport"
     }
   ],
@@ -53,21 +136,6 @@
     },
     {
       "paper": {
-        "title": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
-        "summary": "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。",
-        "link": "https://arxiv.org/abs/2608.06729v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-07",
-        "source": "arXiv · Robotics"
-      },
-      "route": "VLA 与具身模型",
-      "companies": [],
-      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
-      "relations": []
-    },
-    {
-      "paper": {
         "title": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
         "summary": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
         "link": "https://arxiv.org/abs/2608.27406v1",
@@ -83,12 +151,27 @@
     },
     {
       "paper": {
-        "title": "TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架",
-        "summary": "提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。",
-        "link": "https://arxiv.org/abs/2608.07314v1",
+        "title": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
+        "summary": "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。",
+        "link": "https://arxiv.org/abs/2608.19589v1",
         "type": "研究论文",
         "route": "研究",
-        "date": "2026-08-07",
+        "date": "2026-08-20",
+        "source": "arXiv · Robotics"
+      },
+      "route": "世界模型与空间智能",
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
+    },
+    {
+      "paper": {
+        "title": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
+        "summary": "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。",
+        "link": "https://arxiv.org/abs/2608.13362v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-13",
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
@@ -98,38 +181,332 @@
     },
     {
       "paper": {
-        "title": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
-        "summary": "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。",
-        "link": "https://arxiv.org/abs/2608.06688v1",
+        "title": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
+        "summary": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。",
+        "link": "https://arxiv.org/abs/2608.13049v1",
         "type": "研究论文",
         "route": "研究",
-        "date": "2026-08-07",
+        "date": "2026-08-13",
         "source": "arXiv · Robotics"
       },
-      "route": "VLA 与具身模型",
+      "route": "世界模型与空间智能",
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
     },
     {
       "paper": {
-        "title": "SkillMemo：专家引导的技能记忆框架助力组合式具身操作",
-        "summary": "SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。",
-        "link": "https://arxiv.org/abs/2608.05970v1",
+        "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
+        "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
+        "link": "https://arxiv.org/abs/2608.12860v1",
         "type": "研究论文",
         "route": "研究",
-        "date": "2026-08-06",
+        "date": "2026-08-13",
         "source": "arXiv · Robotics"
       },
-      "route": "VLA 与具身模型",
+      "route": "本体与硬件",
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
     }
   ],
-  "companyRadar": [],
+  "companyRadar": [
+    {
+      "cardId": "decision-company-a9895111d7fdd5893cc8",
+      "name": "智元机器人",
+      "officialUrl": "https://www.agibot.com.cn/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "规模部署 / 商业化",
+      "identitySource": "Agibot official news release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 1
+    },
+    {
+      "cardId": "decision-company-32f197768c3ae5f7d2aa",
+      "name": "Agility Robotics",
+      "officialUrl": "https://agilityrobotics.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "客户试点",
+      "identitySource": "Agility Robotics official press release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-a563dc3a642145005263",
+      "name": "ANYbotics",
+      "officialUrl": "https://www.anybotics.com/",
+      "region": "欧洲",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "客户试点",
+      "identitySource": "ANYbotics official case study",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-72c58acbf04002994561",
+      "name": "Apptronik",
+      "officialUrl": "https://apptronik.com/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "Series A-X 扩展轮 · 5.2亿美元（本次扩展轮；非累计 Series A）",
+      "validationStage": "证据不足",
+      "identitySource": "Apptronik official press release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-20634ee71415daae317c",
+      "name": "Dexterity",
+      "officialUrl": "https://www.dexterity.ai/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "客户试点",
+      "identitySource": "Dexterity official blog",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-abfa7b8df87587bd5c74",
+      "name": "Figure",
+      "officialUrl": "https://www.figure.ai/",
+      "region": "北美",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值",
+      "validationStage": "证据不足",
+      "identitySource": "Figure official news release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-7cc523bcaeb5e25a8659",
+      "name": "Hugging Face",
+      "officialUrl": "https://huggingface.co/lerobot",
+      "region": "北美/欧洲",
+      "stage": "平台公司",
+      "routes": [
+        "VLA 与具身模型",
+        "数据与训练"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "原型与演示",
+      "identitySource": "Hugging Face official blog",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-c04b9bd908746bf75c9a",
+      "name": "逐际动力",
+      "officialUrl": "https://www.limxdynamics.com/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "Series B · 2亿美元",
+      "validationStage": "证据不足",
+      "identitySource": "LimX Dynamics official newsroom",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-488d7bb81b17128f4ad2",
+      "name": "NEURA Robotics",
+      "officialUrl": "https://neura-robotics.com/",
+      "region": "欧洲",
+      "stage": "成长公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "Series C · 最高14亿美元（宣布的融资上限；非已收款）",
+      "validationStage": "证据不足",
+      "identitySource": "NEURA Robotics official press release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-1eb3a787e97fa7005d3a",
+      "name": "NVIDIA",
+      "officialUrl": "https://www.nvidia.com/en-us/ai-robotics/",
+      "region": "北美",
+      "stage": "平台公司",
+      "routes": [
+        "VLA 与具身模型",
+        "世界模型与空间智能",
+        "数据与训练"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "原型与演示",
+      "identitySource": "NVIDIA official newsroom",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-ccfaabb3c905252846fa",
+      "name": "Skild AI",
+      "officialUrl": "https://www.skild.ai/",
+      "region": "北美",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "数据与训练"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "Series C · 14亿美元 · >140亿美元",
+      "validationStage": "证据不足",
+      "identitySource": "Skild AI official blog",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-9b57ef03ac3553d11e6b",
+      "name": "优必选",
+      "officialUrl": "https://www.ubtrobot.com/",
+      "region": "中国",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "客户试点",
+      "identitySource": "UBTECH official news release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-bc12185f6fd5f229d353",
+      "name": "宇树科技",
+      "officialUrl": "https://www.unitree.com/",
+      "region": "中国",
+      "stage": "成长公司",
+      "routes": [
+        "数据与训练",
+        "本体与硬件"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "原型与演示",
+      "identitySource": "Unitree Robotics official company timeline",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 1
+    },
+    {
+      "cardId": "decision-company-3155f0eeec9d46dcbba4",
+      "name": "Wandercraft",
+      "officialUrl": "https://www.wandercraft.eu/",
+      "region": "欧洲/北美",
+      "stage": "成长公司",
+      "routes": [
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "证据不足（不代表未融资）",
+      "validationStage": "规模部署 / 商业化",
+      "identitySource": "Wandercraft official news release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-2dac16dc2ccccfd5d77f",
+      "name": "自变量机器人",
+      "officialUrl": "https://x2robot.com/",
+      "region": "中国",
+      "stage": "创业公司",
+      "routes": [
+        "VLA 与具身模型",
+        "世界模型与空间智能",
+        "本体与硬件"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": "连续四轮融资，最终轮次 Series C · >28亿美元（来源另列200亿元人民币；不相加）",
+      "validationStage": "证据不足",
+      "identitySource": "X Square Robot official news release",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    },
+    {
+      "cardId": "decision-company-3d243459e6d8b4c46d29",
+      "name": "小鹏机器人",
+      "officialUrl": "https://www.xpeng.com/",
+      "region": "中国",
+      "stage": "平台公司",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "thesis": "证据不足",
+      "capitalStatus": ">9亿美元已签股份购买协议（拟融资；非到账） · >63亿美元投后估值（已签股份购买协议交易，未确认交割）",
+      "validationStage": "证据不足",
+      "identitySource": "XPENG official pressroom",
+      "updatedAt": "2026-09-07T01:00:00.000Z",
+      "momentumLabel": "长期跟踪",
+      "recentSignals": 0
+    }
+  ],
   "companyBoards": {
-    "generatedAt": "2026-09-05T09:10:00.946Z",
+    "generatedAt": "2026-09-07T01:56:22.000Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -141,10 +518,95 @@
       "kind": "momentum",
       "title": "公司近期动量榜",
       "mode": "watchlist",
-      "sampleSize": 0,
+      "sampleSize": 1,
       "minimumSampleSize": 10,
-      "reason": "仅 0 家达到门槛，少于 10 家；取消名次并降级为无序观察清单。",
-      "entries": []
+      "reason": "仅 1 家达到门槛，少于 10 家；取消名次并降级为无序观察清单。",
+      "entries": [
+        {
+          "rank": null,
+          "companyId": "xpeng-robotics",
+          "companyName": "小鹏机器人",
+          "officialUrl": "https://www.xpeng.com/",
+          "routes": [
+            "VLA 与具身模型",
+            "本体与硬件",
+            "部署与商业化"
+          ],
+          "score": 68,
+          "scoreBreakdown": [
+            {
+              "key": "material-events",
+              "label": "重大进展",
+              "points": 25,
+              "maxPoints": 35,
+              "basis": "1 个合格事件；按事件影响取最高值并计有限多事件加分",
+              "evidenceDates": [
+                "2026-08-25"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "recency",
+              "label": "事件新近度",
+              "points": 17,
+              "maxPoints": 30,
+              "basis": "最新真实事件日期 2026-08-25",
+              "evidenceDates": [
+                "2026-08-25"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "proof",
+              "label": "证据强度",
+              "points": 22,
+              "maxPoints": 25,
+              "basis": "仅 A 级一手证据或两个独立 B 级来源计分",
+              "evidenceDates": [
+                "2026-08-25"
+              ],
+              "unknown": false
+            },
+            {
+              "key": "event-breadth",
+              "label": "进展类型覆盖",
+              "points": 4,
+              "maxPoints": 10,
+              "basis": "1 类公开进展",
+              "evidenceDates": [
+                "2026-08-25"
+              ],
+              "unknown": false
+            }
+          ],
+          "evidenceDates": [
+            "2026-08-25"
+          ],
+          "unknowns": [],
+          "capital": {
+            "state": "verified",
+            "value": ">9亿美元已签股份购买协议（拟融资；非到账） · >63亿美元投后估值（已签股份购买协议交易，未确认交割）",
+            "eventDate": "unknown",
+            "evidenceDates": [
+              "2026-09-07"
+            ],
+            "note": "融资字段来自仍在有效期内的公开证据。"
+          },
+          "qualifyingEvents": [
+            {
+              "eventId": "evt-4cae0e333b16",
+              "title": "小鹏机器人宣布签署逾 9 亿美元融资协议",
+              "eventDate": "2026-08-25",
+              "evidenceState": "confirmed",
+              "evidenceGrade": "A",
+              "evidenceCount": 1,
+              "evidenceUrls": [
+                "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+              ]
+            }
+          ]
+        }
+      ]
     },
     "strategic": {
       "kind": "strategic",
@@ -164,7 +626,7 @@
             "世界模型与空间智能",
             "数据与训练"
           ],
-          "score": 97,
+          "score": 100,
           "scoreBreakdown": [
             {
               "key": "controlled-importance",
@@ -172,7 +634,9 @@
               "points": 40,
               "maxPoints": 40,
               "basis": "仅按受控公司阶段字段：平台公司",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
@@ -181,22 +645,27 @@
               "points": 30,
               "maxPoints": 30,
               "basis": "3 条受控技术路线",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
               "key": "dossier-completeness",
               "label": "档案完整度",
-              "points": 27,
+              "points": 30,
               "maxPoints": 30,
-              "basis": "9/10 个受控档案字段已填充",
-              "evidenceDates": [],
-              "unknown": true
+              "basis": "10/10 个受控档案字段已填充",
+              "evidenceDates": [
+                "2026-09-06"
+              ],
+              "unknown": false
             }
           ],
-          "evidenceDates": [],
+          "evidenceDates": [
+            "2026-09-06"
+          ],
           "unknowns": [
-            "档案完整度",
             "融资证据"
           ],
           "capital": {
@@ -218,7 +687,7 @@
             "本体与硬件",
             "部署与商业化"
           ],
-          "score": 94,
+          "score": 97,
           "scoreBreakdown": [
             {
               "key": "controlled-importance",
@@ -226,7 +695,9 @@
               "points": 40,
               "maxPoints": 40,
               "basis": "仅按受控公司阶段字段：平台公司",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
@@ -235,20 +706,26 @@
               "points": 30,
               "maxPoints": 30,
               "basis": "3 条受控技术路线",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
               "key": "dossier-completeness",
               "label": "档案完整度",
-              "points": 24,
+              "points": 27,
               "maxPoints": 30,
-              "basis": "8/10 个受控档案字段已填充",
-              "evidenceDates": [],
+              "basis": "9/10 个受控档案字段已填充",
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": true
             }
           ],
-          "evidenceDates": [],
+          "evidenceDates": [
+            "2026-09-06"
+          ],
           "unknowns": [
             "档案完整度",
             "融资证据"
@@ -272,7 +749,7 @@
             "本体与硬件",
             "部署与商业化"
           ],
-          "score": 94,
+          "score": 97,
           "scoreBreakdown": [
             {
               "key": "controlled-importance",
@@ -280,7 +757,10 @@
               "points": 40,
               "maxPoints": 40,
               "basis": "仅按受控公司阶段字段：平台公司",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
@@ -289,30 +769,39 @@
               "points": 30,
               "maxPoints": 30,
               "basis": "3 条受控技术路线",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
               "key": "dossier-completeness",
               "label": "档案完整度",
-              "points": 24,
+              "points": 27,
               "maxPoints": 30,
-              "basis": "8/10 个受控档案字段已填充",
-              "evidenceDates": [],
+              "basis": "9/10 个受控档案字段已填充",
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
               "unknown": true
             }
           ],
-          "evidenceDates": [],
+          "evidenceDates": [
+            "2026-09-06"
+          ],
           "unknowns": [
-            "档案完整度",
-            "融资证据"
+            "档案完整度"
           ],
           "capital": {
-            "state": "evidence_insufficient",
-            "value": "unknown",
+            "state": "verified",
+            "value": ">9亿美元已签股份购买协议（拟融资；非到账） · >63亿美元投后估值（已签股份购买协议交易，未确认交割）",
             "eventDate": "unknown",
-            "evidenceDates": [],
-            "note": "当前有效证据不足；不代表该公司未融资。"
+            "evidenceDates": [
+              "2026-09-07"
+            ],
+            "note": "融资字段来自仍在有效期内的公开证据。"
           },
           "qualifyingEvents": []
         },
@@ -326,7 +815,7 @@
             "本体与硬件",
             "部署与商业化"
           ],
-          "score": 87,
+          "score": 90,
           "scoreBreakdown": [
             {
               "key": "controlled-importance",
@@ -334,7 +823,9 @@
               "points": 30,
               "maxPoints": 40,
               "basis": "仅按受控公司阶段字段：成长公司",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
@@ -343,30 +834,35 @@
               "points": 30,
               "maxPoints": 30,
               "basis": "3 条受控技术路线",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
               "key": "dossier-completeness",
               "label": "档案完整度",
-              "points": 27,
+              "points": 30,
               "maxPoints": 30,
-              "basis": "9/10 个受控档案字段已填充",
-              "evidenceDates": [],
-              "unknown": true
+              "basis": "10/10 个受控档案字段已填充",
+              "evidenceDates": [
+                "2026-09-06"
+              ],
+              "unknown": false
             }
           ],
-          "evidenceDates": [],
-          "unknowns": [
-            "档案完整度",
-            "融资证据"
+          "evidenceDates": [
+            "2026-09-06"
           ],
+          "unknowns": [],
           "capital": {
-            "state": "evidence_insufficient",
-            "value": "unknown",
+            "state": "verified",
+            "value": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值",
             "eventDate": "unknown",
-            "evidenceDates": [],
-            "note": "当前有效证据不足；不代表该公司未融资。"
+            "evidenceDates": [
+              "2026-09-07"
+            ],
+            "note": "融资字段来自仍在有效期内的公开证据。"
           },
           "qualifyingEvents": []
         },
@@ -379,7 +875,7 @@
             "VLA 与具身模型",
             "数据与训练"
           ],
-          "score": 87,
+          "score": 90,
           "scoreBreakdown": [
             {
               "key": "controlled-importance",
@@ -387,7 +883,10 @@
               "points": 40,
               "maxPoints": 40,
               "basis": "仅按受控公司阶段字段：平台公司",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
@@ -396,22 +895,29 @@
               "points": 20,
               "maxPoints": 30,
               "basis": "2 条受控技术路线",
-              "evidenceDates": [],
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
               "unknown": false
             },
             {
               "key": "dossier-completeness",
               "label": "档案完整度",
-              "points": 27,
+              "points": 30,
               "maxPoints": 30,
-              "basis": "9/10 个受控档案字段已填充",
-              "evidenceDates": [],
-              "unknown": true
+              "basis": "10/10 个受控档案字段已填充",
+              "evidenceDates": [
+                "2026-09-06",
+                "2026-09-06"
+              ],
+              "unknown": false
             }
           ],
-          "evidenceDates": [],
+          "evidenceDates": [
+            "2026-09-06"
+          ],
           "unknowns": [
-            "档案完整度",
             "融资证据"
           ],
           "capital": {
@@ -427,10 +933,10 @@
     }
   },
   "watchlist": {
-    "week": "2026-W36",
+    "week": "2026-W37",
     "snapshotVersion": 1,
     "methodologyVersion": "v1",
-    "lastSuccessfulAt": "2026-08-31T07:57:24.490Z",
+    "lastSuccessfulAt": "2026-09-07T01:56:22.000Z",
     "companyIds": [],
     "forwardRadar": [],
     "validatedMomentum": [],
@@ -489,36 +995,865 @@
   ],
   "decisionProducts": {
     "schemaVersion": 1,
-    "generatedAt": "2026-09-05T09:10:00.946Z",
-    "periodStart": "2026-08-30",
+    "generatedAt": "2026-09-07T01:56:22.000Z",
+    "periodStart": "2026-09-01",
     "topSignals": [],
-    "companyCards": [],
+    "companyCards": [
+      {
+        "cardId": "decision-company-a9895111d7fdd5893cc8",
+        "companyId": "agibot",
+        "companyName": "智元机器人",
+        "officialUrl": "https://www.agibot.com.cn/",
+        "region": "中国",
+        "stage": "创业公司",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "规模部署 / 商业化",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "远征 A3 · production",
+          "evidence": [
+            {
+              "evidenceId": "evt-8706b5d81d4d:evidence:1",
+              "url": "https://www.agibot.com.cn/article/315/detail/147.html",
+              "source": "Agibot official news release",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [
+          {
+            "eventId": "evt-8706b5d81d4d",
+            "title": "智元机器人宣布第 10,000 台通用具身机器人下线",
+            "occurredAt": "2026-03-28T00:00:00.000Z",
+            "type": "公司商业"
+          }
+        ],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-32f197768c3ae5f7d2aa",
+        "companyId": "agility-robotics",
+        "companyName": "Agility Robotics",
+        "officialUrl": "https://agilityrobotics.com/",
+        "region": "北美",
+        "stage": "成长公司",
+        "routes": [
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "客户试点",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "Digit · Toyota Motor Manufacturing Canada · 成功试点后签署机器人即服务协议；后续设施部署仍为计划 · pilot",
+          "evidence": [
+            {
+              "evidenceId": "evt-6b5415859a21:evidence:1",
+              "url": "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada",
+              "source": "Agility Robotics official press release",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-a563dc3a642145005263",
+        "companyId": "anybotics",
+        "companyName": "ANYbotics",
+        "officialUrl": "https://www.anybotics.com/",
+        "region": "欧洲",
+        "stage": "成长公司",
+        "routes": [
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "客户试点",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "公司披露 EMEA 线上部署与电厂集成测试；具体日期和规模未知",
+          "evidence": [
+            {
+              "evidenceId": "evt-d6b7f47146d8:evidence:1",
+              "url": "https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/",
+              "source": "ANYbotics official case study",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-72c58acbf04002994561",
+        "companyId": "apptronik",
+        "companyName": "Apptronik",
+        "officialUrl": "https://apptronik.com/",
+        "region": "北美",
+        "stage": "成长公司",
+        "routes": [
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series A-X 扩展轮 · 5.2亿美元（本次扩展轮；非累计 Series A）",
+          "evidence": [
+            {
+              "evidenceId": "evt-37490127edac:evidence:1",
+              "url": "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a",
+              "source": "Apptronik official press release",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-20634ee71415daae317c",
+        "companyId": "dexterity",
+        "companyName": "Dexterity",
+        "officialUrl": "https://www.dexterity.ai/",
+        "region": "北美",
+        "stage": "成长公司",
+        "routes": [
+          "VLA 与具身模型",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "客户试点",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "FedEx · 公司披露 FedEx Hagerstown Hub 扩大部署；数量及吞吐未知",
+          "evidence": [
+            {
+              "evidenceId": "evt-a8f21a49d4c6:evidence:1",
+              "url": "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment",
+              "source": "Dexterity official blog",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-abfa7b8df87587bd5c74",
+        "companyId": "figure",
+        "companyName": "Figure",
+        "officialUrl": "https://www.figure.ai/",
+        "region": "北美",
+        "stage": "成长公司",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值",
+          "evidence": [
+            {
+              "evidenceId": "evt-364bccad851a:evidence:1",
+              "url": "https://www.figure.ai/news/series-c",
+              "source": "Figure official news release",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-7cc523bcaeb5e25a8659",
+        "companyId": "huggingface",
+        "companyName": "Hugging Face",
+        "officialUrl": "https://huggingface.co/lerobot",
+        "region": "北美/欧洲",
+        "stage": "平台公司",
+        "routes": [
+          "VLA 与具身模型",
+          "数据与训练"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "原型与演示",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "LeRobot v0.5.0",
+          "evidence": [
+            {
+              "evidenceId": "evt-0052db55dfd7:evidence:1",
+              "url": "https://huggingface.co/blog/lerobot-release-v050",
+              "source": "Hugging Face official blog",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-c04b9bd908746bf75c9a",
+        "companyId": "limx-dynamics",
+        "companyName": "逐际动力",
+        "officialUrl": "https://www.limxdynamics.com/",
+        "region": "中国",
+        "stage": "创业公司",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series B · 2亿美元",
+          "evidence": [
+            {
+              "evidenceId": "evt-cd4645e117ca:evidence:1",
+              "url": "https://www.limxdynamics.com/en/news/BK000057",
+              "source": "LimX Dynamics official newsroom",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-488d7bb81b17128f4ad2",
+        "companyId": "neura-robotics",
+        "companyName": "NEURA Robotics",
+        "officialUrl": "https://neura-robotics.com/",
+        "region": "欧洲",
+        "stage": "成长公司",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series C · 最高14亿美元（宣布的融资上限；非已收款）",
+          "evidence": [
+            {
+              "evidenceId": "evt-6a7996756bdb:evidence:1",
+              "url": "https://neura-robotics.com/record-series-c/",
+              "source": "NEURA Robotics official press release",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-1eb3a787e97fa7005d3a",
+        "companyId": "nvidia",
+        "companyName": "NVIDIA",
+        "officialUrl": "https://www.nvidia.com/en-us/ai-robotics/",
+        "region": "北美",
+        "stage": "平台公司",
+        "routes": [
+          "VLA 与具身模型",
+          "世界模型与空间智能",
+          "数据与训练"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "原型与演示",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "开放人形机器人参考设计",
+          "evidence": [
+            {
+              "evidenceId": "evt-b73382bfd3ec:evidence:1",
+              "url": "https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design",
+              "source": "NVIDIA official newsroom",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-ccfaabb3c905252846fa",
+        "companyId": "skild-ai",
+        "companyName": "Skild AI",
+        "officialUrl": "https://www.skild.ai/",
+        "region": "北美",
+        "stage": "创业公司",
+        "routes": [
+          "VLA 与具身模型",
+          "数据与训练"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series C · 14亿美元 · >140亿美元",
+          "evidence": [
+            {
+              "evidenceId": "evt-3db734720543:evidence:1",
+              "url": "https://www.skild.ai/blogs/series-c",
+              "source": "Skild AI official blog",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-9b57ef03ac3553d11e6b",
+        "companyId": "ubtech",
+        "companyName": "优必选",
+        "officialUrl": "https://www.ubtrobot.com/",
+        "region": "中国",
+        "stage": "成长公司",
+        "routes": [
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "客户试点",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "Walker S2 · Hitachi · 部分制造环境中的现场运行测试和应用场景验证；非规模部署",
+          "evidence": [
+            {
+              "evidenceId": "evt-9a4382b2e4a2:evidence:1",
+              "url": "https://www.ubtrobot.com/en/about/news/826577556529221",
+              "source": "UBTECH official news release",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-bc12185f6fd5f229d353",
+        "companyId": "unitree",
+        "companyName": "宇树科技",
+        "officialUrl": "https://www.unitree.com/",
+        "region": "中国",
+        "stage": "成长公司",
+        "routes": [
+          "数据与训练",
+          "本体与硬件"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "原型与演示",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "As2",
+          "evidence": [
+            {
+              "evidenceId": "evt-dfd219a14f33:evidence:1",
+              "url": "https://www.unitree.com/about/",
+              "source": "Unitree Robotics official company timeline",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [
+          {
+            "eventId": "evt-dfd219a14f33",
+            "title": "宇树科技发布 As2 四足机器人",
+            "occurredAt": "2026-02-24T00:00:00.000Z",
+            "type": "产品发布"
+          }
+        ],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.deployment",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-3155f0eeec9d46dcbba4",
+        "companyId": "wandercraft",
+        "companyName": "Wandercraft",
+        "officialUrl": "https://www.wandercraft.eu/",
+        "region": "欧洲/北美",
+        "stage": "成长公司",
+        "routes": [
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "unknown",
+          "summary": "证据不足（不代表未融资）",
+          "evidence": []
+        },
+        "validationStage": "规模部署 / 商业化",
+        "productDeployment": {
+          "status": "verified",
+          "summary": "Calvin-40 · 与 SAPA 宣布部署合作；实施及扩大部署仍为计划",
+          "evidence": [
+            {
+              "evidenceId": "evt-1efd701c4ea4:evidence:1",
+              "url": "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race",
+              "source": "Wandercraft official news release",
+              "grade": "A"
+            }
+          ]
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "capital.round",
+          "capital.valuation",
+          "product.customer",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-2dac16dc2ccccfd5d77f",
+        "companyId": "x-square-robot",
+        "companyName": "自变量机器人",
+        "officialUrl": "https://x2robot.com/",
+        "region": "中国",
+        "stage": "创业公司",
+        "routes": [
+          "VLA 与具身模型",
+          "世界模型与空间智能",
+          "本体与硬件"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "连续四轮融资，最终轮次 Series C · >28亿美元（来源另列200亿元人民币；不相加）",
+          "evidence": [
+            {
+              "evidenceId": "evt-dfa92c0cd2f6:evidence:1",
+              "url": "https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8",
+              "source": "X Square Robot official news release",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.amount",
+          "capital.investors",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      },
+      {
+        "cardId": "decision-company-3d243459e6d8b4c46d29",
+        "companyId": "xpeng-robotics",
+        "companyName": "小鹏机器人",
+        "officialUrl": "https://www.xpeng.com/",
+        "region": "中国",
+        "stage": "平台公司",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": ">9亿美元已签股份购买协议（拟融资；非到账） · >63亿美元投后估值（已签股份购买协议交易，未确认交割）",
+          "evidence": [
+            {
+              "evidenceId": "evt-4cae0e333b16:evidence:1",
+              "url": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+              "source": "XPENG official pressroom",
+              "grade": "A"
+            }
+          ]
+        },
+        "validationStage": "证据不足",
+        "productDeployment": {
+          "status": "unknown",
+          "summary": "证据不足（不代表没有产品或部署进展）",
+          "evidence": []
+        },
+        "recentChanges": [],
+        "watchlist": {
+          "track": "unknown",
+          "lifecycle": "unknown",
+          "whyNow": "证据不足",
+          "nextValidationPoints": []
+        },
+        "unknownFields": [
+          "capital.investors",
+          "capital.round",
+          "product.customer",
+          "product.deployment",
+          "product.product",
+          "product.productionStage"
+        ],
+        "updatedAt": "2026-09-07T01:00:00.000Z"
+      }
+    ],
     "researchPassports": [
       {
-        "passportId": "decision-research-919d7709cdb98f3aa690",
-        "paperId": "842989b9ed1ce602",
-        "titleZh": "AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模",
+        "passportId": "decision-research-5de26311e0e05c88549c",
+        "paperId": "6868169cc6e01001",
+        "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
         "factsZh": [
-          "该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。",
-          "在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。"
+          "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。",
+          "配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
         ],
-        "sourceUrl": "https://arxiv.org/abs/2608.06729v1",
-        "task": [
-          "机器人操作"
-        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.16222v1",
+        "task": "unknown",
         "embodiment": [
-          "真实机器人"
+          "真实机器人",
+          "人形机器人"
         ],
         "methods": "unknown",
         "benchmark": {
-          "name": "LIBERO",
+          "name": "unknown",
           "metric": "unknown",
           "result": "unknown",
           "baseline": "unknown",
           "delta": "unknown",
-          "evidenceUrls": [
-            "https://arxiv.org/abs/2608.06729v1"
-          ]
+          "evidenceUrls": []
+        },
+        "realRobotTrials": "unknown",
+        "assets": {
+          "code": "unknown",
+          "data": "unknown",
+          "weights": "unknown"
+        },
+        "reproducibilityCost": {
+          "level": "high",
+          "rationale": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object-Interaction"
+        },
+        "authority": {
+          "openAlexWorkId": "W7203683909",
+          "authors": [
+            "Jiahao Ji",
+            "Runhan Zhang"
+          ],
+          "labs": [
+            "Minzu University of China",
+            "China University of Mining and Technology",
+            "Inner Mongolia University of Science and Technology",
+            "Institute of Disaster Prevention",
+            "Robotics Research (United States)",
+            "Hebei Seismological Bureau",
+            "Inner Mongolia University of Technology",
+            "Beihang University",
+            "Xinjiang Agricultural University",
+            "Xinjiang Institute of Water Resources and Hydropower Research",
+            "Huazhong University of Science and Technology",
+            "University of Hong Kong",
+            "Tsinghua University",
+            "清华大学"
+          ],
+          "citedByCount": 0,
+          "checkedAt": "2026-08-20T00:59:59.097Z"
+        },
+        "limitations": [
+          "However, existing embodied datasets remain fundamentally limited: internet-scale video data lack precise physical states and interaction grounding, while laboratory motion datasets provide high fidelity but only narrow behavioral coverage."
+        ],
+        "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Minzu University of China、China University of Mining and Technology。",
+        "rankReasons": [
+          "真实机器人证据"
+        ],
+        "gaps": [
+          "assets.code",
+          "assets.data",
+          "assets.weights",
+          "benchmark.name",
+          "benchmark.metric",
+          "benchmark.result",
+          "benchmark.baseline",
+          "benchmark.delta",
+          "realRobotTrials"
+        ]
+      },
+      {
+        "passportId": "decision-research-f7d412dee2e1c2a3d23b",
+        "paperId": "eb7745b52639baf0",
+        "titleZh": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
+        "factsZh": [
+          "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。",
+          "其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。"
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
+        "task": "unknown",
+        "embodiment": [
+          "真实机器人",
+          "人形机器人"
+        ],
+        "methods": "unknown",
+        "benchmark": {
+          "name": "unknown",
+          "metric": "unknown",
+          "result": "unknown",
+          "baseline": "unknown",
+          "delta": "unknown",
+          "evidenceUrls": []
         },
         "realRobotTrials": "unknown",
         "assets": {
@@ -531,28 +1866,17 @@
           "rationale": "unknown"
         },
         "authority": {
-          "openAlexWorkId": "W7202125387",
+          "openAlexWorkId": "W7204604373",
           "authors": [
-            "Guiyu Zhao",
-            "Longteng Guo",
-            "Y. Mei"
+            "Kechen Liu",
+            "Ola Shorinwa"
           ],
-          "labs": [
-            "Lawrence Berkeley National Laboratory",
-            "Chinese Academy of Sciences",
-            "Shandong Institute of Automation",
-            "Beijing Academy of Artificial Intelligence",
-            "Institute of Automation",
-            "University of Chinese Academy of Sciences",
-            "UC Berkeley"
-          ],
+          "labs": [],
           "citedByCount": 0,
-          "checkedAt": "2026-08-20T01:00:02.135Z"
+          "checkedAt": "2026-09-05T09:12:27.922Z"
         },
-        "limitations": [
-          "While Vision-Language-Action (VLA) models have advanced embodied AI, their fundamentally reactive paradigm severely limits performance in partially observable and long-horizon tasks."
-        ],
-        "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Lawrence Berkeley National Laboratory、Chinese Academy of Sciences。",
+        "limitations": "unknown",
+        "whyWorthAttention": "原文摘要明确出现真实机器人、开源证据。",
         "rankReasons": [
           "真实机器人证据"
         ],
@@ -560,24 +1884,156 @@
           "assets.code",
           "assets.data",
           "assets.weights",
+          "benchmark.name",
           "benchmark.metric",
           "benchmark.result",
           "benchmark.baseline",
           "benchmark.delta",
-          "realRobotTrials"
+          "realRobotTrials",
+          "limitations",
+          "authority.labs"
         ]
       },
       {
-        "passportId": "decision-research-df23912aeb82464d3415",
-        "paperId": "f9309069f9884cab",
-        "titleZh": "CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架",
+        "passportId": "decision-research-787346b3b6198546a3f7",
+        "paperId": "da3b393a8a0b1c93",
+        "titleZh": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
         "factsZh": [
-          "CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。",
-          "该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。"
+          "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。",
+          "四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。"
         ],
-        "sourceUrl": "https://arxiv.org/abs/2608.06688v1",
+        "sourceUrl": "https://arxiv.org/abs/2608.12860v1",
         "task": [
-          "机器人导航"
+          "机器人导航",
+          "机器人运动"
+        ],
+        "embodiment": [
+          "人形机器人"
+        ],
+        "methods": "unknown",
+        "benchmark": {
+          "name": "unknown",
+          "metric": "unknown",
+          "result": "unknown",
+          "baseline": "unknown",
+          "delta": "unknown",
+          "evidenceUrls": []
+        },
+        "realRobotTrials": "unknown",
+        "assets": {
+          "code": "unknown",
+          "data": "unknown",
+          "weights": "unknown"
+        },
+        "reproducibilityCost": {
+          "level": "unknown",
+          "rationale": "unknown"
+        },
+        "authority": {
+          "openAlexWorkId": "W7203460915",
+          "authors": [
+            "Quan-Dung Pham",
+            "Anh Dao",
+            "The-Anh Nguyen"
+          ],
+          "labs": [],
+          "citedByCount": 0,
+          "checkedAt": "2026-08-20T01:00:01.274Z"
+        },
+        "limitations": [
+          "Vision-Language Navigation (VLN) for humanoid robots poses challenges existing benchmarks fail to address: bipedal locomotion imposes physical constraints absent from wheeled agents, humanoid morphologies vary across platforms, and egocentric observations are distorted by locomotion-induced camera dynamics."
+        ],
+        "whyWorthAttention": "原文摘要明确出现基准证据。",
+        "rankReasons": [
+          "OpenAlex 元数据已核验"
+        ],
+        "gaps": [
+          "assets.code",
+          "assets.data",
+          "assets.weights",
+          "benchmark.name",
+          "benchmark.metric",
+          "benchmark.result",
+          "benchmark.baseline",
+          "benchmark.delta",
+          "realRobotTrials",
+          "authority.labs"
+        ]
+      },
+      {
+        "passportId": "decision-research-1d8b6c6c54eb529c95b3",
+        "paperId": "cff8ac6d7c4c16ee",
+        "titleZh": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
+        "factsZh": [
+          "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。",
+          "大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.19589v1",
+        "task": "unknown",
+        "embodiment": [
+          "真实机器人"
+        ],
+        "methods": "unknown",
+        "benchmark": {
+          "name": "unknown",
+          "metric": "unknown",
+          "result": "unknown",
+          "baseline": "unknown",
+          "delta": "unknown",
+          "evidenceUrls": []
+        },
+        "realRobotTrials": "unknown",
+        "assets": {
+          "code": "unknown",
+          "data": "unknown",
+          "weights": "unknown"
+        },
+        "reproducibilityCost": {
+          "level": "unknown",
+          "rationale": "unknown"
+        },
+        "authority": {
+          "openAlexWorkId": "W7203943488",
+          "authors": [
+            "Jiaqi Wang",
+            "Zhou Fang",
+            "Qiongfeng Shi"
+          ],
+          "labs": [
+            "Southeast University"
+          ],
+          "citedByCount": 0,
+          "checkedAt": "2026-09-05T09:12:23.962Z"
+        },
+        "limitations": "unknown",
+        "whyWorthAttention": "原文摘要明确出现真实机器人证据；OpenAlex 作者/机构元数据包含Southeast University。",
+        "rankReasons": [
+          "真实机器人证据"
+        ],
+        "gaps": [
+          "assets.code",
+          "assets.data",
+          "assets.weights",
+          "benchmark.name",
+          "benchmark.metric",
+          "benchmark.result",
+          "benchmark.baseline",
+          "benchmark.delta",
+          "realRobotTrials",
+          "limitations"
+        ]
+      },
+      {
+        "passportId": "decision-research-6f884b4371fc735ef3bb",
+        "paperId": "c790d1fd225d306f",
+        "titleZh": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
+        "factsZh": [
+          "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。",
+          "真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。"
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.13362v1",
+        "task": [
+          "机器人操作"
         ],
         "embodiment": [
           "真实机器人"
@@ -602,20 +2058,18 @@
           "rationale": "unknown"
         },
         "authority": {
-          "openAlexWorkId": "W7202231072",
+          "openAlexWorkId": "W7203495443",
           "authors": [
-            "Yao Wang",
-            "Siyuan Wang",
-            "Zhirui Sun"
+            "James Zhao",
+            "Jinhe Tang",
+            "Mingyuan Ba"
           ],
-          "labs": [
-            "Emory University"
-          ],
+          "labs": [],
           "citedByCount": 0,
-          "checkedAt": "2026-08-20T01:00:02.249Z"
+          "checkedAt": "2026-08-20T01:00:01.133Z"
         },
         "limitations": "unknown",
-        "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Emory University。",
+        "whyWorthAttention": "原文摘要明确出现真实机器人证据。",
         "rankReasons": [
           "真实机器人证据"
         ],
@@ -629,12 +2083,78 @@
           "benchmark.baseline",
           "benchmark.delta",
           "realRobotTrials",
-          "limitations"
+          "limitations",
+          "authority.labs"
+        ]
+      },
+      {
+        "passportId": "decision-research-ed057751f6f2b6861012",
+        "paperId": "8041fb05e8b7d3cb",
+        "titleZh": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
+        "factsZh": [
+          "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。",
+          "对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。"
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.13049v1",
+        "task": [
+          "机器人操作"
+        ],
+        "embodiment": "unknown",
+        "methods": "unknown",
+        "benchmark": {
+          "name": "BridgeData",
+          "metric": "unknown",
+          "result": "unknown",
+          "baseline": "unknown",
+          "delta": "unknown",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.13049v1"
+          ]
+        },
+        "realRobotTrials": "unknown",
+        "assets": {
+          "code": "unknown",
+          "data": "unknown",
+          "weights": "unknown"
+        },
+        "reproducibilityCost": {
+          "level": "high",
+          "rationale": "Large-scale manipulation data is essential for robot learning, yet collecting robot demonstrations remains expensive and difficult to scale."
+        },
+        "authority": {
+          "openAlexWorkId": "W7203441037",
+          "authors": [
+            "Dingyi Rong",
+            "Yue Shi",
+            "Chaofan Ma"
+          ],
+          "labs": [
+            "Shanghai Jiao Tong University"
+          ],
+          "citedByCount": 0,
+          "checkedAt": "2026-08-20T01:00:01.263Z"
+        },
+        "limitations": [
+          "Our evaluation reveals that current video world models remain limited in human-to-robot manipulation transfer: even leading models often fail in embodiment consistency, functional interaction, and task execution."
+        ],
+        "whyWorthAttention": "原文摘要明确出现基准证据；OpenAlex 作者/机构元数据包含Shanghai Jiao Tong University。",
+        "rankReasons": [
+          "OpenAlex 元数据已核验"
+        ],
+        "gaps": [
+          "assets.code",
+          "assets.data",
+          "assets.weights",
+          "benchmark.metric",
+          "benchmark.result",
+          "benchmark.baseline",
+          "benchmark.delta",
+          "realRobotTrials"
         ]
       }
     ],
     "subscriptions": {
-      "generatedAt": "2026-09-05T09:10:00.946Z",
+      "generatedAt": "2026-09-07T01:56:22.000Z",
       "entries": [
         {
           "subscriptionId": "github-watch",
@@ -735,17 +2255,15 @@
   },
   "publicationHealth": {
     "daily": {
-      "expectedDate": "2026-09-05",
-      "latestPublishedDate": "2026-09-05",
+      "expectedDate": "2026-09-07",
+      "latestPublishedDate": "2026-09-07",
       "state": "current",
       "publicationDue": true
     },
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidateBacklog": 298,
-    "sourceFailureCount": 2,
-    "degradedComponents": [
-      "LLM"
-    ]
+    "candidateBacklog": 266,
+    "sourceFailureCount": 0,
+    "degradedComponents": []
   }
 }

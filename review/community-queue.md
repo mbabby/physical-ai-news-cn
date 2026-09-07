@@ -1,4 +1,4 @@
-# 社区 Review 队列 · 2026-W36
+# 社区 Review 队列 · 2026-W37
 
 > 这里是待核验候选，不是公开事实清单。请先补齐原始证据，再通过对应 Issue 模板提交；审核通过后才可能进入公司档案、日报或常青资源。
 
@@ -30,7 +30,7 @@
 - **secondthoughts.ai** · 连续成功 2 次 · 样例：[Reasons robotics is hard](https://secondthoughts.ai/p/14-reasons-robotics-is-hard) · [提交信源建议](../../issues/new/choose)
 - **spectrum.ieee.org** · 连续成功 2 次 · 样例：[NASA's Cargo-Moving Robotic Arm Named 300th IEEE Milestone](https://spectrum.ieee.org/canadarm-ieee-300th-milestone) · [提交信源建议](../../issues/new/choose)
 - **understandingai.org** · 连续成功 2 次 · 样例：[Why humanoid robots won't catch up to human workers any time soon](https://www.understandingai.org/p/why-humanoid-robots-wont-catch-up) · [提交信源建议](../../issues/new/choose)
-- **github.com** · 连续成功 23 次 · 样例：[Show HN: I kept finding robot datasets with skewed clocks, so I built a checker](https://github.com/anicut-ai/embodied-sync) · [提交信源建议](../../issues/new/choose)
+- **github.com** · 连续成功 21 次 · 样例：[Show HN: I kept finding robot datasets with skewed clocks, so I built a checker](https://github.com/anicut-ai/embodied-sync) · [提交信源建议](../../issues/new/choose)
 - **livescience.com** · 连续成功 5 次 · 样例：[Scientists build tiny robots without motors that can fly using sound waves alone](https://www.livescience.com/technology/robotics/scientists-build-tiny-robots-without-motors-that-can-fly-using-sound-waves-alone) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-05T09:13:31.580Z",
+  "generatedAt": "2026-09-07T01:56:22.000Z",
   "domains": {
     "industry": {
       "expected": 1,
-      "observed": 188,
-      "evidenceReady": 0,
+      "observed": 204,
+      "evidenceReady": 16,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0,
+      "evidenceReadyRate": 0.0784,
       "status": "degraded",
       "gaps": [
         "188 个观测尚未达到证据门槛",
@@ -19,11 +19,11 @@
     },
     "funding": {
       "expected": 1,
-      "observed": 157,
-      "evidenceReady": 0,
+      "observed": 164,
+      "evidenceReady": 7,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0,
+      "evidenceReadyRate": 0.0427,
       "status": "degraded",
       "gaps": [
         "157 个观测尚未达到证据门槛",
@@ -34,11 +34,11 @@
     },
     "product-deployment": {
       "expected": 1,
-      "observed": 31,
-      "evidenceReady": 0,
+      "observed": 40,
+      "evidenceReady": 9,
       "failureCount": 0,
       "coverageRate": 1,
-      "evidenceReadyRate": 0,
+      "evidenceReadyRate": 0.225,
       "status": "degraded",
       "gaps": [
         "31 个观测尚未达到证据门槛",
@@ -58,26 +58,27 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 6,
-      "evidenceReady": 6,
-      "failureCount": 2,
-      "coverageRate": 1,
-      "evidenceReadyRate": 1,
-      "status": "degraded",
+      "observed": 0,
+      "evidenceReady": 0,
+      "failureCount": 0,
+      "coverageRate": 0,
+      "status": "critical",
       "gaps": [
-        "2 个采集或服务失败",
-        "有效完成 6；无效模型输出 4；提供方失败 2；缓存命中 2；research 通道已熔断。"
+        "未配置兼容 OpenAI 的摘要服务；缓存命中 2。内容不会发布到首页。",
+        "缺少 1 个预期观测"
       ]
     },
     "openalex": {
       "expected": 1,
-      "observed": 36,
-      "evidenceReady": 36,
+      "observed": 0,
+      "evidenceReady": 0,
       "failureCount": 0,
-      "coverageRate": 1,
-      "evidenceReadyRate": 1,
-      "status": "healthy",
-      "gaps": []
+      "coverageRate": 0,
+      "status": "critical",
+      "gaps": [
+        "未配置 OpenAlex；论文仍按来源元数据排序。",
+        "缺少 1 个预期观测"
+      ]
     },
     "release": {
       "expected": 1,
@@ -2543,10 +2544,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 2,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
@@ -2556,10 +2557,10 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 2,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
@@ -2570,10 +2571,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
+        "observed": 4,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
@@ -2819,16 +2820,25 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 2,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
         },
         "funding": {
           "expected": 0,
@@ -2846,10 +2856,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
+        "observed": 4,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
@@ -2911,16 +2921,25 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 2,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
         },
         "funding": {
           "expected": 0,
@@ -2938,10 +2957,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
+        "observed": 4,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
@@ -2949,6 +2968,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "智元机器人",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -3183,6 +3235,72 @@
     },
     {
       "dimension": "company",
+      "key": "逐际动力",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "自变量机器人",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
       "key": "自主焊接初创公司 TetraGen Robotics",
       "domains": {
         "industry": {
@@ -3317,6 +3435,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "Agility Robotics",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -3551,6 +3702,72 @@
     },
     {
       "dimension": "company",
+      "key": "ANYbotics",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "Apptronik",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
       "key": "Avatar Robotics",
       "domains": {
         "industry": {
@@ -3732,6 +3949,39 @@
     },
     {
       "dimension": "company",
+      "key": "Dexterity",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
       "key": "DISCOVER Robotics 与 PokeBot 各",
       "domains": {
         "industry": {
@@ -3866,6 +4116,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "Figure",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -4140,6 +4423,39 @@
     },
     {
       "dimension": "company",
+      "key": "Hugging Face",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
       "key": "Humanoid",
       "domains": {
         "industry": {
@@ -4151,8 +4467,7 @@
           "status": "degraded",
           "gaps": [
             "3 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "funding": {
@@ -4164,8 +4479,7 @@
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
@@ -4193,8 +4507,7 @@
           "2 个观测尚未达到证据门槛",
           "3 个观测尚未达到证据门槛",
           "6 个观测尚未达到证据门槛",
-          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-          "现有材料全部来自线索发现层，不能作为公开证据"
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
       }
     },
@@ -4605,6 +4918,39 @@
     },
     {
       "dimension": "company",
+      "key": "NEURA Robotics",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "company",
       "key": "Newbury Street II 将与 Fort Robotics 以 5 亿美元全股票交易合并，并",
       "domains": {
         "industry": {
@@ -4647,6 +4993,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "NVIDIA",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -5416,15 +5795,24 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 2,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
         },
         "product-deployment": {
           "expected": 0,
@@ -5441,10 +5829,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
+        "observed": 4,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.5,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
@@ -5685,6 +6073,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "company",
+      "key": "Wandercraft",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -6061,10 +6482,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
+          "observed": 8,
+          "evidenceReady": 6,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.75,
           "status": "degraded",
           "gaps": [
             "2 个观测尚未达到证据门槛",
@@ -6074,10 +6495,10 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 4,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.75,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
@@ -6087,10 +6508,10 @@
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
+          "observed": 4,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.75,
           "status": "degraded",
           "gaps": [
             "1 个观测尚未达到证据门槛",
@@ -6100,10 +6521,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 4,
-        "evidenceReady": 0,
+        "observed": 16,
+        "evidenceReady": 12,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.75,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
@@ -6112,6 +6533,39 @@
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "现有材料全部来自线索发现层，不能作为公开证据"
         ]
+      }
+    },
+    {
+      "dimension": "region",
+      "key": "北美/欧洲",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -6176,58 +6630,88 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 3,
-          "evidenceReady": 0,
+          "observed": 5,
+          "evidenceReady": 2,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.4,
           "status": "degraded",
           "gaps": [
             "3 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "funding": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
+          "observed": 3,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.3333,
           "status": "degraded",
           "gaps": [
             "2 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 2,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 0.5,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 6,
-        "evidenceReady": 0,
+        "observed": 10,
+        "evidenceReady": 4,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.4,
         "status": "degraded",
         "gaps": [
           "1 个观测尚未达到证据门槛",
           "2 个观测尚未达到证据门槛",
           "3 个观测尚未达到证据门槛",
           "6 个观测尚未达到证据门槛",
-          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-          "现有材料全部来自线索发现层，不能作为公开证据"
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源"
         ]
+      }
+    },
+    {
+      "dimension": "region",
+      "key": "欧洲/北美",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 2,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
       }
     },
     {
@@ -6236,10 +6720,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 3,
-          "evidenceReady": 0,
+          "observed": 9,
+          "evidenceReady": 6,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.6667,
           "status": "degraded",
           "gaps": [
             "3 个观测尚未达到证据门槛",
@@ -6249,24 +6733,33 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 3,
-          "evidenceReady": 0,
+          "observed": 6,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.5,
           "status": "degraded",
           "gaps": [
             "3 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 3,
+          "evidenceReady": 3,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
         }
       },
       "total": {
         "expected": 0,
-        "observed": 6,
-        "evidenceReady": 0,
+        "observed": 18,
+        "evidenceReady": 12,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.6667,
         "status": "degraded",
         "gaps": [
           "3 个观测尚未达到证据门槛",
@@ -6282,15 +6775,27 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 6,
-          "evidenceReady": 0,
+          "observed": 9,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.3333,
           "status": "degraded",
           "gaps": [
             "6 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 5,
+          "evidenceReady": 3,
+          "failureCount": 0,
+          "evidenceReadyRate": 0.6,
+          "status": "degraded",
+          "gaps": [
+            "2 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "funding": {
@@ -6305,26 +6810,14 @@
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
-        },
-        "product-deployment": {
-          "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
-          ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 12,
-        "evidenceReady": 0,
+        "observed": 18,
+        "evidenceReady": 6,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.3333,
         "status": "degraded",
         "gaps": [
           "12 个观测尚未达到证据门槛",
@@ -6342,10 +6835,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 5,
-          "evidenceReady": 0,
+          "observed": 18,
+          "evidenceReady": 13,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.7222,
           "status": "degraded",
           "gaps": [
             "5 个观测尚未达到证据门槛",
@@ -6355,10 +6848,10 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 3,
-          "evidenceReady": 0,
+          "observed": 10,
+          "evidenceReady": 7,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.7,
           "status": "degraded",
           "gaps": [
             "3 个观测尚未达到证据门槛",
@@ -6368,10 +6861,10 @@
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
+          "observed": 8,
+          "evidenceReady": 6,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.75,
           "status": "degraded",
           "gaps": [
             "2 个观测尚未达到证据门槛",
@@ -6381,10 +6874,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 10,
-        "evidenceReady": 0,
+        "observed": 36,
+        "evidenceReady": 26,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.7222,
         "status": "degraded",
         "gaps": [
           "10 个观测尚未达到证据门槛",
@@ -6448,15 +6941,27 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 4,
-          "evidenceReady": 0,
+          "observed": 5,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.2,
           "status": "degraded",
           "gaps": [
             "4 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 3,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 0.3333,
+          "status": "degraded",
+          "gaps": [
+            "2 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "funding": {
@@ -6471,26 +6976,14 @@
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
-        },
-        "product-deployment": {
-          "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
-          ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 8,
-        "evidenceReady": 0,
+        "observed": 10,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.2,
         "status": "degraded",
         "gaps": [
           "2 个观测尚未达到证据门槛",
@@ -6507,15 +7000,27 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 4,
-          "evidenceReady": 0,
+          "observed": 5,
+          "evidenceReady": 1,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.2,
           "status": "degraded",
           "gaps": [
             "4 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 3,
+          "evidenceReady": 1,
+          "failureCount": 0,
+          "evidenceReadyRate": 0.3333,
+          "status": "degraded",
+          "gaps": [
+            "2 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
           ]
         },
         "funding": {
@@ -6530,26 +7035,14 @@
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "现有材料全部来自线索发现层，不能作为公开证据"
           ]
-        },
-        "product-deployment": {
-          "expected": 0,
-          "observed": 2,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "2 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源"
-          ]
         }
       },
       "total": {
         "expected": 0,
-        "observed": 8,
-        "evidenceReady": 0,
+        "observed": 10,
+        "evidenceReady": 2,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.2,
         "status": "degraded",
         "gaps": [
           "2 个观测尚未达到证据门槛",
@@ -6566,10 +7059,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 15,
-          "evidenceReady": 0,
+          "observed": 19,
+          "evidenceReady": 4,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.2105,
           "status": "degraded",
           "gaps": [
             "15 个观测尚未达到证据门槛",
@@ -6579,10 +7072,10 @@
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 15,
-          "evidenceReady": 0,
+          "observed": 19,
+          "evidenceReady": 4,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.2105,
           "status": "degraded",
           "gaps": [
             "15 个观测尚未达到证据门槛",
@@ -6593,10 +7086,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 30,
-        "evidenceReady": 0,
+        "observed": 38,
+        "evidenceReady": 8,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.2105,
         "status": "degraded",
         "gaps": [
           "15 个观测尚未达到证据门槛",
@@ -6612,10 +7105,10 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 16,
-          "evidenceReady": 0,
+          "observed": 19,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.1579,
           "status": "degraded",
           "gaps": [
             "16 个观测尚未达到证据门槛",
@@ -6625,10 +7118,10 @@
         },
         "product-deployment": {
           "expected": 0,
-          "observed": 16,
-          "evidenceReady": 0,
+          "observed": 19,
+          "evidenceReady": 3,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.1579,
           "status": "degraded",
           "gaps": [
             "16 个观测尚未达到证据门槛",
@@ -6639,10 +7132,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 32,
-        "evidenceReady": 0,
+        "observed": 38,
+        "evidenceReady": 6,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.1579,
         "status": "degraded",
         "gaps": [
           "16 个观测尚未达到证据门槛",
@@ -6654,14 +7147,47 @@
     },
     {
       "dimension": "event-type",
+      "key": "公司商业",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 2,
+          "evidenceReady": 2,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        },
+        "product-deployment": {
+          "expected": 0,
+          "observed": 2,
+          "evidenceReady": 2,
+          "failureCount": 0,
+          "evidenceReadyRate": 1,
+          "status": "healthy",
+          "gaps": []
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 4,
+        "evidenceReady": 4,
+        "failureCount": 0,
+        "evidenceReadyRate": 1,
+        "status": "healthy",
+        "gaps": []
+      }
+    },
+    {
+      "dimension": "event-type",
       "key": "投融资",
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 157,
-          "evidenceReady": 0,
+          "observed": 164,
+          "evidenceReady": 7,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.0427,
           "status": "degraded",
           "gaps": [
             "157 个观测尚未达到证据门槛",
@@ -6672,10 +7198,10 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 157,
-          "evidenceReady": 0,
+          "observed": 164,
+          "evidenceReady": 7,
           "failureCount": 0,
-          "evidenceReadyRate": 0,
+          "evidenceReadyRate": 0.0427,
           "status": "degraded",
           "gaps": [
             "157 个观测尚未达到证据门槛",
@@ -6687,10 +7213,10 @@
       },
       "total": {
         "expected": 0,
-        "observed": 314,
-        "evidenceReady": 0,
+        "observed": 328,
+        "evidenceReady": 14,
         "failureCount": 0,
-        "evidenceReadyRate": 0,
+        "evidenceReadyRate": 0.0427,
         "status": "degraded",
         "gaps": [
           "157 个观测尚未达到证据门槛",
@@ -6783,26 +7309,26 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 37,
+          "observed": 38,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "37 个观测尚未达到证据门槛",
+            "38 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
         },
         "funding": {
           "expected": 0,
-          "observed": 11,
+          "observed": 12,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "11 个观测尚未达到证据门槛",
+            "12 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体"
           ]
@@ -6823,16 +7349,16 @@
       },
       "total": {
         "expected": 0,
-        "observed": 74,
+        "observed": 76,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "11 个观测尚未达到证据门槛",
+          "12 个观测尚未达到证据门槛",
           "26 个观测尚未达到证据门槛",
-          "37 个观测尚未达到证据门槛",
-          "74 个观测尚未达到证据门槛",
+          "38 个观测尚未达到证据门槛",
+          "76 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体"
         ]
@@ -6844,13 +7370,13 @@
       "domains": {
         "industry": {
           "expected": 0,
-          "observed": 146,
+          "observed": 145,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "146 个观测尚未达到证据门槛",
+            "145 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -6858,13 +7384,13 @@
         },
         "funding": {
           "expected": 0,
-          "observed": 146,
+          "observed": 145,
           "evidenceReady": 0,
           "failureCount": 0,
           "evidenceReadyRate": 0,
           "status": "degraded",
           "gaps": [
-            "146 个观测尚未达到证据门槛",
+            "145 个观测尚未达到证据门槛",
             "尚缺一条 A 级一手证据，或两个独立 B 级来源",
             "无法唯一识别公司主体",
             "现有材料全部来自线索发现层，不能作为公开证据"
@@ -6873,14 +7399,14 @@
       },
       "total": {
         "expected": 0,
-        "observed": 292,
+        "observed": 290,
         "evidenceReady": 0,
         "failureCount": 0,
         "evidenceReadyRate": 0,
         "status": "degraded",
         "gaps": [
-          "146 个观测尚未达到证据门槛",
-          "292 个观测尚未达到证据门槛",
+          "145 个观测尚未达到证据门槛",
+          "290 个观测尚未达到证据门槛",
           "尚缺一条 A 级一手证据，或两个独立 B 级来源",
           "无法唯一识别公司主体",
           "现有材料全部来自线索发现层，不能作为公开证据"
@@ -6889,13 +7415,15 @@
     }
   ],
   "summary": {
-    "status": "degraded",
-    "criticalDomains": [],
+    "status": "critical",
+    "criticalDomains": [
+      "llm",
+      "openalex"
+    ],
     "degradedDomains": [
       "industry",
       "funding",
       "product-deployment",
-      "llm",
       "release"
     ],
     "coverageGapCount": 145

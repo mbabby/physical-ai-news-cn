@@ -28,9 +28,9 @@
 
 | 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
 | --- | ---: | ---: | ---: | ---: |
-| 2026-09-05 | 0 | 49 | 101 | 11 / 29 |
+| 2026-09-07 | 1 | 49 | 85 | 12 / 29 |
 
-**运行健康**：近 30 天日历覆盖 25/30（83%） · 已归档运行成功 25/25（100%） · A/B 级证据比例 样本积累中 · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 23/24（96%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -50,7 +50,41 @@
 
 <!-- CORE_COVERAGE_START -->
 
-> Core 30 当前不可用：本轮没有已启用并通过联合校验的公开工件。
+> 固定研究覆盖 2026-09-06（2026-09-06 生效） · 已核验身份 30/30 · 完整 Brief 16/30。覆盖地区是研究资源配置，不代表法律国籍。
+> [打开 Core 30 地图与公司 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html) · [订阅独立 Feed](https://mbabby.github.io/physical-ai-news-cn/feeds/core-coverage.xml)
+
+<!-- core-fact:company-claim-6443358d07dfcf61 -->
+- **宇树科技** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-unitree) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-3fcf187d6db90396 -->
+- **智元机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agibot) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-6cb9e089e9a9bc73 -->
+- **自变量机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-x-square-robot) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-8cf06b225b9f04c3 -->
+- **优必选** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-ubtech) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-07d36214628886c1 -->
+- **逐际动力** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-limx-dynamics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-6acd9ef6cc2580bb -->
+- **小鹏机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-xpeng-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-382edcf8da06190f -->
+- **Figure** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-figure) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-7b62c339958403d1 -->
+- **Skild AI** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-skild-ai) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-517dd192f05dae67 -->
+- **Apptronik** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-apptronik) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-f60e3fc5f503acce -->
+- **Agility Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agility-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-4c777bc13d37a561 -->
+- **Dexterity** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-dexterity) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-a4442758b9a3b45c -->
+- **NVIDIA** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-nvidia) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-49a3102137d3fc19 -->
+- **Hugging Face** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-huggingface) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-72c8aee10ccf9d2a -->
+- **NEURA Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-neura-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-94e6ac081a1d322b -->
+- **ANYbotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-anybotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-c3991c75b780928d -->
+- **Wandercraft** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-wandercraft) · 已核验事实 1 项 · 最近实质变化 unknown
 
 <!-- CORE_COVERAGE_END -->
 
@@ -68,7 +102,7 @@
 
 <!-- EVENT_CENTER_START -->
 
-> 数据刷新至 2026-09-05 · 暂无满足首页发布门槛的产业事件。
+> 数据刷新至 2026-09-07 · 暂无满足首页发布门槛的产业事件。
 
 <!-- EVENT_CENTER_END -->
 
@@ -76,7 +110,7 @@
 
 <!-- WATCHLIST_START -->
 
-> 观察名单快照：2026-W36 · v1
+> 观察名单快照：2026-W37 · v1
 > 以下卡片均为 **AI 研究判断**，不是投资建议；事实与判断边界以公开证据和验证期限为准。
 
 ### 前瞻雷达
@@ -107,19 +141,19 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> arXiv 暂未刷新，以下为最近一次成功抓取（2026-09-04）的完整研究卡。
+> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
 
 - [HiPHI：大规模高精度人体运动与物体交互基准数据集](https://arxiv.org/abs/2608.16222v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>清华大学</kbd><br>研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。<br>值得关注：来自 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Jiahao Ji · 清华大学</sub>
 
-- [AtlasVLA：为视觉-语言-动作模型构建持久世界-自我状态建模](https://arxiv.org/abs/2608.06729v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>UC Berkeley</kbd><br>该研究提出 AtlasVLA，以 4D 持久世界状态记忆与自我工作状态记忆的双记忆架构，让模型从反应式操作转向主动推理。在 LIBERO、RLBench 和真实基准上达到最优，仅用手腕相机即在 LIBERO-Long 提升 9.4%、真实长程任务提升 17.5%。<br>值得关注：来自 UC Berkeley；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Y. Mei · UC Berkeley</sub>
-
 - [CLAP：跨本体动作条件视频世界模型实现零样本物理模拟](https://arxiv.org/abs/2608.27406v1) <kbd>真实机器人</kbd> <kbd>开源</kbd><br>CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。<br>值得关注：提供真实机器人、开源证据。<br><sub>重点作者 / 实验室：Kechen Liu</sub>
 
-- [TEMPO：面向视觉-语言-动作模型的语义-动作解耦强化学习后训练框架](https://arxiv.org/abs/2608.07314v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>提出TEMPO，冻结视觉-语言主干，以不同频率分别对语义投影层与动作专家进行强化学习更新，避免快速策略更新破坏高层语义表示。在CALVIN基准与真实操作任务上，其持续优于预训练最优VLA模型及强化学习后训练基线，并在两项真实任务上保持更高奖励。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Ziheng Liu</sub>
+- [OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习](https://arxiv.org/abs/2608.19589v1) <kbd>真实机器人</kbd><br>OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。<br>值得关注：提供真实机器人证据。<br><sub>重点作者 / 实验室：Qiongfeng Shi</sub>
 
-- [CrossTracer：基于VLA推理与轨迹残差自适应的跨本体导航框架](https://arxiv.org/abs/2608.06688v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>CrossTracer提出分层跨本体导航框架，以归一化像素轨迹为统一接口，由VL-Tracer生成初始轨迹、CE-Adapter按本体条件预测残差修正。该方法在NaviTrace基准以45.68分超越Gemini-2.5-Pro约28.1%，并在轮式与腿式机器人实机部署中提升导航成功率与执行效率。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Yao Wang</sub>
+- [NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作](https://arxiv.org/abs/2608.13362v1) <kbd>真实机器人</kbd><br>NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。<br>值得关注：提供真实机器人证据。<br><sub>重点作者 / 实验室：James Zhao</sub>
 
-- [SkillMemo：专家引导的技能记忆框架助力组合式具身操作](https://arxiv.org/abs/2608.05970v1) <kbd>真实机器人</kbd> <kbd>基准</kbd><br>SkillMemo通过专家引导的轨迹分割与技能级情景记忆，分解长程演示并检索可复用技能以改进动作预测。仿真基准与真实机器人操作实验显示，该方法持续提升DP和VLA骨干并达到领先性能。<br>值得关注：提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Changyuan Wang</sub>
+- [H2R-Bench：评测世界模型中人到机器人操作视频生成的基准](https://arxiv.org/abs/2608.13049v1) <kbd>基准</kbd><br>提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Dingyi Rong</sub>
+
+- [HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准](https://arxiv.org/abs/2608.12860v1) <kbd>基准</kbd><br>研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Quan-Dung Pham</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

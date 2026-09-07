@@ -12,14 +12,22 @@
         "部署与商业化"
       ],
       "thesis": "视觉、端到端智能、本体工程与制造闭环。",
-      "officialUrl": "https://www.tesla.com/AI"
+      "officialUrl": "https://www.tesla.com/AI",
+      "profileEvidence": [
+        {
+          "link": "https://ir.tesla.com/_flysystem/s3/sec/000110465925087598/tm252289-4_pre14a-gen.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Tesla 主体/业务身份；原文或审阅释义：Tesla defines Bot to include Optimus and other AI-powered mobile physical products, excluding vehicles."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.tesla.com/AI",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://ir.tesla.com/_flysystem/s3/sec/000110465925087598/tm252289-4_pre14a-gen.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Tesla 主体/业务身份；原文或审阅释义：Tesla defines Bot to include Optimus and other AI-powered mobile physical products, excluding vehicles."
       }
     ],
     "updatedAt": "",
@@ -47,22 +55,45 @@
         "official-nvidia-newsroom",
         "oss-isaac-lab-releases",
         "oss-groot-releases"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://developer.nvidia.com/isaac/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "NVIDIA 主体/业务身份；原文或审阅释义：NVIDIA Isaac is an open robotics development platform spanning simulation, models, libraries and workflows."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.nvidia.com/en-us/ai-robotics/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://developer.nvidia.com/isaac/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "NVIDIA 主体/业务身份；原文或审阅释义：NVIDIA Isaac is an open robotics development platform spanning simulation, models, libraries and workflows."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-b73382bfd3ec"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-b73382bfd3ec",
+        "date": "unknown",
+        "type": "产品发布",
+        "fact": {
+          "product": "开放人形机器人参考设计",
+          "customers": []
+        },
+        "evidenceLinks": [
+          "https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "实机验证"
   },
   {
     "company": {
@@ -79,22 +110,57 @@
       "officialUrl": "https://huggingface.co/lerobot",
       "sourceIds": [
         "oss-lerobot-releases"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://huggingface.co/docs/lerobot/index",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Hugging Face 主体/业务身份；原文或审阅释义：LeRobot provides models, datasets and tools for real-world robotics in PyTorch."
+        },
+        {
+          "link": "https://huggingface.co/docs/lerobot/main/smolvla",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Hugging Face 主体/业务身份；原文或审阅释义：SmolVLA is Hugging Face’s lightweight foundation model for robotics."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://huggingface.co/lerobot",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://huggingface.co/docs/lerobot/index",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Hugging Face 主体/业务身份；原文或审阅释义：LeRobot provides models, datasets and tools for real-world robotics in PyTorch."
+      },
+      {
+        "link": "https://huggingface.co/docs/lerobot/main/smolvla",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Hugging Face 主体/业务身份；原文或审阅释义：SmolVLA is Hugging Face’s lightweight foundation model for robotics."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-0052db55dfd7"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-0052db55dfd7",
+        "date": "unknown",
+        "type": "产品发布",
+        "fact": {
+          "product": "LeRobot v0.5.0",
+          "customers": []
+        },
+        "evidenceLinks": [
+          "https://huggingface.co/blog/lerobot-release-v050"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "实机验证"
   },
   {
     "company": {
@@ -113,14 +179,22 @@
         "official-google-deepmind-blog",
         "official-google-ai-blog",
         "oss-mujoco-releases"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Google DeepMind 主体/业务身份；原文或审阅释义：Google DeepMind introduced Gemini Robotics and Gemini Robotics-ER as models for physical-world robot control."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://deepmind.google/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Google DeepMind 主体/业务身份；原文或审阅释义：Google DeepMind introduced Gemini Robotics and Gemini Robotics-ER as models for physical-world robot control."
       }
     ],
     "updatedAt": "",
@@ -142,14 +216,22 @@
         "数据与训练"
       ],
       "thesis": "开放模型、感知与具身研究生态。",
-      "officialUrl": "https://ai.meta.com/"
+      "officialUrl": "https://ai.meta.com/",
+      "profileEvidence": [
+        {
+          "link": "https://ai.meta.com/blog/fair-robotics-open-source/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Meta 主体/业务身份；原文或审阅释义：Meta FAIR says it develops and releases embodied-AI and robotics research artifacts."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://ai.meta.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://ai.meta.com/blog/fair-robotics-open-source/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Meta 主体/业务身份；原文或审阅释义：Meta FAIR says it develops and releases embodied-AI and robotics research artifacts."
       }
     ],
     "updatedAt": "",
@@ -175,21 +257,46 @@
       "officialUrl": "https://www.figure.ai/",
       "sourceIds": [
         "official-figure-news"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://www.figure.ai/company",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Figure 主体/业务身份；原文或审阅释义：Figure identifies itself as an AI robotics company building a general-purpose humanoid."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.figure.ai/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.figure.ai/company",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Figure 主体/业务身份；原文或审阅释义：Figure identifies itself as an AI robotics company building a general-purpose humanoid."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-364bccad851a"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-364bccad851a",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "Series C",
+          "amount": ">10亿美元承诺资本（非到账金额）",
+          "valuation": "390亿美元投后估值"
+        },
+        "evidenceLinks": [
+          "https://www.figure.ai/news/series-c"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -208,14 +315,22 @@
       "sourceIds": [
         "official-physical-intelligence-blog",
         "oss-openpi-releases"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://www.physicalintelligence.company/download/hirobot.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Physical Intelligence 主体/业务身份；原文或审阅释义：The paper lists Physical Intelligence in San Francisco and evaluates robot policies on three platforms."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.physicalintelligence.company/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.physicalintelligence.company/download/hirobot.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Physical Intelligence 主体/业务身份；原文或审阅释义：The paper lists Physical Intelligence in San Francisco and evaluates robot policies on three platforms."
       }
     ],
     "updatedAt": "",
@@ -300,21 +415,45 @@
       "officialUrl": "https://apptronik.com/",
       "sourceIds": [
         "official-apptronik-press"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://apptronik.com/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Apptronik 主体/业务身份；原文或审阅释义：Apptronik presents Apollo as its humanoid platform for manufacturing and warehouse work."
+        }
       ]
     },
     "identityEvidence": [
       {
         "link": "https://apptronik.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Apptronik 主体/业务身份；原文或审阅释义：Apptronik presents Apollo as its humanoid platform for manufacturing and warehouse work."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-37490127edac"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-37490127edac",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "Series A-X 扩展轮",
+          "amount": "5.2亿美元（本次扩展轮；非累计 Series A）"
+        },
+        "evidenceLinks": [
+          "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -332,22 +471,48 @@
       "officialUrl": "https://agilityrobotics.com/",
       "sourceIds": [
         "official-agility-press"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://www.agilityrobotics.com/company",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Agility Robotics 主体/业务身份；原文或审阅释义：Agility Robotics identifies Digit as its general-purpose humanoid for logistics and manufacturing."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://agilityrobotics.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.agilityrobotics.com/company",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Agility Robotics 主体/业务身份；原文或审阅释义：Agility Robotics identifies Digit as its general-purpose humanoid for logistics and manufacturing."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-6b5415859a21"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-6b5415859a21",
+        "date": "unknown",
+        "type": "部署案例",
+        "fact": {
+          "product": "Digit",
+          "customers": [
+            "Toyota Motor Manufacturing Canada"
+          ],
+          "deployment": "成功试点后签署机器人即服务协议；后续设施部署仍为计划"
+        },
+        "evidenceLinks": [
+          "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "客户试点"
   },
   {
     "company": {
@@ -393,21 +558,46 @@
       "officialUrl": "https://www.skild.ai/",
       "sourceIds": [
         "official-skild-blog"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://skild.ai/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Skild AI 主体/业务身份；原文或审阅释义：Skild AI — General Purpose Robotic Intelligence. We are building a unified, omni-bodied brain to control any robot for any task."
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.skild.ai/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://skild.ai/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Skild AI 主体/业务身份；原文或审阅释义：Skild AI — General Purpose Robotic Intelligence. We are building a unified, omni-bodied brain to control any robot for any task."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-3db734720543"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-3db734720543",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "Series C",
+          "amount": "14亿美元",
+          "valuation": ">140亿美元"
+        },
+        "evidenceLinks": [
+          "https://www.skild.ai/blogs/series-c"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -422,22 +612,47 @@
         "部署与商业化"
       ],
       "thesis": "仓储与物流机器人智能。",
-      "officialUrl": "https://www.dexterity.ai/"
+      "officialUrl": "https://www.dexterity.ai/",
+      "profileEvidence": [
+        {
+          "link": "https://dexterity.ai/about",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Dexterity 主体/业务身份；原文或审阅释义：Dexterity describes an AI robotics company founded in Redwood City for physical-world automation."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.dexterity.ai/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://dexterity.ai/about",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Dexterity 主体/业务身份；原文或审阅释义：Dexterity describes an AI robotics company founded in Redwood City for physical-world automation."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-a8f21a49d4c6"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-a8f21a49d4c6",
+        "date": "unknown",
+        "type": "部署案例",
+        "fact": {
+          "customers": [
+            "FedEx"
+          ],
+          "deployment": "公司披露 FedEx Hagerstown Hub 扩大部署；数量及吞吐未知"
+        },
+        "evidenceLinks": [
+          "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "客户试点"
   },
   {
     "company": {
@@ -548,14 +763,22 @@
         "部署与商业化"
       ],
       "thesis": "工业机器人软件、感知与自动化开发平台。",
-      "officialUrl": "https://www.intrinsic.ai/"
+      "officialUrl": "https://www.intrinsic.ai/",
+      "profileEvidence": [
+        {
+          "link": "https://www.intrinsic.ai/blog/posts/intrinsic-joins-google-to-accelerate-physical-ai",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Intrinsic 主体/业务身份；原文或审阅释义：Intrinsic says it joined Google and remains a distinct group evolving its industrial robotics platform."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.intrinsic.ai/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.intrinsic.ai/blog/posts/intrinsic-joins-google-to-accelerate-physical-ai",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Intrinsic 主体/业务身份；原文或审阅释义：Intrinsic says it joined Google and remains a distinct group evolving its industrial robotics platform."
       }
     ],
     "updatedAt": "",
@@ -725,14 +948,22 @@
         "VLA 与具身模型"
       ],
       "thesis": "大规模机器人行为学习与家庭操作研究。",
-      "officialUrl": "https://www.tri.global/"
+      "officialUrl": "https://www.tri.global/",
+      "profileEvidence": [
+        {
+          "link": "https://www.tri.global/our-work/robotics",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Toyota Research Institute 主体/业务身份；原文或审阅释义：TOYOTA RESEARCH INSTITUTE. Developing human amplification robotic capabilities and tools."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.tri.global/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.tri.global/our-work/robotics",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Toyota Research Institute 主体/业务身份；原文或审阅释义：TOYOTA RESEARCH INSTITUTE. Developing human amplification robotic capabilities and tools."
       }
     ],
     "updatedAt": "",
@@ -815,14 +1046,22 @@
         "本体与硬件"
       ],
       "thesis": "端到端智能与人形机器人协同研发。",
-      "officialUrl": "https://www.menteebot.com/"
+      "officialUrl": "https://www.menteebot.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.menteebot.com/company/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Mentee Robotics 主体/业务身份；原文或审阅释义：Mentee Robotics identifies itself as a Mobileye company developing AI-first humanoid robotics."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.menteebot.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.menteebot.com/company/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Mentee Robotics 主体/业务身份；原文或审阅释义：Mentee Robotics identifies itself as a Mobileye company developing AI-first humanoid robotics."
       }
     ],
     "updatedAt": "",
@@ -844,22 +1083,46 @@
         "部署与商业化"
       ],
       "thesis": "动态行走控制、外骨骼与工业人形机器人。",
-      "officialUrl": "https://www.wandercraft.eu/"
+      "officialUrl": "https://www.wandercraft.eu/",
+      "profileEvidence": [
+        {
+          "link": "https://en.wandercraft.eu/about-us",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "Wandercraft 主体/业务身份；原文或审阅释义：Wandercraft links its exoskeleton business and Calvin humanoid through shared self-balancing technology."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.wandercraft.eu/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://en.wandercraft.eu/about-us",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "Wandercraft 主体/业务身份；原文或审阅释义：Wandercraft links its exoskeleton business and Calvin humanoid through shared self-balancing technology."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-1efd701c4ea4"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-1efd701c4ea4",
+        "date": "unknown",
+        "type": "公司商业",
+        "fact": {
+          "product": "Calvin-40",
+          "customers": [],
+          "deployment": "与 SAPA 宣布部署合作；实施及扩大部署仍为计划"
+        },
+        "evidenceLinks": [
+          "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "概念 / 研究"
   },
   {
     "company": {
@@ -873,14 +1136,22 @@
         "部署与商业化"
       ],
       "thesis": "服务、人形和移动机器人产品与研究平台。",
-      "officialUrl": "https://pal-robotics.com/"
+      "officialUrl": "https://pal-robotics.com/",
+      "profileEvidence": [
+        {
+          "link": "https://pal-robotics.com/who-we-are/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "PAL Robotics 主体/业务身份；原文或审阅释义：PAL Robotics develops service-robotics platforms for industry, healthcare, retail and research."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://pal-robotics.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://pal-robotics.com/who-we-are/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "PAL Robotics 主体/业务身份；原文或审阅释义：PAL Robotics develops service-robotics platforms for industry, healthcare, retail and research."
       }
     ],
     "updatedAt": "",
@@ -906,22 +1177,45 @@
         "数据与训练"
       ],
       "thesis": "高性能机器人本体与开发者生态。",
-      "officialUrl": "https://www.unitree.com/"
+      "officialUrl": "https://www.unitree.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.unitree.com/about/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "宇树科技 主体/业务身份；原文或审阅释义：Unitree Robotics focuses on R&D, production and sales of legged and humanoid robots."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.unitree.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.unitree.com/about/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "宇树科技 主体/业务身份；原文或审阅释义：Unitree Robotics focuses on R&D, production and sales of legged and humanoid robots."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-dfd219a14f33"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-dfd219a14f33",
+        "date": "2026-02-24",
+        "type": "产品发布",
+        "fact": {
+          "product": "As2",
+          "customers": []
+        },
+        "evidenceLinks": [
+          "https://www.unitree.com/about/"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "原型与演示"
   },
   {
     "company": {
@@ -939,22 +1233,48 @@
         "部署与商业化"
       ],
       "thesis": "人形机器人产品与行业应用。",
-      "officialUrl": "https://www.ubtrobot.com/"
+      "officialUrl": "https://www.ubtrobot.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.ubtrobot.com/en/about/company-profile",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "优必选 主体/业务身份；原文或审阅释义：UBTECH ROBOTICS CORP LTD develops and commercializes humanoid and smart service robots."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.ubtrobot.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.ubtrobot.com/en/about/company-profile",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "优必选 主体/业务身份；原文或审阅释义：UBTECH ROBOTICS CORP LTD develops and commercializes humanoid and smart service robots."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-9a4382b2e4a2"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-9a4382b2e4a2",
+        "date": "unknown",
+        "type": "部署案例",
+        "fact": {
+          "product": "Walker S2",
+          "customers": [
+            "Hitachi"
+          ],
+          "deployment": "部分制造环境中的现场运行测试和应用场景验证；非规模部署"
+        },
+        "evidenceLinks": [
+          "https://www.ubtrobot.com/en/about/news/826577556529221"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "规模部署 / 商业化"
   },
   {
     "company": {
@@ -972,22 +1292,86 @@
         "部署与商业化"
       ],
       "thesis": "通用人形机器人与产业化。",
-      "officialUrl": "https://www.zhiyuan-robot.com/"
+      "officialUrl": "https://www.agibot.com.cn/",
+      "officialDomains": [
+        "zhiyuan-robot.com",
+        "agibot.com.cn"
+      ],
+      "legalName": "智元创新（上海）科技股份有限公司",
+      "profileEvidence": [
+        {
+          "link": "https://www.zhiyuan-robot.com/public/uploads/file/%E6%99%BA%E5%85%83%E5%AE%98%E7%BD%91%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "智元机器人 主体/业务身份；原文或审阅释义：The policy identifies 智元创新（上海）科技股份有限公司 as the official-site operator."
+        },
+        {
+          "link": "https://www.agibot.com.cn/public/uploads/file/%E5%85%B3%E4%BA%8E%E5%BC%80%E5%B1%95%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E8%83%BD%E5%8A%9B%E6%8F%90%E5%8D%87%E5%B8%88%E8%B5%84%E5%9F%B9%E8%AE%AD%E7%9A%84%E9%80%9A%E7%9F%A5.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "智元机器人 主体/业务身份；原文或审阅释义：智元机器人成立于 2023 年 2 月，聚焦具身智能机器人大脑-小脑-本体。"
+        },
+        {
+          "link": "https://www.zhiyuan-robot.com/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "智元机器人 主体/业务身份；原文或审阅释义：Opening the legacy official homepage redirects directly to https://www.agibot.com.cn/."
+        },
+        {
+          "link": "https://www.agibot.com.cn/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "智元机器人 主体/业务身份；原文或审阅释义：Copyright © 2023-2026 智元创新（上海）科技股份有限公司版权所有"
+        }
+      ]
     },
     "identityEvidence": [
       {
+        "link": "https://www.zhiyuan-robot.com/public/uploads/file/%E6%99%BA%E5%85%83%E5%AE%98%E7%BD%91%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "智元机器人 主体/业务身份；原文或审阅释义：The policy identifies 智元创新（上海）科技股份有限公司 as the official-site operator."
+      },
+      {
+        "link": "https://www.agibot.com.cn/public/uploads/file/%E5%85%B3%E4%BA%8E%E5%BC%80%E5%B1%95%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E8%83%BD%E5%8A%9B%E6%8F%90%E5%8D%87%E5%B8%88%E8%B5%84%E5%9F%B9%E8%AE%AD%E7%9A%84%E9%80%9A%E7%9F%A5.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "智元机器人 主体/业务身份；原文或审阅释义：智元机器人成立于 2023 年 2 月，聚焦具身智能机器人大脑-小脑-本体。"
+      },
+      {
         "link": "https://www.zhiyuan-robot.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "智元机器人 主体/业务身份；原文或审阅释义：Opening the legacy official homepage redirects directly to https://www.agibot.com.cn/."
+      },
+      {
+        "link": "https://www.agibot.com.cn/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "智元机器人 主体/业务身份；原文或审阅释义：Copyright © 2023-2026 智元创新（上海）科技股份有限公司版权所有"
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-8706b5d81d4d"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-8706b5d81d4d",
+        "date": "2026-03-28",
+        "type": "公司商业",
+        "fact": {
+          "product": "远征 A3",
+          "customers": []
+        },
+        "evidenceLinks": [
+          "https://www.agibot.com.cn/article/315/detail/147.html"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "规模部署 / 商业化"
   },
   {
     "company": {
@@ -1004,14 +1388,22 @@
         "部署与商业化"
       ],
       "thesis": "具身智能模型与通用操作。",
-      "officialUrl": "https://galbot.com/"
+      "officialUrl": "https://galbot.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.galbot.com/about/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "银河通用 主体/业务身份；原文或审阅释义：银河通用机器人成立于 2023 年，是一家以具身大模型为核心的通用机器人公司。"
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://galbot.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.galbot.com/about/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "银河通用 主体/业务身份；原文或审阅释义：银河通用机器人成立于 2023 年，是一家以具身大模型为核心的通用机器人公司。"
       }
     ],
     "updatedAt": "",
@@ -1045,6 +1437,12 @@
           "source": "星海图官网",
           "checkedAt": "2026-08-06",
           "supports": "公司定位为具身智能基础模型与自研机器人；该证据仅用于确认公司主体与技术方向。"
+        },
+        {
+          "link": "https://galaxea-ai.com/cn/about",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "星海图 主体/业务身份；原文或审阅释义：The official about page identifies 星海图（北京）人工智能科技股份有限公司 and its robotics focus."
         }
       ]
     },
@@ -1054,6 +1452,12 @@
         "source": "星海图官网",
         "checkedAt": "2026-08-06",
         "supports": "公司定位为具身智能基础模型与自研机器人；该证据仅用于确认公司主体与技术方向。"
+      },
+      {
+        "link": "https://galaxea-ai.com/cn/about",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "星海图 主体/业务身份；原文或审阅释义：The official about page identifies 星海图（北京）人工智能科技股份有限公司 and its robotics focus."
       }
     ],
     "updatedAt": "",
@@ -1077,14 +1481,22 @@
         "本体与硬件"
       ],
       "thesis": "人形机器人运动控制与本体。",
-      "officialUrl": "https://www.engineai.com.cn/"
+      "officialUrl": "https://www.engineai.com.cn/",
+      "profileEvidence": [
+        {
+          "link": "https://www.engineai.com.cn/about-us",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "众擎机器人 主体/业务身份；原文或审阅释义：深圳众擎机器人科技股份有限公司研发、制造并推动人形机器人场景落地。"
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.engineai.com.cn/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.engineai.com.cn/about-us",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "众擎机器人 主体/业务身份；原文或审阅释义：深圳众擎机器人科技股份有限公司研发、制造并推动人形机器人场景落地。"
       }
     ],
     "updatedAt": "",
@@ -1109,14 +1521,22 @@
         "部署与商业化"
       ],
       "thesis": "人形机器人与康复机器人本体。",
-      "officialUrl": "https://www.fftai.com/"
+      "officialUrl": "https://www.fftai.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.fftai.com/uploads/upload/files/20240930/85920fb3b0f5ff058729629f59fde275.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "傅利叶智能 主体/业务身份；原文或审阅释义：Fourier Rehab, a division of Fourier (formerly Fourier Intelligence)"
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.fftai.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.fftai.com/uploads/upload/files/20240930/85920fb3b0f5ff058729629f59fde275.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "傅利叶智能 主体/业务身份；原文或审阅释义：Fourier Rehab, a division of Fourier (formerly Fourier Intelligence)"
       }
     ],
     "updatedAt": "",
@@ -1141,21 +1561,45 @@
         "VLA 与具身模型"
       ],
       "thesis": "具身智能机器人本体与运动能力。",
-      "officialUrl": "https://www.limxdynamics.com/"
+      "officialUrl": "https://www.limxdynamics.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.limxdynamics.com/en/about",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "逐际动力 主体/业务身份；原文或审阅释义：LimX Dynamics describes itself as a robotics company advancing Physical AI with general-purpose robots."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.limxdynamics.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.limxdynamics.com/en/about",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "逐际动力 主体/业务身份；原文或审阅释义：LimX Dynamics describes itself as a robotics company advancing Physical AI with general-purpose robots."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-cd4645e117ca"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-cd4645e117ca",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "Series B",
+          "amount": "2亿美元"
+        },
+        "evidenceLinks": [
+          "https://www.limxdynamics.com/en/news/BK000057"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -1272,14 +1716,34 @@
       "officialUrl": "https://www.robotera.com/",
       "sourceIds": [
         "official-robotera-news"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://www.robotera.com/static/pc/default/images/cnStar.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "星动纪元 主体/业务身份；原文或审阅释义：ROBOTERA 星动纪元"
+        },
+        {
+          "link": "https://www.robotera.com/static/pc/default/images/cnStar.pdf",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "星动纪元 主体/业务身份；原文或审阅释义：星动STAR1 高性能人形机器人"
+        }
       ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.robotera.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.robotera.com/static/pc/default/images/cnStar.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "星动纪元 主体/业务身份；原文或审阅释义：ROBOTERA 星动纪元"
+      },
+      {
+        "link": "https://www.robotera.com/static/pc/default/images/cnStar.pdf",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "星动纪元 主体/业务身份；原文或审阅释义：星动STAR1 高性能人形机器人"
       }
     ],
     "updatedAt": "",
@@ -1380,21 +1844,57 @@
       "officialUrl": "https://x2robot.com/",
       "sourceIds": [
         "official-xsquare-news"
+      ],
+      "profileEvidence": [
+        {
+          "link": "https://x2robot.com/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "自变量机器人 主体/业务身份；原文或审阅释义：自变量机器人致力于研发由端到端大模型驱动的通用机器人"
+        },
+        {
+          "link": "https://x2robot.com/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "自变量机器人 主体/业务身份；原文或审阅释义：Copyright © 2026 自变量机器人科技（深圳）有限公司 版权所有"
+        }
       ]
     },
     "identityEvidence": [
       {
         "link": "https://x2robot.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "自变量机器人 主体/业务身份；原文或审阅释义：自变量机器人致力于研发由端到端大模型驱动的通用机器人"
+      },
+      {
+        "link": "https://x2robot.com/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "自变量机器人 主体/业务身份；原文或审阅释义：Copyright © 2026 自变量机器人科技（深圳）有限公司 版权所有"
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-dfa92c0cd2f6"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-dfa92c0cd2f6",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "连续四轮融资，最终轮次 Series C",
+          "valuation": ">28亿美元（来源另列200亿元人民币；不相加）"
+        },
+        "evidenceLinks": [
+          "https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -1412,14 +1912,34 @@
         "部署与商业化"
       ],
       "thesis": "四足、人形机器人与复杂环境行业部署。",
-      "officialUrl": "https://www.deeprobotics.cn/"
+      "officialUrl": "https://www.deeprobotics.cn/",
+      "profileEvidence": [
+        {
+          "link": "https://www.deeprobotics.cn/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "云深处科技 主体/业务身份；原文或审阅释义：©2017-2026 云深处科技股份有限公司"
+        },
+        {
+          "link": "https://www.deeprobotics.cn/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "云深处科技 主体/业务身份；原文或审阅释义：工业级行业应用四足机器人"
+        }
+      ]
     },
     "identityEvidence": [
       {
         "link": "https://www.deeprobotics.cn/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "云深处科技 主体/业务身份；原文或审阅释义：©2017-2026 云深处科技股份有限公司"
+      },
+      {
+        "link": "https://www.deeprobotics.cn/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "云深处科技 主体/业务身份；原文或审阅释义：工业级行业应用四足机器人"
       }
     ],
     "updatedAt": "",
@@ -1477,21 +1997,57 @@
         "部署与商业化"
       ],
       "thesis": "汽车智能体系延伸的人形机器人软硬件平台。",
-      "officialUrl": "https://www.xpeng.com/"
+      "officialUrl": "https://www.xpeng.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "小鹏机器人 主体/业务身份；原文或审阅释义：XPENG says it retains control and consolidates the separately financed robotics business."
+        },
+        {
+          "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "小鹏机器人 主体/业务身份；原文或审阅释义：XPENG ROBOTICS BUSINESS RAISES OVER US$900 MILLION"
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.xpeng.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "小鹏机器人 主体/业务身份；原文或审阅释义：XPENG says it retains control and consolidates the separately financed robotics business."
+      },
+      {
+        "link": "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "小鹏机器人 主体/业务身份；原文或审阅释义：XPENG ROBOTICS BUSINESS RAISES OVER US$900 MILLION"
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-4cae0e333b16"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-4cae0e333b16",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "amount": ">9亿美元已签股份购买协议（拟融资；非到账）",
+          "valuation": ">63亿美元投后估值（已签股份购买协议交易，未确认交割）"
+        },
+        "evidenceLinks": [
+          "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -1506,21 +2062,45 @@
         "VLA 与具身模型"
       ],
       "thesis": "认知机器人与工业服务场景。",
-      "officialUrl": "https://neura-robotics.com/"
+      "officialUrl": "https://neura-robotics.com/",
+      "profileEvidence": [
+        {
+          "link": "https://neura-robotics.com/about-us/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "NEURA Robotics 主体/业务身份；原文或审阅释义：NEURA Robotics is headquartered in Metzingen and develops cognitive robots plus supporting AI infrastructure."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://neura-robotics.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://neura-robotics.com/about-us/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "NEURA Robotics 主体/业务身份；原文或审阅释义：NEURA Robotics is headquartered in Metzingen and develops cognitive robots plus supporting AI infrastructure."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
-    "funding": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-6a7996756bdb"
+    ],
+    "funding": [
+      {
+        "eventId": "evt-6a7996756bdb",
+        "date": "unknown",
+        "fact": {
+          "entityStatus": "已确认",
+          "investors": [],
+          "round": "Series C",
+          "amount": "最高14亿美元（宣布的融资上限；非已收款）"
+        },
+        "evidenceLinks": [
+          "https://neura-robotics.com/record-series-c/"
+        ]
+      }
+    ],
     "productsAndDeployments": [],
-    "capitalStatus": "证据不足",
+    "capitalStatus": "已证实",
     "validationStage": "证据不足"
   },
   {
@@ -1535,21 +2115,44 @@
         "部署与商业化"
       ],
       "thesis": "四足机器人与工业巡检。",
-      "officialUrl": "https://www.anybotics.com/"
+      "officialUrl": "https://www.anybotics.com/",
+      "profileEvidence": [
+        {
+          "link": "https://www.anybotics.com/about-us/",
+          "source": "官方主体证据（审阅摘录/释义）",
+          "checkedAt": "2026-09-06T00:00:00.000Z",
+          "supports": "ANYbotics 主体/业务身份；原文或审阅释义：ANYbotics was founded as an ETH Zurich spin-off and builds autonomous industrial robots."
+        }
+      ]
     },
     "identityEvidence": [
       {
-        "link": "https://www.anybotics.com/",
-        "source": "公司官网",
-        "checkedAt": "2026-08-08",
-        "supports": "公司主体、官方入口与公开技术定位。"
+        "link": "https://www.anybotics.com/about-us/",
+        "source": "官方主体证据（审阅摘录/释义）",
+        "checkedAt": "2026-09-06T00:00:00.000Z",
+        "supports": "ANYbotics 主体/业务身份；原文或审阅释义：ANYbotics was founded as an ETH Zurich spin-off and builds autonomous industrial robots."
       }
     ],
-    "updatedAt": "",
-    "eventIds": [],
+    "updatedAt": "unknown",
+    "eventIds": [
+      "evt-d6b7f47146d8"
+    ],
     "funding": [],
-    "productsAndDeployments": [],
+    "productsAndDeployments": [
+      {
+        "eventId": "evt-d6b7f47146d8",
+        "date": "unknown",
+        "type": "部署案例",
+        "fact": {
+          "customers": [],
+          "deployment": "公司披露 EMEA 线上部署与电厂集成测试；具体日期和规模未知"
+        },
+        "evidenceLinks": [
+          "https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/"
+        ]
+      }
+    ],
     "capitalStatus": "证据不足",
-    "validationStage": "证据不足"
+    "validationStage": "概念 / 研究"
   }
 ]

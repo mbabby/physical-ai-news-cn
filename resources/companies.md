@@ -14,7 +14,7 @@
 - 技术路线：数据与训练 · 本体与硬件 · 部署与商业化
 - 核心押注：视觉、端到端智能、本体工程与制造闭环。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.tesla.com/AI)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://ir.tesla.com/_flysystem/s3/sec/000110465925087598/tm252289-4_pre14a-gen.pdf)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -23,20 +23,20 @@
 - 地域 / 阶段：北美 / 平台公司
 - 技术路线：数据与训练 · 世界模型与空间智能 · VLA 与具身模型
 - 核心押注：机器人训练、仿真、计算与基础模型平台。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.nvidia.com/en-us/ai-robotics/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://developer.nvidia.com/isaac/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：开放人形机器人参考设计（[证据](https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design)，unknown）
 
 ## [Hugging Face](https://huggingface.co/lerobot)
 
 - 地域 / 阶段：北美/欧洲 / 平台公司
 - 技术路线：数据与训练 · VLA 与具身模型
 - 核心押注：开放机器人模型、数据集、硬件配方与社区协作基础设施。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://huggingface.co/lerobot)
+- 档案状态：资本 证据不足（不代表未融资）；验证 实机验证
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://huggingface.co/docs/lerobot/index)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：LeRobot v0.5.0（[证据](https://huggingface.co/blog/lerobot-release-v050)，unknown）
 
 ## [Google DeepMind](https://deepmind.google/)
 
@@ -44,7 +44,7 @@
 - 技术路线：VLA 与具身模型 · 数据与训练
 - 核心押注：通用多模态推理与机器人泛化。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://deepmind.google/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -54,7 +54,7 @@
 - 技术路线：VLA 与具身模型 · 数据与训练
 - 核心押注：开放模型、感知与具身研究生态。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://ai.meta.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://ai.meta.com/blog/fair-robotics-open-source/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -63,9 +63,9 @@
 - 地域 / 阶段：北美 / 成长公司
 - 技术路线：VLA 与具身模型 · 本体与硬件 · 部署与商业化
 - 核心押注：人形本体、端到端机器人智能与工作场景。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.figure.ai/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.figure.ai/company)
+- 融资：Series C >10亿美元承诺资本（非到账金额）（[证据](https://www.figure.ai/news/series-c)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Physical Intelligence](https://www.physicalintelligence.company/)
@@ -74,7 +74,7 @@
 - 技术路线：VLA 与具身模型 · 数据与训练
 - 核心押注：多平台真实数据与生成式动作策略。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.physicalintelligence.company/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.physicalintelligence.company/download/hirobot.pdf)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -103,9 +103,9 @@
 - 地域 / 阶段：北美 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：通用人形机器人本体与产业应用。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://apptronik.com/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://apptronik.com/)
+- 融资：Series A-X 扩展轮 5.2亿美元（本次扩展轮；非累计 Series A）（[证据](https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Agility Robotics](https://agilityrobotics.com/)
@@ -113,10 +113,10 @@
 - 地域 / 阶段：北美 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：面向物流和工业场景的双足机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://agilityrobotics.com/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 客户试点
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.agilityrobotics.com/company)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：Digit（[证据](https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada)，unknown）
 
 ## [Sanctuary AI](https://www.sanctuary.ai/)
 
@@ -133,9 +133,9 @@
 - 地域 / 阶段：北美 / 创业公司
 - 技术路线：VLA 与具身模型 · 数据与训练
 - 核心押注：面向不同机器人本体的通用智能。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.skild.ai/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://skild.ai/)
+- 融资：Series C 14亿美元（[证据](https://www.skild.ai/blogs/series-c)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [Dexterity](https://www.dexterity.ai/)
@@ -143,10 +143,10 @@
 - 地域 / 阶段：北美 / 成长公司
 - 技术路线：VLA 与具身模型 · 部署与商业化
 - 核心押注：仓储与物流机器人智能。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.dexterity.ai/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 客户试点
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://dexterity.ai/about)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：公司披露 FedEx Hagerstown Hub 扩大部署；数量及吞吐未知（[证据](https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment)，unknown）
 
 ## [Boston Dynamics](https://bostondynamics.com/)
 
@@ -184,7 +184,7 @@
 - 技术路线：数据与训练 · 部署与商业化
 - 核心押注：工业机器人软件、感知与自动化开发平台。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.intrinsic.ai/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.intrinsic.ai/blog/posts/intrinsic-joins-google-to-accelerate-physical-ai)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -244,7 +244,7 @@
 - 技术路线：数据与训练 · VLA 与具身模型
 - 核心押注：大规模机器人行为学习与家庭操作研究。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.tri.global/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.tri.global/our-work/robotics)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -274,7 +274,7 @@
 - 技术路线：VLA 与具身模型 · 本体与硬件
 - 核心押注：端到端智能与人形机器人协同研发。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.menteebot.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.menteebot.com/company/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -283,10 +283,10 @@
 - 地域 / 阶段：欧洲/北美 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：动态行走控制、外骨骼与工业人形机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.wandercraft.eu/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://en.wandercraft.eu/about-us)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：Calvin-40（[证据](https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race)，unknown）
 
 ## [PAL Robotics](https://pal-robotics.com/)
 
@@ -294,7 +294,7 @@
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：服务、人形和移动机器人产品与研究平台。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://pal-robotics.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://pal-robotics.com/who-we-are/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -303,30 +303,30 @@
 - 地域 / 阶段：中国 / 成长公司
 - 技术路线：本体与硬件 · 数据与训练
 - 核心押注：高性能机器人本体与开发者生态。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.unitree.com/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 原型与演示
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.unitree.com/about/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：As2（[证据](https://www.unitree.com/about/)，2026-02-24）
 
 ## [优必选](https://www.ubtrobot.com/)
 
 - 地域 / 阶段：中国 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：人形机器人产品与行业应用。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.ubtrobot.com/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 规模部署 / 商业化
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.ubtrobot.com/en/about/company-profile)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：Walker S2（[证据](https://www.ubtrobot.com/en/about/news/826577556529221)，unknown）
 
-## [智元机器人](https://www.zhiyuan-robot.com/)
+## [智元机器人](https://www.agibot.com.cn/)
 
 - 地域 / 阶段：中国 / 创业公司
 - 技术路线：本体与硬件 · VLA 与具身模型 · 部署与商业化
 - 核心押注：通用人形机器人与产业化。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.zhiyuan-robot.com/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 规模部署 / 商业化
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.zhiyuan-robot.com/public/uploads/file/%E6%99%BA%E5%85%83%E5%AE%98%E7%BD%91%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.pdf)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：远征 A3（[证据](https://www.agibot.com.cn/article/315/detail/147.html)，2026-03-28）
 
 ## [银河通用](https://galbot.com/)
 
@@ -334,7 +334,7 @@
 - 技术路线：VLA 与具身模型 · 部署与商业化
 - 核心押注：具身智能模型与通用操作。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://galbot.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.galbot.com/about/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -354,7 +354,7 @@
 - 技术路线：本体与硬件
 - 核心押注：人形机器人运动控制与本体。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.engineai.com.cn/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.engineai.com.cn/about-us)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -364,7 +364,7 @@
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：人形机器人与康复机器人本体。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.fftai.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.fftai.com/uploads/upload/files/20240930/85920fb3b0f5ff058729629f59fde275.pdf)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -373,9 +373,9 @@
 - 地域 / 阶段：中国 / 创业公司
 - 技术路线：本体与硬件 · VLA 与具身模型
 - 核心押注：具身智能机器人本体与运动能力。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.limxdynamics.com/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.limxdynamics.com/en/about)
+- 融资：Series B 2亿美元（[证据](https://www.limxdynamics.com/en/news/BK000057)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [松延动力](https://www.noetixrobotics.com/)
@@ -414,7 +414,7 @@
 - 技术路线：VLA 与具身模型 · 本体与硬件
 - 核心押注：软硬件全栈人形机器人与灵巧操作。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.robotera.com/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.robotera.com/static/pc/default/images/cnStar.pdf)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -443,9 +443,9 @@
 - 地域 / 阶段：中国 / 创业公司
 - 技术路线：VLA 与具身模型 · 世界模型与空间智能 · 本体与硬件
 - 核心押注：世界统一模型与通用具身智能机器人。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://x2robot.com/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://x2robot.com/)
+- 融资：连续四轮融资，最终轮次 Series C 金额未披露（[证据](https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [云深处科技](https://www.deeprobotics.cn/)
@@ -454,7 +454,7 @@
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：四足、人形机器人与复杂环境行业部署。
 - 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.deeprobotics.cn/)
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.deeprobotics.cn/)
 - 融资：尚未收录可归属的公开融资证据。
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
@@ -473,9 +473,9 @@
 - 地域 / 阶段：中国 / 平台公司
 - 技术路线：VLA 与具身模型 · 本体与硬件 · 部署与商业化
 - 核心押注：汽车智能体系延伸的人形机器人软硬件平台。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.xpeng.com/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a)
+- 融资：轮次未披露 >9亿美元已签股份购买协议（拟融资；非到账）（[证据](https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [NEURA Robotics](https://neura-robotics.com/)
@@ -483,9 +483,9 @@
 - 地域 / 阶段：欧洲 / 成长公司
 - 技术路线：本体与硬件 · VLA 与具身模型
 - 核心押注：认知机器人与工业服务场景。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://neura-robotics.com/)
-- 融资：尚未收录可归属的公开融资证据。
+- 档案状态：资本 已证实；验证 证据不足
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://neura-robotics.com/about-us/)
+- 融资：Series C 最高14亿美元（宣布的融资上限；非已收款）（[证据](https://neura-robotics.com/record-series-c/)，unknown）
 - 产品 / 部署：尚未收录满足证据门槛的近期事件。
 
 ## [ANYbotics](https://www.anybotics.com/)
@@ -493,8 +493,8 @@
 - 地域 / 阶段：欧洲 / 成长公司
 - 技术路线：本体与硬件 · 部署与商业化
 - 核心押注：四足机器人与工业巡检。
-- 档案状态：资本 证据不足（不代表未融资）；验证 证据不足
-- 主体证据：[公司官网](https://www.anybotics.com/)
+- 档案状态：资本 证据不足（不代表未融资）；验证 概念 / 研究
+- 主体证据：[官方主体证据（审阅摘录/释义）](https://www.anybotics.com/about-us/)
 - 融资：尚未收录可归属的公开融资证据。
-- 产品 / 部署：尚未收录满足证据门槛的近期事件。
+- 产品 / 部署：公司披露 EMEA 线上部署与电厂集成测试；具体日期和规模未知（[证据](https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/)，unknown）
 

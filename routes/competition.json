@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-05T09:10:00.946Z",
+  "updatedAt": "2026-09-07T01:56:22.000Z",
   "routes": [
     {
       "route": "数据与训练",
@@ -7,23 +7,28 @@
       "approaches": "遥操作、数据引擎、合成数据、强化学习",
       "companies": [
         {
-          "company": "Google DeepMind",
-          "officialUrl": "https://deepmind.google/",
-          "region": "北美/英国",
-          "stage": "平台公司",
-          "approach": "通用多模态推理与机器人泛化。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "Hugging Face",
           "officialUrl": "https://huggingface.co/lerobot",
           "region": "北美/欧洲",
           "stage": "平台公司",
           "approach": "开放机器人模型、数据集、硬件配方与社区协作基础设施。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "实机验证",
+          "productDeploymentEventIds": [
+            "evt-0052db55dfd7"
+          ],
+          "evidenceLinks": [
+            "https://huggingface.co/blog/lerobot-release-v050"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "Google DeepMind",
+          "officialUrl": "https://deepmind.google/",
+          "region": "北美/英国",
+          "stage": "平台公司",
+          "approach": "通用多模态推理与机器人泛化。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -176,13 +181,31 @@
         }
       ],
       "verifiedCapitalCompanies": 0,
-      "verifiedProductDeploymentCompanies": 0
+      "verifiedProductDeploymentCompanies": 1,
+      "lastUpdatedAt": "unknown"
     },
     {
       "route": "VLA 与具身模型",
       "question": "泛化、长程任务与行动推理",
       "approaches": "VLA、策略模型、测试时扩展、多机器人协作",
       "companies": [
+        {
+          "company": "Hugging Face",
+          "officialUrl": "https://huggingface.co/lerobot",
+          "region": "北美/欧洲",
+          "stage": "平台公司",
+          "approach": "开放机器人模型、数据集、硬件配方与社区协作基础设施。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "实机验证",
+          "productDeploymentEventIds": [
+            "evt-0052db55dfd7"
+          ],
+          "evidenceLinks": [
+            "https://huggingface.co/blog/lerobot-release-v050"
+          ],
+          "updatedAt": "unknown"
+        },
         {
           "company": "Ambi Robotics",
           "officialUrl": "https://www.ambirobotics.com/",
@@ -261,18 +284,6 @@
           "region": "北美",
           "stage": "成长公司",
           "approach": "面向表面处理等复杂制造工序的机器人智能。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
-          "company": "Hugging Face",
-          "officialUrl": "https://huggingface.co/lerobot",
-          "region": "北美/欧洲",
-          "stage": "平台公司",
-          "approach": "开放机器人模型、数据集、硬件配方与社区协作基础设施。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -449,7 +460,7 @@
         },
         {
           "company": "智元机器人",
-          "officialUrl": "https://www.zhiyuan-robot.com/",
+          "officialUrl": "https://www.agibot.com.cn/",
           "region": "中国",
           "stage": "创业公司",
           "approach": "通用人形机器人与产业化。",
@@ -497,7 +508,8 @@
         }
       ],
       "verifiedCapitalCompanies": 0,
-      "verifiedProductDeploymentCompanies": 0
+      "verifiedProductDeploymentCompanies": 1,
+      "lastUpdatedAt": "unknown"
     },
     {
       "route": "世界模型与空间智能",
@@ -549,6 +561,23 @@
       "question": "灵巧性、可靠性与成本",
       "approaches": "执行器、触觉、灵巧手、整机设计",
       "companies": [
+        {
+          "company": "宇树科技",
+          "officialUrl": "https://www.unitree.com/",
+          "region": "中国",
+          "stage": "成长公司",
+          "approach": "高性能机器人本体与开发者生态。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "原型与演示",
+          "productDeploymentEventIds": [
+            "evt-dfd219a14f33"
+          ],
+          "evidenceLinks": [
+            "https://www.unitree.com/about/"
+          ],
+          "updatedAt": "unknown"
+        },
         {
           "company": "1X",
           "officialUrl": "https://www.1x.tech/",
@@ -826,18 +855,6 @@
           "evidenceLinks": []
         },
         {
-          "company": "宇树科技",
-          "officialUrl": "https://www.unitree.com/",
-          "region": "中国",
-          "stage": "成长公司",
-          "approach": "高性能机器人本体与开发者生态。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "小鹏机器人",
           "officialUrl": "https://www.xpeng.com/",
           "region": "中国",
@@ -887,7 +904,7 @@
         },
         {
           "company": "智元机器人",
-          "officialUrl": "https://www.zhiyuan-robot.com/",
+          "officialUrl": "https://www.agibot.com.cn/",
           "region": "中国",
           "stage": "创业公司",
           "approach": "通用人形机器人与产业化。",
@@ -947,7 +964,8 @@
         }
       ],
       "verifiedCapitalCompanies": 0,
-      "verifiedProductDeploymentCompanies": 0
+      "verifiedProductDeploymentCompanies": 1,
+      "lastUpdatedAt": "unknown"
     },
     {
       "route": "部署与商业化",
@@ -955,16 +973,89 @@
       "approaches": "场景闭环、客户验证、工厂/仓储部署、量产",
       "companies": [
         {
-          "company": "1X",
-          "officialUrl": "https://www.1x.tech/",
-          "region": "欧洲/北美",
+          "company": "Apptronik",
+          "officialUrl": "https://apptronik.com/",
+          "region": "北美",
           "stage": "成长公司",
-          "approach": "通用人形机器人与真实环境学习。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
+          "approach": "通用人形机器人本体与产业应用。",
+          "capitalStatus": "已证实",
+          "capitalEventIds": [
+            "evt-37490127edac"
+          ],
           "validationStage": "证据不足",
           "productDeploymentEventIds": [],
-          "evidenceLinks": []
+          "evidenceLinks": [
+            "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "Figure",
+          "officialUrl": "https://www.figure.ai/",
+          "region": "北美",
+          "stage": "成长公司",
+          "approach": "人形本体、端到端机器人智能与工作场景。",
+          "capitalStatus": "已证实",
+          "capitalEventIds": [
+            "evt-364bccad851a"
+          ],
+          "validationStage": "证据不足",
+          "productDeploymentEventIds": [],
+          "evidenceLinks": [
+            "https://www.figure.ai/news/series-c"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "小鹏机器人",
+          "officialUrl": "https://www.xpeng.com/",
+          "region": "中国",
+          "stage": "平台公司",
+          "approach": "汽车智能体系延伸的人形机器人软硬件平台。",
+          "capitalStatus": "已证实",
+          "capitalEventIds": [
+            "evt-4cae0e333b16"
+          ],
+          "validationStage": "证据不足",
+          "productDeploymentEventIds": [],
+          "evidenceLinks": [
+            "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "优必选",
+          "officialUrl": "https://www.ubtrobot.com/",
+          "region": "中国",
+          "stage": "成长公司",
+          "approach": "人形机器人产品与行业应用。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "规模部署 / 商业化",
+          "productDeploymentEventIds": [
+            "evt-9a4382b2e4a2"
+          ],
+          "evidenceLinks": [
+            "https://www.ubtrobot.com/en/about/news/826577556529221"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "智元机器人",
+          "officialUrl": "https://www.agibot.com.cn/",
+          "region": "中国",
+          "stage": "创业公司",
+          "approach": "通用人形机器人与产业化。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "规模部署 / 商业化",
+          "productDeploymentEventIds": [
+            "evt-8706b5d81d4d"
+          ],
+          "evidenceLinks": [
+            "https://www.agibot.com.cn/article/315/detail/147.html"
+          ],
+          "updatedAt": "unknown"
         },
         {
           "company": "Agility Robotics",
@@ -972,6 +1063,74 @@
           "region": "北美",
           "stage": "成长公司",
           "approach": "面向物流和工业场景的双足机器人。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "客户试点",
+          "productDeploymentEventIds": [
+            "evt-6b5415859a21"
+          ],
+          "evidenceLinks": [
+            "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "Dexterity",
+          "officialUrl": "https://www.dexterity.ai/",
+          "region": "北美",
+          "stage": "成长公司",
+          "approach": "仓储与物流机器人智能。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "客户试点",
+          "productDeploymentEventIds": [
+            "evt-a8f21a49d4c6"
+          ],
+          "evidenceLinks": [
+            "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "ANYbotics",
+          "officialUrl": "https://www.anybotics.com/",
+          "region": "欧洲",
+          "stage": "成长公司",
+          "approach": "四足机器人与工业巡检。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "概念 / 研究",
+          "productDeploymentEventIds": [
+            "evt-d6b7f47146d8"
+          ],
+          "evidenceLinks": [
+            "https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "Wandercraft",
+          "officialUrl": "https://www.wandercraft.eu/",
+          "region": "欧洲/北美",
+          "stage": "成长公司",
+          "approach": "动态行走控制、外骨骼与工业人形机器人。",
+          "capitalStatus": "证据不足",
+          "capitalEventIds": [],
+          "validationStage": "概念 / 研究",
+          "productDeploymentEventIds": [
+            "evt-1efd701c4ea4"
+          ],
+          "evidenceLinks": [
+            "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race"
+          ],
+          "updatedAt": "unknown"
+        },
+        {
+          "company": "1X",
+          "officialUrl": "https://www.1x.tech/",
+          "region": "欧洲/北美",
+          "stage": "成长公司",
+          "approach": "通用人形机器人与真实环境学习。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -991,47 +1150,11 @@
           "evidenceLinks": []
         },
         {
-          "company": "ANYbotics",
-          "officialUrl": "https://www.anybotics.com/",
-          "region": "欧洲",
-          "stage": "成长公司",
-          "approach": "四足机器人与工业巡检。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
-          "company": "Apptronik",
-          "officialUrl": "https://apptronik.com/",
-          "region": "北美",
-          "stage": "成长公司",
-          "approach": "通用人形机器人本体与产业应用。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "Boston Dynamics",
           "officialUrl": "https://bostondynamics.com/",
           "region": "北美",
           "stage": "成长公司",
           "approach": "高机动机器人本体与商业场景。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
-          "company": "Dexterity",
-          "officialUrl": "https://www.dexterity.ai/",
-          "region": "北美",
-          "stage": "成长公司",
-          "approach": "仓储与物流机器人智能。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -1056,18 +1179,6 @@
           "region": "北美",
           "stage": "成长公司",
           "approach": "面向复杂非结构化环境的机器人基础模型。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
-          "company": "Figure",
-          "officialUrl": "https://www.figure.ai/",
-          "region": "北美",
-          "stage": "成长公司",
-          "approach": "人形本体、端到端机器人智能与工作场景。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -1171,18 +1282,6 @@
           "evidenceLinks": []
         },
         {
-          "company": "Wandercraft",
-          "officialUrl": "https://www.wandercraft.eu/",
-          "region": "欧洲/北美",
-          "stage": "成长公司",
-          "approach": "动态行走控制、外骨骼与工业人形机器人。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "乐聚机器人",
           "officialUrl": "https://www.lejurobot.com/",
           "region": "中国",
@@ -1207,18 +1306,6 @@
           "evidenceLinks": []
         },
         {
-          "company": "优必选",
-          "officialUrl": "https://www.ubtrobot.com/",
-          "region": "中国",
-          "stage": "成长公司",
-          "approach": "人形机器人产品与行业应用。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "傅利叶智能",
           "officialUrl": "https://www.fftai.com/",
           "region": "中国/新加坡",
@@ -1231,35 +1318,11 @@
           "evidenceLinks": []
         },
         {
-          "company": "小鹏机器人",
-          "officialUrl": "https://www.xpeng.com/",
-          "region": "中国",
-          "stage": "平台公司",
-          "approach": "汽车智能体系延伸的人形机器人软硬件平台。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
           "company": "开普勒机器人",
           "officialUrl": "https://www.keplerbot.com/",
           "region": "中国",
           "stage": "创业公司",
           "approach": "通用人形机器人本体与工业场景应用。",
-          "capitalStatus": "证据不足",
-          "capitalEventIds": [],
-          "validationStage": "证据不足",
-          "productDeploymentEventIds": [],
-          "evidenceLinks": []
-        },
-        {
-          "company": "智元机器人",
-          "officialUrl": "https://www.zhiyuan-robot.com/",
-          "region": "中国",
-          "stage": "创业公司",
-          "approach": "通用人形机器人与产业化。",
           "capitalStatus": "证据不足",
           "capitalEventIds": [],
           "validationStage": "证据不足",
@@ -1291,8 +1354,9 @@
           "evidenceLinks": []
         }
       ],
-      "verifiedCapitalCompanies": 0,
-      "verifiedProductDeploymentCompanies": 0
+      "verifiedCapitalCompanies": 3,
+      "verifiedProductDeploymentCompanies": 6,
+      "lastUpdatedAt": "unknown"
     }
   ]
 }

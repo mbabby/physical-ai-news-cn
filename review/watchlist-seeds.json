@@ -1,5 +1,107 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:13:59.373Z",
-  "seeds": []
+  "generatedAt": "2026-09-07T01:56:22.000Z",
+  "seeds": [
+    {
+      "companyId": "figure",
+      "companyName": "Figure",
+      "track": "forward-radar",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "factReferenceIds": [
+        "evt-364bccad851a"
+      ],
+      "evidenceGrade": "A",
+      "verifiedSensitiveFields": [
+        "amount",
+        "valuation"
+      ],
+      "unknownSensitiveFields": [
+        "customer",
+        "revenue",
+        "order"
+      ],
+      "evidenceSummary": [
+        "Figure 宣布 Series C 承诺资本超过 10 亿美元"
+      ]
+    },
+    {
+      "companyId": "huggingface",
+      "companyName": "Hugging Face",
+      "track": "forward-radar",
+      "routes": [
+        "VLA 与具身模型",
+        "数据与训练"
+      ],
+      "factReferenceIds": [
+        "evt-0052db55dfd7"
+      ],
+      "evidenceGrade": "A",
+      "verifiedSensitiveFields": [],
+      "unknownSensitiveFields": [
+        "amount",
+        "valuation",
+        "customer",
+        "revenue",
+        "order"
+      ],
+      "evidenceSummary": [
+        "Hugging Face 发布 LeRobot v0.5.0"
+      ]
+    },
+    {
+      "companyId": "nvidia",
+      "companyName": "NVIDIA",
+      "track": "forward-radar",
+      "routes": [
+        "VLA 与具身模型",
+        "世界模型与空间智能",
+        "数据与训练"
+      ],
+      "factReferenceIds": [
+        "evt-b73382bfd3ec"
+      ],
+      "evidenceGrade": "A",
+      "verifiedSensitiveFields": [],
+      "unknownSensitiveFields": [
+        "amount",
+        "valuation",
+        "customer",
+        "revenue",
+        "order"
+      ],
+      "evidenceSummary": [
+        "NVIDIA 发布 Isaac GR00T 开放人形机器人参考设计"
+      ]
+    },
+    {
+      "companyId": "xpeng-robotics",
+      "companyName": "小鹏机器人",
+      "track": "validated-momentum",
+      "routes": [
+        "VLA 与具身模型",
+        "本体与硬件",
+        "部署与商业化"
+      ],
+      "factReferenceIds": [
+        "evt-4cae0e333b16"
+      ],
+      "evidenceGrade": "A",
+      "verifiedSensitiveFields": [
+        "amount",
+        "valuation"
+      ],
+      "unknownSensitiveFields": [
+        "customer",
+        "revenue",
+        "order"
+      ],
+      "evidenceSummary": [
+        "小鹏机器人宣布签署逾 9 亿美元融资协议"
+      ]
+    }
+  ]
 }

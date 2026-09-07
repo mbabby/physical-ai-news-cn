@@ -1,22 +1,28 @@
 {
-  "generatedAt": "2026-09-05T09:10:00.946Z",
-  "limit": 15,
+  "generatedAt": "2026-09-07T01:56:22.000Z",
+  "limit": 30,
   "companies": [
     {
-      "companyId": "1x",
-      "companyName": "1X",
-      "selectionScore": 0,
+      "companyId": "apptronik",
+      "companyName": "Apptronik",
+      "selectionScore": 105,
       "claims": [
         {
-          "claimId": "company-claim-737528d31bccfe95",
-          "companyId": "1x",
+          "claimId": "company-claim-517dd192f05dae67",
+          "companyId": "apptronik",
           "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
+          "statement": "Apptronik 宣布 5.2 亿美元 Series A-X 扩展轮",
+          "value": "Series A-X 扩展轮 · 5.2亿美元（本次扩展轮；非累计 Series A）",
+          "evidenceIds": [
+            "evt-37490127edac:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-37490127edac"
+          ],
           "fields": {
             "eventDate": {
               "value": "unknown",
@@ -27,20 +33,28 @@
               "verifiedAt": "unknown"
             },
             "round": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
+              "value": "Series A-X 扩展轮",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-37490127edac:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a"
+              ],
+              "observedAt": "2026-02-11",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
             },
             "amount": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
+              "value": "5.2亿美元（本次扩展轮；非累计 Series A）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-37490127edac:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://apptronik.com/news-collection/apptronik-closes-over-935-million-series-a"
+              ],
+              "observedAt": "2026-02-11",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
             },
             "valuation": {
               "value": "unknown",
@@ -93,44 +107,50 @@
           },
           "corrections": [],
           "eventDate": "unknown",
-          "verifiedAt": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
           "freshness": {
             "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
           },
           "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+            "The $935M figure is cumulative Series A, not a second standalone round; deployment expansion is prospective."
           ]
         }
       ],
       "metrics": {
-        "populatedFields": 5,
+        "populatedFields": 10,
         "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
+        "fieldCompletenessRate": 0.9091,
         "staleClaimCount": 0,
         "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
       }
     },
     {
-      "companyId": "agibot",
-      "companyName": "智元机器人",
-      "selectionScore": 0,
+      "companyId": "figure",
+      "companyName": "Figure",
+      "selectionScore": 105,
       "claims": [
         {
-          "claimId": "company-claim-47a04f75bf3a5fcc",
-          "companyId": "agibot",
+          "claimId": "company-claim-382edcf8da06190f",
+          "companyId": "figure",
           "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
+          "statement": "Figure 宣布 Series C 承诺资本超过 10 亿美元",
+          "value": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值",
+          "evidenceIds": [
+            "evt-364bccad851a:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.figure.ai/news/series-c"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-364bccad851a"
+          ],
           "fields": {
             "eventDate": {
               "value": "unknown",
@@ -141,6 +161,42 @@
               "verifiedAt": "unknown"
             },
             "round": {
+              "value": "Series C",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-364bccad851a:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.figure.ai/news/series-c"
+              ],
+              "observedAt": "2025-09-16",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "amount": {
+              "value": ">10亿美元承诺资本（非到账金额）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-364bccad851a:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.figure.ai/news/series-c"
+              ],
+              "observedAt": "2025-09-16",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "valuation": {
+              "value": "390亿美元投后估值",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-364bccad851a:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.figure.ai/news/series-c"
+              ],
+              "observedAt": "2025-09-16",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "investors": {
               "value": "unknown",
               "status": "unknown",
               "evidenceIds": [],
@@ -148,13 +204,117 @@
               "observedAt": "unknown",
               "verifiedAt": "unknown"
             },
-            "amount": {
+            "product": {
               "value": "unknown",
               "status": "unknown",
               "evidenceIds": [],
               "evidenceUrls": [],
               "observedAt": "unknown",
               "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The page says committed capital; it does not establish that the full amount had been received or closed."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 10,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.9091,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "limx-dynamics",
+      "companyName": "逐际动力",
+      "selectionScore": 105,
+      "claims": [
+        {
+          "claimId": "company-claim-07d36214628886c1",
+          "companyId": "limx-dynamics",
+          "claimType": "funding",
+          "statement": "逐际动力完成 2 亿美元 Series B 融资",
+          "value": "Series B · 2亿美元",
+          "evidenceIds": [
+            "evt-cd4645e117ca:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.limxdynamics.com/en/news/BK000057"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-cd4645e117ca"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "Series B",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-cd4645e117ca:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.limxdynamics.com/en/news/BK000057"
+              ],
+              "observedAt": "2026-02-02",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "amount": {
+              "value": "2亿美元",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-cd4645e117ca:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.limxdynamics.com/en/news/BK000057"
+              ],
+              "observedAt": "2026-02-02",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
             },
             "valuation": {
               "value": "unknown",
@@ -207,33 +367,550 @@
           },
           "corrections": [],
           "eventDate": "unknown",
-          "verifiedAt": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
           "freshness": {
             "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
           },
           "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+            "Investor and use-of-proceeds details are company-reported."
           ]
         }
       ],
       "metrics": {
-        "populatedFields": 5,
+        "populatedFields": 10,
         "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
+        "fieldCompletenessRate": 0.9091,
         "staleClaimCount": 0,
         "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "neura-robotics",
+      "companyName": "NEURA Robotics",
+      "selectionScore": 105,
+      "claims": [
+        {
+          "claimId": "company-claim-72c8aee10ccf9d2a",
+          "companyId": "neura-robotics",
+          "claimType": "funding",
+          "statement": "NEURA Robotics 宣布最高 14 亿美元 Series C 融资",
+          "value": "Series C · 最高14亿美元（宣布的融资上限；非已收款）",
+          "evidenceIds": [
+            "evt-6a7996756bdb:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://neura-robotics.com/record-series-c/"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-6a7996756bdb"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "Series C",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6a7996756bdb:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://neura-robotics.com/record-series-c/"
+              ],
+              "observedAt": "2026-06-10",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "amount": {
+              "value": "最高14亿美元（宣布的融资上限；非已收款）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6a7996756bdb:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://neura-robotics.com/record-series-c/"
+              ],
+              "observedAt": "2026-06-10",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The release says 'up to $1.4 billion'; it does not establish that $1.4B had been received at announcement."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 10,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.9091,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "skild-ai",
+      "companyName": "Skild AI",
+      "selectionScore": 105,
+      "claims": [
+        {
+          "claimId": "company-claim-7b62c339958403d1",
+          "companyId": "skild-ai",
+          "claimType": "funding",
+          "statement": "Skild AI 完成 14 亿美元 Series C 融资",
+          "value": "Series C · 14亿美元 · >140亿美元",
+          "evidenceIds": [
+            "evt-3db734720543:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.skild.ai/blogs/series-c"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-3db734720543"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "Series C",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-3db734720543:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.skild.ai/blogs/series-c"
+              ],
+              "observedAt": "2026-01-14",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "amount": {
+              "value": "14亿美元",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-3db734720543:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.skild.ai/blogs/series-c"
+              ],
+              "observedAt": "2026-01-14",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "valuation": {
+              "value": ">140亿美元",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-3db734720543:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.skild.ai/blogs/series-c"
+              ],
+              "observedAt": "2026-01-14",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "Financing and deployment claims are first-party statements and not independently validated here."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 10,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.9091,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "x-square-robot",
+      "companyName": "自变量机器人",
+      "selectionScore": 105,
+      "claims": [
+        {
+          "claimId": "company-claim-6cb9e089e9a9bc73",
+          "companyId": "x-square-robot",
+          "claimType": "funding",
+          "statement": "自变量机器人完成连续四轮融资，估值超过 28 亿美元",
+          "value": "连续四轮融资，最终轮次 Series C · >28亿美元（来源另列200亿元人民币；不相加）",
+          "evidenceIds": [
+            "evt-dfa92c0cd2f6:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-dfa92c0cd2f6"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "连续四轮融资，最终轮次 Series C",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-dfa92c0cd2f6:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8"
+              ],
+              "observedAt": "2026-07-01",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": ">28亿美元（来源另列200亿元人民币；不相加）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-dfa92c0cd2f6:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://x2robot.com/en/news/6a44b3d9af85192fc0a3abd8"
+              ],
+              "observedAt": "2026-07-01",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The official source discloses no aggregate or per-round financing amount, so amount remains unknown.",
+            "US$2.8B and RMB20B are alternative expressions of one valuation, not additive values."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 10,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.9091,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "xpeng-robotics",
+      "companyName": "小鹏机器人",
+      "selectionScore": 105,
+      "claims": [
+        {
+          "claimId": "company-claim-6acd9ef6cc2580bb",
+          "companyId": "xpeng-robotics",
+          "claimType": "funding",
+          "statement": "小鹏机器人宣布签署逾 9 亿美元融资协议",
+          "value": ">9亿美元已签股份购买协议（拟融资；非到账） · >63亿美元投后估值（已签股份购买协议交易，未确认交割）",
+          "evidenceIds": [
+            "evt-4cae0e333b16:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-4cae0e333b16"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": ">9亿美元已签股份购买协议（拟融资；非到账）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-4cae0e333b16:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+              ],
+              "observedAt": "2026-08-25",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "valuation": {
+              "value": ">63亿美元投后估值（已签股份购买协议交易，未确认交割）",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-4cae0e333b16:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.xpeng.com/pressroom/news/01a03797fccda01e0de68a02a256006a"
+              ],
+              "observedAt": "2026-08-25",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "fresh",
+            "expiresAt": "2027-03-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The release supports signed agreements, not receipt of all proceeds or closing; capital must not be attributed to the automotive parent generally."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 10,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.9091,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
       }
     },
     {
       "companyId": "agility-robotics",
       "companyName": "Agility Robotics",
-      "selectionScore": 0,
+      "selectionScore": 85,
       "claims": [
         {
           "claimId": "company-claim-48d273b99a9b515a",
@@ -331,34 +1008,162 @@
           "unresolvedQuestions": [
             "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
           ]
+        },
+        {
+          "claimId": "company-claim-f60e3fc5f503acce",
+          "companyId": "agility-robotics",
+          "claimType": "pilot",
+          "statement": "Agility Robotics 宣布与丰田加拿大签署 Digit 机器人服务协议",
+          "value": "Digit",
+          "evidenceIds": [
+            "evt-6b5415859a21:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-6b5415859a21"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "Digit",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6b5415859a21:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+              ],
+              "observedAt": "2026-02-19",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": [
+                "Toyota Motor Manufacturing Canada"
+              ],
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6b5415859a21:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+              ],
+              "observedAt": "2026-02-19",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "deployment": {
+              "value": "成功试点后签署机器人即服务协议；后续设施部署仍为计划",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6b5415859a21:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+              ],
+              "observedAt": "2026-02-19",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "productionStage": {
+              "value": "pilot",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-6b5415859a21:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agilityrobotics.com/content/agility-robotics-announces-commercial-agreement-with-toyota-motor-manufacturing-canada"
+              ],
+              "observedAt": "2026-02-19",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The page does not disclose robot count or a date for the planned facility deployments.",
+            "The successful pilot and signed agreement must not be presented as completion of the planned expansion."
+          ]
         }
       ],
       "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
         "staleClaimCount": 0,
         "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
       }
     },
     {
-      "companyId": "ambi-robotics",
-      "companyName": "Ambi Robotics",
-      "selectionScore": 0,
+      "companyId": "anybotics",
+      "companyName": "ANYbotics",
+      "selectionScore": 85,
       "claims": [
         {
-          "claimId": "company-claim-85f74d49d11212d5",
-          "companyId": "ambi-robotics",
-          "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
+          "claimId": "company-claim-94e6ac081a1d322b",
+          "companyId": "anybotics",
+          "claimType": "deployment",
+          "statement": "ANYbotics 宣布与 GE Vernova 扩展自主能源巡检合作",
+          "value": "公司披露 EMEA 线上部署与电厂集成测试；具体日期和规模未知",
+          "evidenceIds": [
+            "evt-d6b7f47146d8:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-d6b7f47146d8"
+          ],
           "fields": {
             "eventDate": {
               "value": "unknown",
@@ -417,12 +1222,16 @@
               "verifiedAt": "unknown"
             },
             "deployment": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
+              "value": "公司披露 EMEA 线上部署与电厂集成测试；具体日期和规模未知",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-d6b7f47146d8:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.anybotics.com/news/anybotics-ge-vernova-ai-robotic-energy-inspections/"
+              ],
+              "observedAt": "2025-12-09",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
             },
             "productionStage": {
               "value": "unknown",
@@ -435,34 +1244,17 @@
           },
           "corrections": [],
           "eventDate": "unknown",
-          "verifiedAt": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
           "freshness": {
-            "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
           },
           "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+            "The page supports publication date but gives no exact deployment date, fleet size, or named live-deployment sites; claims are vendor-reported rather than independently validated."
           ]
-        }
-      ],
-      "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
-        "staleClaimCount": 0,
-        "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
-      }
-    },
-    {
-      "companyId": "anybotics",
-      "companyName": "ANYbotics",
-      "selectionScore": 0,
-      "claims": [
+        },
         {
           "claimId": "company-claim-43613de69cedc71a",
           "companyId": "anybotics",
@@ -562,477 +1354,134 @@
         }
       ],
       "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
         "staleClaimCount": 0,
         "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
-      }
-    },
-    {
-      "companyId": "apptronik",
-      "companyName": "Apptronik",
-      "selectionScore": 0,
-      "claims": [
-        {
-          "claimId": "company-claim-4c57aa6a648bdb10",
-          "companyId": "apptronik",
-          "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
-          "fields": {
-            "eventDate": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "round": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "amount": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "valuation": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "investors": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "product": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "customer": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "deployment": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "productionStage": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            }
-          },
-          "corrections": [],
-          "eventDate": "unknown",
-          "verifiedAt": "unknown",
-          "freshness": {
-            "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
-          },
-          "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
-          ]
-        }
-      ],
-      "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
-        "staleClaimCount": 0,
-        "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
-      }
-    },
-    {
-      "companyId": "booster-robotics",
-      "companyName": "加速进化",
-      "selectionScore": 0,
-      "claims": [
-        {
-          "claimId": "company-claim-c0bb1a48fa41446a",
-          "companyId": "booster-robotics",
-          "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
-          "fields": {
-            "eventDate": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "round": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "amount": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "valuation": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "investors": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "product": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "customer": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "deployment": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "productionStage": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            }
-          },
-          "corrections": [],
-          "eventDate": "unknown",
-          "verifiedAt": "unknown",
-          "freshness": {
-            "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
-          },
-          "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
-          ]
-        }
-      ],
-      "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
-        "staleClaimCount": 0,
-        "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
-      }
-    },
-    {
-      "companyId": "boston-dynamics",
-      "companyName": "Boston Dynamics",
-      "selectionScore": 0,
-      "claims": [
-        {
-          "claimId": "company-claim-cc1de3ac09f69a25",
-          "companyId": "boston-dynamics",
-          "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
-          "fields": {
-            "eventDate": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "round": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "amount": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "valuation": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "investors": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "product": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "customer": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "deployment": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "productionStage": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            }
-          },
-          "corrections": [],
-          "eventDate": "unknown",
-          "verifiedAt": "unknown",
-          "freshness": {
-            "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
-          },
-          "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
-          ]
-        }
-      ],
-      "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
-        "staleClaimCount": 0,
-        "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
-      }
-    },
-    {
-      "companyId": "deep-robotics",
-      "companyName": "云深处科技",
-      "selectionScore": 0,
-      "claims": [
-        {
-          "claimId": "company-claim-22308fafeab60306",
-          "companyId": "deep-robotics",
-          "claimType": "funding",
-          "statement": "当前事件视图未收录可归属的公开融资证据。",
-          "value": "unknown",
-          "evidenceIds": [],
-          "evidenceUrls": [],
-          "evidenceState": "evidence_insufficient",
-          "eventIds": [],
-          "fields": {
-            "eventDate": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "round": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "amount": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "valuation": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "investors": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "product": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "customer": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "deployment": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            },
-            "productionStage": {
-              "value": "unknown",
-              "status": "unknown",
-              "evidenceIds": [],
-              "evidenceUrls": [],
-              "observedAt": "unknown",
-              "verifiedAt": "unknown"
-            }
-          },
-          "corrections": [],
-          "eventDate": "unknown",
-          "verifiedAt": "unknown",
-          "freshness": {
-            "ttlDays": 180,
-            "state": "unknown",
-            "expiresAt": "unknown",
-            "daysSinceVerified": "unknown"
-          },
-          "unresolvedQuestions": [
-            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
-          ]
-        }
-      ],
-      "metrics": {
-        "populatedFields": 5,
-        "totalFields": 11,
-        "fieldCompletenessRate": 0.4545,
-        "staleClaimCount": 0,
-        "staleEvidenceCount": 0,
-        "eligibleEventCount": 0,
-        "attributedEventCount": 0,
-        "eventCoverageRate": 0
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
       }
     },
     {
       "companyId": "dexterity",
       "companyName": "Dexterity",
-      "selectionScore": 0,
+      "selectionScore": 85,
       "claims": [
+        {
+          "claimId": "company-claim-4c777bc13d37a561",
+          "companyId": "dexterity",
+          "claimType": "deployment",
+          "statement": "Dexterity 宣布与 FedEx 扩大 Hagerstown 枢纽自动装车部署",
+          "value": "公司披露 FedEx Hagerstown Hub 扩大部署；数量及吞吐未知",
+          "evidenceIds": [
+            "evt-a8f21a49d4c6:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-a8f21a49d4c6"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": [
+                "FedEx"
+              ],
+              "status": "verified",
+              "evidenceIds": [
+                "evt-a8f21a49d4c6:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment"
+              ],
+              "observedAt": "2026-07-30",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "deployment": {
+              "value": "公司披露 FedEx Hagerstown Hub 扩大部署；数量及吞吐未知",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-a8f21a49d4c6:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://dexterity.ai/blog/fedex-hagerstown-physical-ai-deployment"
+              ],
+              "observedAt": "2026-07-30",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The page does not disclose robot count or throughput results; deployment characterization is vendor-reported."
+          ]
+        },
         {
           "claimId": "company-claim-a94a07cb4020e5e7",
           "companyId": "dexterity",
@@ -1132,6 +1581,1476 @@
         }
       ],
       "metrics": {
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "ubtech",
+      "companyName": "优必选",
+      "selectionScore": 85,
+      "claims": [
+        {
+          "claimId": "company-claim-97887eb28d5a7a15",
+          "companyId": "ubtech",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        },
+        {
+          "claimId": "company-claim-8cf06b225b9f04c3",
+          "companyId": "ubtech",
+          "claimType": "pilot",
+          "statement": "优必选宣布与日立推进 Walker S2 制造现场验证",
+          "value": "Walker S2",
+          "evidenceIds": [
+            "evt-9a4382b2e4a2:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.ubtrobot.com/en/about/news/826577556529221"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-9a4382b2e4a2"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "Walker S2",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-9a4382b2e4a2:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.ubtrobot.com/en/about/news/826577556529221"
+              ],
+              "observedAt": "2026-07-13",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": [
+                "Hitachi"
+              ],
+              "status": "verified",
+              "evidenceIds": [
+                "evt-9a4382b2e4a2:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.ubtrobot.com/en/about/news/826577556529221"
+              ],
+              "observedAt": "2026-07-13",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "deployment": {
+              "value": "部分制造环境中的现场运行测试和应用场景验证；非规模部署",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-9a4382b2e4a2:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.ubtrobot.com/en/about/news/826577556529221"
+              ],
+              "observedAt": "2026-07-13",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The page gives a publication date but no separate occurrence date.",
+            "No robot count, contract value, test start date, or sustained production-operation result is disclosed; broader deployment remains prospective."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "wandercraft",
+      "companyName": "Wandercraft",
+      "selectionScore": 70,
+      "claims": [
+        {
+          "claimId": "company-claim-c3991c75b780928d",
+          "companyId": "wandercraft",
+          "claimType": "commercialization",
+          "statement": "Wandercraft 宣布与 SAPA 签署 Calvin-40 部署合作",
+          "value": "Calvin-40",
+          "evidenceIds": [
+            "evt-1efd701c4ea4:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-1efd701c4ea4"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "Calvin-40",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-1efd701c4ea4:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race"
+              ],
+              "observedAt": "2025-11-12",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "与 SAPA 宣布部署合作；实施及扩大部署仍为计划",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-1efd701c4ea4:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.wandercraft.eu/articles/wandercraft-and-sapa-announce-deployment-partnership-in-industrial-manufacturing-cementing-europes-emerging-championship-in-the-humanoids-race"
+              ],
+              "observedAt": "2025-11-12",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 120,
+            "state": "fresh",
+            "expiresAt": "2027-01-05T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "No completed deployment date, robot count, or operating results are stated on the page."
+          ]
+        },
+        {
+          "claimId": "company-claim-05afeae63eb8684b",
+          "companyId": "wandercraft",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "agibot",
+      "companyName": "智元机器人",
+      "selectionScore": 70,
+      "claims": [
+        {
+          "claimId": "company-claim-47a04f75bf3a5fcc",
+          "companyId": "agibot",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        },
+        {
+          "claimId": "company-claim-3fcf187d6db90396",
+          "companyId": "agibot",
+          "claimType": "production",
+          "statement": "智元机器人宣布第 10,000 台通用具身机器人下线",
+          "value": "远征 A3",
+          "evidenceIds": [
+            "evt-8706b5d81d4d:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.agibot.com.cn/article/315/detail/147.html"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-8706b5d81d4d"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "2026-03-28",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-8706b5d81d4d:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agibot.com.cn/article/315/detail/147.html"
+              ],
+              "observedAt": "2026-03-31",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "远征 A3",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-8706b5d81d4d:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agibot.com.cn/article/315/detail/147.html"
+              ],
+              "observedAt": "2026-03-31",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "production",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-8706b5d81d4d:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.agibot.com.cn/article/315/detail/147.html"
+              ],
+              "observedAt": "2026-03-31",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            }
+          },
+          "corrections": [],
+          "eventDate": "2026-03-28",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 120,
+            "state": "fresh",
+            "expiresAt": "2027-01-05T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The source does not establish 10,000 A3 units sold, delivered, or deployed to customers.",
+            "The production count is vendor-reported and not independently validated here."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 16,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.7273,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "huggingface",
+      "companyName": "Hugging Face",
+      "selectionScore": 55,
+      "claims": [
+        {
+          "claimId": "company-claim-38ca771804cf92bd",
+          "companyId": "huggingface",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        },
+        {
+          "claimId": "company-claim-49a3102137d3fc19",
+          "companyId": "huggingface",
+          "claimType": "product",
+          "statement": "Hugging Face 发布 LeRobot v0.5.0",
+          "value": "LeRobot v0.5.0",
+          "evidenceIds": [
+            "evt-0052db55dfd7:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://huggingface.co/blog/lerobot-release-v050"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-0052db55dfd7"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "LeRobot v0.5.0",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-0052db55dfd7:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://huggingface.co/blog/lerobot-release-v050"
+              ],
+              "observedAt": "2026-03-09",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The page explicitly supports only its publication date, not a separate release event date.",
+            "Capabilities are described by the vendor/project and were not independently benchmarked in this review."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "nvidia",
+      "companyName": "NVIDIA",
+      "selectionScore": 55,
+      "claims": [
+        {
+          "claimId": "company-claim-6f75075ca8994645",
+          "companyId": "nvidia",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        },
+        {
+          "claimId": "company-claim-a4442758b9a3b45c",
+          "companyId": "nvidia",
+          "claimType": "product",
+          "statement": "NVIDIA 发布 Isaac GR00T 开放人形机器人参考设计",
+          "value": "开放人形机器人参考设计",
+          "evidenceIds": [
+            "evt-b73382bfd3ec:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-b73382bfd3ec"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "开放人形机器人参考设计",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-b73382bfd3ec:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design"
+              ],
+              "observedAt": "2026-05-31",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "This is a reference-design announcement; commercial availability was future-dated, not completed on publication day."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 15,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.6818,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "unitree",
+      "companyName": "宇树科技",
+      "selectionScore": 55,
+      "claims": [
+        {
+          "claimId": "company-claim-16434a21517c0bb5",
+          "companyId": "unitree",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        },
+        {
+          "claimId": "company-claim-6443358d07dfcf61",
+          "companyId": "unitree",
+          "claimType": "product",
+          "statement": "宇树科技发布 As2 四足机器人",
+          "value": "As2",
+          "evidenceIds": [
+            "evt-dfd219a14f33:evidence:1"
+          ],
+          "evidenceUrls": [
+            "https://www.unitree.com/about/"
+          ],
+          "evidenceState": "verified",
+          "eventIds": [
+            "evt-dfd219a14f33"
+          ],
+          "fields": {
+            "eventDate": {
+              "value": "2026-02-24",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-dfd219a14f33:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.unitree.com/about/"
+              ],
+              "observedAt": "unknown",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "As2",
+              "status": "verified",
+              "evidenceIds": [
+                "evt-dfd219a14f33:evidence:1"
+              ],
+              "evidenceUrls": [
+                "https://www.unitree.com/about/"
+              ],
+              "observedAt": "unknown",
+              "verifiedAt": "2026-09-07T01:00:00.000Z"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "2026-02-24",
+          "verifiedAt": "2026-09-07T01:00:00.000Z",
+          "freshness": {
+            "ttlDays": 90,
+            "state": "fresh",
+            "expiresAt": "2026-12-06T01:00:00.000Z",
+            "daysSinceVerified": 0
+          },
+          "unresolvedQuestions": [
+            "The official timeline supports the event date, but the page itself has no publication date.",
+            "Performance figures are vendor-reported and not independently validated."
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 16,
+        "totalFields": 22,
+        "fieldCompletenessRate": 0.7273,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 1,
+        "attributedEventCount": 1,
+        "eventCoverageRate": 1
+      }
+    },
+    {
+      "companyId": "galbot",
+      "companyName": "银河通用",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-fe2842a8c129b4cd",
+          "companyId": "galbot",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
         "populatedFields": 5,
         "totalFields": 11,
         "fieldCompletenessRate": 0.4545,
@@ -1143,13 +3062,127 @@
       }
     },
     {
-      "companyId": "dyna-robotics",
-      "companyName": "DYNA Robotics",
+      "companyId": "galaxea",
+      "companyName": "星海图",
       "selectionScore": 0,
       "claims": [
         {
-          "claimId": "company-claim-b23a85a7b39328f7",
-          "companyId": "dyna-robotics",
+          "claimId": "company-claim-7270e267f2f8725f",
+          "companyId": "galaxea",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "fourier-intelligence",
+      "companyName": "傅利叶智能",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-9fbf22e188edf30c",
+          "companyId": "fourier-intelligence",
           "claimType": "funding",
           "statement": "当前事件视图未收录可归属的公开融资证据。",
           "value": "unknown",
@@ -1371,13 +3404,13 @@
       }
     },
     {
-      "companyId": "field-ai",
-      "companyName": "Field AI",
+      "companyId": "robotera",
+      "companyName": "星动纪元",
       "selectionScore": 0,
       "claims": [
         {
-          "claimId": "company-claim-ed48f637d79f5291",
-          "companyId": "field-ai",
+          "claimId": "company-claim-8bfe07853747d799",
+          "companyId": "robotera",
           "claimType": "funding",
           "statement": "当前事件视图未收录可归属的公开融资证据。",
           "value": "unknown",
@@ -1485,13 +3518,13 @@
       }
     },
     {
-      "companyId": "figure",
-      "companyName": "Figure",
+      "companyId": "deep-robotics",
+      "companyName": "云深处科技",
       "selectionScore": 0,
       "claims": [
         {
-          "claimId": "company-claim-6fafc1684726a157",
-          "companyId": "figure",
+          "claimId": "company-claim-22308fafeab60306",
+          "companyId": "deep-robotics",
           "claimType": "funding",
           "statement": "当前事件视图未收录可归属的公开融资证据。",
           "value": "unknown",
@@ -1599,13 +3632,615 @@
       }
     },
     {
-      "companyId": "fourier-intelligence",
-      "companyName": "傅利叶智能",
+      "companyId": "physical-intelligence",
+      "companyName": "Physical Intelligence",
       "selectionScore": 0,
       "claims": [
         {
-          "claimId": "company-claim-9fbf22e188edf30c",
-          "companyId": "fourier-intelligence",
+          "claimId": "company-claim-59f42f1e873dbec1",
+          "companyId": "physical-intelligence",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "meta",
+      "companyName": "Meta",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-3b5d468b8691310a",
+          "companyId": "meta",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "intrinsic",
+      "companyName": "Intrinsic",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-37ce1e62da7f191d",
+          "companyId": "intrinsic",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "tesla",
+      "companyName": "Tesla",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-c59d9374b6b45d07",
+          "companyId": "tesla",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "toyota-research-institute",
+      "companyName": "Toyota Research Institute",
+      "selectionScore": 0,
+      "claims": [],
+      "metrics": {
+        "populatedFields": 0,
+        "totalFields": 0,
+        "fieldCompletenessRate": 1,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "google-deepmind",
+      "companyName": "Google DeepMind",
+      "selectionScore": 0,
+      "claims": [],
+      "metrics": {
+        "populatedFields": 0,
+        "totalFields": 0,
+        "fieldCompletenessRate": 1,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "pal-robotics",
+      "companyName": "PAL Robotics",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-6a82f635934ef9d4",
+          "companyId": "pal-robotics",
+          "claimType": "funding",
+          "statement": "当前事件视图未收录可归属的公开融资证据。",
+          "value": "unknown",
+          "evidenceIds": [],
+          "evidenceUrls": [],
+          "evidenceState": "evidence_insufficient",
+          "eventIds": [],
+          "fields": {
+            "eventDate": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "round": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "amount": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "valuation": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "investors": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "product": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "customer": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "deployment": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            },
+            "productionStage": {
+              "value": "unknown",
+              "status": "unknown",
+              "evidenceIds": [],
+              "evidenceUrls": [],
+              "observedAt": "unknown",
+              "verifiedAt": "unknown"
+            }
+          },
+          "corrections": [],
+          "eventDate": "unknown",
+          "verifiedAt": "unknown",
+          "freshness": {
+            "ttlDays": 180,
+            "state": "unknown",
+            "expiresAt": "unknown",
+            "daysSinceVerified": "unknown"
+          },
+          "unresolvedQuestions": [
+            "需要补充主体明确且可追溯的融资、并购或战略资本公开证据。"
+          ]
+        }
+      ],
+      "metrics": {
+        "populatedFields": 5,
+        "totalFields": 11,
+        "fieldCompletenessRate": 0.4545,
+        "staleClaimCount": 0,
+        "staleEvidenceCount": 0,
+        "eligibleEventCount": 0,
+        "attributedEventCount": 0,
+        "eventCoverageRate": 0
+      }
+    },
+    {
+      "companyId": "mentee-robotics",
+      "companyName": "Mentee Robotics",
+      "selectionScore": 0,
+      "claims": [
+        {
+          "claimId": "company-claim-632e885a74b84c47",
+          "companyId": "mentee-robotics",
           "claimType": "funding",
           "statement": "当前事件视图未收录可归属的公开融资证据。",
           "value": "unknown",
@@ -1714,15 +4349,15 @@
     }
   ],
   "metrics": {
-    "populatedFields": 75,
-    "totalFields": 165,
-    "fieldCompletenessRate": 0.4545,
+    "populatedFields": 267,
+    "totalFields": 407,
+    "fieldCompletenessRate": 0.656,
     "staleClaimCount": 0,
     "staleEvidenceCount": 0,
-    "eligibleEventCount": 0,
-    "attributedEventCount": 0,
-    "eventCoverageRate": 0,
-    "selectedCompanyCount": 15,
-    "companiesWithEligibleEvents": 0
+    "eligibleEventCount": 16,
+    "attributedEventCount": 16,
+    "eventCoverageRate": 1,
+    "selectedCompanyCount": 30,
+    "companiesWithEligibleEvents": 16
   }
 }
