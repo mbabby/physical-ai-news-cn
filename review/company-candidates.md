@@ -128,6 +128,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Lyte%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Lyte%20AI%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## AI机器人创企XDOF计划开启B轮 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Sohu](https://news.google.com/rss/articles/CBMijAFBVV95cUxPQzBjbFdWU1JGYU1UZ192M2RlTDhKOUJNZkZkVndDaV92cS05S2h0T0RZSktEbTJKaGwzQjdqLV9ZWDdMR0c3OGx0WlNCQnNZUUM4VllDOHZ0a3JEWFB6elhpaEJkaXhvcHRIbXRZQUJIWEp1S2lWQmY3Q3E4X01NdzJULV90cmdKU21PeQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%9B%E4%BC%81XDOF%E8%AE%A1%E5%88%92%E5%BC%80%E5%90%AFB%E8%BD%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%88%9B%E4%BC%81XDOF%E8%AE%A1%E5%88%92%E5%BC%80%E5%90%AFB%E8%BD%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## Haystack Robotics · 候选 · 32/100
 
 - 路线：部署与商业化
@@ -322,6 +329,13 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Bear Robotics · 候选 · 22/100
+
+- 路线：部署与商业化
+- 证据：[bihainews.com](https://news.google.com/rss/articles/CBMiZkFVX3lxTE15TlZjOFV5Y0Rtd3ZEV053TnpJZ0tSQlFDRE1NaF9SdHNCZEdtd0ZEVXE2Z1ZYdkxhZUhWbzU0MjZWWmhzd0JaRW0xSTI3NW5kNkxyajc3bVprcVhKYWhvRDVZMXEtQQ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Bear%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Bear%20Robotics%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## ON Semiconductor 拟 · 候选 · 22/100

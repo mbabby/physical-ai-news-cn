@@ -1,9 +1,21 @@
 {
   "schemaVersion": 1,
   "snapshotWeek": "2026-W37",
-  "snapshotVersion": 1,
-  "companyFeedIds": [],
-  "companyFeeds": [],
+  "snapshotVersion": 2,
+  "companyFeedIds": [
+    "figure",
+    "huggingface"
+  ],
+  "companyFeeds": [
+    {
+      "companyId": "figure",
+      "path": "feeds/companies/figure.xml"
+    },
+    {
+      "companyId": "huggingface",
+      "path": "feeds/companies/huggingface.xml"
+    }
+  ],
   "routeFeeds": [
     {
       "route": "数据与训练",

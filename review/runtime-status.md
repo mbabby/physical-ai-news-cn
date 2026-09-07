@@ -4,15 +4,15 @@
 
 ## 信源
 
-- 成功 · 本轮已启用信源均完成抓取。
+- 失败 · arXiv · Robotics：请求超时
 
 ## 服务
 
-- LLM · **未配置** · 请求 0，成功 0，失败 0。未配置兼容 OpenAI 的摘要服务；缓存命中 2。内容不会发布到首页。
-- OpenAlex · **未配置** · 请求 0，成功 0，失败 0。未配置 OpenAlex；论文仍按来源元数据排序。
-- Watchlist · **未配置** · 请求 4，成功 0，失败 4。生成 0 张新判断卡；保留 0 张上一有效版本；排除 4 家。 失败原因：llm-unavailable 4。
-- GitHub · **未配置** · 请求 0，成功 0，失败 0。未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。
-- EvidenceRevalidation · **成功** · 请求 0，成功 0，失败 0。上一有效社区投影没有已采纳证据，无需复核。
+- LLM · **部分降级** · 请求 14，成功 7，失败 4。有效完成 7；无效模型输出 3；提供方失败 4；缓存命中 2；research 通道已熔断。
+- OpenAlex · **成功** · 请求 36，成功 36，失败 0。论文引用与作者机构元数据已刷新。
+- Watchlist · **部分降级** · 请求 4，成功 2，失败 2。生成 2 张新判断卡；保留 0 张上一有效版本；排除 2 家。 证据约束修复 2 张。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。
+- GitHub · **成功** · 请求 1，成功 1，失败 0。社区证据 Issue 快照已刷新并通过严格校验。
+- EvidenceRevalidation · **成功** · 请求 0，成功 0，失败 0。已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。
 
 ## 提交
 

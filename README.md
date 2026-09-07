@@ -30,7 +30,7 @@
 | --- | ---: | ---: | ---: | ---: |
 | 2026-09-07 | 1 | 49 | 85 | 12 / 29 |
 
-**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 23/24（96%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 24/24（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
 
 <!-- PROJECT_STATUS_END -->
 
@@ -110,12 +110,15 @@
 
 <!-- WATCHLIST_START -->
 
-> 观察名单快照：2026-W37 · v1
+> 观察名单快照：2026-W37 · v2
 > 以下卡片均为 **AI 研究判断**，不是投资建议；事实与判断边界以公开证据和验证期限为准。
 
 ### 前瞻雷达
 
-- 暂无达到公开门槛的公司。
+- **[Figure](https://mbabby.github.io/physical-ai-news-cn/companies.html#figure)** · 重点关注 · 新进入
+  - 为什么现在值得看：AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。
+- **[Hugging Face](https://mbabby.github.io/physical-ai-news-cn/companies.html#huggingface)** · 重点关注 · 新进入
+  - 为什么现在值得看：AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。
 
 ### 验证动量
 
@@ -141,9 +144,11 @@
 
 <!-- RESEARCH_UPDATES_START -->
 
-> 近 30 天论文池每日重排。仅展示完成中文事实简介、OpenAlex 元数据核验且未撤稿的论文。
+> arXiv 暂未刷新，以下为最近一次成功抓取（2026-09-07）的完整研究卡。
 
 - [HiPHI：大规模高精度人体运动与物体交互基准数据集](https://arxiv.org/abs/2608.16222v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>清华大学</kbd><br>研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。<br>值得关注：来自 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Jiahao Ji · 清华大学</sub>
+
+- [G0.5：以单一自回归流统一机器人推理与动作](https://arxiv.org/abs/2608.11739v1) <kbd>真实机器人</kbd> <kbd>基准</kbd> <kbd>清华大学</kbd><br>研究提出预训练自回归模型 G0.5，由单一解码器在统一目标下交错生成推理与动作词元，并配跨本体动作分词器与视觉记忆。它在 R1lite 与 R1pro 真机、BEHAVIOR 挑战赛及 LIBERO 等 7 项评测中超越现有最优模型。<br>值得关注：来自 清华大学；提供真实机器人、基准证据。<br><sub>重点作者 / 实验室：Baijun Ye · 清华大学</sub>
 
 - [CLAP：跨本体动作条件视频世界模型实现零样本物理模拟](https://arxiv.org/abs/2608.27406v1) <kbd>真实机器人</kbd> <kbd>开源</kbd><br>CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。<br>值得关注：提供真实机器人、开源证据。<br><sub>重点作者 / 实验室：Kechen Liu</sub>
 
@@ -152,8 +157,6 @@
 - [NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作](https://arxiv.org/abs/2608.13362v1) <kbd>真实机器人</kbd><br>NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。<br>值得关注：提供真实机器人证据。<br><sub>重点作者 / 实验室：James Zhao</sub>
 
 - [H2R-Bench：评测世界模型中人到机器人操作视频生成的基准](https://arxiv.org/abs/2608.13049v1) <kbd>基准</kbd><br>提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Dingyi Rong</sub>
-
-- [HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准](https://arxiv.org/abs/2608.12860v1) <kbd>基准</kbd><br>研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Quan-Dung Pham</sub>
 
 <!-- RESEARCH_UPDATES_END -->
 

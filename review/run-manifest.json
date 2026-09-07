@@ -1,48 +1,48 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-07-2026-09-07T01-56-22-000Z",
+  "runId": "2026-09-07-2026-09-07T02-29-11-960Z",
   "date": "2026-09-07",
-  "startedAt": "2026-09-07T01:56:22.000Z",
-  "finishedAt": "2026-09-07T01:56:22.000Z",
+  "startedAt": "2026-09-07T02:29:11.960Z",
+  "finishedAt": "2026-09-07T02:36:02.658Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 10,
-    "sourceFailures": 0
+    "candidates": 19,
+    "sourceFailures": 1
   },
   "services": [
     {
       "component": "LLM",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
-      "failed": 0,
-      "detail": "未配置兼容 OpenAI 的摘要服务；缓存命中 2。内容不会发布到首页。"
+      "status": "部分降级",
+      "attempted": 14,
+      "succeeded": 7,
+      "failed": 4,
+      "detail": "有效完成 7；无效模型输出 3；提供方失败 4；缓存命中 2；research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
+      "status": "成功",
+      "attempted": 36,
+      "succeeded": 36,
       "failed": 0,
-      "detail": "未配置 OpenAlex；论文仍按来源元数据排序。"
+      "detail": "论文引用与作者机构元数据已刷新。"
     },
     {
       "component": "Watchlist",
-      "status": "未配置",
+      "status": "部分降级",
       "attempted": 4,
-      "succeeded": 0,
-      "failed": 4,
-      "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 4 家。 失败原因：llm-unavailable 4。"
+      "succeeded": 2,
+      "failed": 2,
+      "detail": "生成 2 张新判断卡；保留 0 张上一有效版本；排除 2 家。 证据约束修复 2 张。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
     },
     {
       "component": "GitHub",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
+      "status": "成功",
+      "attempted": 1,
+      "succeeded": 1,
       "failed": 0,
-      "detail": "未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。"
+      "detail": "社区证据 Issue 快照已刷新并通过严格校验。"
     },
     {
       "component": "EvidenceRevalidation",
@@ -50,8 +50,8 @@
       "attempted": 0,
       "succeeded": 0,
       "failed": 0,
-      "detail": "上一有效社区投影没有已采纳证据，无需复核。"
+      "detail": "已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。"
     }
   ],
-  "outputs": 94
+  "outputs": 98
 }

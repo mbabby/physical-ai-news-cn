@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-07T02:29:11.960Z",
+  "generatedAt": "2026-09-07T01:56:22.000Z",
   "periodStart": "2026-09-01",
   "topSignals": [],
   "companyCards": [
@@ -273,15 +273,10 @@
       },
       "recentChanges": [],
       "watchlist": {
-        "track": "forward-radar",
-        "lifecycle": "new",
-        "whyNow": "AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。",
-        "nextValidationPoints": [
-          {
-            "text": "未来 60 天内核验 Figure 是否出现新的可追溯规范事实。",
-            "dueAt": "2026-11-06"
-          }
-        ]
+        "track": "unknown",
+        "lifecycle": "unknown",
+        "whyNow": "证据不足",
+        "nextValidationPoints": []
       },
       "unknownFields": [
         "capital.investors",
@@ -323,15 +318,10 @@
       },
       "recentChanges": [],
       "watchlist": {
-        "track": "forward-radar",
-        "lifecycle": "new",
-        "whyNow": "AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。",
-        "nextValidationPoints": [
-          {
-            "text": "未来 60 天内核验 Hugging Face 是否出现新的可追溯规范事实。",
-            "dueAt": "2026-11-06"
-          }
-        ]
+        "track": "unknown",
+        "lifecycle": "unknown",
+        "whyNow": "证据不足",
+        "nextValidationPoints": []
       },
       "unknownFields": [
         "capital.amount",
@@ -771,6 +761,145 @@
   ],
   "researchPassports": [
     {
+      "passportId": "decision-research-5de26311e0e05c88549c",
+      "paperId": "6868169cc6e01001",
+      "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
+      "factsZh": [
+        "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。",
+        "配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.16222v1",
+      "task": "unknown",
+      "embodiment": [
+        "真实机器人",
+        "人形机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "high",
+        "rationale": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object-Interaction"
+      },
+      "authority": {
+        "openAlexWorkId": "W7203683909",
+        "authors": [
+          "Jiahao Ji",
+          "Runhan Zhang"
+        ],
+        "labs": [
+          "Minzu University of China",
+          "China University of Mining and Technology",
+          "Inner Mongolia University of Science and Technology",
+          "Institute of Disaster Prevention",
+          "Robotics Research (United States)",
+          "Hebei Seismological Bureau",
+          "Inner Mongolia University of Technology",
+          "Beihang University",
+          "Xinjiang Agricultural University",
+          "Xinjiang Institute of Water Resources and Hydropower Research",
+          "Huazhong University of Science and Technology",
+          "University of Hong Kong",
+          "Tsinghua University",
+          "清华大学"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-08-20T00:59:59.097Z"
+      },
+      "limitations": [
+        "However, existing embodied datasets remain fundamentally limited: internet-scale video data lack precise physical states and interaction grounding, while laboratory motion datasets provide high fidelity but only narrow behavioral coverage."
+      ],
+      "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Minzu University of China、China University of Mining and Technology。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials"
+      ]
+    },
+    {
+      "passportId": "decision-research-f7d412dee2e1c2a3d23b",
+      "paperId": "eb7745b52639baf0",
+      "titleZh": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
+      "factsZh": [
+        "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。",
+        "其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
+      "task": "unknown",
+      "embodiment": [
+        "真实机器人",
+        "人形机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7204604373",
+        "authors": [
+          "Kechen Liu",
+          "Ola Shorinwa"
+        ],
+        "labs": [],
+        "citedByCount": 0,
+        "checkedAt": "2026-09-05T09:12:27.922Z"
+      },
+      "limitations": "unknown",
+      "whyWorthAttention": "原文摘要明确出现真实机器人、开源证据。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials",
+        "limitations",
+        "authority.labs"
+      ]
+    },
+    {
       "passportId": "decision-research-787346b3b6198546a3f7",
       "paperId": "da3b393a8a0b1c93",
       "titleZh": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
@@ -834,6 +963,69 @@
         "benchmark.delta",
         "realRobotTrials",
         "authority.labs"
+      ]
+    },
+    {
+      "passportId": "decision-research-1d8b6c6c54eb529c95b3",
+      "paperId": "cff8ac6d7c4c16ee",
+      "titleZh": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
+      "factsZh": [
+        "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。",
+        "大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
+      ],
+      "sourceUrl": "https://arxiv.org/abs/2608.19589v1",
+      "task": "unknown",
+      "embodiment": [
+        "真实机器人"
+      ],
+      "methods": "unknown",
+      "benchmark": {
+        "name": "unknown",
+        "metric": "unknown",
+        "result": "unknown",
+        "baseline": "unknown",
+        "delta": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": "unknown",
+      "assets": {
+        "code": "unknown",
+        "data": "unknown",
+        "weights": "unknown"
+      },
+      "reproducibilityCost": {
+        "level": "unknown",
+        "rationale": "unknown"
+      },
+      "authority": {
+        "openAlexWorkId": "W7203943488",
+        "authors": [
+          "Jiaqi Wang",
+          "Zhou Fang",
+          "Qiongfeng Shi"
+        ],
+        "labs": [
+          "Southeast University"
+        ],
+        "citedByCount": 0,
+        "checkedAt": "2026-09-05T09:12:23.962Z"
+      },
+      "limitations": "unknown",
+      "whyWorthAttention": "原文摘要明确出现真实机器人证据；OpenAlex 作者/机构元数据包含Southeast University。",
+      "rankReasons": [
+        "真实机器人证据"
+      ],
+      "gaps": [
+        "assets.code",
+        "assets.data",
+        "assets.weights",
+        "benchmark.name",
+        "benchmark.metric",
+        "benchmark.result",
+        "benchmark.baseline",
+        "benchmark.delta",
+        "realRobotTrials",
+        "limitations"
       ]
     },
     {
@@ -967,7 +1159,7 @@
     }
   ],
   "subscriptions": {
-    "generatedAt": "2026-09-07T02:29:11.960Z",
+    "generatedAt": "2026-09-07T01:56:22.000Z",
     "entries": [
       {
         "subscriptionId": "github-watch",

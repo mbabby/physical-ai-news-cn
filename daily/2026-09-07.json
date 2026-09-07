@@ -78,6 +78,62 @@
       "summaryZh": "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
     },
     {
+      "id": "51f7ffc2fcaf735a",
+      "title": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
+      "link": "https://arxiv.org/abs/2608.11739v1",
+      "publishedAt": "2026-08-12T07:26:47.000Z",
+      "fetchedAt": "2026-08-16T16:09:54.620Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 9,
+      "excerpt": "The prevailing recipe for Vision-Language-Action (VLA) models couples a pretrained VLM with a separately trained flow-matching action expert. This makes the VLM a context encoder rather than a decision-maker. We introduce G0.5, a pretrained autoregressive VLA in which a single transformer decoder emits reasoning and action tokens under a single objective. Three components make this tractable at foundation-model scale: a learnable cross-embodiment action tokenizer that maps heterogeneous robot actions into a shared vocabulary; a native chain-of-thought stream interleaving task decomposition, object grounding, and action hints with action tokens; and a visual memory module that injects multi-second history through the vision encoder. Because reasoning and action share a single set of weights, the pretrained VLM's capabilities carry over to physical behavior: the model follows instructions closely, and prompts directly steer action granularity, task horizon, and out-of-distribution scene handling without further training. Pretrained on a large collection of robot datasets together with VQA samples, G0.5 surpasses state-of-the-art models across 7 independent regimes: real-world fine-tuning on R1lite and R1pro robots (76.7\\% vs.\\ 53.3\\% for $π_{0.5}$ and 24.4\\% for GR00T-N1.7), the 2025 BEHAVIOR Challenge on 50 long-horizon household mobile manipulation tasks using a generalist policy (31.4\\% vs.\\ 26.3\\% for $π_{0.5}$ and 26.1\\% for the challenge winner), DROID post-training followed by zero-shot transfer to an unseen environment and objects (82.5\\%), a language-following Pick-and-Place benchmark, LIBERO (98.9\\%), RoboTwin 2.0 (93.3\\%), and SimplerEnv-Bridge (87.3\\%).",
+      "tags": [
+        "研究",
+        "robot",
+        "vla",
+        "vision-language-action"
+      ],
+      "authors": [
+        "Yicheng Liu"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "研究与数据",
+      "score": 110,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7202366482",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Tsinghua University"
+        ],
+        "authors": [
+          {
+            "name": "Yicheng Liu",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Zibin Dong",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          },
+          {
+            "name": "Baijun Ye",
+            "totalCitations": 1,
+            "hIndex": 1,
+            "institutions": [
+              "Tsinghua University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-09-07T02:33:13.587Z"
+      },
+      "titleZh": "G0.5：以单一自回归流统一机器人推理与动作",
+      "summaryZh": "研究提出预训练自回归模型 G0.5，由单一解码器在统一目标下交错生成推理与动作词元，并配跨本体动作分词器与视觉记忆。它在 R1lite 与 R1pro 真机、BEHAVIOR 挑战赛及 LIBERO 等 7 项评测中超越现有最优模型。"
+    },
+    {
       "id": "eb7745b52639baf0",
       "title": "CLAP: Cross-Embodiment Video World Models are Zero-Shot Physical Simulators",
       "link": "https://arxiv.org/abs/2608.27406v1",
@@ -286,66 +342,520 @@
       },
       "titleZh": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
       "summaryZh": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。"
-    },
-    {
-      "id": "da3b393a8a0b1c93",
-      "title": "HumanoidVLN: A Physics-Grounded Simulator and Benchmark for Vision-Language Navigation Across Diverse Humanoid Embodiments",
-      "link": "https://arxiv.org/abs/2608.12860v1",
-      "publishedAt": "2026-08-13T06:16:05.000Z",
-      "fetchedAt": "2026-08-14T04:41:14.670Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Vision-Language Navigation (VLN) for humanoid robots poses challenges existing benchmarks fail to address: bipedal locomotion imposes physical constraints absent from wheeled agents, humanoid morphologies vary across platforms, and egocentric observations are distorted by locomotion-induced camera dynamics. We present HumanoidVLN, a physics-grounded simulator and benchmark for VLN across diverse humanoid embodiments. Built on NVIDIA Isaac Sim, our platform supports an extensible set of humanoid configurations, demonstrated on four robots (Unitree G1, Unitree H1, Internal-A, Internal-B) spanning 10-12 lower-body DoF and heights from 1.17m to 1.80m, via a hierarchical control stack combining a reinforcement learning locomotion policy with interchangeable PD or MPC path trackers. New robots and VLN models integrate with minimal effort; we demonstrate compatibility with NaVILA, DualVLN, StreamVLN, and JanusVLN. Environments are drawn from artist-designed scenes and 3D Gaussian Splatting reconstructions, filtered for navigable areas exceeding 100 square meters. Instructions are generated by a dual generator-reviewer plus paraphraser multi-agent pipeline with human-in-the-loop verification, yielding 933 collision-aware reference episodes, each paired with one fine-grained instruction and three coarse-grained stylistic variants (formal, natural, casual). Across four models and four embodiments, JanusVLN achieves the highest mean success rate of 43.55% and nDTW of 48.38. In a 20-episode sim-to-real pilot with DualVLN and the Unitree G1, navigation errors correlate strongly (r=0.935), with a mean absolute difference of 0.68m and mean trajectory similarity of 0.782 (+/-0.188) nDTW. These results highlight the interaction between VLN models, controllers, and humanoid embodiments under physical execution. Code, benchmark, and data will be released upon acceptance at https://humanoid-vln.github.io/.",
-      "tags": [
-        "研究",
-        "robot",
-        "humanoid",
-        "isaac"
-      ],
-      "authors": [
-        "Quan-Dung Pham"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "研究与数据",
-      "score": 106,
-      "titleZh": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
-      "summaryZh": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7203460915",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [],
-        "authors": [
-          {
-            "name": "Quan-Dung Pham",
-            "totalCitations": 69,
-            "hIndex": 4,
-            "institutions": []
-          },
-          {
-            "name": "Anh Dao",
-            "totalCitations": 7,
-            "hIndex": 1,
-            "institutions": []
-          },
-          {
-            "name": "The-Anh Nguyen",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          }
-        ],
-        "checkedAt": "2026-08-20T01:00:01.274Z"
-      }
     }
   ],
   "industryPulse": {
     "viewpoints": [],
     "events": []
   },
-  "sourceOutcomes": [],
+  "sourceOutcomes": [
+    {
+      "source": "arXiv · Robotics",
+      "status": "failure",
+      "reason": "请求超时",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "NVIDIA Newsroom",
+      "status": "success",
+      "fetchedArticles": 19
+    },
+    {
+      "source": "LeRobot Releases",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "Isaac Lab Releases",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "Google DeepMind Blog",
+      "status": "success",
+      "fetchedArticles": 100
+    },
+    {
+      "source": "Google AI Blog",
+      "status": "success",
+      "fetchedArticles": 20
+    },
+    {
+      "source": "IEEE Spectrum · Robotics",
+      "status": "success",
+      "fetchedArticles": 30
+    },
+    {
+      "source": "TechCrunch · Robotics",
+      "status": "success",
+      "fetchedArticles": 19
+    },
+    {
+      "source": "The Robot Report",
+      "status": "success",
+      "fetchedArticles": 15
+    },
+    {
+      "source": "Google News · Robotics Capital",
+      "status": "success",
+      "fetchedArticles": 100
+    },
+    {
+      "source": "Google News · 中国具身融资",
+      "status": "success",
+      "fetchedArticles": 100
+    },
+    {
+      "source": "OpenPI Releases",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "OpenVLA Releases",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "Isaac GR00T Releases",
+      "status": "success",
+      "fetchedArticles": 5
+    },
+    {
+      "source": "Genesis Releases",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "ManiSkill Releases",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "robomimic Releases",
+      "status": "success",
+      "fetchedArticles": 5
+    },
+    {
+      "source": "MuJoCo Releases",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "Figure News",
+      "status": "success",
+      "fetchedArticles": 20
+    },
+    {
+      "source": "1X Discover",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "Apptronik Press",
+      "status": "success",
+      "fetchedArticles": 15
+    },
+    {
+      "source": "Skild AI Blog",
+      "status": "success",
+      "fetchedArticles": 2
+    },
+    {
+      "source": "Boston Dynamics News",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "Physical Intelligence Blog",
+      "status": "success",
+      "fetchedArticles": 4
+    },
+    {
+      "source": "DYNA Robotics News",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "Agility Robotics Press",
+      "status": "success",
+      "fetchedArticles": 6
+    },
+    {
+      "source": "Stanford Robotics Center",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "加速进化 News",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "星动纪元 News",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "自变量机器人 News",
+      "status": "success",
+      "fetchedArticles": 2
+    },
+    {
+      "source": "Hacker News · Robotics",
+      "status": "success",
+      "fetchedArticles": 4
+    },
+    {
+      "source": "Hacker News · Humanoid",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "Hacker News · Embodied AI",
+      "status": "success",
+      "fetchedArticles": 0
+    },
+    {
+      "source": "自动发现 · beambots.dev",
+      "status": "success",
+      "fetchedArticles": 20
+    },
+    {
+      "source": "自动发现 · theverge.com",
+      "status": "success",
+      "fetchedArticles": 10
+    },
+    {
+      "source": "自动发现 · secondthoughts.ai",
+      "status": "success",
+      "fetchedArticles": 20
+    },
+    {
+      "source": "自动发现 · spectrum.ieee.org",
+      "status": "success",
+      "fetchedArticles": 30
+    },
+    {
+      "source": "自动发现 · understandingai.org",
+      "status": "success",
+      "fetchedArticles": 20
+    },
+    {
+      "source": "自动发现 · github.com",
+      "status": "success",
+      "fetchedArticles": 4
+    },
+    {
+      "source": "自动发现 · livescience.com",
+      "status": "success",
+      "fetchedArticles": 50
+    },
+    {
+      "source": "自动发现 · wired.com",
+      "status": "success",
+      "fetchedArticles": 50
+    }
+  ],
   "candidates": [
+    {
+      "id": "f7087b195d5a2221",
+      "title": "v1.4.0",
+      "link": "https://github.com/Genesis-Embodied-AI/genesis-world/releases/tag/v1.4.0",
+      "publishedAt": "2026-09-06T18:42:29.000Z",
+      "fetchedAt": "2026-09-07T02:29:13.395Z",
+      "source": "Genesis Releases",
+      "sourceWeight": 8,
+      "excerpt": "This release introduces the capability to export a scene plus a complete trajectory as a standalone archive that can be loaded on any machine while ensuring bit-exact replay using gs replay. The objective is making bug report much easier in the future. Only the rigid solver is supported for now. Beyond that, the static description of entities is now clearly separated from runtime getters to avoid confusion. Finally, a large number of minor bugs have been fixed, most of them related to asset parsing.\nNew Features\n[BREAKING] Support applying an external wrench at any local point on a link. (@Milotrince) (#3143)\n[BREAKING] Apply morph pose offset to velocity/acceleration getters. (@Milotrince) (#3250)\n[BREAKING] Share a scene as a file that opens without its assets. (@duburcqa) (#3281, #3288, #3294)\nSave and restore a built scene in memory. (@duburcqa) (#3309, #3303)\nRecord and replay a trajectory to a file that opens without its assets. (@duburcqa) (#3309)\nBug Fixes\nAlways give recorded videos a valid default filename. (@duburcqa) (#3228)\nMake successive trajectories bit-identical from the reset onwards. (@duburcqa) (#3230)\nSupport FEM vertex constraints and topology queries in multi-entity scenes. (@jeetrex17) (#3239)\nSupport envs_idx mask in FEM vertex constraints. (@jeetrex17) (#3241)\nSupport broadcasting inverse kinematics targets in batched scenes. (@jeetrex17) (#3247)\nFix moving debug objects in batched scenes. (@duburcqa) (#3255)\nFix parsing URDF for partially specified dynamics attributes. (@catplotlib) (#3262)\nFix multidimensional tensor recording as CSV file. (@CoffeeDrivenCoder) (#3266)\nFix 'RigidEntity.plan_path' ignoring runtime joint limits. (@duburcqa) (#3278)\nPreserve URDF mimic joint relations when scaling robots. (@ktyang512) (#3271)\nFix buggy hibernation on GPU and correctly report resting force. (@duburcqa) (#3297)\nReport a zero velocity for a body that fell asleep. (@duburcqa) (#3300)\nFix COM frames of fixed links on aligned bodies breaking thrust points. (@jeetrex17) (#3283)\nSupport offscreen rendering with OSMesa. (@duburcqa) (#3302)\nApply MeshSet member poses to sampled particles. (@jeetrex17) (#3305)\nKeep the authored mass and inertia of fixed links on aligned free bodies. (@duburcqa) (#3304)\nRecover a usable inertia for URDF links stating a zero mass or inertia. (@Milotrince) (#3261)\nLeave links fixed to the world out of the potential energy. (@duburcqa) (#3311)\nFix dynamics of attached entities and resolve assets identically in every precision. (@duburcqa) (#3311)\nFix scaling wrongly applied for in-memory URDF file morph. (@jeetrex17) (#3313)\nCorrect a rigid-PBD attachment over the substep interval rather than the whole step. (@duburcqa) (#3237)\nHonor the textures of URDF materials. (@duburcqa) (#3319)\nFix convex collision detection on geom pairs of very different sizes. (@duburcqa) (#3321)\nMiscellaneous\n[BREAKING] Stop offering a checkpoint that restores a fraction of the state. (@duburcqa) (#3228)\n[BREAKING] Separate the static description of a rigid entity from its runtime state. (@duburcqa) (#3281)\n[BREAKING] Read gravity, time and mass from the solver that owns them. (@duburcqa) (#3237)\n[BREAKING] Register a recorder with 'Scene.add_recorder'. (@duburcqa) (#3309)\n[BREAKING] Drop the rotation of a recorder's file on reset.(@duburcqa) (#3309)\nAverage the joint-space inertia over every degree of freedom of the scene. (@duburcqa) (#3237)\nSolve the mass matrix for the active trees of a partly hibernated entity. (@duburcqa) (#3237)\nSupport instantiating solver options before Genesis is initialized. (@duburcqa) (#3281)\nLet a kinematic entity be attached onto another kinematic one. (@duburcqa) (#3228)\nRemove dockerfiles. (@duburcqa) (#3227)\nSupport negative indices for env and entity index args. (@jeetrex17) (#3165)\nSupport Inverse Kinematics and Jacobians for any entity unconditionally. (@duburcqa) (#3233)\nEnable cross-platform window-less offscreen rendering. (@duburcqa) (#3238, #3242)\nMore representative rigid benchmarks suite. (@hughperkins) (#3249, #3260)\nAdd sync-free padded layout to get_contacts. (@hughperkins) (#3253)\nSpeed up raycast BVH rebuild by removing atomic contention in the scene-extent reduction. (@Kashu7100) (#3162)\nReport baking USD materials failures traceback. (@duburcqa) (#3298)",
+      "tags": [
+        "产品",
+        "robot"
+      ],
+      "authors": [
+        "duburcqa"
+      ],
+      "sourceTier": "开源发布",
+      "kind": "产品发布",
+      "score": 112,
+      "titleZh": "Genesis v1.4.0 发布：场景与轨迹可打包为独立存档并逐比特重放",
+      "summaryZh": "该版本支持将场景连同完整轨迹导出为独立存档，可在任意机器上直接加载。通过 gs replay 可实现逐比特一致的重放，目前仅支持刚体求解器。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "4565ec38f438bba9",
+      "title": "LG旗下机器人公司Bear Robotics寻求上市前融资，拟在纳斯达克上市_财经_24H快讯 - bihainews.com",
+      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE15TlZjOFV5Y0Rtd3ZEV053TnpJZ0tSQlFDRE1NaF9SdHNCZEdtd0ZEVXE2Z1ZYdkxhZUhWbzU0MjZWWmhzd0JaRW0xSTI3NW5kNkxyajc3bVprcVhKYWhvRDVZMXEtQQ?oc=5",
+      "publishedAt": "2026-09-06T09:41:03.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.909Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "LG旗下机器人公司Bear Robotics寻求上市前融资，拟在纳斯达克上市_财经_24H快讯  bihainews.com",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE15TlZjOFV5Y0Rtd3ZEV053TnpJZ0tSQlFDRE1NaF9SdHNCZEdtd0ZEVXE2Z1ZYdkxhZUhWbzU0MjZWWmhzd0JaRW0xSTI3NW5kNkxyajc3bVprcVhKYWhvRDVZMXEtQQ?oc=5",
+        "publisher": "bihainews.com",
+        "publisherUrl": "https://www.bihainews.com"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 92,
+      "titleZh": "LG旗下机器人公司Bear Robotics寻求上市前融资，拟在纳斯达克上市_财经_24H快讯 - bihainews.com",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "f13dd844990a85e1",
+      "title": "LG Electronics-owned Bear Robotics eyes up to $300 mn pre-IPO funding - KED Global",
+      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE94MTlVMzhXNWVaU1RaMzQ0Q3BCZ1d4U1pYWUIwZWVGay1jNXJQWExpZVN2d0F6YmF5QktUYkFlU2VVU3NVMGVIOUQwM1NTNzEwYklpOXY5YkphNXM2WEk5RmJqWnFQc2dYZ3pj?oc=5",
+      "publishedAt": "2026-09-07T01:50:01.000Z",
+      "fetchedAt": "2026-09-07T02:29:13.083Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 4,
+      "excerpt": "LG Electronics-owned Bear Robotics eyes up to $300 mn pre-IPO funding  KED Global",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMia0FVX3lxTE94MTlVMzhXNWVaU1RaMzQ0Q3BCZ1d4U1pYWUIwZWVGay1jNXJQWExpZVN2d0F6YmF5QktUYkFlU2VVU3NVMGVIOUQwM1NTNzEwYklpOXY5YkphNXM2WEk5RmJqWnFQc2dYZ3pj?oc=5",
+        "publisher": "KED Global",
+        "publisherUrl": "https://www.kedglobal.com"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "LG Electronics 旗下 Bear Robotics 拟筹资最高 3 亿美元 pre-IPO 轮融资",
+      "summaryZh": "LG Electronics 旗下的 Bear Robotics 正寻求最高 3 亿美元的 pre-IPO 轮融资。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "4546f59280bef069",
+      "title": "OpenAI称肯定会研发人形机器人 机器人行业投资逻辑转正向业绩兑现 - 中金在线",
+      "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE45UUVHd0gxc3VVTlVJUHNqR2l0bUJMcnc1b2RvbGluRzQxUHVBX0U5cDVoWVEzNWhvc2prd2NFZEFpMUVpclItMUY5c1J3bnhZQnZzTW1Va1VwNHJMaE5Pd0JpQll2X2FzSl9KZFlTNWN6QQ?oc=5",
+      "publishedAt": "2026-09-07T00:17:40.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.909Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "OpenAI称肯定会研发人形机器人 机器人行业投资逻辑转正向业绩兑现  中金在线",
+      "tags": [
+        "投融资",
+        "人形机器人",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMickFVX3lxTE45UUVHd0gxc3VVTlVJUHNqR2l0bUJMcnc1b2RvbGluRzQxUHVBX0U5cDVoWVEzNWhvc2prd2NFZEFpMUVpclItMUY5c1J3bnhZQnZzTW1Va1VwNHJMaE5Pd0JpQll2X2FzSl9KZFlTNWN6QQ?oc=5",
+        "publisher": "中金在线",
+        "publisherUrl": "http://sc.stock.cnfol.com"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现",
+      "summaryZh": "OpenAI表示肯定会研发人形机器人，文章据此认为机器人行业投资逻辑正转向业绩兑现。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "47cfb7fcd001099b",
+      "title": "Enovis Stock (ENOV) Opinions on eCential Robotics Acquisition - Quiver Quantitative",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSjd0N2J0em1vcWpnc0Z4RGVfUk42MXF2Rk9NX3dNUi1ScGpxbWNMby02TENMRkg5YjA3YW5lUGhqQnZsODllQVFCcS1FekRYemZRaXZZaE1zb1A0dVpLcGZGUlZ2RE4wWG53c1lPb09OVTE2aEpibXR6Tm5TMWtUR2ExdXBBeld6aTN5WjVRQVhtLUh2N1JXTG9OZF9NZUk?oc=5",
+      "publishedAt": "2026-09-06T17:33:00.000Z",
+      "fetchedAt": "2026-09-07T02:29:13.083Z",
+      "source": "Google News · Robotics Capital",
+      "sourceWeight": 4,
+      "excerpt": "Enovis Stock (ENOV) Opinions on eCential Robotics Acquisition  Quiver Quantitative",
+      "tags": [
+        "投融资",
+        "robot",
+        "robotics"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSjd0N2J0em1vcWpnc0Z4RGVfUk42MXF2Rk9NX3dNUi1ScGpxbWNMby02TENMRkg5YjA3YW5lUGhqQnZsODllQVFCcS1FekRYemZRaXZZaE1zb1A0dVpLcGZGUlZ2RE4wWG53c1lPb09OVTE2aEpibXR6Tm5TMWtUR2ExdXBBeld6aTN5WjVRQVhtLUh2N1JXTG9OZF9NZUk?oc=5",
+        "publisher": "Quiver Quantitative",
+        "publisherUrl": "https://www.quiverquant.com"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "Enovis Stock (ENOV) Opinions on eCential Robotics Acquisition - Quiver Quantitative",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "聚合盘点或评论性质内容",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "7b541b16c6f3bf3e",
+      "title": "Eric Sivertson discusses FPGAs and robot security",
+      "link": "https://www.therobotreport.com/eric-sivertson-discusses-fpgas-robot-security/",
+      "publishedAt": "2026-09-06T14:30:01.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.598Z",
+      "source": "The Robot Report",
+      "sourceWeight": 6,
+      "excerpt": "An interview with Eric Sivertson of Lattice Semiconductor about FPGAs and how they can improve robot safety and security.\nThe post Eric Sivertson discusses FPGAs and robot security appeared first on The Robot Report.",
+      "tags": [
+        "产业",
+        "robot"
+      ],
+      "authors": [
+        "Mike Oitzman"
+      ],
+      "sourceTier": "权威产业媒体",
+      "kind": "公司商业",
+      "score": 88,
+      "titleZh": "Eric Sivertson discusses FPGAs and robot security",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "a0fde2f2076dabab",
+      "title": "Pressure sensors can help improve robotic gripping accuracy",
+      "link": "https://www.therobotreport.com/pressure-sensors-can-help-improve-robotic-gripping-accuracy/",
+      "publishedAt": "2026-09-06T12:30:17.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.598Z",
+      "source": "The Robot Report",
+      "sourceWeight": 6,
+      "excerpt": "From first contact through surface deformation, load distribution, and final stable hold, pressure sensors can improve robotic bin picking.\nThe post Pressure sensors can help improve robotic gripping accuracy appeared first on The Robot Report.",
+      "tags": [
+        "产业",
+        "robot"
+      ],
+      "authors": [
+        "Faisal Mahmood"
+      ],
+      "sourceTier": "权威产业媒体",
+      "kind": "公司商业",
+      "score": 88,
+      "titleZh": "压力传感器可提升机器人抓取精度",
+      "summaryZh": "文章介绍压力传感器如何在机器人抓取中，从首次接触、表面形变、载荷分布到稳定保持的全过程提供反馈，以提升料箱拣选精度。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "3a6b1139cd12283c",
+      "title": "天奇股份总投资超10亿元具身智能机器人项目惠山高新区开工 - t.cj.sina.cn",
+      "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1heU1jSTNsZlpxdURGS3JtaTlkRHhOVERmckpWWjkwVGRVWjY3WXZVWGktR1RBZU1fM3JmMGlFNU1IZVR2Ym9HQlIzeEtVcEJnQjNIMFpoajY0MG0xVnFyc010U0FjVThVY1J4YkpyQmc?oc=5",
+      "publishedAt": "2026-09-06T11:27:00.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.909Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "天奇股份总投资超10亿元具身智能机器人项目惠山高新区开工  t.cj.sina.cn",
+      "tags": [
+        "投融资",
+        "具身",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1heU1jSTNsZlpxdURGS3JtaTlkRHhOVERmckpWWjkwVGRVWjY3WXZVWGktR1RBZU1fM3JmMGlFNU1IZVR2Ym9HQlIzeEtVcEJnQjNIMFpoajY0MG0xVnFyc010U0FjVThVY1J4YkpyQmc?oc=5",
+        "publisher": "t.cj.sina.cn",
+        "publisherUrl": "https://t.cj.sina.cn"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "天奇股份超10亿元具身智能机器人项目在惠山高新区开工",
+      "summaryZh": "天奇股份总投资超10亿元的具身智能机器人项目在惠山高新区开工。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "2782eb54c54a721c",
+      "title": "速递｜AI机器人创企XDOF计划开启B轮融资，估值已达12亿美元 - Sohu",
+      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPQzBjbFdWU1JGYU1UZ192M2RlTDhKOUJNZkZkVndDaV92cS05S2h0T0RZSktEbTJKaGwzQjdqLV9ZWDdMR0c3OGx0WlNCQnNZUUM4VllDOHZ0a3JEWFB6elhpaEJkaXhvcHRIbXRZQUJIWEp1S2lWQmY3Q3E4X01NdzJULV90cmdKU21PeQ?oc=5",
+      "publishedAt": "2026-09-07T02:04:02.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.909Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "速递｜AI机器人创企XDOF计划开启B轮融资，估值已达12亿美元  Sohu",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPQzBjbFdWU1JGYU1UZ192M2RlTDhKOUJNZkZkVndDaV92cS05S2h0T0RZSktEbTJKaGwzQjdqLV9ZWDdMR0c3OGx0WlNCQnNZUUM4VllDOHZ0a3JEWFB6elhpaEJkaXhvcHRIbXRZQUJIWEp1S2lWQmY3Q3E4X01NdzJULV90cmdKU21PeQ?oc=5",
+        "publisher": "Sohu",
+        "publisherUrl": "https://m.sohu.com"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 84,
+      "titleZh": "AI机器人创企XDOF计划开启B轮融资，估值已达12亿美元",
+      "summaryZh": "AI机器人创企XDOF计划开启B轮融资，目前估值已达12亿美元。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
+      "holdReasons": [
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "cdabc36f9cb89dd9",
+      "title": "首发| 泉智博完成数亿元B轮融资，机器人关节开始爆发 - t.cj.sina.cn",
+      "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9PaEhtdWNWem5XUzBLMDZWVnRfdThXbks4MENGazE3eUhTWGt6VkViY1dJM3lka1B1WnZCWl90akVyck9MY29mVUhDWHFSUjZLWXdLUGs2OWEtdTV3NTZTNWNBMV9EVGw3Sk9NTzZrSnA?oc=5",
+      "publishedAt": "2026-09-07T02:03:44.000Z",
+      "fetchedAt": "2026-09-07T02:29:12.909Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "首发| 泉智博完成数亿元B轮融资，机器人关节开始爆发  t.cj.sina.cn",
+      "tags": [
+        "投融资",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9PaEhtdWNWem5XUzBLMDZWVnRfdThXbks4MENGazE3eUhTWGt6VkViY1dJM3lka1B1WnZCWl90akVyck9MY29mVUhDWHFSUjZLWXdLUGs2OWEtdTV3NTZTNWNBMV9EVGw3Sk9NTzZrSnA?oc=5",
+        "publisher": "t.cj.sina.cn",
+        "publisherUrl": "https://t.cj.sina.cn"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 84,
+      "titleZh": "首发| 泉智博完成数亿元B轮融资，机器人关节开始爆发 - t.cj.sina.cn",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
     {
       "id": "0b84d0fa9fed8456",
       "title": "HAF: Adapting Generalist VLAs to Humanoid Whole-Body Loco-manipulation via Hierarchical Action Flow and Spectral Latent RL",
@@ -399,70 +909,10 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:24.151Z"
+        "checkedAt": "2026-09-07T02:33:13.683Z"
       },
       "titleZh": "HAF: Adapting Generalist VLAs to Humanoid Whole-Body Loco-manipulation via Hierarchical Action Flow and Spectral Latent RL",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
-    },
-    {
-      "id": "51f7ffc2fcaf735a",
-      "title": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
-      "link": "https://arxiv.org/abs/2608.11739v1",
-      "publishedAt": "2026-08-12T07:26:47.000Z",
-      "fetchedAt": "2026-08-16T16:09:54.620Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "The prevailing recipe for Vision-Language-Action (VLA) models couples a pretrained VLM with a separately trained flow-matching action expert. This makes the VLM a context encoder rather than a decision-maker. We introduce G0.5, a pretrained autoregressive VLA in which a single transformer decoder emits reasoning and action tokens under a single objective. Three components make this tractable at foundation-model scale: a learnable cross-embodiment action tokenizer that maps heterogeneous robot actions into a shared vocabulary; a native chain-of-thought stream interleaving task decomposition, object grounding, and action hints with action tokens; and a visual memory module that injects multi-second history through the vision encoder. Because reasoning and action share a single set of weights, the pretrained VLM's capabilities carry over to physical behavior: the model follows instructions closely, and prompts directly steer action granularity, task horizon, and out-of-distribution scene handling without further training. Pretrained on a large collection of robot datasets together with VQA samples, G0.5 surpasses state-of-the-art models across 7 independent regimes: real-world fine-tuning on R1lite and R1pro robots (76.7\\% vs.\\ 53.3\\% for $π_{0.5}$ and 24.4\\% for GR00T-N1.7), the 2025 BEHAVIOR Challenge on 50 long-horizon household mobile manipulation tasks using a generalist policy (31.4\\% vs.\\ 26.3\\% for $π_{0.5}$ and 26.1\\% for the challenge winner), DROID post-training followed by zero-shot transfer to an unseen environment and objects (82.5\\%), a language-following Pick-and-Place benchmark, LIBERO (98.9\\%), RoboTwin 2.0 (93.3\\%), and SimplerEnv-Bridge (87.3\\%).",
-      "tags": [
-        "研究",
-        "robot",
-        "vla",
-        "vision-language-action"
-      ],
-      "authors": [
-        "Yicheng Liu"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "研究与数据",
-      "score": 110,
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7202366482",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [
-          "Tsinghua University"
-        ],
-        "authors": [
-          {
-            "name": "Yicheng Liu",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Zibin Dong",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Baijun Ye",
-            "totalCitations": 1,
-            "hIndex": 1,
-            "institutions": [
-              "Tsinghua University"
-            ]
-          }
-        ],
-        "checkedAt": "2026-09-05T09:12:24.116Z"
-      },
-      "titleZh": "G0.5: One Autoregressive Stream for Robot Reasoning and Action",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -490,7 +940,7 @@
       "kind": "研究与数据",
       "score": 106,
       "titleZh": "MANIGUARD: A Benchmark and Data Suite for Specification-Grounded Safety Evaluation and Improvement of Robotic Manipulation",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7203788065",
@@ -504,7 +954,7 @@
         "authors": [
           {
             "name": "Yiyan Peng",
-            "totalCitations": 488,
+            "totalCitations": 489,
             "hIndex": 11,
             "institutions": [
               "International Isotopes (United States)",
@@ -513,7 +963,7 @@
           },
           {
             "name": "Philip Wang",
-            "totalCitations": 12941,
+            "totalCitations": 12945,
             "hIndex": 26,
             "institutions": [
               "University of Florida"
@@ -526,7 +976,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:24.409Z"
+        "checkedAt": "2026-09-07T02:33:14.024Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -554,7 +1004,7 @@
       "kind": "研究与数据",
       "score": 102,
       "titleZh": "Evaluating Multimodal LLMs as Generalist Vision-Language-Action Agents for Drone Control: Commanding, Approaching, Tracking and Searching",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7206215306",
@@ -587,7 +1037,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.087Z"
+        "checkedAt": "2026-09-07T02:33:14.330Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -615,7 +1065,7 @@
       "kind": "研究与数据",
       "score": 102,
       "titleZh": "Peg-in-Bench: A Modular Benchmark for High-Precision Robotic Insertion",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7206171071",
@@ -648,7 +1098,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.060Z"
+        "checkedAt": "2026-09-07T02:33:14.403Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -676,7 +1126,7 @@
       "kind": "研究与数据",
       "score": 102,
       "titleZh": "AM-Bench: A Modular Simulation Suite and Benchmark for Aerial Manipulation Policy Learning",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7206197985",
@@ -703,7 +1153,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.292Z"
+        "checkedAt": "2026-09-07T02:33:14.436Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -732,7 +1182,7 @@
       "kind": "研究与数据",
       "score": 110,
       "titleZh": "ZimaBlue: Evolving Generalizable World Action Models through Scalable Video Pre-training",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7206169618",
@@ -759,7 +1209,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.134Z"
+        "checkedAt": "2026-09-07T02:33:14.627Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -787,7 +1237,7 @@
       "kind": "研究与数据",
       "score": 102,
       "titleZh": "LightNav-0: Eliciting VLM Spatial Intelligence for Generalist Embodied Navigation",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7204911830",
@@ -820,7 +1270,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.789Z"
+        "checkedAt": "2026-09-07T02:33:14.972Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -849,7 +1299,7 @@
       "kind": "研究与数据",
       "score": 110,
       "titleZh": "Zeva: In-Context Causal Learning for Generalizable Embodied Manipulation",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "scholar": {
         "provider": "OpenAlex",
         "workId": "https://openalex.org/W7204934531",
@@ -876,7 +1326,7 @@
             "institutions": []
           }
         ],
-        "checkedAt": "2026-09-05T09:12:25.805Z"
+        "checkedAt": "2026-09-07T02:33:15.060Z"
       },
       "stage": "待中文事实简介",
       "holdReasons": [
@@ -905,7 +1355,7 @@
       "kind": "研究与数据",
       "score": 106,
       "titleZh": "Behavior-Skill: A Fine-Grained Benchmark for Evaluating Vision-Language-Action Policies in Long-Horizon Tasks",
-      "summaryZh": "未配置摘要服务；请阅读原文。",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -915,35 +1365,35 @@
   "runtimeStatus": [
     {
       "component": "LLM",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
-      "failed": 0,
-      "detail": "未配置兼容 OpenAI 的摘要服务；缓存命中 2。内容不会发布到首页。"
+      "status": "部分降级",
+      "attempted": 14,
+      "succeeded": 7,
+      "failed": 4,
+      "detail": "有效完成 7；无效模型输出 3；提供方失败 4；缓存命中 2；research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
+      "status": "成功",
+      "attempted": 36,
+      "succeeded": 36,
       "failed": 0,
-      "detail": "未配置 OpenAlex；论文仍按来源元数据排序。"
+      "detail": "论文引用与作者机构元数据已刷新。"
     },
     {
       "component": "Watchlist",
-      "status": "未配置",
+      "status": "部分降级",
       "attempted": 4,
-      "succeeded": 0,
-      "failed": 4,
-      "detail": "生成 0 张新判断卡；保留 0 张上一有效版本；排除 4 家。 失败原因：llm-unavailable 4。"
+      "succeeded": 2,
+      "failed": 2,
+      "detail": "生成 2 张新判断卡；保留 0 张上一有效版本；排除 2 家。 证据约束修复 2 张。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
     },
     {
       "component": "GitHub",
-      "status": "未配置",
-      "attempted": 0,
-      "succeeded": 0,
+      "status": "成功",
+      "attempted": 1,
+      "succeeded": 1,
       "failed": 0,
-      "detail": "未配置 GitHub 上下文；已使用上一有效社区证据快照与投影。"
+      "detail": "社区证据 Issue 快照已刷新并通过严格校验。"
     },
     {
       "component": "EvidenceRevalidation",
@@ -951,9 +1401,25 @@
       "attempted": 0,
       "succeeded": 0,
       "failed": 0,
-      "detail": "上一有效社区投影没有已采纳证据，无需复核。"
+      "detail": "已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。"
     }
   ],
-  "discoveredSources": [],
+  "discoveredSources": [
+    {
+      "domain": "youtube.com",
+      "title": "Robots just had their GPT3 moment [video]",
+      "link": "https://www.youtube.com/watch?v=cqwKceUSZ5Q"
+    },
+    {
+      "domain": "sciencedirect.com",
+      "title": "3D Printed Hydrogels for Soft Robotic Applications (2025)",
+      "link": "https://www.sciencedirect.com/org/science/article/pii/S0973862225000261"
+    },
+    {
+      "domain": "hexbot-genesis.netlify.app",
+      "title": "Show HN: HexBOTs – a cellular automaton with robotic lawnmowers",
+      "link": "https://hexbot-genesis.netlify.app/"
+    }
+  ],
   "sourceCorrections": []
 }

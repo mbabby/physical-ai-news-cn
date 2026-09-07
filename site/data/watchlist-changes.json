@@ -2,14 +2,47 @@
   "schemaVersion": 1,
   "current": {
     "week": "2026-W37",
+    "snapshotVersion": 2,
+    "generatedAt": "2026-09-07T02:29:11.960Z"
+  },
+  "baseline": {
+    "week": "2026-W37",
     "snapshotVersion": 1,
     "generatedAt": "2026-09-07T01:56:22.000Z"
   },
-  "baseline": {
-    "week": "2026-W36",
-    "snapshotVersion": 1,
-    "generatedAt": "2026-08-31T07:57:24.490Z"
-  },
   "emptyBaseline": false,
-  "changes": []
+  "changes": [
+    {
+      "companyId": "figure",
+      "companyName": "Figure",
+      "kind": "addition",
+      "whatChanged": "Figure：新进入名单，公开判断 thesis-figure-7715c9a4217fa5fa v1。",
+      "why": "AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。",
+      "evidenceLinks": [
+        {
+          "eventId": "evt-364bccad851a",
+          "title": "Figure 宣布 Series C 承诺资本超过 10 亿美元",
+          "url": "https://www.figure.ai/news/series-c",
+          "source": "Figure official news release",
+          "grade": "A"
+        }
+      ]
+    },
+    {
+      "companyId": "huggingface",
+      "companyName": "Hugging Face",
+      "kind": "addition",
+      "whatChanged": "Hugging Face：新进入名单，公开判断 thesis-huggingface-16a2d712874dde93 v1。",
+      "why": "AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。",
+      "evidenceLinks": [
+        {
+          "eventId": "evt-0052db55dfd7",
+          "title": "Hugging Face 发布 LeRobot v0.5.0",
+          "url": "https://huggingface.co/blog/lerobot-release-v050",
+          "source": "Hugging Face official blog",
+          "grade": "A"
+        }
+      ]
+    }
+  ]
 }

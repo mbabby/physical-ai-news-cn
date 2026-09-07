@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T01:56:22.000Z",
+  "generatedAt": "2026-09-07T02:29:11.960Z",
   "cards": [
     {
       "identity": {
@@ -110,6 +110,7 @@
       "author": {
         "value": [
           "Jiahao Ji",
+          "Ji Ma",
           "Runhan Zhang"
         ],
         "evidenceUrls": [
@@ -129,7 +130,6 @@
           "Xinjiang Agricultural University",
           "Xinjiang Institute of Water Resources and Hydropower Research",
           "Huazhong University of Science and Technology",
-          "University of Hong Kong",
           "Tsinghua University",
           "清华大学"
         ],
@@ -222,6 +222,217 @@
         "totalFields": 24,
         "knownFields": 15,
         "unknownFields": 9,
+        "completeOrUnknown": true
+      },
+      "gates": [],
+      "eligibleForTopResearch": true
+    },
+    {
+      "identity": {
+        "paperId": {
+          "value": "51f7ffc2fcaf735a",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.11739v1"
+          ]
+        },
+        "openAlexWorkId": {
+          "value": "W7202366482",
+          "evidenceUrls": [
+            "https://openalex.org/W7202366482"
+          ]
+        },
+        "version": {
+          "value": 1,
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2608.11739v1"
+          ]
+        }
+      },
+      "titleZh": {
+        "value": "G0.5：以单一自回归流统一机器人推理与动作",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ]
+      },
+      "factsZh": {
+        "value": [
+          "研究提出预训练自回归模型 G0.5，由单一解码器在统一目标下交错生成推理与动作词元，并配跨本体动作分词器与视觉记忆。",
+          "它在 R1lite 与 R1pro 真机、BEHAVIOR 挑战赛及 LIBERO 等 7 项评测中超越现有最优模型。"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ]
+      },
+      "task": {
+        "value": [
+          "机器人操作"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ]
+      },
+      "embodiment": {
+        "value": [
+          "真实机器人"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ]
+      },
+      "datasetTrainingScale": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "benchmark": {
+        "value": [
+          "LIBERO",
+          "BridgeData"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ]
+      },
+      "baselineDelta": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "realRobotTrials": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "artifacts": {
+        "code": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "weights": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "data": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "projectPage": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "license": {
+          "value": "unknown",
+          "evidenceUrls": []
+        }
+      },
+      "limitations": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "reproducibilityCost": {
+        "value": "unknown",
+        "evidenceUrls": [],
+        "rationale": "unknown"
+      },
+      "author": {
+        "value": [
+          "Yicheng Liu",
+          "Zibin Dong",
+          "Baijun Ye"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7202366482"
+        ]
+      },
+      "lab": {
+        "value": [
+          "Tsinghua University",
+          "清华大学"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7202366482"
+        ]
+      },
+      "openAlex": {
+        "match": {
+          "value": "matched",
+          "evidenceUrls": [
+            "https://openalex.org/W7202366482"
+          ]
+        },
+        "retraction": {
+          "value": false,
+          "evidenceUrls": [
+            "https://openalex.org/W7202366482"
+          ]
+        },
+        "freshness": {
+          "value": "fresh",
+          "evidenceUrls": [
+            "https://openalex.org/W7202366482"
+          ]
+        }
+      },
+      "whyWorthAttention": {
+        "value": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Tsinghua University、清华大学。",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2608.11739v1",
+          "https://openalex.org/W7202366482"
+        ]
+      },
+      "rankScore": 77,
+      "fieldEvidence": {
+        "identity": [
+          "https://arxiv.org/abs/2608.11739v1",
+          "https://openalex.org/W7202366482",
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "title": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "facts": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "task": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "embodiment": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "datasetTrainingScale": [],
+        "benchmark": [
+          "https://arxiv.org/abs/2608.11739v1"
+        ],
+        "baselineDelta": [],
+        "realRobotTrials": [],
+        "artifacts.code": [],
+        "artifacts.weights": [],
+        "artifacts.data": [],
+        "artifacts.projectPage": [],
+        "artifacts.license": [],
+        "limitations": [],
+        "reproducibilityCost": [],
+        "author": [
+          "https://openalex.org/W7202366482"
+        ],
+        "lab": [
+          "https://openalex.org/W7202366482"
+        ],
+        "openAlex.match": [
+          "https://openalex.org/W7202366482"
+        ],
+        "openAlex.retraction": [
+          "https://openalex.org/W7202366482"
+        ],
+        "openAlex.freshness": [
+          "https://openalex.org/W7202366482"
+        ],
+        "whyWorthAttention": [
+          "https://arxiv.org/abs/2608.11739v1",
+          "https://openalex.org/W7202366482"
+        ]
+      },
+      "completeness": {
+        "totalFields": 24,
+        "knownFields": 14,
+        "unknownFields": 10,
         "completeOrUnknown": true
       },
       "gates": [],

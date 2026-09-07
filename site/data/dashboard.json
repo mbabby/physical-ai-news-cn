@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T01:56:22.000Z",
+  "generatedAt": "2026-09-07T02:29:11.960Z",
   "periodLabel": "本周 2026-W37 · 近 30 天滚动证据池",
   "stats": {
     "events": 1,
@@ -58,42 +58,12 @@
   "industry": [],
   "research": [
     {
-      "passportId": "decision-research-5de26311e0e05c88549c",
-      "title": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
-      "summary": "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。 配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。",
-      "link": "https://arxiv.org/abs/2608.16222v1",
-      "type": "研究论文",
-      "route": "具身智能",
-      "date": "2026-09-07",
-      "source": "Reproducibility Passport"
-    },
-    {
-      "passportId": "decision-research-f7d412dee2e1c2a3d23b",
-      "title": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
-      "summary": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。 其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
-      "link": "https://arxiv.org/abs/2608.27406v1",
-      "type": "研究论文",
-      "route": "具身智能",
-      "date": "2026-09-07",
-      "source": "Reproducibility Passport"
-    },
-    {
       "passportId": "decision-research-787346b3b6198546a3f7",
       "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
       "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。 四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
       "link": "https://arxiv.org/abs/2608.12860v1",
       "type": "研究论文",
       "route": "机器人导航",
-      "date": "2026-09-07",
-      "source": "Reproducibility Passport"
-    },
-    {
-      "passportId": "decision-research-1d8b6c6c54eb529c95b3",
-      "title": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
-      "summary": "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。 大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。",
-      "link": "https://arxiv.org/abs/2608.19589v1",
-      "type": "研究论文",
-      "route": "具身智能",
       "date": "2026-09-07",
       "source": "Reproducibility Passport"
     },
@@ -130,6 +100,21 @@
         "source": "arXiv · Robotics"
       },
       "route": "数据与训练",
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
+    },
+    {
+      "paper": {
+        "title": "G0.5：以单一自回归流统一机器人推理与动作",
+        "summary": "研究提出预训练自回归模型 G0.5，由单一解码器在统一目标下交错生成推理与动作词元，并配跨本体动作分词器与视觉记忆。它在 R1lite 与 R1pro 真机、BEHAVIOR 挑战赛及 LIBERO 等 7 项评测中超越现有最优模型。",
+        "link": "https://arxiv.org/abs/2608.11739v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-08-12",
+        "source": "arXiv · Robotics"
+      },
+      "route": "VLA 与具身模型",
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
@@ -190,21 +175,6 @@
         "source": "arXiv · Robotics"
       },
       "route": "世界模型与空间智能",
-      "companies": [],
-      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
-      "relations": []
-    },
-    {
-      "paper": {
-        "title": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
-        "summary": "研究提出基于 Isaac Sim 的 HumanoidVLN 仿真器与基准，支持四种人形机器人并生成 933 条带多风格指令的导航任务。四模型基准测试中 JanusVLN 成功率最高达 43.55%，且与 Unitree G1 的 20 组真机实验误差高度相关，代码与数据将开源。",
-        "link": "https://arxiv.org/abs/2608.12860v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-13",
-        "source": "arXiv · Robotics"
-      },
-      "route": "本体与硬件",
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
@@ -313,7 +283,7 @@
         "本体与硬件",
         "部署与商业化"
       ],
-      "thesis": "证据不足",
+      "thesis": "AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。",
       "capitalStatus": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值",
       "validationStage": "证据不足",
       "identitySource": "Figure official news release",
@@ -331,7 +301,7 @@
         "VLA 与具身模型",
         "数据与训练"
       ],
-      "thesis": "证据不足",
+      "thesis": "AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。",
       "capitalStatus": "证据不足（不代表未融资）",
       "validationStage": "原型与演示",
       "identitySource": "Hugging Face official blog",
@@ -506,7 +476,7 @@
     }
   ],
   "companyBoards": {
-    "generatedAt": "2026-09-07T01:56:22.000Z",
+    "generatedAt": "2026-09-07T02:29:11.960Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -934,13 +904,109 @@
   },
   "watchlist": {
     "week": "2026-W37",
-    "snapshotVersion": 1,
-    "methodologyVersion": "v1",
-    "lastSuccessfulAt": "2026-09-07T01:56:22.000Z",
-    "companyIds": [],
-    "forwardRadar": [],
+    "snapshotVersion": 2,
+    "methodologyVersion": "v1+evidence-repair-v1",
+    "lastSuccessfulAt": "2026-09-07T02:29:11.960Z",
+    "companyIds": [
+      "figure",
+      "huggingface"
+    ],
+    "forwardRadar": [
+      {
+        "companyId": "figure",
+        "companyName": "Figure",
+        "thesisId": "thesis-figure-7715c9a4217fa5fa",
+        "thesisVersion": 1,
+        "track": "forward-radar",
+        "group": "priority-focus",
+        "lifecycle": "new",
+        "lifecycleLabel": "新进入",
+        "routes": [
+          "VLA 与具身模型",
+          "本体与硬件",
+          "部署与商业化"
+        ],
+        "whyNow": "AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。",
+        "routeAndDependencies": "AI 研究判断：Figure 当前沿“部署与商业化”路线观察，暂不外推未披露信息。",
+        "nextValidationPoints": [
+          {
+            "text": "未来 60 天内核验 Figure 是否出现新的可追溯规范事实。",
+            "dueAt": "2026-11-06"
+          }
+        ],
+        "falsifiers": [
+          {
+            "text": "若 Figure 后续未出现新的可追溯规范事实，则降低当前判断置信度。"
+          }
+        ],
+        "evidenceLinks": [
+          {
+            "eventId": "evt-364bccad851a",
+            "title": "Figure 宣布 Series C 承诺资本超过 10 亿美元",
+            "url": "https://www.figure.ai/news/series-c",
+            "source": "Figure official news release",
+            "grade": "A"
+          }
+        ],
+        "capital": {
+          "status": "verified",
+          "summary": "Series C · >10亿美元承诺资本（非到账金额） · 390亿美元投后估值"
+        }
+      },
+      {
+        "companyId": "huggingface",
+        "companyName": "Hugging Face",
+        "thesisId": "thesis-huggingface-16a2d712874dde93",
+        "thesisVersion": 1,
+        "track": "forward-radar",
+        "group": "priority-focus",
+        "lifecycle": "new",
+        "lifecycleLabel": "新进入",
+        "routes": [
+          "VLA 与具身模型",
+          "数据与训练"
+        ],
+        "whyNow": "AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。",
+        "routeAndDependencies": "AI 研究判断：Hugging Face 当前沿“VLA 与具身模型”路线观察，暂不外推未披露信息。",
+        "nextValidationPoints": [
+          {
+            "text": "未来 60 天内核验 Hugging Face 是否出现新的可追溯规范事实。",
+            "dueAt": "2026-11-06"
+          }
+        ],
+        "falsifiers": [
+          {
+            "text": "若 Hugging Face 后续未出现新的可追溯规范事实，则降低当前判断置信度。"
+          }
+        ],
+        "evidenceLinks": [
+          {
+            "eventId": "evt-0052db55dfd7",
+            "title": "Hugging Face 发布 LeRobot v0.5.0",
+            "url": "https://huggingface.co/blog/lerobot-release-v050",
+            "source": "Hugging Face official blog",
+            "grade": "A"
+          }
+        ],
+        "capital": {
+          "status": "evidence-insufficient",
+          "summary": "证据不足（不代表未融资）"
+        }
+      }
+    ],
     "validatedMomentum": [],
-    "changes": []
+    "changes": [
+      {
+        "companyId": "figure",
+        "companyName": "Figure",
+        "change": "added"
+      },
+      {
+        "companyId": "huggingface",
+        "companyName": "Hugging Face",
+        "change": "added"
+      }
+    ]
   },
   "routes": [
     {
@@ -995,7 +1061,7 @@
   ],
   "decisionProducts": {
     "schemaVersion": 1,
-    "generatedAt": "2026-09-07T01:56:22.000Z",
+    "generatedAt": "2026-09-07T02:29:11.960Z",
     "periodStart": "2026-09-01",
     "topSignals": [],
     "companyCards": [
@@ -1268,10 +1334,15 @@
         },
         "recentChanges": [],
         "watchlist": {
-          "track": "unknown",
-          "lifecycle": "unknown",
-          "whyNow": "证据不足",
-          "nextValidationPoints": []
+          "track": "forward-radar",
+          "lifecycle": "new",
+          "whyNow": "AI 研究判断：Figure 当前已有与“部署与商业化”相关的可追溯规范事实。",
+          "nextValidationPoints": [
+            {
+              "text": "未来 60 天内核验 Figure 是否出现新的可追溯规范事实。",
+              "dueAt": "2026-11-06"
+            }
+          ]
         },
         "unknownFields": [
           "capital.investors",
@@ -1313,10 +1384,15 @@
         },
         "recentChanges": [],
         "watchlist": {
-          "track": "unknown",
-          "lifecycle": "unknown",
-          "whyNow": "证据不足",
-          "nextValidationPoints": []
+          "track": "forward-radar",
+          "lifecycle": "new",
+          "whyNow": "AI 研究判断：Hugging Face 当前已有与“VLA 与具身模型”相关的可追溯规范事实。",
+          "nextValidationPoints": [
+            {
+              "text": "未来 60 天内核验 Hugging Face 是否出现新的可追溯规范事实。",
+              "dueAt": "2026-11-06"
+            }
+          ]
         },
         "unknownFields": [
           "capital.amount",
@@ -1756,145 +1832,6 @@
     ],
     "researchPassports": [
       {
-        "passportId": "decision-research-5de26311e0e05c88549c",
-        "paperId": "6868169cc6e01001",
-        "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
-        "factsZh": [
-          "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。",
-          "配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
-        ],
-        "sourceUrl": "https://arxiv.org/abs/2608.16222v1",
-        "task": "unknown",
-        "embodiment": [
-          "真实机器人",
-          "人形机器人"
-        ],
-        "methods": "unknown",
-        "benchmark": {
-          "name": "unknown",
-          "metric": "unknown",
-          "result": "unknown",
-          "baseline": "unknown",
-          "delta": "unknown",
-          "evidenceUrls": []
-        },
-        "realRobotTrials": "unknown",
-        "assets": {
-          "code": "unknown",
-          "data": "unknown",
-          "weights": "unknown"
-        },
-        "reproducibilityCost": {
-          "level": "high",
-          "rationale": "HiPHI: A Large-Scale Benchmark for High-Precision Human Motion and Object-Interaction"
-        },
-        "authority": {
-          "openAlexWorkId": "W7203683909",
-          "authors": [
-            "Jiahao Ji",
-            "Runhan Zhang"
-          ],
-          "labs": [
-            "Minzu University of China",
-            "China University of Mining and Technology",
-            "Inner Mongolia University of Science and Technology",
-            "Institute of Disaster Prevention",
-            "Robotics Research (United States)",
-            "Hebei Seismological Bureau",
-            "Inner Mongolia University of Technology",
-            "Beihang University",
-            "Xinjiang Agricultural University",
-            "Xinjiang Institute of Water Resources and Hydropower Research",
-            "Huazhong University of Science and Technology",
-            "University of Hong Kong",
-            "Tsinghua University",
-            "清华大学"
-          ],
-          "citedByCount": 0,
-          "checkedAt": "2026-08-20T00:59:59.097Z"
-        },
-        "limitations": [
-          "However, existing embodied datasets remain fundamentally limited: internet-scale video data lack precise physical states and interaction grounding, while laboratory motion datasets provide high fidelity but only narrow behavioral coverage."
-        ],
-        "whyWorthAttention": "原文摘要明确出现真实机器人、基准证据；OpenAlex 作者/机构元数据包含Minzu University of China、China University of Mining and Technology。",
-        "rankReasons": [
-          "真实机器人证据"
-        ],
-        "gaps": [
-          "assets.code",
-          "assets.data",
-          "assets.weights",
-          "benchmark.name",
-          "benchmark.metric",
-          "benchmark.result",
-          "benchmark.baseline",
-          "benchmark.delta",
-          "realRobotTrials"
-        ]
-      },
-      {
-        "passportId": "decision-research-f7d412dee2e1c2a3d23b",
-        "paperId": "eb7745b52639baf0",
-        "titleZh": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
-        "factsZh": [
-          "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。",
-          "其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。"
-        ],
-        "sourceUrl": "https://arxiv.org/abs/2608.27406v1",
-        "task": "unknown",
-        "embodiment": [
-          "真实机器人",
-          "人形机器人"
-        ],
-        "methods": "unknown",
-        "benchmark": {
-          "name": "unknown",
-          "metric": "unknown",
-          "result": "unknown",
-          "baseline": "unknown",
-          "delta": "unknown",
-          "evidenceUrls": []
-        },
-        "realRobotTrials": "unknown",
-        "assets": {
-          "code": "unknown",
-          "data": "unknown",
-          "weights": "unknown"
-        },
-        "reproducibilityCost": {
-          "level": "unknown",
-          "rationale": "unknown"
-        },
-        "authority": {
-          "openAlexWorkId": "W7204604373",
-          "authors": [
-            "Kechen Liu",
-            "Ola Shorinwa"
-          ],
-          "labs": [],
-          "citedByCount": 0,
-          "checkedAt": "2026-09-05T09:12:27.922Z"
-        },
-        "limitations": "unknown",
-        "whyWorthAttention": "原文摘要明确出现真实机器人、开源证据。",
-        "rankReasons": [
-          "真实机器人证据"
-        ],
-        "gaps": [
-          "assets.code",
-          "assets.data",
-          "assets.weights",
-          "benchmark.name",
-          "benchmark.metric",
-          "benchmark.result",
-          "benchmark.baseline",
-          "benchmark.delta",
-          "realRobotTrials",
-          "limitations",
-          "authority.labs"
-        ]
-      },
-      {
         "passportId": "decision-research-787346b3b6198546a3f7",
         "paperId": "da3b393a8a0b1c93",
         "titleZh": "HumanoidVLN：面向多种人形机器人形态的物理仿真视觉语言导航基准",
@@ -1958,69 +1895,6 @@
           "benchmark.delta",
           "realRobotTrials",
           "authority.labs"
-        ]
-      },
-      {
-        "passportId": "decision-research-1d8b6c6c54eb529c95b3",
-        "paperId": "cff8ac6d7c4c16ee",
-        "titleZh": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
-        "factsZh": [
-          "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。",
-          "大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
-        ],
-        "sourceUrl": "https://arxiv.org/abs/2608.19589v1",
-        "task": "unknown",
-        "embodiment": [
-          "真实机器人"
-        ],
-        "methods": "unknown",
-        "benchmark": {
-          "name": "unknown",
-          "metric": "unknown",
-          "result": "unknown",
-          "baseline": "unknown",
-          "delta": "unknown",
-          "evidenceUrls": []
-        },
-        "realRobotTrials": "unknown",
-        "assets": {
-          "code": "unknown",
-          "data": "unknown",
-          "weights": "unknown"
-        },
-        "reproducibilityCost": {
-          "level": "unknown",
-          "rationale": "unknown"
-        },
-        "authority": {
-          "openAlexWorkId": "W7203943488",
-          "authors": [
-            "Jiaqi Wang",
-            "Zhou Fang",
-            "Qiongfeng Shi"
-          ],
-          "labs": [
-            "Southeast University"
-          ],
-          "citedByCount": 0,
-          "checkedAt": "2026-09-05T09:12:23.962Z"
-        },
-        "limitations": "unknown",
-        "whyWorthAttention": "原文摘要明确出现真实机器人证据；OpenAlex 作者/机构元数据包含Southeast University。",
-        "rankReasons": [
-          "真实机器人证据"
-        ],
-        "gaps": [
-          "assets.code",
-          "assets.data",
-          "assets.weights",
-          "benchmark.name",
-          "benchmark.metric",
-          "benchmark.result",
-          "benchmark.baseline",
-          "benchmark.delta",
-          "realRobotTrials",
-          "limitations"
         ]
       },
       {
@@ -2154,7 +2028,7 @@
       }
     ],
     "subscriptions": {
-      "generatedAt": "2026-09-07T01:56:22.000Z",
+      "generatedAt": "2026-09-07T02:29:11.960Z",
       "entries": [
         {
           "subscriptionId": "github-watch",
@@ -2243,7 +2117,7 @@
   "communityEvidence": {
     "taskArtifact": {
       "schemaVersion": 1,
-      "generatedAt": "2026-09-05T09:10:00.946Z",
+      "generatedAt": "2026-09-07T02:29:11.960Z",
       "tasks": []
     },
     "metrics": {
@@ -2262,8 +2136,11 @@
     },
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidateBacklog": 266,
-    "sourceFailureCount": 0,
-    "degradedComponents": []
+    "candidateBacklog": 276,
+    "sourceFailureCount": 1,
+    "degradedComponents": [
+      "LLM",
+      "Watchlist"
+    ]
   }
 }
