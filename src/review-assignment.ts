@@ -1,4 +1,4 @@
-import { reviewSlo } from "./review-cases.js";
+import { compareCases, reviewSlo } from "./review-cases.js";
 import type { ReviewCase, ReviewCasePriority, ReviewCaseType } from "./review-cases.js";
 
 export interface ReviewOwner {
@@ -165,8 +165,7 @@ export function assignReviewCases(
     if (active(reviewCase) && previous?.status === "assigned" && owner && supports(owner, reviewCase)) load.set(owner.ownerId, (load.get(owner.ownerId) ?? 0) + 1);
   }
 
-  const ordered = [...cases].sort((left, right) => PRIORITY_ORDER[left.priority] - PRIORITY_ORDER[right.priority]
-    || new Date(left.dueAt).getTime() - new Date(right.dueAt).getTime() || left.caseId.localeCompare(right.caseId));
+  const ordered = [...cases].sort(compareCases);
   for (const reviewCase of ordered) {
     const previous = byCase.get(reviewCase.caseId);
     if (!active(reviewCase)) {

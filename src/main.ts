@@ -36,6 +36,9 @@ import { buildEventAnomalyReport } from "./event-anomalies.js";
 import { buildReviewCaseArtifact, reviewCaseAlerts, reviewCaseGenerator, reviewCaseMetrics, serializeReviewCaseArtifact } from "./review-cases.js";
 import type { ReviewCaseArtifact, ReviewCaseGenerator } from "./review-cases.js";
 import { buildCompanyClaimLedger, type CompanyClaimLedger } from "./company-claim-ledger.js";
+import { buildCoreCoverageArtifact, buildCoreCoverageHistory, coreCoverageReviewSeeds, loadCoreCoverageState, projectCoreCoveragePublicHistory, stageCoreCoverage, validateCoreCoveragePublication } from "./core-coverage/materialize.js";
+import { replaceCoreCoverageReadme, stageCoreCoverageSurfaces } from "./core-coverage/render.js";
+import { prepareReviewedBackfill, type ReviewedBackfill } from "./core-coverage/reviewed-ingest.js";
 import { buildBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
 import { selectTopResearchDecisionCards } from "./research-decision-card.js";
@@ -772,6 +775,8 @@ function formatReviewCasesMarkdown(artifact: ReviewCaseArtifact): string {
 }
 
 export interface GenerateOptions {
+  /** Explicit operator-reviewed receipt; normal daily never reads private audits. */
+  reviewedBackfill?: ReviewedBackfill;
   root?: string;
   now?: Date;
   topSignalsDraftNow?: Date;
@@ -839,9 +844,13 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     throw new DailyGenerationError("corrupt-top-signals-publication", "已发布 Top Signals 状态损坏；已停止日报并保留上一版公开内容。", { cause: error });
   }
   const candidateRegistry = await readCandidateRegistry(candidatePath);
-  const companies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
+  const storedCompanies = await readJsonStrict<CompanyProfile[]>(join(eventsDir, "companies.json"), { label: "公司档案", validate: isArray<CompanyProfile> }) ?? [];
+  const reviewed = options.reviewedBackfill ? prepareReviewedBackfill(storedCompanies, await readJson<EventStore>(join(eventsDir, "index.json")), options.reviewedBackfill, now) : undefined;
+  const companies = reviewed?.companies ?? storedCompanies;
+  if (reviewed) await writeFile(join(eventsDir, "companies.json"), JSON.stringify(companies, null, 2) + "\n", "utf8");
   const invalidCompany = companies.find((company) => !company.entityId || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(company.entityId));
   if (invalidCompany) throw new DailyGenerationError("invalid-company-id", "公司档案包含不合法的规范 ID；已停止发布并保留上一版。");
+  const coreCoverageState = await loadCoreCoverageState(outputRoot, companies, now);
   const catalogErrors = validateEntitySourceBindings(companies, [...SOURCES, ...X_SOURCES]);
   if (catalogErrors.length) throw new Error(`实体与信源目录不一致：\n- ${catalogErrors.join("\n- ")}`);
   const trackedCompanies = new Set(companies.map((company) => company.name));
@@ -929,7 +938,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const publicArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length === 0);
   const heldArticles = articles.filter((article) => holdReasonsForCompanyArticle(article).length > 0).map((article) => candidateArticle(article, holdReasonsForCompanyArticle(article)));
   const eventPath = join(eventsDir, "index.json");
-  const eventStore = upsertEvents(await readJson<EventStore>(eventPath), publicArticles, now, companies);
+  const eventStore = upsertEvents(reviewed?.store ?? await readJson<EventStore>(eventPath), publicArticles, now, companies);
   await writeFile(eventPath, JSON.stringify(eventStore, null, 2) + "\n", "utf8");
   const companyDossiers = buildCompanyDossiers(companies, eventStore.events);
   await writeFile(join(eventsDir, "company-dossiers.json"), JSON.stringify(companyDossiers, null, 2) + "\n", "utf8");
@@ -1028,7 +1037,29 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     generatedAt: candidateVerification.generatedAt,
     seeds: verificationIssueSeeds(candidateVerification),
   }, null, 2) + "\n", "utf8");
-  const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger });
+  // One canonical store: preserve the legacy selection and add every covered subject.
+  const coverageCompanyIds = coreCoverageState ? [...new Set([
+    ...buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger }).companies.map((entry) => entry.companyId),
+    ...coreCoverageState.coverage.members.map((member) => member.companyId),
+  ])] : undefined;
+  const companyClaimLedger = buildCompanyClaimLedger(companies, eventStore.events, { now, previous: previousCompanyClaimLedger, coverageCompanyIds });
+  const coreCoverageInput = coreCoverageState ? { coverage: coreCoverageState.coverage, companies, events: eventStore.events, ledger: companyClaimLedger, now } : undefined;
+  const coreCoverage = coreCoverageInput ? buildCoreCoverageArtifact(coreCoverageInput) : undefined;
+  if (coreCoverage && coreCoverageInput) validateCoreCoveragePublication(coreCoverage, coreCoverageInput);
+  if (options.reviewedBackfill && coreCoverageState && coreCoverage) {
+    const reviewedIds = new Set(options.reviewedBackfill.identities.map((identity) => identity.companyId));
+    coreCoverageState.tasks = coreCoverageState.tasks.map((task) => {
+      if (!reviewedIds.has(task.companyId)) return task;
+      const brief = coreCoverage.briefs.find((item) => item.companyId === task.companyId)!;
+      const fields = task.field === "capital" ? ["round", "amount", "valuation", "investors"] : task.field === "product" ? ["product"] : ["deployment", "customer", "productionStage"];
+      const evidenceUrls = task.field === "identity" ? brief.identityEvidence.map((proof) => proof.link)
+        : brief.knownFacts.flatMap((fact) => Object.entries(fact.fields).filter(([field]) => fields.includes(field)).flatMap(([, field]) => field?.evidenceUrls ?? []));
+      return { ...task, status: evidenceUrls.length ? "checked" as const : "blocked" as const,
+        reason: evidenceUrls.length ? "none" as const : "missing-evidence" as const,
+        evidenceUrls: [...new Set(evidenceUrls)].sort(), lastActionAt: options.reviewedBackfill!.reviewedAt };
+    });
+  }
+  const coreReviewSeeds = coreCoverageState && coreCoverage ? coreCoverageReviewSeeds(coreCoverageState, coreCoverage) : [];
   const benchmarkResultLedger = buildBenchmarkResultLedger(researchRegistry.records, researchDecisionCards, { now, previous: previousBenchmarkResultLedger });
   validateDualLedgers({
     company: companyClaimLedger,
@@ -1378,13 +1409,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
       papers: [],
     }),
     candidateVerificationReviewGenerator(candidateVerification),
+    { id: "core30-backfill", generate: () => coreReviewSeeds },
   ], now);
   // P0 keeps the operational queue intentionally narrow: high-value industry
   // articles and companies only. Research/source review remains in its own
   // registry until the first SLO has proven sustainable.
   const scopedCases = broadReviewCases.cases
-    .filter((item) => (item.type === "article" || item.type === "company") && (item.priority === "P0" || item.priority === "P1"))
+    .filter((item) => !item.subjectId.startsWith("core30-backfill-") && (item.type === "article" || item.type === "company") && (item.priority === "P0" || item.priority === "P1"))
     .slice(0, 40);
+  const activeCoreSubjects = new Set(coreReviewSeeds.map((seed) => seed.subjectId));
+  scopedCases.push(...broadReviewCases.cases.filter((item) => activeCoreSubjects.has(item.subjectId)));
   const reviewCases: ReviewCaseArtifact = {
     ...broadReviewCases,
     cases: scopedCases,
@@ -1415,6 +1449,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   // verification stays out of this input, so an unknown financing item remains
   // unknown rather than being promoted into a company capital assertion.
   await writeFile(join(eventsDir, "company-claim-ledger.json"), JSON.stringify(companyClaimLedger, null, 2) + "\n", "utf8");
+  if (coreCoverage && coreCoverageState) stageCoreCoverage({ root: outputRoot, transaction, artifact: coreCoverage, state: coreCoverageState });
   await writeFile(join(researchDir, "benchmark-result-ledger.json"), JSON.stringify(benchmarkResultLedger, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "dual-ledger-metrics.json"), JSON.stringify(dualLedgerMetrics, null, 2) + "\n", "utf8");
   await writeFile(join(reviewDir, "company-claim-ledger-metrics.json"), JSON.stringify({
@@ -1429,7 +1464,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   await writeFile(join(reviewDir, "issue-seeds.json"), JSON.stringify({ generatedAt: now.toISOString(), week, seeds: buildCommunityReviewSeeds(archives, companyCandidates, nextCandidateRegistry) }, null, 2) + "\n", "utf8");
   const readmePath = join(outputRoot, "README.md");
   const legacyReadme = updateReadme(await readFile(readmePath, "utf8"), eventStore, companies, publicResearchRecords, researchRegistry.records.length, metrics, now, researchFallbackDate, watchlistView);
-  const readme = stageDecisionProducts({
+  const decisionReadme = stageDecisionProducts({
     root: outputRoot,
     transaction,
     artifact: decisionProducts,
@@ -1441,6 +1476,16 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
     publishedTopSignals,
   });
+  const readme = coreCoverage && coreCoverageState
+    ? stageCoreCoverageSurfaces({
+      root: outputRoot,
+      transaction,
+      artifact: coreCoverage,
+      history: projectCoreCoveragePublicHistory(buildCoreCoverageHistory(coreCoverage, coreCoverageState.history)),
+      readme: decisionReadme,
+      pagesUrl: pagesBaseUrl,
+    })
+    : replaceCoreCoverageReadme(decisionReadme, undefined, pagesBaseUrl);
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
     theses: watchlistTheses,
@@ -1533,6 +1578,7 @@ const FIXTURE_REPOSITORY = "mbabby/physical-ai-news-cn";
 const fixtureCollection: typeof collect = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const fixtureXCollection: typeof collectX = async () => ({ articles: [], failures: [], sourceOutcomes: [] });
 const FIXTURE_INPUT_PATHS = [
+  "site/data/core-coverage.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "events/core-coverage-history.json", "review/core30-backfill.json",
   `daily/${FIXTURE_NOW.toISOString().slice(0, 10)}.json`,
   "research/benchmark-result-ledger.json",
   "research/decision-cards.json",
@@ -1547,6 +1593,7 @@ const FIXTURE_SEED_PATHS = [
   "metrics", "site/data", "site/feeds", "watchlist", "community",
 ] as const;
 const FIXTURE_RESET_PATHS = [
+  "site/data/core-coverage.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "events/core-coverage-history.json", "review/core30-backfill.json",
   "review/evidence-task-seeds.json", "review/evidence-issue-snapshot.json", "review/evidence-task-ledger.json",
   "review/accepted-evidence.json", "review/accepted-evidence-revalidation.json", "community/contributions.json",
   "site/data/community-tasks.json",
@@ -1624,6 +1671,7 @@ async function restoreFixtureInputs(outputRoot: string, snapshot: Map<string, Bu
 
 async function prepareFixtureInputs(outputRoot: string): Promise<void> {
   await Promise.all([
+    ...["site/data/core-coverage.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "events/core-coverage-history.json", "review/core30-backfill.json"].map((path) => rm(join(outputRoot, path), { force: true })),
     rm(join(outputRoot, "daily", `${FIXTURE_NOW.toISOString().slice(0, 10)}.json`), { force: true }),
     rm(join(outputRoot, "research", "benchmark-result-ledger.json"), { force: true }),
     rm(join(outputRoot, "research", "decision-cards.json"), { force: true }),

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeUrl } from "./filter.js";
+import { derivePublication, type EvidenceState } from "./facts-contract.js";
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "./publication.js";
 import { eventMaterialChangeAt, eventOccurredAt, eventTimeForArticle, migrateEventTime, newestEvidenceAt } from "./event-time.js";
 import { findMentionedEntities, resolveArticleEntity, resolveStoredEventEntity, resolveTitleEntity } from "./entity-resolution.js";
@@ -225,7 +226,11 @@ function displayable(event: EventRecord): boolean {
   return event.status !== "已归档" && hasChinese(event.title) && Boolean(publicEvidence(event)) && Boolean(fact) && hasChinese(fact!) && meaningful(fact) && fact !== event.title;
 }
 function publicEvidence(event: EventRecord): EventEvidence | undefined {
-  return event.evidence.find((item) => (item.grade === "A" || item.grade === "B") && !DISCOVERY_SOURCE.test(item.source));
+  if (event.status === "待复核" || event.openQuestions.some((question) => /冲突|矛盾|不一致|conflict/i.test(question))) return undefined;
+  const evidence = event.evidence.map((item) => ({ ...item, id: item.link }));
+  const publication = derivePublication({ evidence, evidenceState: (event as EventRecord & { evidenceState?: EvidenceState }).evidenceState });
+  if (!publication.publicEligible) return undefined;
+  return event.evidence.find((item) => publication.qualifyingEvidenceIds.includes(item.link));
 }
 function ageInDays(value: string): number { return Math.max(0, (Date.now() - new Date(value).getTime()) / 86_400_000); }
 function freshnessScore(value: string): number {
@@ -388,7 +393,7 @@ export function formatCompanyRadar(companies: CompanyProfile[], events: EventRec
 
 export function buildCompanyDossiers(companies: CompanyProfile[], events: EventRecord[]): CompanyDossier[] {
   return companies.map((company) => {
-    const linked = events.filter((event) => event.primaryEntity === company.name && event.evidence.some((item) => item.grade === "A" || item.grade === "B"))
+    const linked = events.filter((event) => event.primaryEntity === company.name && Boolean(publicEvidence(event)))
       .sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a)));
     // Most legacy profiles were curated before identity evidence became an
     // explicit field. Their official URL is still a traceable identity source,
@@ -413,7 +418,7 @@ export function buildRouteIndex(companies: CompanyProfile[], events: EventRecord
   const routes: TechnicalRoute[] = ["数据与训练", "VLA 与具身模型", "世界模型与空间智能", "本体与硬件", "部署与商业化"];
   return routes.map((route) => {
     const routeCompanies = companies.filter((company) => company.routes.includes(route)).map((company) => company.name);
-    const linked = events.filter((event) => event.routes.includes(route) && event.primaryEntity && routeCompanies.includes(event.primaryEntity));
+    const linked = events.filter((event) => event.routes.includes(route) && event.primaryEntity && routeCompanies.includes(event.primaryEntity) && Boolean(publicEvidence(event)));
     return { route, companies: routeCompanies, fundingEventIds: linked.filter((event) => event.type === "投融资").map((event) => event.id), productDeploymentEventIds: linked.filter((event) => ["产品发布", "部署案例", "公司商业"].includes(event.type)).map((event) => event.id) };
   });
 }
@@ -441,7 +446,7 @@ const ROUTE_MAP: Array<{ route: TechnicalRoute; focus: string; approaches: strin
 ];
 
 function routeEvidence(events: EventRecord[], company: CompanyProfile, route: TechnicalRoute): EventRecord[] {
-  return events.filter((event) => event.primaryEntity === company.name && event.routes.includes(route) && event.evidence.some((item) => item.grade === "A" || item.grade === "B"));
+  return events.filter((event) => event.primaryEntity === company.name && event.routes.includes(route) && Boolean(publicEvidence(event)));
 }
 function evidenceLink(event: EventRecord): string { return publicEvidence(event)?.link ?? "#"; }
 function compactEvent(event: EventRecord): string { return `[${headlineFor(event, true)}](${evidenceLink(event)})`; }

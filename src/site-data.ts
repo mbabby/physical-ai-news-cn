@@ -182,7 +182,8 @@ function hasPublicationConflict(event: EventRecord): boolean {
 
 function verificationState(event: EventRecord): "官方确认" | "多方证实" | "正在发生" | undefined {
   if (hasPublicationConflict(event)) return undefined;
-  const publication = derivePublication({ evidence: event.evidence.map((item) => ({
+  const publication = derivePublication({ evidenceState: (event as EventRecord & { evidenceState?: import("./facts-contract.js").EvidenceState }).evidenceState, evidence: event.evidence.map((item) => ({
+    ...item,
     id: item.link,
     link: item.link,
     source: item.source,

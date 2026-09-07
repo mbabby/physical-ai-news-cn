@@ -46,6 +46,14 @@
 - [公司 × 路线 × 资本动量](https://mbabby.github.io/physical-ai-news-cn/companies.html)：判断谁在做、资本是否支持、验证到了哪一步。
 - [Research → Industry](https://mbabby.github.io/physical-ai-news-cn/research.html)：只用官方采用、合作、机构、代码依赖或独立复现证据连接论文与公司；同路线仅作为相邻观察。
 
+## Core 30 固定研究覆盖
+
+<!-- CORE_COVERAGE_START -->
+
+> Core 30 当前不可用：本轮没有已启用并通过联合校验的公开工件。
+
+<!-- CORE_COVERAGE_END -->
+
 > **行业入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。 **研究入口**：先看 6 张研究卡，再进入[里程碑论文与精读](resources/milestone-papers.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多从业者发现它。
 
 > 数据口径：官方公司/实验室、开源发布与权威产业媒体可作为公开证据；Google News、HN 与 X 仅用于发现线索，未完成主体与事实核验的内容只保留在候选层。

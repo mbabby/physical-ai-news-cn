@@ -253,7 +253,7 @@ export function validateFacts(input: PublicFactsInput): FactsContractValidation 
   for (const [name, value] of Object.entries(derived.times)) {
     const supplied = input[name as keyof PublicFactTimesInput]
       ?? (name === "eventDate" ? input.occurredAt : name === "publishedAt" ? input.lastEvidenceAt : name === "verifiedAt" ? input.lastVerifiedAt : name === "materiallyChangedAt" ? input.lastMaterialChangeAt ?? input.lastUpdatedAt : undefined);
-    if (supplied !== undefined && value === UNKNOWN) issues.push({ code: "invalid-time", message: `${name} 不是有效时间，缺失值应明确保持 unknown。` });
+    if (supplied !== undefined && supplied !== UNKNOWN && value === UNKNOWN) issues.push({ code: "invalid-time", message: `${name} 不是有效时间，缺失值应明确保持 unknown。` });
   }
   const firstSeen = derived.times.firstSeenAt;
   const verified = derived.times.verifiedAt;

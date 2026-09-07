@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { eventTimeForArticle, migrateEventTime } from "../src/event-time.js";
 import type { Article, EventRecord } from "../src/types.js";
+import { projectCoreCoverageEventDates } from "../src/core-coverage/timeline.js";
+import { event } from "./core-coverage-fixtures.js";
 
 function article(overrides: Partial<Article> = {}): Article {
   return {
@@ -36,4 +38,21 @@ test("legacy migration prefers A-grade evidence and remains idempotent", () => {
   assert.equal(once.occurredAt, "2026-07-12T00:00:00.000Z");
   assert.equal(once.lastEvidenceAt, "2026-07-12T00:00:00.000Z");
   assert.deepEqual(twice, once);
+});
+
+test("stored source calendar days retain precision while genuine ISO clocks remain instants", () => {
+  const now = new Date("2026-09-06T17:00:00Z");
+  for (const [source, expected] of [["2026-09-07", "2026-09-07"], ["2026-09-06T16:00:00Z", "2026-09-07"], ["2026-09-07T00:00:00Z", "unknown"], ["2026-09-08", "unknown"], ["2026-02-30", "unknown"], ["2026-13-01", "unknown"], ["unknown", "unknown"]]) {
+    const record = event("product", { occurredAt: source, eventDate: source.slice(0, 10), dateSource: "explicit", firstSeenAt: now.toISOString(), lastVerifiedAt: now.toISOString(), lastMaterialChangeAt: "unknown", lastEvidenceAt: source, evidence: [{ ...event("product").evidence[0], publishedAt: source }] });
+    const migrated = migrateEventTime(record);
+    const projected = projectCoreCoverageEventDates(migrated, now);
+    assert.equal(projected.occurredOn, expected, source);
+    assert.equal(projected.publishedOn, expected, source);
+    assert.equal(migrated.occurredAt, source.includes("T") ? new Date(source).toISOString() : source);
+    assert.equal(migrated.lastEvidenceAt, source.includes("T") ? new Date(source).toISOString() : source);
+    assert.equal(migrated.firstSeenAt, now.toISOString());
+    assert.equal(migrated.lastVerifiedAt, now.toISOString());
+    assert.equal(migrated.lastMaterialChangeAt, "unknown");
+    assert.deepEqual(migrateEventTime(migrated), migrated);
+  }
 });

@@ -230,6 +230,8 @@ export interface ProductDeploymentFact {
 }
 
 export interface EventRecord {
+  /** Explicit reviewed source semantics; absent on legacy keyword-classified records. */
+  kind?: import("./facts-contract.js").PublicEventKind;
   id: string;
   title: string;
   /** Original source-language headline. Public Chinese surfaces use `title`; English sharing uses this only when it is actually English. */

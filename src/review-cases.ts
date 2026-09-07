@@ -24,6 +24,8 @@ export interface ReviewCase {
   subjectId: string;
   owner: string | null;
   priority: ReviewCasePriority;
+  /** Optional bounded source-queue order; internal only, after operational priority. */
+  sourcePriority?: number;
   state: ReviewCaseState;
   createdAt: string;
   firstActionAt: string | null;
@@ -43,6 +45,7 @@ export interface ReviewCaseSeed {
   /** Stable ID from the owning registry; display names and titles are never used as identity. */
   subjectId: string;
   priority?: ReviewCasePriority;
+  sourcePriority?: number;
   /** 0-100 impact signal supplied by the source queue. */
   impactScore?: number;
   evidenceCount?: number;
@@ -135,8 +138,9 @@ function addHours(value: string, hours: number): string {
 
 function active(item: ReviewCase): boolean { return item.state === "open" || item.state === "in_progress"; }
 function timestamp(value: string): number { return new Date(value).getTime(); }
-function compareCases(left: ReviewCase, right: ReviewCase): number {
+export function compareCases(left: ReviewCase, right: ReviewCase): number {
   return PRIORITY_ORDER[left.priority] - PRIORITY_ORDER[right.priority]
+    || (left.sourcePriority ?? -1) - (right.sourcePriority ?? -1)
     || timestamp(left.dueAt) - timestamp(right.dueAt)
     || left.caseId.localeCompare(right.caseId);
 }
@@ -176,6 +180,7 @@ function newCase(seed: ReviewCaseSeed, now: string): ReviewCase {
   const dueAt = asIso(seed.dueAt ?? addHours(createdAt, reviewSlo(priority).firstResponseHours));
   return {
     caseId: reviewCaseId(seed.type, seed.subjectId), type: seed.type, subjectId: seed.subjectId.trim(), owner: normalizeText(seed.owner), priority, state, createdAt,
+    ...(seed.sourcePriority === undefined ? {} : { sourcePriority: seed.sourcePriority }),
     firstActionAt: null, dueAt, lastActionAt: null, nextAction, missingEvidence,
     decision: seed.decision ?? (state === "accepted" ? "accepted" : state === "rejected" ? "rejected" : null),
     decisionReason: normalizeText(seed.decisionReason), linkedIssue: normalizeText(seed.linkedIssue), acceptedEvidenceId: normalizeText(seed.acceptedEvidenceId),
@@ -193,9 +198,12 @@ function cloneCase(value: ReviewCase): ReviewCase {
  */
 export function upsertReviewCases(existing: readonly ReviewCase[], seeds: Iterable<ReviewCaseSeed>, now = new Date()): ReviewCase[] {
   const nowIso = asIso(now);
+  const validateSourcePriority = (value: number | undefined) => { if (value !== undefined && (!Number.isInteger(value) || value < 0 || value > 19)) throw new Error("Review sourcePriority must be an integer from 0 to 19"); };
+  existing.forEach((item) => validateSourcePriority(item.sourcePriority));
   const byId = new Map(existing.map((item) => [item.caseId, cloneCase(item)]));
   const orderedSeeds = [...seeds].sort((a, b) => reviewCaseId(a.type, a.subjectId).localeCompare(reviewCaseId(b.type, b.subjectId)));
   for (const seed of orderedSeeds) {
+    validateSourcePriority(seed.sourcePriority);
     const caseId = reviewCaseId(seed.type, seed.subjectId);
     const saved = byId.get(caseId);
     if (!saved) { byId.set(caseId, newCase(seed, nowIso)); continue; }
@@ -203,6 +211,7 @@ export function upsertReviewCases(existing: readonly ReviewCase[], seeds: Iterab
     const missingEvidence = normalizedEvidence(seed.missingEvidence);
     const linkedIssue = seed.linkedIssue === undefined ? saved.linkedIssue : normalizeText(seed.linkedIssue);
     const changes: string[] = [];
+    if (seed.sourcePriority !== undefined && saved.sourcePriority !== seed.sourcePriority) { saved.sourcePriority = seed.sourcePriority; changes.push("sourcePriority"); }
     if (PRIORITY_ORDER[priority] < PRIORITY_ORDER[saved.priority]) {
       saved.priority = priority;
       const escalatedDue = addHours(saved.createdAt, reviewSlo(priority).firstResponseHours);

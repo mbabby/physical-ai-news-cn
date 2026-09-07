@@ -23,6 +23,12 @@ function iso(value: string | Date | undefined, fallback: string): string {
   return Number.isFinite(parsed.getTime()) ? parsed.toISOString() : fallback;
 }
 
+/** Stored source calendar dates are not instants. Preserve their precision for
+ * date-aware validation/projection; observation and verification clocks use iso. */
+function sourceDate(value: string | undefined, fallback: string): string {
+  return value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : iso(value, fallback);
+}
+
 function evidenceRank(grade: string): number {
   return grade === "A" ? 3 : grade === "B" ? 2 : grade === "C" ? 1 : 0;
 }
@@ -62,15 +68,17 @@ export function migrateEventTime(event: EventRecord): EventRecord {
   const bestRank = ranked.length ? evidenceRank(ranked[0].grade) : -1;
   const best = ranked.filter((item) => evidenceRank(item.grade) === bestRank).sort((a, b) => a.publishedAt.localeCompare(b.publishedAt))[0];
   const existingOccurrence = event.occurredAt ?? event.eventDate;
-  const occurredAt = iso(existingOccurrence, best ? iso(best.publishedAt, fallback) : fallback);
-  const lastEvidenceAt = ranked.reduce((latest, item) => {
-    const value = iso(item.publishedAt, latest);
+  // An audited unknown is a disposition, not a missing legacy field.
+  const occurredAt = existingOccurrence === "unknown" ? "unknown" : sourceDate(existingOccurrence, best ? sourceDate(best.publishedAt, fallback) : fallback);
+  const lastEvidenceAt = event.lastEvidenceAt === "unknown" && !ranked.length ? "unknown" : ranked.reduce((latest, item) => {
+    const value = sourceDate(item.publishedAt, latest);
     return value > latest ? value : latest;
-  }, occurredAt);
+  }, occurredAt === "unknown" ? "" : occurredAt) || "unknown";
   const inferredSource: EventDateSource = best?.grade === "A" ? "official-published" : best?.grade === "B" ? "media-published" : "inferred";
   const dateSource = event.dateSource ?? (existingOccurrence ? "explicit" : inferredSource);
   const dateConfidence = event.dateConfidence ?? (dateSource === "explicit" || dateSource === "official-published" ? "high" : dateSource === "media-published" ? "medium" : "low");
-  const lastMaterialChangeAt = iso(event.lastMaterialChangeAt ?? event.lastUpdatedAt, fallback);
+  const material = event.lastMaterialChangeAt ?? event.lastUpdatedAt;
+  const lastMaterialChangeAt = material === "unknown" ? "unknown" : iso(material, fallback);
   return {
     ...event,
     occurredAt,

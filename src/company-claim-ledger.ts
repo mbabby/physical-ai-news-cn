@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { canonicalCompanyId, canonicalCompanyOwner } from "./company-event-ownership.js";
 import { eventOccurredAt } from "./event-time.js";
 import { derivePublication } from "./facts-contract.js";
 import type { PublicFactEvidence } from "./facts-contract.js";
@@ -88,6 +89,8 @@ export interface CompanyClaimLedger {
 export interface CompanyClaimLedgerOptions {
   /** First release deliberately limits the decision view to fifteen companies. */
   limit?: number;
+  /** Explicit canonical subjects for configured coverage; order is preserved. */
+  coverageCompanyIds?: readonly string[];
   now?: Date;
   previous?: CompanyClaimLedger;
 }
@@ -97,10 +100,7 @@ const UNKNOWN = "unknown" as const;
 const codeUnitCompare = (left: string, right: string): number => left < right ? -1 : left > right ? 1 : 0;
 
 function companyId(company: CompanyProfile): string {
-  if (company.entityId) return company.entityId;
-  // Tests and migration callers may have legacy profiles without entityId.
-  // Hashing the authoritative profile identity avoids inventing a catalog ID.
-  return `company-${createHash("sha256").update(`${company.name}\n${company.officialUrl}`).digest("hex").slice(0, 12)}`;
+  return canonicalCompanyId(company);
 }
 
 function publicEvidence(event: EventRecord): EventEvidence[] {
@@ -245,12 +245,21 @@ function fieldsFor(event: EventRecord, claimType: CompanyClaimType, evidence: Ev
   };
 }
 
-function linkedEvents(company: CompanyProfile, events: EventRecord[]): EventRecord[] {
-  return events.filter((event) => event.primaryEntity === company.name)
+function linkedEvents(company: CompanyProfile, companies: CompanyProfile[], events: EventRecord[]): EventRecord[] {
+  return events.filter((event) => canonicalCompanyOwner(companies, event.primaryEntity) === companyId(company))
     .sort((a, b) => eventOccurredAt(b).localeCompare(eventOccurredAt(a)) || a.id.localeCompare(b.id));
 }
 
 function claimTypeFor(event: EventRecord): CompanyClaimType {
+  if (event.kind) {
+    const explicit: Record<NonNullable<EventRecord["kind"]>, CompanyClaimType> = {
+      funding: "funding", acquisition: "funding", "product-release": "product", demonstration: "product",
+      pilot: "pilot", deployment: "deployment", "mass-production": "production", commercialisation: "commercialization",
+      "research-author-report": "research-team", "independent-replication": "research-team",
+    };
+    if (!Object.hasOwn(explicit, event.kind)) throw new Error(`Invalid canonical event kind: ${event.kind}`);
+    return explicit[event.kind];
+  }
   if (event.type === "投融资") return "funding";
   if (event.type === "研究与数据") return "research-team";
   const text = `${event.title} ${event.facts.join(" ")} ${event.productDeployment?.deployment ?? ""}`.toLowerCase();
@@ -261,6 +270,11 @@ function claimTypeFor(event: EventRecord): CompanyClaimType {
   return "product";
 }
 
+/** Rebuild ledger fields from the event's currently live canonical evidence. */
+export function projectCanonicalCompanyClaimFields(event: EventRecord): CompanyClaimFields {
+  return fieldsFor(event, claimTypeFor(event), publicEvidence(event));
+}
+
 /** Apply FACTS_POLICY proof thresholds before turning an event into a claim. */
 function isClaimVerified(event: EventRecord): boolean {
   const lifecycle = (event as EventWithEvidenceState).evidenceState;
@@ -269,10 +283,6 @@ function isClaimVerified(event: EventRecord): boolean {
   const evidence = publicEvidence(event);
   const type = claimTypeFor(event);
   return compatibilityValue(type, fieldsFor(event, type, evidence)) !== UNKNOWN;
-}
-
-function eligibleEvents(company: CompanyProfile, events: EventRecord[]): EventRecord[] {
-  return linkedEvents(company, events).filter(isClaimVerified);
 }
 
 function ttlDaysFor(type: CompanyClaimType): number {
@@ -422,13 +432,27 @@ function selectionScore(events: EventRecord[]): number {
  */
 export function buildCompanyClaimLedger(companies: CompanyProfile[], events: EventRecord[], options: CompanyClaimLedgerOptions = {}): CompanyClaimLedger {
   const now = options.now ?? new Date();
-  const limit = Math.min(MAX_COMPANIES, Math.max(0, Math.floor(options.limit ?? MAX_COMPANIES)));
-  const selected = [...companies].map((company) => {
-    const attributed = linkedEvents(company, events);
-    const eligible = eligibleEvents(company, events);
+  const coverageIds = options.coverageCompanyIds;
+  const limit = coverageIds === undefined
+    ? Math.min(MAX_COMPANIES, Math.max(0, Math.floor(options.limit ?? MAX_COMPANIES)))
+    : coverageIds.length;
+  const profilesById = new Map(companies.map((company) => [companyId(company), company]));
+  const coveredCompanies = coverageIds === undefined ? [...companies] : coverageIds.map((identifier, index) => {
+    if (coverageIds.indexOf(identifier) !== index) throw new Error(`覆盖名单包含重复公司 ID：${identifier}`);
+    const company = profilesById.get(identifier);
+    if (!company) throw new Error(`覆盖名单包含未知公司 ID：${identifier}`);
+    return company;
+  });
+  const candidates = coveredCompanies.map((company) => {
+    const attributed = linkedEvents(company, companies, events).filter((event) => (
+      coverageIds === undefined || company.entityType !== "实验室" || event.type === "研究与数据"
+    ));
+    const eligible = attributed.filter(isClaimVerified);
     return { company, attributed, eligible, score: selectionScore(eligible), newest: eligible[0] ? eventOccurredAt(eligible[0]) : "" };
-  }).sort((a, b) => b.score - a.score || b.newest.localeCompare(a.newest) || companyId(a.company).localeCompare(companyId(b.company)))
-    .slice(0, limit);
+  });
+  const selected = coverageIds === undefined
+    ? candidates.sort((a, b) => b.score - a.score || b.newest.localeCompare(a.newest) || companyId(a.company).localeCompare(companyId(b.company))).slice(0, limit)
+    : candidates;
   const previousClaims = new Map((options.previous?.companies ?? []).flatMap((entry) => entry.claims)
     .filter((claim) => typeof claim.claimId === "string")
     .map((claim) => [claim.claimId, claim]));
@@ -441,7 +465,7 @@ export function buildCompanyClaimLedger(companies: CompanyProfile[], events: Eve
     }).map((event) => claimFromEvent(company, event, now));
     // Absence is represented as an explicit unknown/evidence_insufficient
     // claim, never as a conclusion that the company did not raise funding.
-    if (!claims.some((claim) => claim.claimType === "funding")) claims.push(unknownFundingClaim(company, now));
+    if ((coverageIds === undefined || company.entityType !== "实验室") && !claims.some((claim) => claim.claimType === "funding")) claims.push(unknownFundingClaim(company, now));
     claims.forEach((claim) => { claim.corrections = correctionsFor(previousClaims.get(claim.claimId), claim, now.toISOString()); });
     claims.sort((a, b) => a.claimType.localeCompare(b.claimType) || b.eventDate.localeCompare(a.eventDate) || a.statement.localeCompare(b.statement));
     return { companyId: companyId(company), companyName: company.name, selectionScore: score, claims, metrics: metricsFor(claims, attributed, eligible) };

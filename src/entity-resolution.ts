@@ -28,6 +28,16 @@ function normalized(value: string): string {
 
 function identities(companies: CompanyProfile[]): Record<string, string[]> {
   const result: Record<string, string[]> = Object.fromEntries(Object.entries(DEFAULT_COMPANY_IDENTITIES).map(([name, aliases]) => [name, [...aliases]]));
+  // Explicit catalog subjects supersede an old default label for that exact
+  // identity. Never collapse two explicitly configured companies or fuzzy names.
+  for (const [name, aliases] of Object.entries(DEFAULT_COMPANY_IDENTITIES)) {
+    if (companies.some((company) => company.name === name)) continue;
+    const replacements = companies.filter((company) => aliases.some((alias) => normalized(alias) === normalized(company.name)));
+    if (replacements.length === 1) {
+      delete result[name];
+      result[replacements[0].name] = [name, ...aliases];
+    }
+  }
   for (const company of companies) result[company.name] = [...new Set([company.name, company.legalName ?? "", ...(result[company.name] ?? []), ...(company.aliases ?? [])].filter(Boolean))];
   return result;
 }

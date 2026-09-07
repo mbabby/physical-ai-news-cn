@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import test from "node:test";
 
+import type { BenchmarkResultLedger } from "../src/benchmark-result-ledger.js";
 import { buildCompanyClaimLedger } from "../src/company-claim-ledger.js";
 import { validateCompanyClaimLedger, validateDualLedgers } from "../src/dual-ledger.js";
+import { unknownLedgerField } from "../src/ledger-contracts.js";
 import type { CompanyProfile, EventRecord } from "../src/types.js";
 
 const NOW = new Date("2026-08-23T08:00:00.000Z");
@@ -17,6 +20,29 @@ const event: EventRecord = {
 
 function current() {
   return buildCompanyClaimLedger([company], [event], { now: NOW });
+}
+
+function withdrawnBenchmarkLedger(): BenchmarkResultLedger {
+  const paperId = "arxiv:2608.00001";
+  const benchmarkKey = "LIBERO";
+  const unknown = () => unknownLedgerField<never>();
+  return {
+    generatedAt: NOW.toISOString(),
+    entries: [{
+      entryId: `benchmark-result-${createHash("sha256").update(`${paperId}\n${benchmarkKey.toLowerCase()}`).digest("hex").slice(0, 16)}`,
+      paperId,
+      decisionCardPaperId: paperId,
+      benchmarkKey,
+      arxivVersion: 1,
+      sourceUrl: "https://arxiv.org/abs/2608.00001v1",
+      fields: {
+        benchmark: unknown(), metric: unknown(), result: unknown(), baseline: unknown(), delta: unknown(),
+        evaluationSetting: unknown(), realRobotTrials: unknown(), code: unknown(), data: unknown(), weights: unknown(),
+      },
+      gateCodes: ["benchmark-evidence-withdrawn"],
+      corrections: [],
+    }],
+  };
 }
 
 test("company ledger validator rejects forged current claim semantics", () => {
@@ -46,6 +72,33 @@ test("dual-ledger validation rejects non-canonical or wrongly owned company even
   assert.throws(() => validateDualLedgers({ ...common, companyEventOwners: new Map() }), /non-canonical company event/);
   assert.throws(() => validateDualLedgers({ ...common, companyEventOwners: new Map([[event.id, "beta"]]) }), /owned by another company/);
   assert.doesNotThrow(() => validateDualLedgers({ ...common, companyEventOwners: new Map([[event.id, "alpha"]]) }));
+});
+
+test("dual-ledger validation permits only all-unknown withdrawn benchmarks without a current decision card", () => {
+  const companyLedger = current();
+  const benchmark = withdrawnBenchmarkLedger();
+  const common = {
+    company: companyLedger,
+    companyIds: new Set(["alpha"]),
+    paperIds: new Set([benchmark.entries[0]!.paperId]),
+    decisionCards: [],
+    expectedGeneratedAt: companyLedger.generatedAt,
+  };
+
+  assert.doesNotThrow(() => validateDualLedgers({ ...common, benchmark }));
+
+  const forgedPositive = structuredClone(benchmark);
+  forgedPositive.entries[0]!.fields.result = {
+    value: "74.7%", status: "verified", evidenceIds: ["arxiv:2608.00001:result"],
+    evidenceUrls: ["https://arxiv.org/abs/2608.00001v1"], observedAt: NOW.toISOString(), verifiedAt: NOW.toISOString(),
+  };
+  assert.throws(() => validateDualLedgers({ ...common, benchmark: forgedPositive }), /non-canonical paper\/card/);
+
+  const activeWithoutCard = structuredClone(benchmark);
+  activeWithoutCard.entries[0]!.gateCodes = [];
+  assert.throws(() => validateDualLedgers({ ...common, benchmark: activeWithoutCard }), /non-canonical paper\/card/);
+
+  assert.throws(() => validateDualLedgers({ ...common, benchmark, paperIds: new Set<string>() }), /non-canonical paper\/card/);
 });
 
 test("legacy migration accepts only the exact pre-Phase-2 claim schema", () => {

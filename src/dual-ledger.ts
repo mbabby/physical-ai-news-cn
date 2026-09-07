@@ -1,5 +1,6 @@
 import { validateBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { createHash } from "node:crypto";
+import { canonicalCompanyOwner } from "./company-event-ownership.js";
 import type { ClaimValue, CompanyClaim, CompanyClaimFields, CompanyClaimLedger, CompanyClaimType } from "./company-claim-ledger.js";
 import { deriveLedgerCorrections, ledgerField, unknownLedgerField, validateLedgerField, type LedgerCorrection, type LedgerField, type LedgerFieldStatus, type LedgerCorrectionReason } from "./ledger-contracts.js";
 import type { ResearchDecisionCard } from "./research-decision-card.js";
@@ -60,6 +61,11 @@ function compatibilityValue(claimType: CompanyClaimType, fields: CompanyClaimFie
 
 function validStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isWithdrawnBenchmarkTombstone(entry: BenchmarkResultLedger["entries"][number]): boolean {
+  return entry.gateCodes.includes("benchmark-evidence-withdrawn")
+    && BENCHMARK_FIELD_PATHS.every((fieldPath) => entry.fields[fieldPath].status === "unknown");
 }
 
 function validateFreshness(value: unknown): void {
@@ -145,9 +151,8 @@ function companyClaims(ledger: CompanyClaimLedger): CompanyClaim[] {
 }
 
 export function canonicalCompanyEventOwners(companies: readonly CompanyProfile[], events: readonly EventRecord[]): Map<string, string> {
-  const companyIdsByName = new Map(companies.filter((company) => company.entityId).map((company) => [company.name, company.entityId!]));
   return new Map(events.flatMap((event) => {
-    const owner = event.primaryEntity ? companyIdsByName.get(event.primaryEntity) : undefined;
+    const owner = canonicalCompanyOwner(companies, event.primaryEntity);
     return owner ? [[event.id, owner] as const] : [];
   }));
 }
@@ -239,7 +244,9 @@ export function validateDualLedgers(input: {
   }
   const cardIds = new Set(input.decisionCards.map((card) => String(card.identity.paperId.value)));
   for (const entry of input.benchmark.entries) {
-    if (!input.paperIds.has(entry.paperId) || !cardIds.has(entry.decisionCardPaperId) || entry.paperId !== entry.decisionCardPaperId) {
+    const hasCurrentCard = cardIds.has(entry.decisionCardPaperId);
+    if (!input.paperIds.has(entry.paperId) || entry.paperId !== entry.decisionCardPaperId
+      || (!hasCurrentCard && !isWithdrawnBenchmarkTombstone(entry))) {
       throw new Error(`Benchmark ledger references a non-canonical paper/card: ${entry.entryId}`);
     }
     const currentFields = new Map<string, LedgerField<unknown>>(BENCHMARK_FIELD_PATHS.map((fieldPath) => [`fields.${fieldPath}`, entry.fields[fieldPath] as LedgerField<unknown>]));

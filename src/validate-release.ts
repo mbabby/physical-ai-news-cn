@@ -24,6 +24,8 @@ import type { DashboardData } from "./site-data.js";
 import type { ResearchDecisionCard } from "./research-decision-card.js";
 import { rankResearchRecords } from "./research-registry.js";
 import type { CompanyClaimLedger } from "./company-claim-ledger.js";
+import { validateCoreCoverageArtifact, validateCoreCoverageRelease, type CoreCoverageArtifact, type CoreCoveragePublicHistory } from "./core-coverage/materialize.js";
+import { replaceCoreCoverageReadme, validateCoreCoverageSurfaces } from "./core-coverage/render.js";
 import type { BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, type DualLedgerMetrics } from "./dual-ledger.js";
 import { buildDecisionProductArtifact, buildDecisionProductRetentionReceipt, decisionProductArtifactSha256, shouldDegradeResearchPassportProjection, validateDecisionProductRetentionReceipt, type DecisionProductRetentionReceipt } from "./decision-products/materialize.js";
@@ -55,6 +57,15 @@ const execFileAsync = promisify(execFile);
 
 function stableBytes(value: unknown): string {
   return `${JSON.stringify(value, null, 2)}\n`;
+}
+
+async function readOptionalText(path: string): Promise<string | undefined> {
+  try {
+    return await readFile(path, "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
+    throw error;
+  }
 }
 
 function exactCommunityArtifact<T>(assertArtifact: (value: unknown) => asserts value is T): (value: unknown) => value is T {
@@ -306,7 +317,32 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
   const communityMetricsBytes = await readFile(join(root, "metrics", "community.json"), "utf8");
   const publicCommunityMetricsBytes = await readFile(join(root, "site", "data", "community.json"), "utf8");
   const readme = await readFile(join(root, "README.md"), "utf8");
+  const coreCoverage = await readJsonStrict<CoreCoverageArtifact>(join(root, "site", "data", "core-coverage.json"), {
+    optional: true,
+    label: "Core 30 公开工件",
+    validate: (value): value is CoreCoverageArtifact => {
+      try { validateCoreCoverageArtifact(value); return true; }
+      catch { return false; }
+    },
+  });
+  const coreHistory = await readJsonStrict<CoreCoveragePublicHistory>(join(root, "site", "data", "core-coverage-history.json"), { optional: true, label: "Core 30 公开历史" });
+  const coreFeed = await readOptionalText(join(root, "site", "feeds", "core-coverage.xml"));
   if (!archive || !events || !research || !researchDecisionArtifact || !history || !health || !companies || !companyClaimLedger || !benchmarkResultLedger || !dualLedgerMetrics || !watchlistPreview || !watchlistSnapshot || !watchlistTheses || !dashboard || !decisionProducts || !decisionProductRetention || !decisionFeedManifest || !watchlistChangePage || !watchlistMetrics || !watchlistFeedManifest || !watchlistIssueSeeds || !evidenceTaskSeeds || !evidenceIssueSnapshot || !evidenceTaskLedger || !acceptedEvidence || !acceptedEvidenceRevalidation || !contributions || !publicCommunityTasks) throw new Error("发布产物不完整");
+  await validateCoreCoverageRelease(root, companies, events.events, companyClaimLedger, new Date(manifest.startedAt));
+  if ((coreCoverage === undefined) !== (coreHistory === undefined) || (coreCoverage === undefined) !== (coreFeed === undefined)) {
+    throw new Error("Core 30 公开页面、历史与 Feed 镜像组不完整");
+  }
+  if (coreCoverage && coreHistory && coreFeed !== undefined) {
+    validateCoreCoverageSurfaces({
+      artifact: coreCoverage,
+      history: coreHistory,
+      readme,
+      feed: coreFeed,
+      pagesUrl: "https://mbabby.github.io/physical-ai-news-cn",
+    });
+  } else if (replaceCoreCoverageReadme(readme, undefined, "https://mbabby.github.io/physical-ai-news-cn") !== readme) {
+    throw new Error("Core 30 未启用时 README 不得宣称公开覆盖可用");
+  }
   if (communityMetricsBytes !== publicCommunityMetricsBytes) throw new Error("社区指标两个公开镜像不一致");
   const previousContributions = await committedContributionArtifact(root, contributions);
   const previousPublicTasks = await committedPublicTaskArtifact(root, publicCommunityTasks);

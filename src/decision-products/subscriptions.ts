@@ -43,7 +43,7 @@ const CHANGE_LABELS: Record<WatchlistPublicChange["change"], string> = {
 };
 const PUBLIC_COMPANY_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-function normalizeHttpsBase(value: string, label: string): string {
+export function normalizeHttpsBase(value: string, label: string): string {
   let url: URL;
   try {
     url = new URL(value);
@@ -74,7 +74,7 @@ function assertXmlCharacters(value: string): void {
   }
 }
 
-function escapeXml(value: string): string {
+export function escapeXml(value: string): string {
   assertXmlCharacters(value);
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
 }
