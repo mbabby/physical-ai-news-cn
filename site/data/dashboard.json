@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-07T02:29:11.960Z",
+  "generatedAt": "2026-09-08T03:19:19.806Z",
   "periodLabel": "本周 2026-W37 · 近 30 天滚动证据池",
   "stats": {
     "events": 1,
     "companies": 49,
     "research": 6,
-    "sources": 41
+    "sources": 42
   },
   "confirmedSignals": [
     {
@@ -64,7 +64,7 @@
       "link": "https://arxiv.org/abs/2608.12860v1",
       "type": "研究论文",
       "route": "机器人导航",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "source": "Reproducibility Passport"
     },
     {
@@ -74,7 +74,7 @@
       "link": "https://arxiv.org/abs/2608.13362v1",
       "type": "研究论文",
       "route": "机器人操作",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "source": "Reproducibility Passport"
     },
     {
@@ -84,7 +84,7 @@
       "link": "https://arxiv.org/abs/2608.13049v1",
       "type": "研究论文",
       "route": "机器人操作",
-      "date": "2026-09-07",
+      "date": "2026-09-08",
       "source": "Reproducibility Passport"
     }
   ],
@@ -476,7 +476,7 @@
     }
   ],
   "companyBoards": {
-    "generatedAt": "2026-09-07T02:29:11.960Z",
+    "generatedAt": "2026-09-08T03:19:19.806Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -502,7 +502,7 @@
             "本体与硬件",
             "部署与商业化"
           ],
-          "score": 68,
+          "score": 67,
           "scoreBreakdown": [
             {
               "key": "material-events",
@@ -518,7 +518,7 @@
             {
               "key": "recency",
               "label": "事件新近度",
-              "points": 17,
+              "points": 16,
               "maxPoints": 30,
               "basis": "最新真实事件日期 2026-08-25",
               "evidenceDates": [
@@ -1061,8 +1061,8 @@
   ],
   "decisionProducts": {
     "schemaVersion": 1,
-    "generatedAt": "2026-09-07T02:29:11.960Z",
-    "periodStart": "2026-09-01",
+    "generatedAt": "2026-09-08T03:19:19.806Z",
+    "periodStart": "2026-09-02",
     "topSignals": [],
     "companyCards": [
       {
@@ -2028,7 +2028,7 @@
       }
     ],
     "subscriptions": {
-      "generatedAt": "2026-09-07T02:29:11.960Z",
+      "generatedAt": "2026-09-08T03:19:19.806Z",
       "entries": [
         {
           "subscriptionId": "github-watch",
@@ -2117,11 +2117,66 @@
   "communityEvidence": {
     "taskArtifact": {
       "schemaVersion": 1,
-      "generatedAt": "2026-09-07T02:29:11.960Z",
-      "tasks": []
+      "generatedAt": "2026-09-08T03:19:19.806Z",
+      "tasks": [
+        {
+          "id": "evidence-task-428f0efb663cad0c3efc6299",
+          "version": 1,
+          "category": "product-deployment",
+          "subject": {
+            "kind": "event",
+            "id": "evt-0052db55dfd7",
+            "name": "Hugging Face 发布 LeRobot v0.5.0",
+            "url": "https://huggingface.co/blog/lerobot-release-v050"
+          },
+          "targetField": "deployment.customer",
+          "contextZh": "Hugging Face 发布 LeRobot v0.5.0 的部署客户仍待可追溯公开证据确认。",
+          "issueNumber": 14,
+          "issueUrl": "https://github.com/mbabby/physical-ai-news-cn/issues/14",
+          "estimatedMinutes": 2,
+          "generatedWeek": "2026-W37",
+          "state": "open"
+        },
+        {
+          "id": "evidence-task-f3e4eef7acae2097bd52c207",
+          "version": 1,
+          "category": "product-deployment",
+          "subject": {
+            "kind": "event",
+            "id": "evt-b73382bfd3ec",
+            "name": "NVIDIA 发布 Isaac GR00T 开放人形机器人参考设计",
+            "url": "https://nvidianews.nvidia.com/news/nvidia-open-humanoid-robot-reference-design"
+          },
+          "targetField": "deployment.customer",
+          "contextZh": "NVIDIA 发布 Isaac GR00T 开放人形机器人参考设计 的部署客户仍待可追溯公开证据确认。",
+          "issueNumber": 15,
+          "issueUrl": "https://github.com/mbabby/physical-ai-news-cn/issues/15",
+          "estimatedMinutes": 2,
+          "generatedWeek": "2026-W37",
+          "state": "open"
+        },
+        {
+          "id": "evidence-task-92d56420b3e2094c9a361305",
+          "version": 1,
+          "category": "product-deployment",
+          "subject": {
+            "kind": "event",
+            "id": "evt-dfd219a14f33",
+            "name": "宇树科技发布 As2 四足机器人",
+            "url": "https://www.unitree.com/about/"
+          },
+          "targetField": "deployment.customer",
+          "contextZh": "宇树科技发布 As2 四足机器人 的部署客户仍待可追溯公开证据确认。",
+          "issueNumber": 16,
+          "issueUrl": "https://github.com/mbabby/physical-ai-news-cn/issues/16",
+          "estimatedMinutes": 2,
+          "generatedWeek": "2026-W37",
+          "state": "open"
+        }
+      ]
     },
     "metrics": {
-      "openTasks": 0,
+      "openTasks": 3,
       "weeklyAccepted": 0,
       "newContributors": 0
     },
@@ -2129,8 +2184,8 @@
   },
   "publicationHealth": {
     "daily": {
-      "expectedDate": "2026-09-07",
-      "latestPublishedDate": "2026-09-07",
+      "expectedDate": "2026-09-08",
+      "latestPublishedDate": "2026-09-08",
       "state": "current",
       "publicationDue": true
     },

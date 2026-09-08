@@ -8,15 +8,8 @@
 
 RedFlow 是面向流匹配 VLA 策略的细粒度离线强化学习框架，将失败经验转化为动作级纠正监督。在 LIBERO 基准和三项真实任务中，成功率从 56.7% 提升至 74.7%。
 
-- 候选原因：提供值得关注的研究或数据进展；来源为一手官方发布，并获得多条日报交叉佐证。
+- 候选原因：提供值得关注的研究或数据进展；来源为一手官方发布。
 - 来源：arXiv · Robotics · 研究与数据
-
-## [自主缝合中通过缝线操控间接拾取手术针](https://arxiv.org/abs/2607.26337v1)
-
-该研究提出以缝线为辅助工具间接拾取手术针的自主框架，涵盖重建、抓取点选择与双臂沿线追踪，可在针被遮挡或难以接近时避免器械接触组织。在 da Vinci Research Kit 上的真实实验表明其在复杂缝线条件下仍具鲁棒性。
-
-- 候选原因：代表产品或能力的重要发布；来源为一手官方发布。
-- 来源：arXiv · Robotics · 产品发布
 
 ## [VicOne 基于 DEF CON 34 研究发布免费的 NVIDIA Isaac Sim 网络安全扩展](https://www.therobotreport.com/vicone-releases-free-nviida-isaac-sim-cybersecurity-extension-based-def-con-34-research/)
 
@@ -37,6 +30,13 @@ VicOne 推出免费的 Radeis Extension 扩展，让开发者能在 NVIDIA Isaac
 文章探讨一体化设计如何帮助人形机器人制造商在预计3700亿美元的快速增长市场中取得成功。摘要未提供真实机器人、基准或开源证据。
 
 - 候选原因：反映公司合作或商业化进展；来源具备较高行业可信度。
+- 来源：The Robot Report · 公司商业
+
+## [Agility、Apptronik 等专家将在 RoboBusiness 探讨人形机器人现状](https://www.therobotreport.com/experts-discuss-state-humanoid-robots-robobusiness-2026/)
+
+RoboBusiness 将组织专题讨论，邀请来自 Agility、Apptronik、Persona AI 和 PSYONIC 的专家分享对人形机器人发展现状的见解。摘要未提供真实机器人、基准或开源证据。
+
+- 候选原因：反映公司合作或商业化进展；来源具备较高行业可信度，并获得多条日报交叉佐证。
 - 来源：The Robot Report · 公司商业
 
 ---

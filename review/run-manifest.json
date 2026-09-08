@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-07-2026-09-07T02-29-11-960Z",
-  "date": "2026-09-07",
-  "startedAt": "2026-09-07T02:29:11.960Z",
-  "finishedAt": "2026-09-07T02:36:02.658Z",
+  "runId": "2026-09-08-2026-09-08T03-19-19-806Z",
+  "date": "2026-09-08",
+  "startedAt": "2026-09-08T03:19:19.806Z",
+  "finishedAt": "2026-09-08T03:25:30.549Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
@@ -15,10 +15,10 @@
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 14,
-      "succeeded": 7,
+      "attempted": 10,
+      "succeeded": 3,
       "failed": 4,
-      "detail": "有效完成 7；无效模型输出 3；提供方失败 4；缓存命中 2；research 通道已熔断。"
+      "detail": "有效完成 3；无效模型输出 3；提供方失败 4；缓存命中 3；industry、research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
@@ -31,10 +31,10 @@
     {
       "component": "Watchlist",
       "status": "部分降级",
-      "attempted": 4,
-      "succeeded": 2,
+      "attempted": 2,
+      "succeeded": 0,
       "failed": 2,
-      "detail": "生成 2 张新判断卡；保留 0 张上一有效版本；排除 2 家。 证据约束修复 2 张。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
+      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
     },
     {
       "component": "GitHub",
@@ -53,5 +53,5 @@
       "detail": "已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。"
     }
   ],
-  "outputs": 98
+  "outputs": 99
 }
