@@ -44,43 +44,8 @@ function emptyFlywheelMetrics() {
   };
 }
 
-function weekStart(now) {
-  const day = now.getUTCDay() || 7;
-  return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - day + 1);
-}
-
-function ratio(numerator, denominator) {
-  return denominator === 0 ? 0 : Number((numerator / denominator).toFixed(4));
-}
-
-function contributionPair(event) {
-  return [event.taskId, event.issueNumber, event.contributor, event.evidenceUrl].join("\n");
-}
-
-export function buildFlywheelMetrics({ publicTasks, ledger, contributions, now = new Date() } = {}) {
-  const tasks = Array.isArray(publicTasks?.tasks) ? publicTasks.tasks : [];
-  const entries = Array.isArray(ledger?.entries) ? ledger.entries : [];
-  const events = Array.isArray(contributions?.events) ? contributions.events : [];
-  const start = weekStart(now);
-  const end = start + 7 * 86_400_000;
-  const acceptedThisWeek = events.filter((event) => event?.state === "accepted"
-    && Date.parse(event.occurredAt) >= start && Date.parse(event.occurredAt) < end);
-  const priorContributors = new Set(events.filter((event) => event?.state === "accepted" && Date.parse(event.occurredAt) < start)
-    .map((event) => event.contributor));
-  const acceptedPairs = new Set(events.filter((event) => event?.state === "accepted").map(contributionPair));
-  const promotedPairs = new Set(events.filter((event) => event?.state === "promoted").map(contributionPair));
-  const wip = entries.filter((entry) => ["open", "contributed", "stale"].includes(entry?.state));
-  return {
-    openTasks: tasks.length,
-    categoryCoverage: [...new Set(tasks.map((task) => task?.category).filter((value) => typeof value === "string"))].sort(),
-    acceptedThisWeek: acceptedThisWeek.length,
-    newContributorsThisWeek: new Set(acceptedThisWeek.map((event) => event.contributor)
-      .filter((contributor) => !priorContributors.has(contributor))).size,
-    staleRatio: ratio(wip.filter((entry) => entry.state === "stale").length, wip.length),
-    invalidRatio: ratio(entries.filter((entry) => entry.state === "rejected").length, entries.length),
-    promotionConversion: ratio([...promotedPairs].filter((pair) => acceptedPairs.has(pair)).length, acceptedPairs.size),
-  };
-}
+export { buildFlywheelMetrics } from "../src/community-evidence/metrics.ts";
+import { buildFlywheelMetrics } from "../src/community-evidence/metrics.ts";
 
 function unavailableTraffic() {
   return {

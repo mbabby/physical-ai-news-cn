@@ -503,6 +503,13 @@ export async function stageCommunityEvidenceArtifacts(input: StageCommunityEvide
   input.transaction.stage(join(reviewDir, "accepted-evidence-revalidation.json"), serialize(revalidation.artifact));
   input.transaction.stage(join(input.root, "community", "contributions.json"), serialize(projection.contributions));
   input.transaction.stage(join(input.root, "site", "data", "community-tasks.json"), serialize(publicArtifact));
+  const metrics = await readJsonStrict<Record<string, unknown>>(join(input.root, "metrics", "community.json"), { optional: true });
+  if (metrics) {
+    const { refreshLocalCommunityMetrics } = await import("./community-evidence/metrics.js");
+    const content = serialize(refreshLocalCommunityMetrics(metrics, { publicTasks: publicArtifact, ledger: planned.ledger, contributions: projection.contributions }));
+    input.transaction.stage(join(input.root, "metrics", "community.json"), content);
+    input.transaction.stage(join(input.root, "site", "data", "community.json"), content);
+  }
   return { accepted: projection.accepted, enrichmentTargets: buildAcceptedEvidenceEnrichmentTargets(projection.accepted), publication, status, revalidation: revalidation.artifact, revalidationStatus: revalidation.status };
 }
 

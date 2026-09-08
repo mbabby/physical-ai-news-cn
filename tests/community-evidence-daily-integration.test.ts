@@ -125,6 +125,53 @@ async function project(root: string, transaction: FileTransaction, artifact: Evi
   });
 }
 
+test("daily task refresh stages matching metrics without resampling GitHub statistics", async () => {
+  const root = await mkdtemp(join(tmpdir(), "community-metrics-daily-"));
+  try {
+    await initializeRoot(root);
+    await mkdir(join(root, "metrics"));
+    const previous = {
+      generatedAt: "2026-08-24T12:00:00.000Z",
+      repository: { stars: 42, forks: 7, subscribers: 5, openIssues: 3 },
+      traffic: { status: "unavailable", views14d: null, uniqueVisitors14d: null, clones14d: null, uniqueCloners14d: null, referrers: null },
+      contributors: { codeContributors: ["bob"], acceptedEvidenceContributors: [], count: 1 },
+      openTasks: 0, categoryCoverage: [], acceptedThisWeek: 0, newContributorsThisWeek: 0,
+      staleRatio: 0, invalidRatio: 0, promotionConversion: 0,
+    };
+    const oldBytes = `${JSON.stringify(previous, null, 2)}\n`;
+    for (const path of ["metrics/community.json", "site/data/community.json"]) await writeFile(join(root, path), oldBytes);
+    const artifact = seeds();
+    const transaction = new FileTransaction("community-metrics-refresh");
+    await project(root, transaction, artifact, async () => snapshot(artifact));
+    assert.equal(await readFile(join(root, "metrics/community.json"), "utf8"), oldBytes);
+    await transaction.commit();
+    const canonical = await readFile(join(root, "metrics/community.json"), "utf8");
+    assert.equal(canonical, await readFile(join(root, "site/data/community.json"), "utf8"));
+    const current = JSON.parse(canonical);
+    assert.equal(current.openTasks, 2);
+    assert.deepEqual(current.categoryCoverage, ["product-deployment", "research-metadata"]);
+    assert.deepEqual(current.contributors, { codeContributors: ["bob"], acceptedEvidenceContributors: ["alice"], count: 2 });
+    assert.equal(current.acceptedThisWeek, 1);
+    assert.equal(current.generatedAt, previous.generatedAt);
+    assert.deepEqual(current.repository, previous.repository);
+    assert.deepEqual(current.traffic, previous.traffic);
+    const priorArtifacts = await bytes(root);
+    const changedIssues = { ...snapshot(artifact), issues: artifact.seeds.map((task, index) => ({ ...issue(task, 41 + index), updatedAt: NOW })) };
+    const failing = new FileTransaction("community-metrics-rollback", { failAfterPath: join(root, "metrics/community.json") });
+    await project(root, failing, artifact, async () => changedIssues);
+    await assert.rejects(() => failing.commit(), /回滚/);
+    assert.deepEqual(await bytes(root), priorArtifacts);
+    assert.equal(await readFile(join(root, "metrics/community.json"), "utf8"), canonical);
+    assert.equal(await readFile(join(root, "site/data/community.json"), "utf8"), canonical);
+    const degraded = new FileTransaction("community-metrics-degraded");
+    await project(root, degraded, artifact, async () => { throw new Error("offline"); });
+    await degraded.commit();
+    assert.deepEqual(await bytes(root), priorArtifacts);
+    assert.equal(await readFile(join(root, "metrics/community.json"), "utf8"), canonical);
+    assert.equal(await readFile(join(root, "site/data/community.json"), "utf8"), canonical);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test("daily community evidence projection is exact, revalidation-only, deterministic, and atomic", async () => {
   const root = await mkdtemp(join(tmpdir(), "community-evidence-daily-"));
   try {
