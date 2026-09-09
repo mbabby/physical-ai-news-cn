@@ -83,6 +83,74 @@ test("records arXiv version changes for a renewed factual check", () => {
   assert.equal(next.records[0]?.changes.at(-1)?.kind, "版本更新");
 });
 
+test("older cached metadata cannot roll back the same paper's newer registry check", () => {
+  const now = new Date("2026-08-08T00:00:00Z");
+  const recent = paper({ scholar: { ...paper().scholar!, checkedAt: "2026-08-07T00:00:00Z", citedByCount: 20 } });
+  const first = updateResearchRegistry(undefined, [recent], now);
+  const next = updateResearchRegistry(first, [paper()], now);
+  assert.equal(next.records[0]!.article.scholar!.checkedAt, "2026-08-07T00:00:00Z");
+  assert.equal(next.records[0]!.article.scholar!.citedByCount, 20);
+  assert.deepEqual(next.records[0]!.changes, first.records[0]!.changes);
+  const rerun = updateResearchRegistry(next, [paper()], now);
+  assert.deepEqual(rerun.records[0]!.article, next.records[0]!.article);
+  assert.deepEqual(rerun.records[0]!.changes, next.records[0]!.changes);
+});
+
+test("older cached non-retraction cannot clear a newer retraction", () => {
+  const now = new Date("2026-08-08T00:00:00Z");
+  const first = updateResearchRegistry(undefined, [paper({ scholar: { ...paper().scholar!, checkedAt: "2026-08-07T00:00:00Z", isRetracted: true } })], now);
+  const next = updateResearchRegistry(first, [paper()], now);
+  assert.equal(next.records[0]!.article.scholar!.isRetracted, true);
+  assert.equal(next.records[0]!.status, "已撤稿");
+});
+
+test("a text or version change cannot clear the same work's newer retraction with older metadata", () => {
+  const now = new Date("2026-08-08T00:00:00Z");
+  const first = updateResearchRegistry(undefined, [paper({ scholar: { ...paper().scholar!, checkedAt: "2026-08-07T00:00:00Z", isRetracted: true } })], now);
+  for (const incoming of [
+    paper({ title: "A revised paper title" }),
+    paper({ excerpt: "A revised paper abstract." }),
+    paper({ link: "https://arxiv.org/abs/2608.00001v2" }),
+  ]) {
+    const next = updateResearchRegistry(first, [incoming], now);
+    assert.equal(next.records[0]!.article.scholar!.isRetracted, true);
+    assert.equal(next.records[0]!.article.scholar!.checkedAt, "2026-08-07T00:00:00Z");
+    assert.equal(next.records[0]!.status, "已撤稿");
+    assert.equal(next.records[0]!.article.title, incoming.title);
+    assert.equal(next.records[0]!.article.excerpt, incoming.excerpt);
+    assert.equal(next.records[0]!.article.link, incoming.link);
+  }
+  const newIdentity = paper({ scholar: { ...paper().scholar!, workId: "W2" } });
+  assert.deepEqual(updateResearchRegistry(first, [newIdentity], now).records[0]!.article.scholar, newIdentity.scholar);
+});
+
+test("metadata retention does not hide retractions, identity changes, or newer corrections", () => {
+  const now = new Date("2026-08-08T00:00:00Z");
+  const recent = paper({ scholar: { ...paper().scholar!, checkedAt: "2026-08-07T00:00:00Z", citedByCount: 20 } });
+  const first = updateResearchRegistry(undefined, [recent], now);
+  for (const incoming of [
+    paper({ scholar: { ...paper().scholar!, isRetracted: true } }),
+    paper({ scholar: { ...paper().scholar!, workId: "W2" } }),
+    paper({ scholar: { ...paper().scholar!, checkedAt: "2026-08-08T00:00:00Z", citedByCount: 3 } }),
+    paper({ title: "A corrected paper identity" }),
+    paper({ excerpt: "A revised paper abstract." }),
+    paper({ link: "https://arxiv.org/abs/2608.00001v2" }),
+  ]) {
+    assert.deepEqual(updateResearchRegistry(first, [incoming], now).records[0]!.article.scholar, incoming.scholar);
+  }
+  const retracted = updateResearchRegistry(first, [paper({ scholar: { ...recent.scholar!, isRetracted: true } })], now);
+  const correction = paper({ scholar: { ...recent.scholar!, checkedAt: "2026-08-08T00:00:00Z", isRetracted: false } });
+  assert.equal(updateResearchRegistry(retracted, [correction], now).records[0]!.article.scholar!.isRetracted, false);
+});
+
+test("future or invalid prior check times do not displace valid incoming metadata", () => {
+  const now = new Date("2026-08-08T00:00:00Z");
+  for (const checkedAt of ["2026-08-08T00:00:00.001Z", "invalid"]) {
+    const first = updateResearchRegistry(undefined, [paper({ scholar: { ...paper().scholar!, checkedAt, citedByCount: 20 } })], now);
+    assert.deepEqual(updateResearchRegistry(first, [paper()], now).records[0]!.article.scholar, paper().scholar);
+  }
+});
+
 test("citations alone cannot promote a paper to milestone status", () => {
   const cited = paper({
     title: "A theoretical robotics perspective",

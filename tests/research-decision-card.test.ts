@@ -19,6 +19,28 @@ function record(overrides: Partial<ResearchRecord> = {}): ResearchRecord {
   return { id: currentArticle.id, article: currentArticle, firstSeenAt: checkedAt, lastCheckedAt: checkedAt, arxivVersion: 2, factHash: "hash", status: "候选资源", seenDates: ["2026-08-09"], appearances: 1, evidenceTags: ["真实机器人", "基准", "开源"], authorityLabels: ["Example Lab"], notableAuthor: "Alice", changes: [], ...overrides };
 }
 
+test("future OpenAlex checks cannot be treated as fresh research evidence", () => {
+  const now = new Date("2026-08-10T00:00:00.000Z");
+  const future = record({ article: article({ scholar: { ...article().scholar!, checkedAt: "2026-08-10T00:00:00.001Z" } }) });
+  const card = materializeResearchDecisionCard(future, { now });
+  assert.equal(card.openAlex.freshness.value, "unknown");
+  assert.equal(card.eligibleForTopResearch, false);
+  assert.ok(card.gates.length > 0);
+  const boundary = materializeResearchDecisionCard(record({ article: article({ scholar: { ...article().scholar!, checkedAt: now.toISOString() } }) }), { now });
+  assert.equal(boundary.openAlex.freshness.value, "fresh");
+});
+
+test("publication-time gate rejects future or invalid dates but accepts the run boundary", () => {
+  const now = new Date("2026-08-10T00:00:00Z");
+  for (const publishedAt of [new Date(now.getTime() + 1), new Date("invalid")]) {
+    const card = materializeResearchDecisionCard(record({ article: article({ publishedAt }) }), { now });
+    assert.ok(card.gates.some((gate) => gate.code === "publication-time-invalid"));
+    assert.equal(card.eligibleForTopResearch, false);
+  }
+  const boundary = materializeResearchDecisionCard(record({ article: article({ publishedAt: now }) }), { now });
+  assert.deepEqual(boundary.gates, []);
+});
+
 test("materializes a source-backed Chinese decision card", () => {
   const card = materializeResearchDecisionCard(record(), { now: new Date("2026-08-10") });
   assert.deepEqual(card.factsZh.value, ["论文提出用于真实机器人的操作基准。", "它在 LIBERO 上比较基线并公开代码。"]);

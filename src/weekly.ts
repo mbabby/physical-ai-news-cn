@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { normalizeUrl } from "./filter.js";
+import { shanghaiDailyDate } from "./runtime/daily-date.js";
 import type { Article, ArticleKind, DailyArchive, WeeklyArticle } from "./types.js";
 
 const KIND_BONUS: Record<ArticleKind, number> = { "投融资": 32, "产品发布": 18, "部署案例": 16, "公司商业": 14, "开源项目": 8, "研究与数据": 3 };
@@ -20,15 +21,16 @@ function parseArticle(raw: Article): Article {
 
 export async function readRecentDailyArchives(directory: string, now = new Date(), days = 7): Promise<DailyArchive[]> {
   const cutoff = now.getTime() - days * 24 * 3_600_000;
-  const files = (await readdir(directory)).filter((file) => /^\d{4}-\d{2}-\d{2}\.json$/.test(file));
+  const today = shanghaiDailyDate(now);
+  const files = (await readdir(directory)).filter((file) => /^\d{4}-\d{2}-\d{2}\.json$/.test(file) && file.slice(0, 10) <= today);
   const archives = await Promise.all(files.map(async (file) => JSON.parse(await readFile(join(directory, file), "utf8")) as DailyArchive));
-  return archives.filter((archive) => new Date(`${archive.date}T23:59:59.999Z`).getTime() >= cutoff);
+  return archives.filter((archive) => archive.date <= today && new Date(`${archive.date}T23:59:59.999Z`).getTime() >= cutoff);
 }
 
 export async function readRecentDailyArticles(directory: string, now = new Date(), days = 7): Promise<Article[]> {
   const archives = await readRecentDailyArchives(directory, now, days);
   const cutoff = now.getTime() - days * 24 * 3_600_000;
-  return archives.flatMap((archive) => archive.articles.map(parseArticle)).filter((article) => article.publishedAt.getTime() >= cutoff);
+  return archives.flatMap((archive) => archive.articles.map(parseArticle)).filter((article) => article.publishedAt.getTime() >= cutoff && article.publishedAt.getTime() <= now.getTime());
 }
 
 function reason(article: Article, corroborated: boolean): string {

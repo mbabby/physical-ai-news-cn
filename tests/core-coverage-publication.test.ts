@@ -15,6 +15,7 @@ import type { CompanyProfile, DigestResult } from "../src/types.js";
 import type { CoverageVersion } from "../src/core-coverage/contracts.js";
 import { company, event, NOW } from "./core-coverage-fixtures.js";
 import { resetPublicationFixture } from "./publication-fixture.js";
+import { assertCoreResearchPublished, seedCoreResearchFixture } from "./core-research-fixture.js";
 
 function inputs() {
   const companies: CompanyProfile[] = Array.from({ length: 30 }, (_, index) => index === 0 ? company : { ...company, entityId: `subject-${index}`, name: `Subject ${index}`, profileEvidence: [] });
@@ -260,10 +261,12 @@ test("main publishes Core group, retains legacy facts and assigns bounded P2 tas
   try {
     for (const path of ["README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes", "metrics", "site/data", "site/feeds", "watchlist", "community", "config"]) await cp(join(repositoryRoot, path), join(root, path), { recursive: true });
     await resetPublicationFixture(root, NOW, { coreCoverage: true });
+    await seedCoreResearchFixture(root);
     for (const path of ["site/data/decision-products.json", "site/data/core-coverage.json", "site/data/core-coverage-history.json", "events/core-coverage-history.json", "watchlist/current.json", "watchlist/theses.json", "watchlist/history", "review/core30-backfill.json"]) await rm(join(root, path), { recursive: true, force: true });
     await mkdir(join(root, "watchlist/history"), { recursive: true });
     await writeFile(join(root, "review/owners-config.json"), JSON.stringify({ owners: [{ ownerId: "maintainer", maxActiveCases: 3, priorities: ["P2"], caseTypes: ["company"] }] }));
     await generate({ root, now: NOW, collect: empty, collectX: empty });
+    await assertCoreResearchPublished(root, NOW);
     const artifact = JSON.parse(await readFile(join(root, "site/data/core-coverage.json"), "utf8"));
     assert.equal(artifact.briefs.length, 30);
     const coreFeed = await readFile(join(root, "site/feeds/core-coverage.xml"), "utf8");
@@ -289,6 +292,7 @@ test("main publishes Core group, retains legacy facts and assigns bounded P2 tas
     const paths = ["site/data/core-coverage.json", "events/core-coverage-history.json", "review/core30-backfill.json", "review/cases.json", "review/assignments.json", "site/data/core-coverage-history.json", "site/feeds/core-coverage.xml", "README.md"];
     const before = await Promise.all(paths.map((path) => readFile(join(root, path), "utf8")));
     await generate({ root, now: NOW, collect: empty, collectX: empty });
+    await assertCoreResearchPublished(root, NOW);
     assert.deepEqual(await Promise.all(paths.map((path) => readFile(join(root, path), "utf8"))), before);
     await validateRelease(root);
     await writeFile(join(root, "site/feeds/core-coverage.xml"), coreFeed.replace("Physical AI · Core 30", "Forged Core 30"));

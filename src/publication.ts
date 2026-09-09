@@ -71,6 +71,15 @@ export function withDeterministicChineseOfficialFallback(article: Article): Arti
   return { ...article, titleZh: article.title.trim(), summaryZh: article.excerpt.trim() };
 }
 
+/** Keep fresh eligible records authoritative; fallback only fills missing IDs. */
+export function mergePublicResearchRecords(fresh: ResearchRecord[], fallback: ResearchRecord[]): ResearchRecord[] {
+  const records = new Map<string, ResearchRecord>();
+  for (const record of [...fresh, ...fallback]) {
+    if (!records.has(record.id)) records.set(record.id, record);
+  }
+  return [...records.values()].slice(0, 6);
+}
+
 /** Recover the actual cards that cleared publication in recent archives.
  * Registry refreshes may update metadata or copy, but they must not erase a
  * previously published, still-valid Chinese card during an upstream outage. */

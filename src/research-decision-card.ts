@@ -130,8 +130,8 @@ function openAlexUrl(workId: string | undefined): string[] {
 function openAlexFreshness(checkedAt: string | undefined, now: Date, maxAgeDays: number): EvidenceBacked<"fresh" | "stale"> {
   if (!checkedAt) return unknown();
   const checked = new Date(checkedAt).getTime();
-  if (!Number.isFinite(checked)) return unknown();
-  const age = Math.max(0, now.getTime() - checked) / 86_400_000;
+  if (!Number.isFinite(checked) || checked > now.getTime()) return unknown();
+  const age = (now.getTime() - checked) / 86_400_000;
   return known(age <= maxAgeDays ? "fresh" : "stale", []);
 }
 
@@ -239,6 +239,9 @@ export function materializeResearchDecisionCard(record: ResearchRecord, options:
   ];
   const knownFields = fieldValues.filter(isKnown).length;
   const gates: Array<{ code: string; detail: string }> = [];
+  if (!Number.isFinite(article.publishedAt.getTime()) || article.publishedAt.getTime() > now.getTime()) {
+    gates.push({ code: "publication-time-invalid", detail: "论文发布时间无效或晚于本轮生成时间。" });
+  }
   if (!hasCompleteChineseResearchCopy(article)) gates.push({ code: "incomplete-chinese-copy", detail: "中文标题或两句事实简介未完成。" });
   if (record.status === "待复核") gates.push({ code: "review-required", detail: "研究记录仍处于待复核状态。" });
   if (record.status === "已撤稿" || scholar?.isRetracted) gates.push({ code: "retracted", detail: "OpenAlex 或研究记录标记为已撤稿。" });

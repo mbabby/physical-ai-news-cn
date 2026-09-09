@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "../src/publication.js";
+import { mergePublicResearchRecords, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "../src/publication.js";
 import { materializeResearchDecisionCard } from "../src/research-decision-card.js";
 import { validateDecisionProductPublication, validatePublication, validatePublicationArtifacts } from "../src/runtime/validation.js";
 import { stableDecisionId, type DecisionProductArtifact } from "../src/decision-products/contracts.js";
@@ -127,6 +127,31 @@ test("published research archives remain the quality baseline when registry copy
   assert.equal(recovered.length, 1);
   assert.equal(recovered[0]?.article.titleZh, "物理智能机器人论文");
   assert.match(recovered[0]?.article.summaryZh ?? "", /真实机器人基准/);
+});
+
+test("public research keeps fresh metadata and only fills missing slots from fallback", () => {
+  const record = (id: string): ResearchRecord => ({ id, article: article(id), firstSeenAt: "", lastCheckedAt: "", factHash: id, status: "新论文", appearances: 1, evidenceTags: [], authorityLabels: [], changes: [] });
+  const fresh = record("updated");
+  fresh.article.scholar = { provider: "OpenAlex", workId: "W2", citedByCount: 30, isRetracted: false, institutions: [], authors: [], checkedAt: "2026-08-08T00:00:00Z" };
+  const stale = { ...fresh, article: { ...fresh.article, scholar: { ...fresh.article.scholar, workId: "W1", citedByCount: 5, checkedAt: "2026-08-07T00:00:00Z" } } };
+  const freshSecond = record("second");
+  const merged = mergePublicResearchRecords([fresh, freshSecond], [stale, ...["third", "fourth", "fifth", "sixth", "seventh"].map(record)]);
+  assert.deepEqual(merged.map((item) => item.id), ["updated", "second", "third", "fourth", "fifth", "sixth"]);
+  assert.strictEqual(merged[0], fresh);
+  assert.equal(merged[0]!.article.scholar!.checkedAt, "2026-08-08T00:00:00Z");
+  assert.equal(merged[0]!.article.scholar!.workId, "W2");
+  assert.equal(merged[0]!.article.scholar!.citedByCount, 30);
+});
+
+test("stale fallback cannot overwrite a freshly verified retraction correction", () => {
+  const corrected: ResearchRecord = {
+    id: "corrected", article: { ...article("corrected"), scholar: { provider: "OpenAlex", workId: "W1", citedByCount: 5, isRetracted: false, institutions: [], authors: [], checkedAt: "2026-08-08T00:00:00Z" } },
+    firstSeenAt: "", lastCheckedAt: "", factHash: "corrected", status: "新论文", appearances: 1, evidenceTags: [], authorityLabels: [], changes: [],
+  };
+  const stale = { ...corrected, article: { ...corrected.article, scholar: { ...corrected.article.scholar!, isRetracted: true, checkedAt: "2026-08-07T00:00:00Z" } } };
+  const merged = mergePublicResearchRecords([corrected], [stale]);
+  assert.equal(merged[0]!.article.scholar!.isRetracted, false);
+  assert.equal(merged[0]!.article.scholar!.checkedAt, "2026-08-08T00:00:00Z");
 });
 
 test("cross-file contract accepts matching archive, manifest and history", () => {

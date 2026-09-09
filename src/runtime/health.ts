@@ -51,7 +51,9 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
     if (!isPublished(run)) break;
     consecutiveSuccessfulPublications += 1;
   }
-  const ageMs = now.getTime() - Date.parse(latest.finishedAt);
+  const latestPublished = runs.find(isPublished);
+  // A failed or empty attempt must not reset an existing publication's age.
+  const ageMs = now.getTime() - Date.parse((latestPublished ?? latest).finishedAt);
   const stale = !Number.isFinite(ageMs) || ageMs > 36 * 60 * 60 * 1_000;
   const reasons: string[] = [];
   if (stale) reasons.push("最近一次成功发布已超过 36 小时");
@@ -61,6 +63,7 @@ export function buildPipelineHealth(history: RunHistory, now: Date, recentLimit 
   reasons.push(...inspectHistoryContinuity(history).filter((issue) => issue.kind === "gap").map((issue) => issue.message));
   const latestPublicItems = latest.quality.publicIndustryItems + latest.quality.publicResearchItems;
   const dailyPublicationFreshness = assessDailyPublicationFreshness(history, now);
+  if (dailyPublicationFreshness.state === "missing") reasons.push("北京时间日报未在 09:20 前成功发布");
   return {
     schemaVersion: 1,
     checkedAt: now.toISOString(),

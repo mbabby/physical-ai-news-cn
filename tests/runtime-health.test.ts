@@ -42,6 +42,30 @@ test("pipeline health marks an old publication stale", () => {
   assert.equal(buildPipelineHealth(history, new Date("2026-08-08T02:00:00Z")).status, "stale");
 });
 
+test("pipeline health degrades a missing publication at the Beijing cutoff", () => {
+  const history = updateRunHistory(undefined, run("yesterday", "2026-08-17T01:00:00Z"));
+  const before = buildPipelineHealth(history, new Date("2026-08-18T01:19:00Z"));
+  assert.equal(before.status, "healthy");
+  assert.deepEqual(before.reasons, []);
+
+  const due = buildPipelineHealth(history, new Date("2026-08-18T01:20:00Z"));
+  assert.equal(due.dailyPublicationFreshness.state, "missing");
+  assert.equal(due.status, "degraded");
+  assert.match(due.reasons.join(" "), /北京时间日报未在 09:20 前成功发布/);
+});
+
+for (const [status, items] of [["failed", 3], ["success", 0]] as const) {
+  test(`a recent ${status} run with ${items} items does not refresh publication age`, () => {
+    const published = run("published", "2026-08-16T01:00:00Z");
+    const latest = run("latest", "2026-08-18T01:00:00Z", status, items);
+    const history = updateRunHistory(updateRunHistory(undefined, published), latest);
+    const health = buildPipelineHealth(history, new Date("2026-08-18T02:00:00Z"));
+    assert.equal(health.status, "stale");
+    assert.match(health.reasons.join(" "), /最近一次成功发布已超过 36 小时/);
+    assert.equal(health.latestRunId, "latest");
+  });
+}
+
 test("daily publication freshness stays pending until the 09:20 Beijing SLA cutoff", () => {
   const latest = run("yesterday", "2026-08-17T01:00:00Z");
   const history = { schemaVersion: 1 as const, updatedAt: latest.finishedAt, runs: [latest] };

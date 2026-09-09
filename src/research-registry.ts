@@ -95,6 +95,19 @@ function promotion(record: ResearchRecord): ResearchRecord["status"] {
   return "新论文";
 }
 
+function retainNewerScholar(prior: Article | undefined, incoming: Article, now: Date): boolean {
+  if (!prior?.scholar || !incoming.scholar || incoming.scholar.isRetracted) return false;
+  if (!prior.scholar.workId || prior.scholar.workId !== incoming.scholar.workId) return false;
+  // A text/version change cannot undo a newer retraction of the same work.
+  // Other metadata is retained only for an unchanged source item.
+  if (!prior.scholar.isRetracted
+    && (prior.link !== incoming.link || prior.title !== incoming.title || prior.excerpt !== incoming.excerpt)) return false;
+  const priorCheckedAt = Date.parse(prior.scholar.checkedAt);
+  const incomingCheckedAt = Date.parse(incoming.scholar.checkedAt);
+  return Number.isFinite(priorCheckedAt) && priorCheckedAt <= now.getTime()
+    && Number.isFinite(incomingCheckedAt) && incomingCheckedAt < priorCheckedAt;
+}
+
 /** Merge a 30-day pool and preserve source-backed metadata when one optional API call degrades. */
 export function updateResearchRegistry(previous: ResearchRegistry | undefined, articles: Article[], now = new Date()): ResearchRegistry {
   const previousById = new Map((previous?.records ?? []).map((record) => [record.id, record]));
@@ -107,7 +120,7 @@ export function updateResearchRegistry(previous: ResearchRegistry | undefined, a
       tags: [...new Set(["研究", ...incoming.tags.filter((tag) => tag !== "产品" && tag !== "落地")])],
     };
     const prior = previousById.get(incoming.id);
-    const article = prior?.article.scholar && !normalizedIncoming.scholar
+    const article = prior?.article.scholar && (!normalizedIncoming.scholar || retainNewerScholar(prior.article, normalizedIncoming, now))
       ? { ...normalizedIncoming, scholar: prior.article.scholar }
       : normalizedIncoming;
     const hash = createHash("sha256").update(textOf(article)).digest("hex").slice(0, 16);

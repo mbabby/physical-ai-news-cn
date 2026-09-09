@@ -17,6 +17,7 @@ import { upsertEvents } from "../src/event-center.js";
 import { projectCoreCoverageEventDates } from "../src/core-coverage/timeline.js";
 import { company, event } from "./core-coverage-fixtures.js";
 import { resetPublicationFixture } from "./publication-fixture.js";
+import { assertCoreResearchPublished, seedCoreResearchFixture } from "./core-research-fixture.js";
 
 test("explicit unknown occurrence, publication and material clocks survive canonical regeneration", () => {
   for (const record of [
@@ -81,8 +82,10 @@ test("Shanghai 01:00 reviewed calendar proof qualifies the Brief through normal 
   try {
     for (const path of ["README.md", "daily", "weekly", "sources", "review", "resources", "events", "experiments", "research", "routes", "metrics", "site", "watchlist", "community", "config"]) await cp(join(repositoryRoot, path), join(outputRoot, path), { recursive: true });
     await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
+    await seedCoreResearchFixture(outputRoot);
     const paths = ["events/index.json", "events/companies.json", "events/company-claim-ledger.json", "site/data/core-coverage.json", "site/data/core-coverage-history.json", "events/core-coverage-history.json", "review/core30-backfill.json", "site/feeds/core-coverage.xml", "README.md"];
     await runReviewedOfflineGeneration({ outputRoot, now, input });
+    await assertCoreResearchPublished(outputRoot, now);
     const before = await Promise.all(paths.map((path) => readFile(join(outputRoot, path), "utf8")));
     const artifact = JSON.parse(before[3]);
     const brief = artifact.briefs.find((item: any) => item.companyId === "unitree");
@@ -154,7 +157,9 @@ test("next-day first ingestion uses documented review observation without advanc
     const input = JSON.parse(await readFile(join(repositoryRoot, "review/core30-reviewed-backfill.json"), "utf8"));
     const now = new Date("2026-09-08T01:00:00.000Z");
     await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
+    await seedCoreResearchFixture(outputRoot);
     await runReviewedOfflineGeneration({ outputRoot, input, now });
+    await assertCoreResearchPublished(outputRoot, now);
     const bytes = await readFile(join(outputRoot, "events/index.json"), "utf8");
     const store = JSON.parse(bytes);
     assert.equal(store.events.length, 16);
@@ -181,7 +186,9 @@ test("explicit reviewed input enters canonical transactional generation without 
     const input = { ...reviewedInput, events: reviewedInput.events.map((event) => ({ ...event, kind: "product-release" })) } as ReviewedBackfill;
     const now = new Date(reviewedInput.reviewedAt);
     await resetPublicationFixture(outputRoot, now, { coreCoverage: true });
+    await seedCoreResearchFixture(outputRoot);
     await runReviewedOfflineGeneration({ outputRoot, now, input });
+    await assertCoreResearchPublished(outputRoot, now);
     const events = JSON.parse(await readFile(join(outputRoot, "events/index.json"), "utf8"));
     const record = events.events.find((item: any) => item.evidence.some((proof: any) => proof.link === reviewedInput.events[0].url));
     assert.ok(record, "reviewed URL must reach the canonical event store");

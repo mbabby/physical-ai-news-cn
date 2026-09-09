@@ -36,7 +36,10 @@ async function authorProfile(id: string, apiKey: string): Promise<ScholarlyAutho
  */
 export interface OpenAlexEnrichmentResult { articles: Article[]; status: RuntimeStatus }
 
-export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: string): Promise<OpenAlexEnrichmentResult> {
+/** Successful matches may use the generation's shared observation clock so
+ * response latency does not put their evidence after the run's public clock.
+ * Missing, failed, and unmatched requests never refresh cached evidence. */
+export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: string, observedAt?: Date): Promise<OpenAlexEnrichmentResult> {
   if (!apiKey) return { articles, status: { component: "OpenAlex", status: "未配置", attempted: 0, succeeded: 0, failed: 0, detail: "未配置 OpenAlex；论文仍按来源元数据排序。" } };
   let succeeded = 0; let failed = 0;
   const enriched = await mapWithConcurrency(articles, 4, async (article) => {
@@ -57,7 +60,7 @@ export async function enrichResearchWithOpenAlex(articles: Article[], apiKey?: s
       const authors = profiles.filter((item): item is ScholarlyAuthor => Boolean(item));
       const institutions = [...new Set([...(candidate.authorships ?? []).flatMap((item) => item.institutions ?? []).flatMap((item) => item.display_name ? [item.display_name] : []), ...authors.flatMap((author) => author.institutions)])];
       succeeded += 1;
-      return { ...article, authors: article.authors?.length ? article.authors : fallbackAuthors.map((author) => author.name), scholar: { provider: "OpenAlex" as const, workId: candidate.id, citedByCount: candidate.cited_by_count ?? 0, isRetracted: Boolean(candidate.is_retracted), institutions, authors: authors.length ? authors : fallbackAuthors, checkedAt: new Date().toISOString() } };
+      return { ...article, authors: article.authors?.length ? article.authors : fallbackAuthors.map((author) => author.name), scholar: { provider: "OpenAlex" as const, workId: candidate.id, citedByCount: candidate.cited_by_count ?? 0, isRetracted: Boolean(candidate.is_retracted), institutions, authors: authors.length ? authors : fallbackAuthors, checkedAt: (observedAt ?? new Date()).toISOString() } };
     } catch (error) {
       // Enrichment is optional: citation APIs must never block the daily feed.
       console.warn(`[openalex] enrichment skipped (${error instanceof Error ? error.message : String(error)})`);

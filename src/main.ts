@@ -24,7 +24,7 @@ import { formatShareableSummary } from "./shareable-summary.js";
 import { buildCommunityReviewSeeds, buildProjectMetrics, formatCommunityReviewQueue, formatHomepageStatus, formatWeeklyReport, stageWatchlistReviewIssueSeeds } from "./project-insights.js";
 import type { Article, CandidateArticle, CandidateCompanyRegistry, CandidateSourceRegistry, CompanyEntityRegistry, CompanyProfile, DailyArchive, DigestResult, EventRecord, EventStore, IndustryPulse, ResearchRegistry, RouteCompetitionMap, RunHistory, RunManifest, RuntimeStatus, SourceConfig, SourceRegistry } from "./types.js";
 import { isoWeek, readRecentDailyArchives, readRecentDailyArticles, selectWeekly } from "./weekly.js";
-import { hasCompleteChineseCopy, newestKnownGoodById, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
+import { hasCompleteChineseCopy, mergePublicResearchRecords, newestKnownGoodById, preferKnownGoodArticles, recoverPublishedResearchRecords, withDeterministicChineseOfficialFallback } from "./publication.js";
 import { FileTransaction, isArray, isObject, readJsonStrict, withFileLock } from "./runtime/storage.js";
 import { shanghaiDailyDate, shanghaiDailyDateForTimestamp } from "./runtime/daily-date.js";
 import { validateDecisionProductPublication, validatePublication } from "./runtime/validation.js";
@@ -886,7 +886,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const previousResearch = await readJson<ResearchRegistry>(join(researchDir, "registry.json"));
   const researchCutoff = now.getTime() - researchWindowHours * 3_600_000;
   const registeredResearch = (previousResearch?.records ?? []).map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) }))
-    .filter((article) => article.publishedAt.getTime() >= researchCutoff);
+    .filter((article) => article.publishedAt.getTime() >= researchCutoff && article.publishedAt.getTime() <= now.getTime());
   const latestCachedResearchDate = recentArchives.filter((archive) => archive.articles.some((article) => article.source.startsWith("arXiv · Robotics"))).sort((a, b) => b.date.localeCompare(a.date))[0]?.date;
   const researchCandidates = rankResearchArticles(uniqueArticles([...liveResearch, ...cachedResearch, ...registeredResearch])).slice(0, 36);
   const arxivFailed = collected.failures.some((failure) => failure.source.startsWith("arXiv · Robotics"));
@@ -896,7 +896,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const llmSettings = { apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL };
   const summarizer = options.summarizer ?? new CompatibleSummarizer(llmSettings);
   const articles = await summarizeWithCache(summarizer, industrySelected, historicalArticles, "industry");
-  const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY);
+  const openAlex = await enrichResearchWithOpenAlex(researchCandidates, process.env.OPENALEX_API_KEY, now);
   // Twelve summaries absorb occasional LLM failures while leaving enough
   // complete cards to publish six. Any incomplete card remains private.
   const researchSelected = rankResearchArticles(openAlex.articles).slice(0, 12);
@@ -920,7 +920,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const previousById = new Map(previousPublicRecords.map((record) => [record.id, record]));
   const fallbackOrder = rankResearchArticles(previousPublicRecords.filter((record) => eligibleResearchIds.has(record.id)).map((record) => ({ ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) })))
     .flatMap((article) => previousById.get(article.id) ? [previousById.get(article.id)!] : []);
-  const publicResearchRecords = [...new Map([...freshlyRankedResearch, ...fallbackOrder].map((record) => [record.id, record])).values()].slice(0, 6);
+  const publicResearchRecords = mergePublicResearchRecords(freshlyRankedResearch, fallbackOrder);
   const shownResearchIds = new Set(publicResearchRecords.map((record) => record.id));
   researchRegistry.records.forEach((record) => { if (shownResearchIds.has(record.id)) record.lastShownAt = now.toISOString(); });
   const publicResearch = publicResearchRecords.map((record) => record.article);

@@ -15,6 +15,8 @@ import type { CompanyProfile } from "../src/types.js";
 import { publishTopSignalsRelease } from "../src/top-signals-growth/publish.js";
 import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 import { resetPublicationFixture } from "./publication-fixture.js";
+import { updateResearchRegistry } from "../src/research-registry.js";
+import type { Article } from "../src/types.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-23T08:00:00.000Z");
@@ -39,6 +41,24 @@ async function fixedRepository(): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "decision-products-pipeline-"));
   for (const path of FIXTURE_PATHS) await cp(join(repositoryRoot, path), join(target, path), { recursive: true });
   await resetPublicationFixture(target, FIXED_NOW);
+  // A historical-clock integration must own its research inputs. Live archives
+  // and metadata caches change on every production refresh.
+  await rm(join(target, "daily"), { recursive: true, force: true });
+  await mkdir(join(target, "daily"));
+  await rm(join(target, "review/decision-products-history"), { recursive: true, force: true });
+  const paper: Article = {
+    id: "fixture-research", title: "Real robot manipulation benchmark", titleZh: "真实机器人操作基准研究",
+    summaryZh: "论文提出真实机器人操作基准。作者在 LIBERO 上比较策略并公开代码。",
+    link: "https://arxiv.org/abs/2608.00001v1", source: "arXiv · Robotics", sourceWeight: 9,
+    publishedAt: new Date("2026-08-20T00:00:00Z"), fetchedAt: new Date("2026-08-22T00:00:00Z"),
+    excerpt: "We evaluate robot manipulation on 12 real-robot trials and LIBERO. Code: https://github.com/example/policy. Limitations include tabletop tasks.",
+    tags: ["研究"], authors: ["Alice"], scholar: {
+      provider: "OpenAlex", workId: "W260800001", citedByCount: 12, isRetracted: false,
+      institutions: ["Example Lab"], authors: [{ name: "Alice", institutions: ["Example Lab"] }], checkedAt: "2026-08-22T00:00:00Z",
+    },
+  };
+  await writeFile(join(target, "research/registry.json"), JSON.stringify(updateResearchRegistry(undefined, [paper], FIXED_NOW)));
+  await rm(join(target, "research/decision-cards.json"), { force: true });
   await rm(join(target, "site/data/decision-products.json"), { force: true });
   await rm(join(target, "watchlist", "current.json"), { force: true });
   await rm(join(target, "watchlist", "theses.json"), { force: true });
@@ -82,6 +102,24 @@ test("fixed-clock fixture does not import repository Decision Product history", 
       () => readFile(join(root, "site/data/decision-products.json"), "utf8"),
       (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT",
     );
+    const registry = JSON.parse(await readFile(join(root, "research/registry.json"), "utf8"));
+    assert.deepEqual(registry.records.map((record: { id: string }) => record.id), ["fixture-research"]);
+    assert.deepEqual(await readdir(join(root, "daily")), []);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("future registry papers cannot enter a historical generation", async () => {
+  const root = await fixedRepository();
+  try {
+    const path = join(root, "research/registry.json");
+    const registry = JSON.parse(await readFile(path, "utf8"));
+    registry.records[0].article.publishedAt = "2026-08-24T00:00:00Z";
+    await writeFile(path, JSON.stringify(registry));
+    await generateFixed(root);
+    const artifact = JSON.parse(await readFile(join(root, "site/data/decision-products.json"), "utf8"));
+    assert.equal(artifact.researchPassports.length, 0);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -92,6 +130,7 @@ test("one artifact drives JSON, dashboard, README and feeds without reorder", as
   try {
     await generateFixed(root);
     const artifact = JSON.parse(await readFile(join(root, "site/data/decision-products.json"), "utf8")) as DecisionProductArtifact;
+    assert.equal(artifact.researchPassports.length, 1, "idempotence must exercise a real complete research passport, not an empty projection");
     const dashboard = JSON.parse(await readFile(join(root, "site/data/dashboard.json"), "utf8")) as { decisionProducts: DecisionProductArtifact };
     const readme = await readFile(join(root, "README.md"), "utf8");
     assert.deepEqual(dashboard.decisionProducts, artifact);
