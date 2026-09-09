@@ -73,7 +73,8 @@ test("standalone pages expose two flagship product views and an auxiliary resear
   ]);
   assert.match(home, /已确认进展/);
   assert.match(home, /正在发生/);
-  assert.match(home, /公司 × 路线 × 资本动量/);
+  assert.match(home, /公司观察名单/);
+  assert.match(home, /href="companies\.html">全部公司档案/);
   assert.doesNotMatch(home, /从论文走向产业/);
   assert.match(weekly, /Top Signals/);
   assert.match(companies, /资本动量/);

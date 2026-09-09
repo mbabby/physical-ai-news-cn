@@ -740,11 +740,16 @@ function renderCompanySection(data) {
 }
 
 function renderCompanyRadar(items) {
-  const route = byId("route-filter").value;
-  const region = byId("region-filter").value;
-  const status = byId("status-filter").value;
+  const routeFilter = byId("route-filter");
+  const regionFilter = byId("region-filter");
+  const statusFilter = byId("status-filter");
+  const radar = byId("company-radar");
+  if (!routeFilter || !regionFilter || !statusFilter || !radar) return;
+  const route = routeFilter.value;
+  const region = regionFilter.value;
+  const status = statusFilter.value;
   const visible = list(items).filter((item) => (!route || item.routes.includes(route)) && (!region || item.region === region) && (!status || item.capitalStatus === status));
-  byId("company-radar").innerHTML = visible.length ? visible.map((item) => `<article class="company-card">
+  radar.innerHTML = visible.length ? visible.map((item) => `<article class="company-card">
     <div class="company-card-head"><a href="${safeUrl(item.officialUrl)}" target="_blank" rel="noopener noreferrer"><h3>${safe(item.name || "待识别公司")}</h3></a><span>${safe(item.region)} · ${safe(item.stage)}</span></div>
     <div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.recentSignals ? item.momentumScore : 0}%"></span><small>${item.recentSignals ? `近 30 天 ${safe(item.recentSignals)} 条信号` : "样本不足 · 不展示精确分"}</small></div>
     <p>${safe(item.thesis || "公司技术路线与产业定位仍在补全。")}</p>
@@ -791,6 +796,7 @@ function renderResearchGraph(items) {
 }
 
 function setupCompanyRadar(items) {
+  if (!byId("company-radar") || !byId("route-filter") || !byId("region-filter") || !byId("status-filter")) return;
   const companies = list(items).map(normalizedCompany);
   fillOptions("route-filter", companies.flatMap((item) => item.routes), "全部路线");
   fillOptions("region-filter", companies.map((item) => item.region), "全部区域");
@@ -818,7 +824,6 @@ function render(data) {
   const decisionProducts = hasDecisionProducts && validDecisionProducts(data.decisionProducts) ? data.decisionProducts : null;
   if (hasDecisionProducts && !decisionProducts) {
     byId("top-signals").innerHTML = '<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>本次数据不会作为有效空状态展示。</p>';
-    byId("company-radar").innerHTML = '<p class="empty">公司卡数据无效，已停止展示。</p>';
     if (byId("research")) byId("research").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
     if (byId("research-graph-grid")) byId("research-graph-grid").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
     return;
@@ -832,8 +837,6 @@ function render(data) {
   renderFeed("industry", data.industry);
   renderResearchFeed(decisionProducts ? decisionProducts.researchPassports : data.research);
   renderCompanySection(data);
-  if (decisionProducts) byId("company-radar").innerHTML = decisionCompanyCards(decisionProducts.companyCards) || '<p class="empty">当前没有通过公开契约的公司卡。</p>';
-  else setupCompanyRadar(data.companyRadar);
   if (decisionProducts && byId("research-graph-grid") && byId("research")) byId("research-graph-grid").innerHTML = byId("research").innerHTML;
   else renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);

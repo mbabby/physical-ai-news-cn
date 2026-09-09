@@ -1,6 +1,8 @@
 import "./decision-products-validator.js";
 
 const root = document.getElementById("share-content");
+const companyDirectoryContext = document.getElementById("company-directory-context");
+const companyDirectoryResults = document.getElementById("company-directory-results");
 const view = document.body.dataset.view;
 const list = (value) => (Array.isArray(value) ? value : []);
 const text = (value, fallbackValue = "") => (value == null ? fallbackValue : String(value));
@@ -36,7 +38,9 @@ function decisionArtifact(data) {
 }
 
 function invalidDecisionState(label) {
-  root.innerHTML = `<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>${safe(label)}已停止展示；这不是有效空状态。</p>`;
+  const target = view === "companies" && companyDirectoryResults ? companyDirectoryResults : root;
+  if (view === "companies" && companyDirectoryContext) companyDirectoryContext.innerHTML = "";
+  target.innerHTML = `<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>${safe(label)}已停止展示；这不是有效空状态。</p>`;
 }
 
 function topSignals(data) {
@@ -148,32 +152,81 @@ function watchlistShare(value) {
     <section class="watchlist-changes"><header class="watchlist-track-head"><h3>本周变化</h3><small>${safe(value.week)}</small></header>${changes.length ? `<ul>${changes.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}</section></section>`;
 }
 
-function companyDossiers(data, showMomentum) {
-  const companies = list(data.companyRadar).map(normalizedCompany).sort((a, b) => b.momentumScore - a.momentumScore).slice(0, 18);
-  return `<p class="share-intro">资本状态不明不等于未融资。这里按近 30 天可归属事件、资本证据与产品验证阶段计算动量。</p>
-    <div class="company-radar">${companies.map((item) => `<article class="company-card">
+function legacyCompanyCard(item, showMomentum) {
+  return `<article class="company-card">
       <div class="company-card-head"><h3>${link(item.officialUrl, item.name || "待识别公司")}</h3><span>${safe(item.region || "区域待补全")} · ${safe(item.stage || "阶段待补全")}</span></div>
       ${showMomentum ? `<div class="momentum"><b>${safe(item.momentumLabel)}</b><span style="--momentum:${item.momentumScore}%"></span><small>${item.momentumScore}/100 · 30D ${safe(item.recentSignals)} 条</small></div>` : ""}
       <p>${safe(item.thesis || "公司技术路线与产业定位仍在补全。")}</p>
       <div class="route-tags">${item.routes.length ? item.routes.map((route) => `<span>${safe(route)}</span>`).join("") : "<span>路线待补全</span>"}</div>
       <dl><div><dt>资本</dt><dd>${safe(item.capitalStatus === "证据不足" ? "证据不足（不代表未融资）" : item.capitalStatus)}</dd></div><div><dt>验证</dt><dd>${safe(item.validationStage || "证据不足")}</dd></div></dl>
       <div class="company-facts"><div><small>最近资本事件</small>${item.funding?.link ? link(item.funding.link, item.funding.title) : '<span class="radar-muted">尚未收录可归属公开证据</span>'}</div><div><small>最近产品 / 部署</small>${item.progress?.link ? link(item.progress.link, item.progress.title) : '<span class="radar-muted">尚无满足门槛的事件</span>'}</div></div>
-    </article>`).join("") || '<p class="empty">公司档案正在同步。</p>'}</div>`;
+    </article>`;
+}
+
+function decisionCompanyCard(item) {
+  return `<article class="company-card" id="${safe(item.cardId)}" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3>${link(item.officialUrl, item.companyName)}</h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(item.routes.join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital.summary)}</dd></div><div><dt>验证阶段</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(item.recentChanges.map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(item.watchlist.nextValidationPoints.map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(item.unknownFields.join(" · ") || "无")}</p><ul>${[...item.capital.evidence, ...item.productDeployment.evidence].map((evidence) => `<li>${link(evidence.url, `${evidence.source} · ${evidence.grade}级`)}</li>`).join("") || "<li>公开证据待补充</li>"}</ul></details></article>`;
+}
+
+const capitalLabels = {
+  verified: "已证实资本", developing: "有资本信号", unknown: "证据不足", conflicted: "证据冲突",
+  已证实: "已证实资本", 有资本信号: "有资本信号", 证据不足: "证据不足", 证据冲突: "证据冲突",
+};
+let directoryRecords = [];
+let directoryControlsBound = false;
+let directoryHashHandled = false;
+
+function directoryOptionMarkup(values, emptyLabel, labels = {}) {
+  return `<option value="">${safe(emptyLabel)}</option>${[...new Set(values.filter(Boolean))].sort().map((value) => `<option value="${safe(value)}">${safe(labels[value] || value)}</option>`).join("")}`;
+}
+
+function renderDirectoryResults() {
+  if (!companyDirectoryResults) return;
+  const route = document.getElementById("company-route-filter")?.value || "";
+  const region = document.getElementById("company-region-filter")?.value || "";
+  const status = document.getElementById("company-status-filter")?.value || "";
+  const visible = directoryRecords.filter((record) => (!route || record.routes.includes(route)) && (!region || record.region === region) && (!status || record.capitalStatus === status));
+  companyDirectoryResults.innerHTML = visible.length ? visible.map((record) => record.markup).join("") : '<p class="empty">当前筛选条件下暂无可公开展示的公司档案。</p>';
+}
+
+function setupDirectory(records) {
+  directoryRecords = records;
+  const routeFilter = document.getElementById("company-route-filter");
+  const regionFilter = document.getElementById("company-region-filter");
+  const statusFilter = document.getElementById("company-status-filter");
+  const reset = document.getElementById("company-directory-reset");
+  if (!routeFilter || !regionFilter || !statusFilter || !reset) return renderDirectoryResults();
+  routeFilter.innerHTML = directoryOptionMarkup(records.flatMap((record) => record.routes), "全部路线");
+  regionFilter.innerHTML = directoryOptionMarkup(records.map((record) => record.region), "全部区域");
+  statusFilter.innerHTML = directoryOptionMarkup(records.map((record) => record.capitalStatus), "全部状态", capitalLabels);
+  if (!directoryControlsBound) {
+    [routeFilter, regionFilter, statusFilter].forEach((control) => control.addEventListener("change", renderDirectoryResults));
+    reset.addEventListener("click", () => {
+      routeFilter.value = ""; regionFilter.value = ""; statusFilter.value = "";
+      renderDirectoryResults();
+    });
+    directoryControlsBound = true;
+  }
+  renderDirectoryResults();
+  if (!directoryHashHandled && window.location.hash) {
+    directoryHashHandled = true;
+    try {
+      document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView({ block: "start" });
+    } catch {}
+  }
 }
 
 function companies(data) {
   const artifact = decisionArtifact(data);
   if (artifact === null) return invalidDecisionState("公司卡");
   if (artifact) {
-    root.innerHTML = `<p class="share-intro">五个答案均来自同一已校验决策产品；unknown 不代表否定。</p><div class="company-radar">${artifact.companyCards.map((item) => `<article class="company-card" id="${safe(item.cardId)}" data-card-id="${safe(item.cardId)}"><div class="company-card-head"><h3>${link(item.officialUrl, item.companyName)}</h3><span>${safe(item.region)} · ${safe(item.stage)}</span></div><p>${safe(item.routes.join(" · "))}</p><dl><div><dt>资本</dt><dd>${safe(item.capital.summary)}</dd></div><div><dt>验证阶段</dt><dd>${safe(item.validationStage)}</dd></div><div><dt>产品 / 部署</dt><dd>${safe(item.productDeployment.summary)}</dd></div><div><dt>近期变化</dt><dd>${safe(item.recentChanges.map((change) => change.title).join(" · ") || "unknown")}</dd></div><div><dt>下一验证</dt><dd>${safe(item.watchlist.nextValidationPoints.map((point) => point.text).join(" · ") || "unknown")}</dd></div></dl><details><summary>字段与证据</summary><p>未知字段：${safe(item.unknownFields.join(" · ") || "无")}</p><ul>${[...item.capital.evidence, ...item.productDeployment.evidence].map((evidence) => `<li>${link(evidence.url, `${evidence.source} · ${evidence.grade}级`)}</li>`).join("") || "<li>公开证据待补充</li>"}</ul></details></article>`).join("") || '<p class="empty">当前没有通过公开契约的公司卡。</p>'}</div>`;
+    if (companyDirectoryContext) companyDirectoryContext.innerHTML = '<p class="share-intro">五个答案均来自同一已校验决策产品；unknown 不代表否定。</p>';
+    setupDirectory(artifact.companyCards.map((item) => ({ routes: item.routes, region: item.region, capitalStatus: item.capital.status, markup: decisionCompanyCard(item) })));
     return;
   }
+  const legacyCompanies = list(data.companyRadar).map(normalizedCompany).sort((a, b) => b.momentumScore - a.momentumScore);
   const hasWatchlist = Boolean(data) && typeof data === "object" && Object.prototype.hasOwnProperty.call(data, "watchlist");
-  if (!hasWatchlist) {
-    root.innerHTML = companyDossiers(data, true);
-    return;
-  }
-  root.innerHTML = `${watchlistShare(data.watchlist)}<section class="company-dossiers"><h2>公司档案</h2>${companyDossiers(data, false)}</section>`;
+  if (companyDirectoryContext) companyDirectoryContext.innerHTML = `${hasWatchlist ? watchlistShare(data.watchlist) : ""}<p class="share-intro">资本状态不明不等于未融资。这里按近 30 天可归属事件、资本证据与产品验证阶段计算动量。</p>${hasWatchlist ? "<h2>公司档案</h2>" : ""}`;
+  setupDirectory(legacyCompanies.map((item) => ({ routes: item.routes, region: item.region, capitalStatus: item.capitalStatus, markup: legacyCompanyCard(item, !hasWatchlist) })));
 }
 
 function validChangeIdentity(value) {

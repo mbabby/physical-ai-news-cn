@@ -111,3 +111,4 @@ a,button,input,select,textarea,[tabindex]{scroll-margin:96px}a:focus-visible,but
 main>.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
 .signal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:800px){.signal-grid{grid-template-columns:1fr}}
+.radar-controls button{background:#0a1a2b;border:1px solid var(--line);color:var(--ink);padding:8px 14px;font:500 .72rem "DM Mono";cursor:pointer}.radar-controls button:hover{border-color:var(--cyan);color:var(--cyan)}

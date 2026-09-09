@@ -12,16 +12,19 @@ const shanghaiDate = (value = new Date()) => {
   return `${parts.year}-${parts.month}-${parts.day}`;
 };
 
-test("homepage keeps data-engineering mount points while presenting one decision briefing", async () => {
+test("homepage keeps Watchlist mounts but moves the full company directory off the page", async () => {
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry",
     "publication-status",
     "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
-    "company-boards", "company-board-grid", "company-radar", "routes-grid",
+    "company-boards", "company-board-grid", "routes-grid",
     "detail-drawer-root",
   ];
   for (const id of requiredIds) assert.match(html, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  for (const id of ["company-radar", "route-filter", "region-filter", "status-filter"]) {
+    assert.doesNotMatch(html, new RegExp(`id=["']${id}["']`), `homepage must not mount #${id}`);
+  }
   const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "homepage must not contain duplicate ids");
   assert.match(html, /未知字段保持未知/);
@@ -34,6 +37,8 @@ test("homepage keeps data-engineering mount points while presenting one decision
   }
   assert.doesNotMatch(html, /<nav[^>]*>[\s\S]*href=["']#research-graph["']/);
   assert.match(html, /<footer[^>]*>[\s\S]*href=["']research\.html["']/);
+  assert.match(html, /href=["']companies\.html["'][^>]*>全部公司档案/);
+  assert.match(html, /href=["']core-coverage\.html["'][^>]*>核心研究覆盖/);
 });
 
 test("evidence UI supports safe fallback, deep-linked details and honest empty states", async () => {
@@ -199,9 +204,12 @@ test("subscription route choices use the shared encoder and persist only in the 
   assert.equal(replaced.at(-1), "/subscribe.html?routes=data-and-training,deployment-and-commercialization");
 });
 
-type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: string; addEventListener: () => void };
+type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: string; listeners: Record<string, () => void>; addEventListener: (name: string, listener: () => void) => void };
 
-const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", value: "", addEventListener() {} });
+const mount = (): Mount => ({
+  hidden: false, innerHTML: "", textContent: "", value: "", listeners: {},
+  addEventListener(name, listener) { this.listeners[name] = listener; },
+});
 
 async function loadAppCompanyRenderer(now?: Date) {
   const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js"), readSite("index.html")]);
@@ -260,7 +268,6 @@ test("homepage bootstrap fetches only dashboard data and renders company status"
   assert.equal(requested.length, 1);
   assert.match(requested[0]!, /^data\/dashboard\.json\?v=/);
   assert.doesNotMatch(requested.join("\n"), /community(?:-tasks)?\.json/);
-  assert.match(mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
   assert.match(mounts["publication-status"].innerHTML, /日报状态待确认/);
 });
 
@@ -272,7 +279,6 @@ test("community metrics renderer is a no-op without homepage mounts and does not
     }
     assert.doesNotThrow(() => site.renderCommunity(community));
     assert.doesNotThrow(() => site.render({ stats: {}, routes: [] }));
-    assert.match(site.mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
     assert.match(site.mounts["publication-status"].innerHTML, /日报状态待确认/);
   }
 });
@@ -289,23 +295,26 @@ test("homepage renderer tolerates intentionally absent research mounts", async (
 
   const absentDecisionProduct = await loadAppCompanyRenderer();
   assert.doesNotThrow(() => absentDecisionProduct.render({ stats: {}, routes: [] }));
-  assert.match(absentDecisionProduct.mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
+  assert.match(absentDecisionProduct.mounts["publication-status"].innerHTML, /日报状态待确认/);
 
   const malformed = await loadAppCompanyRenderer();
   assert.doesNotThrow(() => malformed.render({ decisionProducts: {}, stats: {}, routes: [] }));
   assert.match(malformed.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
-  assert.match(malformed.mounts["company-radar"].innerHTML, /公司卡数据无效/);
+  assert.match(malformed.mounts["watchlist-forward"].innerHTML, /^$/);
 });
 
-async function loadShareCompanyRenderer() {
-  const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("share-pages.js")]);
-  const root = mount();
+async function loadShareCompanyRenderer(deepLinkId?: string) {
+  const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("share-pages.js"), readSite("companies.html")]);
+  const mounts = Object.fromEntries([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => [match[1], mount()])) as Record<string, Mount>;
+  let scrolled = 0;
+  if (deepLinkId) mounts[deepLinkId] = { ...mount(), scrollIntoView: () => { scrolled += 1; } } as Mount;
+  const root = mounts["company-directory-results"] ?? mounts["share-content"] ?? mount();
   const context = {
     console,
     URL,
     Date,
-    document: { getElementById: () => root, body: { dataset: { view: "companies" } } },
-    window: { location: { protocol: "https:", href: "https://example.test/companies.html" } },
+    document: { getElementById: (id: string) => mounts[id] ?? null, body: { dataset: { view: "companies" } } },
+    window: { location: { protocol: "https:", href: `https://example.test/companies.html${deepLinkId ? `#${deepLinkId}` : ""}`, hash: deepLinkId ? `#${deepLinkId}` : "" } },
   };
   const instrumented = source.replace(/^import "\.\/decision-products-validator\.js";\s*/, "").replace(
     /const views = \{ weekly, companies, research \};[\s\S]*$/,
@@ -313,8 +322,76 @@ async function loadShareCompanyRenderer() {
   );
   vm.runInNewContext(validator, context);
   vm.runInNewContext(instrumented, context);
-  return { root, companies: (context as typeof context & { __siteUi: { companies: (data: unknown) => void } }).__siteUi.companies };
+  return { root, mounts, get scrolled() { return scrolled; }, companies: (context as typeof context & { __siteUi: { companies: (data: unknown) => void } }).__siteUi.companies };
 }
+
+test("company directory renders every legacy record and safely escapes public labels and URLs", async () => {
+  const { root, companies } = await loadShareCompanyRenderer();
+  const records = Array.from({ length: 20 }, (_, index) => ({
+    name: index === 19 ? '<img src=x onerror="alert(1)">' : `Legacy ${String(index).padStart(2, "0")}`,
+    officialUrl: index === 19 ? "javascript:alert(1)" : `https://legacy-${index}.example/`,
+    routes: [index % 2 ? "本体与硬件" : "数据与训练"],
+    region: index % 3 ? "中国" : "美国",
+    capitalStatus: index % 2 ? "已证实" : "证据不足",
+    momentumScore: 100 - index,
+  }));
+  companies({ companyRadar: records });
+  assert.equal((root.innerHTML.match(/<article class="company-card"/g) || []).length, 20);
+  assert.match(root.innerHTML, /Legacy 18/);
+  assert.match(root.innerHTML, /&lt;img src=x onerror=&quot;alert\(1\)&quot;&gt;/);
+  assert.doesNotMatch(root.innerHTML, /href="javascript:/);
+});
+
+test("company directory filters validated decision cards by route, region and structured capital status", async () => {
+  const base = decisionCompanyCard();
+  const evidence = (id: string) => [{ evidenceId: `evidence-${id}`, url: `https://${id}.example/evidence`, source: `${id} 官方`, grade: "A" }];
+  const card = (id: string, region: string, route: string, status: string) => ({
+    ...structuredClone(base),
+    cardId: stableDecisionId("company", id), companyId: id, companyName: `Company ${id}`,
+    officialUrl: `https://${id}.example/`, region, routes: [route],
+    capital: status === "unknown"
+      ? { status, summary: "证据不足（不代表未融资）", evidence: [] }
+      : { status, summary: `${id} 资本状态已有结构化证据。`, evidence: evidence(id) },
+  });
+  const cards = [
+    card("alpha", "中国", "VLA 与具身模型", "verified"),
+    card("beta", "美国", "本体与硬件", "developing"),
+    card("gamma", "中国", "本体与硬件", "conflicted"),
+    card("delta", "中国", "本体与硬件", "unknown"),
+  ];
+  const { root, mounts, companies } = await loadShareCompanyRenderer();
+  companies({ decisionProducts: { ...completeDecisionArtifact(), companyCards: cards } });
+  assert.ok(root.innerHTML.indexOf("Company alpha") < root.innerHTML.indexOf("Company delta"), "canonical card order is preserved");
+  assert.match(mounts["company-status-filter"].innerHTML, /已证实资本/);
+  assert.match(mounts["company-status-filter"].innerHTML, /有资本信号/);
+  assert.match(mounts["company-status-filter"].innerHTML, /证据冲突/);
+  assert.match(mounts["company-status-filter"].innerHTML, /证据不足/);
+
+  mounts["company-route-filter"].value = "本体与硬件";
+  mounts["company-route-filter"].listeners.change();
+  mounts["company-region-filter"].value = "中国";
+  mounts["company-region-filter"].listeners.change();
+  mounts["company-status-filter"].value = "conflicted";
+  mounts["company-status-filter"].listeners.change();
+  assert.match(root.innerHTML, /Company gamma/);
+  assert.doesNotMatch(root.innerHTML, /Company alpha|Company beta|Company delta/);
+
+  mounts["company-directory-reset"].listeners.click();
+  assert.ok(root.innerHTML.indexOf("Company alpha") < root.innerHTML.indexOf("Company beta"));
+  assert.ok(root.innerHTML.indexOf("Company beta") < root.innerHTML.indexOf("Company gamma"));
+  assert.ok(root.innerHTML.indexOf("Company gamma") < root.innerHTML.indexOf("Company delta"));
+  assert.match(root.innerHTML, /证据不足（不代表未融资）/);
+});
+
+test("company directory restores a stable card deep link once after async rendering", async () => {
+  const cardId = stableDecisionId("company", "alpha");
+  const share = await loadShareCompanyRenderer(cardId);
+  share.companies({ decisionProducts: completeDecisionArtifact() });
+  assert.equal(share.scrolled, 1);
+  share.mounts["company-region-filter"].value = "中国";
+  share.mounts["company-region-filter"].listeners.change();
+  assert.equal(share.scrolled, 1, "filter rerenders must not steal focus or scroll again");
+});
 
 async function loadChangePageRenderer() {
   const source = (await readSite("share-pages.js")).replace(/^import "\.\/decision-products-validator\.js";\s*/, "");
@@ -486,17 +563,15 @@ const completeDecisionArtifact = () => ({
   subscriptions: { generatedAt: "2026-08-17T01:00:00.000Z", entries: [decisionSubscription()] },
 });
 
-test("homepage keeps decision company cards and fails closed on undeclared private fields", async () => {
+test("homepage tolerates valid and invalid decision company cards without a directory mount", async () => {
   const valid = await loadAppCompanyRenderer();
-  valid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard()]), stats: {}, routes: [] });
-  assert.match(valid.mounts["company-radar"].innerHTML, /Alpha Robotics/);
-  assert.match(valid.mounts["company-radar"].innerHTML, /字段与证据/);
-  assert.doesNotMatch(valid.mounts["company-radar"].innerHTML, /待识别公司/);
+  assert.doesNotThrow(() => valid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard()]), stats: {}, routes: [] }));
+  assert.equal(valid.mounts["company-radar"], undefined);
+  assert.match(valid.mounts["publication-status"].innerHTML, /日报状态待确认/);
 
   const invalid = await loadAppCompanyRenderer();
-  invalid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard({ selectionScore: 99 })]), stats: {}, routes: [] });
+  assert.doesNotThrow(() => invalid.render({ decisionProducts: emptyDecisionArtifact([decisionCompanyCard({ selectionScore: 99 })]), stats: {}, routes: [] }));
   assert.match(invalid.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
-  assert.doesNotMatch(invalid.mounts["company-radar"].innerHTML, /Alpha Robotics|99/);
 });
 
 test("both product renderers fail closed for every malformed nested decision boundary", async () => {
@@ -581,22 +656,23 @@ test("browser stable IDs match Node UTF-8 replacement for lone surrogates", asyn
   assert.match(share.root.innerHTML, /Alpha Robotics/);
 });
 
-test("company share page places watchlist and changes before score-free legacy dossiers", async () => {
-  const { root, companies } = await loadShareCompanyRenderer();
+test("company share page places watchlist context before score-free legacy dossiers", async () => {
+  const { root, mounts, companies } = await loadShareCompanyRenderer();
   companies({
     watchlist: publicWatchlist,
     companyRadar: [{ name: "Legacy dossier", momentumScore: 93, recentSignals: 4, officialUrl: "https://legacy.example", thesis: "保留档案。" }],
   });
-  assert.ok(root.innerHTML.indexOf("公司 Watchlist") < root.innerHTML.indexOf("公司档案"));
-  assert.ok(root.innerHTML.indexOf("本周变化") < root.innerHTML.indexOf("公司档案"));
-  assert.match(root.innerHTML, /AI 研究判断/);
+  assert.match(mounts["company-directory-context"].innerHTML, /公司 Watchlist/);
+  assert.match(mounts["company-directory-context"].innerHTML, /本周变化/);
+  assert.match(mounts["company-directory-context"].innerHTML, /AI 研究判断/);
+  assert.match(mounts["company-directory-context"].innerHTML, /公司档案/);
   assert.match(root.innerHTML, /Legacy dossier/);
   assert.doesNotMatch(root.innerHTML, /93\/100|综合分|#1|score|rank/);
 
   companies({ companyRadar: [{ name: "Legacy fallback", momentumScore: 93, recentSignals: 4 }] });
   assert.match(root.innerHTML, /Legacy fallback/);
   assert.match(root.innerHTML, /93\/100/);
-  assert.doesNotMatch(root.innerHTML, /公司 Watchlist|本周变化/);
+  assert.doesNotMatch(mounts["company-directory-context"].innerHTML, /公司 Watchlist|本周变化/);
 });
 
 test("period-change page renders only validated public deltas with snapshot identities", async () => {
@@ -638,6 +714,7 @@ test("period-change page renders only validated public deltas with snapshot iden
 test("watchlist styles preserve focus, long Chinese copy and a single-column 390px layout", async () => {
   const styles = await readSite("styles.css");
   assert.match(styles, /\.watchlist-card[^{]*\{[^}]*overflow-wrap:anywhere/);
+  assert.match(styles, /\.radar-controls button[^{]*\{[^}]*background:/);
   assert.match(styles, /\.watchlist-evidence a[^{]*\{[^}]*min-height:44px/);
   assert.match(styles, /\.watchlist-evidence a:focus-visible/);
   assert.match(styles, /\.watchlist-config-controls/);
