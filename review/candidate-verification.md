@@ -740,15 +740,6 @@
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMitgFBVV95cUxPX1hiM1VrQ3VmZkp3TWRpaXpqVW93ZW9qN3NRdFJWcEdOZU9jTnFvb25ZY3BoVkhIMVo3NjZXYkxEbnlHU0stS1lsM042aWhvR0JNR0Z4RDV5c1hJWnprNmhzalRSUEdJSG5xdmtQWV9TcU5DV3ZHeXdoWkVuc01hMFA0d0ZZaW5EeVFFdlJ1OWd2UUlsNkt4RHVrdmxJYjJzelVjTE05eGtxV0RQcmpmdzdtX1NqZw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## AI robotics simulation company Antioch · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 80
-- 尝试：1；下次复核 2026-09-10
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMisAFBVV95cUxObTVFVEcyQU9UblFjYmZia2NVQkd3U1NfT01pRkkzVUNlMjFwSjg3R3BKdGV0TWxCM2gxZklETFhtdHNQS1Y5TGx4MUw4NkRJOEFMS3BVSnBlT2J6SVZ0M3UwcEF5cm9yMnl5M1NLTC0teS1zcVR5MXN4R1NOYmJ0c1gxekkzQkRhQ3J5WTBuX1BnaDE0aHhLOUEtTlh4SGItM2V5bVItTW0tQ25maEJITg?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
 ## Alloy Robotics 以 8000 万美元 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
@@ -1278,6 +1269,15 @@
 - 主动补证：尚未执行
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMi1gFBVV95cUxQaFBZQm1xRUVIUnUxdzFHV2ljYmFUOGMwd3RBblRFRWZpUVBJMmpGcjQ2aDhMREsyRktoQWg0M2FJMFYtWkl6X05zV3NxZ1N2Rkd5T3dIQUs4Y0dGeDlsSXZsaGJvcHo1aTg0OFJTXzJCWWlaZW5DejdfT2JhalVrQVVlLUV0OGdsSjRFZEF4dUx1U09xY1ZHT2Y3WlB6QzA2RkRjRjNZSlQ2d2xMYkQ5dmVOSTlCTElJamJZdktjaV93WlR6Vk1pTEpTNE1oOHVIVTlIRUhR?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 机器人进入“云测试”时代：Antioch · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-09-10
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiTEFVX3lxTE9VUklxSGM3ZHZxQTFYWlNiN3FHNlZVQldaeUE4M0dCSzF0WkJBRnRsNVZId3ZSc0hGZG5UanZWelFWbWVEYmotTnlpMFY?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 家庭具身智能机器人诺因智能 · 投融资 · 等待重试

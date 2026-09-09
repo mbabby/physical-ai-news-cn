@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-09T15:15:55.932Z",
+  "updatedAt": "2026-09-09T15:20:25.970Z",
   "windowDays": 30,
   "sources": [
     {
@@ -17,7 +17,7 @@
       "selectedArticles": 144,
       "reliability": 0.67,
       "fetchedArticles": 2400,
-      "relatedHits": 353,
+      "relatedHits": 352,
       "correctionCount": 0,
       "health": {
         "successRate": 0.67,
@@ -263,7 +263,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 2400,
-      "relatedHits": 79,
+      "relatedHits": 78,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -290,7 +290,7 @@
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 2393,
-      "relatedHits": 80,
+      "relatedHits": 81,
       "correctionCount": 0,
       "health": {
         "successRate": 1,
@@ -947,6 +947,52 @@
       "recommendation": "排查"
     },
     {
+      "name": "自动发现 · github.com",
+      "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
+      "configuredWeight": 3,
+      "effectiveWeight": 2,
+      "successfulRuns": 22,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 145,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
+      "name": "自动发现 · notesfrompoland.com",
+      "type": "rss",
+      "tier": "线索发现层",
+      "status": "观察",
+      "publicationPolicy": "仅作线索发现",
+      "configuredWeight": 3,
+      "effectiveWeight": 3,
+      "successfulRuns": 1,
+      "failedRuns": 0,
+      "selectedArticles": 0,
+      "reliability": 1,
+      "fetchedArticles": 12,
+      "relatedHits": 0,
+      "correctionCount": 0,
+      "health": {
+        "successRate": 1,
+        "hitRate": 0,
+        "correctionRate": 0,
+        "score": 67.5
+      },
+      "recommendation": "观察"
+    },
+    {
       "name": "自动发现 · beambots.dev",
       "type": "rss",
       "tier": "线索发现层",
@@ -999,7 +1045,7 @@
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
-      "effectiveWeight": 3,
+      "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -1022,7 +1068,7 @@
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
-      "effectiveWeight": 3,
+      "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
@@ -1045,35 +1091,12 @@
       "status": "观察",
       "publicationPolicy": "仅作线索发现",
       "configuredWeight": 3,
-      "effectiveWeight": 3,
+      "effectiveWeight": 2,
       "successfulRuns": 5,
       "failedRuns": 0,
       "selectedArticles": 0,
       "reliability": 1,
       "fetchedArticles": 100,
-      "relatedHits": 0,
-      "correctionCount": 0,
-      "health": {
-        "successRate": 1,
-        "hitRate": 0,
-        "correctionRate": 0,
-        "score": 67.5
-      },
-      "recommendation": "观察"
-    },
-    {
-      "name": "自动发现 · github.com",
-      "type": "rss",
-      "tier": "线索发现层",
-      "status": "观察",
-      "publicationPolicy": "仅作线索发现",
-      "configuredWeight": 3,
-      "effectiveWeight": 2,
-      "successfulRuns": 22,
-      "failedRuns": 0,
-      "selectedArticles": 0,
-      "reliability": 1,
-      "fetchedArticles": 141,
       "relatedHits": 0,
       "correctionCount": 0,
       "health": {
@@ -1105,31 +1128,6 @@
         "correctionRate": 0,
         "score": 67.5
       },
-      "recommendation": "观察"
-    },
-    {
-      "name": "自动发现 · wired.com",
-      "type": "rss",
-      "tier": "线索发现层",
-      "status": "观察",
-      "publicationPolicy": "仅作线索发现",
-      "configuredWeight": 3,
-      "effectiveWeight": 1,
-      "successfulRuns": 10,
-      "failedRuns": 0,
-      "selectedArticles": 0,
-      "reliability": 1,
-      "fetchedArticles": 500,
-      "relatedHits": 1,
-      "correctionCount": 0,
-      "health": {
-        "successRate": 1,
-        "hitRate": 0,
-        "inclusionRate": 0,
-        "correctionRate": 0,
-        "score": 55
-      },
-      "statusReason": "健康分低于 65，已降权观察",
       "recommendation": "观察"
     }
   ]

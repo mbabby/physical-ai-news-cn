@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-09-2026-09-09T15-15-55-932Z",
+  "runId": "2026-09-09-2026-09-09T15-20-25-970Z",
   "date": "2026-09-09",
-  "startedAt": "2026-09-09T15:15:55.932Z",
-  "finishedAt": "2026-09-09T15:19:33.783Z",
+  "startedAt": "2026-09-09T15:20:25.970Z",
+  "finishedAt": "2026-09-09T15:25:06.697Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 21,
+    "candidates": 20,
     "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 6,
-      "succeeded": 1,
+      "attempted": 8,
+      "succeeded": 3,
       "failed": 5,
-      "detail": "有效完成 1；无效模型输出 0；提供方失败 5；缓存命中 0；industry、research 通道已熔断。"
+      "detail": "有效完成 3；无效模型输出 0；提供方失败 5；缓存命中 1；industry、research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
@@ -34,7 +34,7 @@
       "attempted": 2,
       "succeeded": 0,
       "failed": 2,
-      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。"
+      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 2，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。"
     },
     {
       "component": "GitHub",

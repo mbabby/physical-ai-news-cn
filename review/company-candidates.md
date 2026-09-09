@@ -149,6 +149,13 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Motion1%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Motion1%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
+## 机器人进入“云测试”时代：Antioch · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[leaderobot.com](https://news.google.com/rss/articles/CBMiTEFVX3lxTE9VUklxSGM3ZHZxQTFYWlNiN3FHNlZVQldaeUE4M0dCSzF0WkJBRnRsNVZId3ZSc0hGZG5UanZWelFWbWVEYmotTnlpMFY?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%BF%9B%E5%85%A5%E2%80%9C%E4%BA%91%E6%B5%8B%E8%AF%95%E2%80%9D%E6%97%B6%E4%BB%A3%EF%BC%9AAntioch%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%BF%9B%E5%85%A5%E2%80%9C%E4%BA%91%E6%B5%8B%E8%AF%95%E2%80%9D%E6%97%B6%E4%BB%A3%EF%BC%9AAntioch%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
 ## AI robotics simulation company Antioch · 候选 · 32/100
 
 - 路线：部署与商业化
