@@ -236,6 +236,34 @@ async function loadAppCompanyRenderer(now?: Date) {
   } }).__siteUi) };
 }
 
+test("homepage bootstrap fetches only dashboard data and renders company status", async () => {
+  const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js"), readSite("index.html")]);
+  const mounts = Object.fromEntries([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => [match[1], mount()])) as Record<string, Mount>;
+  const requested: string[] = [];
+  const context = {
+    console,
+    URL,
+    Intl,
+    Date,
+    fetch: async (url: string) => {
+      requested.push(url);
+      return { ok: true, json: async () => ({ stats: {}, routes: [] }) };
+    },
+    document: { getElementById: (id: string) => mounts[id] ?? null, addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
+    navigator: { clipboard: { writeText: async () => {} } },
+    window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "", protocol: "https:" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
+  };
+  vm.runInNewContext(validator, context);
+  vm.runInNewContext(source.replace(/^import "\.\/decision-products-validator\.js";\s*/, ""), context);
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(requested.length, 1);
+  assert.match(requested[0]!, /^data\/dashboard\.json\?v=/);
+  assert.doesNotMatch(requested.join("\n"), /community(?:-tasks)?\.json/);
+  assert.match(mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
+  assert.match(mounts["publication-status"].innerHTML, /日报状态待确认/);
+});
+
 test("community metrics renderer is a no-op without homepage mounts and does not block company status", async () => {
   for (const community of [{ repository: { stars: 12 }, generatedAt: "2026-08-02T01:30:00.000Z" }, null]) {
     const site = await loadAppCompanyRenderer();
