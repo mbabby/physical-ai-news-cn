@@ -37,18 +37,18 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Exclaim%20Robotics%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
+## Jaipur Robotics · 观察中 · 67/100
+
+- 路线：部署与商业化
+- 证据：[theaiinsider.tech](https://news.google.com/rss/articles/CBMiywFBVV95cUxOSEdMeW0xTlBPZVl0ZUE4NnpnQXZxZkRFaFJHMUFRRGVwVkhkcndmWFpOTWhab1VkTDY2UGYwVGhieU9zR0N0NVRhZk5admNlejUyS0RCZ0kzOHVCMmduYmg3Ylk3Zjl6eDhPaWQ5UkRqVUE0M1gyTGE4UndPSThfemJBWmlVNWszRkI1ekRfSFNyeFlxSVBxRzlMZHpXMkg4ZFQtdEtaaXNuVG03OHFrUTRTS2RVdXIwbk96Y0w4NFJZTXNxUk9mcDVhTQ?oc=5) · [app.dealroom.co](https://news.google.com/rss/articles/CBMitwFBVV95cUxNQXNDNTd6NUpCMi1fUDBKOVZqYUlVVzFYZE92Wi1MLWtkWDViamdfVDdzeUZlVWptT1pTaGNiM0NnOGdUOWd1Q0ozLV9tdmlvSTZ3azJaUDBkMGpsNWg2VG94dEJzZWhhTEt2MGdZV1lTX0VsNS1FOXJHUjBtZGNGTzB1OWpWQnNNYjlzWENhUVJ4ZlhHeTZIWlFEaFF6dk9pVERoaWtPd2I5OVFRcGlVeFZOOVpaczg?oc=5) · [Startupticker](https://news.google.com/rss/articles/CBMiowFBVV95cUxPRVI5cjc3SDBLcXRUcGNBNF92U3Rhck1tZUYtZUxpSXl2MTdLX0ZwaUV4T2w3UW9DemJLaFhKcnExM25sSWlCTWlpZXJmcGtESEtVN1ZmWXU5LVhoaVRfOUVOSlFXMW9xeDk0VlF2X0p0a2Rwb1BMM093UWEzM0NENW1uOVU1anFhMkxJRXhvUS1xSDgzY3VuUWhpY0ZUWmVyME9r?oc=5) · [Renewables Now](https://news.google.com/rss/articles/CBMitgFBVV95cUxPaWFiT1JRU0JQNFlKRTNPR1F1MzdjNTEzRUZ5Umt2YWdOUUQwSUR5TzlwSkhscW5jcU1WaEZlTkdkQ2xodXBLcEdCX1o3UFVVeVpsRU1ydWx1QzFqc1RiN2NxQkczV1ZwRXVxRUJTUnBDd2t6MDRrakVXRFRxcEJSenBneF83cVJPS2sxajVpQzRNNFRzam44U1huUFIzN0hKaTBDcGVmWnNiZFgwNThxM2NTanVudw?oc=5) · [varindia.com](https://news.google.com/rss/articles/CBMia0FVX3lxTE9Ya0dOTUliVnE3RWp0RGRGLWRtVUg0cDU2NmVrUi1wdmZUa0dLMTFDQ2hjdXpSWS0waUhKUlJDU2l0RFUwcmNYTng4VjlILWtGWTZWSTREbnB2Sm5rTHE1ZXYxS3VnZmw0cndZ?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Jaipur%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Jaipur%20Robotics%22%20official%20investors%20funding)
+- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
+
 ## Haystack Robotics · 观察中 · 67/100
 
 - 路线：部署与商业化
 - 证据：[Dealroom](https://news.google.com/rss/articles/CBMinAFBVV95cUxPaW9qSE5oVGxUUDJibVVvVWNDWkozSFRoaEZHTElzMGpQaFYyZkduR3RYVF9iUnlqVm51ZnVvT3k0dExLVXZiTTVOUDFjMWNnWk91bFYzU2hZbWsxcWZZVWcxUXhpMkVieUFxNzNKVXNKRjhoV3BlTFZzaHpFWV94Rnc3QV9RTmdScldUM1dvc2dtVWMyUU5XNFB1UDg?oc=5) · [Pulse 2.0](https://news.google.com/rss/articles/CBMijAFBVV95cUxNcVJFTnRXa2VaQWQzZ095ZGZ0MHBuaWZqeDFJYlgzVDhaNl9pcEtRTjBiZGtEUGtvbHFpTlNmTmFuMGlRaHNRWVBLZDlrbVNRNktiM2lzYnR1Vk1zM1hnN01mcThNa2hBUlZIbHVIc0ZiWDVwX2Q3MUliZDczUDJQRENEMnpuRklzSkxpZNIBjAFBVV95cUxNcVJFTnRXa2VaQWQzZ095ZGZ0MHBuaWZqeDFJYlgzVDhaNl9pcEtRTjBiZGtEUGtvbHFpTlNmTmFuMGlRaHNRWVBLZDlrbVNRNktiM2lzYnR1Vk1zM1hnN01mcThNa2hBUlZIbHVIc0ZiWDVwX2Q3MUliZDczUDJQRENEMnpuRklzSkxpZA?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Haystack%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Haystack%20Robotics%22%20official%20investors%20funding)
-- 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
-
-## Jaipur Robotics · 观察中 · 67/100
-
-- 路线：部署与商业化
-- 证据：[theaiinsider.tech](https://news.google.com/rss/articles/CBMiywFBVV95cUxOSEdMeW0xTlBPZVl0ZUE4NnpnQXZxZkRFaFJHMUFRRGVwVkhkcndmWFpOTWhab1VkTDY2UGYwVGhieU9zR0N0NVRhZk5admNlejUyS0RCZ0kzOHVCMmduYmg3Ylk3Zjl6eDhPaWQ5UkRqVUE0M1gyTGE4UndPSThfemJBWmlVNWszRkI1ekRfSFNyeFlxSVBxRzlMZHpXMkg4ZFQtdEtaaXNuVG03OHFrUTRTS2RVdXIwbk96Y0w4NFJZTXNxUk9mcDVhTQ?oc=5) · [app.dealroom.co](https://news.google.com/rss/articles/CBMitwFBVV95cUxNQXNDNTd6NUpCMi1fUDBKOVZqYUlVVzFYZE92Wi1MLWtkWDViamdfVDdzeUZlVWptT1pTaGNiM0NnOGdUOWd1Q0ozLV9tdmlvSTZ3azJaUDBkMGpsNWg2VG94dEJzZWhhTEt2MGdZV1lTX0VsNS1FOXJHUjBtZGNGTzB1OWpWQnNNYjlzWENhUVJ4ZlhHeTZIWlFEaFF6dk9pVERoaWtPd2I5OVFRcGlVeFZOOVpaczg?oc=5) · [Startupticker](https://news.google.com/rss/articles/CBMiowFBVV95cUxPRVI5cjc3SDBLcXRUcGNBNF92U3Rhck1tZUYtZUxpSXl2MTdLX0ZwaUV4T2w3UW9DemJLaFhKcnExM25sSWlCTWlpZXJmcGtESEtVN1ZmWXU5LVhoaVRfOUVOSlFXMW9xeDk0VlF2X0p0a2Rwb1BMM093UWEzM0NENW1uOVU1anFhMkxJRXhvUS1xSDgzY3VuUWhpY0ZUWmVyME9r?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Jaipur%20Robotics%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Jaipur%20Robotics%22%20official%20investors%20funding)
 - 待核验：已有多个独立媒体线索；仍需公司官网、投资方公告或监管披露完成一手核验。
 
 ## Alloy Robotics · 观察中 · 67/100
@@ -140,6 +140,20 @@
 - 路线：部署与商业化
 - 证据：[The Robot Report](https://www.therobotreport.com/lyte-raises-165m-help-robots-better-sense-their-surroundings/)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Lyte%20AI%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Lyte%20AI%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## Motion1 · 候选 · 32/100
+
+- 路线：本体与硬件
+- 证据：[Pulse 2.0](https://news.google.com/rss/articles/CBMiogFBVV95cUxPQ2haTFJ5OVFzWDVKSWZsd21GTnBMVmJXUjkxaUpSSmtqT2pPUVUwTXpWUEpLSXp2T2EwOHBWQ0RYaWdZeEFBaW9KTGtlZFVta3AwNmx1Y0trQXUtMXZDZ2xJdnNFaEhOOXN3bGU1elpMMjFXX0JGY2NUQlpNcVNIVUYxNldWcElXb0ZqNS1GNzNEeU5XVmpaNXEzUlpTNmFCZGfSAacBQVVfeXFMTTVEblVvWDc4R2xDQ0E4Z09WV01OeXZoVFBvbWt4eHozSW9NT1BoVE1HVzFuUUxIYUVFbDhxQTdmVTJFNEpHNElNdWh4OFdhQ2duc0dyVS1oSXIyakhsMURSeWl0OVJsSTc5YWp4S1ZhU29qOFF0bVFQNzZNMW9XTlB5NzhmMEpxMENveC1RT3B3bGN5RjRCeXYyaHVpVXpoTDFXcnI3dm8?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Motion1%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Motion1%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## AI robotics simulation company Antioch · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[NZ](https://news.google.com/rss/articles/CBMisAFBVV95cUxObTVFVEcyQU9UblFjYmZia2NVQkd3U1NfT01pRkkzVUNlMjFwSjg3R3BKdGV0TWxCM2gxZklETFhtdHNQS1Y5TGx4MUw4NkRJOEFMS3BVSnBlT2J6SVZ0M3UwcEF5cm9yMnl5M1NLTC0teS1zcVR5MXN4R1NOYmJ0c1gxekkzQkRhQ3J5WTBuX1BnaDE0aHhLOUEtTlh4SGItM2V5bVItTW0tQ25maEJITg?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%20robotics%20simulation%20company%20Antioch%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%20robotics%20simulation%20company%20Antioch%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## Jipur Robotics · 候选 · 32/100

@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-08-2026-09-08T03-19-19-806Z",
-  "date": "2026-09-08",
-  "startedAt": "2026-09-08T03:19:19.806Z",
-  "finishedAt": "2026-09-08T03:25:30.549Z",
+  "runId": "2026-09-09-2026-09-09T15-15-55-932Z",
+  "date": "2026-09-09",
+  "startedAt": "2026-09-09T15:15:55.932Z",
+  "finishedAt": "2026-09-09T15:19:33.783Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 0,
     "publicResearchItems": 6,
-    "candidates": 19,
-    "sourceFailures": 1
+    "candidates": 21,
+    "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 10,
-      "succeeded": 3,
-      "failed": 4,
-      "detail": "有效完成 3；无效模型输出 3；提供方失败 4；缓存命中 3；industry、research 通道已熔断。"
+      "attempted": 6,
+      "succeeded": 1,
+      "failed": 5,
+      "detail": "有效完成 1；无效模型输出 0；提供方失败 5；缓存命中 0；industry、research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
-      "status": "成功",
+      "status": "部分降级",
       "attempted": 36,
-      "succeeded": 36,
-      "failed": 0,
-      "detail": "论文引用与作者机构元数据已刷新。"
+      "succeeded": 35,
+      "failed": 1,
+      "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     },
     {
       "component": "Watchlist",
@@ -34,7 +34,7 @@
       "attempted": 2,
       "succeeded": 0,
       "failed": 2,
-      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
+      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。"
     },
     {
       "component": "GitHub",
