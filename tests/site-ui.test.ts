@@ -220,13 +220,14 @@ async function loadAppCompanyRenderer(now?: Date) {
     window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
   };
   const instrumented = source.replace(/^import "\.\/decision-products-validator\.js";\s*/, "").replace(
-    /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
-    "globalThis.__siteUi = { render, renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
+    /loadDashboard\(\)\.then\(render\);\s*if \(byId\("community-stars"\)\) loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
+    "globalThis.__siteUi = { render, renderCommunity, renderCompanySection, decodeWatchlistConfig, encodeWatchlistConfig, filterWatchlistCards, watchlistCatalog };",
   );
   vm.runInNewContext(validator, context);
   vm.runInNewContext(instrumented, context);
   return { mounts, ...((context as typeof context & { __siteUi: {
     render: (data: unknown) => void;
+    renderCommunity: (data: unknown) => void;
     renderCompanySection: (data: unknown) => void;
     decodeWatchlistConfig: (value: unknown, catalog: unknown) => unknown;
     encodeWatchlistConfig: (config: unknown) => string;
@@ -234,6 +235,19 @@ async function loadAppCompanyRenderer(now?: Date) {
     watchlistCatalog: (watchlist: unknown) => unknown;
   } }).__siteUi) };
 }
+
+test("community metrics renderer is a no-op without homepage mounts and does not block company status", async () => {
+  for (const community of [{ repository: { stars: 12 }, generatedAt: "2026-08-02T01:30:00.000Z" }, null]) {
+    const site = await loadAppCompanyRenderer();
+    for (const id of Object.keys(site.mounts)) {
+      if (id === "community" || id.startsWith("community-") || id.startsWith("homepage-community-")) delete site.mounts[id];
+    }
+    assert.doesNotThrow(() => site.renderCommunity(community));
+    assert.doesNotThrow(() => site.render({ stats: {}, routes: [] }));
+    assert.match(site.mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
+    assert.match(site.mounts["publication-status"].innerHTML, /日报状态待确认/);
+  }
+});
 
 test("homepage renderer tolerates intentionally absent research mounts", async () => {
   const missing = await loadAppCompanyRenderer();

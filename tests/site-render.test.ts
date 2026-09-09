@@ -19,14 +19,13 @@ test("contribution center exposes task groups, safe metrics, evidence notice, an
   assert.doesNotMatch(html, /Top contributors|贡献者排名/i);
 });
 
-test("homepage uses the compact contribution module and public contribution-center route", async () => {
+test("homepage keeps contribution access in the footer without an operations panel", async () => {
   const html = await readFile(join(root, "site", "index.html"), "utf8");
-  assert.match(html, /帮助完善 5 条物理 AI 情报/);
-  assert.match(html, /id="homepage-community-open-count"/);
-  assert.match(html, /id="homepage-community-weekly-accepted"/);
-  assert.match(html, /id="homepage-community-new-contributors"/);
-  assert.match(html, /href="contribute\.html"/);
-  assert.doesNotMatch(html, /review\/community-queue\.md/);
+  assert.match(html, /<footer[^>]*>[\s\S]*<a href="contribute\.html">提交证据 \/ 纠错<\/a>/);
+  const primaryNav = html.match(/<nav[^>]*>[\s\S]*?<\/nav>/)?.[0] ?? "";
+  assert.doesNotMatch(primaryNav, /href="(?:#community|contribute\.html)"/);
+  assert.doesNotMatch(html, /id="community"|id="homepage-community-|id="community-(?:stars|forks|watchers|issues|traffic|contributors|updated)"/);
+  assert.match(html, /<script type="module" src="app\.js\?v=20260910-operations"><\/script>/);
 });
 
 type Mount = { innerHTML: string; textContent: string };
@@ -35,7 +34,7 @@ async function renderCommunityTasks(ids: string[]) {
   const source = (await readFile(join(root, "site", "app.js"), "utf8"))
     .replace(/^import "\.\/decision-products-validator\.js";\s*/, "")
     .replace(
-      /loadDashboard\(\)\.then\(render\);\s*loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
+      /loadDashboard\(\)\.then\(render\);\s*if \(byId\("community-stars"\)\) loadCommunity\(\)\.then\(renderCommunity\);\s*$/,
       "globalThis.__communityUi = { renderCommunityEvidence };",
     );
   const mounts = Object.fromEntries(ids.map((id) => [id, { innerHTML: "", textContent: "" }])) as Record<string, Mount>;
@@ -69,14 +68,8 @@ function orderedMatches(html: string, pattern: RegExp): string[] {
   return [...html.matchAll(pattern)].map((match) => match[1]!);
 }
 
-test("browser renderer preserves artifact order and stable IDs on homepage and contribution center", async () => {
+test("browser renderer preserves artifact order and stable IDs in the contribution center", async () => {
   const expectedIds = renderedTasks.map((task) => task.id);
-  const homepage = await renderCommunityTasks(["homepage-community-tasks"]);
-  homepage.render({ metrics: {}, recentContributions: [] }, { tasks: renderedTasks });
-  const homepageHtml = homepage.mounts["homepage-community-tasks"]!.innerHTML;
-  assert.deepEqual(orderedMatches(homepageHtml, /data-community-task-id="([^"]+)"/g), expectedIds);
-  assert.deepEqual(orderedMatches(homepageHtml, /id="community-task-([^"]+)"/g), expectedIds);
-
   const center = await renderCommunityTasks(["community-task-groups"]);
   center.render({ metrics: {}, recentContributions: [] }, { tasks: renderedTasks });
   const centerHtml = center.mounts["community-task-groups"]!.innerHTML;
@@ -84,9 +77,7 @@ test("browser renderer preserves artifact order and stable IDs on homepage and c
   assert.deepEqual(orderedMatches(centerHtml, /id="community-task-([^"]+)"/g), expectedIds);
   assert.deepEqual(orderedMatches(centerHtml, /id="community-category-([^"]+)"/g), ["company-funding", "product-deployment", "research-metadata"]);
 
-  homepage.render({ metrics: {}, recentContributions: [] }, { tasks: [] });
   center.render({ metrics: {}, recentContributions: [] }, { tasks: [] });
-  assert.equal(homepage.mounts["homepage-community-tasks"]!.innerHTML, '<p class="empty">当前没有达到公开任务门槛的缺口</p>');
   assert.equal(center.mounts["community-task-groups"]!.innerHTML, '<p class="empty">当前没有达到公开任务门槛的缺口</p>');
 });
 
@@ -94,7 +85,6 @@ test("browser renderer source retains the expected task affordances without addi
   const app = await readFile(join(root, "site", "app.js"), "utf8");
   assert.match(app, /data-community-task-id=/);
   assert.match(app, /community-task-groups/);
-  assert.match(app, /homepage-community-tasks/);
   assert.match(app, /预计 2 分钟/);
   assert.match(app, /证据门槛/);
   assert.doesNotMatch(app, /communityTasks\.sort|recentContributions\.sort/);

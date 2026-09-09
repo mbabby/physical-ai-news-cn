@@ -845,6 +845,7 @@ function render(data) {
 
 function renderCommunity(data) {
   if (document.body?.dataset?.view) return;
+  if (!byId("community-stars")) return;
   const community = data && typeof data === "object" ? data : {};
   const repository = community.repository && typeof community.repository === "object" ? community.repository : {};
   byId("community-stars").textContent = formattedCount(repository.stars);
@@ -997,4 +998,4 @@ async function loadCommunityTasks() {
 
 if (document.body?.dataset?.view === "subscribe") bindSubscriptionWatchlistLink();
 loadDashboard().then(render);
-loadCommunity().then(renderCommunity);
+if (byId("community-stars")) loadCommunity().then(renderCommunity);
