@@ -393,6 +393,26 @@ test("company directory restores a stable card deep link once after async render
   assert.equal(share.scrolled, 1, "filter rerenders must not steal focus or scroll again");
 });
 
+test("company directory controls cannot republish stale cards after an invalid decision payload", async () => {
+  const share = await loadShareCompanyRenderer();
+  share.companies({ decisionProducts: completeDecisionArtifact() });
+  assert.match(share.root.innerHTML, /Alpha Robotics/);
+
+  share.companies({ decisionProducts: {} });
+  assert.match(share.root.innerHTML, /未通过公开契约校验/);
+  share.mounts["company-region-filter"].value = "中国";
+  share.mounts["company-region-filter"].listeners.change();
+  assert.match(share.root.innerHTML, /未通过公开契约校验/);
+  assert.doesNotMatch(share.root.innerHTML, /Alpha Robotics/);
+  share.mounts["company-directory-reset"].listeners.click();
+  assert.match(share.root.innerHTML, /未通过公开契约校验/);
+  assert.doesNotMatch(share.root.innerHTML, /Alpha Robotics/);
+
+  share.companies({ decisionProducts: completeDecisionArtifact() });
+  assert.match(share.root.innerHTML, /Alpha Robotics/);
+  assert.doesNotMatch(share.root.innerHTML, /未通过公开契约校验/);
+});
+
 async function loadChangePageRenderer() {
   const source = (await readSite("share-pages.js")).replace(/^import "\.\/decision-products-validator\.js";\s*/, "");
   const root = mount();

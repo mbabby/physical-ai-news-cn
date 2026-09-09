@@ -39,7 +39,15 @@ function decisionArtifact(data) {
 
 function invalidDecisionState(label) {
   const target = view === "companies" && companyDirectoryResults ? companyDirectoryResults : root;
-  if (view === "companies" && companyDirectoryContext) companyDirectoryContext.innerHTML = "";
+  if (view === "companies") {
+    directoryRecords = [];
+    directoryBlocked = true;
+    if (companyDirectoryContext) companyDirectoryContext.innerHTML = "";
+    ["company-route-filter", "company-region-filter", "company-status-filter"].forEach((id) => {
+      const control = document.getElementById(id);
+      if (control) control.value = "";
+    });
+  }
   target.innerHTML = `<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>${safe(label)}已停止展示；这不是有效空状态。</p>`;
 }
 
@@ -174,13 +182,14 @@ const capitalLabels = {
 let directoryRecords = [];
 let directoryControlsBound = false;
 let directoryHashHandled = false;
+let directoryBlocked = false;
 
 function directoryOptionMarkup(values, emptyLabel, labels = {}) {
   return `<option value="">${safe(emptyLabel)}</option>${[...new Set(values.filter(Boolean))].sort().map((value) => `<option value="${safe(value)}">${safe(labels[value] || value)}</option>`).join("")}`;
 }
 
 function renderDirectoryResults() {
-  if (!companyDirectoryResults) return;
+  if (!companyDirectoryResults || directoryBlocked) return;
   const route = document.getElementById("company-route-filter")?.value || "";
   const region = document.getElementById("company-region-filter")?.value || "";
   const status = document.getElementById("company-status-filter")?.value || "";
@@ -190,6 +199,7 @@ function renderDirectoryResults() {
 
 function setupDirectory(records) {
   directoryRecords = records;
+  directoryBlocked = false;
   const routeFilter = document.getElementById("company-route-filter");
   const regionFilter = document.getElementById("company-region-filter");
   const statusFilter = document.getElementById("company-status-filter");
