@@ -1,12 +1,12 @@
 ![物理 AI 情报终端](assets/physical-ai-hero.svg)
 
-# 物理 AI 产业情报库
+# 物理 AI 产业情报库｜公司竞争研究
 
-> 面向物理 AI 从业者的可追溯中文情报：用公开证据理解公司、资本、产品部署、技术竞争与研究前沿。
+> 面向投资与战略研究者的可追溯中文情报：用公开证据理解物理 AI 公司、资本、产品部署与技术竞争；不提供实时交易建议。
 
 **北京时间每日 08:30 自动更新** · **线索不等于事实** · **中文为主站，面向全球开放协作**
 
-> **为什么值得 Star / Watch**：每天刷新公开证据池，每周发布一份可直接分享的 Top Signals；公司、技术路线、资本事件和研究论文会持续形成交叉关联，而不是阅后即焚的新闻流。
+> **为什么值得 Star / Watch**：每天刷新公开证据池，每周发布一份可直接分享的 Top Signals；公司、技术路线与资本事件持续形成可复查的竞争记录，而不是阅后即焚的新闻流。
 
 [![Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) [![Weekly brief](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/weekly-release.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/releases/latest) [![Pages](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml) [![License: MIT](https://img.shields.io/github/license/mbabby/physical-ai-news-cn)](LICENSE) [![GitHub stars](https://img.shields.io/github/stars/mbabby/physical-ai-news-cn?style=flat)](https://github.com/mbabby/physical-ai-news-cn/stargazers)
 
@@ -14,12 +14,10 @@
   <a href="https://mbabby.github.io/physical-ai-news-cn/">情报终端</a> ·
   <a href="https://mbabby.github.io/physical-ai-news-cn/weekly.html">本周 Top Signals</a> ·
   <a href="https://mbabby.github.io/physical-ai-news-cn/companies.html">公司动量雷达</a> ·
-  <a href="https://mbabby.github.io/physical-ai-news-cn/research.html">Research → Industry</a> ·
   <a href="https://mbabby.github.io/physical-ai-news-cn/contribute.html">两分钟补证中心</a> ·
   <a href="#产业进展">今日产业进展</a> ·
   <a href="resources/companies.md">公司与资本地图</a> ·
   <a href="resources/industry-landscape-and-tech-routes.md">竞争路线图</a> ·
-  <a href="resources/milestone-papers.md">里程碑论文</a> ·
   <a href="weekly/shareable-summary.md">本周可分享摘要</a> ·
   <a href="https://github.com/mbabby/physical-ai-news-cn/releases/latest">最新周报 Release</a>
 </p>
@@ -38,13 +36,11 @@
 | --- | --- |
 | 哪些公司获得了可核验的资本与产品/部署进展 | [公司与资本地图](resources/companies.md) |
 | 一条路线由谁在做、怎么做、资本是否支持、验证到了哪一步 | [物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md) |
-| 哪些论文正在形成长期技术脉络 | [里程碑论文与精读](resources/milestone-papers.md) |
 
-### 三个可独立分享的入口
+### 两个可独立分享的入口
 
 - [本周 Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)：综合证据等级、产业影响、时效性与多源佐证排序，最多展示 10 条。
 - [公司 × 路线 × 资本动量](https://mbabby.github.io/physical-ai-news-cn/companies.html)：判断谁在做、资本是否支持、验证到了哪一步。
-- [Research → Industry](https://mbabby.github.io/physical-ai-news-cn/research.html)：只用官方采用、合作、机构、代码依赖或独立复现证据连接论文与公司；同路线仅作为相邻观察。
 
 ## Core 30 固定研究覆盖
 
@@ -88,7 +84,7 @@
 
 <!-- CORE_COVERAGE_END -->
 
-> **行业入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。 **研究入口**：先看 6 张研究卡，再进入[里程碑论文与精读](resources/milestone-papers.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多从业者发现它。
+> **公司研究入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多研究者发现它。
 
 > 数据口径：官方公司/实验室、开源发布与权威产业媒体可作为公开证据；Google News、HN 与 X 仅用于发现线索，未完成主体与事实核验的内容只保留在候选层。
 
@@ -140,7 +136,10 @@
 
 <!-- COMPANY_RADAR_END -->
 
-## 学术与研究前沿
+<details>
+<summary>辅助证据与历史资料</summary>
+
+## 学术与研究前沿（辅助证据）
 
 <!-- RESEARCH_UPDATES_START -->
 
@@ -159,6 +158,8 @@
 - [H2R-Bench：评测世界模型中人到机器人操作视频生成的基准](https://arxiv.org/abs/2608.13049v1) <kbd>基准</kbd><br>提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。<br>值得关注：提供基准证据。<br><sub>重点作者 / 实验室：Dingyi Rong</sub>
 
 <!-- RESEARCH_UPDATES_END -->
+
+</details>
 
 ## 分享与协作
 
@@ -179,11 +180,14 @@
 
 ## For global readers
 
-**Physical AI Intelligence Repository** is a source-traceable Chinese intelligence hub for Physical AI practitioners, covering companies, funding, product deployment, technical competition, and robotics research. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
+**Physical AI Company Intelligence Repository** is a source-traceable Chinese research hub for investment and strategy researchers, covering companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
 
 Read the concise [English project overview](README.en.md). Suggested GitHub topics: `physical-ai`, `embodied-ai`, `robotics`, `humanoid-robotics`, `vision-language-action`, `world-models`, `robot-learning`, `ai-news`, `chinese`.
 
-## 公司、技术与研究
+<details>
+<summary>辅助证据与历史资料目录</summary>
+
+## 公司、技术与历史研究资料
 
 | 你要判断什么 | 从这里进入 |
 | --- | --- |
@@ -193,3 +197,5 @@ Read the concise [English project overview](README.en.md). Suggested GitHub topi
 | 仿真、训练与部署工具 | [仿真与工具](resources/simulation-and-tools.md) |
 | 奠基视频、演讲与博客 | [奠基视频、演讲与博客](resources/foundational-talks-and-blogs.md) |
 | 哪些信源正在运行、何时会降权或暂停 | [信源网络与健康分](resources/source-network.md) |
+
+</details>

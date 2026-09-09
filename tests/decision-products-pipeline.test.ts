@@ -139,6 +139,14 @@ test("one artifact drives JSON, dashboard, README and feeds without reorder", as
     assert.deepEqual((dashboard as unknown as { companyRadar: Array<{ cardId: string }> }).companyRadar.map((item) => item.cardId), artifact.companyCards.map((item) => item.cardId));
     assert.deepEqual((dashboard as unknown as { research: Array<{ passportId: string }> }).research.map((item) => item.passportId), artifact.researchPassports.map((item) => item.passportId));
     assert.deepEqual([...readme.matchAll(/<!-- decision-signal:([^ ]+) -->/g)].map((match) => match[1]), artifact.topSignals.map((item) => item.signalId));
+    const evidenceDetailsStart = readme.indexOf("<details>\n<summary>辅助证据与历史资料</summary>");
+    const researchStart = readme.indexOf("<!-- RESEARCH_UPDATES_START -->");
+    const researchEnd = readme.indexOf("<!-- RESEARCH_UPDATES_END -->");
+    const evidenceDetailsEnd = readme.indexOf("</details>", researchEnd);
+    assert.ok(evidenceDetailsStart >= 0 && evidenceDetailsStart < researchStart, "generated research must remain inside closed auxiliary details");
+    assert.ok(researchStart < researchEnd && researchEnd < evidenceDetailsEnd, "generator replacement must preserve the closed details boundary");
+    const homepage = await readFile(join(repositoryRoot, "site/index.html"), "utf8");
+    assert.doesNotMatch(homepage, /<nav[^>]*>[\s\S]*href=["']#research-graph["']/);
     const allFeed = await readFile(join(root, "site/feeds/decision/all.xml"), "utf8");
     assert.deepEqual([...allFeed.matchAll(/urn:physical-ai:signal:([^<]+)/g)].map((match) => match[1]), artifact.topSignals.map((item) => item.signalId));
 

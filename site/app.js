@@ -302,10 +302,12 @@ function developingCard(item) {
 }
 
 function renderFeed(id, items) {
+  const container = byId(id);
+  if (!container) return;
   const emptyMessage = id === "capital"
     ? "近 30 天没有满足公开证据门槛的资本事件；这不代表没有发生融资。"
     : "等待下一条已验证信号";
-  byId(id).innerHTML = list(items).length
+  container.innerHTML = list(items).length
     ? list(items).map((item) => itemCard(item, true)).join("")
     : `<p class="empty">${safe(emptyMessage)}</p>`;
 }
@@ -317,7 +319,9 @@ function decisionValue(field, fallbackValue = "未知") {
 }
 
 function renderResearchFeed(items) {
-  byId("research").innerHTML = list(items).length ? list(items).map((item) => {
+  const container = byId("research");
+  if (!container) return;
+  container.innerHTML = list(items).length ? list(items).map((item) => {
     if (item.passportId) {
       const tags = [
         `任务：${Array.isArray(item.task) ? item.task.join(" · ") : item.task}`,
@@ -771,7 +775,9 @@ function researchGraph(data) {
 }
 
 function renderResearchGraph(items) {
-  byId("research-graph-grid").innerHTML = list(items).length ? list(items).map((item) => {
+  const container = byId("research-graph-grid");
+  if (!container) return;
+  container.innerHTML = list(items).length ? list(items).map((item) => {
     const verifiedRelations = list(item.relations).filter((relation) => relation?.state === "verified");
     const hasVerifiedConnection = verifiedRelations.length > 0 || (list(item.companies).length > 0 && !list(item.relations).length && item.connectionState === "verified");
     return `<article class="research-link">
@@ -802,7 +808,7 @@ function render(data) {
   const stats = data.stats || fallback.stats;
   byId("event-count").textContent = text(stats.events, "0");
   byId("company-count").textContent = text(stats.companies, "0");
-  byId("research-count").textContent = text(stats.research, "0");
+  if (byId("research-count")) byId("research-count").textContent = text(stats.research, "0");
   byId("source-count").textContent = text(stats.sources, "—");
   const generated = new Date(data.generatedAt);
   byId("updated").textContent = Number.isNaN(generated.getTime()) ? "UPDATE PENDING" : `UPDATED ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
@@ -813,8 +819,8 @@ function render(data) {
   if (hasDecisionProducts && !decisionProducts) {
     byId("top-signals").innerHTML = '<p class="empty"><strong>Decision Product 数据未通过公开契约校验</strong>本次数据不会作为有效空状态展示。</p>';
     byId("company-radar").innerHTML = '<p class="empty">公司卡数据无效，已停止展示。</p>';
-    byId("research").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
-    byId("research-graph-grid").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
+    if (byId("research")) byId("research").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
+    if (byId("research-graph-grid")) byId("research-graph-grid").innerHTML = '<p class="empty">研究护照数据无效，已停止展示。</p>';
     return;
   }
   const topSignals = decisionProducts ? decisionProducts.topSignals : (list(data.confirmedSignals).length ? data.confirmedSignals : (list(data.topSignals).length ? data.topSignals : list(data.keyEvents)));
@@ -828,7 +834,7 @@ function render(data) {
   renderCompanySection(data);
   if (decisionProducts) byId("company-radar").innerHTML = decisionCompanyCards(decisionProducts.companyCards) || '<p class="empty">当前没有通过公开契约的公司卡。</p>';
   else setupCompanyRadar(data.companyRadar);
-  if (decisionProducts) byId("research-graph-grid").innerHTML = byId("research").innerHTML;
+  if (decisionProducts && byId("research-graph-grid") && byId("research")) byId("research-graph-grid").innerHTML = byId("research").innerHTML;
   else renderResearchGraph(researchGraph(data));
   const routes = list(data.routes);
   byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';

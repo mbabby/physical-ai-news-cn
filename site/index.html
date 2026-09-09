@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07111f" />
-    <meta name="description" content="面向物理 AI 从业者的中文产业情报终端。" />
+    <meta name="description" content="面向投资与战略研究者的物理 AI 公司竞争情报。" />
     <title>Physical AI Intelligence</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307111f'/%3E%3Ccircle cx='20' cy='42' r='6' fill='%2367e8f9'/%3E%3Cpath d='M20 42L32 27L44 34L52 18' stroke='%235eead4' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="styles.css" />
@@ -14,11 +14,11 @@
     <div class="grid-glow"></div>
     <header class="shell hero briefing-hero">
       <a class="brand" href="#top"><span class="brand-dot"></span> PHYSICAL AI / INTELLIGENCE</a>
-      <nav aria-label="主要导航"><a href="#briefing">今日简报</a><a href="#companies">公司</a><a href="#research-graph">研究</a><a href="#routes">路线</a><a href="subscribe.html">订阅</a><a href="#community">参与共建</a><a href="https://github.com/mbabby/physical-ai-news-cn" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+      <nav aria-label="主要导航"><a href="#briefing">今日简报</a><a href="#companies">公司</a><a href="#routes">路线</a><a href="subscribe.html">订阅</a><a href="#community">参与共建</a><a href="https://github.com/mbabby/physical-ai-news-cn" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
       <div class="hero-copy" id="top">
-        <p class="eyebrow">中国 · 开源物理 AI 决策简报</p>
-        <h1>今天，哪些变化<br><em>值得采取行动？</em></h1>
-        <p class="lede">用可追溯证据连接产业进展、资本动向、公司与研究，快速识别真正影响判断的信号。</p>
+        <p class="eyebrow">物理 AI · 公司竞争研究</p>
+        <h1>哪些公司变化<br><em>正在重塑竞争？</em></h1>
+        <p class="lede">为投资与战略研究者整理可追溯的公司、资本、产品部署与技术路线证据，辅助形成判断；不提供实时交易建议。</p>
         <div class="hero-actions"><a class="primary-action" href="#briefing">进入今日简报</a><a href="weekly.html">打开独立分享页 ↗</a></div>
       </div>
       <div class="terminal" aria-label="数据同步状态" aria-live="polite"><span class="pulse"></span><span>信号同步中</span><b id="updated">等待更新</b></div>
@@ -26,7 +26,7 @@
 
     <main class="shell">
       <section class="metrics" aria-label="情报覆盖">
-        <div><strong id="event-count">—</strong><span>可追溯事件</span></div><div><strong id="company-count">—</strong><span>公司档案</span></div><div><strong id="research-count">—</strong><span>研究卡片</span></div><div><strong id="source-count">—</strong><span>活跃信源</span></div>
+        <div><strong id="event-count">—</strong><span>可追溯事件</span></div><div><strong id="company-count">—</strong><span>公司档案</span></div><div><strong id="source-count">—</strong><span>活跃信源</span></div>
       </section>
       <section id="publication-status" class="publication-status" aria-live="polite"><p class="empty">日报状态待确认。</p></section>
 
@@ -46,12 +46,11 @@
       </section>
 
       <section class="section signal-section" aria-labelledby="monitor-title">
-        <div class="section-head"><div><p class="eyebrow">持续监测</p><h2 id="monitor-title">产业、资本与研究</h2></div></div>
+        <div class="section-head"><div><p class="eyebrow">持续监测</p><h2 id="monitor-title">产业与资本</h2></div></div>
         <p class="section-note">各监测面仅呈现当前时间窗内满足证据门槛的项目；暂无项目不等于没有活动。</p>
-        <div class="signal-grid" aria-label="三路监测面板">
+        <div class="signal-grid" aria-label="两路监测面板">
           <article class="lane"><div class="lane-title"><span class="lane-icon industry-icon" aria-hidden="true">↗</span><h3>产业进展</h3></div><div id="industry" aria-live="polite"><p class="empty">正在同步产业信号…</p></div></article>
           <article class="lane"><div class="lane-title"><span class="lane-icon capital-icon" aria-hidden="true">$</span><h3>资本与并购</h3></div><div id="capital" aria-live="polite"><p class="empty">正在核对当前时间窗内满足门槛的资本事件…</p></div></article>
-          <article class="lane"><div class="lane-title"><span class="lane-icon research-icon" aria-hidden="true">∿</span><h3>研究前沿</h3></div><div id="research" aria-live="polite"><p class="empty">正在同步研究信号…</p></div></article>
         </div>
       </section>
 
@@ -82,20 +81,9 @@
         <div id="company-radar" class="company-radar" aria-live="polite"><p class="empty">正在同步公司档案…</p></div>
       </section>
 
-      <section id="research-graph" class="section research-graph-section">
-        <div class="section-head"><div><p class="eyebrow">研究前沿与产业证据</p><h2>从论文走向产业</h2></div><a href="research.html">独立分享页 ↗</a></div>
-        <p class="section-note">仅在存在明确证据时连接论文、技术路线与公司；没有已确认关系时展示研究前沿，不绘制推测性关联。</p>
-        <div id="research-graph-grid" class="research-graph-grid" aria-live="polite"><p class="empty">正在同步研究卡…</p></div>
-      </section>
-
       <section id="routes" class="section route-section">
         <div class="section-head"><div><p class="eyebrow">COMPETITION MAP</p><h2>技术路线状态</h2></div><a href="../resources/industry-landscape-and-tech-routes.md">路线详情 ↗</a></div>
         <div id="routes-grid" class="routes-grid"></div>
-      </section>
-
-      <section id="resources" class="section resource-strip">
-        <p class="eyebrow">BUILD WITH THE STACK</p><h2>资源雷达</h2><p>核心资源沉淀 + 每日验证更新。按模型、数据集与工具链进入。</p>
-        <div class="resource-links"><a href="../resources/models-and-open-source.md">模型与开源项目 <span>→</span></a><a href="../resources/datasets-and-benchmarks.md">数据集与基准 <span>→</span></a><a href="../resources/simulation-and-tools.md">仿真与工具 <span>→</span></a></div>
       </section>
 
       <section id="community" class="section community-panel">
@@ -128,7 +116,7 @@
     </main>
     <div id="page-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
     <div id="detail-drawer-root" aria-live="polite"></div>
-    <footer class="shell"><span>PHYSICAL AI INTELLIGENCE / OPEN REPOSITORY</span><span>所有事实请以原始来源为准</span></footer>
+    <footer class="shell"><span>PHYSICAL AI INTELLIGENCE / OPEN REPOSITORY</span><span><a href="research.html">辅助研究证据与历史档案</a> · 所有事实请以原始来源为准</span></footer>
     <noscript><p class="shell empty">该情报终端需要 JavaScript 读取每日生成的数据。请启用 JavaScript，或前往 GitHub 阅读 Markdown 版本。</p></noscript>
     <script type="module" src="app.js"></script>
   </body>

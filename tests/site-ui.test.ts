@@ -15,22 +15,29 @@ const shanghaiDate = (value = new Date()) => {
 test("homepage keeps data-engineering mount points while presenting one decision briefing", async () => {
   const html = await readSite("index.html");
   const requiredIds = [
-    "briefing", "top-signals", "developing-signals", "capital", "industry", "research",
+    "briefing", "top-signals", "developing-signals", "capital", "industry",
     "publication-status",
     "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
-    "company-boards", "company-board-grid", "company-radar", "research-graph-grid", "routes-grid",
+    "company-boards", "company-board-grid", "company-radar", "routes-grid",
     "detail-drawer-root",
   ];
   for (const id of requiredIds) assert.match(html, new RegExp(`id=["']${id}["']`), `missing #${id}`);
   const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "homepage must not contain duplicate ids");
   assert.match(html, /未知字段保持未知/);
-  assert.match(html, /不绘制推测性关联/);
+  const primaryNavTargets = [...html.matchAll(/<nav[^>]*>[\s\S]*?<\/nav>/g)]
+    .flatMap((nav) => [...nav[0].matchAll(/href=["']#([^"']+)["']/g)].map((link) => link[1]));
+  for (const target of primaryNavTargets) assert.match(html, new RegExp(`id=["']${target}["']`), `primary navigation target #${target} must exist`);
   assert.ok(html.indexOf('id="watchlist-forward"') < html.indexOf('id="company-boards"'), "watchlist mounts must precede legacy boards");
+  for (const id of ["research", "research-graph", "research-graph-grid", "research-count", "resources"]) {
+    assert.doesNotMatch(html, new RegExp(`id=["']${id}["']`), `homepage must not mount #${id}`);
+  }
+  assert.doesNotMatch(html, /<nav[^>]*>[\s\S]*href=["']#research-graph["']/);
+  assert.match(html, /<footer[^>]*>[\s\S]*href=["']research\.html["']/);
 });
 
 test("evidence UI supports safe fallback, deep-linked details and honest empty states", async () => {
-  const [app, styles] = await Promise.all([readSite("app.js"), readSite("styles.css")]);
+  const [app, styles, research] = await Promise.all([readSite("app.js"), readSite("styles.css"), readSite("research.html")]);
   assert.match(app, /evidence-status--/);
   assert.match(app, /detail-drawer-root/);
   assert.match(app, /data-signal-detail/);
@@ -42,6 +49,8 @@ test("evidence UI supports safe fallback, deep-linked details and honest empty s
   assert.match(styles, /body\.detail-open/);
   assert.match(styles, /min-height:44px/);
   assert.match(styles, /prefers-reduced-motion/);
+  assert.match(research, /不会因路线相邻而推断关联/);
+  assert.match(research, /https:\/\/github\.com\/mbabby\/physical-ai-news-cn\/blob\/main\/resources\/models-and-open-source\.md/);
 });
 
 test("homepage renders current and missing publication status from safe health fields", async () => {
@@ -195,26 +204,8 @@ type Mount = { hidden: boolean; innerHTML: string; textContent: string; value: s
 const mount = (): Mount => ({ hidden: false, innerHTML: "", textContent: "", value: "", addEventListener() {} });
 
 async function loadAppCompanyRenderer(now?: Date) {
-  const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js")]);
-  const mounts: Record<string, Mount> = {
-    "publication-status": mount(),
-    "top-signals": mount(),
-    "developing-signals": mount(),
-    "company-radar": mount(),
-    "research": mount(),
-    "research-graph-grid": mount(),
-    "company-watchlist": mount(),
-    "watchlist-config-controls": mount(),
-    "watchlist-company-options": mount(),
-    "watchlist-route-options": mount(),
-    "watchlist-config-warning": mount(),
-    "watchlist-copy-feedback": mount(),
-    "watchlist-forward": mount(),
-    "watchlist-momentum": mount(),
-    "watchlist-changes": mount(),
-    "company-boards": mount(),
-    "company-board-grid": mount(),
-  };
+  const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js"), readSite("index.html")]);
+  const mounts = Object.fromEntries([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => [match[1], mount()])) as Record<string, Mount>;
   const Clock = now ? class extends Date {
     constructor(value?: string | number) { super(value === undefined ? now.getTime() : value); }
     static now() { return now.getTime(); }
@@ -224,7 +215,7 @@ async function loadAppCompanyRenderer(now?: Date) {
     URL,
     Intl,
     Date: Clock,
-    document: { getElementById: (id: string) => mounts[id] ?? mount(), addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
+    document: { getElementById: (id: string) => mounts[id] ?? null, addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
     navigator: { clipboard: { writeText: async () => {} } },
     window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
   };
@@ -243,6 +234,26 @@ async function loadAppCompanyRenderer(now?: Date) {
     watchlistCatalog: (watchlist: unknown) => unknown;
   } }).__siteUi) };
 }
+
+test("homepage renderer tolerates intentionally absent research mounts", async () => {
+  const missing = await loadAppCompanyRenderer();
+  assert.equal(missing.mounts.research, undefined);
+  assert.equal(missing.mounts["research-graph-grid"], undefined);
+  assert.equal(missing.mounts["research-count"], undefined);
+  assert.doesNotThrow(() => missing.render({ stats: {}, routes: [] }));
+  assert.match(missing.mounts.capital.innerHTML, /近 30 天没有满足公开证据门槛/);
+  assert.match(missing.mounts.industry.innerHTML, /等待下一条已验证信号/);
+  assert.match(missing.mounts["publication-status"].innerHTML, /日报状态待确认/);
+
+  const absentDecisionProduct = await loadAppCompanyRenderer();
+  assert.doesNotThrow(() => absentDecisionProduct.render({ stats: {}, routes: [] }));
+  assert.match(absentDecisionProduct.mounts["company-radar"].innerHTML, /当前筛选条件下暂无可公开展示/);
+
+  const malformed = await loadAppCompanyRenderer();
+  assert.doesNotThrow(() => malformed.render({ decisionProducts: {}, stats: {}, routes: [] }));
+  assert.match(malformed.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
+  assert.match(malformed.mounts["company-radar"].innerHTML, /公司卡数据无效/);
+});
 
 async function loadShareCompanyRenderer() {
   const [validator, source] = await Promise.all([readSite("decision-products-validator.js"), readSite("share-pages.js")]);
