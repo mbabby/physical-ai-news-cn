@@ -1,4 +1,4 @@
-# Physical AI Company Intelligence Repository
+# Physical AI Company Intelligence
 
 > Source-traceable Physical AI company research for investment and strategy researchers — tracking companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations.
 
@@ -6,7 +6,7 @@ The Chinese README and data pages are the source of truth. This short English ov
 
 ## What makes it different
 
-- Daily updates at 08:30 Beijing time.
+- The daily run is scheduled for 08:30 Beijing time; completion may be delayed, so use the page generation timestamp and GitHub Actions as the operational record.
 - Official company/lab sources, open-source releases, and authoritative industry media provide public evidence.
 - Google News, Hacker News, and X are discovery leads only; they do not enter public pages without verification.
 - Funding with an unclear company identity is kept in the candidate layer, not attributed to a company.
@@ -25,8 +25,6 @@ The Chinese README and data pages are the source of truth. This short English ov
 - [Company & capital map](resources/companies.md)
 - [Physical AI competition map](resources/industry-landscape-and-tech-routes.md)
 - [Copy-ready weekly brief](weekly/shareable-summary.md)
-
-Star the repository to help other practitioners discover it; Watch **Releases only** to receive one evidence-backed weekly brief without daily commit noise.
 
 Corrections begin in the canonical evidence records and are republished atomically across JSON, dashboard, README, and feeds. A mismatch on any public surface blocks the release and preserves the last known good publication.
 

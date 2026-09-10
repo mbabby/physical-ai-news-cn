@@ -1,94 +1,16 @@
-![物理 AI 情报终端](assets/physical-ai-hero.svg)
+# 物理 AI 公司竞争情报
 
-# 物理 AI 产业情报库｜公司竞争研究
+面向投资与战略研究者，用可追溯的公开证据理解物理 AI 公司、资本、产品部署与技术竞争；不提供实时交易建议。
 
-> 面向投资与战略研究者的可追溯中文情报：用公开证据理解物理 AI 公司、资本、产品部署与技术竞争；不提供实时交易建议。
+[今日简报](https://mbabby.github.io/physical-ai-news-cn/) · [公司研究](https://mbabby.github.io/physical-ai-news-cn/companies.html) · [本周重点](https://mbabby.github.io/physical-ai-news-cn/weekly.html)
 
-**北京时间每日 08:30 自动更新** · **线索不等于事实** · **中文为主站，面向全球开放协作**
+> 计划北京时间每日 08:30 运行，实际完成可能延迟，以页面生成时间及 [Actions](https://github.com/mbabby/physical-ai-news-cn/actions) 为准。线索不等于事实。
 
-> **为什么值得 Star / Watch**：每天刷新公开证据池，每周发布一份可直接分享的 Top Signals；公司、技术路线与资本事件持续形成可复查的竞争记录，而不是阅后即焚的新闻流。
 
-[![Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) [![Weekly brief](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/weekly-release.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/releases/latest) [![Pages](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/deploy-pages.yml) [![License: MIT](https://img.shields.io/github/license/mbabby/physical-ai-news-cn)](LICENSE) [![GitHub stars](https://img.shields.io/github/stars/mbabby/physical-ai-news-cn?style=flat)](https://github.com/mbabby/physical-ai-news-cn/stargazers)
-
-<p align="center">
-  <a href="https://mbabby.github.io/physical-ai-news-cn/">情报终端</a> ·
-  <a href="https://mbabby.github.io/physical-ai-news-cn/weekly.html">本周 Top Signals</a> ·
-  <a href="https://mbabby.github.io/physical-ai-news-cn/companies.html">公司动量雷达</a> ·
-  <a href="https://mbabby.github.io/physical-ai-news-cn/contribute.html">两分钟补证中心</a> ·
-  <a href="#产业进展">今日产业进展</a> ·
-  <a href="resources/companies.md">公司与资本地图</a> ·
-  <a href="resources/industry-landscape-and-tech-routes.md">竞争路线图</a> ·
-  <a href="weekly/shareable-summary.md">本周可分享摘要</a> ·
-  <a href="https://github.com/mbabby/physical-ai-news-cn/releases/latest">最新周报 Release</a>
-</p>
-
-<!-- PROJECT_STATUS_START -->
-
-| 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
-| --- | ---: | ---: | ---: | ---: |
-| 2026-09-10 | 2 | 49 | 96 | 12 / 30 |
-
-**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 24/24（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
-
-<!-- PROJECT_STATUS_END -->
-
-| 你想快速判断什么 | 直接进入 |
-| --- | --- |
-| 哪些公司获得了可核验的资本与产品/部署进展 | [公司与资本地图](resources/companies.md) |
-| 一条路线由谁在做、怎么做、资本是否支持、验证到了哪一步 | [物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md) |
-
-### 两个可独立分享的入口
-
-- [本周 Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)：综合证据等级、产业影响、时效性与多源佐证排序，最多展示 10 条。
-- [公司 × 路线 × 资本动量](https://mbabby.github.io/physical-ai-news-cn/companies.html)：判断谁在做、资本是否支持、验证到了哪一步。
-
-## Core 30 固定研究覆盖
-
-<!-- CORE_COVERAGE_START -->
-
-> 固定研究覆盖 2026-09-06（2026-09-06 生效） · 已核验身份 30/30 · 完整 Brief 16/30。覆盖地区是研究资源配置，不代表法律国籍。
-> [打开 Core 30 地图与公司 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html) · [订阅独立 Feed](https://mbabby.github.io/physical-ai-news-cn/feeds/core-coverage.xml)
-
-<!-- core-fact:company-claim-6443358d07dfcf61 -->
-- **宇树科技** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-unitree) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-3fcf187d6db90396 -->
-- **智元机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agibot) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-6cb9e089e9a9bc73 -->
-- **自变量机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-x-square-robot) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-8cf06b225b9f04c3 -->
-- **优必选** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-ubtech) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-07d36214628886c1 -->
-- **逐际动力** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-limx-dynamics) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-6acd9ef6cc2580bb -->
-- **小鹏机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-xpeng-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-382edcf8da06190f -->
-- **Figure** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-figure) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-7b62c339958403d1 -->
-- **Skild AI** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-skild-ai) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-517dd192f05dae67 -->
-- **Apptronik** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-apptronik) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-f60e3fc5f503acce -->
-- **Agility Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agility-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-4c777bc13d37a561 -->
-- **Dexterity** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-dexterity) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-a4442758b9a3b45c -->
-- **NVIDIA** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-nvidia) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-49a3102137d3fc19 -->
-- **Hugging Face** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-huggingface) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-72c8aee10ccf9d2a -->
-- **NEURA Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-neura-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-94e6ac081a1d322b -->
-- **ANYbotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-anybotics) · 已核验事实 1 项 · 最近实质变化 unknown
-<!-- core-fact:company-claim-c3991c75b780928d -->
-- **Wandercraft** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-wandercraft) · 已核验事实 1 项 · 最近实质变化 unknown
-
-<!-- CORE_COVERAGE_END -->
-
-> **公司研究入口**：先看下方产业进展，再进入[公司 × 路线 × 资本图谱](resources/industry-landscape-and-tech-routes.md)。如果这个仓库节省了你的检索时间，欢迎点一个 Star，帮助更多研究者发现它。
-
-> 数据口径：官方公司/实验室、开源发布与权威产业媒体可作为公开证据；Google News、HN 与 X 仅用于发现线索，未完成主体与事实核验的内容只保留在候选层。
 
 ## 产业进展
+
+README 只列出已核验事件和已发布的每周结论；Pages 的今日简报还会明确标注已有单一可信来源、仍在补证中的线索。两者口径不同，补证中线索不等于公开结论。
 
 <!-- DECISION_SIGNALS_START -->
 
@@ -136,6 +58,72 @@
 
 <!-- COMPANY_RADAR_END -->
 
+[公司研究入口](resources/industry-landscape-and-tech-routes.md)：查看[物理 AI 竞争路线图](resources/industry-landscape-and-tech-routes.md)及公司、技术路线与资本证据的历史研究图谱。
+
+<details>
+<summary>Core 30 固定研究覆盖</summary>
+
+## Core 30 固定研究覆盖
+
+<!-- CORE_COVERAGE_START -->
+
+> 固定研究覆盖 2026-09-06（2026-09-06 生效） · 已核验身份 30/30 · 完整 Brief 16/30。覆盖地区是研究资源配置，不代表法律国籍。
+> [打开 Core 30 地图与公司 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html) · [订阅独立 Feed](https://mbabby.github.io/physical-ai-news-cn/feeds/core-coverage.xml)
+
+<!-- core-fact:company-claim-6443358d07dfcf61 -->
+- **宇树科技** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-unitree) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-3fcf187d6db90396 -->
+- **智元机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agibot) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-6cb9e089e9a9bc73 -->
+- **自变量机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-x-square-robot) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-8cf06b225b9f04c3 -->
+- **优必选** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-ubtech) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-07d36214628886c1 -->
+- **逐际动力** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-limx-dynamics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-6acd9ef6cc2580bb -->
+- **小鹏机器人** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-xpeng-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-382edcf8da06190f -->
+- **Figure** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-figure) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-7b62c339958403d1 -->
+- **Skild AI** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-skild-ai) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-517dd192f05dae67 -->
+- **Apptronik** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-apptronik) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-f60e3fc5f503acce -->
+- **Agility Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-agility-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-4c777bc13d37a561 -->
+- **Dexterity** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-dexterity) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-a4442758b9a3b45c -->
+- **NVIDIA** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-nvidia) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-49a3102137d3fc19 -->
+- **Hugging Face** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-huggingface) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-72c8aee10ccf9d2a -->
+- **NEURA Robotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-neura-robotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-94e6ac081a1d322b -->
+- **ANYbotics** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-anybotics) · 已核验事实 1 项 · 最近实质变化 unknown
+<!-- core-fact:company-claim-c3991c75b780928d -->
+- **Wandercraft** · [查看 Brief](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html#company-wandercraft) · 已核验事实 1 项 · 最近实质变化 unknown
+
+<!-- CORE_COVERAGE_END -->
+
+</details>
+
+<details>
+<summary>更新状态与运行健康</summary>
+
+<!-- PROJECT_STATUS_START -->
+
+| 最近刷新 | 可追溯产业事件 | 公司档案 | 30 天论文池 | 已启用 / 观察信源 |
+| --- | ---: | ---: | ---: | ---: |
+| 2026-09-10 | 2 | 49 | 96 | 12 / 30 |
+
+**运行健康**：近 30 天日历覆盖 24/30（80%） · 已归档运行成功 24/24（100%） · A/B 级证据比例 100% · [查看 Actions](https://github.com/mbabby/physical-ai-news-cn/actions) · [信源健康分](resources/source-network.md) · [候选 Review](review/cases.md)
+
+<!-- PROJECT_STATUS_END -->
+
+</details>
+
+[查看最近更新与运行健康](https://github.com/mbabby/physical-ai-news-cn/actions) · [Daily digest](https://github.com/mbabby/physical-ai-news-cn/actions/workflows/daily-digest.yml) · [Weekly brief](https://github.com/mbabby/physical-ai-news-cn/releases/latest) · [License](LICENSE) · [贡献指南](CONTRIBUTING.md)
+
 <details>
 <summary>辅助证据与历史资料</summary>
 
@@ -161,6 +149,9 @@
 
 </details>
 
+<details>
+<summary>分享、协作与历史</summary>
+
 ## 分享与协作
 
 - 可直接发布的 [本周物理 AI 情报摘要](weekly/shareable-summary.md)：仅从已公开、可追溯事件与完整中文研究卡生成。
@@ -183,9 +174,6 @@
 **Physical AI Company Intelligence Repository** is a source-traceable Chinese research hub for investment and strategy researchers, covering companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
 
 Read the concise [English project overview](README.en.md). Suggested GitHub topics: `physical-ai`, `embodied-ai`, `robotics`, `humanoid-robotics`, `vision-language-action`, `world-models`, `robot-learning`, `ai-news`, `chinese`.
-
-<details>
-<summary>辅助证据与历史资料目录</summary>
 
 ## 公司、技术与历史研究资料
 

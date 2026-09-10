@@ -1615,7 +1615,7 @@ async function assertFixtureRoot(outputRoot: string): Promise<void> {
       readJsonStrict<unknown>(join(outputRoot, "events", "companies.json")),
       readJsonStrict<unknown>(join(outputRoot, "metrics", "community.json")),
     ]);
-    if (!readme.includes("物理 AI 产业情报库") || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
+    if (!/物理 AI (?:公司竞争情报|产业情报库)/.test(readme) || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
   } catch (error) {
     throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
   }

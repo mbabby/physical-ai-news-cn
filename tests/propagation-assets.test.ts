@@ -59,7 +59,6 @@ test("English overview and every README share target are present", async () => {
   assert.match(english, /source-traceable Physical AI company research/i);
   assert.match(english, /discovery leads/i);
   assert.match(english, /Weekly Physical AI Top Signals/);
-  assert.match(english, /Releases only/);
   assert.match(english, /releases\/latest/);
 });
 

@@ -127,3 +127,11 @@ main>.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
 .signal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:800px){.signal-grid{grid-template-columns:1fr}}
 .radar-controls button{background:#0a1a2b;border:1px solid var(--line);color:var(--ink);padding:8px 14px;font:500 .72rem "DM Mono";cursor:pointer}.radar-controls button:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Active research views: readable evidence without changing archives or print. */
+@media screen{
+  .homepage-header__copy .lede,.briefing-section .section-note,.briefing-section .decision-card p,.briefing-section .top-signal p,.briefing-section .developing-signal p,.company-section .section-note,.company-section .company-card p,.company-section .company-card dd,.company-section .watchlist-thesis dd,body[data-view="companies"] .company-card p,body[data-view="companies"] .company-card dd,.core-main .core-overview>p:not(.core-clock),.core-main .core-positioning,.core-main .core-fact-grid dd,.core-main .core-window li>span,.core-main .core-evidence li>span,.core-main .core-analysis p{font-size:1rem;line-height:1.65}
+  .status-item,.status-chip,.evidence-badge,.evidence-status,[data-evidence],[data-evidence-state],.drawer-status,.signal-badges,.signal-badges .evidence-status,.watchlist-badge,.watchlist-thesis dt,.watchlist-evidence a small,.core-clock,.core-completeness,.core-fact-grid dt,.core-evidence-links a,.core-evidence a{font-size:.75rem}
+  .developing-signal{border-color:rgba(251,191,36,.42);background:linear-gradient(145deg,rgba(65,45,12,.42),rgba(21,25,29,.82))}
+  .developing-signal .signal-badges .evidence-status{border-color:rgba(251,191,36,.55);color:#f8df9c;background:rgba(251,191,36,.1)}
+}
