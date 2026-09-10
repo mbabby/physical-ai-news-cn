@@ -1,13 +1,81 @@
 import { createHash } from "node:crypto";
-import type { BenchmarkResultLedger } from "../benchmark-result-ledger.js";
-import { validateFacts } from "../facts-contract.js";
+import { validateBenchmarkResultLedger, type BenchmarkResultLedger } from "../benchmark-result-ledger.js";
+import { canonicalCompanyId, canonicalCompanyOwner } from "../company-event-ownership.js";
+import { isDiscoveryEvidence, validateFacts, type EvidenceState } from "../facts-contract.js";
 import type { ResearchDecisionCard } from "../research-decision-card.js";
-import type { CompanyProfile, EventRecord, ResearchRecord } from "../types.js";
-import type { ExplainerSource } from "./contracts.js";
-const hash=(v:unknown)=>createHash("sha256").update(JSON.stringify(v)).digest("hex"); const eid=(u:string)=>`evidence:${hash(u).slice(0,16)}`;
-export function buildExplainerSources(input:{events:EventRecord[];companies:CompanyProfile[];researchRecords:ResearchRecord[];researchDecisionCards:ResearchDecisionCard[];benchmarkResultLedger:BenchmarkResultLedger}):ExplainerSource[]{
- const companies=new Map(input.companies.map(c=>[c.name,c]));
- const events=input.events.flatMap((e):ExplainerSource[]=>{const owner=e.primaryEntity&&companies.get(e.primaryEntity);const v=validateFacts({...e,public:true,eventDate:e.occurredAt??e.eventDate,publishedAt:e.lastEvidenceAt,materiallyChangedAt:e.lastMaterialChangeAt,evidence:e.evidence.map(x=>({link:x.link,source:x.source,grade:x.grade,publishedAt:x.publishedAt}))});if(!owner||!v.valid||!v.publicEligible||!e.facts.length)return[];const evidence=e.evidence.filter(x=>v.qualifyingEvidenceIds.includes(x.link)).map(x=>({evidenceId:eid(x.link),url:x.link,source:x.source}));if(!evidence.length)return[];const facts=e.facts.map((text,i)=>({factId:`${e.id}:fact:${i+1}`,text,evidenceIds:evidence.map(x=>x.evidenceId)}));const base={canonicalId:`event:${e.id}`,kind:"event" as const,entityNames:[owner.name],eventDate:v.times.eventDate,publishedAt:v.times.publishedAt,materiallyChangedAt:v.times.materiallyChangedAt,facts,evidence,contexts:e.routes};return[{...base,revision:hash(base)}]});
- const cards=new Map(input.researchDecisionCards.map(c=>[c.identity.paperId.value,c]));const ledgers=new Map(input.benchmarkResultLedger.entries.filter(e=>!e.gateCodes.length).map(e=>[e.paperId,e]));
- const research=input.researchRecords.flatMap((r):ExplainerSource[]=>{const c=cards.get(r.id);if(!c||r.status==="已撤稿"||r.article.scholar?.isRetracted||c.gates.length||c.factsZh.value==="unknown")return[];const evidence=[...new Set(c.factsZh.evidenceUrls)].map(url=>({evidenceId:eid(url),url,source:r.article.source}));if(!evidence.length)return[];const facts=c.factsZh.value.map((text,i)=>({factId:`${r.id}:fact:${i+1}`,text,evidenceIds:evidence.map(x=>x.evidenceId)}));const l=ledgers.get(r.id);const comparable=l&&l.fields.baseline.value!=="unknown"&&l.fields.result.value!=="unknown"&&l.fields.metric.value!=="unknown"?{before:String(l.fields.baseline.value),after:String(l.fields.result.value),task:String(l.fields.metric.value),conditions:l.benchmarkKey,evidenceIds:evidence.map(x=>x.evidenceId)}:undefined;const publishedAt=Number.isFinite(r.article.publishedAt.getTime())?r.article.publishedAt.toISOString():"unknown";const base={canonicalId:`research:${r.id}`,kind:"research" as const,entityNames:c.lab.value==="unknown"?[]:c.lab.value,eventDate:publishedAt,publishedAt,materiallyChangedAt:r.changes.at(-1)?.date??publishedAt,facts,evidence,contexts:c.task.value==="unknown"?[]:c.task.value,...(comparable?{comparable}:{})};return[{...base,revision:hash(base)}]});return[...events,...research].sort((a,b)=>a.canonicalId.localeCompare(b.canonicalId));
+import type { CompanyProfile, EventEvidence, EventRecord, ResearchRecord } from "../types.js";
+import type { ExplainerEvidence, ExplainerFact, ExplainerSource } from "./contracts.js";
+
+type EventWithLifecycle = EventRecord & { evidenceState?: EvidenceState };
+type EvidenceWithLifecycle = EventEvidence & { withdrawn?: boolean; discovery?: boolean; publicationPolicy?: "可作为一手证据" | "可作为独立报道" | "仅作线索发现"; independentOrigin?: string };
+const digest = (value: unknown): string => createHash("sha256").update(JSON.stringify(value)).digest("hex");
+const evidenceId = (url: string): string => `evidence:${digest(url).slice(0, 16)}`;
+const normalize = (value: string): string => value.normalize("NFKC").replace(/\s+/g, " ").trim();
+
+function contextFor(kind: EventRecord["kind"]): string[] {
+  const contexts: Partial<Record<NonNullable<EventRecord["kind"]>, string>> = { demonstration: "演示", pilot: "试点", deployment: "部署", "research-author-report": "作者报告", "independent-replication": "独立复现" };
+  return kind && contexts[kind] ? [contexts[kind]!] : [];
+}
+
+function supportedFacts(event: EventRecord, evidence: ExplainerEvidence[]): ExplainerFact[] {
+  const allowed = new Map(evidence.map((item) => [item.url, item.evidenceId]));
+  return event.facts.flatMap((text, index) => {
+    const direct = event.evidence.filter((item) => allowed.has(item.link) && normalize(item.supports) === normalize(text)).map((item) => allowed.get(item.link)!);
+    const timeline = event.timeline.filter((item) => normalize(item.summary) === normalize(text)).flatMap((item) => item.evidenceLinks.flatMap((url) => allowed.get(url) ?? []));
+    const evidenceIds = [...new Set([...direct, ...timeline])].sort();
+    return evidenceIds.length ? [{ factId: `${event.id}:fact:${index + 1}`, text, evidenceIds }] : [];
+  });
+}
+
+function eventSources(events: EventRecord[], companies: CompanyProfile[]): ExplainerSource[] {
+  return events.flatMap((event): ExplainerSource[] => {
+    const ownerId = canonicalCompanyOwner(companies, event.primaryEntity);
+    const owner = ownerId && companies.find((company) => canonicalCompanyId(company) === ownerId);
+    const lifecycle = event as EventWithLifecycle;
+    const validation = validateFacts({ ...event, public: true, evidenceState: lifecycle.evidenceState, eventDate: event.occurredAt ?? event.eventDate, publishedAt: event.lastEvidenceAt, materiallyChangedAt: event.lastMaterialChangeAt, evidence: lifecycle.evidence as EvidenceWithLifecycle[] });
+    if (!owner || !validation.valid || !validation.publicEligible) return [];
+    const qualifying = new Set(validation.qualifyingEvidenceIds);
+    const evidenceRecords = lifecycle.evidence as EvidenceWithLifecycle[];
+    const evidence = evidenceRecords.filter((item) => qualifying.has(item.link) && !item.withdrawn && !isDiscoveryEvidence(item)).map((item) => ({ evidenceId: evidenceId(item.link), url: item.link, source: item.source }));
+    const facts = supportedFacts(event, evidence);
+    if (!evidence.length || !facts.length) return [];
+    const base = { canonicalId: `event:${event.id}`, kind: "event" as const, entityNames: [owner.name], eventDate: validation.times.eventDate, publishedAt: validation.times.publishedAt, materiallyChangedAt: validation.times.materiallyChangedAt, facts, evidence, contexts: contextFor(event.kind) };
+    return [{ ...base, revision: digest({ ...base, ownerId }) }];
+  });
+}
+
+function uniqueCards(cards: ResearchDecisionCard[]): Map<string, ResearchDecisionCard> {
+  const result = new Map<string, ResearchDecisionCard>();
+  for (const card of cards) {
+    const id = card.identity.paperId.value;
+    if (id === "unknown") continue;
+    if (result.has(id)) throw new Error(`Duplicate research decision card: ${id}`);
+    result.set(id, card);
+  }
+  return result;
+}
+
+function currentResearch(records: ResearchRecord[]): ResearchRecord[] {
+  const grouped = new Map<string, ResearchRecord[]>();
+  for (const record of records) grouped.set(record.id, [...(grouped.get(record.id) ?? []), record]);
+  return [...grouped.values()].map((versions) => [...versions].sort((a, b) => (b.arxivVersion ?? 0) - (a.arxivVersion ?? 0) || b.factHash.localeCompare(a.factHash))[0]!);
+}
+
+function researchSources(records: ResearchRecord[], cards: ResearchDecisionCard[]): ExplainerSource[] {
+  const byPaper = uniqueCards(cards);
+  return currentResearch(records).flatMap((record): ExplainerSource[] => {
+    const card = byPaper.get(record.id);
+    if (!card || record.status === "已撤稿" || record.article.scholar?.isRetracted || card.gates.length || card.factsZh.value === "unknown") return [];
+    const evidence = [...new Set(card.factsZh.evidenceUrls)].map((url) => ({ evidenceId: evidenceId(url), url, source: record.article.source }));
+    if (!evidence.length) return [];
+    const facts = card.factsZh.value.map((text, index) => ({ factId: `${record.id}:fact:${index + 1}`, text, evidenceIds: evidence.map((item) => item.evidenceId) }));
+    const publishedAt = Number.isFinite(record.article.publishedAt.getTime()) ? record.article.publishedAt.toISOString() : "unknown";
+    const base = { canonicalId: `research:${record.id}`, kind: "research" as const, entityNames: card.lab.value === "unknown" ? [] : card.lab.value, eventDate: publishedAt, publishedAt, materiallyChangedAt: record.changes.at(-1)?.date ?? publishedAt, facts, evidence, contexts: ["作者报告"] };
+    return [{ ...base, revision: digest({ ...base, arxivVersion: record.arxivVersion ?? "unknown" }) }];
+  });
+}
+
+export function buildExplainerSources(input: { events: EventRecord[]; companies: CompanyProfile[]; researchRecords: ResearchRecord[]; researchDecisionCards: ResearchDecisionCard[]; benchmarkResultLedger: BenchmarkResultLedger }): ExplainerSource[] {
+  validateBenchmarkResultLedger(input.benchmarkResultLedger);
+  return [...eventSources(input.events, input.companies), ...researchSources(input.researchRecords, input.researchDecisionCards)].sort((a, b) => a.canonicalId.localeCompare(b.canonicalId));
 }

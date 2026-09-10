@@ -1,22 +1,76 @@
 import type { ExplainerDraft, ExplainerSource, ProgressExplainersArtifact } from "./contracts.js";
 import { narrativeKeys } from "./draft.js";
-const exact=(v:unknown,keys:string[])=>!!v&&typeof v==="object"&&!Array.isArray(v)&&Object.keys(v).sort().join("|")===keys.sort().join("|");
-const date=(v:unknown)=>v==="unknown"||(typeof v==="string"&&Number.isFinite(Date.parse(v)));
-const zh=(v:string)=>typeof v==="string"&&/[\u3400-\u9fff]/u.test(v)&&!/(TODO|TBD|placeholder|lorem ipsum)/i.test(v);
-export function validateDraft(value:unknown,source:ExplainerSource):{ok:true;draft:ExplainerDraft}|{ok:false;kind:"structure"|"evidence"}{
-  if(!value||typeof value!=="object"||Array.isArray(value))return {ok:false,kind:"structure"}; const d=value as ExplainerDraft;
-  if(!zh(d.titleZh)||!Array.isArray(d.factsZh)||d.factsZh.length!==2||!d.factsZh.every(zh)||!zh(d.changeZh)||!zh(d.meaningZh)||/^(这|它)?(很)?重要[。！]?$/u.test(d.meaningZh)||!Array.isArray(d.limitationsZh)||!d.limitationsZh.length||!d.limitationsZh.every(zh)||!Array.isArray(d.contexts)||!d.contexts.every(zh)||!d.fieldRefs||typeof d.fieldRefs!=="object")return {ok:false,kind:"structure"};
-  const ids=new Set(source.facts.map(f=>f.factId)); if(narrativeKeys(d).some(k=>!Array.isArray(d.fieldRefs[k])||!d.fieldRefs[k]!.length||d.fieldRefs[k]!.some(id=>!ids.has(id))))return {ok:false,kind:"evidence"};
-  const grounded=source.facts.map(f=>f.text).join(" "); const narrative=[d.titleZh,...d.factsZh,d.changeZh,d.meaningZh,...d.limitationsZh,d.backgroundZh??"",...d.contexts].join(" ");
-  for(const n of narrative.match(/\d+(?:\.\d+)?%?/g)??[])if(!grounded.includes(n))return {ok:false,kind:"evidence"};
-  const known=new Set(source.entityNames); for(const token of narrative.match(/[A-Za-z][A-Za-z0-9._-]{2,}/g)??[])if(!known.has(token)&&!grounded.includes(token))return {ok:false,kind:"evidence"};
-  if(d.comparison&&!source.comparable)return {ok:false,kind:"evidence"}; if(d.comparison&&source.comparable&&(d.comparison.beforeZh!==source.comparable.before||d.comparison.afterZh!==source.comparable.after||d.comparison.task!==source.comparable.task||d.comparison.conditions!==source.comparable.conditions))return {ok:false,kind:"evidence"};
-  return {ok:true,draft:d};
+
+const ID = /^[a-z0-9][a-z0-9:._-]*$/i;
+const STATUS = new Set(["updated", "no-new-content", "constrained", "unavailable"]);
+const KIND = new Set(["event", "research"]);
+const exact = (value: unknown, keys: readonly string[]): boolean => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const actual = Object.keys(value).sort();
+  const expected = [...keys].sort();
+  return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
+};
+const operationalDate = (value: unknown): boolean => typeof value === "string" && Number.isFinite(Date.parse(value));
+const sourceDate = (value: unknown): boolean => value === "unknown" || operationalDate(value);
+const chinese = (value: unknown): value is string => typeof value === "string" && /[\u3400-\u9fff]/u.test(value) && !/(TODO|TBD|placeholder|lorem ipsum)/i.test(value);
+const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every((item) => typeof item === "string" && item.trim() === item && item.length > 0);
+
+function exactDraft(draft: ExplainerDraft): boolean {
+  const keys = ["titleZh", "factsZh", "changeZh", "meaningZh", "limitationsZh", "contexts", "fieldRefs", ...(draft.backgroundZh !== undefined ? ["backgroundZh"] : []), ...(draft.comparison !== undefined ? ["comparison"] : [])];
+  if (!exact(draft, keys)) return false;
+  if (draft.comparison && !exact(draft.comparison, ["beforeZh", "afterZh", "task", "conditions"])) return false;
+  return true;
 }
-export function reviewApproved(value:unknown,draft:ExplainerDraft):boolean{if(!value||typeof value!=="object"||Array.isArray(value))return false;const r=value as {approved?:unknown;fields?:Record<string,unknown>};return r.approved===true&&!!r.fields&&narrativeKeys(draft).every(k=>r.fields![k]===true);}
-export function validateProgressExplainersArtifact(value:unknown):asserts value is ProgressExplainersArtifact{
-  if(!exact(value,["schemaVersion","generatedAt","lastContentUpdatedAt","checkedAt","status","cards"]))throw new Error("explainer artifact schema"); const a=value as ProgressExplainersArtifact;
-  if(a.schemaVersion!==1||!date(a.generatedAt)||!date(a.checkedAt)||(a.lastContentUpdatedAt!==null&&!date(a.lastContentUpdatedAt))||!["updated","no-new-content","constrained","unavailable"].includes(a.status)||!Array.isArray(a.cards))throw new Error("explainer artifact schema");
-  for(const c of a.cards){const keys=["titleZh","factsZh","changeZh","meaningZh","limitationsZh","contexts","fieldRefs","id","revision","canonicalId","sourceRevision","kind","evidence","eventDate","publishedAt","materiallyChangedAt","checkedAt","historical",...(c.backgroundZh!==undefined?["backgroundZh"]:[]),...(c.comparison!==undefined?["comparison"]:[])];if(!exact(c,keys)||!/^[a-z0-9][a-z0-9:_-]*$/i.test(c.id)||!date(c.eventDate)||!date(c.publishedAt)||!date(c.materiallyChangedAt)||!date(c.checkedAt)||!Array.isArray(c.evidence))throw new Error("explainer card schema/date/id");for(const e of c.evidence){if(!exact(e,["evidenceId","url","source"]))throw new Error("explainer evidence schema");let u:URL;try{u=new URL(e.url)}catch{throw new Error("invalid evidence url")}if(!["http:","https:"].includes(u.protocol))throw new Error("invalid evidence url");}}
+
+export function validateDraft(value: unknown, source: ExplainerSource): { ok: true; draft: ExplainerDraft } | { ok: false; kind: "structure" | "evidence" } {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return { ok: false, kind: "structure" };
+  const draft = value as ExplainerDraft;
+  if (!exactDraft(draft) || !chinese(draft.titleZh) || !Array.isArray(draft.factsZh) || draft.factsZh.length !== 2 || !draft.factsZh.every(chinese) || !chinese(draft.changeZh) || !chinese(draft.meaningZh) || /^(这|它)?(很)?重要[。！]?$/u.test(draft.meaningZh) || !Array.isArray(draft.limitationsZh) || !draft.limitationsZh.length || !draft.limitationsZh.every(chinese) || !Array.isArray(draft.contexts) || !draft.contexts.every(chinese) || (draft.backgroundZh !== undefined && !chinese(draft.backgroundZh)) || !draft.fieldRefs || typeof draft.fieldRefs !== "object" || Array.isArray(draft.fieldRefs)) return { ok: false, kind: "structure" };
+  const fields = narrativeKeys(draft);
+  if (!exact(draft.fieldRefs, fields)) return { ok: false, kind: "structure" };
+  const factIds = new Set(source.facts.map((fact) => fact.factId));
+  if (fields.some((field) => !strings(draft.fieldRefs[field]) || draft.fieldRefs[field]!.some((id) => !factIds.has(id)))) return { ok: false, kind: "evidence" };
+  const grounding = source.facts.map((fact) => fact.text).join(" ");
+  const narrative = [draft.titleZh, ...draft.factsZh, draft.changeZh, draft.meaningZh, ...draft.limitationsZh, draft.backgroundZh ?? "", ...draft.contexts].join(" ");
+  for (const number of narrative.match(/\d+(?:\.\d+)?%?/g) ?? []) if (!grounding.includes(number)) return { ok: false, kind: "evidence" };
+  for (const token of narrative.match(/[A-Za-z][A-Za-z0-9._-]{2,}/g) ?? []) if (!source.entityNames.includes(token) && !grounding.includes(token)) return { ok: false, kind: "evidence" };
+  if (draft.contexts.some((context) => !source.contexts.includes(context))) return { ok: false, kind: "evidence" };
+  if (draft.comparison && (!source.comparable || draft.comparison.beforeZh !== source.comparable.before || draft.comparison.afterZh !== source.comparable.after || draft.comparison.task !== source.comparable.task || draft.comparison.conditions !== source.comparable.conditions)) return { ok: false, kind: "evidence" };
+  return { ok: true, draft };
 }
-export function validateExplainerDependencies(artifact:ProgressExplainersArtifact,sources:ExplainerSource[]):void{const map=new Map(sources.map(s=>[s.canonicalId,s.revision]));for(const c of artifact.cards)if(map.get(c.canonicalId)!==c.sourceRevision)throw new Error(`explainer dependency mismatch: ${c.canonicalId}`);}
+
+export function reviewApproved(value: unknown, draft: ExplainerDraft): boolean {
+  if (!exact(value, ["approved", "fields"])) return false;
+  const review = value as { approved: unknown; fields: Record<string, unknown> };
+  const fields = narrativeKeys(draft);
+  return review.approved === true && exact(review.fields, fields) && fields.every((field) => review.fields[field] === true);
+}
+
+export function validateProgressExplainersArtifact(value: unknown): asserts value is ProgressExplainersArtifact {
+  if (!exact(value, ["schemaVersion", "generatedAt", "lastContentUpdatedAt", "checkedAt", "status", "cards"])) throw new Error("explainer artifact schema");
+  const artifact = value as ProgressExplainersArtifact;
+  if (artifact.schemaVersion !== 1 || !operationalDate(artifact.generatedAt) || !operationalDate(artifact.checkedAt) || (artifact.lastContentUpdatedAt !== null && !operationalDate(artifact.lastContentUpdatedAt)) || !STATUS.has(artifact.status) || !Array.isArray(artifact.cards) || artifact.cards.length > 3) throw new Error("explainer artifact schema");
+  const ids = new Set<string>();
+  const canonicalIds = new Set<string>();
+  for (const card of artifact.cards) {
+    const draftKeys = ["titleZh", "factsZh", "changeZh", "meaningZh", "limitationsZh", "contexts", "fieldRefs", ...(card.backgroundZh !== undefined ? ["backgroundZh"] : []), ...(card.comparison !== undefined ? ["comparison"] : [])];
+    const keys = [...draftKeys, "id", "revision", "canonicalId", "sourceRevision", "kind", "evidence", "eventDate", "publishedAt", "materiallyChangedAt", "checkedAt", "historical"];
+    if (!exact(card, keys) || (card.comparison !== undefined && !exact(card.comparison, ["beforeZh", "afterZh", "task", "conditions"])) || !ID.test(card.id) || !card.canonicalId.trim() || /[\s\u0000-\u001f]/u.test(card.canonicalId) || !/^[a-f0-9]{64}$/.test(card.revision) || !/^[a-f0-9]{64}$|^[A-Za-z0-9._:-]+$/.test(card.sourceRevision) || !KIND.has(card.kind) || !sourceDate(card.eventDate) || !sourceDate(card.publishedAt) || !sourceDate(card.materiallyChangedAt) || !operationalDate(card.checkedAt) || typeof card.historical !== "boolean" || !Array.isArray(card.factsZh) || card.factsZh.length !== 2 || !card.factsZh.every(chinese) || !card.limitationsZh.length || !card.limitationsZh.every(chinese) || !card.contexts.every(chinese) || !exact(card.fieldRefs, narrativeKeys(card))) throw new Error("explainer card schema/date/id");
+    if (ids.has(card.id) || canonicalIds.has(card.canonicalId)) throw new Error("duplicate explainer card identity");
+    ids.add(card.id); canonicalIds.add(card.canonicalId);
+    if (!Array.isArray(card.evidence) || !card.evidence.length) throw new Error("explainer evidence schema");
+    const evidenceIds = new Set<string>();
+    for (const evidence of card.evidence) {
+      if (!exact(evidence, ["evidenceId", "url", "source"]) || !ID.test(evidence.evidenceId) || !evidence.source.trim() || evidenceIds.has(evidence.evidenceId)) throw new Error("explainer evidence schema");
+      evidenceIds.add(evidence.evidenceId);
+      let url: URL;
+      try { url = new URL(evidence.url); } catch { throw new Error("invalid evidence url"); }
+      if (!new Set(["http:", "https:"]).has(url.protocol)) throw new Error("invalid evidence url");
+    }
+  }
+}
+
+export function validateExplainerDependencies(artifact: ProgressExplainersArtifact, sources: ExplainerSource[]): void {
+  const revisions = new Map(sources.map((source) => [source.canonicalId, source.revision]));
+  for (const card of artifact.cards) if (revisions.get(card.canonicalId) !== card.sourceRevision) throw new Error(`explainer dependency mismatch: ${card.canonicalId}`);
+}

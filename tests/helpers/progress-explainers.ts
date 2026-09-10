@@ -22,7 +22,7 @@ export function model(outputs: unknown[]): ExplainerModel { let index = 0; retur
 
 export function previousArtifact(): ProgressExplainersArtifact {
   return { schemaVersion: 1, generatedAt: "2026-09-09T00:00:00.000Z", lastContentUpdatedAt: "2026-09-09T00:00:00.000Z", checkedAt: "2026-09-09T00:00:00.000Z", status: "updated", cards: [{
-    ...draft(), id: "explainer-event-gripper-trial", revision: "card-r1", canonicalId: "event:gripper-trial", sourceRevision: "source-r1", kind: "event", evidence: source().evidence,
+    ...draft(), id: "explainer-event-gripper-trial", revision: "a".repeat(64), canonicalId: "event:gripper-trial", sourceRevision: "source-r1", kind: "event", evidence: source().evidence,
     eventDate: "2026-09-08", publishedAt: "2026-09-08T08:00:00Z", materiallyChangedAt: "2026-09-08T08:00:00Z", checkedAt: "2026-09-09T00:00:00.000Z", historical: false,
   }] };
 }
