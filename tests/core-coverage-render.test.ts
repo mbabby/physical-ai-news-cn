@@ -267,7 +267,7 @@ test("Core static page is deployment-relative and legacy company surfaces retain
     readFile(join(root, "styles.css"), "utf8"),
   ]);
   assert.match(page, /id="core-coverage-root"/);
-  assert.match(page, /src="core-coverage\.js"/);
+  assert.match(page, /src="core-coverage\.js(?:\?[^"]+)?"/);
   assert.match(page, /href="styles\.css(?:\?v=[^"]+)?"/);
   assert.doesNotMatch(page, /(?:src|href)="\//);
   assert.match(companies, /share-pages\.js/);

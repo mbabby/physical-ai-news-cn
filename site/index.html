@@ -3,20 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#07111f" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="看懂机器人与物理 AI：现在能做什么，最近进步在哪，还有什么没解决。" />
     <title>物理 AI 进展解读</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307111f'/%3E%3Ccircle cx='20' cy='42' r='6' fill='%2367e8f9'/%3E%3Cpath d='M20 42L32 27L44 34L52 18' stroke='%235eead4' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="styles.css?v=20260910-explained-v1" />
+    <link rel="stylesheet" href="styles.css?v=20260910-minimal-v2" />
   </head>
   <body data-view="explained">
     <!-- Static interface; data is refreshed by the daily digest workflow. -->
-    <div class="grid-glow"></div>
     <header class="shell homepage-header">
-      <a class="brand" href="#top"><span class="brand-dot"></span> Physical AI Explained</a>
+      <a class="brand" href="https://github.com/mbabby/physical-ai-news-cn#readme">GitHub 主阅读入口</a>
       <nav aria-label="主要导航"><a href="#briefing">近期解读</a><a href="#library">资料库</a></nav>
       <div class="homepage-header__copy" id="top">
-        <p class="eyebrow">事实 · 变化 · 解读 · 局限</p>
+
         <h1>物理 AI 进展解读</h1>
         <p class="lede">看懂机器人与物理 AI：现在能做什么，最近进步在哪，还有什么没解决。</p>
       </div>
@@ -25,7 +23,7 @@
     <main class="shell">
       <section id="briefing" class="section briefing-section" aria-labelledby="briefing-title">
         <div class="section-head"><h2 id="briefing-title">近期解读</h2></div>
-        <p class="section-note">每次最多三篇：先看两条事实，再读变化、解读与局限。未知字段保持未知；历史内容保留原日期。</p>
+        <p class="section-note">未知字段保持未知；历史内容保留原日期。</p>
         <div id="progress-explainers" aria-live="polite" aria-busy="false"><p class="explainer-empty">正在加载已发布解读；尚未确认检查时间。</p></div>
       </section>
       <section id="publication-status" class="publication-status" aria-label="生成链路状态" aria-live="polite"><p class="empty">日报状态待确认。</p></section>
@@ -38,17 +36,17 @@
         <summary>展开旧版公司、产业与资本研究工具</summary>
         <p>资料库快照：<span id="updated">等待更新</span>。旧版待补证线索不等于已确认事实。</p>
         <section id="signals" class="briefing-tier" aria-labelledby="verified-title">
-          <div class="section-head"><div><p class="eyebrow">已验证</p><h3 id="verified-title">已确认进展</h3></div></div>
+          <div class="section-head"><div><h3 id="verified-title">已确认进展</h3></div></div>
           <p class="section-note">只展示官方确认或至少两个独立可信来源共同支持的事实。</p>
           <div id="top-signals" class="top-signals" aria-live="polite"><p class="empty">当前没有满足公开门槛的产业信号。候选内容仍缺主体确认、第二独立来源或完整中文事实简介，不会进入首页。</p></div>
         </section>
         <section id="developing" class="briefing-tier developing-section" aria-labelledby="developing-title">
-          <div class="section-head"><div><p class="eyebrow">补证中</p><h3 id="developing-title">正在发生</h3></div></div>
+          <div class="section-head"><div><h3 id="developing-title">正在发生</h3></div></div>
           <p class="section-note">主体明确且已有一个可信来源，但仍缺官方公告或第二来源；不确定字段不会写成事实。</p>
           <div id="developing-signals" class="developing-signals" aria-live="polite"><p class="empty">正在同步待补证信号…</p></div>
         </section>
       <section id="companies" class="section company-section">
-        <div class="section-head"><div><p class="eyebrow">COMPANY WATCHLIST</p><h2>公司观察名单</h2></div><div class="section-links"><a href="companies.html">全部公司档案 ↗</a><a href="core-coverage.html">核心研究覆盖 ↗</a></div></div>
+        <div class="section-head"><div><h2>公司观察名单</h2></div><div class="section-links"><a href="companies.html">全部公司档案 ↗</a><a href="core-coverage.html">核心研究覆盖 ↗</a></div></div>
         <p class="section-note">按公司、技术路线与公开证据查看资本和产品推进；“证据不足”不代表该公司未融资或未推进。</p>
         <div id="company-watchlist" class="company-watchlist" aria-label="双轨公司 Watchlist" aria-live="polite" hidden>
           <section id="watchlist-config-controls" class="watchlist-config-controls" aria-label="分享当前观察名单">
@@ -71,11 +69,11 @@
       <details id="library-records" class="supplemental-signals">
         <summary>更多产业与资本记录</summary>
         <section class="signal-section" aria-labelledby="monitor-title">
-          <div class="section-head"><div><p class="eyebrow">持续监测</p><h2 id="monitor-title">产业与资本</h2></div></div>
+          <div class="section-head"><div><h2 id="monitor-title">产业与资本</h2></div></div>
           <p class="section-note">各监测面仅呈现当前时间窗内满足证据门槛的项目；暂无项目不等于没有活动。</p>
           <div class="signal-grid" aria-label="两路监测面板">
-            <article class="lane"><div class="lane-title"><span class="lane-icon industry-icon" aria-hidden="true">↗</span><h3>产业进展</h3></div><div id="industry" aria-live="polite"><p class="empty">正在同步产业信号…</p></div></article>
-            <article class="lane"><div class="lane-title"><span class="lane-icon capital-icon" aria-hidden="true">$</span><h3>资本与并购</h3></div><div id="capital" aria-live="polite"><p class="empty">正在核对当前时间窗内满足门槛的资本事件…</p></div></article>
+            <article class="lane"><div class="lane-title"><h3>产业进展</h3></div><div id="industry" aria-live="polite"><p class="empty">正在同步产业信号…</p></div></article>
+            <article class="lane"><div class="lane-title"><h3>资本与并购</h3></div><div id="capital" aria-live="polite"><p class="empty">正在核对当前时间窗内满足门槛的资本事件…</p></div></article>
           </div>
         </section>
       </details>
@@ -84,9 +82,9 @@
     </main>
     <div id="page-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
     <div id="detail-drawer-root" aria-live="polite"></div>
-    <footer class="shell"><span>Physical AI Explained / OPEN REPOSITORY</span><span><a href="contribute.html">提交证据 / 纠错</a> · <a href="research.html">辅助研究证据与历史档案</a> · <a href="https://github.com/mbabby/physical-ai-news-cn/blob/main/resources/industry-landscape-and-tech-routes.md">历史技术路线档案</a> · <a href="https://github.com/mbabby/physical-ai-news-cn">GitHub / Markdown</a> · 公开证据复核只是辅助，不保证绝对正确</span></footer>
+    <footer class="shell"><span><a href="contribute.html">提交证据 / 纠错</a> · <a href="research.html">辅助研究证据与历史档案</a> · <a href="https://github.com/mbabby/physical-ai-news-cn/blob/main/resources/industry-landscape-and-tech-routes.md">历史技术路线档案</a> · <a href="https://github.com/mbabby/physical-ai-news-cn">GitHub / Markdown</a> · 公开证据复核只是辅助，不保证绝对正确</span></footer>
     <noscript><p class="shell empty">请启用 JavaScript 阅读解读，或<a href="https://github.com/mbabby/physical-ai-news-cn#readme">前往 GitHub 阅读 Markdown 版本</a>。</p></noscript>
-    <script type="module" src="progress-explainers.js?v=20260910-explained-v1"></script>
-    <script type="module" src="app.js?v=20260910-explained-v1"></script>
+    <script type="module" src="progress-explainers.js?v=20260910-minimal-v2"></script>
+    <script type="module" src="app.js?v=20260910-minimal-v2"></script>
   </body>
 </html>

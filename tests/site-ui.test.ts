@@ -108,6 +108,9 @@ test("homepage renders current and missing publication status from safe health f
   });
   assert.match(missing.mounts["publication-status"].innerHTML, /日报延迟.*自动恢复/);
   assert.match(missing.mounts["publication-status"].innerHTML, /服务降级：LLM/);
+  const healthHtml = missing.mounts["publication-status"].innerHTML;
+  assert.ok(healthHtml.indexOf('服务降级：LLM') < healthHtml.indexOf('<details'), 'failure summary remains visible before diagnostics');
+  assert.match(healthHtml, /<details><summary>运行详情<\/summary>/);
 });
 
 test("homepage omits malformed fractional source-failure counts", async () => {
@@ -181,7 +184,7 @@ test("subscription center is static, privacy preserving and links every subscrip
   ]) assert.match(html, new RegExp(`href=["']${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`), target);
   assert.match(html, /id=["']subscription-watchlist-link["']/);
   assert.match(html, /data-subscription-route/);
-  assert.match(html, /<script type=["']module["'] src=["']app\.js["']><\/script>/);
+  assert.match(html, /<script type=["']module["'] src=["']app\.js(?:\?[^"']+)?["']><\/script>/);
 });
 
 test("subscription route choices use the shared encoder and persist only in the URL", async () => {

@@ -46,27 +46,27 @@ function validArtifact(a) {
 }
 
 const time = (value) => value === "unknown" ? "未知" : `<time datetime="${escape(value)}">${escape(value.replace("T", " ").replace(/(?:\.\d{3})?Z$/, " UTC"))}</time>`;
-const paragraphs = (items) => items.map((item) => `<li>${escape(item)}</li>`).join("");
 
 function cardHtml(card) {
   return `<article class="explainer-card" data-explainer-id="${escape(card.id)}" aria-labelledby="${escape(card.id)}-title">
-    <p class="explainer-context">${card.historical ? "历史进展 · " : ""}${card.kind === "research" ? "研究进展" : "产业进展"}${card.contexts.length ? ` · ${card.contexts.map(escape).join(" · ")}` : ""}</p>
     <h3 id="${escape(card.id)}-title">${escape(card.titleZh)}</h3>
-    <section><h4>事实</h4><ol class="explainer-facts">${paragraphs(card.factsZh)}</ol></section>
-    <section><h4>变化</h4><p>${escape(card.changeZh)}</p></section>
-    <section class="explainer-meaning"><h4>解读</h4><p>${escape(card.meaningZh)}</p><p class="explainer-note">这是基于证据的解释，不是新增事实。</p></section>
-    <section><h4>局限</h4><ul>${paragraphs(card.limitationsZh)}</ul></section>
-    ${card.comparison ? `<section><h4>同条件对比</h4><p>${escape(card.comparison.beforeZh)} → ${escape(card.comparison.afterZh)}</p><p>任务：${escape(card.comparison.task)}；条件：${escape(card.comparison.conditions)}</p></section>` : ""}
+    ${card.historical ? '<p class="explainer-context">历史进展</p>' : ""}
+    <p class="explainer-facts">${card.factsZh.map(escape).join(" ")} ${escape(card.changeZh)}</p>
+    <p><strong>解读：</strong>${escape(card.meaningZh)} <strong>局限：</strong>${card.limitationsZh.map(escape).join(" ")}</p>
+    <details><summary>背景与证据</summary>
+    <p class="explainer-context">${card.kind === "research" ? "研究进展" : "产业进展"}${card.contexts.length ? ` · ${card.contexts.map(escape).join(" · ")}` : ""}</p>
+    ${card.backgroundZh ? `<p>${escape(card.backgroundZh)}</p>` : ""}
+    ${card.comparison ? `<p><strong>同条件对比：</strong>${escape(card.comparison.beforeZh)} → ${escape(card.comparison.afterZh)}</p><p>任务：${escape(card.comparison.task)}；条件：${escape(card.comparison.conditions)}</p>` : ""}
     <dl class="explainer-dates"><div><dt>事件日期</dt><dd>${time(card.eventDate)}</dd></div><div><dt>披露日期</dt><dd>${time(card.publishedAt)}</dd></div><div><dt>实质变化</dt><dd>${time(card.materiallyChangedAt)}</dd></div></dl>
-    <details><summary>背景与原始证据</summary>${card.backgroundZh ? `<h4>背景</h4><p>${escape(card.backgroundZh)}</p>` : ""}<h4>原始证据</h4><ul class="explainer-evidence">${card.evidence.map((e) => `<li><a href="${escape(e.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source)} ↗<span class="sr-only">（在新标签页打开）</span></a></li>`).join("")}</ul><p class="explainer-note">公开证据复核是辅助检查，不保证绝对正确；请结合原文与局限阅读。</p></details>
+    <ul class="explainer-evidence">${card.evidence.map((e) => `<li><a href="${escape(e.url)}" target="_blank" rel="noopener noreferrer">${escape(e.source)} ↗<span class="sr-only">（在新标签页打开）</span></a></li>`).join("")}</ul></details>
   </article>`;
 }
 
 /** @param {unknown} artifact @returns {string} */
 export function renderProgressExplainers(artifact) {
-  if (!validArtifact(artifact)) return '<div class="explainer-status" data-status="unavailable"><h3>解读暂不可用</h3><p>加载失败或数据未通过校验。未显示旧新闻替代内容；检查时间未知。</p></div>';
+  if (!validArtifact(artifact)) return '<p class="explainer-status" data-status="unavailable">解读暂不可用：加载失败或数据未通过校验；检查时间未知。</p>';
   const explanations = { updated: "本轮发布了新的解读。", "no-new-content": "本轮没有可发布的新内容；已有解读保留原有时间。", constrained: "本轮生成或上游证据受限；仅展示仍然有效的已发布解读。", unavailable: "当前无法提供新的合格解读，不以新闻候选补位。" };
-  return `<div class="explainer-status" data-status="${artifact.status}"><h3>${labels[artifact.status]}</h3><p>${explanations[artifact.status]}</p><dl class="explainer-dates"><div><dt>最近检查</dt><dd>${time(artifact.checkedAt)}</dd></div><div><dt>内容更新</dt><dd>${artifact.lastContentUpdatedAt ? time(artifact.lastContentUpdatedAt) : "尚未生成"}</dd></div></dl></div>${artifact.cards.length ? artifact.cards.map(cardHtml).join("") : '<p class="explainer-empty">目前没有可展示的解读。空白只表示尚无合格内容，不表示领域没有进展。</p>'}`;
+  return `<p class="explainer-status" data-status="${artifact.status}">${labels[artifact.status]}：${explanations[artifact.status]} 内容更新：${artifact.lastContentUpdatedAt ? time(artifact.lastContentUpdatedAt) : "尚未生成"}；<span class="explainer-check">最近检查：${time(artifact.checkedAt)}</span></p>${artifact.cards.map(cardHtml).join("")}`;
 }
 
 export async function loadProgressExplainers(mount, fetcher = fetch) {

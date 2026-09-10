@@ -107,7 +107,7 @@ function renderPublicationStatus(value) {
   const sourceFailureCount = sourceFailures === null ? 0 : Math.max(0, Math.floor(sourceFailures));
   const sourceFailureStatus = sourceFailureCount > 0 ? `信源失败 ${sourceFailureCount}` : "";
   const latest = isCalendarDate(daily.latestPublishedDate) ? `上次发布 ${safe(daily.latestPublishedDate)}` : "";
-  container.innerHTML = `<div class="publication-status__summary publication-status__summary--${safe(state)}"><strong>${label}</strong><span>产业 ${publicHealthCount(health.publicIndustryItems)} · 研究 ${publicHealthCount(health.publicResearchItems)} · 候选待补证 ${publicHealthCount(health.candidateBacklog)}</span>${latest ? `<small>${latest}</small>` : ""}${sourceFailureStatus ? `<small>${sourceFailureStatus}</small>` : ""}${components.length ? `<small>服务降级：${components.map(safe).join(" · ")}</small>` : ""}</div>`;
+  container.innerHTML = `<div class="publication-status__summary publication-status__summary--${safe(state)}"><strong>${label}</strong>${latest ? `<small>${latest}</small>` : ""}${sourceFailureStatus ? `<small>${sourceFailureStatus}</small>` : ""}${components.length ? `<small>服务降级：${components.map(safe).join(" · ")}</small>` : ""}</div><details><summary>运行详情</summary><p>产业 ${publicHealthCount(health.publicIndustryItems)} · 研究 ${publicHealthCount(health.publicResearchItems)} · 候选待补证 ${publicHealthCount(health.candidateBacklog)}</p></details>`;
 }
 
 const evidenceStates = {
@@ -684,8 +684,8 @@ function watchlistCard(item) {
 function renderWatchlistTrack(items, title, emptyMessage, identity) {
   const cards = list(items).filter((item) => item && typeof item === "object");
   const groups = watchlistGroups.map((group) => ({ ...group, cards: cards.filter((item) => item.group === group.value) }));
-  if (!cards.length) return `<header class="watchlist-track-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header><p class="empty">${safe(emptyMessage)}</p>`;
-  return `<header class="watchlist-track-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header>
+  if (!cards.length) return `<header class="watchlist-track-head"><div><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header><p class="empty">${safe(emptyMessage)}</p>`;
+  return `<header class="watchlist-track-head"><div><h3>${safe(title)}</h3></div><small>${safe(identity)}</small></header>
     ${groups.filter((group) => group.cards.length).map((group) => `<section class="watchlist-group" aria-label="${safe(group.label)}"><h4>${safe(group.label)}</h4><div class="watchlist-track-grid">${group.cards.map(watchlistCard).join("")}</div></section>`).join("")}`;
 }
 
@@ -721,7 +721,7 @@ function renderWatchlist(value) {
   forward.innerHTML = renderWatchlistTrack(filterWatchlistCards(value.forwardRadar, decoded.config), "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无${hasSelection ? "符合当前筛选的" : ""}公开公司。`, identity);
   momentum.innerHTML = renderWatchlistTrack(filterWatchlistCards(value.validatedMomentum, decoded.config), "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无${hasSelection ? "符合当前筛选的" : ""}公开公司。`, identity);
   const changeItems = list(value.changes).filter((item) => item && typeof item === "object");
-  changes.innerHTML = `<header class="watchlist-track-head"><div><p class="eyebrow">WEEKLY CHANGES</p><h3>本周变化</h3></div><small>${safe(value.week)}</small></header>${changeItems.length ? `<ul>${changeItems.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}`;
+  changes.innerHTML = `<header class="watchlist-track-head"><div><h3>本周变化</h3></div><small>${safe(value.week)}</small></header>${changeItems.length ? `<ul>${changeItems.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}`;
 }
 
 function renderCompanySection(data) {

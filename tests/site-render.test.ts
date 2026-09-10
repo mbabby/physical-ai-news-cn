@@ -25,7 +25,7 @@ test("homepage keeps contribution access in the footer without an operations pan
   const primaryNav = html.match(/<nav[^>]*>[\s\S]*?<\/nav>/)?.[0] ?? "";
   assert.doesNotMatch(primaryNav, /href="(?:#community|contribute\.html)"/);
   assert.doesNotMatch(html, /id="community"|id="homepage-community-|id="community-(?:stars|forks|watchers|issues|traffic|contributors|updated)"/);
-  assert.match(html, /<script type="module" src="app\.js\?v=20260910-explained-v1"><\/script>/);
+  assert.match(html, /<script type="module" src="app\.js\?v=[^"]+"><\/script>/);
 });
 
 type Mount = { innerHTML: string; textContent: string };

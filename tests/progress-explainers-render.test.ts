@@ -17,11 +17,11 @@ test("renders the literal artifact order and identity without sorting or draftin
   const html = render(artifact);
   assert.deepEqual([...html.matchAll(/data-explainer-id="([^"]+)"/g)].map((m) => m[1]), ["explainer-event-gripper-trial", "explainer-alpha"]);
   assert.match(html, /DexLab 机械手抓取试验/);
-  assert.match(html, /<ol[^>]*class="explainer-facts"[^>]*><li>DexLab 报告了覆盖 12 个物体的机械手试验。<\/li><li>机械手完成了其中 9 个物体的试验。<\/li><\/ol>/);
-  assert.match(html, /<h4>事实<\/h4>/);
-  assert.match(html, /<h4>变化<\/h4>/);
-  assert.match(html, /<h4>解读<\/h4>/);
-  assert.match(html, /<h4>局限<\/h4>/);
+  assert.match(html, /<p class="explainer-facts">DexLab 报告了覆盖 12 个物体的机械手试验。 机械手完成了其中 9 个物体的试验。/);
+  assert.match(html, /<strong>解读：<\/strong>/);
+  assert.match(html, /<strong>局限：<\/strong>/);
+  assert.ok(html.indexOf('披露未说明其他物体或环境中的表现。') < html.indexOf('<details'));
+  assert.equal((html.match(/<details/g) || []).length, 2, 'one background/evidence disclosure per card');
   assert.match(html, /这为判断机械手在指定任务中的表现提供了可核对证据。/);
   assert.match(html, /披露未说明其他物体或环境中的表现。/);
 });
@@ -78,7 +78,7 @@ test("keeps historical and unknown provenance explicit with expandable evidence 
   assert.match(html, /事件日期[\s\S]*2020-01-02/);
   assert.match(html, /披露日期[\s\S]*未知/);
   assert.match(html, /实质变化[\s\S]*未知/);
-  assert.match(html, /<details[^>]*><summary>背景与原始证据<\/summary>/);
+  assert.match(html, /<details[^>]*><summary>背景与证据<\/summary>/);
   assert.match(html, /这是背景说明。/);
   assert.match(html, /href="https:\/\/lab.example\/gripper"[^>]*>DexLab/);
   assert.doesNotMatch(html, /<details[^>]* open/);

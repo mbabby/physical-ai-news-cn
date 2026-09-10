@@ -76,9 +76,9 @@ test("standalone pages expose two flagship product views and an auxiliary resear
   assert.match(home, /公司观察名单/);
   assert.match(home, /href="companies\.html">全部公司档案/);
   assert.doesNotMatch(home, /从论文走向产业/);
-  assert.match(weekly, /Top Signals/);
+  assert.match(weekly, /data-view="weekly"/);
   assert.match(companies, /资本动量/);
-  assert.match(research, /AUXILIARY EVIDENCE \/ ARCHIVE/);
+  assert.match(research, /data-view="research"/);
   assert.match(research, /不会因路线相邻而推断关联/);
   assert.match(app, /证据不足（不代表未融资）/);
   for (const html of [home, weekly, companies, research]) assert.match(html, /subscribe\.html/);

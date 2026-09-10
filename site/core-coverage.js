@@ -145,7 +145,7 @@ function card(entry, windows) {
   const identity = list(brief.identityEvidence);
   const official = safeUrl(subject.officialUrl);
   return `<article class="core-card" id="company-${safe(subject.companyId)}" data-company-id="${safe(subject.companyId)}">
-    <header><div><p class="eyebrow">${safe(member.tier === "platform" ? "RESEARCH PLATFORM" : "CORE 30 BRIEF")}</p><h2><a href="${safe(official)}" target="_blank" rel="noopener noreferrer">${safe(subject.name)}</a></h2></div><span class="core-completeness core-completeness--${safe(brief.completeness)}">${brief.completeness === "complete" ? "完整 Brief" : "覆盖卡 · 待补证"}</span></header>
+    <header><div><h2><a href="${safe(official)}" target="_blank" rel="noopener noreferrer">${safe(subject.name)}</a></h2></div><span class="core-completeness core-completeness--${safe(brief.completeness)}">${brief.completeness === "complete" ? "完整 Brief" : "覆盖卡 · 待补证"}</span></header>
     <p class="core-positioning">${safe(brief.positioningZh)}</p>
     <div class="core-tags"><span>${safe(REGION_LABELS[member.coverageRegion] || member.coverageRegion)}</span><span>${safe(TIER_LABELS[member.tier] || member.tier)}</span>${list(subject.routes).map((route) => `<span>${safe(route)}</span>`).join("")}</div>
     <dl class="core-fact-grid"><div><dt>${isLab ? "研究资源 / 资本" : "资本证据"}</dt><dd>${capital.length ? safe(capital.join(" · ")) : isLab ? "研究主体不要求创业融资证据；现有页面仅陈列直接核验的研究资源与研究产出证据。" : "现有证据不足以得出资本结论，不代表未融资。"}</dd></div><div><dt>产品验证阶段</dt><dd>${stage.length ? safe(stage.join(" · ")) : "现有证据不足以得出验证阶段结论。"}</dd></div><div><dt>最近实质变化</dt><dd>${safe(brief.lastMaterialChangeAt === "unknown" ? "日期未知" : brief.lastMaterialChangeAt)}</dd></div><div><dt>主体证据</dt><dd>${identity.length ? `${identity.length} 项已核验` : "身份专项证据待补充"}</dd></div></dl>
@@ -183,7 +183,7 @@ function historySection(history, artifact) {
     return `${text(value, "unknown")}（${text(field?.status, "unknown")}）`;
   };
   const corrections = history.corrections.map((change) => `<li data-correction-id="${safe(change.changeId)}"><strong>${safe(names.get(change.companyId) || change.companyId)}</strong> · ${safe(change.fieldPath)} · ${safe(change.reason)} · ${safe(change.correctedAt)}<span>${safe(correctionValue(change.before))} → ${safe(correctionValue(change.after))}</span></li>`).join("");
-  return `<section class="core-history" id="history"><header><p class="eyebrow">APPEND-ONLY HISTORY</p><h2>季度覆盖与更正</h2></header><div class="core-version-grid">${versions || '<p class="empty">覆盖版本历史当前不可用。</p>'}</div><h3>事实更正</h3>${corrections ? `<ul>${corrections}</ul>` : '<p class="empty">当前没有追加的公开事实更正。</p>'}</section>`;
+  return `<section class="core-history" id="history"><header><h2>季度覆盖与更正</h2></header><div class="core-version-grid">${versions || '<p class="empty">覆盖版本历史当前不可用。</p>'}</div><h3>事实更正</h3>${corrections ? `<ul>${corrections}</ul>` : '<p class="empty">当前没有追加的公开事实更正。</p>'}</section>`;
 }
 
 export function renderCoreCoverageUnavailable(detail = "Core 30 公开工件缺失或未通过校验") {

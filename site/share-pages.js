@@ -154,7 +154,7 @@ function watchlistShare(value) {
   if (!validWatchlist(value)) return '<section class="company-watchlist"><h2>公司 Watchlist</h2><p class="empty"><strong>Watchlist 数据未通过公开契约校验</strong>本次数据未被当作有效空快照展示，请等待下一次成功发布。</p></section>';
   const identity = `最后成功快照：${value.week} · v${value.snapshotVersion} · ${text(value.lastSuccessfulAt).slice(0, 10)}`;
   const changes = list(value.changes).filter((item) => item && typeof item === "object");
-  return `<section class="company-watchlist"><header class="watchlist-share-head"><div><p class="eyebrow">DUAL-TRACK WATCHLIST</p><h2>公司 Watchlist</h2></div><small>${safe(identity)}</small></header>
+  return `<section class="company-watchlist"><header class="watchlist-share-head"><div><h2>公司 Watchlist</h2></div><small>${safe(identity)}</small></header>
     ${watchlistTrack(value.forwardRadar, "前瞻雷达", `${value.week} 最后成功快照中，前瞻雷达暂无公开公司。`, identity)}
     ${watchlistTrack(value.validatedMomentum, "已验证动量", `${value.week} 最后成功快照中，已验证动量暂无公开公司。`, identity)}
     <section class="watchlist-changes"><header class="watchlist-track-head"><h3>本周变化</h3><small>${safe(value.week)}</small></header>${changes.length ? `<ul>${changes.map((item) => `<li data-company-id="${safe(item.companyId)}"><strong>${safe(item.companyName || "待识别公司")}</strong><span class="watchlist-badge watchlist-badge--change">${safe(watchlistChangeLabels[item.change] || "状态变化")}</span></li>`).join("")}</ul>` : '<p class="empty">本周没有公开的名单变化。</p>'}</section></section>`;
@@ -292,7 +292,7 @@ function changes(data) {
     return;
   }
   const baseline = `${data.baseline.week} · v${data.baseline.snapshotVersion}`;
-  root.innerHTML = `<section class="watchlist-changes"><header class="watchlist-track-head"><div><p class="eyebrow">ADJACENT IMMUTABLE SNAPSHOTS</p><h2>Watchlist 周期变化</h2></div><small>当前：${safe(current)}<br>基线：${safe(baseline)}</small></header>${data.changes.length ? `<div class="watchlist-track-grid">${data.changes.map((item) => `<article class="watchlist-card" data-company-id="${safe(item.companyId)}"><header><div><h3>${safe(item.companyName)}</h3><p class="eyebrow">${safe(periodChangeLabels[item.kind])}</p></div></header><dl class="watchlist-thesis"><div><dt>发生了什么变化</dt><dd>${safe(item.whatChanged)}</dd></div><div><dt>为什么变化</dt><dd>${safe(item.why)}</dd></div></dl><div class="watchlist-evidence"><strong>规范证据</strong><ul>${periodEvidence(item.evidenceLinks)}</ul></div></article>`).join("")}</div>` : '<p class="empty">相邻公开快照之间没有可由规范证据支持的变化。</p>'}</section>`;
+  root.innerHTML = `<section class="watchlist-changes"><header class="watchlist-track-head"><div><h2>Watchlist 周期变化</h2></div><small>当前：${safe(current)}<br>基线：${safe(baseline)}</small></header>${data.changes.length ? `<div class="watchlist-track-grid">${data.changes.map((item) => `<article class="watchlist-card" data-company-id="${safe(item.companyId)}"><header><div><h3>${safe(item.companyName)}</h3><p class="eyebrow">${safe(periodChangeLabels[item.kind])}</p></div></header><dl class="watchlist-thesis"><div><dt>发生了什么变化</dt><dd>${safe(item.whatChanged)}</dd></div><div><dt>为什么变化</dt><dd>${safe(item.why)}</dd></div></dl><div class="watchlist-evidence"><strong>规范证据</strong><ul>${periodEvidence(item.evidenceLinks)}</ul></div></article>`).join("")}</div>` : '<p class="empty">相邻公开快照之间没有可由规范证据支持的变化。</p>'}</section>`;
 }
 
 function inferredResearchRoute(paper) {
@@ -318,7 +318,7 @@ function research(data) {
   const artifact = decisionArtifact(data);
   if (artifact === null) return invalidDecisionState("研究护照");
   if (artifact) {
-    root.innerHTML = `<p class="share-intro">Passport 标签、缺口与资产均来自同一已校验决策产品。</p><div class="research-graph-grid">${artifact.researchPassports.map((item) => `<article class="research-link" id="${safe(item.passportId)}" data-passport-id="${safe(item.passportId)}"><p class="eyebrow">REPRODUCIBILITY PASSPORT</p><h3>${link(item.sourceUrl, item.titleZh)}</h3><p>${safe(item.factsZh.join(" "))}</p><div class="decision-tags"><span>任务 ${safe(Array.isArray(item.task) ? item.task.join(" · ") : item.task)}</span><span>本体 ${safe(Array.isArray(item.embodiment) ? item.embodiment.join(" · ") : item.embodiment)}</span><span>基准 ${safe(item.benchmark.name)}</span><span>实机 ${safe(item.realRobotTrials)}</span><span>成本 ${safe(item.reproducibilityCost.level)}</span></div><details><summary>缺口与复现资产</summary><p>OpenAlex ${link(`https://openalex.org/${item.authority.openAlexWorkId}`, item.authority.openAlexWorkId)}</p><p>缺口：${safe(item.gaps.join(" · ") || "无")}</p><p>代码 ${safe(item.assets.code)} · 数据 ${safe(item.assets.data)} · 权重 ${safe(item.assets.weights)}</p></details></article>`).join("") || '<p class="empty">当前没有通过公开契约的研究护照。</p>'}</div>`;
+    root.innerHTML = `<p class="share-intro">Passport 标签、缺口与资产均来自同一已校验决策产品。</p><div class="research-graph-grid">${artifact.researchPassports.map((item) => `<article class="research-link" id="${safe(item.passportId)}" data-passport-id="${safe(item.passportId)}"><h3>${link(item.sourceUrl, item.titleZh)}</h3><p>${safe(item.factsZh.join(" "))}</p><div class="decision-tags"><span>任务 ${safe(Array.isArray(item.task) ? item.task.join(" · ") : item.task)}</span><span>本体 ${safe(Array.isArray(item.embodiment) ? item.embodiment.join(" · ") : item.embodiment)}</span><span>基准 ${safe(item.benchmark.name)}</span><span>实机 ${safe(item.realRobotTrials)}</span><span>成本 ${safe(item.reproducibilityCost.level)}</span></div><details><summary>缺口与复现资产</summary><p>OpenAlex ${link(`https://openalex.org/${item.authority.openAlexWorkId}`, item.authority.openAlexWorkId)}</p><p>缺口：${safe(item.gaps.join(" · ") || "无")}</p><p>代码 ${safe(item.assets.code)} · 数据 ${safe(item.assets.data)} · 权重 ${safe(item.assets.weights)}</p></details></article>`).join("") || '<p class="empty">当前没有通过公开契约的研究护照。</p>'}</div>`;
     return;
   }
   const items = researchItems(data).slice(0, 12);
@@ -354,5 +354,5 @@ const load = view === "changes" ? loadChanges : loadDashboard;
 const renderer = view === "changes" ? changes : (views[view] || weekly);
 load().then(renderer).catch((error) => {
   console.warn("Share-page data unavailable.", error);
-  root.innerHTML = '<p class="empty">数据暂时不可用。若正在本地预览，请检查网络后刷新；线上页面会在下一次日报成功后自动恢复。</p>';
+  root.innerHTML = '<p class="empty">数据暂时不可用；未确认内容更新时间，请稍后重试或前往 GitHub 主阅读入口。</p>';
 });
