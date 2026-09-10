@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T03:16:24.903Z",
+  "generatedAt": "2026-09-10T07:25:31.865Z",
   "records": [
     {
       "id": "verify-c27611841da561",
@@ -935,6 +935,106 @@
           "evidenceArticleIds": [
             "1f755080270f983a"
           ]
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
+      "id": "verify-6b8c8dd01cfe9f",
+      "companyName": "待识别公司",
+      "kind": "投融资",
+      "title": "August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo",
+      "status": "已拒绝",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 98,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQLVM3ZFQ3eUt4SjVzRmFjZlNDMGRWeXBZd1g4WHN2RlhRTkZOakR6YUxoRGppUXkwQkdZYWdxOWxBUGRFU0wwWjVUSzNqNzRFNUNVdzFSN3REcmlxMy04M1NsaUdkelppOGxwbFNfNGJOZHh1NkFMNkRMeE9XS3R4emxNQ0xYa1RXYzNCTC00bmxjMDQ3Unh5QjI3aFc3cUVDVEpiQ1Z3Nmp3X3BPd3FhVU9GdXVPQ1BzTHFYa1hLd00wbXJjNGMxY2E5OVM1MGNQM3J1d0ZBWEVNOE5VelphcjBJM3FXTUxvM2x5SEtLblotMW9ybUFCcGNKWEUzMXJRSVE?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "Gasgoo",
+          "publisherUrl": "https://autonews.gasgoo.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-10T07:25:31.865Z",
+          "trigger": "首次补证",
+          "priority": 98,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "Gasgoo",
+              "value": "https://autonews.gasgoo.com",
+              "query": "\"待识别公司\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1150,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-10T07:25:31.865Z",
+      "lastAttemptAt": "2026-09-10T07:25:31.865Z",
+      "attempts": 1,
+      "evidenceHash": "b6033120151b4946fada",
+      "evidence": [
+        {
+          "articleId": "7d8e674a0ffb8d8a",
+          "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQLVM3ZFQ3eUt4SjVzRmFjZlNDMGRWeXBZd1g4WHN2RlhRTkZOakR6YUxoRGppUXkwQkdZYWdxOWxBUGRFU0wwWjVUSzNqNzRFNUNVdzFSN3REcmlxMy04M1NsaUdkelppOGxwbFNfNGJOZHh1NkFMNkRMeE9XS3R4emxNQ0xYa1RXYzNCTC00bmxjMDQ3Unh5QjI3aFc3cUVDVEpiQ1Z3Nmp3X3BPd3FhVU9GdXVPQ1BzTHFYa1hLd00wbXJjNGMxY2E5OVM1MGNQM3J1d0ZBWEVNOE5VelphcjBJM3FXTUxvM2x5SEtLblotMW9ybUFCcGNKWEUzMXJRSVE?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-10T03:26:32.000Z",
+          "title": "August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo",
+          "amount": "14 Billion",
+          "round": "Series A"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "无法唯一识别公司主体"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
         },
         "round": {
           "status": "unknown",
@@ -14378,10 +14478,10 @@
       }
     },
     {
-      "id": "verify-09c9304f413f89",
-      "companyName": "AI startup",
+      "id": "verify-e8dc246a6213e8",
+      "companyName": "AI初创公司",
       "kind": "投融资",
-      "title": "AI startup raises $10 million to build robotics operating system - startupdaily.net",
+      "title": "AI初创公司融资1000万美元打造机器人操作系统",
       "status": "等待重试",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -14392,13 +14492,13 @@
         {
           "discoveryLink": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5",
           "discoverySource": "Google News · Robotics Capital",
-          "publisher": "startupdaily.net",
+          "publisher": "Startup Daily",
           "publisherUrl": "https://www.startupdaily.net"
         }
       ],
       "enrichmentAttempts": [
         {
-          "attemptedAt": "2026-09-10T03:16:24.903Z",
+          "attemptedAt": "2026-09-10T07:25:31.865Z",
           "trigger": "首次补证",
           "priority": 80,
           "targets": [
@@ -14406,28 +14506,28 @@
               "kind": "权威产业媒体",
               "label": "IEEE Spectrum · Robotics",
               "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
-              "query": "\"AI startup\" funding financing investment raises 融资 投资"
+              "query": "\"AI初创公司\" funding financing investment raises 融资 投资"
             },
             {
               "kind": "权威产业媒体",
               "label": "TechCrunch · Robotics",
               "value": "https://techcrunch.com/category/robotics/feed/",
-              "query": "\"AI startup\" funding financing investment raises 融资 投资"
+              "query": "\"AI初创公司\" funding financing investment raises 融资 投资"
             },
             {
               "kind": "权威产业媒体",
               "label": "The Robot Report",
               "value": "https://www.therobotreport.com/feed/",
-              "query": "\"AI startup\" funding financing investment raises 融资 投资"
+              "query": "\"AI初创公司\" funding financing investment raises 融资 投资"
             },
             {
               "kind": "原始媒体",
-              "label": "startupdaily.net",
+              "label": "Startup Daily",
               "value": "https://www.startupdaily.net",
-              "query": "\"AI startup\" funding financing investment raises 融资 投资"
+              "query": "\"AI初创公司\" funding financing investment raises 融资 投资"
             }
           ],
-          "scannedArticles": 1149,
+          "scannedArticles": 1150,
           "newEvidenceLinks": [],
           "outcome": "未发现新证据",
           "failureReasons": [
@@ -14435,11 +14535,11 @@
           ]
         }
       ],
-      "firstSeenAt": "2026-09-10T03:16:24.903Z",
-      "lastAttemptAt": "2026-09-10T03:16:24.903Z",
-      "nextReviewAt": "2026-09-11T03:16:24.903Z",
+      "firstSeenAt": "2026-09-10T07:25:31.865Z",
+      "lastAttemptAt": "2026-09-10T07:25:31.865Z",
+      "nextReviewAt": "2026-09-11T07:25:31.865Z",
       "attempts": 1,
-      "evidenceHash": "060efc63a0f7acf73866",
+      "evidenceHash": "1aabb5472760b38a7046",
       "evidence": [
         {
           "articleId": "04db8c9ab1f992f9",
@@ -14450,8 +14550,8 @@
           "score": 0,
           "independentOrigin": "news.google.com",
           "publishedAt": "2026-09-09T22:45:56.000Z",
-          "title": "AI startup raises $10 million to build robotics operating system - startupdaily.net",
-          "amount": "$10 million"
+          "title": "AI初创公司融资1000万美元打造机器人操作系统",
+          "amount": "1000万美元"
         }
       ],
       "facts": {},
@@ -23556,107 +23656,6 @@
       }
     },
     {
-      "id": "verify-ecf6b594ab665c",
-      "companyName": "沃尔瑟姆机器人公司",
-      "kind": "投融资",
-      "title": "沃尔瑟姆机器人公司融资3100万美元，进口禁令推高美国国产机器人需求",
-      "status": "等待重试",
-      "publicStatus": "candidate",
-      "publicationState": "candidate",
-      "confidenceScore": 0,
-      "independentEvidenceCount": 0,
-      "impactScore": 70,
-      "discoveryOrigins": [
-        {
-          "discoveryLink": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5",
-          "discoverySource": "Google News · Robotics Capital",
-          "publisher": "bizjournals.com",
-          "publisherUrl": "https://www.bizjournals.com"
-        }
-      ],
-      "enrichmentAttempts": [
-        {
-          "attemptedAt": "2026-09-10T03:16:24.903Z",
-          "trigger": "首次补证",
-          "priority": 70,
-          "targets": [
-            {
-              "kind": "权威产业媒体",
-              "label": "IEEE Spectrum · Robotics",
-              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
-              "query": "\"沃尔瑟姆机器人公司\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "TechCrunch · Robotics",
-              "value": "https://techcrunch.com/category/robotics/feed/",
-              "query": "\"沃尔瑟姆机器人公司\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "权威产业媒体",
-              "label": "The Robot Report",
-              "value": "https://www.therobotreport.com/feed/",
-              "query": "\"沃尔瑟姆机器人公司\" funding financing investment raises 融资 投资"
-            },
-            {
-              "kind": "原始媒体",
-              "label": "bizjournals.com",
-              "value": "https://www.bizjournals.com",
-              "query": "\"沃尔瑟姆机器人公司\" funding financing investment raises 融资 投资"
-            }
-          ],
-          "scannedArticles": 1149,
-          "newEvidenceLinks": [],
-          "outcome": "未发现新证据",
-          "failureReasons": [
-            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-10T03:16:24.903Z",
-      "lastAttemptAt": "2026-09-10T03:16:24.903Z",
-      "nextReviewAt": "2026-09-11T03:16:24.903Z",
-      "attempts": 1,
-      "evidenceHash": "400a7ce1ff2cac1235af",
-      "evidence": [
-        {
-          "articleId": "6cb42e11097818d7",
-          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5",
-          "source": "Google News · Robotics Capital",
-          "grade": "线索",
-          "sourceClass": "discovery",
-          "score": 0,
-          "independentOrigin": "news.google.com",
-          "publishedAt": "2026-09-09T16:19:00.000Z",
-          "title": "沃尔瑟姆机器人公司融资3100万美元，进口禁令推高美国国产机器人需求",
-          "amount": "3100万美元"
-        }
-      ],
-      "facts": {},
-      "conflicts": [],
-      "failureReasons": [
-        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-        "现有材料全部来自线索发现层，不能作为公开证据"
-      ],
-      "fieldVerification": {
-        "amount": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "round": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        },
-        "eventDate": {
-          "status": "unknown",
-          "independentSourceCount": 0,
-          "evidenceArticleIds": []
-        }
-      }
-    },
-    {
       "id": "verify-b1f8051e59cd08",
       "companyName": "卧安机器人",
       "kind": "投融资",
@@ -25746,6 +25745,107 @@
       }
     },
     {
+      "id": "verify-39bab82fb3e3e8",
+      "companyName": "Waltham robotics company",
+      "kind": "投融资",
+      "title": "Waltham robotics company raises $31M as import ban drives demand for U.S.-made robots - The Business Journals",
+      "status": "等待重试",
+      "publicStatus": "candidate",
+      "publicationState": "candidate",
+      "confidenceScore": 0,
+      "independentEvidenceCount": 0,
+      "impactScore": 70,
+      "discoveryOrigins": [
+        {
+          "discoveryLink": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5",
+          "discoverySource": "Google News · Robotics Capital",
+          "publisher": "The Business Journals",
+          "publisherUrl": "https://www.bizjournals.com"
+        }
+      ],
+      "enrichmentAttempts": [
+        {
+          "attemptedAt": "2026-09-10T07:25:31.865Z",
+          "trigger": "首次补证",
+          "priority": 70,
+          "targets": [
+            {
+              "kind": "权威产业媒体",
+              "label": "IEEE Spectrum · Robotics",
+              "value": "https://spectrum.ieee.org/feeds/topic/robotics.rss",
+              "query": "\"Waltham robotics company\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "TechCrunch · Robotics",
+              "value": "https://techcrunch.com/category/robotics/feed/",
+              "query": "\"Waltham robotics company\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "权威产业媒体",
+              "label": "The Robot Report",
+              "value": "https://www.therobotreport.com/feed/",
+              "query": "\"Waltham robotics company\" funding financing investment raises 融资 投资"
+            },
+            {
+              "kind": "原始媒体",
+              "label": "The Business Journals",
+              "value": "https://www.bizjournals.com",
+              "query": "\"Waltham robotics company\" funding financing investment raises 融资 投资"
+            }
+          ],
+          "scannedArticles": 1150,
+          "newEvidenceLinks": [],
+          "outcome": "未发现新证据",
+          "failureReasons": [
+            "本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-10T07:25:31.865Z",
+      "lastAttemptAt": "2026-09-10T07:25:31.865Z",
+      "nextReviewAt": "2026-09-11T07:25:31.865Z",
+      "attempts": 1,
+      "evidenceHash": "73816ed7e2b52914e020",
+      "evidence": [
+        {
+          "articleId": "6cb42e11097818d7",
+          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5",
+          "source": "Google News · Robotics Capital",
+          "grade": "线索",
+          "sourceClass": "discovery",
+          "score": 0,
+          "independentOrigin": "news.google.com",
+          "publishedAt": "2026-09-09T16:19:00.000Z",
+          "title": "Waltham robotics company raises $31M as import ban drives demand for U.S.-made robots - The Business Journals",
+          "amount": "$31M"
+        }
+      ],
+      "facts": {},
+      "conflicts": [],
+      "failureReasons": [
+        "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+        "现有材料全部来自线索发现层，不能作为公开证据"
+      ],
+      "fieldVerification": {
+        "amount": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "round": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        },
+        "eventDate": {
+          "status": "unknown",
+          "independentSourceCount": 0,
+          "evidenceArticleIds": []
+        }
+      }
+    },
+    {
       "id": "verify-d11ff0175cb3f9",
       "companyName": "Waste-to-Energy AI: Jaipur Robotics",
       "kind": "投融资",
@@ -27134,7 +27234,7 @@
       "id": "verify-7dc76e3f2a7347",
       "companyName": "待识别公司",
       "kind": "部署案例",
-      "title": "Vention 在蒙特利尔开设面向制造业的 Physical AI Lab",
+      "title": "Vention 在蒙特利尔开设制造业 Physical AI Lab",
       "status": "已拒绝",
       "publicStatus": "candidate",
       "publicationState": "candidate",
@@ -27189,7 +27289,7 @@
           "score": 30,
           "independentOrigin": "therobotreport.com",
           "publishedAt": "2026-09-09T15:41:50.000Z",
-          "title": "Vention 在蒙特利尔开设面向制造业的 Physical AI Lab"
+          "title": "Vention 在蒙特利尔开设制造业 Physical AI Lab"
         }
       ],
       "facts": {},

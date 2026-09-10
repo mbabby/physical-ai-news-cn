@@ -47,6 +47,15 @@
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/lyte-raises-165m-help-robots-better-sense-their-surroundings/) · [线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMigwFBVV95cUxPa0dLMzdmazJYeWs5emoxNVNnb3VOUG4xSjhuQ2FMYklmMG9KUERBRTU0ZEhEM3I3cTEwaFEyQ1pGNkl3NkJGd0oxWWtBdFRrRTg0N2ZZSXZxVks5eHFqNzdiUVlwM3pYanZDMDgtNXdWbTVhLTF3ZFhPOWtUeEhUNXp6a9IBiAFBVV95cUxOX0F6OHVUV2V2Tk5oZG5CM0NIeVhVVjRkWmFhTXZUc2gwcG9HVEs5RGFxNDlGdld0YmdraU5lN25XOVFQakxDYWpOYlF4SzJDTXRka203YUJLX3hhYVJYdktEQVd0aHVhbjRTRFhOZG94YTJoTlB1bUExa1IwdjBpa2ZuRzRTbXVV?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源
 
+## 待识别公司 · 投融资 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 98
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiggJBVV95cUxQLVM3ZFQ3eUt4SjVzRmFjZlNDMGRWeXBZd1g4WHN2RlhRTkZOakR6YUxoRGppUXkwQkdZYWdxOWxBUGRFU0wwWjVUSzNqNzRFNUNVdzFSN3REcmlxMy04M1NsaUdkelppOGxwbFNfNGJOZHh1NkFMNkRMeE9XS3R4emxNQ0xYa1RXYzNCTC00bmxjMDQ3Unh5QjI3aFc3cUVDVEpiQ1Z3Nmp3X3BPd3FhVU9GdXVPQ1BzTHFYa1hLd00wbXJjNGMxY2E5OVM1MGNQM3J1d0ZBWEVNOE5VelphcjBJM3FXTUxvM2x5SEtLblotMW9ybUFCcGNKWEUzMXJRSVE?oc=5)
+- 结论：无法唯一识别公司主体
+
 ## 人形机器人“关节之眼”企业 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 98
@@ -740,7 +749,7 @@
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMitgFBVV95cUxPX1hiM1VrQ3VmZkp3TWRpaXpqVW93ZW9qN3NRdFJWcEdOZU9jTnFvb25ZY3BoVkhIMVo3NjZXYkxEbnlHU0stS1lsM042aWhvR0JNR0Z4RDV5c1hJWnprNmhzalRSUEdJSG5xdmtQWV9TcU5DV3ZHeXdoWkVuc01hMFA0d0ZZaW5EeVFFdlJ1OWd2UUlsNkt4RHVrdmxJYjJzelVjTE05eGtxV0RQcmpmdzdtX1NqZw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## AI startup · 投融资 · 等待重试
+## AI初创公司 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 80
 - 尝试：1；下次复核 2026-09-11
@@ -1379,15 +1388,6 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1uMGk1MC15NDN3b1Zqa1NGSWRwSEpJeEV0cFhhck9sTzNHWGJNQjVXd09mUzZGektqSi0wejVQWnhjeHdZUGctb2U0VjlUclFtSEpEQ3NRVVBQTnlHblFwaDFMTXR0Mm5TQWZLTlVjVkhodw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
-## 沃尔瑟姆机器人公司 · 投融资 · 等待重试
-
-- 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：1；下次复核 2026-09-11
-- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
-- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
-- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
-- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
-
 ## 卧安机器人 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -1539,6 +1539,15 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiswFBVV95cUxNRE1NelhxZFdWSnR2Nm1yRnNrLURHNm84VjBHWnBsUm9fSzRETzhZa3ZUT0Rrb1gxUWNkbWtCRVpQcDB2dmFjRkhxOFV6Ymw1SEt1VEMzSkpFX2JYMnd0WVR5UkhabXY0RUNYQkN5bGMyOWhubFltMnE1LURTU2o3ZXhnV1lmR3RRZGczVW9sdHNrbnh4T2NTUEhVc24zYmdTWEkwT0lFZlpmZmRRYmJZdmtPTQ?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## Waltham robotics company · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-09-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## Waste-to-Energy AI: Jaipur Robotics · 投融资 · 等待重试
