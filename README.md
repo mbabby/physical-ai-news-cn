@@ -171,7 +171,7 @@ README 只列出已核验事件和已发布的每周结论；Pages 的今日简�
 
 ## For global readers
 
-**Physical AI Company Intelligence Repository** is a source-traceable Chinese research hub for investment and strategy researchers, covering companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
+**Physical AI Company Intelligence** is a source-traceable Chinese research hub for investment and strategy researchers, covering companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
 
 Read the concise [English project overview](README.en.md). Suggested GitHub topics: `physical-ai`, `embodied-ai`, `robotics`, `humanoid-robotics`, `vision-language-action`, `world-models`, `robot-learning`, `ai-news`, `chinese`.
 
