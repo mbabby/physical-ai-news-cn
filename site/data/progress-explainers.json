@@ -1,8 +1,133 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T08:24:02.983Z",
-  "lastContentUpdatedAt": null,
-  "checkedAt": "2026-09-10T08:24:02.983Z",
-  "status": "unavailable",
-  "cards": []
+  "generatedAt": "2026-09-10T08:54:37.701Z",
+  "lastContentUpdatedAt": "2026-09-10T08:54:37.701Z",
+  "checkedAt": "2026-09-10T08:54:37.701Z",
+  "status": "updated",
+  "reason": "validation",
+  "cards": [
+    {
+      "titleZh": "研究提出DeCAL：以MoT专家统一灵巧操作的理解、想象与动作生成",
+      "factsZh": [
+        "该研究提出DeCAL，用MoT专家统一灵巧操作的理解、想象与动作生成，并以接触感知门控融合视觉触觉、共同想象物理动态。",
+        "实验报告其在全部任务达最优，平均成功率71%、进度成功率83.4%，可泛化到未见场景并公开项目页。"
+      ],
+      "changeZh": "材料新增了一项名为DeCAL的灵巧操作方法及其作者报告的实验结果，包括成功率数字与未见场景泛化声明。",
+      "meaningZh": "若作者报告的数据成立，这表明用统一专家框架结合视觉触觉融合来处理理解、想象与动作生成，可能在灵巧操作任务上同时提升成功率与对未见场景的泛化；但该结论目前仅建立在单一来源的自报结果上，不能作为已被独立验证的性能依据。",
+      "limitationsZh": [
+        "所有性能数字与“全部任务最优”的声明均来自作者自我报告，缺乏第三方复现或独立基准核对。",
+        "材料未提供对比基线、任务设置与评估条件的细节，无法判断71%与83.4%的数字在何种条件下取得。"
+      ],
+      "contexts": [
+        "作者报告"
+      ],
+      "fieldRefs": {
+        "titleZh": [
+          "d3f28d315d14a4b0:fact:1"
+        ],
+        "factsZh.0": [
+          "d3f28d315d14a4b0:fact:1"
+        ],
+        "factsZh.1": [
+          "d3f28d315d14a4b0:fact:2"
+        ],
+        "changeZh": [
+          "d3f28d315d14a4b0:fact:1",
+          "d3f28d315d14a4b0:fact:2"
+        ],
+        "meaningZh": [
+          "d3f28d315d14a4b0:fact:1",
+          "d3f28d315d14a4b0:fact:2"
+        ],
+        "limitationsZh.0": [
+          "d3f28d315d14a4b0:fact:2"
+        ],
+        "limitationsZh.1": [
+          "d3f28d315d14a4b0:fact:2"
+        ],
+        "contexts.0": [
+          "d3f28d315d14a4b0:fact:2"
+        ]
+      },
+      "id": "explainer-research-d3f28d315d14a4b0-afa35ebe",
+      "canonicalId": "research:d3f28d315d14a4b0",
+      "sourceRevision": "74da718e445c265a63852b8137563f07c62dff8a00c240f20a00b6bc7b85b037",
+      "kind": "research",
+      "evidence": [
+        {
+          "evidenceId": "evidence:ad21171fc33956d5",
+          "url": "https://arxiv.org/abs/2609.09119v1",
+          "source": "arXiv · Robotics"
+        }
+      ],
+      "eventDate": "2026-09-08T17:47:43.000Z",
+      "publishedAt": "2026-09-08T17:47:43.000Z",
+      "materiallyChangedAt": "unknown",
+      "historical": false,
+      "revision": "70733464e60b161f78122c52297d3f90094bb9dedf82784a72c69e218a27e580",
+      "checkedAt": "2026-09-10T08:54:37.701Z"
+    },
+    {
+      "titleZh": "FOCI Policy：以任务相关物体间相对SE(3)运动表示技能",
+      "factsZh": [
+        "该工作提出FOCI Policy，从示范中自动提取紧凑交互片段，并以任务相关物体间的相对SE(3)运动表示技能。",
+        "在RLBench、COLOSSEUM及真实任务上的实验表明，其以更少的训练数据优于先前的物体中心与动作中心策略。"
+      ],
+      "changeZh": "新增了一项名为FOCI Policy的研究工作，包括其技能表示方法与在仿真基准及真实任务上的对比结果声明。",
+      "meaningZh": "若该结果成立，相对SE(3)运动的技能表示可在训练数据受限时作为物体中心与动作中心策略的替代选项；但目前全部证据仅来自作者单方报告，尚不能据此判断其相对优势的实际幅度与适用范围。",
+      "limitationsZh": [
+        "结果仅来自作者报告，缺少第三方独立复现。",
+        "“更少的训练数据”未给出具体数据量，优势幅度无法量化评估。"
+      ],
+      "contexts": [
+        "作者报告"
+      ],
+      "fieldRefs": {
+        "titleZh": [
+          "dc6d4cf7b7d618ad:fact:1"
+        ],
+        "factsZh.0": [
+          "dc6d4cf7b7d618ad:fact:1"
+        ],
+        "factsZh.1": [
+          "dc6d4cf7b7d618ad:fact:2"
+        ],
+        "changeZh": [
+          "dc6d4cf7b7d618ad:fact:1",
+          "dc6d4cf7b7d618ad:fact:2"
+        ],
+        "meaningZh": [
+          "dc6d4cf7b7d618ad:fact:1",
+          "dc6d4cf7b7d618ad:fact:2"
+        ],
+        "limitationsZh.0": [
+          "dc6d4cf7b7d618ad:fact:2"
+        ],
+        "limitationsZh.1": [
+          "dc6d4cf7b7d618ad:fact:2"
+        ],
+        "contexts.0": [
+          "dc6d4cf7b7d618ad:fact:1",
+          "dc6d4cf7b7d618ad:fact:2"
+        ]
+      },
+      "id": "explainer-research-dc6d4cf7b7d618ad-780e6023",
+      "canonicalId": "research:dc6d4cf7b7d618ad",
+      "sourceRevision": "7a84262591a261b5fe9f85ac9cc65a03b64bf5bc679eb87284ab15d271ffd221",
+      "kind": "research",
+      "evidence": [
+        {
+          "evidenceId": "evidence:a778e6eb1b9f1585",
+          "url": "https://arxiv.org/abs/2609.08743v1",
+          "source": "arXiv · Robotics"
+        }
+      ],
+      "eventDate": "2026-09-08T13:35:56.000Z",
+      "publishedAt": "2026-09-08T13:35:56.000Z",
+      "materiallyChangedAt": "unknown",
+      "historical": false,
+      "revision": "de4344b9c8eece888e11101afb3f4269a054d2b4a913b83c68b546a9c65d12fd",
+      "checkedAt": "2026-09-10T08:54:37.701Z"
+    }
+  ]
 }

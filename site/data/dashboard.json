@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T08:24:02.983Z",
+  "generatedAt": "2026-09-10T08:54:37.701Z",
   "periodLabel": "本周 2026-W37 · 近 30 天滚动证据池",
   "stats": {
     "events": 2,
@@ -37,14 +37,14 @@
       "date": "2026-09-09",
       "source": "The Robot Report",
       "isThisWeek": true,
-      "lastVerifiedAt": "2026-09-10T08:24:02.983Z",
-      "lastMaterialChangeAt": "2026-09-10T08:24:02.983Z",
+      "lastVerifiedAt": "2026-09-10T08:54:37.701Z",
+      "lastMaterialChangeAt": "2026-09-10T08:54:37.701Z",
       "entity": "智元机器人",
       "evidenceGrade": "B",
       "verificationStatus": "正在发生",
       "evidenceCount": 1,
       "missingEvidence": "后续是否有一手技术细节、客户或复现证据？",
-      "verifiedAt": "2026-09-10T08:24:02.983Z",
+      "verifiedAt": "2026-09-10T08:54:37.701Z",
       "whyItMatters": "公司商业化、合作或组织进程发生变化；当前由独立可信来源支持。",
       "score": 62
     }
@@ -142,6 +142,21 @@
     },
     {
       "paper": {
+        "title": "FOCI Policy：聚焦物体间交互的关系型操作策略",
+        "summary": "该工作提出FOCI Policy，从示范中自动提取紧凑交互片段，并以任务相关物体间的相对SE(3)运动表示技能。在RLBench、COLOSSEUM及真实任务上的实验表明，其以更少的训练数据优于先前的物体中心与动作中心策略。",
+        "link": "https://arxiv.org/abs/2609.08743v1",
+        "type": "研究论文",
+        "route": "研究",
+        "date": "2026-09-08",
+        "source": "arXiv · Robotics"
+      },
+      "route": "VLA 与具身模型",
+      "companies": [],
+      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
+      "relations": []
+    },
+    {
+      "paper": {
         "title": "CLAP：跨本体动作条件视频世界模型实现零样本物理模拟",
         "summary": "CLAP提出跨本体动作条件视频生成框架，统一末端执行器位姿、语言与潜在动作等异构动作空间。其在DROID等基准上接近或超越单本体最优模型，并开源全部代码与模型。",
         "link": "https://arxiv.org/abs/2608.27406v1",
@@ -181,21 +196,6 @@
         "source": "arXiv · Robotics"
       },
       "route": "VLA 与具身模型",
-      "companies": [],
-      "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
-      "relations": []
-    },
-    {
-      "paper": {
-        "title": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
-        "summary": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。",
-        "link": "https://arxiv.org/abs/2608.13049v1",
-        "type": "研究论文",
-        "route": "研究",
-        "date": "2026-08-13",
-        "source": "arXiv · Robotics"
-      },
-      "route": "世界模型与空间智能",
       "companies": [],
       "connection": "当前暂无已证实产业关联；同属技术路线不视为公司采用或背书。",
       "relations": []
@@ -497,7 +497,7 @@
     }
   ],
   "companyBoards": {
-    "generatedAt": "2026-09-10T08:24:02.983Z",
+    "generatedAt": "2026-09-10T08:54:37.701Z",
     "policy": {
       "limit": 5,
       "minimumSampleSize": 10,
@@ -1082,7 +1082,7 @@
   ],
   "decisionProducts": {
     "schemaVersion": 1,
-    "generatedAt": "2026-09-10T08:24:02.983Z",
+    "generatedAt": "2026-09-10T08:54:37.701Z",
     "periodStart": "2026-09-04",
     "topSignals": [],
     "companyCards": [
@@ -2049,7 +2049,7 @@
       }
     ],
     "subscriptions": {
-      "generatedAt": "2026-09-10T08:24:02.983Z",
+      "generatedAt": "2026-09-10T08:54:37.701Z",
       "entries": [
         {
           "subscriptionId": "github-watch",
@@ -2138,7 +2138,7 @@
   "communityEvidence": {
     "taskArtifact": {
       "schemaVersion": 1,
-      "generatedAt": "2026-09-10T08:24:02.983Z",
+      "generatedAt": "2026-09-10T08:54:37.701Z",
       "tasks": [
         {
           "id": "evidence-task-428f0efb663cad0c3efc6299",
@@ -2212,7 +2212,7 @@
     },
     "publicIndustryItems": 1,
     "publicResearchItems": 6,
-    "candidateBacklog": 289,
+    "candidateBacklog": 290,
     "sourceFailureCount": 0,
     "degradedComponents": [
       "LLM",

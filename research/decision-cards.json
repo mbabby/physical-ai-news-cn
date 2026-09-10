@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T08:24:02.983Z",
+  "generatedAt": "2026-09-10T08:54:37.701Z",
   "cards": [
     {
       "identity": {
@@ -433,6 +433,219 @@
         "totalFields": 24,
         "knownFields": 14,
         "unknownFields": 10,
+        "completeOrUnknown": true
+      },
+      "gates": [],
+      "eligibleForTopResearch": true
+    },
+    {
+      "identity": {
+        "paperId": {
+          "value": "dc6d4cf7b7d618ad",
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2609.08743v1"
+          ]
+        },
+        "openAlexWorkId": {
+          "value": "W7212002387",
+          "evidenceUrls": [
+            "https://openalex.org/W7212002387"
+          ]
+        },
+        "version": {
+          "value": 1,
+          "evidenceUrls": [
+            "https://arxiv.org/abs/2609.08743v1"
+          ]
+        }
+      },
+      "titleZh": {
+        "value": "FOCI Policy：聚焦物体间交互的关系型操作策略",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "factsZh": {
+        "value": [
+          "该工作提出FOCI Policy，从示范中自动提取紧凑交互片段，并以任务相关物体间的相对SE(3)运动表示技能。",
+          "在RLBench、COLOSSEUM及真实任务上的实验表明，其以更少的训练数据优于先前的物体中心与动作中心策略。"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "task": {
+        "value": [
+          "机器人操作"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "embodiment": {
+        "value": [
+          "真实机器人"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "datasetTrainingScale": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "benchmark": {
+        "value": [
+          "RLBench"
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "baselineDelta": {
+        "value": "Object-centric manipulation policies improve generalization by modeling object motion instead of directly predicting robot actions.",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "realRobotTrials": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "artifacts": {
+        "code": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "weights": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "data": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "projectPage": {
+          "value": "unknown",
+          "evidenceUrls": []
+        },
+        "license": {
+          "value": "unknown",
+          "evidenceUrls": []
+        }
+      },
+      "limitations": {
+        "value": [
+          "However, existing methods are often limited by representations which are either too simplistic to capture interaction dynamics or too dense to learn efficiently."
+        ],
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ]
+      },
+      "reproducibilityCost": {
+        "value": "unknown",
+        "evidenceUrls": [],
+        "rationale": "unknown"
+      },
+      "author": {
+        "value": [
+          "Ze Fu",
+          "Pinhao Song",
+          "Yutong Hu"
+        ],
+        "evidenceUrls": [
+          "https://openalex.org/W7212002387"
+        ]
+      },
+      "lab": {
+        "value": "unknown",
+        "evidenceUrls": []
+      },
+      "openAlex": {
+        "match": {
+          "value": "matched",
+          "evidenceUrls": [
+            "https://openalex.org/W7212002387"
+          ]
+        },
+        "retraction": {
+          "value": false,
+          "evidenceUrls": [
+            "https://openalex.org/W7212002387"
+          ]
+        },
+        "freshness": {
+          "value": "fresh",
+          "evidenceUrls": [
+            "https://openalex.org/W7212002387"
+          ]
+        }
+      },
+      "whyWorthAttention": {
+        "value": "原文摘要明确出现真实机器人、基准证据。",
+        "evidenceUrls": [
+          "https://arxiv.org/abs/2609.08743v1",
+          "https://openalex.org/W7212002387"
+        ]
+      },
+      "rankScore": 54,
+      "fieldEvidence": {
+        "identity": [
+          "https://arxiv.org/abs/2609.08743v1",
+          "https://openalex.org/W7212002387",
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "title": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "facts": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "task": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "embodiment": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "datasetTrainingScale": [],
+        "benchmark": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "baselineDelta": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "realRobotTrials": [],
+        "artifacts.code": [],
+        "artifacts.weights": [],
+        "artifacts.data": [],
+        "artifacts.projectPage": [],
+        "artifacts.license": [],
+        "limitations": [
+          "https://arxiv.org/abs/2609.08743v1"
+        ],
+        "reproducibilityCost": [],
+        "author": [
+          "https://openalex.org/W7212002387"
+        ],
+        "lab": [],
+        "openAlex.match": [
+          "https://openalex.org/W7212002387"
+        ],
+        "openAlex.retraction": [
+          "https://openalex.org/W7212002387"
+        ],
+        "openAlex.freshness": [
+          "https://openalex.org/W7212002387"
+        ],
+        "whyWorthAttention": [
+          "https://arxiv.org/abs/2609.08743v1",
+          "https://openalex.org/W7212002387"
+        ]
+      },
+      "completeness": {
+        "totalFields": 24,
+        "knownFields": 15,
+        "unknownFields": 9,
         "completeOrUnknown": true
       },
       "gates": [],

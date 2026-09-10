@@ -6,7 +6,7 @@
       "title": "AGIBOT to explain how to scale humanoids from the lab to the real world at RoboBusiness",
       "link": "https://www.therobotreport.com/agibot-share-plans-scale-humanoids-from-lab-to-real-world-at-robobusiness/",
       "publishedAt": "2026-09-09T16:43:28.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.507Z",
+      "fetchedAt": "2026-09-10T08:54:38.270Z",
       "source": "The Robot Report",
       "sourceWeight": 6,
       "excerpt": "AGIBOT plans to give attendees actionable insights on identifying high-value robotics use cases and building sustainable developer ecosystems.\nThe post AGIBOT to explain how to scale humanoids from the lab to the real world at RoboBusiness appeared first on The Robot Report.",
@@ -100,7 +100,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-09-10T08:24:02.983Z"
+        "checkedAt": "2026-09-10T08:54:37.701Z"
       },
       "titleZh": "HiPHI：大规模高精度人体运动与物体交互基准数据集",
       "summaryZh": "研究发布HiPHI数据集，以光学动捕采集600余小时亚毫米级精度的全身运动与物体交互数据。配套基准的分析显示其运动覆盖显著超过现有数据集并保持高保真交互质量。"
@@ -156,10 +156,55 @@
             ]
           }
         ],
-        "checkedAt": "2026-09-10T08:24:02.983Z"
+        "checkedAt": "2026-09-10T08:54:37.701Z"
       },
       "titleZh": "G0.5：以单一自回归流统一机器人推理与动作",
       "summaryZh": "研究提出预训练自回归模型 G0.5，由单一解码器在统一目标下交错生成推理与动作词元，并配跨本体动作分词器与视觉记忆。它在 R1lite 与 R1pro 真机、BEHAVIOR 挑战赛及 LIBERO 等 7 项评测中超越现有最优模型。"
+    },
+    {
+      "id": "dc6d4cf7b7d618ad",
+      "title": "FOCI Policy: Focus on Object-Centric Interactions for Relational Manipulation Policies",
+      "link": "https://arxiv.org/abs/2609.08743v1",
+      "publishedAt": "2026-09-08T13:35:56.000Z",
+      "fetchedAt": "2026-09-09T15:20:26.212Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 8,
+      "excerpt": "Object-centric manipulation policies improve generalization by modeling object motion instead of directly predicting robot actions. However, existing methods are often limited by representations which are either too simplistic to capture interaction dynamics or too dense to learn efficiently. We observe that many rigid relational manipulation tasks are governed by short interaction phases where the relative motion between task-relevant objects is tightly constrained. Based on this observation, we propose \\textsc{Foci Policy}, an interaction-centric framework that achieves a two-fold abstraction: (1) temporally, by automatically extracting compact interaction segments from demonstrations;(2) spatially, by representing skills as relative $SE(3)$ motion between task-relevant objects, yielding invariance to scene configurations and robot embodiment. Experiments on RLBench, COLOSSEUM, and real-world tasks show that \\textsc{Foci Policy} achieves strong performance with substantially less training data than prior object-centric and action-centric policies. These results suggest that modeling object-object interactions provides a simple and efficient inductive bias for rigid relational manipulation. Project page: \\href{https://fitz0401.github.io/foci-page/}{fitz0401.github.io/foci-page/}.",
+      "tags": [
+        "研究",
+        "robot",
+        "manipulation"
+      ],
+      "authors": [
+        "Ze Fu"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "研究与数据",
+      "score": 92,
+      "titleZh": "FOCI Policy：聚焦物体间交互的关系型操作策略",
+      "summaryZh": "该工作提出FOCI Policy，从示范中自动提取紧凑交互片段，并以任务相关物体间的相对SE(3)运动表示技能。在RLBench、COLOSSEUM及真实任务上的实验表明，其以更少的训练数据优于先前的物体中心与动作中心策略。",
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7212002387",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Ze Fu",
+            "institutions": []
+          },
+          {
+            "name": "Pinhao Song",
+            "institutions": []
+          },
+          {
+            "name": "Yutong Hu",
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      }
     },
     {
       "id": "eb7745b52639baf0",
@@ -259,7 +304,7 @@
             ]
           }
         ],
-        "checkedAt": "2026-09-10T08:24:02.983Z"
+        "checkedAt": "2026-09-10T08:54:37.701Z"
       },
       "titleZh": "OrthoSkillVLA：基于梯度引导技能子空间适配的持续技能学习",
       "summaryZh": "OrthoSkillVLA 对 VLM 与动作头分别施加子空间约束，并引入特征感知 MoE 解码器为各技能分配专家，实现无需演示回放的持续技能学习。大量仿真与真实机器人实验及消融表明，该方法在学习新技能时能更好保留旧技能。"
@@ -314,62 +359,6 @@
       },
       "titleZh": "NestDex：结合辅助遥操作与嵌套策略学习实现灵巧操作",
       "summaryZh": "NestDex 提出嵌套策略学习框架，操作者借助已学习的手部技能与离合器辅助采集演示，再训练可独立部署的外部视觉运动策略。真实世界灵巧操作实验显示其提升了演示的可靠性与效率，支持有效的自主策略学习。"
-    },
-    {
-      "id": "8041fb05e8b7d3cb",
-      "title": "H2R-Bench: Benchmarking Human-to-Robot Manipulation Video Generation in World Models",
-      "link": "https://arxiv.org/abs/2608.13049v1",
-      "publishedAt": "2026-08-13T10:14:33.000Z",
-      "fetchedAt": "2026-08-16T16:09:54.620Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 9,
-      "excerpt": "Large-scale manipulation data is essential for robot learning, yet collecting robot demonstrations remains expensive and difficult to scale. Meanwhile, abundant egocentric human manipulation videos provide rich behavioral experiences, but transferring them across embodiments remains challenging due to differences between human hands and robotic end-effectors. Recent advances in video world models offer a promising pathway to synthesize robot-centric manipulation videos from human observations, while their cross-embodiment transfer capability remains largely unexplored. Therefore, we introduce H2R-Bench, a benchmark for evaluating cross-embodiment human-to-robot manipulation video generation, where models transform egocentric human demonstrations into robot manipulation videos under specified embodiments. Each benchmark instance contains a human demonstration video, target embodiment constraints, and source-grounded annotations covering task goals, action events, functional contacts, and object responses. H2R-Bench evaluates generated videos through five dimensions, including goal-state completion, action-event completion, functional contact transfer, embodiment correctness, and general video quality. We benchmark eleven state-of-the-art video generation models across six manipulation families and two robot embodiments. Our evaluation reveals that current video world models remain limited in human-to-robot manipulation transfer: even leading models often fail in embodiment consistency, functional interaction, and task execution. H2R-Bench provides a systematic diagnostic framework for evaluating whether video world models can bridge the human-to-robot embodiment gap and convert human manipulation observations into robot-centric training resources.",
-      "tags": [
-        "研究",
-        "robot",
-        "manipulation",
-        "world model"
-      ],
-      "authors": [
-        "Dingyi Rong"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "研究与数据",
-      "score": 106,
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7203441037",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [
-          "Shanghai Jiao Tong University"
-        ],
-        "authors": [
-          {
-            "name": "Dingyi Rong",
-            "totalCitations": 30,
-            "hIndex": 3,
-            "institutions": [
-              "Shanghai Jiao Tong University"
-            ]
-          },
-          {
-            "name": "Yue Shi",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Chaofan Ma",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          }
-        ],
-        "checkedAt": "2026-08-20T01:00:01.263Z"
-      },
-      "titleZh": "H2R-Bench：评测世界模型中人到机器人操作视频生成的基准",
-      "summaryZh": "提出 H2R-Bench，评测视频世界模型将第一视角人手操作演示转化为指定机器人本体操作视频的跨本体生成能力。对 11 个先进模型在 6 类操作任务与 2 种机器人本体上的评测表明，现有模型在本体一致性、功能交互和任务执行上仍明显不足。"
     }
   ],
   "industryPulse": {
@@ -380,7 +369,7 @@
         "title": "AGIBOT to explain how to scale humanoids from the lab to the real world at RoboBusiness",
         "link": "https://www.therobotreport.com/agibot-share-plans-scale-humanoids-from-lab-to-real-world-at-robobusiness/",
         "publishedAt": "2026-09-09T16:43:28.000Z",
-        "fetchedAt": "2026-09-10T08:24:03.507Z",
+        "fetchedAt": "2026-09-10T08:54:38.270Z",
         "source": "The Robot Report",
         "sourceWeight": 6,
         "excerpt": "AGIBOT plans to give attendees actionable insights on identifying high-value robotics use cases and building sustainable developer ecosystems.\nThe post AGIBOT to explain how to scale humanoids from the lab to the real world at RoboBusiness appeared first on The Robot Report.",
@@ -619,7 +608,7 @@
       "title": "What bricklaying has taught Monumental about robots in construction",
       "link": "https://www.therobotreport.com/what-bricklaying-has-taught-monumental-about-robots-construction/",
       "publishedAt": "2026-09-09T21:08:06.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.507Z",
+      "fetchedAt": "2026-09-10T08:54:38.270Z",
       "source": "The Robot Report",
       "sourceWeight": 6,
       "excerpt": "The construction industry is rife with opportunity for robotics, but the technology hasn't broken in at scale yet. \nThe post What bricklaying has taught Monumental about robots in construction appeared first on The Robot Report.",
@@ -634,8 +623,8 @@
       "sourceTier": "权威产业媒体",
       "kind": "公司商业",
       "score": 92,
-      "titleZh": "Monumental 从砌砖中获得的建筑机器人经验",
-      "summaryZh": "文章介绍 Monumental 从砌砖实践中总结的建筑机器人经验，指出建筑业对机器人需求广泛但技术尚未规模化落地。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "砌砖实践为 Monumental 带来的建筑机器人启示",
+      "summaryZh": "文章探讨 Monumental 从砌砖实践中总结的建筑机器人经验，指出建筑业机器人机会众多但尚未规模化落地。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "公司主体未确认"
@@ -646,7 +635,7 @@
       "title": "Vention opens Physical AI Lab for manufacturing in Montreal",
       "link": "https://www.therobotreport.com/vention-opens-physical-ai-lab-manufacturing-montreal/",
       "publishedAt": "2026-09-09T15:41:50.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.507Z",
+      "fetchedAt": "2026-09-10T08:54:38.270Z",
       "source": "The Robot Report",
       "sourceWeight": 6,
       "excerpt": "Vention's new Physical AI Lab will focus on advancing robotic manipulation from research to scalable production-line deployment.\nThe post Vention opens Physical AI Lab for manufacturing in Montreal appeared first on The Robot Report.",
@@ -663,7 +652,7 @@
       "kind": "部署案例",
       "score": 92,
       "titleZh": "Vention 在蒙特利尔开设面向制造业的 Physical AI Lab",
-      "summaryZh": "Vention 新设 Physical AI Lab，致力于将机器人操作技术从研究推向可规模化的生产线部署。摘要未提供真实机器人、基准或开源证据。",
+      "summaryZh": "Vention 新设 Physical AI Lab，致力于将机器人操作技术从研究推进到可规模化的生产线部署。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "公司主体未确认"
@@ -674,7 +663,7 @@
       "title": "August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo",
       "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQLVM3ZFQ3eUt4SjVzRmFjZlNDMGRWeXBZd1g4WHN2RlhRTkZOakR6YUxoRGppUXkwQkdZYWdxOWxBUGRFU0wwWjVUSzNqNzRFNUNVdzFSN3REcmlxMy04M1NsaUdkelppOGxwbFNfNGJOZHh1NkFMNkRMeE9XS3R4emxNQ0xYa1RXYzNCTC00bmxjMDQ3Unh5QjI3aFc3cUVDVEpiQ1Z3Nmp3X3BPd3FhVU9GdXVPQ1BzTHFYa1hLd00wbXJjNGMxY2E5OVM1MGNQM3J1d0ZBWEVNOE5VelphcjBJM3FXTUxvM2x5SEtLblotMW9ybUFCcGNKWEUzMXJRSVE?oc=5",
       "publishedAt": "2026-09-10T03:26:32.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.884Z",
+      "fetchedAt": "2026-09-10T08:54:38.600Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A  Gasgoo",
@@ -692,8 +681,40 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "8月具身机器人融资共56起，5家企业合计融资140亿元，近半数尚未进入A轮",
-      "summaryZh": "该报道统计了8月具身机器人领域共56起融资，其中5家企业合计融资140亿元，近半数企业尚未进入A轮。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo",
+      "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "stage": "待中文事实简介",
+      "holdReasons": [
+        "缺少完整中文事实简介",
+        "线索来源尚未完成二次核验",
+        "公司主体未确认"
+      ]
+    },
+    {
+      "id": "27306beeb74d915f",
+      "title": "华拟智能完成数千万元天使轮融资，专注研发高拟真度的人形机器人头产品 - 投资界",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA2ZFBkcU44R2VBakJuMWVhOWdQa1czV1BwOG0tVkxBdUtlUmNfNFpncXRXNEJzX0Jha1l4LTZTZElBTnBydE43cDRpRVdUb3VIaDkwOEJ3?oc=5",
+      "publishedAt": "2026-09-10T02:40:00.000Z",
+      "fetchedAt": "2026-09-10T08:54:38.517Z",
+      "source": "Google News · 中国具身融资",
+      "sourceWeight": 4,
+      "excerpt": "华拟智能完成数千万元天使轮融资，专注研发高拟真度的人形机器人头产品  投资界",
+      "tags": [
+        "投融资",
+        "人形机器人",
+        "机器人"
+      ],
+      "authors": [],
+      "discoveryOrigin": {
+        "aggregatorLink": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA2ZFBkcU44R2VBakJuMWVhOWdQa1czV1BwOG0tVkxBdUtlUmNfNFpncXRXNEJzX0Jha1l4LTZTZElBTnBydE43cDRpRVdUb3VIaDkwOEJ3?oc=5",
+        "publisher": "投资界",
+        "publisherUrl": "https://news.pedaily.cn"
+      },
+      "sourceTier": "线索发现层",
+      "kind": "投融资",
+      "score": 88,
+      "titleZh": "华拟智能完成数千万元天使轮融资，专注研发高拟真度人形机器人头",
+      "summaryZh": "华拟智能完成数千万元天使轮融资，该公司专注研发高拟真度的人形机器人头产品。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -705,7 +726,7 @@
       "title": "AI startup raises $10 million to build robotics operating system - Startup Daily",
       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5",
       "publishedAt": "2026-09-09T22:45:56.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.884Z",
+      "fetchedAt": "2026-09-10T08:54:38.600Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "AI startup raises $10 million to build robotics operating system  Startup Daily",
@@ -723,8 +744,8 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "人工智能初创公司融资1000万美元开发机器人操作系统",
-      "summaryZh": "一家人工智能初创公司宣布融资1000万美元，用于开发面向机器人的操作系统。摘要未提供真实机器人、基准或开源证据。",
+      "titleZh": "AI初创公司融资1000万美元开发机器人操作系统",
+      "summaryZh": "一家人工智能初创公司宣布完成1000万美元融资，资金将用于开发机器人操作系统。摘要未提供真实机器人、基准或开源证据。",
       "stage": "待公司主体确认",
       "holdReasons": [
         "线索来源尚未完成二次核验",
@@ -736,7 +757,7 @@
       "title": "Unitree shares down 53% from IPO debut",
       "link": "https://www.therobotreport.com/unitree-shares-down-53-from-ipo-debut/",
       "publishedAt": "2026-09-09T19:34:57.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.507Z",
+      "fetchedAt": "2026-09-10T08:54:38.270Z",
       "source": "The Robot Report",
       "sourceWeight": 6,
       "excerpt": "The market is pulling back on Unitree's $66 billion valuation from its debut on the Shanghai Stock Exchange just last month.\nThe post Unitree shares down 53% from IPO debut appeared first on The Robot Report.",
@@ -750,11 +771,10 @@
       "sourceTier": "权威产业媒体",
       "kind": "公司商业",
       "score": 88,
-      "titleZh": "Unitree shares down 53% from IPO debut",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "Unitree股价较IPO首日下跌53%",
+      "summaryZh": "市场正回调Unitree上月在上海证券交易所上市时约660亿美元的估值，其股价已较IPO首日下跌53%。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "公司主体未确认"
       ]
     },
@@ -763,7 +783,7 @@
       "title": "Waltham robotics company raises $31M as import ban drives demand for U.S.-made robots - The Business Journals",
       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5",
       "publishedAt": "2026-09-09T16:19:00.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.884Z",
+      "fetchedAt": "2026-09-10T08:54:38.600Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Waltham robotics company raises $31M as import ban drives demand for U.S.-made robots  The Business Journals",
@@ -781,11 +801,10 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Waltham robotics company raises $31M as import ban drives demand for U.S.-made robots - The Business Journals",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "沃尔瑟姆机器人公司融资3100万美元，进口禁令推高美国本土机器人需求",
+      "summaryZh": "美国沃尔瑟姆一家机器人公司完成3100万美元融资，机器人进口禁令推动了对美国本土制造机器人的需求。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
@@ -795,7 +814,7 @@
       "title": "8月具身机器人融资：共计56笔，5 家融走140亿，近半还没走到A轮 - Sohu",
       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQVUpsRkh1SXBMNlNKeVRJeTMxTVNxWEFCRnVCMl9aRDE2bXQ0OGRrQ0lRdG91azgydzdoMzJ6M051d1pSQVFPZlhObFduV1FNVno2TG41b2gxZlVPSmFqejJ4TkJoT2VYMm05LW0wX3QxbGVmZHlUOGM5R21WV0lZQmU0bjdDWkpk?oc=5",
       "publishedAt": "2026-09-09T12:00:00.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.802Z",
+      "fetchedAt": "2026-09-10T08:54:38.517Z",
       "source": "Google News · 中国具身融资",
       "sourceWeight": 4,
       "excerpt": "8月具身机器人融资：共计56笔，5 家融走140亿，近半还没走到A轮  Sohu",
@@ -827,7 +846,7 @@
       "title": "Jaipur Robotics raises EUR 4.3m for AI technology in waste-to-energy plants - Renewables Now",
       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPaWFiT1JRU0JQNFlKRTNPR1F1MzdjNTEzRUZ5Umt2YWdOUUQwSUR5TzlwSkhscW5jcU1WaEZlTkdkQ2xodXBLcEdCX1o3UFVVeVpsRU1ydWx1QzFqc1RiN2NxQkczV1ZwRXVxRUJTUnBDd2t6MDRrakVXRFRxcEJSenBneF83cVJPS2sxajVpQzRNNFRzam44U1huUFIzN0hKaTBDcGVmWnNiZFgwNThxM2NTanVudw?oc=5",
       "publishedAt": "2026-09-09T11:42:04.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.884Z",
+      "fetchedAt": "2026-09-10T08:54:38.600Z",
       "source": "Google News · Robotics Capital",
       "sourceWeight": 4,
       "excerpt": "Jaipur Robotics raises EUR 4.3m for AI technology in waste-to-energy plants  Renewables Now",
@@ -845,45 +864,109 @@
       "sourceTier": "线索发现层",
       "kind": "投融资",
       "score": 88,
-      "titleZh": "Jaipur Robotics raises EUR 4.3m for AI technology in waste-to-energy plants - Renewables Now",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
+      "titleZh": "Jaipur Robotics 融资 430 万欧元，为垃圾焚烧发电厂开发 AI 技术",
+      "summaryZh": "Jaipur Robotics 宣布融资 430 万欧元，用于在垃圾焚烧发电厂中应用 AI 技术。摘要未提供真实机器人、基准或开源证据。",
+      "stage": "待公司主体确认",
       "holdReasons": [
-        "缺少完整中文事实简介",
         "线索来源尚未完成二次核验",
         "公司主体未确认"
       ]
     },
     {
-      "id": "2034e4e452943361",
-      "title": "Motion1 Raises $2 Million Pre-Seed To Bring Humanoid Robots To European Factories - Pulse 2.0",
-      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPQ2haTFJ5OVFzWDVKSWZsd21GTnBMVmJXUjkxaUpSSmtqT2pPUVUwTXpWUEpLSXp2T2EwOHBWQ0RYaWdZeEFBaW9KTGtlZFVta3AwNmx1Y0trQXUtMXZDZ2xJdnNFaEhOOXN3bGU1elpMMjFXX0JGY2NUQlpNcVNIVUYxNldWcElXb0ZqNS1GNzNEeU5XVmpaNXEzUlpTNmFCZGfSAacBQVVfeXFMTTVEblVvWDc4R2xDQ0E4Z09WV01OeXZoVFBvbWt4eHozSW9NT1BoVE1HVzFuUUxIYUVFbDhxQTdmVTJFNEpHNElNdWh4OFdhQ2duc0dyVS1oSXIyakhsMURSeWl0OVJsSTc5YWp4S1ZhU29qOFF0bVFQNzZNMW9XTlB5NzhmMEpxMENveC1RT3B3bGN5RjRCeXYyaHVpVXpoTDFXcnI3dm8?oc=5",
-      "publishedAt": "2026-09-09T11:28:50.000Z",
-      "fetchedAt": "2026-09-10T08:24:03.884Z",
-      "source": "Google News · Robotics Capital",
-      "sourceWeight": 4,
-      "excerpt": "Motion1 Raises $2 Million Pre-Seed To Bring Humanoid Robots To European Factories  Pulse 2.0",
+      "id": "2ff079d36520cf6b",
+      "title": "ICI-VLA: In-Context Imitation with Spatiotemporally Aligned Demonstrations for Vision-Language-Action Models",
+      "link": "https://arxiv.org/abs/2609.07581v1",
+      "publishedAt": "2026-09-07T14:55:35.000Z",
+      "fetchedAt": "2026-09-09T15:20:26.212Z",
+      "source": "arXiv · Robotics",
+      "sourceWeight": 8,
+      "excerpt": "Vision-Language-Action (VLA) policies are commonly adapted to new manipulation settings through additional gradient updates, which limits rapid deployment when task-specific data or compute is scarce. We present ICI-VLA, a training and retrieval framework that equips a text-action VLM with few-shot test-time adaptation through in-context demonstrations. Unlike mainstream VLA designs based on action-specific multimodal fusion, ICI-VLA retains the native text-generation interface. ICI-VLA updates its parameters only during offline training; at inference, the policy remains fixed and conditions action generation on retrieved micro-demonstrations. The framework decomposes long trajectories into short, semantically labeled examples and trains an RD-Encoder with positives mined by Dynamic Time Warping (DTW), aligning the retrieved context with the phase and geometry of the current subtask. We further introduce Target Action Masking, a context-corruption objective designed to reduce direct action copying and increase reliance on the current observation. ICI-VLA reaches average success rates of 97.7% on LIBERO and 60.4% on RoboTwin 2.0, exceeding the highest reported baseline average on RoboTwin 2.0 by 19.3 percentage points. It also achieves 83.2% across four physical tasks. These results indicate that a fixed VLA policy can benefit from conditioning on spatiotemporally aligned demonstrations at test time.",
       "tags": [
-        "投融资",
+        "研究",
         "robot",
-        "humanoid"
+        "vla",
+        "vision-language-action"
       ],
-      "authors": [],
-      "discoveryOrigin": {
-        "aggregatorLink": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPQ2haTFJ5OVFzWDVKSWZsd21GTnBMVmJXUjkxaUpSSmtqT2pPUVUwTXpWUEpLSXp2T2EwOHBWQ0RYaWdZeEFBaW9KTGtlZFVta3AwNmx1Y0trQXUtMXZDZ2xJdnNFaEhOOXN3bGU1elpMMjFXX0JGY2NUQlpNcVNIVUYxNldWcElXb0ZqNS1GNzNEeU5XVmpaNXEzUlpTNmFCZGfSAacBQVVfeXFMTTVEblVvWDc4R2xDQ0E4Z09WV01OeXZoVFBvbWt4eHozSW9NT1BoVE1HVzFuUUxIYUVFbDhxQTdmVTJFNEpHNElNdWh4OFdhQ2duc0dyVS1oSXIyakhsMURSeWl0OVJsSTc5YWp4S1ZhU29qOFF0bVFQNzZNMW9XTlB5NzhmMEpxMENveC1RT3B3bGN5RjRCeXYyaHVpVXpoTDFXcnI3dm8?oc=5",
-        "publisher": "Pulse 2.0",
-        "publisherUrl": "https://pulse2.com"
-      },
-      "sourceTier": "线索发现层",
-      "kind": "投融资",
-      "score": 88,
-      "titleZh": "Motion1 Raises $2 Million Pre-Seed To Bring Humanoid Robots To European Factories - Pulse 2.0",
+      "authors": [
+        "Songhua Yang"
+      ],
+      "sourceTier": "官方公司与实验室",
+      "kind": "研究与数据",
+      "score": 100,
+      "titleZh": "ICI-VLA: In-Context Imitation with Spatiotemporally Aligned Demonstrations for Vision-Language-Action Models",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7211991055",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Wuhan University",
+          "Kunming University of Science and Technology",
+          "Shenyang Medical College",
+          "Qinghai University",
+          "Kunming University",
+          "Sun Yat-sen University",
+          "Guizhou University",
+          "Shanghai Jiao Tong University",
+          "Capital Medical University",
+          "Purdue University West Lafayette",
+          "Liaoning University of Traditional Chinese Medicine",
+          "University of Manchester",
+          "Westlake University",
+          "Xuan Wu Hospital of the Capital Medical University",
+          "The Seventh Affiliated Hospital of Sun Yat-sen University",
+          "Children's Hospital of Zhejiang University",
+          "First Affiliated Hospital of Xi'an Jiaotong University",
+          "Affiliated Hospital of Liaoning University of Traditional Chinese Medicine",
+          "Zhengzhou People's Hospital",
+          "Second Affiliated Hospital of Zhejiang University",
+          "Zhejiang University",
+          "Air Force Medical University"
+        ],
+        "authors": [
+          {
+            "name": "Songhua Yang",
+            "totalCitations": 39,
+            "hIndex": 4,
+            "institutions": [
+              "Wuhan University"
+            ]
+          },
+          {
+            "name": "Ziyu Liu",
+            "totalCitations": 3749,
+            "hIndex": 25,
+            "institutions": [
+              "Kunming University of Science and Technology",
+              "Shenyang Medical College",
+              "Qinghai University",
+              "Kunming University",
+              "Sun Yat-sen University",
+              "Guizhou University",
+              "Shanghai Jiao Tong University",
+              "Capital Medical University",
+              "Purdue University West Lafayette",
+              "Liaoning University of Traditional Chinese Medicine",
+              "University of Manchester",
+              "Westlake University",
+              "Xuan Wu Hospital of the Capital Medical University",
+              "The Seventh Affiliated Hospital of Sun Yat-sen University",
+              "Children's Hospital of Zhejiang University",
+              "First Affiliated Hospital of Xi'an Jiaotong University",
+              "Affiliated Hospital of Liaoning University of Traditional Chinese Medicine",
+              "Zhengzhou People's Hospital",
+              "Second Affiliated Hospital of Zhejiang University",
+              "Zhejiang University",
+              "Air Force Medical University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      },
       "stage": "待中文事实简介",
       "holdReasons": [
-        "缺少完整中文事实简介",
-        "线索来源尚未完成二次核验",
-        "公司主体未确认"
+        "缺少完整中文事实简介"
       ]
     },
     {
@@ -891,7 +974,7 @@
       "title": "Deformable Object Manipulation under Partial Observability via Real-Time Full-Shape Estimation",
       "link": "https://arxiv.org/abs/2609.10308v1",
       "publishedAt": "2026-09-09T15:17:30.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Manipulating deformable objects (DOs) is challenging due to their high-dimensional state space, underactuated dynamics, and partial observability. In this paper, we propose cRVAE, a lightweight conditional recurrent variational autoencoder that estimates the full DO state from only partial corner-node observations during inference. The resulting model is used as the forward model in a receding-horizon optimal control framework for obstacle-aware collaborative DO manipulation. In simulation on rope and fabric, cRVAE estimates the full DO state from the available corner-node measurements alone, matching the accuracy of a parameter-identified XPBD model. At inference it uses no physical parameters as model inputs and performs no online parameter identification. It also runs approximately 350 times faster on the rope and over 1500 times faster on the fabric per forward pass, keeping horizon-based planning within the 100 ms control budget where XPBD exceeds it already at short horizons. Full-shape estimation from corner sensing at in-loop speed is what makes the model deployable on hardware, which we demonstrate on a Unitree Go2 robot.",
@@ -918,7 +1001,7 @@
       "title": "FolDeX: A Physical-World Benchmark for Long-Horizon Robotic Manipulation of Deformable Objects",
       "link": "https://arxiv.org/abs/2609.10243v1",
       "publishedAt": "2026-09-09T14:33:44.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Embodied AI, including vision-language-action and world-action models, must operate reliably in the physical world. Yet methods that perform well in simulation can degrade substantially on real robots, especially in long-horizon deformable-object manipulation, where policies must track changing states and execute reliable multi-stage bimanual interactions. Existing real-robot benchmarks mainly focus on short-horizon rigid-object tasks and offer limited coverage of long-horizon deformable manipulation. We introduce FolDeX, a physical-world benchmark built entirely from real-robot data, with garment folding as its primary task. Since real-robot data collection is costly, FolDeX studies how heterogeneous physical experience can be reused efficiently. The benchmark is organized around four research axes: leveraging human intervention and recovery data collected during deployment; transferring data across tasks, including across garment categories and from rigid to deformable-object manipulation; reusing data across scenes with changes in lighting, background, and layout; and transferring data across robotic embodiments. FolDeX provides 2,000+ hours of real-robot data spanning 20+ tasks and 10+ embodiments. We also establish a fair real-robot evaluation platform for externally submitted policies, with standardized tasks, held-out physical objects, controlled initializations, and a unified execution protocol. The platform is publicly accessible at https://ai.midea.com/#/fold-challenge. We hope FolDeX will serve as a unified testbed for heterogeneous real-robot data reuse and reliable long-horizon deformable manipulation.",
@@ -946,7 +1029,7 @@
       "title": "HaWMPO: Hallucination-Aware World Model-based Policy Optimization for Generalist Robot Policy",
       "link": "https://arxiv.org/abs/2609.09941v1",
       "publishedAt": "2026-09-09T09:33:25.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Generalist robot policies have demonstrated strong generalization across robotic manipulation tasks, yet their success rates remain limited in com- plex long-horizon scenarios. Recent methods improve Visual-Language-Action (VLA) policies through online reinforcement learning on real robots, but such training relies on costly physical interactions, suffers from low sample efficiency, and may introduce hardware and safety risks. World models offer a promising alternative by enabling policy optimization with imagined rollouts. However, long-horizon rollouts generated by world models often suffer from prediction hal- lucinations, producing biased state transitions that can mislead policy learning. To address this issue, we propose Hallucination-aware World Model-based Pol- icy Optimization (HaWMPO), a closed-loop reinforcement learning pipeline for VLA policy post-training with world models. Specifically, HaWMPO introduces an action-conditioned hallucination-aware model to estimate the reliability of gen- erated image sequences, and incorporates hallucination scores into group relative policy optimization through a Reward-Soft mechanism, suppressing unreliable ac- tion chunks during training. On the LIBERO benchmark, HaWMPO achieves the best average success rate, with gains of 15.0% over the base model and 2.8% over the strongest baseline; real-world experiments on a G1 robot further validate its effectiveness, raising the average success rate on two manipulation tasks from 67.5% to 80.0%.",
@@ -974,7 +1057,7 @@
       "title": "Visible-Reachable Workspace for Perception-Aware Humanoid Design",
       "link": "https://arxiv.org/abs/2609.08905v1",
       "publishedAt": "2026-09-08T15:40:05.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Workspace analysis measures where a robot can place its end effector. For visually guided manipulation, reachability alone is insufficient: a kinematically reachable target may not be visible in the specific pose required to reach it. The robot must then redirect its sensing or move its body to acquire a view, turning a perception limitation into additional motion. Existing humanoids largely inherit this limitation when copying human form factors. We introduce the visible-reachable workspace (VRW), a design-stage measure that conditions visibility on feasible reaching configurations and extends it to concurrent visibility of spatially separated work regions. We apply VRW by building a 31-DoF humanoid with independently actuated RGB-D cameras. On the same robot, camera articulation increases visible-reachable coverage from 38% to 97%. With actuated camera layouts, a second camera raises pairwise coverage from 0.45 to 0.95, while a third changes it only to 0.97. In a controlled two-target reach-and-grasp benchmark, our dual-actuated design reduces mean completion time by 17% and mechanical energy by 19% relative to the same robot with its cameras fixed. Hardware experiments demonstrate simultaneous observation and manipulation of front/back and left/right target pairs without torso reorientation. The results suggest that reachability becomes a more informative design quantity for perception-driven humanoid manipulation when it is evaluated together with the sensing configurations that make the reachable space observable. We will open-source all software and the humanoid hardware design. Our website is https://generalroboticslab.com/DukeHumanoidv2",
@@ -990,6 +1073,35 @@
       "sourceTier": "官方公司与实验室",
       "kind": "研究与数据",
       "score": 100,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7212031031",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Duke University",
+          "Xi'an Shiyou University"
+        ],
+        "authors": [
+          {
+            "name": "Boxi Xia",
+            "totalCitations": 223,
+            "hIndex": 6,
+            "institutions": [
+              "Duke University"
+            ]
+          },
+          {
+            "name": "Zijiang Yang",
+            "totalCitations": 7,
+            "hIndex": 1,
+            "institutions": [
+              "Xi'an Shiyou University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      },
       "titleZh": "Visible-Reachable Workspace for Perception-Aware Humanoid Design",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
@@ -1003,7 +1115,7 @@
       "title": "BIFTA: Brain-Inspired Few-Shot Tactile Adaptation for Unknown Sensors",
       "link": "https://arxiv.org/abs/2609.08673v1",
       "publishedAt": "2026-09-08T12:39:36.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Advances in tactile sensing have made contact-rich perception possible, accelerating progress in robotic manipulation, material understanding, and embodied interaction. However, because optical design, elastomer mechanics, and imaging geometry differ substantially across tactile sensors, models trained on known sensor types can suffer an abrupt performance collapse on unknown sensors. To address this problem, we propose the Brain-Inspired Few-Shot Tactile Adaptation (BIFTA) framework; it draws on the brain's rapid sensory adaptation mechanism to adapt a frozen encoder to an unknown tactile sensor from a small labeled support set. BIFTA preserves pretrained representations through dual-view statistical memory, constructs support-conditioned spectral graphs to repair sensor-dependent feature neighborhoods, and applies uncertainty-gated recurrent propagation to strengthen reliable cross-query evidence. Extensive benchmarks across three tactile datasets show that BIFTA substantially improves adaptation to unknown sensors: with only 10\\% labeled target data on SITR, it raises mean Sparsh accuracy from 6.86\\% for the frozen source classifier to 87.09\\%, exceeding the strongest implemented prior comparison by 47.22 percentage points, and these gains generalize across datasets, pretrained backbones, and tactile tasks. These results validate BIFTA for data-efficient adaptation to unknown tactile sensors and offer a promising route toward tactile models that transfer across heterogeneous hardware.",
@@ -1019,6 +1131,50 @@
       "sourceTier": "官方公司与实验室",
       "kind": "研究与数据",
       "score": 96,
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7212086671",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Beijing Institute of Technology",
+          "Saint Petersburg State University of Aerospace and Instrumentation",
+          "National Development and Research Institutes",
+          "Peking University",
+          "Beijing Electronic Science and Technology Institute",
+          "Chinese PLA General Hospital",
+          "National Institute of Nursing Research",
+          "Chinese Medical Center",
+          "Second Affiliated Hospital of Xi'an Jiaotong University",
+          "First Affiliated Hospital of Chinese PLA General Hospital",
+          "PLA Academy of Military Science",
+          "National Institutes of Applied Research",
+          "Shanghai Ocean University"
+        ],
+        "authors": [
+          {
+            "name": "Bo-Heng Liu",
+            "totalCitations": 560,
+            "hIndex": 14,
+            "institutions": [
+              "Beijing Institute of Technology",
+              "Saint Petersburg State University of Aerospace and Instrumentation",
+              "National Development and Research Institutes",
+              "Peking University",
+              "Beijing Electronic Science and Technology Institute",
+              "Chinese PLA General Hospital",
+              "National Institute of Nursing Research",
+              "Chinese Medical Center",
+              "Second Affiliated Hospital of Xi'an Jiaotong University",
+              "First Affiliated Hospital of Chinese PLA General Hospital",
+              "PLA Academy of Military Science",
+              "National Institutes of Applied Research",
+              "Shanghai Ocean University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      },
       "titleZh": "BIFTA: Brain-Inspired Few-Shot Tactile Adaptation for Unknown Sensors",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
       "stage": "待中文事实简介",
@@ -1048,6 +1204,22 @@
       "score": 92,
       "titleZh": "CASD: Chunk-Aligned Semantic Distillation for Multi-StageRobot Manipulation",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7211995039",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [],
+        "authors": [
+          {
+            "name": "Tinghe Ding",
+            "totalCitations": 0,
+            "hIndex": 0,
+            "institutions": []
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      },
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -1075,6 +1247,26 @@
       "score": 92,
       "titleZh": "PGMT: Perceptive General Motion Tracking for Humanoid Robots",
       "summaryZh": "暂未生成中文摘要，请阅读原文。",
+      "scholar": {
+        "provider": "OpenAlex",
+        "workId": "https://openalex.org/W7212061236",
+        "citedByCount": 0,
+        "isRetracted": false,
+        "institutions": [
+          "Zhejiang University"
+        ],
+        "authors": [
+          {
+            "name": "Yucheng Tao",
+            "totalCitations": 1,
+            "hIndex": 1,
+            "institutions": [
+              "Zhejiang University"
+            ]
+          }
+        ],
+        "checkedAt": "2026-09-10T08:54:37.701Z"
+      },
       "stage": "待中文事实简介",
       "holdReasons": [
         "缺少完整中文事实简介"
@@ -1085,7 +1277,7 @@
       "title": "Monkey See, Can Monkey Do? A Benchmark for Evaluating Robot Skill Learning by Observation",
       "link": "https://arxiv.org/abs/2609.08209v2",
       "publishedAt": "2026-09-08T03:48:44.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
+      "fetchedAt": "2026-09-10T08:54:39.816Z",
       "source": "arXiv · Robotics",
       "sourceWeight": 8,
       "excerpt": "Learning from Observation (LfO) is a fundamental robotic capability that replicates how humans and animals socially learn from each other. Beyond its biological parallels, this modality provides a practical solution for data scaling in sample-inefficient and data-starved domains like robotics. Recent work has demonstrated promising results in learning manipulation skills from human videos, yet progress in this area remains difficult to assess. Existing methods vary widely in assumptions, hardware choices, and environment setups making it difficult to draw meaningful comparisons and identify advances in the field. To address these challenges, we introduce RoboReel: a unified benchmark for evaluating models that learn policies from human videos. RoboReel consists of bundled real-world human demonstration videos, simulated robot trajectories, and evaluation environments on ten manipulation tasks. We develop four test suites to evaluate the models' performance on multiple axes, including the robustness to visual distractors and the ability to complete long-horizon tasks. Our benchmark covers learning-from-observation models from different categories, and studies the effectiveness of multiple representation choices in our benchmark evaluation that covers over seven state-of-the-art algorithms (including our VLA based variants) in the field of LfO. Finally, we present an analysis of the different types of algorithms showing that long-horizon tasks and tasks with low tolerances are still challenging for current models. Webpage: https://roboreel.github.io",
@@ -1137,72 +1329,16 @@
         "缺少完整中文事实简介",
         "聚合盘点或评论性质内容"
       ]
-    },
-    {
-      "id": "ae2ba162d2212366",
-      "title": "WorldAgen: Unified State-Action Prediction with Test-Time World Model Training",
-      "link": "https://arxiv.org/abs/2609.08162v1",
-      "publishedAt": "2026-09-08T02:46:13.000Z",
-      "fetchedAt": "2026-09-10T08:24:04.746Z",
-      "source": "arXiv · Robotics",
-      "sourceWeight": 8,
-      "excerpt": "How can vision-language-action (VLA) models adapt to new environments where world dynamics shift? While recent research has combined world modeling and action prediction to improve VLA performance, existing methods largely rely on pretraining on static datasets, without mechanisms for active adaptation at deployment time. As a result, these models often fail to generalize when deployed in unseen scenarios with novel object configurations or dynamics. We present WorldAgen, a unified framework that jointly learns world modeling and action prediction while enabling Test-Time Training (TTT) to adapt to new environments. WorldAgen employs a shared Transformer backbone with two heads: (1) a world model head that predicts future states from past state-action trajectories, and (2) an agent model head that predicts actions conditioned on task instructions. We design a Mixed Unidirectional Attention Mask to separate these two models. During test time, WorldAgen samples exploratory actions, collects ground-truth state transitions, and performs lightweight TTT updates to refine its world model. This adaptation improves the model's understanding of the environment and leads to more accurate action predictions. Experiments on the CALVIN and LIBERO benchmarks demonstrate that our baseline model achieves comparable, and in some cases superior, performance to current state-of-the-art approaches. Moreover, with TTT on a small number of samples, our method surpasses existing state-of-the-art models, highlighting the effectiveness of adapting world models at inference time.",
-      "tags": [
-        "研究",
-        "vla",
-        "vision-language-action",
-        "world model"
-      ],
-      "authors": [
-        "Chi Wan"
-      ],
-      "sourceTier": "官方公司与实验室",
-      "kind": "研究与数据",
-      "score": 96,
-      "scholar": {
-        "provider": "OpenAlex",
-        "workId": "https://openalex.org/W7128730359",
-        "citedByCount": 0,
-        "isRetracted": false,
-        "institutions": [],
-        "authors": [
-          {
-            "name": "Association for Artificial Intelligence 2026",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Manling Li",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          },
-          {
-            "name": "Yuan Si",
-            "totalCitations": 0,
-            "hIndex": 0,
-            "institutions": []
-          }
-        ],
-        "checkedAt": "2026-09-10T08:24:02.983Z"
-      },
-      "titleZh": "WorldAgen: Unified State-Action Prediction with Test-Time World Model Training",
-      "summaryZh": "暂未生成中文摘要，请阅读原文。",
-      "stage": "待中文事实简介",
-      "holdReasons": [
-        "缺少完整中文事实简介"
-      ]
     }
   ],
   "runtimeStatus": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 10,
-      "succeeded": 4,
-      "failed": 4,
-      "detail": "有效完成 4；无效模型输出 2；提供方失败 4；缓存命中 3；industry、research 通道已熔断。"
+      "attempted": 11,
+      "succeeded": 7,
+      "failed": 3,
+      "detail": "有效完成 7；无效模型输出 1；提供方失败 3；缓存命中 3；research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
@@ -1215,10 +1351,10 @@
     {
       "component": "ProgressExplainers",
       "status": "部分降级",
-      "attempted": 1,
-      "succeeded": 0,
-      "failed": 1,
-      "detail": "状态：unavailable；公开 0 张；保留 0 张；移除 0 张；校验拒绝 0 张。"
+      "attempted": 5,
+      "succeeded": 5,
+      "failed": 0,
+      "detail": "状态：updated；公开 2 张；保留 0 张；移除 0 张；校验拒绝 1 张；超时 0 次；原因：草稿未通过内容校验。"
     },
     {
       "component": "Watchlist",
@@ -1226,7 +1362,7 @@
       "attempted": 2,
       "succeeded": 0,
       "failed": 2,
-      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
+      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。"
     },
     {
       "component": "GitHub",
