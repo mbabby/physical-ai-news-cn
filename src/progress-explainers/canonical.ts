@@ -70,7 +70,9 @@ function researchSources(records: ResearchRecord[], cards: ResearchDecisionCard[
     const evidence = [{ evidenceId: evidenceId(record.article.link), url: record.article.link, source: record.article.source }];
     const facts = card.factsZh.value.map((text, index) => ({ factId: `${record.id}:fact:${index + 1}`, text, evidenceIds: evidence.map((item) => item.evidenceId) }));
     const publishedAt = Number.isFinite(record.article.publishedAt.getTime()) ? record.article.publishedAt.toISOString() : "unknown";
-    const base = { canonicalId: `research:${record.id}`, kind: "research" as const, entityNames: card.lab.value === "unknown" ? [] : card.lab.value, eventDate: publishedAt, publishedAt, materiallyChangedAt: record.changes.at(-1)?.date ?? publishedAt, facts, evidence, contexts: ["作者报告"] };
+    // Registry changes are observation receipts, including version detection.
+    // No source-backed material-update timestamp exists in the research contract.
+    const base = { canonicalId: `research:${record.id}`, kind: "research" as const, entityNames: card.lab.value === "unknown" ? [] : card.lab.value, eventDate: publishedAt, publishedAt, materiallyChangedAt: "unknown", facts, evidence, contexts: ["作者报告"] };
     return [{ ...base, revision: digest({ ...base, arxivVersion: record.arxivVersion ?? "unknown" }) }];
   });
 }

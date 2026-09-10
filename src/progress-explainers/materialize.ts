@@ -45,19 +45,16 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
   const previous = new Map((input.previous?.cards ?? []).map((card) => [card.canonicalId, card]));
   const retainable = [...current.values()].filter((source) => previous.get(source.canonicalId)?.sourceRevision === source.revision);
   const recentCandidates = [...current.values()].filter((source) => !previous.has(source.canonicalId) || previous.get(source.canonicalId)?.sourceRevision !== source.revision).filter((source) => inLookback(source, input.now));
-  const selected = [...retainable, ...recentCandidates].sort((left, right) => selectionTime(right) - selectionTime(left) || left.canonicalId.localeCompare(right.canonicalId)).slice(0, MAX_CARDS);
-  const cards: ProgressExplainerCard[] = [];
+  const selected = recentCandidates.sort((left, right) => selectionTime(right) - selectionTime(left) || left.canonicalId.localeCompare(right.canonicalId)).slice(0, MAX_CARDS);
+  // Keep current valid cards available until replacements actually pass review.
+  const retainedCards = retainable.map((source) => ({ ...previous.get(source.canonicalId)!, checkedAt, historical: !inLookback(source, input.now) }));
+  const reviewedCards: ProgressExplainerCard[] = [];
   let circuitOpen = false;
 
   for (const source of selected) {
-    const old = previous.get(source.canonicalId);
-    if (old?.sourceRevision === source.revision) {
-      cards.push({ ...old, checkedAt, historical: !inLookback(source, input.now) });
-      run.retained += 1;
-      continue;
-    }
-    if (!inLookback(source, input.now) || !input.model || circuitOpen) {
-      if (inLookback(source, input.now)) run.failed += 1;
+    if (circuitOpen) break;
+    if (!input.model) {
+      run.failed += 1;
       continue;
     }
     try {
@@ -75,7 +72,7 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
         continue;
       }
       const stable = { ...validated.draft, id: cardId(source.canonicalId), canonicalId: source.canonicalId, sourceRevision: source.revision, kind: source.kind, evidence: source.evidence, eventDate: source.eventDate, publishedAt: source.publishedAt, materiallyChangedAt: source.materiallyChangedAt, historical: false };
-      cards.push({ ...stable, revision: revisionFor(stable), checkedAt });
+      reviewedCards.push({ ...stable, revision: revisionFor(stable), checkedAt });
     } catch (error) {
       if (timeout(error)) run.timedOut += 1;
       else run.failed += 1;
@@ -83,6 +80,8 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
     }
   }
 
+  const cards = [...retainedCards, ...reviewedCards].sort((left, right) => selectionTime(current.get(right.canonicalId)!) - selectionTime(current.get(left.canonicalId)!) || left.canonicalId.localeCompare(right.canonicalId)).slice(0, MAX_CARDS);
+  run.retained = cards.filter((card) => previous.get(card.canonicalId)?.sourceRevision === card.sourceRevision).length;
   const publishedIds = new Set(cards.map((card) => card.canonicalId));
   run.removed = (input.previous?.cards ?? []).filter((card) => !publishedIds.has(card.canonicalId)).length;
   const created = cards.some((card) => previous.get(card.canonicalId)?.revision !== card.revision);

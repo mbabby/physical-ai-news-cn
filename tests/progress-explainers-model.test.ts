@@ -9,6 +9,7 @@ import { materializeResearchDecisionCard } from "../src/research-decision-card.j
 import type { ResearchRecord } from "../src/types.js";
 import { DRAFT_SYSTEM, REVIEW_SYSTEM } from "../src/progress-explainers/draft.js";
 import { approvedReview, draft, model, source } from "./helpers/progress-explainers.js";
+import type { ExplainerSource } from "../src/progress-explainers/contracts.js";
 
 test("orders and caps candidates before bounded draft and review calls", async () => {
   const sources = [4, 1, 3, 2].map((day) => source({ canonicalId: `event:${day}`, revision: `r${day}`, eventDate: `2026-09-0${day}`, materiallyChangedAt: `2026-09-0${day}T00:00:00Z` }));
@@ -66,6 +67,50 @@ test("adapts a real eligible research card with article-bound facts and excludes
   const input = { events: [], companies: [], researchRecords: [record], researchDecisionCards: [card], benchmarkResultLedger: { generatedAt: "2026-09-10T00:00:00Z", entries: [] } };
   const adapted = buildExplainerSources(input); assert.equal(adapted.length, 1); assert.deepEqual(adapted[0]!.facts.map(f => f.evidenceIds), [[adapted[0]!.evidence[0]!.evidenceId], [adapted[0]!.evidence[0]!.evidenceId]]);
   const withdrawn = research({ status: "已撤稿" }); assert.deepEqual(buildExplainerSources({ ...input, researchRecords: [withdrawn], researchDecisionCards: [materializeResearchDecisionCard(withdrawn, { now: new Date("2026-09-10T00:00:00Z") })] }), []);
+});
+
+test("research observation receipts never become material dates or change dependency revision and order", async () => {
+  const now = new Date("2026-09-10T00:00:00Z");
+  const adaptResearch = (record: ResearchRecord) => buildExplainerSources({ events: [], companies: [], researchRecords: [record], researchDecisionCards: [materializeResearchDecisionCard(record, { now })], benchmarkResultLedger: { generatedAt: now.toISOString(), entries: [] } })[0]!;
+  const baseline = adaptResearch(research({ changes: [] }));
+  assert.equal(baseline.materiallyChangedAt, "unknown");
+  const peer = source({ canonicalId: "event:newer-publication", materiallyChangedAt: "unknown", eventDate: "2026-09-09", publishedAt: "2026-09-09T00:00:00Z" });
+  for (const kind of ["新收录", "元数据更新", "版本更新"] as const) {
+    const observed = adaptResearch(research({ firstSeenAt: now.toISOString(), lastCheckedAt: now.toISOString(), factHash: "metadata-only", changes: [{ date: now.toISOString(), kind, detail: "本轮观测记录，不是来源发布日期。" }] }));
+    assert.equal(observed.materiallyChangedAt, "unknown");
+    assert.equal(observed.revision, baseline.revision);
+    const selected: string[] = [];
+    await buildProgressExplainers({ sources: [observed, peer], now, model: { async completeJson(_system, input) { selected.push((input as { source: ExplainerSource }).source.canonicalId); return {}; } } });
+    assert.deepEqual(selected, ["event:newer-publication", "research:paper-gripper"]);
+  }
+});
+
+test("real version, fact and evidence changes invalidate research dependencies without publishing observation dates", () => {
+  const now = new Date("2026-09-10T00:00:00Z");
+  const adaptResearch = (record: ResearchRecord) => buildExplainerSources({ events: [], companies: [], researchRecords: [record], researchDecisionCards: [materializeResearchDecisionCard(record, { now })], benchmarkResultLedger: { generatedAt: now.toISOString(), entries: [] } })[0]!;
+  const before = adaptResearch(research());
+  for (const update of [
+    { arxivVersion: 2 },
+    { article: { ...research().article, link: "https://arxiv.org/abs/2609.00001v2" } },
+    { article: { ...research().article, summaryZh: "研究团队报告了机械手抓取新任务的试验。试验在真实机器人上完成。" } },
+  ]) {
+    const after = adaptResearch(research({ ...update, changes: [{ date: now.toISOString(), kind: "版本更新", detail: "发现新版" }] }));
+    assert.notEqual(after.revision, before.revision);
+    assert.equal(after.materiallyChangedAt, "unknown");
+  }
+});
+
+test("real CompatibleSummarizer preserves timeout classification through its bounded retry", async () => {
+  const prior = globalThis.fetch;
+  globalThis.fetch = async () => { throw new DOMException("测试超时", "TimeoutError"); };
+  try {
+    const summarizer = new CompatibleSummarizer({ apiKey: "test", baseUrl: "https://provider.invalid", model: "test" });
+    const result = await buildProgressExplainers({ sources: [source()], now: new Date("2026-09-10T00:00:00Z"), model: summarizer });
+    assert.equal(result.report.timedOut, 1);
+    assert.equal(result.report.failed, 0);
+    assert.equal(result.report.requestsSucceeded, 0);
+    assert.equal(result.artifact.status, "unavailable");
+  } finally { globalThis.fetch = prior; }
 });
 
 test("runs a real research source through grounding and semantic review", async () => {

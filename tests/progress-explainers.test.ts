@@ -86,6 +86,49 @@ test("withdrawal wins over model outage", async () => {
   assert.deepEqual(result.artifact.cards, []); assert.equal(result.artifact.status, "unavailable"); assert.equal(result.report.removed, 1);
 });
 
+for (const failure of ["provider", "semantic"] as const) test(`newer ${failure} failures do not displace valid retained cards`, async () => {
+  const previous = previousArtifact();
+  const newer = [1, 2, 3].map((index) => source({ canonicalId: `event:newer-${index}`, revision: `newer-${index}`, materiallyChangedAt: `2026-09-09T0${index}:00:00Z` }));
+  const rejected = Array.from({ length: 3 }, () => [draft(), { ...approvedReview, approved: false }]).flat();
+  const result = await buildProgressExplainers({ sources: [source(), ...newer], previous, now: new Date("2026-09-10T00:00:00Z"), model: model(failure === "provider" ? [] : rejected) });
+  assert.deepEqual(result.artifact.cards.map((card) => card.canonicalId), ["event:gripper-trial"]);
+  assert.equal(result.artifact.cards[0]!.revision, previous.cards[0]!.revision);
+  assert.equal(result.artifact.lastContentUpdatedAt, previous.lastContentUpdatedAt);
+  assert.equal(result.report.retained, 1);
+  assert.equal(result.report.removed, 0);
+  assert.equal(result.report.failed, failure === "provider" ? 1 : 0);
+  assert.equal(result.report.semanticRejected, failure === "semantic" ? 3 : 0);
+});
+
+test("only reviewed successful new cards can displace retained cards, with final publication counts", async () => {
+  const previous = previousArtifact();
+  const newer = [1, 2, 3, 4].map((index) => source({ canonicalId: `event:newer-${index}`, revision: `newer-${index}`, materiallyChangedAt: `2026-09-09T0${index}:00:00Z` }));
+  const result = await buildProgressExplainers({ sources: [source(), ...newer], previous, now: new Date("2026-09-10T00:00:00Z"), model: model(Array.from({ length: 3 }, () => [draft(), approvedReview]).flat()) });
+  assert.deepEqual(result.artifact.cards.map((card) => card.canonicalId), ["event:newer-4", "event:newer-3", "event:newer-2"]);
+  assert.equal(result.report.retained, 0);
+  assert.equal(result.report.removed, 1);
+  assert.equal(result.report.requestsSucceeded, 6);
+});
+
+test("partial new success fills remaining places from valid retained cards", async () => {
+  const previous = previousArtifact();
+  const newer = [1, 2, 3].map((index) => source({ canonicalId: `event:newer-${index}`, revision: `newer-${index}`, materiallyChangedAt: `2026-09-09T0${index}:00:00Z` }));
+  const result = await buildProgressExplainers({ sources: [source(), ...newer], previous, now: new Date("2026-09-10T00:00:00Z"), model: model([draft(), approvedReview]) });
+  assert.deepEqual(result.artifact.cards.map((card) => card.canonicalId), ["event:newer-3", "event:gripper-trial"]);
+  assert.equal(result.report.retained, 1);
+  assert.equal(result.report.removed, 0);
+  assert.equal(result.report.failed, 1);
+});
+
+test("withdrawn sources stay removed when every newer candidate fails", async () => {
+  const newer = [1, 2, 3].map((index) => source({ canonicalId: `event:newer-${index}`, revision: `newer-${index}` }));
+  const result = await buildProgressExplainers({ sources: newer, previous: previousArtifact(), now: new Date("2026-09-10T00:00:00Z"), model: model([]) });
+  assert.deepEqual(result.artifact.cards, []);
+  assert.equal(result.report.retained, 0);
+  assert.equal(result.report.removed, 1);
+  assert.equal(result.report.failed, 1);
+});
+
 test("unchanged dependencies retain content and timestamps without a model call", async () => {
   const previous = previousArtifact(); const result = await buildProgressExplainers({ sources: [source()], previous, now: new Date("2026-09-10T00:00:00Z"), model: model([]) });
   assert.equal(result.artifact.status, "no-new-content"); assert.equal(result.artifact.lastContentUpdatedAt, previous.lastContentUpdatedAt);

@@ -51,7 +51,7 @@ export class CompatibleSummarizer {
 
   async completeJson(system: string, input: unknown): Promise<unknown> {
     if (!this.settings.apiKey || !this.settings.baseUrl || !this.settings.model) throw new Error("LLM is not configured");
-    let lastError = "unknown error";
+    let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
         const response = await fetchWithRetry(`${this.settings.baseUrl.replace(/\/$/, "")}/chat/completions`, {
@@ -63,11 +63,11 @@ export class CompatibleSummarizer {
         if (!content) throw new Error("invalid completion payload");
         return JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] ?? content);
       } catch (error) {
-        lastError = error instanceof Error ? error.message : String(error);
+        lastError = error;
         if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 800));
       }
     }
-    throw new Error(`structured completion unavailable after retry (${lastError})`);
+    throw new Error(`structured completion unavailable after retry (${lastError instanceof Error ? lastError.message : String(lastError)})`, { cause: lastError });
   }
 
   status(): RuntimeStatus {
