@@ -84,7 +84,12 @@ test("legacy receipts cannot hide falsey explainer JSON or an approved new brand
       .replace(/物理 AI 进展解读|Physical AI Explained/g, "物理 AI 公司竞争情报");
     await writeFile(readmePath, originalReadme);
     await rm(artifactPath, { force: true });
-    const manifestBytes = await readFile(join(target, "review/run-manifest.json"), "utf8");
+    // Model a legacy receipt explicitly; the live repository snapshot advances daily.
+    const manifestPath = join(target, "review/run-manifest.json");
+    const legacyManifest = await json<RunManifest>(manifestPath);
+    legacyManifest.services = legacyManifest.services.filter((service) => service.component !== "ProgressExplainers");
+    await writeJson(manifestPath, legacyManifest);
+    const manifestBytes = await readFile(manifestPath, "utf8");
     assert.ok(!JSON.parse(manifestBytes).services.some((service: { component: string }) => service.component === "ProgressExplainers"), "legacy regression requires a pre-explainer receipt");
     await validateRelease(target);
     for (const value of [null, false, 0, ""]) await t.test(`rejects parsed ${JSON.stringify(value)}`, async () => {

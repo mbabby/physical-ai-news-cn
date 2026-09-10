@@ -8,9 +8,10 @@
 
 ## 服务
 
-- LLM · **部分降级** · 请求 10，成功 3，失败 5。有效完成 3；无效模型输出 2；提供方失败 5；缓存命中 3；industry、research 通道已熔断。
+- LLM · **部分降级** · 请求 11，成功 5，失败 3。有效完成 5；无效模型输出 3；提供方失败 3；缓存命中 3；research 通道已熔断。
 - OpenAlex · **部分降级** · 请求 36，成功 34，失败 2。部分论文元数据未能刷新，已保留原始来源数据。
-- Watchlist · **部分降级** · 请求 2，成功 0，失败 2。生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 2，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。
+- ProgressExplainers · **部分降级** · 请求 1，成功 0，失败 1。状态：unavailable；公开 0 张；保留 0 张；移除 0 张；校验拒绝 0 张。
+- Watchlist · **部分降级** · 请求 2，成功 0，失败 2。生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.0 1，validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 2。
 - GitHub · **成功** · 请求 1，成功 1，失败 0。社区证据 Issue 快照已刷新并通过严格校验。
 - EvidenceRevalidation · **成功** · 请求 0，成功 0，失败 0。已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。
 
