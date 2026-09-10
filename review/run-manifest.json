@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
-  "runId": "2026-09-10-2026-09-10T02-40-34-824Z",
+  "runId": "2026-09-10-2026-09-10T03-16-24-903Z",
   "date": "2026-09-10",
-  "startedAt": "2026-09-10T02:40:34.824Z",
-  "finishedAt": "2026-09-10T02:46:29.080Z",
+  "startedAt": "2026-09-10T03:16:24.903Z",
+  "finishedAt": "2026-09-10T03:21:35.678Z",
   "status": "degraded",
   "quality": {
     "publicIndustryItems": 1,
     "publicResearchItems": 6,
     "candidates": 19,
-    "sourceFailures": 1
+    "sourceFailures": 0
   },
   "services": [
     {
       "component": "LLM",
       "status": "部分降级",
-      "attempted": 11,
-      "succeeded": 5,
-      "failed": 3,
-      "detail": "有效完成 5；无效模型输出 3；提供方失败 3；缓存命中 3；research 通道已熔断。"
+      "attempted": 10,
+      "succeeded": 3,
+      "failed": 5,
+      "detail": "有效完成 3；无效模型输出 2；提供方失败 5；缓存命中 3；industry、research 通道已熔断。"
     },
     {
       "component": "OpenAlex",
       "status": "部分降级",
       "attempted": 36,
-      "succeeded": 35,
-      "failed": 1,
+      "succeeded": 34,
+      "failed": 2,
       "detail": "部分论文元数据未能刷新，已保留原始来源数据。"
     },
     {
@@ -34,7 +34,7 @@
       "attempted": 2,
       "succeeded": 0,
       "failed": 2,
-      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：invalid-shape 1，validation:unsupported-sentence-claim@falsifiers.0 1，validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@routeAndDependencies 1，validation:unsupported-sentence-claim@whyNow 1。"
+      "detail": "生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 2，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。"
     },
     {
       "component": "GitHub",

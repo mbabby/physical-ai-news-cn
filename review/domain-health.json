@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T02:46:29.080Z",
+  "generatedAt": "2026-09-10T03:21:35.678Z",
   "domains": {
     "industry": {
       "expected": 1,
@@ -62,27 +62,27 @@
     },
     "llm": {
       "expected": 1,
-      "observed": 5,
-      "evidenceReady": 5,
-      "failureCount": 3,
+      "observed": 3,
+      "evidenceReady": 3,
+      "failureCount": 5,
       "coverageRate": 1,
       "evidenceReadyRate": 1,
       "status": "degraded",
       "gaps": [
-        "3 个采集或服务失败",
-        "有效完成 5；无效模型输出 3；提供方失败 3；缓存命中 3；research 通道已熔断。"
+        "5 个采集或服务失败",
+        "有效完成 3；无效模型输出 2；提供方失败 5；缓存命中 3；industry、research 通道已熔断。"
       ]
     },
     "openalex": {
       "expected": 1,
-      "observed": 35,
-      "evidenceReady": 35,
-      "failureCount": 1,
+      "observed": 34,
+      "evidenceReady": 34,
+      "failureCount": 2,
       "coverageRate": 1,
       "evidenceReadyRate": 1,
       "status": "degraded",
       "gaps": [
-        "1 个采集或服务失败",
+        "2 个采集或服务失败",
         "部分论文元数据未能刷新，已保留原始来源数据。"
       ]
     },
@@ -1170,52 +1170,6 @@
     {
       "dimension": "company",
       "key": "江苏89年小伙放弃2000万收入，创业机器人操作系统",
-      "domains": {
-        "industry": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        },
-        "funding": {
-          "expected": 0,
-          "observed": 1,
-          "evidenceReady": 0,
-          "failureCount": 0,
-          "evidenceReadyRate": 0,
-          "status": "degraded",
-          "gaps": [
-            "1 个观测尚未达到证据门槛",
-            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-            "现有材料全部来自线索发现层，不能作为公开证据"
-          ]
-        }
-      },
-      "total": {
-        "expected": 0,
-        "observed": 2,
-        "evidenceReady": 0,
-        "failureCount": 0,
-        "evidenceReadyRate": 0,
-        "status": "degraded",
-        "gaps": [
-          "1 个观测尚未达到证据门槛",
-          "2 个观测尚未达到证据门槛",
-          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
-          "现有材料全部来自线索发现层，不能作为公开证据"
-        ]
-      }
-    },
-    {
-      "dimension": "company",
-      "key": "进口禁令推升美国本土机器人需求，Waltham 一机器人公司",
       "domains": {
         "industry": {
           "expected": 0,
@@ -2500,6 +2454,52 @@
     },
     {
       "dimension": "company",
+      "key": "沃尔瑟姆机器人公司",
+      "domains": {
+        "industry": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        },
+        "funding": {
+          "expected": 0,
+          "observed": 1,
+          "evidenceReady": 0,
+          "failureCount": 0,
+          "evidenceReadyRate": 0,
+          "status": "degraded",
+          "gaps": [
+            "1 个观测尚未达到证据门槛",
+            "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+            "现有材料全部来自线索发现层，不能作为公开证据"
+          ]
+        }
+      },
+      "total": {
+        "expected": 0,
+        "observed": 2,
+        "evidenceReady": 0,
+        "failureCount": 0,
+        "evidenceReadyRate": 0,
+        "status": "degraded",
+        "gaps": [
+          "1 个观测尚未达到证据门槛",
+          "2 个观测尚未达到证据门槛",
+          "尚缺一条 A 级一手证据，或两个独立 B 级来源",
+          "现有材料全部来自线索发现层，不能作为公开证据"
+        ]
+      }
+    },
+    {
+      "dimension": "company",
       "key": "卧安机器人",
       "domains": {
         "industry": {
@@ -3764,7 +3764,7 @@
     },
     {
       "dimension": "company",
-      "key": "AI初创公司",
+      "key": "AI startup",
       "domains": {
         "industry": {
           "expected": 0,

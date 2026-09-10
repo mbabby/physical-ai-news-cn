@@ -149,25 +149,25 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Motion1%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Motion1%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## AI初创公司 · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[Startup Daily](https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 人工智能初创公司 · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[Startup Daily](https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 沃尔瑟姆机器人公司 · 候选 · 32/100
 
 - 路线：部署与商业化
 - 证据：[The Business Journals](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%B2%83%E5%B0%94%E7%91%9F%E5%A7%86%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%B2%83%E5%B0%94%E7%91%9F%E5%A7%86%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## AI startup · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[startupdaily.net](https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%20startup%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%20startup%22%20official%20investors%20funding)
+- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
+
+## AI初创公司 · 候选 · 32/100
+
+- 路线：部署与商业化
+- 证据：[Startup Daily](https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5)
+- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%E5%88%9D%E5%88%9B%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 机器人进入“云测试”时代：Antioch · 候选 · 32/100
@@ -385,13 +385,6 @@
 - 路线：部署与商业化
 - 证据：[Google News · 中国具身融资](https://news.google.com/rss/articles/CBMieEFVX3lxTE4xQ2tUN2dqX2MxdGdHS0NmZzJmOElPUUdsS1ppUU9UQS1VUWNtYzFUYlNKejA0WVZ2TERFaDZfTE40TU5HM1Q5SzBCVzBEUUN0Z1lOSzg5alhEVUFBbllNOWR0UVViQTRhcjViZTliVGg0X1Z2UnJ2Ng?oc=5)
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E6%81%BA%E6%9C%9B%E6%95%B0%E6%8D%AE%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
-## 进口禁令推升美国本土机器人需求，Waltham 一机器人公司 · 候选 · 22/100
-
-- 路线：部署与商业化
-- 证据：[The Business Journals](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22%E8%BF%9B%E5%8F%A3%E7%A6%81%E4%BB%A4%E6%8E%A8%E5%8D%87%E7%BE%8E%E5%9B%BD%E6%9C%AC%E5%9C%9F%E6%9C%BA%E5%99%A8%E4%BA%BA%E9%9C%80%E6%B1%82%EF%BC%8CWaltham%20%E4%B8%80%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22%E8%BF%9B%E5%8F%A3%E7%A6%81%E4%BB%A4%E6%8E%A8%E5%8D%87%E7%BE%8E%E5%9B%BD%E6%9C%AC%E5%9C%9F%E6%9C%BA%E5%99%A8%E4%BA%BA%E9%9C%80%E6%B1%82%EF%BC%8CWaltham%20%E4%B8%80%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%AC%E5%8F%B8%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
 ## 星灿智能机器人 · 候选 · 22/100
