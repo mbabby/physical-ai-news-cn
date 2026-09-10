@@ -433,7 +433,7 @@ export interface CandidateArticle extends Article {
 }
 
 export interface RuntimeStatus {
-  component: "LLM" | "OpenAlex" | "Watchlist" | "GitHub" | "EvidenceRevalidation";
+  component: "LLM" | "OpenAlex" | "Watchlist" | "GitHub" | "EvidenceRevalidation" | "ProgressExplainers";
   status: "成功" | "部分降级" | "未配置";
   attempted: number;
   succeeded: number;

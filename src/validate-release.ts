@@ -23,6 +23,9 @@ import type { WatchlistPublicView } from "./watchlist/public-view.js";
 import type { DashboardData } from "./site-data.js";
 import type { ResearchDecisionCard } from "./research-decision-card.js";
 import { rankResearchRecords } from "./research-registry.js";
+import { rankResearchDecisionCards } from "./research-decision-card.js";
+import { buildExplainerSources } from "./progress-explainers/canonical.js";
+import { validateProgressExplainersPublication } from "./progress-explainers/publication.js";
 import type { CompanyClaimLedger } from "./company-claim-ledger.js";
 import { validateCoreCoverageArtifact, validateCoreCoverageRelease, type CoreCoverageArtifact, type CoreCoveragePublicHistory } from "./core-coverage/materialize.js";
 import { replaceCoreCoverageReadme, validateCoreCoverageSurfaces } from "./core-coverage/render.js";
@@ -474,6 +477,12 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     ...record,
     article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) },
   }));
+  const progressExplainers = await readJsonStrict(join(root, "site/data/progress-explainers.json"), { optional: true, label: "进展解释器" });
+  if (progressExplainers || manifest.services.some((service) => service.component === "ProgressExplainers") || readme.includes("<!-- PROGRESS_EXPLAINERS:") || readme.includes("Physical AI 进展观察")) {
+    if (!progressExplainers) throw new Error("进展解释器公开工件缺失");
+    const sources = buildExplainerSources({ events: events.events, companies, researchRecords: hydratedResearch, researchDecisionCards: rankResearchDecisionCards(hydratedResearch, { now: new Date(manifest.startedAt) }), benchmarkResultLedger });
+    validateProgressExplainersPublication({ artifact: progressExplainers, readme, sources, expectedGeneratedAt: manifest.startedAt });
+  }
   const publicResearch = rankResearchRecords(hydratedResearch.filter((record) => isPublishableResearch(record.article) && eligibleResearchIds.has(record.id))).slice(0, 6);
   validatePublication({ archive, events, research: publicResearch, researchDecisionCards: researchDecisionArtifact.cards, readme, expectedDate: manifest.date });
   validatePublicationArtifacts(archive, manifest, history);

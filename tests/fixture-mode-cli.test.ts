@@ -94,6 +94,11 @@ test("fixture CLI is offline, fixed-clock, transactional, byte-stable, and leave
     await fixtureCopy(repositoryBefore);
     const firstRun = await runFixtureCli(firstRoot);
     const first = await bytes(firstRoot);
+    const explainers = JSON.parse(first["site/data/progress-explainers.json"]!);
+    assert.equal(explainers.schemaVersion, 1);
+    assert.deepEqual(explainers.cards, []);
+    assert.match(first["README.md"]!, /<!-- PROGRESS_EXPLAINERS:START -->/);
+    assert.ok(JSON.parse(first["review/run-manifest.json"]!).services.some((item: { component: string }) => item.component === "ProgressExplainers"));
     const secondRun = await runFixtureCli(secondRoot);
     const second = await bytes(secondRoot);
     const changedPaths = [...new Set([...Object.keys(first), ...Object.keys(second)])]

@@ -26,6 +26,7 @@ import type { CompanyThesisArtifact, WatchlistSnapshot } from "../src/watchlist/
 import type { WatchlistFeedManifest } from "../src/watchlist/feeds.js";
 import type { WatchlistPreviewArtifact } from "../src/watchlist/preview.js";
 import { resetPublicationFixture } from "./publication-fixture.js";
+import { previousArtifact as previousExplainerArtifact } from "./helpers/progress-explainers.js";
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_NOW = new Date("2026-08-16T08:00:00.000Z");
@@ -645,11 +646,28 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
           detail: "生成 0 张新判断卡；保留 1 张上一有效版本；排除 0 家。 失败原因：provider-network 1。",
         });
         return manifest;
-    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 0, degradedComponents: ["Watchlist"] }) });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 0, degradedComponents: ["ProgressExplainers", "Watchlist"] }) });
     await fault("corrupt-prior-json", async (root) => {
       await writeFile(join(root, "watchlist", "history", "2026-W32-v1.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
     }, { status: "failed", code: "corrupt-watchlist-history" });
+    await fault("corrupt-progress-explainers", async (root) => {
+      await writeFile(join(root, "site/data/progress-explainers.json"), "{not-json\n");
+      return async () => runFixedGeneration(root);
+    }, { status: "failed", code: "corrupt-progress-explainers" });
+    await fault("explainer-withdrawal-swap-failure", async (root) => {
+      // This prior source no longer exists in the current canonical fixture.
+      const path = join(root, "site/data/progress-explainers.json");
+      const old = JSON.stringify(previousExplainerArtifact());
+      await writeFile(path, old);
+      return async () => {
+        try {
+          return await runFixedGeneration(root, { transaction: new FileTransaction("explainer-withdrawal", { failAfterPath: path }) });
+        } finally {
+          assert.equal(await readFile(path, "utf8"), old, "failed removal must not claim the old JSON was exchanged");
+        }
+      };
+    }, { status: "failed", code: "explainer-withdrawal-swap-failure" });
     await fault("history-week-identity-mismatch", async (root) => {
       const path = join(root, "watchlist", "history", "2026-W32-v1.json");
       const snapshot = JSON.parse(await readFile(path, "utf8")) as WatchlistSnapshot;
@@ -697,7 +715,7 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
         fetchedArticles: 0,
       });
       return manifest;
-    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 1, degradedComponents: [] }) });
+    }, { status: "degraded", health: (baselineHealth) => ({ ...baselineHealth, sourceFailureCount: 1, degradedComponents: ["ProgressExplainers"] }) });
     await fault("file-transaction-swap-failure", async (root) => async () => runFixedGeneration(root, {
       transaction: new FileTransaction("stage4-full-group-failure", { failAfterSwaps: 5 }),
     }), { status: "failed", code: "transaction-swap-failure" });
