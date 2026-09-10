@@ -66,7 +66,9 @@ test("new homepage requires matching explainer artifact and run clock", async ()
     await writeFile(artifactPath, JSON.stringify({ ...artifact, generatedAt: "2026-01-01T00:00:00.000Z" }));
     await assert.rejects(validateRelease(target), /explainer|解释器/);
     await writeFile(artifactPath, JSON.stringify(artifact));
-    await writeFile(join(target, "README.md"), (await readFile(join(target, "README.md"), "utf8")).replace("## 进展解释器", "## 错误投影"));
+    const corrupted = originalReadme.replace("<!-- PROGRESS_EXPLAINERS:START -->", "<!-- PROGRESS_EXPLAINERS:START -->\n错误投影内容\n");
+    assert.notEqual(corrupted, originalReadme, "projection mutation must actually change the generated block");
+    await writeFile(readmePath, corrupted);
     await assert.rejects(validateRelease(target), /projection/);
   } finally { await rm(target, { recursive: true, force: true }); }
 });

@@ -12,7 +12,7 @@ const shanghaiDate = (value = new Date()) => {
   return `${parts.year}-${parts.month}-${parts.day}`;
 };
 
-test("homepage keeps its decision hierarchy while removing metric and route scaffolding", async () => {
+test("homepage preserves archived research mounts without restoring metric and route scaffolding", async () => {
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry",
@@ -241,6 +241,8 @@ const mount = (): Mount => ({
 async function loadAppCompanyRenderer(now?: Date) {
   const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js"), readSite("index.html")]);
   const mounts = Object.fromEntries([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => [match[1], mount()])) as Record<string, Mount>;
+  // These legacy renderer cases exercise the library after the reader opens it.
+  Object.assign(mounts["library-archive"], { open: true });
   const Clock = now ? class extends Date {
     constructor(value?: string | number) { super(value === undefined ? now.getTime() : value); }
     static now() { return now.getTime(); }
@@ -312,7 +314,7 @@ test("homepage fetch failure never presents the fallback clock as a generation t
   vm.runInNewContext(source.replace(/^import "\.\/decision-products-validator\.js";\s*/, ""), context);
   await new Promise((resolve) => setImmediate(resolve));
 
-  assert.equal(mounts.updated.textContent, "生成时间待确认");
+  assert.equal(mounts.updated.textContent, "", "closed archive is not initialized on dashboard failure");
   assert.doesNotMatch(mounts.updated.textContent, /生成于/);
   assert.match(mounts["publication-status"].innerHTML, /日报状态待确认/);
 });

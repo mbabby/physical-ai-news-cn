@@ -107,3 +107,16 @@ test("renders escaped complete markdown and safely replaces one marked block", (
   assert.match(replaceProgressExplainersReadme(readme, artifact), /^before[\s\S]*after$/);
   assert.throws(() => replaceProgressExplainersReadme(`${readme}\n${readme}`, artifact), /marker/i);
 });
+
+test("Markdown reading block distinguishes states, dates and interpretation from facts", () => {
+  for (const [status, label] of [["updated", "有新解读"], ["no-new-content", "本轮无新内容"], ["constrained", "本轮受限"], ["unavailable", "暂不可用"]] as const) {
+    const text = renderProgressExplainersMarkdown({ ...previousArtifact(), status });
+    assert.match(text, new RegExp(label));
+    assert.match(text, /内容更新/);
+    assert.match(text, /\*\*解读：\*\*/);
+    assert.match(text, /\*\*事实：\*\*/);
+  }
+  const empty = renderProgressExplainersMarkdown({ ...previousArtifact(), status: "unavailable", cards: [], lastContentUpdatedAt: null });
+  assert.match(empty, /尚未生成/);
+  assert.match(empty, /不代表.*没有进展/);
+});

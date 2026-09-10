@@ -56,7 +56,9 @@ test("English overview and every README share target are present", async () => {
     access(join(root, ".github", "workflows", "weekly-release.yml")),
   ]);
   const english = await readFile(join(root, "README.en.md"), "utf8");
-  assert.match(english, /source-traceable Physical AI company research/i);
+  assert.match(english, /Physical AI Explained/);
+  assert.match(english, /two traceable facts/);
+  assert.match(english, /interpretation and limitations/);
   assert.match(english, /discovery leads/i);
   assert.match(english, /Weekly Physical AI Top Signals/);
   assert.match(english, /releases\/latest/);
