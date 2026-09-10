@@ -40,9 +40,12 @@ function timeout(error: unknown): boolean {
 export async function buildProgressExplainers(input: { sources: ExplainerSource[]; now: Date; previous?: ProgressExplainersArtifact; model?: ExplainerModel; upstreamConstrained?: boolean }): Promise<{ artifact: ProgressExplainersArtifact; report: ExplainerRunReport }> {
   const run = report();
   const checkedAt = input.now.toISOString();
+  if (input.previous) validateProgressExplainersArtifact(input.previous);
   const current = new Map(input.sources.map((source) => [source.canonicalId, source]));
   const previous = new Map((input.previous?.cards ?? []).map((card) => [card.canonicalId, card]));
-  const selected = [...current.values()].sort((left, right) => selectionTime(right) - selectionTime(left) || left.canonicalId.localeCompare(right.canonicalId)).slice(0, MAX_CARDS);
+  const retainable = [...current.values()].filter((source) => previous.get(source.canonicalId)?.sourceRevision === source.revision);
+  const recentCandidates = [...current.values()].filter((source) => !previous.has(source.canonicalId) || previous.get(source.canonicalId)?.sourceRevision !== source.revision).filter((source) => inLookback(source, input.now));
+  const selected = [...retainable, ...recentCandidates].sort((left, right) => selectionTime(right) - selectionTime(left) || left.canonicalId.localeCompare(right.canonicalId)).slice(0, MAX_CARDS);
   const cards: ProgressExplainerCard[] = [];
   let circuitOpen = false;
 

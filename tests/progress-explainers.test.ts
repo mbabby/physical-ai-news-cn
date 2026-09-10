@@ -48,6 +48,17 @@ test("caps retained and new cards together at three and uses collision-resistant
   assert.equal(result.artifact.cards.length, 3); assert.equal(new Set(result.artifact.cards.map(card => card.id)).size, 3);
 });
 
+test("out-of-window changed sources cannot suppress recent candidates", async () => {
+  const stale = [1, 2, 3].map(index => source({ canonicalId: `event:stale-${index}`, revision: `stale-${index}`, eventDate: "2026-01-01", materiallyChangedAt: `2026-09-0${index}T00:00:00Z` }));
+  const result = await buildProgressExplainers({ sources: [...stale, source()], now: new Date("2026-09-10T00:00:00Z"), model: model([draft(), approvedReview]) });
+  assert.deepEqual(result.artifact.cards.map(card => card.canonicalId), ["event:gripper-trial"]);
+});
+
+test("rejects malformed previous cards before retention", async () => {
+  const previous = previousArtifact(); (previous.cards[0] as unknown as Record<string, unknown>).meaningZh = 42;
+  await assert.rejects(() => buildProgressExplainers({ sources: [source()], previous, now: new Date("2026-09-10T00:00:00Z"), model: model([]) }), /schema/i);
+});
+
 test("withdrawal wins over model outage", async () => {
   const result = await buildProgressExplainers({ sources: [], previous: previousArtifact(), now: new Date("2026-09-10T00:00:00Z"), model: model([]) });
   assert.deepEqual(result.artifact.cards, []); assert.equal(result.artifact.status, "unavailable"); assert.equal(result.report.removed, 1);

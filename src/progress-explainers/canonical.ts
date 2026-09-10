@@ -66,8 +66,8 @@ function researchSources(records: ResearchRecord[], cards: ResearchDecisionCard[
   return currentResearch(records).flatMap((record): ExplainerSource[] => {
     const card = byPaper.get(record.id);
     if (!card || record.status === "已撤稿" || record.article.scholar?.isRetracted || card.gates.length || card.factsZh.value === "unknown") return [];
-    const evidence = [...new Set(card.factsZh.evidenceUrls)].map((url) => ({ evidenceId: evidenceId(url), url, source: record.article.source }));
-    if (!evidence.length) return [];
+    if (!record.article.link || !card.factsZh.evidenceUrls.includes(record.article.link)) return [];
+    const evidence = [{ evidenceId: evidenceId(record.article.link), url: record.article.link, source: record.article.source }];
     const facts = card.factsZh.value.map((text, index) => ({ factId: `${record.id}:fact:${index + 1}`, text, evidenceIds: evidence.map((item) => item.evidenceId) }));
     const publishedAt = Number.isFinite(record.article.publishedAt.getTime()) ? record.article.publishedAt.toISOString() : "unknown";
     const base = { canonicalId: `research:${record.id}`, kind: "research" as const, entityNames: card.lab.value === "unknown" ? [] : card.lab.value, eventDate: publishedAt, publishedAt, materiallyChangedAt: record.changes.at(-1)?.date ?? publishedAt, facts, evidence, contexts: ["作者报告"] };

@@ -10,10 +10,11 @@ const exact = (value: unknown, keys: readonly string[]): boolean => {
   const expected = [...keys].sort();
   return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
 };
-const operationalDate = (value: unknown): boolean => typeof value === "string" && Number.isFinite(Date.parse(value));
-const sourceDate = (value: unknown): boolean => value === "unknown" || operationalDate(value);
+const operationalDate = (value: unknown): boolean => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) && Number.isFinite(Date.parse(value));
+const sourceDate = (value: unknown): boolean => value === "unknown" || operationalDate(value) || (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`)));
 const chinese = (value: unknown): value is string => typeof value === "string" && /[\u3400-\u9fff]/u.test(value) && !/(TODO|TBD|placeholder|lorem ipsum)/i.test(value);
 const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every((item) => typeof item === "string" && item.trim() === item && item.length > 0);
+const nonempty = (value: unknown): value is string => typeof value === "string" && value.trim() === value && value.length > 0;
 
 function exactDraft(draft: ExplainerDraft): boolean {
   const keys = ["titleZh", "factsZh", "changeZh", "meaningZh", "limitationsZh", "contexts", "fieldRefs", ...(draft.backgroundZh !== undefined ? ["backgroundZh"] : []), ...(draft.comparison !== undefined ? ["comparison"] : [])];
@@ -22,14 +23,31 @@ function exactDraft(draft: ExplainerDraft): boolean {
   return true;
 }
 
+function validNarrative(draft: ExplainerDraft): boolean {
+  if (!chinese(draft.titleZh) || !chinese(draft.changeZh) || !chinese(draft.meaningZh)) return false;
+  if (/^(这|它)?(很)?重要[。！]?$/u.test(draft.meaningZh)) return false;
+  if (!Array.isArray(draft.factsZh) || draft.factsZh.length !== 2 || !draft.factsZh.every(chinese)) return false;
+  if (!Array.isArray(draft.limitationsZh) || !draft.limitationsZh.length || !draft.limitationsZh.every(chinese)) return false;
+  if (!Array.isArray(draft.contexts) || !draft.contexts.every(chinese)) return false;
+  if (draft.backgroundZh !== undefined && !chinese(draft.backgroundZh)) return false;
+  if (draft.comparison && ![draft.comparison.beforeZh, draft.comparison.afterZh, draft.comparison.task, draft.comparison.conditions].every(nonempty)) return false;
+  return true;
+}
+
+function validFieldRefs(draft: ExplainerDraft, allowedFactIds?: Set<string>): boolean {
+  if (!draft.fieldRefs || typeof draft.fieldRefs !== "object" || Array.isArray(draft.fieldRefs)) return false;
+  const fields = narrativeKeys(draft);
+  if (!exact(draft.fieldRefs, fields)) return false;
+  return fields.every((field) => strings(draft.fieldRefs[field]) && draft.fieldRefs[field]!.every((id) => ID.test(id) && (!allowedFactIds || allowedFactIds.has(id))));
+}
+
 export function validateDraft(value: unknown, source: ExplainerSource): { ok: true; draft: ExplainerDraft } | { ok: false; kind: "structure" | "evidence" } {
   if (!value || typeof value !== "object" || Array.isArray(value)) return { ok: false, kind: "structure" };
   const draft = value as ExplainerDraft;
-  if (!exactDraft(draft) || !chinese(draft.titleZh) || !Array.isArray(draft.factsZh) || draft.factsZh.length !== 2 || !draft.factsZh.every(chinese) || !chinese(draft.changeZh) || !chinese(draft.meaningZh) || /^(这|它)?(很)?重要[。！]?$/u.test(draft.meaningZh) || !Array.isArray(draft.limitationsZh) || !draft.limitationsZh.length || !draft.limitationsZh.every(chinese) || !Array.isArray(draft.contexts) || !draft.contexts.every(chinese) || (draft.backgroundZh !== undefined && !chinese(draft.backgroundZh)) || !draft.fieldRefs || typeof draft.fieldRefs !== "object" || Array.isArray(draft.fieldRefs)) return { ok: false, kind: "structure" };
-  const fields = narrativeKeys(draft);
-  if (!exact(draft.fieldRefs, fields)) return { ok: false, kind: "structure" };
   const factIds = new Set(source.facts.map((fact) => fact.factId));
-  if (fields.some((field) => !strings(draft.fieldRefs[field]) || draft.fieldRefs[field]!.some((id) => !factIds.has(id)))) return { ok: false, kind: "evidence" };
+  if (!exactDraft(draft) || !validNarrative(draft)) return { ok: false, kind: "structure" };
+  if (!validFieldRefs(draft)) return { ok: false, kind: "structure" };
+  if (!validFieldRefs(draft, factIds)) return { ok: false, kind: "evidence" };
   const grounding = source.facts.map((fact) => fact.text).join(" ");
   const narrative = [draft.titleZh, ...draft.factsZh, draft.changeZh, draft.meaningZh, ...draft.limitationsZh, draft.backgroundZh ?? "", ...draft.contexts].join(" ");
   for (const number of narrative.match(/\d+(?:\.\d+)?%?/g) ?? []) if (!grounding.includes(number)) return { ok: false, kind: "evidence" };
@@ -55,7 +73,9 @@ export function validateProgressExplainersArtifact(value: unknown): asserts valu
   for (const card of artifact.cards) {
     const draftKeys = ["titleZh", "factsZh", "changeZh", "meaningZh", "limitationsZh", "contexts", "fieldRefs", ...(card.backgroundZh !== undefined ? ["backgroundZh"] : []), ...(card.comparison !== undefined ? ["comparison"] : [])];
     const keys = [...draftKeys, "id", "revision", "canonicalId", "sourceRevision", "kind", "evidence", "eventDate", "publishedAt", "materiallyChangedAt", "checkedAt", "historical"];
-    if (!exact(card, keys) || (card.comparison !== undefined && !exact(card.comparison, ["beforeZh", "afterZh", "task", "conditions"])) || !ID.test(card.id) || !card.canonicalId.trim() || /[\s\u0000-\u001f]/u.test(card.canonicalId) || !/^[a-f0-9]{64}$/.test(card.revision) || !/^[a-f0-9]{64}$|^[A-Za-z0-9._:-]+$/.test(card.sourceRevision) || !KIND.has(card.kind) || !sourceDate(card.eventDate) || !sourceDate(card.publishedAt) || !sourceDate(card.materiallyChangedAt) || !operationalDate(card.checkedAt) || typeof card.historical !== "boolean" || !Array.isArray(card.factsZh) || card.factsZh.length !== 2 || !card.factsZh.every(chinese) || !card.limitationsZh.length || !card.limitationsZh.every(chinese) || !card.contexts.every(chinese) || !exact(card.fieldRefs, narrativeKeys(card))) throw new Error("explainer card schema/date/id");
+    const validIdentity = ID.test(card.id) && card.canonicalId.trim().length > 0 && !/[\s\u0000-\u001f]/u.test(card.canonicalId) && /^[a-f0-9]{64}$/.test(card.revision) && (/^[a-f0-9]{64}$|^[A-Za-z0-9._:-]+$/).test(card.sourceRevision);
+    const validDates = sourceDate(card.eventDate) && sourceDate(card.publishedAt) && sourceDate(card.materiallyChangedAt) && operationalDate(card.checkedAt);
+    if (!exact(card, keys) || (card.comparison !== undefined && !exact(card.comparison, ["beforeZh", "afterZh", "task", "conditions"])) || !validNarrative(card) || !validFieldRefs(card) || !validIdentity || !KIND.has(card.kind) || !validDates || typeof card.historical !== "boolean") throw new Error("explainer card schema/date/id");
     if (ids.has(card.id) || canonicalIds.has(card.canonicalId)) throw new Error("duplicate explainer card identity");
     ids.add(card.id); canonicalIds.add(card.canonicalId);
     if (!Array.isArray(card.evidence) || !card.evidence.length) throw new Error("explainer evidence schema");
