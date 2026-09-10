@@ -18,7 +18,7 @@ test("orders and caps candidates before bounded draft and review calls", async (
 });
 
 test("rejects comparison without a compatible canonical baseline", async () => {
-  const result = await buildProgressExplainers({ sources: [source()], now: new Date("2026-09-10T00:00:00Z"), model: model([draft({ comparison: { beforeZh: "40%", afterZh: "60%", task: "抓取", conditions: "相同" }, fieldRefs: { ...draft().fieldRefs, "comparison.beforeZh": ["fact:trial"], "comparison.afterZh": ["fact:result"], "comparison.task": ["fact:trial"], "comparison.conditions": ["fact:trial"] } }), approvedReview]) });
+  const result = await buildProgressExplainers({ sources: [source()], now: new Date("2026-09-10T00:00:00Z"), model: model([draft({ comparison: { beforeZh: "之前为 40%", afterZh: "之后为 60%", task: "抓取任务", conditions: "相同条件" }, fieldRefs: { ...draft().fieldRefs, "comparison.beforeZh": ["fact:trial"], "comparison.afterZh": ["fact:result"], "comparison.task": ["fact:trial"], "comparison.conditions": ["fact:trial"] } }), approvedReview]) });
   assert.deepEqual(result.artifact.cards, []); assert.equal(result.report.evidenceRejected, 1);
 });
 

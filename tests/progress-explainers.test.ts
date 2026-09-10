@@ -59,6 +59,28 @@ test("rejects malformed previous cards before retention", async () => {
   await assert.rejects(() => buildProgressExplainers({ sources: [source()], previous, now: new Date("2026-09-10T00:00:00Z"), model: model([]) }), /schema/i);
 });
 
+test("rejects an empty generated fieldRefs array", async () => {
+  const invalid = draft({ fieldRefs: { ...draft().fieldRefs, meaningZh: [] } });
+  const result = await buildProgressExplainers({ sources: [source()], now: new Date("2026-09-10T00:00:00Z"), model: model([invalid, approvedReview]) });
+  assert.equal(result.report.structureRejected, 1); assert.equal(result.artifact.cards.length, 0);
+});
+
+test("rejects generated comparison fields without Chinese explanations", async () => {
+  const comparison = { beforeZh: "40%", afterZh: "60%", task: "grasp", conditions: "same setup" };
+  const invalid = draft({ comparison, fieldRefs: { ...draft().fieldRefs, "comparison.beforeZh": ["fact:trial"], "comparison.afterZh": ["fact:result"], "comparison.task": ["fact:trial"], "comparison.conditions": ["fact:trial"] } });
+  const review = { approved: true, fields: { ...approvedReview.fields, "comparison.beforeZh": true, "comparison.afterZh": true, "comparison.task": true, "comparison.conditions": true } };
+  const result = await buildProgressExplainers({ sources: [source({ comparable: { before: "40%", after: "60%", task: "grasp", conditions: "same setup", evidenceIds: ["ev:paper"] } })], now: new Date("2026-09-10T00:00:00Z"), model: model([invalid, review]) });
+  assert.equal(result.report.structureRejected, 1); assert.equal(result.artifact.cards.length, 0);
+});
+
+test("persisted cards reject empty refs and non-Chinese comparison explanations", () => {
+  const emptyRefs = previousArtifact(); emptyRefs.cards[0]!.fieldRefs.meaningZh = [];
+  assert.throws(() => validateProgressExplainersArtifact(emptyRefs), /schema/i);
+  const comparison = previousArtifact(); comparison.cards[0]!.comparison = { beforeZh: "40%", afterZh: "60%", task: "grasp", conditions: "same setup" };
+  Object.assign(comparison.cards[0]!.fieldRefs, { "comparison.beforeZh": ["fact:trial"], "comparison.afterZh": ["fact:result"], "comparison.task": ["fact:trial"], "comparison.conditions": ["fact:trial"] });
+  assert.throws(() => validateProgressExplainersArtifact(comparison), /schema/i);
+});
+
 test("withdrawal wins over model outage", async () => {
   const result = await buildProgressExplainers({ sources: [], previous: previousArtifact(), now: new Date("2026-09-10T00:00:00Z"), model: model([]) });
   assert.deepEqual(result.artifact.cards, []); assert.equal(result.artifact.status, "unavailable"); assert.equal(result.report.removed, 1);

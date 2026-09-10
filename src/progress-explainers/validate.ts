@@ -13,8 +13,7 @@ const exact = (value: unknown, keys: readonly string[]): boolean => {
 const operationalDate = (value: unknown): boolean => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) && Number.isFinite(Date.parse(value));
 const sourceDate = (value: unknown): boolean => value === "unknown" || operationalDate(value) || (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`)));
 const chinese = (value: unknown): value is string => typeof value === "string" && /[\u3400-\u9fff]/u.test(value) && !/(TODO|TBD|placeholder|lorem ipsum)/i.test(value);
-const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every((item) => typeof item === "string" && item.trim() === item && item.length > 0);
-const nonempty = (value: unknown): value is string => typeof value === "string" && value.trim() === value && value.length > 0;
+const strings = (value: unknown): value is string[] => Array.isArray(value) && value.length > 0 && value.every((item) => typeof item === "string" && item.trim() === item && item.length > 0);
 
 function exactDraft(draft: ExplainerDraft): boolean {
   const keys = ["titleZh", "factsZh", "changeZh", "meaningZh", "limitationsZh", "contexts", "fieldRefs", ...(draft.backgroundZh !== undefined ? ["backgroundZh"] : []), ...(draft.comparison !== undefined ? ["comparison"] : [])];
@@ -30,7 +29,7 @@ function validNarrative(draft: ExplainerDraft): boolean {
   if (!Array.isArray(draft.limitationsZh) || !draft.limitationsZh.length || !draft.limitationsZh.every(chinese)) return false;
   if (!Array.isArray(draft.contexts) || !draft.contexts.every(chinese)) return false;
   if (draft.backgroundZh !== undefined && !chinese(draft.backgroundZh)) return false;
-  if (draft.comparison && ![draft.comparison.beforeZh, draft.comparison.afterZh, draft.comparison.task, draft.comparison.conditions].every(nonempty)) return false;
+  if (draft.comparison && ![draft.comparison.beforeZh, draft.comparison.afterZh, draft.comparison.task, draft.comparison.conditions].every(chinese)) return false;
   return true;
 }
 
