@@ -1,4 +1,5 @@
 import type { WatchlistPublicCard, WatchlistPublicView } from "./public-view.js";
+import { markdownDestination } from "../markdown.js";
 
 const GROUP_LABELS: Record<WatchlistPublicCard["group"], string> = {
   "priority-focus": "重点关注",
@@ -25,7 +26,7 @@ function formatTrack(title: string, cards: WatchlistPublicCard[]): string[] {
       `  - 资本：${inline(card.capital.summary)}`,
       ...card.nextValidationPoints.map((point) => `  - 下一验证：${inline(point.text)}（期限：${inline(point.dueAt)}）`),
       ...card.falsifiers.map((point) => `  - 证伪条件：${inline(point.text)}`),
-      ...card.evidenceLinks.map((evidence) => `  - 证据：[${inline(evidence.title)} · ${inline(evidence.source)}](<${evidence.url}>)（${evidence.grade}）`),
+      ...card.evidenceLinks.map((evidence) => `  - 证据：[${inline(evidence.title)} · ${inline(evidence.source)}](${markdownDestination(evidence.url)})（${evidence.grade}）`),
     ]) : ["- 暂无达到公开门槛的公司。"]),
   ];
 }

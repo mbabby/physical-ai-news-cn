@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { markdownDestination } from "../markdown.js";
 import { isDeepStrictEqual } from "node:util";
 import { validateCoreCoverageArtifact, type CoreCoverageArtifact } from "./materialize.js";
 import { escapeXml, normalizeHttpsBase } from "../decision-products/subscriptions.js";
@@ -44,14 +45,14 @@ export function formatCoreCoverageReadme(artifact: CoreCoverageArtifact, pagesUr
       `### ${markdownText(companyName(artifact, brief.companyId))}`,
       "", markdownText(brief.positioningZh), "", markdownText(brief.summaryZh),
       `最近实质变化：${markdownText(brief.lastMaterialChangeAt)}`,
-      ...brief.identityEvidence.map((proof) => `- 身份证据：[${markdownText(proof.source)}](<${proof.link}>) · ${markdownText(proof.supports)}（核验：${markdownText(proof.checkedAt)}）`),
+      ...brief.identityEvidence.map((proof) => `- 身份证据：[${markdownText(proof.source)}](${markdownDestination(proof.link)}) · ${markdownText(proof.supports)}（核验：${markdownText(proof.checkedAt)}）`),
       ...brief.knownFacts.flatMap((fact) => [
         `- 事实：${markdownText(fact.summaryZh)}${fact.needsReview ? "（待复核）" : ""}`,
         `  - 事件日期：${markdownText(fact.occurredOn)}；披露日期：${markdownText(fact.publishedOn)}；实质变化：${markdownText(fact.materialChangeAt)}`,
         ...Object.entries(fieldLabels).map(([key, label]) => {
           const field = fact.fields[key as keyof typeof fact.fields];
           return field?.status === "verified"
-            ? `  - ${label}：${markdownText(Array.isArray(field.value) ? field.value.join("；") : String(field.value))} · ${field.evidenceUrls.map((url) => `[直接证据](<${url}>)`).join(" · ")}`
+            ? `  - ${label}：${markdownText(Array.isArray(field.value) ? field.value.join("；") : String(field.value))} · ${field.evidenceUrls.map((url) => `[直接证据](${markdownDestination(url)})`).join(" · ")}`
             : `  - ${label}：unknown（现有证据不足）`;
         }),
       ]),

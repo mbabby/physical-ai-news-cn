@@ -6,6 +6,7 @@ import { formatWatchlistReadme } from "../src/watchlist/markdown.js";
 import { buildCoreCoverageArtifact } from "../src/core-coverage/materialize.js";
 import { formatCoreCoverageReadme } from "../src/core-coverage/render.js";
 import { fixture, company } from "./core-coverage-fixtures.js";
+import type { WatchlistPublicView } from "../src/watchlist/public-view.js";
 
 test("explainer keeps reading inline and all supporting context in one disclosure", () => {
   const artifact = previousArtifact();
@@ -62,3 +63,40 @@ test("complete company Brief renders verified fields and evidence inline, preser
   for (const gap of artifact.briefs[0]!.gapsZh) assert.ok(text.includes(gap));
   assert.doesNotMatch(text, /全球领先|privatePrompt|查看 Brief/);
 });
+
+const destinationCases = [
+  { url: "https://example.test/>)[伪造证据](https://evil.example)<!--", destination: "<https://example.test/%3E)[伪造证据](https://evil.example)%3C!-->" },
+  { url: "https://example.test/\\>\r\n[伪造证据](https://evil.example)<", destination: "<https://example.test/%5C%3E%0D%0A[伪造证据](https://evil.example)%3C>" },
+  { url: "https://example.test/paper_(v2)?a=1&b=%E4%B8%AD#results", destination: "<https://example.test/paper_(v2)?a=1&b=%E4%B8%AD#results>" },
+];
+
+for (const { url, destination } of destinationCases) {
+  test(`explainer serializes evidence destination without mutating its URL: ${JSON.stringify(url)}`, () => {
+    const artifact = previousArtifact();
+    artifact.cards[0]!.evidence[0]!.url = url;
+    const before = JSON.stringify(artifact);
+    assert.ok(renderProgressExplainersMarkdown(artifact).includes(`[DexLab](${destination})`));
+    assert.equal(JSON.stringify(artifact), before);
+  });
+
+  test(`Watchlist serializes evidence destination without mutating its URL: ${JSON.stringify(url)}`, () => {
+    const view: WatchlistPublicView = { week: "2026-W37", snapshotVersion: 1, methodologyVersion: "v1", lastSuccessfulAt: "2026-09-09T00:00:00.000Z", companyIds: ["alpha"], changes: [], validatedMomentum: [], forwardRadar: [{ companyId: "alpha", companyName: "Alpha", thesisId: "thesis-alpha", thesisVersion: 1, track: "forward-radar", group: "priority-focus", lifecycle: "new", lifecycleLabel: "新进入", routes: [], whyNow: "AI 研究判断：公开试验。", routeAndDependencies: "AI 研究判断：等待验证。", nextValidationPoints: [], falsifiers: [], capital: { status: "evidence-insufficient", summary: "证据不足" }, evidenceLinks: [{ eventId: "event-alpha", title: "试验", source: "官方", grade: "A", url }] }] };
+    const before = JSON.stringify(view);
+    assert.ok(formatWatchlistReadme(view).includes(`[试验 · 官方](${destination})`));
+    assert.equal(JSON.stringify(view), before);
+  });
+
+  test(`Core serializes identity and field destinations without mutating URLs: ${JSON.stringify(url)}`, () => {
+    const input = fixture();
+    input.companies = Array.from({ length: 30 }, (_, i) => i ? { ...company, entityId: `subject-${i}`, name: `Subject ${i}`, profileEvidence: [] } : company);
+    input.coverage.members = input.companies.map((c, i) => ({ companyId: c.entityId!, coverageRegion: i < 12 ? "china" : i < 24 ? "north-america" : "other", tier: i < 22 ? "commercial" : i < 27 ? "platform" : "strategic", ownerRole: "maintainer", reasonZh: "研究覆盖" }));
+    const artifact = structuredClone(buildCoreCoverageArtifact(input));
+    artifact.briefs[0]!.identityEvidence[0]!.link = url;
+    artifact.briefs[0]!.knownFacts[0]!.fields.product!.evidenceUrls = [url];
+    const before = JSON.stringify(artifact);
+    const text = formatCoreCoverageReadme(artifact);
+    assert.ok(text.includes(`[Alpha](${destination})`));
+    assert.ok(text.includes(`[直接证据](${destination})`));
+    assert.equal(JSON.stringify(artifact), before);
+  });
+}

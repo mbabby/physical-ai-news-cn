@@ -36,7 +36,7 @@ The following are preserved research products, not the homepage reading flow. Th
 - [Company × route × capital momentum](https://mbabby.github.io/physical-ai-news-cn/companies.html)
 - [Zero-backend subscription center](https://mbabby.github.io/physical-ai-news-cn/subscribe.html)
 - [Latest evidence-backed weekly Release](https://github.com/mbabby/physical-ai-news-cn/releases/latest)
-- [Chinese daily industry updates](README.md#产业进展)
+- [Chinese recent explainers](README.md#近期解读)
 - [Company & capital map](resources/companies.md)
 - [Physical AI competition map](resources/industry-landscape-and-tech-routes.md)
 - [Copy-ready weekly brief](weekly/shareable-summary.md)

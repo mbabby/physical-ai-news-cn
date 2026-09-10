@@ -1,4 +1,5 @@
 import type { ProgressExplainersArtifact } from "./contracts.js";
+import { markdownDestination } from "../markdown.js";
 
 const escapeMarkdown = (value: string): string => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/([\\`*_[\]#!|])/g, "\\$1").replace(/\r?\n/g, " ");
 
@@ -22,7 +23,7 @@ export function renderProgressExplainersMarkdown(artifact: ProgressExplainersArt
     );
     if (card.comparison) lines.push("", `**对比：** ${escapeMarkdown(card.comparison.beforeZh)} → ${escapeMarkdown(card.comparison.afterZh)}（${escapeMarkdown(card.comparison.task)}；${escapeMarkdown(card.comparison.conditions)}）`);
     if (card.backgroundZh) lines.push("", escapeMarkdown(card.backgroundZh));
-    lines.push("", ...card.evidence.map((item) => `- [${escapeMarkdown(item.source)}](<${item.url}>)`), "", "</details>");
+    lines.push("", ...card.evidence.map((item) => `- [${escapeMarkdown(item.source)}](${markdownDestination(item.url)})`), "", "</details>");
   }
   lines.push("", "<details><summary>解读检查记录</summary>", "", `最近检查：${artifact.checkedAt}`, "", "公开证据复核是辅助检查，不保证绝对正确；解读不是新增事实。没有合格内容不代表领域没有进展。", "", "</details>");
   return `${lines.join("\n")}\n`;
