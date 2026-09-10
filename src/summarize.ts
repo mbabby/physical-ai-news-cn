@@ -49,6 +49,27 @@ export class CompatibleSummarizer {
     if (count > 0) this.lane(lane).cacheHits += count;
   }
 
+  async completeJson(system: string, input: unknown): Promise<unknown> {
+    if (!this.settings.apiKey || !this.settings.baseUrl || !this.settings.model) throw new Error("LLM is not configured");
+    let lastError = "unknown error";
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        const response = await fetchWithRetry(`${this.settings.baseUrl.replace(/\/$/, "")}/chat/completions`, {
+          method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${this.settings.apiKey}` },
+          body: JSON.stringify({ model: this.settings.model, response_format: { type: "json_object" }, messages: [{ role: "system", content: system }, { role: "user", content: JSON.stringify(input) }] }),
+        }, { timeoutMs: 30_000, attempts: 1 });
+        const payload = await response.json() as CompletionResponse;
+        const content = payload.choices?.[0]?.message?.content;
+        if (!content) throw new Error("invalid completion payload");
+        return JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] ?? content);
+      } catch (error) {
+        lastError = error instanceof Error ? error.message : String(error);
+        if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 800));
+      }
+    }
+    throw new Error(`structured completion unavailable after retry (${lastError})`);
+  }
+
   status(): RuntimeStatus {
     const configured = Boolean(this.settings.apiKey && this.settings.baseUrl && this.settings.model);
     const totals = [...this.lanes.values()].reduce((all, lane) => ({
