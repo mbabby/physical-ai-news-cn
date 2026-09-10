@@ -298,6 +298,25 @@ test("homepage bootstrap fetches only dashboard data and renders company status"
   assert.match(mounts["publication-status"].innerHTML, /日报状态待确认/);
 });
 
+test("homepage fetch failure never presents the fallback clock as a generation timestamp", async () => {
+  const [validator, source, html] = await Promise.all([readSite("decision-products-validator.js"), readSite("app.js"), readSite("index.html")]);
+  const mounts = Object.fromEntries([...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => [match[1], mount()])) as Record<string, Mount>;
+  const context = {
+    console: { ...console, warn() {} }, URL, Intl, Date,
+    fetch: async () => { throw new Error("offline"); },
+    document: { getElementById: (id: string) => mounts[id] ?? null, addEventListener() {}, body: { classList: { add() {}, remove() {} } } },
+    navigator: { clipboard: { writeText: async () => {} } },
+    window: { location: { href: "https://example.test/index.html", origin: "https://example.test", pathname: "/index.html", search: "", protocol: "https:" }, history: { pushState() {}, replaceState() {} }, addEventListener() {} },
+  };
+  vm.runInNewContext(validator, context);
+  vm.runInNewContext(source.replace(/^import "\.\/decision-products-validator\.js";\s*/, ""), context);
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(mounts.updated.textContent, "生成时间待确认");
+  assert.doesNotMatch(mounts.updated.textContent, /生成于/);
+  assert.match(mounts["publication-status"].innerHTML, /日报状态待确认/);
+});
+
 test("community metrics renderer is a no-op without homepage mounts and does not block company status", async () => {
   for (const community of [{ repository: { stars: 12 }, generatedAt: "2026-08-02T01:30:00.000Z" }, null]) {
     const site = await loadAppCompanyRenderer();

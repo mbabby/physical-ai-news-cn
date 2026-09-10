@@ -1,7 +1,7 @@
 import "./decision-products-validator.js";
 
 const fallback = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: null,
   periodLabel: "近 30 天滚动窗口",
   stats: { events: 0, companies: 0, research: 0, sources: 0 },
   confirmedSignals: [],
@@ -817,8 +817,8 @@ function render(data) {
   if (byId("company-count")) byId("company-count").textContent = text(stats.companies, "0");
   if (byId("research-count")) byId("research-count").textContent = text(stats.research, "0");
   if (byId("source-count")) byId("source-count").textContent = text(stats.sources, "—");
-  const generated = new Date(data.generatedAt);
-  if (byId("updated")) byId("updated").textContent = Number.isNaN(generated.getTime()) ? "生成时间待确认" : `生成于 ${generated.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })}`;
+  const generated = data.generatedAt ? new Date(data.generatedAt) : null;
+  if (byId("updated")) byId("updated").textContent = !generated || Number.isNaN(generated.getTime()) ? "生成时间待确认" : `生成于 ${generated.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })}`;
   renderPublicationStatus(data.publicationHealth);
 
   const hasDecisionProducts = Object.prototype.hasOwnProperty.call(data, "decisionProducts");
