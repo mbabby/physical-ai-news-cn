@@ -806,18 +806,19 @@ function setupCompanyRadar(items) {
 
 function render(data) {
   if (document.body?.dataset?.view === "subscribe") return;
+  data = data && typeof data === "object" ? data : {};
   if (document.body?.dataset?.view === "contribute") {
     loadCommunityTasks().then((tasks) => renderCommunityEvidence(data.communityEvidence, tasks));
     return;
   }
   detailItems.clear();
   const stats = data.stats || fallback.stats;
-  byId("event-count").textContent = text(stats.events, "0");
-  byId("company-count").textContent = text(stats.companies, "0");
+  if (byId("event-count")) byId("event-count").textContent = text(stats.events, "0");
+  if (byId("company-count")) byId("company-count").textContent = text(stats.companies, "0");
   if (byId("research-count")) byId("research-count").textContent = text(stats.research, "0");
-  byId("source-count").textContent = text(stats.sources, "—");
+  if (byId("source-count")) byId("source-count").textContent = text(stats.sources, "—");
   const generated = new Date(data.generatedAt);
-  byId("updated").textContent = Number.isNaN(generated.getTime()) ? "UPDATE PENDING" : `UPDATED ${generated.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}`;
+  if (byId("updated")) byId("updated").textContent = Number.isNaN(generated.getTime()) ? "生成时间待确认" : `生成于 ${generated.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })}`;
   renderPublicationStatus(data.publicationHealth);
 
   const hasDecisionProducts = Object.prototype.hasOwnProperty.call(data, "decisionProducts");
@@ -839,8 +840,11 @@ function render(data) {
   renderCompanySection(data);
   if (decisionProducts && byId("research-graph-grid") && byId("research")) byId("research-graph-grid").innerHTML = byId("research").innerHTML;
   else renderResearchGraph(researchGraph(data));
-  const routes = list(data.routes);
-  byId("routes-grid").innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
+  const routesRoot = byId("routes-grid");
+  if (routesRoot) {
+    const routes = list(data.routes);
+    routesRoot.innerHTML = routes.length ? routes.map((route, index) => `<article class="route-card"><span>${String(index + 1).padStart(2, "0")}</span><h3>${safe(route.name || "待命名路线")}</h3><p>${safe(route.focus || "路线定义与竞争焦点持续补全。")}</p><small>${list(route.companies).length ? list(route.companies).map(safe).join(" · ") : "持续扩充中"}</small></article>`).join("") : '<p class="empty">技术路线数据正在更新。</p>';
+  }
   const deepLinkedSignal = new URL(window.location.href).searchParams.get("signal");
   if (deepLinkedSignal && detailItems.has(deepLinkedSignal)) openDetail(deepLinkedSignal, null, { updateUrl: false });
   if (typeof fetch === "function" && byId("homepage-community-tasks")) loadCommunityTasks().then((tasks) => renderCommunityEvidence(data.communityEvidence, tasks));

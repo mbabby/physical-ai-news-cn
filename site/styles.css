@@ -109,6 +109,21 @@ a,button,input,select,textarea,[tabindex]{scroll-margin:96px}a:focus-visible,but
 
 /* Final homepage layout overrides follow the legacy responsive bundle above. */
 main>.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+/* Compact homepage identity and secondary records. Scoped to avoid changing archive headers. */
+.homepage-header{position:relative;padding:26px 0 30px;border-bottom:1px solid var(--line)}
+.homepage-header nav{position:absolute;right:0;top:23px}
+.homepage-header__copy{max-width:760px;margin-top:54px}
+.homepage-header__copy h1{margin:0 0 10px;font-size:clamp(2rem,4.5vw,3.8rem);line-height:1.08;letter-spacing:-.05em}
+.homepage-header__copy .lede{max-width:700px;font-size:.95rem;color:#b4c8d9}
+.homepage-header__updated{margin:18px 0 0;color:var(--muted);font:500 .68rem "DM Mono",monospace;letter-spacing:.06em}
+.supplemental-signals{margin-top:64px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.supplemental-signals>summary{display:flex;align-items:center;min-height:44px;padding:13px 0;cursor:pointer;color:var(--cyan);font:500 .76rem "DM Mono",monospace;letter-spacing:.04em}
+.supplemental-signals>summary::before{content:"＋";width:28px;color:var(--muted)}
+.supplemental-signals[open]>summary::before{content:"−"}
+.supplemental-signals>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.supplemental-signals .signal-section{padding:30px 0 38px}
+@media(max-width:800px){.homepage-header{padding:18px 0 22px}.homepage-header nav{position:static;margin-top:14px}.homepage-header__copy{margin-top:28px}.homepage-header__copy h1{font-size:clamp(2rem,10vw,3rem)}.supplemental-signals{margin-top:46px}}
 .signal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:800px){.signal-grid{grid-template-columns:1fr}}
 .radar-controls button{background:#0a1a2b;border:1px solid var(--line);color:var(--ink);padding:8px 14px;font:500 .72rem "DM Mono";cursor:pointer}.radar-controls button:hover{border-color:var(--cyan);color:var(--cyan)}

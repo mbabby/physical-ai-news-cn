@@ -12,17 +12,17 @@ const shanghaiDate = (value = new Date()) => {
   return `${parts.year}-${parts.month}-${parts.day}`;
 };
 
-test("homepage keeps Watchlist mounts but moves the full company directory off the page", async () => {
+test("homepage keeps its decision hierarchy while removing metric and route scaffolding", async () => {
   const html = await readSite("index.html");
   const requiredIds = [
     "briefing", "top-signals", "developing-signals", "capital", "industry",
     "publication-status",
     "company-watchlist", "watchlist-config-controls", "watchlist-company-options", "watchlist-route-options", "watchlist-config-warning", "watchlist-copy-feedback", "watchlist-forward", "watchlist-momentum", "watchlist-changes",
-    "company-boards", "company-board-grid", "routes-grid",
+    "company-boards", "company-board-grid",
     "detail-drawer-root",
   ];
   for (const id of requiredIds) assert.match(html, new RegExp(`id=["']${id}["']`), `missing #${id}`);
-  for (const id of ["company-radar", "route-filter", "region-filter", "status-filter"]) {
+  for (const id of ["company-radar", "route-filter", "region-filter", "status-filter", "event-count", "company-count", "source-count", "routes-grid", "routes"]) {
     assert.doesNotMatch(html, new RegExp(`id=["']${id}["']`), `homepage must not mount #${id}`);
   }
   const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);
@@ -39,6 +39,30 @@ test("homepage keeps Watchlist mounts but moves the full company directory off t
   assert.match(html, /<footer[^>]*>[\s\S]*href=["']research\.html["']/);
   assert.match(html, /href=["']companies\.html["'][^>]*>全部公司档案/);
   assert.match(html, /href=["']core-coverage\.html["'][^>]*>核心研究覆盖/);
+  assert.match(html, /<header[^>]*class=["'][^"']*homepage-header[^"']*["']/);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  assert.doesNotMatch(html, /hero-actions|信号同步中|class=["']pulse["']/);
+  assert.match(html, /id=["']updated["'][^>]*>等待更新/);
+  assert.match(html, /查看完整简报 ↗/);
+  assert.match(html, /历史技术路线档案/);
+});
+
+test("homepage keeps supplemental industry and capital records in one closed disclosure", async () => {
+  const [html, dashboard] = await Promise.all([readSite("index.html"), readSite("data/dashboard.json").then(JSON.parse)]);
+  assert.match(html, /<details[^>]*class=["'][^"']*supplemental-signals[^"']*["'][^>]*>/);
+  assert.doesNotMatch(html, /<details[^>]*class=["'][^"']*supplemental-signals[^"']*["'][^>]*\bopen\b/);
+  assert.match(html, /<summary[^>]*>\s*更多产业与资本记录\s*<\/summary>/);
+  const disclosure = html.match(/<details[^>]*class=["'][^"']*supplemental-signals[^"']*["'][^>]*>[\s\S]*?<\/details>/)?.[0] ?? "";
+  assert.match(disclosure, /id=["']industry["']/);
+  assert.match(disclosure, /id=["']capital["']/);
+
+  const site = await loadAppCompanyRenderer();
+  site.render(dashboard);
+  const uniqueCapitalTitle = dashboard.capital[0].title;
+  assert.ok(uniqueCapitalTitle);
+  assert.equal(dashboard.decisionProducts.topSignals.some((signal: { title?: string; titleZh?: string }) => (signal.titleZh || signal.title) === uniqueCapitalTitle), false);
+  assert.match(site.mounts.capital.innerHTML, new RegExp(uniqueCapitalTitle));
+  assert.doesNotMatch(site.mounts["top-signals"].innerHTML, new RegExp(uniqueCapitalTitle));
 });
 
 test("evidence UI supports safe fallback, deep-linked details and honest empty states", async () => {
@@ -301,6 +325,16 @@ test("homepage renderer tolerates intentionally absent research mounts", async (
   assert.doesNotThrow(() => malformed.render({ decisionProducts: {}, stats: {}, routes: [] }));
   assert.match(malformed.mounts["top-signals"].innerHTML, /未通过公开契约校验/);
   assert.match(malformed.mounts["watchlist-forward"].innerHTML, /^$/);
+});
+
+test("homepage renderer treats removed metrics and routes as optional for valid, missing and malformed payloads", async () => {
+  for (const payload of [{ generatedAt: "2026-08-02T01:30:00.000Z", stats: { events: 3 }, routes: [{ name: "本体" }] }, {}, null, "invalid"]) {
+    const site = await loadAppCompanyRenderer();
+    for (const id of ["event-count", "company-count", "source-count", "routes-grid"]) delete site.mounts[id];
+    assert.doesNotThrow(() => site.render(payload));
+    assert.match(site.mounts["publication-status"].innerHTML, /日报状态待确认/);
+    assert.ok(site.mounts["company-watchlist"], "Watchlist mount must survive");
+  }
 });
 
 async function loadShareCompanyRenderer(deepLinkId?: string) {
