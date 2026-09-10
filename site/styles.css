@@ -137,3 +137,43 @@ main>.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
   .developing-signal{border-color:rgba(251,191,36,.42);background:linear-gradient(145deg,rgba(65,45,12,.42),rgba(21,25,29,.82))}
   .developing-signal .signal-badges .evidence-status{border-color:rgba(251,191,36,.55);color:#f8df9c;background:rgba(251,191,36,.1)}
 }
+
+/* Cognition-first reading; scoped so archived research pages keep their layout. */
+body[data-view="explained"]{overflow-x:visible}
+body[data-view="explained"] .shell{max-width:960px}
+body[data-view="explained"] .homepage-header h1{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.035em}
+body[data-view="explained"] .homepage-header nav a{display:inline-flex;align-items:center;min-height:44px;font-size:1rem}
+body[data-view="explained"] .homepage-header .lede{max-width:760px;font-size:1.125rem;line-height:1.8}
+body[data-view="explained"] .section-note,body[data-view="explained"] .empty{font-size:1rem;line-height:1.8}
+body[data-view="explained"] #briefing{padding-top:36px}
+.explainer-status,.explainer-card{padding:clamp(20px,4vw,36px);border:1px solid var(--line);background:var(--panel);overflow-wrap:anywhere}
+.explainer-status{border-left:3px solid var(--cyan);margin-bottom:24px}
+.explainer-status[data-status="constrained"],.explainer-status[data-status="unavailable"]{border-left-color:var(--warning)}
+.explainer-status h3{margin:0 0 12px;font-size:1.2rem}
+.explainer-status p,.explainer-empty,.explainer-card p,.explainer-card li{font-size:1.0625rem;line-height:1.85;color:#cfdeea}
+.explainer-status p{margin:0 0 16px}
+.explainer-card{margin-top:24px}
+.explainer-card h3{font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.5;margin:8px 0 24px;letter-spacing:0}
+.explainer-card h4{font-size:1rem;line-height:1.5;color:var(--cyan);margin:0 0 8px}
+.explainer-card section{margin:24px 0;padding:0}
+.explainer-card p{margin:8px 0}
+.explainer-card .explainer-context,.explainer-card .explainer-note{font-size:1rem;line-height:1.75;color:var(--muted)}
+.explainer-card ul,.explainer-card ol{padding-left:1.5em;margin:8px 0}
+.explainer-card li+li{margin-top:10px}
+.explainer-meaning{border-left:2px solid #7da1ff;padding-left:18px!important}
+.explainer-dates{display:flex;flex-wrap:wrap;gap:12px 28px;margin:20px 0 0;font-size:1rem;line-height:1.7}
+.explainer-dates div{min-width:0;max-width:100%}
+.explainer-dates dt{color:var(--muted)}
+.explainer-dates dd{margin:2px 0 0;color:#cfdeea}
+.explainer-card details{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
+.explainer-card summary,.library-archive>summary{cursor:pointer;min-height:44px;padding:10px 0;font-size:1rem;line-height:1.5;color:var(--cyan)}
+.explainer-card details[open]>summary{margin-bottom:12px}
+.explainer-evidence a,.library-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--cyan);font-size:1rem;overflow-wrap:anywhere}
+.explainer-card a:focus-visible,.explainer-card summary:focus-visible,.library-archive>summary:focus-visible,.library-links a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
+.library-links{display:flex;flex-wrap:wrap;gap:8px 24px;margin-bottom:24px}
+.library-archive{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
+.library-archive>p{font-size:1rem;color:var(--muted)}
+body[data-view="explained"] .publication-status__summary,body[data-view="explained"] .publication-status__summary strong,body[data-view="explained"] .publication-status__summary small{font-size:1rem;line-height:1.6}
+body[data-view="explained"] footer{font-size:.875rem;line-height:1.8;gap:20px;flex-wrap:wrap;overflow-wrap:anywhere}
+body[data-view="explained"] footer a{display:inline-flex;align-items:center;min-height:44px}
+@media(max-width:520px){.explainer-dates{display:grid;grid-template-columns:minmax(0,1fr)}.explainer-card{padding:20px 16px}.library-links{display:grid;grid-template-columns:minmax(0,1fr)}body[data-view="explained"] .homepage-header .brand{font-size:.8rem;letter-spacing:.06em}}

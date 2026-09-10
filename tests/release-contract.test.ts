@@ -25,6 +25,9 @@ import { validateRelease } from "../src/validate-release.js";
 import type { CompanyProfile, DigestResult, EventStore } from "../src/types.js";
 import type { TopSignalsDraft } from "../src/top-signals-growth/contracts.js";
 import { resetPublicationFixture } from "./publication-fixture.js";
+import type { ExplainerModel, ExplainerSource, ProgressExplainersArtifact } from "../src/progress-explainers/contracts.js";
+import { narrativeKeys } from "../src/progress-explainers/draft.js";
+import type { ExplainerDraft } from "../src/progress-explainers/contracts.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
@@ -46,6 +49,59 @@ const RELEASE_MUTATION_PATHS = [
   "site/feeds/decision/embodiment-and-hardware.xml",
   "site/feeds/decision/deployment-and-commercialization.xml", "site/feeds/decision/watchlist.xml",
 ] as const;
+
+test("new homepage requires matching explainer artifact and run clock", async () => {
+  const target = await generatedReleaseFixture();
+  try {
+    await validateRelease(target);
+    const artifactPath = join(target, "site/data/progress-explainers.json");
+    const artifact = JSON.parse(await readFile(artifactPath, "utf8"));
+    await rm(artifactPath);
+    await assert.rejects(validateRelease(target), /explainer|解释器/);
+    const readmePath = join(target, "README.md");
+    const originalReadme = await readFile(readmePath, "utf8");
+    await writeFile(readmePath, originalReadme.replace(/<!-- PROGRESS_EXPLAINERS:START -->[\s\S]*?<!-- PROGRESS_EXPLAINERS:END -->/, ""));
+    await assert.rejects(validateRelease(target), /explainer|解释器/, "a new pipeline receipt cannot masquerade as a legacy layout");
+    await writeFile(readmePath, originalReadme);
+    await writeFile(artifactPath, JSON.stringify({ ...artifact, generatedAt: "2026-01-01T00:00:00.000Z" }));
+    await assert.rejects(validateRelease(target), /explainer|解释器/);
+    await writeFile(artifactPath, JSON.stringify(artifact));
+    const corrupted = originalReadme.replace("<!-- PROGRESS_EXPLAINERS:START -->", "<!-- PROGRESS_EXPLAINERS:START -->\n错误投影内容\n");
+    assert.notEqual(corrupted, originalReadme, "projection mutation must actually change the generated block");
+    await writeFile(readmePath, corrupted);
+    await assert.rejects(validateRelease(target), /projection/);
+  } finally { await rm(target, { recursive: true, force: true }); }
+});
+
+test("legacy receipts cannot hide falsey explainer JSON or an approved new brand", async (t) => {
+  const target = await mkdtemp(join(tmpdir(), "explainer-legacy-guard-"));
+  try {
+    for (const path of [...FIXTURE_PATHS, "config"]) await cp(join(root, path), join(target, path), { recursive: true });
+    const artifactPath = join(target, "site/data/progress-explainers.json");
+    const readmePath = join(target, "README.md");
+    const originalReadme = (await readFile(readmePath, "utf8"))
+      .replace(/<!-- PROGRESS_EXPLAINERS:START -->[\s\S]*?<!-- PROGRESS_EXPLAINERS:END -->/, "")
+      .replace(/物理 AI 进展解读|Physical AI Explained/g, "物理 AI 公司竞争情报");
+    await writeFile(readmePath, originalReadme);
+    await rm(artifactPath, { force: true });
+    const manifestBytes = await readFile(join(target, "review/run-manifest.json"), "utf8");
+    assert.ok(!JSON.parse(manifestBytes).services.some((service: { component: string }) => service.component === "ProgressExplainers"), "legacy regression requires a pre-explainer receipt");
+    await validateRelease(target);
+    for (const value of [null, false, 0, ""]) await t.test(`rejects parsed ${JSON.stringify(value)}`, async () => {
+      const bytes = JSON.stringify(value);
+      await writeFile(artifactPath, bytes);
+      await assert.rejects(validateRelease(target), /explainer|解释器/);
+      assert.equal(await readFile(artifactPath, "utf8"), bytes);
+      assert.equal(await readFile(readmePath, "utf8"), originalReadme);
+      assert.equal(await readFile(join(target, "review/run-manifest.json"), "utf8"), manifestBytes);
+    });
+    await rm(artifactPath);
+    for (const brand of ["物理 AI 进展解读", "Physical AI Explained"]) await t.test(`requires artifact for ${brand}`, async () => {
+      await writeFile(readmePath, `# ${brand}\n${originalReadme}`);
+      await assert.rejects(validateRelease(target), /explainer|解释器/);
+    });
+  } finally { await rm(target, { recursive: true, force: true }); }
+});
 
 function decisionArtifact(): DecisionProductArtifact {
   const signal = (eventId: string, titleZh: string): DecisionProductArtifact["topSignals"][number] => ({
@@ -113,7 +169,7 @@ async function writeJson(path: string, value: unknown): Promise<void> {
   await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
-async function generatedReleaseFixture(): Promise<string> {
+async function generatedReleaseFixture(explainerModel?: ExplainerModel, afterFirst?: (target: string) => Promise<void>): Promise<string> {
   const target = await mkdtemp(join(tmpdir(), "task7-release-contract-"));
   for (const path of FIXTURE_PATHS) await cp(join(root, path), join(target, path), { recursive: true });
   await resetPublicationFixture(target, FIXED_NOW);
@@ -158,7 +214,7 @@ async function generatedReleaseFixture(): Promise<string> {
         source: `${company.name} 官方`,
         grade: "A" as const,
         publishedAt: occurredAt,
-        supports: "产品发布",
+        supports: explainerModel ? `${company.name}发布了新型机器人。` : "产品发布",
       }],
     };
   });
@@ -168,10 +224,11 @@ async function generatedReleaseFixture(): Promise<string> {
   const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
   keys.forEach((key) => { delete process.env[key]; });
   try {
-    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection });
+    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection, explainerModel });
+    await afterFirst?.(target);
     delete companies.at(-1)!.lastVerifiedAt;
     await writeJson(join(target, "events", "companies.json"), companies);
-    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection });
+    await generate({ root: target, now: FIXED_NOW, collect: emptyCollection, collectX: emptyCollection, explainerModel });
   } finally {
     keys.forEach((key) => {
       const value = previous[key];
@@ -181,6 +238,52 @@ async function generatedReleaseFixture(): Promise<string> {
   }
   return target;
 }
+
+test("full generation retains nonempty grounded explainer identities and README across two offline runs", async () => {
+  const network = globalThis.fetch;
+  globalThis.fetch = async () => { throw new Error("offline integration"); };
+  let first: ProgressExplainersArtifact | undefined;
+  let firstReadme = "";
+  const model: ExplainerModel = { async completeJson(_system, input) {
+    const { source, draft } = input as { source: ExplainerSource; draft?: ExplainerDraft };
+    if (draft) return { approved: true, fields: Object.fromEntries(narrativeKeys(draft).map((key) => [key, true])) };
+    const result: ExplainerDraft = { titleZh: "机器人产品发布进展", factsZh: [source.facts[0]!.text, source.facts[0]!.text], changeZh: "本次披露了机器人产品。", meaningZh: "产品发布提供了后续核对产品表现的对象。", limitationsZh: ["产品发布本身不证明部署效果。"], contexts: [], fieldRefs: {} };
+    result.fieldRefs = Object.fromEntries(narrativeKeys(result).map((key) => [key, [source.facts[0]!.factId]]));
+    return result;
+  } };
+  let target: string | undefined;
+  try {
+    target = await generatedReleaseFixture(model, async (path) => {
+      first = await json<ProgressExplainersArtifact>(join(path, "site/data/progress-explainers.json"));
+      firstReadme = await readFile(join(path, "README.md"), "utf8");
+    });
+    const second = await json<ProgressExplainersArtifact>(join(target, "site/data/progress-explainers.json"));
+    assert.equal(first!.cards.length, 3);
+    assert.deepEqual(second.cards, first!.cards);
+    assert.equal(second.status, "constrained");
+    assert.equal(second.lastContentUpdatedAt, first!.lastContentUpdatedAt);
+    assert.equal((await json<{ retained: number }>(join(target, "review/progress-explainers-run.json"))).retained, 3);
+    const block = (readme: string) => readme.split("<!-- PROGRESS_EXPLAINERS:START -->")[1]!.split("<!-- PROGRESS_EXPLAINERS:END -->")[0]!.replace(/状态：[^；]+/, "状态：normalized");
+    assert.equal(block(await readFile(join(target, "README.md"), "utf8")), block(firstReadme));
+    await validateRelease(target);
+  } finally {
+    globalThis.fetch = network;
+    if (target) await rm(target, { recursive: true, force: true });
+  }
+});
+
+test("rejected explainer copy degrades publication without double-counting successful requests as failed", async () => {
+  const target = await generatedReleaseFixture({ async completeJson() { return {}; } });
+  try {
+    const manifest = await json<RunManifest>(join(target, "review/run-manifest.json"));
+    const status = manifest.services.find((item) => item.component === "ProgressExplainers")!;
+    assert.equal(status.status, "部分降级");
+    assert.equal(status.attempted, status.succeeded + status.failed);
+    assert.equal(status.failed, 0);
+    assert.equal((await json<{ structureRejected: number }>(join(target, "review/progress-explainers-run.json"))).structureRejected, 3);
+    assert.deepEqual((await json<ProgressExplainersArtifact>(join(target, "site/data/progress-explainers.json"))).cards, []);
+  } finally { await rm(target, { recursive: true, force: true }); }
+});
 
 async function restoreReleaseFixture(rootPath: string, bytes: ReadonlyMap<string, string>): Promise<void> {
   for (const [path, content] of bytes) {

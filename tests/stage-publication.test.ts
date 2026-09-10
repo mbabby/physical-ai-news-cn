@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { promisify } from "node:util";
@@ -101,4 +101,36 @@ test("fails with the omitted path when generation leaves an untracked artifact",
     },
   );
   assert.equal(await readFile(join(root, "unexpected-publication.json"), "utf8"), "new\n");
+});
+
+test("refuses incomplete explainer groups and stages a complete group including its private report", async () => {
+  const root = await createRepository();
+  await writeFile(join(root, "site/data/progress-explainers.json"), "{}\n");
+  await assert.rejects(run("bash", [script, root], root), /explainer/);
+  await writeFile(join(root, "README.md"), "<!-- PROGRESS_EXPLAINERS:START -->\n内容\n<!-- PROGRESS_EXPLAINERS:END -->\n");
+  await assert.rejects(run("bash", [script, root], root), /explainer/);
+  await writeFile(join(root, "review/progress-explainers-run.json"), "{}\n");
+  await run("bash", [script, root], root);
+  const { stdout } = await run("git", ["diff", "--cached", "--name-only"], root);
+  for (const path of ["README.md", "site/data/progress-explainers.json", "review/progress-explainers-run.json"]) assert.ok(stdout.includes(path));
+});
+
+test("new pipeline receipt blocks staging deletions that disguise an explainer publication as legacy", async () => {
+  const root = await createRepository();
+  await writeFile(join(root, "README.md"), "<!-- PROGRESS_EXPLAINERS:START -->\n内容\n<!-- PROGRESS_EXPLAINERS:END -->\n");
+  for (const path of ["site/data/progress-explainers.json", "review/progress-explainers-run.json"]) await writeFile(join(root, path), "{}\n");
+  await writeFile(join(root, "review/run-manifest.json"), JSON.stringify({ services: [{ component: "ProgressExplainers" }] }));
+  await run("git", ["add", "."], root);
+  await run("git", ["commit", "-qm", "complete explainer group"], root);
+  for (const path of ["site/data/progress-explainers.json", "review/progress-explainers-run.json"]) await rm(join(root, path));
+  await writeFile(join(root, "README.md"), "old readme\n");
+  await assert.rejects(run("bash", [script, root], root), /explainer/);
+  assert.equal((await run("git", ["diff", "--cached", "--name-only"], root)).stdout, "");
+});
+
+for (const brand of ["物理 AI 进展解读", "Physical AI Explained"]) test(`approved brand ${brand} requires the explainer group even with legacy receipt`, async () => {
+  const root = await createRepository();
+  await writeFile(join(root, "README.md"), `# ${brand}\n`);
+  await writeFile(join(root, "review/run-manifest.json"), JSON.stringify({ services: [] }));
+  await assert.rejects(run("bash", [script, root], root), /explainer/);
 });

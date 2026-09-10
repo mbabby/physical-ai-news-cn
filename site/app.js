@@ -52,7 +52,7 @@ const formattedCount = (value) => {
   const number = finiteNumber(value);
   return number === null ? "—" : new Intl.NumberFormat("zh-CN", { notation: number >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(number);
 };
-const PUBLIC_COMPONENTS = new Set(["LLM", "OpenAlex", "Watchlist", "GitHub", "EvidenceRevalidation"]);
+const PUBLIC_COMPONENTS = new Set(["LLM", "OpenAlex", "Watchlist", "GitHub", "EvidenceRevalidation", "ProgressExplainers"]);
 
 function shanghaiDateTime(value = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
@@ -804,12 +804,35 @@ function setupCompanyRadar(items) {
   renderCompanyRadar(companies);
 }
 
+let archiveData;
+let archiveBound = false;
+function revealLibraryAnchor() {
+  const archive = byId("library-archive");
+  if (!archive) return;
+  const url = new URL(window.location.href);
+  const anchor = url.hash.slice(1);
+  if (["companies", "signals", "developing", "industry", "capital", "watchlist-changes"].includes(anchor) || ["signal", "watch", "routes"].some((key) => url.searchParams.has(key))) archive.open = true;
+  if (["industry", "capital"].includes(anchor) && byId("library-records")) byId("library-records").open = true;
+}
 function render(data) {
   if (document.body?.dataset?.view === "subscribe") return;
   data = data && typeof data === "object" ? data : {};
   if (document.body?.dataset?.view === "contribute") {
     loadCommunityTasks().then((tasks) => renderCommunityEvidence(data.communityEvidence, tasks));
     return;
+  }
+  // Health is independent of library initialization; this renderer never owns the reading mount.
+  renderPublicationStatus(data.publicationHealth);
+  const archive = byId("library-archive");
+  if (archive) {
+    archiveData = data;
+    if (!archiveBound) {
+      archiveBound = true;
+      archive.addEventListener("toggle", () => { if (archive.open) render(archiveData); });
+      window.addEventListener("hashchange", revealLibraryAnchor);
+      revealLibraryAnchor();
+    }
+    if (!archive.open) return;
   }
   detailItems.clear();
   const stats = data.stats || fallback.stats;
@@ -819,7 +842,6 @@ function render(data) {
   if (byId("source-count")) byId("source-count").textContent = text(stats.sources, "—");
   const generated = data.generatedAt ? new Date(data.generatedAt) : null;
   if (byId("updated")) byId("updated").textContent = !generated || Number.isNaN(generated.getTime()) ? "生成时间待确认" : `生成于 ${generated.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" })}`;
-  renderPublicationStatus(data.publicationHealth);
 
   const hasDecisionProducts = Object.prototype.hasOwnProperty.call(data, "decisionProducts");
   const decisionProducts = hasDecisionProducts && validDecisionProducts(data.decisionProducts) ? data.decisionProducts : null;

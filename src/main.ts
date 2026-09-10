@@ -41,7 +41,12 @@ import { replaceCoreCoverageReadme, stageCoreCoverageSurfaces } from "./core-cov
 import { prepareReviewedBackfill, type ReviewedBackfill } from "./core-coverage/reviewed-ingest.js";
 import { buildBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchmark-result-ledger.js";
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
-import { selectTopResearchDecisionCards } from "./research-decision-card.js";
+import { rankResearchDecisionCards, selectTopResearchDecisionCards } from "./research-decision-card.js";
+import { buildExplainerSources } from "./progress-explainers/canonical.js";
+import { buildProgressExplainers } from "./progress-explainers/materialize.js";
+import { stageProgressExplainers } from "./progress-explainers/publication.js";
+import { validateProgressExplainersArtifact } from "./progress-explainers/validate.js";
+import type { ExplainerModel, ProgressExplainersArtifact } from "./progress-explainers/contracts.js";
 import { buildResearchIndustryRelationEdges } from "./research-industry-relations.js";
 import type { RelationEvidenceCandidate } from "./research-industry-relations.js";
 import {
@@ -517,6 +522,8 @@ export type DailyGenerationFailureCode =
   | "corrupt-watchlist-current"
   | "corrupt-watchlist-history"
   | "corrupt-dual-ledger"
+  | "corrupt-progress-explainers"
+  | "explainer-withdrawal-swap-failure"
   | "corrupt-top-signals-publication"
   | "invalid-company-id"
   | "evidence-withdrawal"
@@ -790,6 +797,7 @@ export interface GenerateOptions {
   collect?: typeof collect;
   collectX?: typeof collectX;
   summarizer?: DailySummarizer;
+  explainerModel?: ExplainerModel;
   transaction?: FileTransaction;
   communityEvidenceSeeds?: EvidenceTaskSeedArtifact;
   fetchCommunityEvidenceSnapshot?: () => Promise<EvidenceIssueSnapshot>;
@@ -807,6 +815,13 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const outputRoot = options.root ?? root;
   const startedAt = now;
   const transaction = options.transaction ?? new FileTransaction();
+  let previousExplainers: ProgressExplainersArtifact | undefined;
+  try {
+    previousExplainers = await readJsonStrict<ProgressExplainersArtifact>(join(outputRoot, "site/data/progress-explainers.json"), { optional: true });
+    if (previousExplainers !== undefined) validateProgressExplainersArtifact(previousExplainers);
+  } catch (error) {
+    throw new DailyGenerationError("corrupt-progress-explainers", "进展解释器历史状态损坏；已停止发布并保留上一版。", { cause: error });
+  }
   const writeFile = async (path: string, content: string, _encoding?: string): Promise<void> => { transaction.stage(path, content); };
   const windowHours = parseWindow(process.argv.slice(2));
   const outputDir = join(outputRoot, "daily"); const weeklyDir = join(outputRoot, "weekly"); const sourcesDir = join(outputRoot, "sources"); const reviewDir = join(outputRoot, "review"); const resourcesDir = join(outputRoot, "resources"); const eventsDir = join(outputRoot, "events"); const researchDir = join(outputRoot, "research"); const routesDir = join(outputRoot, "routes"); const metricsDir = join(outputRoot, "metrics");
@@ -1068,6 +1083,21 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   }
   const coreReviewSeeds = coreCoverageState && coreCoverage ? coreCoverageReviewSeeds(coreCoverageState, coreCoverage) : [];
   const benchmarkResultLedger = buildBenchmarkResultLedger(researchRegistry.records, researchDecisionCards, { now, previous: previousBenchmarkResultLedger });
+  const explainerSources = buildExplainerSources({ events: eventStore.events, companies, researchRecords: researchRegistry.records, researchDecisionCards: rankResearchDecisionCards(researchRegistry.records, { now }), benchmarkResultLedger });
+  const explainerModel = options.explainerModel ?? (summarizer instanceof CompatibleSummarizer ? summarizer : undefined);
+  const explainers = await buildProgressExplainers({ sources: explainerSources, now, previous: previousExplainers, model: explainerModel, upstreamConstrained: statuses.some((status) => status.status !== "成功") });
+  statuses[0] = summarizer.status();
+  const explainerRequestFailures = explainers.report.failed + explainers.report.timedOut;
+  const explainerRejections = explainers.report.structureRejected + explainers.report.evidenceRejected + explainers.report.semanticRejected;
+  statuses.push({
+    component: "ProgressExplainers",
+    status: ["constrained", "unavailable"].includes(explainers.artifact.status) || explainerRequestFailures || explainerRejections ? "部分降级" : "成功",
+    attempted: explainers.report.requestsSucceeded + explainerRequestFailures,
+    succeeded: explainers.report.requestsSucceeded,
+    failed: explainerRequestFailures,
+    detail: `状态：${explainers.artifact.status}；公开 ${explainers.artifact.cards.length} 张；保留 ${explainers.report.retained} 张；移除 ${explainers.report.removed} 张；校验拒绝 ${explainerRejections} 张。`,
+  });
+  await writeFile(join(reviewDir, "progress-explainers-run.json"), JSON.stringify({ generatedAt: now.toISOString(), status: explainers.artifact.status, ...explainers.report }, null, 2) + "\n");
   validateDualLedgers({
     company: companyClaimLedger,
     benchmark: benchmarkResultLedger,
@@ -1483,7 +1513,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
     retentionSource: decisionProductRetentionReceipt.previousArtifactSha256 ? previousDecisionProductArtifact : undefined,
     publishedTopSignals,
   });
-  const readme = coreCoverage && coreCoverageState
+  const coreReadme = coreCoverage && coreCoverageState
     ? stageCoreCoverageSurfaces({
       root: outputRoot,
       transaction,
@@ -1493,6 +1523,8 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
       pagesUrl: pagesBaseUrl,
     })
     : replaceCoreCoverageReadme(decisionReadme, undefined, pagesBaseUrl);
+  const explainerReadme = coreReadme.includes("<!-- PROGRESS_EXPLAINERS:") ? coreReadme : `${coreReadme}\n<!-- PROGRESS_EXPLAINERS:START -->\n<!-- PROGRESS_EXPLAINERS:END -->\n`;
+  const readme = stageProgressExplainers({ root: outputRoot, transaction, artifact: explainers.artifact, readme: explainerReadme, sources: explainerSources });
   const watchlistMetrics = buildWatchlistMetrics({
     snapshot: watchlistSnapshot,
     theses: watchlistTheses,
@@ -1564,6 +1596,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   try {
     await transaction.commit();
   } catch (error) {
+    if (explainers.report.removed) throw new DailyGenerationError("explainer-withdrawal-swap-failure", "已知解释器撤回未能交换发布；已回滚，线上旧内容仍可能存在，必须阻止发布并重试。", { cause: error });
     throw new DailyGenerationError("transaction-swap-failure", "日报输出事务失败；已回滚并保留上一版。", { cause: error });
   }
   console.log(`完成：公开 ${publicArticles.length} 条资讯、候选 ${candidates.length} 条、行业脉搏 ${pulse.viewpoints.length + pulse.events.length} 条；信源网络 ${nextCandidateRegistry.sources.length} 个候选，写入 ${path}`);
@@ -1615,7 +1648,7 @@ async function assertFixtureRoot(outputRoot: string): Promise<void> {
       readJsonStrict<unknown>(join(outputRoot, "events", "companies.json")),
       readJsonStrict<unknown>(join(outputRoot, "metrics", "community.json")),
     ]);
-    if (!/物理 AI (?:公司竞争情报|产业情报库)/.test(readme) || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
+    if (!/物理 AI (?:公司竞争情报|产业情报库|进展解读)|Physical AI Explained/.test(readme) || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
   } catch (error) {
     throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
   }

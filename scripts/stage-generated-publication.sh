@@ -4,6 +4,20 @@ set -euo pipefail
 repository_root="${1:-.}"
 cd "$repository_root"
 
+# A new homepage cannot be staged without its complete explainer group.
+# Legacy archived layouts remain supported; exact content is checked by validate:release.
+if [[ -e site/data/progress-explainers.json || -e review/progress-explainers-run.json ]] || grep -qE 'PROGRESS_EXPLAINERS:|物理 AI 进展解读|Physical AI Explained' README.md || node -e '
+  try {
+    const manifest = JSON.parse(require("node:fs").readFileSync("review/run-manifest.json", "utf8"));
+    process.exit(Array.isArray(manifest.services) && manifest.services.some(service => service.component === "ProgressExplainers") ? 0 : 1);
+  } catch { process.exit(1); }
+'; then
+  if [[ ! -f site/data/progress-explainers.json || ! -f review/progress-explainers-run.json ]] || ! grep -q '<!-- PROGRESS_EXPLAINERS:START -->' README.md || ! grep -q '<!-- PROGRESS_EXPLAINERS:END -->' README.md; then
+    echo '::error::Incomplete progress explainer publication group.' >&2
+    exit 1
+  fi
+fi
+
 publication_paths=(
   daily
   weekly

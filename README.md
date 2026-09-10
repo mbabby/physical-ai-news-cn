@@ -1,16 +1,37 @@
-# 物理 AI 公司竞争情报
+# 物理 AI 进展解读
 
-面向投资与战略研究者，用可追溯的公开证据理解物理 AI 公司、资本、产品部署与技术竞争；不提供实时交易建议。
+看懂机器人与物理 AI：现在能做什么，最近进步在哪，还有什么没解决。
 
-[今日简报](https://mbabby.github.io/physical-ai-news-cn/) · [公司研究](https://mbabby.github.io/physical-ai-news-cn/companies.html) · [本周重点](https://mbabby.github.io/physical-ai-news-cn/weekly.html)
+[近期解读](https://mbabby.github.io/physical-ai-news-cn/#briefing) · [资料库](https://mbabby.github.io/physical-ai-news-cn/#library) · [English](README.en.md)
 
-> 计划北京时间每日 08:30 运行，实际完成可能延迟，以页面生成时间及 [Actions](https://github.com/mbabby/physical-ai-news-cn/actions) 为准。线索不等于事实。
+每篇从两条可追溯事实出发，解释发生了什么变化、可以怎样理解，以及证据还没有解决什么。解读不是新增事实，复核只是辅助检查，不保证绝对正确。每轮最多三篇，宁缺毋滥，不用投资建议或热度组织阅读。
+
+> 计划北京时间每日 08:30 检查，实际完成可能延迟，以检查时间及 [Actions](https://github.com/mbabby/physical-ai-news-cn/actions) 为准。检查不等于内容更新；旧内容保留原始日期。
+
+<!-- PROGRESS_EXPLAINERS:START -->
+## 近期解读
+
+状态：暂不可用；最近检查：2026-09-10T03:16:24.903Z；内容更新：尚未生成
+
+> 目前没有可展示的解读。不以候选新闻补位；没有合格内容不代表领域没有进展。
+
+> 公开证据复核是辅助检查，不保证绝对正确；请结合原文与局限阅读。
+<!-- PROGRESS_EXPLAINERS:END -->
+
+## 资料库
+
+[论文与研究](https://mbabby.github.io/physical-ai-news-cn/research.html) · [公司档案](https://mbabby.github.io/physical-ai-news-cn/companies.html) · [核心研究覆盖](https://mbabby.github.io/physical-ai-news-cn/core-coverage.html) · [历史周报](https://mbabby.github.io/physical-ai-news-cn/weekly.html)
+
+<details>
+<summary>展开旧版公司、产业、资本与研究资料（保留原记录）</summary>
+
+以下为既有研究产品和历史档案，其排序、线索与 AI 研究判断不属于上面的近期解读。线索不等于事实。
 
 
 
 ## 产业进展
 
-README 只列出已核验事件和已发布的每周结论；Pages 的今日简报还会明确标注已有单一可信来源、仍在补证中的线索。两者口径不同，补证中线索不等于公开结论。
+本资料库保留已核验事件和已发布的每周结论；Pages 的旧版研究工具还会明确标注已有单一可信来源、仍在补证中的线索。两者口径不同，补证中线索不等于公开结论。
 
 <!-- DECISION_SIGNALS_START -->
 
@@ -171,7 +192,7 @@ README 只列出已核验事件和已发布的每周结论；Pages 的今日简�
 
 ## For global readers
 
-**Physical AI Company Intelligence** is a source-traceable Chinese research hub for investment and strategy researchers, covering companies, funding, product deployment, and technical competition. It does not provide real-time trading recommendations. The Chinese repository is the source of truth; discovery-only leads never appear on public pages without verification.
+**Physical AI Explained** helps readers understand robots and Physical AI: what they can do, what has changed, and what remains unresolved. Facts, interpretation, and limitations are visibly separated. The Chinese repository is the source of truth; discovery-only leads are not published as explainers.
 
 Read the concise [English project overview](README.en.md). Suggested GitHub topics: `physical-ai`, `embodied-ai`, `robotics`, `humanoid-robotics`, `vision-language-action`, `world-models`, `robot-learning`, `ai-news`, `chinese`.
 
@@ -185,5 +206,7 @@ Read the concise [English project overview](README.en.md). Suggested GitHub topi
 | 仿真、训练与部署工具 | [仿真与工具](resources/simulation-and-tools.md) |
 | 奠基视频、演讲与博客 | [奠基视频、演讲与博客](resources/foundational-talks-and-blogs.md) |
 | 哪些信源正在运行、何时会降权或暂停 | [信源网络与健康分](resources/source-network.md) |
+
+</details>
 
 </details>
