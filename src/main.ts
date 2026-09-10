@@ -43,7 +43,7 @@ import { buildBenchmarkResultLedger, type BenchmarkResultLedger } from "./benchm
 import { buildDualLedgerMetrics, canonicalCompanyEventOwners, isBenchmarkResultLedgerArtifact, isCompanyClaimLedgerArtifact, validateDualLedgers } from "./dual-ledger.js";
 import { rankResearchDecisionCards, selectTopResearchDecisionCards } from "./research-decision-card.js";
 import { buildExplainerSources } from "./progress-explainers/canonical.js";
-import { buildProgressExplainers } from "./progress-explainers/materialize.js";
+import { buildProgressExplainers, reportExplainerStatus, warnExplainerStatus } from "./progress-explainers/materialize.js";
 import { stageProgressExplainers } from "./progress-explainers/publication.js";
 import { validateProgressExplainersArtifact } from "./progress-explainers/validate.js";
 import type { ExplainerModel, ProgressExplainersArtifact } from "./progress-explainers/contracts.js";
@@ -1087,16 +1087,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   const explainerModel = options.explainerModel ?? (summarizer instanceof CompatibleSummarizer ? summarizer : undefined);
   const explainers = await buildProgressExplainers({ sources: explainerSources, now, previous: previousExplainers, model: explainerModel, upstreamConstrained: statuses.some((status) => status.status !== "成功") });
   statuses[0] = summarizer.status();
-  const explainerRequestFailures = explainers.report.failed + explainers.report.timedOut;
-  const explainerRejections = explainers.report.structureRejected + explainers.report.evidenceRejected + explainers.report.semanticRejected;
-  statuses.push({
-    component: "ProgressExplainers",
-    status: ["constrained", "unavailable"].includes(explainers.artifact.status) || explainerRequestFailures || explainerRejections ? "部分降级" : "成功",
-    attempted: explainers.report.requestsSucceeded + explainerRequestFailures,
-    succeeded: explainers.report.requestsSucceeded,
-    failed: explainerRequestFailures,
-    detail: `状态：${explainers.artifact.status}；公开 ${explainers.artifact.cards.length} 张；保留 ${explainers.report.retained} 张；移除 ${explainers.report.removed} 张；校验拒绝 ${explainerRejections} 张。`,
-  });
+  statuses.push(reportExplainerStatus(explainers));
   await writeFile(join(reviewDir, "progress-explainers-run.json"), JSON.stringify({ generatedAt: now.toISOString(), status: explainers.artifact.status, ...explainers.report }, null, 2) + "\n");
   validateDualLedgers({
     company: companyClaimLedger,
@@ -1791,7 +1782,8 @@ async function main(): Promise<void> {
   const outputRoot = options.fixtureRoot ? resolve(options.fixtureRoot) : root;
   if (options.fixtureMode && options.fixtureRoot) await prepareFixtureCliRoot(outputRoot);
   else if (options.fixtureMode) await assertFixtureRoot(outputRoot);
-  await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
+  const manifest = await withFileLock(join(outputRoot, ".daily-generation.lock"), () => options.fixtureMode ? runFixtureGeneration(outputRoot) : generate());
+  if (!options.fixtureMode) warnExplainerStatus(manifest.services.find(service => service.component === "ProgressExplainers"));
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   main().catch((error) => {

@@ -1,6 +1,6 @@
 import type { Article, LlmSettings, RuntimeStatus } from "./types.js";
 import { hasCompleteChineseCopy, hasCompleteChineseResearchCopy } from "./publication.js";
-import { fetchWithRetry } from "./runtime/http.js";
+import { fetchWithRetry, HttpRequestError } from "./runtime/http.js";
 
 interface CompletionResponse { choices?: Array<{ message?: { content?: string } }> }
 interface SummaryPayload { titleZh?: string; summaryZh?: string }
@@ -63,7 +63,10 @@ export class CompatibleSummarizer {
         if (!content) throw new Error("invalid completion payload");
         return JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] ?? content);
       } catch (error) {
-        lastError = error;
+        // Body consumption can time out after fetch has returned headers.
+        lastError = error instanceof DOMException && (error.name === "TimeoutError" || error.name === "AbortError")
+          ? new HttpRequestError("请求超时", "timeout", undefined, true, { cause: error }) : error;
+        if (!(lastError instanceof HttpRequestError) || !lastError.retryable) break;
         if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 800));
       }
     }

@@ -1,5 +1,6 @@
 import type { ProgressExplainersArtifact } from "./contracts.js";
 import { markdownDestination } from "../markdown.js";
+import { explainerReasonLabels } from "./contracts.js";
 
 const escapeMarkdown = (value: string): string => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/([\\`*_[\]#!|])/g, "\\$1").replace(/\r?\n/g, " ");
 
@@ -7,6 +8,7 @@ export function renderProgressExplainersMarkdown(artifact: ProgressExplainersArt
   const states = { updated: "有新解读", "no-new-content": "本轮无新内容", constrained: "本轮受限", unavailable: "暂不可用" };
   const date = (value: string) => value === "unknown" ? "未知" : escapeMarkdown(value);
   const lines = [`## 近期解读`, "", `状态：${states[artifact.status]}；内容更新：${artifact.lastContentUpdatedAt ?? "尚未生成"}`];
+  if (artifact.reason) lines.push("", `本轮原因：${explainerReasonLabels[artifact.reason]}。`);
   for (const card of artifact.cards) {
     lines.push(
       "",
