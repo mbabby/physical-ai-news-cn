@@ -1,13 +1,12 @@
 import type { WatchlistPublicCard, WatchlistPublicView } from "./public-view.js";
 
-const COMPANY_SHARE_PAGE = "https://mbabby.github.io/physical-ai-news-cn/companies.html";
 const GROUP_LABELS: Record<WatchlistPublicCard["group"], string> = {
   "priority-focus": "重点关注",
   "continued-observation": "持续观察",
 };
 
 function inline(value: string): string {
-  return value.replace(/\s+/g, " ").trim().replace(/([\\\[\]])/g, "\\$1");
+  return value.replace(/\s+/g, " ").trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/([\\`*_[\]#!|])/g, "\\$1");
 }
 
 function fragment(value: string): string {
@@ -19,8 +18,14 @@ function formatTrack(title: string, cards: WatchlistPublicCard[]): string[] {
     `### ${title}`,
     "",
     ...(cards.length ? cards.flatMap((card) => [
-      `- **[${inline(card.companyName)}](${COMPANY_SHARE_PAGE}#${fragment(card.companyId)})** · ${GROUP_LABELS[card.group]} · ${inline(card.lifecycleLabel)}`,
+      "", `<a id="${fragment(card.companyId)}"></a>`, "",
+      `- **[${inline(card.companyName)}](#${fragment(card.companyId)})** · ${GROUP_LABELS[card.group]} · ${inline(card.lifecycleLabel)}`,
       `  - 为什么现在值得看：${inline(card.whyNow)}`,
+      `  - 技术路线：${card.routes.map(inline).join("；")}；依赖：${inline(card.routeAndDependencies)}`,
+      `  - 资本：${inline(card.capital.summary)}`,
+      ...card.nextValidationPoints.map((point) => `  - 下一验证：${inline(point.text)}（期限：${inline(point.dueAt)}）`),
+      ...card.falsifiers.map((point) => `  - 证伪条件：${inline(point.text)}`),
+      ...card.evidenceLinks.map((evidence) => `  - 证据：[${inline(evidence.title)} · ${inline(evidence.source)}](<${evidence.url}>)（${evidence.grade}）`),
     ]) : ["- 暂无达到公开门槛的公司。"]),
   ];
 }

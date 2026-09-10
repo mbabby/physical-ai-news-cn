@@ -82,7 +82,7 @@ test("README mirrors Core counts and binds every rendered fact marker to the art
   const markdown = formatCoreCoverageReadme(artifact);
   assert.match(markdown, /已核验身份 1\/30/);
   assert.match(markdown, /完整 Brief 1\/30/);
-  assert.match(markdown, /core-coverage\.html#company-alpha/);
+  assert.match(markdown, /Robot One/);
   assert.doesNotMatch(markdown, /<script>/);
   const markers = [...markdown.matchAll(/<!-- core-fact:([^ ]+) -->/g)].map((match) => match[1]);
   assert.ok(markers.length > 0);

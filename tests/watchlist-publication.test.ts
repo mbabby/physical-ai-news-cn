@@ -109,7 +109,7 @@ async function fixtureView(): Promise<WatchlistPublicView> {
 }
 
 function companyIdsFromReadme(markdown: string): string[] {
-  return [...markdown.matchAll(/companies\.html#([^\s)]+)/g)].map((match) => decodeURIComponent(match[1]!)).sort();
+  return [...markdown.matchAll(/\*\*\[[^\n]+\]\(#([^\s)]+)\)\*\*/g)].map((match) => decodeURIComponent(match[1]!)).sort();
 }
 
 test("loaded public artifacts feed one README and dashboard snapshot identity and company set", async () => {
@@ -153,7 +153,7 @@ test("public artifact loading preserves legacy absence and fails closed on parti
   }
 });
 
-test("README watchlist is compact and omits full-card details", async () => {
+test("README watchlist includes public details but omits private rankings", async () => {
   const markdown = formatWatchlistReadme(await fixtureView());
 
   assert.match(markdown, /前瞻雷达/);
@@ -161,7 +161,11 @@ test("README watchlist is compact and omits full-card details", async () => {
   assert.match(markdown, /为什么现在值得看/);
   assert.match(markdown, /等待验证/);
   assert.match(markdown, /持续强化/);
-  assert.doesNotMatch(markdown, /score|rank|分数|排名|下一验证点|反证条件|证据链接|依赖后续真实部署|规范事实被撤回|证据不足|https:\/\/company-/i);
+  assert.doesNotMatch(markdown, /score|rank|分数|排名/i);
+  assert.match(markdown, /依赖后续真实部署/);
+  assert.match(markdown, /规范事实被撤回/);
+  assert.match(markdown, /证据不足/);
+  assert.match(markdown, /https:\/\/company-/);
 });
 
 test("README company fragments encode every Markdown-sensitive character", async () => {

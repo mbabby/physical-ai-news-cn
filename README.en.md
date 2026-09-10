@@ -2,11 +2,11 @@
 
 Understand robots and Physical AI: what they can do, what has changed, and what remains unresolved.
 
-[Recent explainers](https://mbabby.github.io/physical-ai-news-cn/#briefing) · [Library](https://mbabby.github.io/physical-ai-news-cn/#library)
+[Read the current Chinese publication](README.md)
 
 Each explainer starts with two traceable facts, then separates change, interpretation and limitations. At most three cards are published per run. An empty result stays empty; candidate news never fills the gap. Check time is distinct from content-update time, and historical content keeps its original dates. Public evidence review is assistive, not a guarantee of truth.
 
-The Chinese README and data pages are the source of truth. This short English overview helps global readers understand the project and navigate its core assets.
+The Chinese README is the primary reading entry, including current company facts, research summaries and evidence. This optional English overview does not independently generate conclusions.
 
 ## Recent explainers
 
@@ -31,7 +31,7 @@ The following are preserved research products, not the homepage reading flow. Th
 
 ## Explore
 
-- [Reading homepage](https://mbabby.github.io/physical-ai-news-cn/)
+- [Reading homepage](README.md)
 - [Weekly Physical AI Top Signals](https://mbabby.github.io/physical-ai-news-cn/weekly.html)
 - [Company × route × capital momentum](https://mbabby.github.io/physical-ai-news-cn/companies.html)
 - [Zero-backend subscription center](https://mbabby.github.io/physical-ai-news-cn/subscribe.html)

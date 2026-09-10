@@ -33,12 +33,33 @@ export function formatCoreCoverageReadme(artifact: CoreCoverageArtifact, pagesUr
   const complete = artifact.briefs.filter((brief) => brief.completeness === "complete");
   const lines = [
     `> 固定研究覆盖 ${artifact.coverage.version}（${artifact.coverage.effectiveFrom} 生效） · 已核验身份 ${artifact.metrics.coveredSubjects}/30 · 完整 Brief ${artifact.metrics.completeBriefs}/30。覆盖地区是研究资源配置，不代表法律国籍。`,
-    `> [打开 Core 30 地图与公司 Brief](${base}/core-coverage.html) · [订阅独立 Feed](${base}/${CORE_COVERAGE_FEED_PATH})`,
+    `> [订阅独立 Feed](${base}/${CORE_COVERAGE_FEED_PATH})`,
   ];
   if (!complete.length) return [...lines, "", "> 当前没有证据链完整的 Brief；30 个覆盖主体仍按公开缺口展示。"].join("\n");
   lines.push("", ...complete.map((brief) => {
     const markers = brief.knownClaimIds.map((claimId) => `<!-- core-fact:${claimId} -->`).join(" ");
-    return `${markers}\n- **${markdownText(companyName(artifact, brief.companyId))}** · [查看 Brief](${base}/core-coverage.html#company-${encodeURIComponent(brief.companyId)}) · 已核验事实 ${brief.knownClaimIds.length} 项 · 最近实质变化 ${markdownText(brief.lastMaterialChangeAt)}`;
+    const fieldLabels: Record<string, string> = { eventDate: "事件日期", round: "轮次", amount: "融资金额", valuation: "估值", investors: "投资方", product: "产品", customer: "客户", deployment: "部署", productionStage: "验证阶段" };
+    return [
+      markers,
+      `### ${markdownText(companyName(artifact, brief.companyId))}`,
+      "", markdownText(brief.positioningZh), "", markdownText(brief.summaryZh),
+      `最近实质变化：${markdownText(brief.lastMaterialChangeAt)}`,
+      ...brief.identityEvidence.map((proof) => `- 身份证据：[${markdownText(proof.source)}](<${proof.link}>) · ${markdownText(proof.supports)}（核验：${markdownText(proof.checkedAt)}）`),
+      ...brief.knownFacts.flatMap((fact) => [
+        `- 事实：${markdownText(fact.summaryZh)}${fact.needsReview ? "（待复核）" : ""}`,
+        `  - 事件日期：${markdownText(fact.occurredOn)}；披露日期：${markdownText(fact.publishedOn)}；实质变化：${markdownText(fact.materialChangeAt)}`,
+        ...Object.entries(fieldLabels).map(([key, label]) => {
+          const field = fact.fields[key as keyof typeof fact.fields];
+          return field?.status === "verified"
+            ? `  - ${label}：${markdownText(Array.isArray(field.value) ? field.value.join("；") : String(field.value))} · ${field.evidenceUrls.map((url) => `[直接证据](<${url}>)`).join(" · ")}`
+            : `  - ${label}：unknown（现有证据不足）`;
+        }),
+      ]),
+      ...brief.analyses.map((analysis) => `- 解读：${markdownText(analysis.textZh)}；局限：${markdownText(analysis.limitationZh)}；下一验证：${markdownText(analysis.nextValidationZh)}（${analysis.status === "valid" ? "有效" : "待复核"}）`),
+      ...brief.gapsZh.map((gap) => `- 缺口：${markdownText(gap)}`),
+      ...brief.nextValidationZh.map((point) => `- 下一验证：${markdownText(point)}`),
+      "",
+    ].join("\n");
   }));
   return lines.join("\n");
 }

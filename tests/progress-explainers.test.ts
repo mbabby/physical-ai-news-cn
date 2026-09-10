@@ -157,7 +157,7 @@ test("Markdown reading block distinguishes states, dates and interpretation from
     assert.match(text, new RegExp(label));
     assert.match(text, /内容更新/);
     assert.match(text, /\*\*解读：\*\*/);
-    assert.match(text, /\*\*事实：\*\*/);
+    assert.ok(text.includes("DexLab 报告了覆盖 12 个物体的机械手试验。"));
   }
   const empty = renderProgressExplainersMarkdown({ ...previousArtifact(), status: "unavailable", cards: [], lastContentUpdatedAt: null });
   assert.match(empty, /尚未生成/);

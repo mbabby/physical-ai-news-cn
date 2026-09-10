@@ -18,6 +18,7 @@ import { snapshotPath } from "./snapshot.js";
 import { buildWatchlistFeedManifest, stageWatchlistFeeds } from "./feeds.js";
 import { buildWatchlistChangePage, stageWatchlistChangePage, validateWatchlistChangePage, type WatchlistChangePage } from "./change-page.js";
 import { buildWatchlistMetrics, stageWatchlistMetrics, validateWatchlistMetrics, type WatchlistMetrics } from "./metrics.js";
+import { formatWatchlistReadme } from "./markdown.js";
 
 export interface WatchlistReleaseValidationInput {
   snapshot: WatchlistSnapshot;
@@ -130,7 +131,7 @@ function readmeIdentity(readme: string): { week: string; version: number } | und
 }
 
 function readmeCompanyIds(readme: string): string[] {
-  return [...readme.matchAll(/companies\.html#([^\s)]+)/g)].map((match) => {
+  return [...readme.matchAll(/\*\*\[[^\n]+\]\(#([^\s)]+)\)\*\*/g)].map((match) => {
     try { return decodeURIComponent(match[1]!); } catch { return match[1]!; }
   });
 }
@@ -265,6 +266,10 @@ export function validateWatchlistRelease(input: WatchlistReleaseValidationInput)
   if (!input.readme.includes("AI 研究判断")
     || publicCards.some((card) => !card.whyNow.startsWith("AI 研究判断") || !card.routeAndDependencies.startsWith("AI 研究判断"))) {
     throw new Error("Watchlist 公开产物缺少可见的“AI 研究判断”披露");
+  }
+  const readmeProjection = /<!-- WATCHLIST_START -->([\s\S]*?)<!-- WATCHLIST_END -->/.exec(input.readme)?.[1] ?? input.readme;
+  if (readmeProjection.trim() !== formatWatchlistReadme(dashboardView).trim()) {
+    throw new Error("Watchlist README 与公开视图投影不一致");
   }
   validateWatchlistMetrics(input.metrics);
   if (input.metrics.snapshot.week !== input.snapshot.week

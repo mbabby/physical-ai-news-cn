@@ -16,6 +16,7 @@ import { buildWatchlistPublicView, type WatchlistPublicView } from "../src/watch
 import { buildWatchlistChangePage, type WatchlistChangePage } from "../src/watchlist/change-page.js";
 import { buildWatchlistMetrics } from "../src/watchlist/metrics.js";
 import { buildWatchlistFeedManifest } from "../src/watchlist/feeds.js";
+import { formatWatchlistReadme } from "../src/watchlist/markdown.js";
 
 const GENERATED_AT = "2026-08-17T01:00:00.000Z";
 const FEEDS = { baseUrl: "https://example.test/physical-ai-news-cn" };
@@ -137,19 +138,16 @@ function canonicalEvents(): EventRecord[] {
 }
 
 function readme(): string {
-  return [
-    "> 观察名单快照：2026-W34 · v1",
-    "",
-    "### 前瞻雷达",
-    "",
-    "- **[Alpha Robotics](https://mbabby.github.io/physical-ai-news-cn/companies.html#company-alpha)** · 重点关注 · 新进入",
-    "  - 为什么现在值得看：AI 研究判断：Alpha Robotics 出现新的规范事实。",
-    "",
-    "### 验证动量",
-    "",
-    "- 暂无达到公开门槛的公司。",
-  ].join("\n");
+  return formatWatchlistReadme(view());
 }
+
+test("README rejects edited inline public evidence even when company identity matches", () => {
+  assert.throws(() => validateWatchlistRelease(release({ readme: readme().replace("https://alpha.example/release", "https://alpha.example/forged") })), /README.*投影/);
+});
+
+test("README rejects additional conclusions inside the exact Watchlist marker block", () => {
+  assert.throws(() => validateWatchlistRelease(release({ readme: `<!-- WATCHLIST_START -->\n${readme()}\n额外结论\n<!-- WATCHLIST_END -->` })), /README.*投影/);
+});
 
 function release(overrides: Partial<Parameters<typeof validateWatchlistRelease>[0]> = {}) {
   const candidate = {
