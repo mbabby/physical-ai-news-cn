@@ -156,13 +156,6 @@
 - 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22AI%20startup%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22AI%20startup%22%20official%20investors%20funding)
 - 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
 
-## Waltham robotics company · 候选 · 32/100
-
-- 路线：部署与商业化
-- 证据：[The Business Journals](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
-- 核验入口：[媒体交叉检索](https://www.google.com/search?q=%22Waltham%20robotics%20company%22%20(%E8%9E%8D%E8%B5%84%20OR%20funding%20OR%20raises%20OR%20investment)) · [官网 / 投资方检索](https://www.google.com/search?q=%22Waltham%20robotics%20company%22%20official%20investors%20funding)
-- 待核验：需要公司官网/投资方公告，或第二个独立媒体来源确认融资事实与主体。
-
 ## 沃尔瑟姆机器人公司 · 候选 · 32/100
 
 - 路线：部署与商业化

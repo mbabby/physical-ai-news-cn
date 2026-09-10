@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-10T07:25:31.865Z",
+  "generatedAt": "2026-09-10T08:24:02.983Z",
   "policy": {
     "allowedDomains": [
       "1x.tech",
@@ -68,7 +68,7 @@
   "budget": {
     "maxPlansPerRun": 20,
     "attemptedPlans": 20,
-    "deferredPlans": 65,
+    "deferredPlans": 47,
     "maxProbesPerPlan": 6
   },
   "status": "healthy",
@@ -658,26 +658,26 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
-      "id": "plan-11c88e94caee1e1afac9",
-      "recordId": "verify-6b8c8dd01cfe9f",
-      "companyName": "待识别公司",
+      "id": "plan-99f7da663280beb19a7d",
+      "recordId": "verify-6cb86d22de10ab",
+      "companyName": "8月具身机器人",
       "eventKind": "投融资",
-      "fingerprint": "5d1f74f62e275eb14e28",
+      "fingerprint": "21d5f5b45674f9717313",
       "gaps": [
         "missing-subject",
         "missing-official",
         "missing-second-independent-source"
       ],
       "priority": 98,
-      "status": "candidate-found",
+      "status": "scheduled",
       "probes": [
         {
-          "id": "probe-dff4309845b46e9c423e",
+          "id": "probe-1a12c9870d2f03989f8a",
           "domain": "1x.tech",
           "sourceId": "official-1x-discover",
           "sourceLabel": "1X Discover",
           "sourceClass": "company-official",
-          "query": "site:1x.tech \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:1x.tech \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -685,11 +685,11 @@
           "allowedBy": "source-registry"
         },
         {
-          "id": "probe-7115ba706577a2e04bb7",
+          "id": "probe-243c4d9653c901297ddf",
           "domain": "1x.tech",
           "sourceLabel": "1X 官网",
           "sourceClass": "company-official",
-          "query": "site:1x.tech \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:1x.tech \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -697,11 +697,11 @@
           "allowedBy": "company-profile"
         },
         {
-          "id": "probe-67fe209ed042fddfa4a8",
+          "id": "probe-11edac3e1628242b0e51",
           "domain": "agibot.com.cn",
           "sourceLabel": "智元机器人 官网",
           "sourceClass": "company-official",
-          "query": "site:agibot.com.cn \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:agibot.com.cn \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -709,12 +709,12 @@
           "allowedBy": "company-profile"
         },
         {
-          "id": "probe-3e5c15be7a928adad558",
+          "id": "probe-1bc4e21552a1fbd32631",
           "domain": "agilityrobotics.com",
           "sourceId": "official-agility-press",
           "sourceLabel": "Agility Robotics Press",
           "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:agilityrobotics.com \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -722,11 +722,11 @@
           "allowedBy": "source-registry"
         },
         {
-          "id": "probe-2fb6b20d07f1163bfc91",
+          "id": "probe-d6cc044053c09af7b7ab",
           "domain": "agilityrobotics.com",
           "sourceLabel": "Agility Robotics 官网",
           "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:agilityrobotics.com \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -734,11 +734,11 @@
           "allowedBy": "company-profile"
         },
         {
-          "id": "probe-11f2834f6a74e4d26100",
+          "id": "probe-81e729fc6eb535db1ed1",
           "domain": "ai.meta.com",
           "sourceLabel": "Meta 官网",
           "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"August Embodied Robot Financing: Total 56 Rounds, 5 Firms Raised 14 Billion Yuan, Nearly Half Not Yet at Series A - Gasgoo\" funding financing investment raises 融资 投资",
+          "query": "site:ai.meta.com \"8月具身机器人\" funding financing investment raises 融资 投资",
           "addresses": [
             "missing-official",
             "missing-second-independent-source"
@@ -746,29 +746,13 @@
           "allowedBy": "company-profile"
         }
       ],
-      "candidateEvidence": [
-        {
-          "articleId": "809ba2a35609536f",
-          "link": "https://www.agilityrobotics.com/content/agility-robotics-to-attend-upcoming-investor-conferences",
-          "domain": "agilityrobotics.com",
-          "source": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "title": "Agility Robotics to Attend Upcoming Investor Conferences Press Release August 27, 2026",
-          "publishedAt": "2026-08-27T00:00:00.000Z",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "disposition": "candidate-only",
-          "mayPublish": false,
-          "mayUpgradeFactGrade": false
-        }
-      ],
+      "candidateEvidence": [],
       "attemptCount": 1,
-      "createdAt": "2026-09-10T07:25:31.865Z",
-      "lastAttemptAt": "2026-09-10T07:25:31.865Z",
+      "createdAt": "2026-09-09T15:15:55.932Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "发现的材料仅进入内部候选证据层；必须重新走主体、独立性、事实冲突和人工审核门槛。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-c191f582fcec4bd14072",
@@ -7106,6 +7090,103 @@
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
+      "id": "plan-7c80d9c5740664e5e83a",
+      "recordId": "verify-5c92364a027a85",
+      "companyName": "人工智能初创公司",
+      "eventKind": "投融资",
+      "fingerprint": "4a3ea696886d9eded4f0",
+      "gaps": [
+        "missing-subject",
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 80,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-e8c311f6849cfa3d4d2e",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e5c6aef7352f30784a63",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-5428941b77f38282c435",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-a710e2279dc0352dfe05",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-5cfa45b3d752e4abaf60",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-47e47e4eb6a82eb100d0",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"人工智能初创公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-10T08:24:02.983Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
       "id": "plan-3fbbcbbdf7a2a6751599",
       "recordId": "verify-607128c237a5dc",
       "companyName": "Humanoid Robot Funding Rounds: XPENG Has",
@@ -7391,103 +7472,6 @@
       "candidateEvidence": [],
       "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "lastAttemptAt": "2026-09-10T02:33:45.017Z",
-      "nextAttemptAt": "2026-09-11T02:33:45.017Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-99f7da663280beb19a7d",
-      "recordId": "verify-6cb86d22de10ab",
-      "companyName": "8月具身机器人",
-      "eventKind": "投融资",
-      "fingerprint": "a9396a5ba8471c58573c",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 80,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-1a12c9870d2f03989f8a",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-243c4d9653c901297ddf",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-11edac3e1628242b0e51",
-          "domain": "agibot.com.cn",
-          "sourceLabel": "智元机器人 官网",
-          "sourceClass": "company-official",
-          "query": "site:agibot.com.cn \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-1bc4e21552a1fbd32631",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-d6cc044053c09af7b7ab",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-81e729fc6eb535db1ed1",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"8月具身机器人\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-09-09T15:15:55.932Z",
       "lastAttemptAt": "2026-09-10T02:33:45.017Z",
       "nextAttemptAt": "2026-09-11T02:33:45.017Z",
       "errors": [],
@@ -9236,103 +9220,6 @@
       "createdAt": "2026-09-07T01:56:22.000Z",
       "lastAttemptAt": "2026-09-10T02:40:34.824Z",
       "nextAttemptAt": "2026-09-11T02:40:34.824Z",
-      "errors": [],
-      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
-    },
-    {
-      "id": "plan-ba170fdb9324eaf82468",
-      "recordId": "verify-e8dc246a6213e8",
-      "companyName": "AI初创公司",
-      "eventKind": "投融资",
-      "fingerprint": "4a3ea696886d9eded4f0",
-      "gaps": [
-        "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 80,
-      "status": "scheduled",
-      "probes": [
-        {
-          "id": "probe-57635f748d963be4aa79",
-          "domain": "1x.tech",
-          "sourceId": "official-1x-discover",
-          "sourceLabel": "1X Discover",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-02d766a0990de5bb5fc6",
-          "domain": "1x.tech",
-          "sourceLabel": "1X 官网",
-          "sourceClass": "company-official",
-          "query": "site:1x.tech \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-87606e53e388c46c31cd",
-          "domain": "agibot.com.cn",
-          "sourceLabel": "智元机器人 官网",
-          "sourceClass": "company-official",
-          "query": "site:agibot.com.cn \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-6cc23b11cce2e1007a81",
-          "domain": "agilityrobotics.com",
-          "sourceId": "official-agility-press",
-          "sourceLabel": "Agility Robotics Press",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "source-registry"
-        },
-        {
-          "id": "probe-589a52346c1f6ae7697e",
-          "domain": "agilityrobotics.com",
-          "sourceLabel": "Agility Robotics 官网",
-          "sourceClass": "company-official",
-          "query": "site:agilityrobotics.com \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        },
-        {
-          "id": "probe-4940ebf3f855ac993d5e",
-          "domain": "ai.meta.com",
-          "sourceLabel": "Meta 官网",
-          "sourceClass": "company-official",
-          "query": "site:ai.meta.com \"AI初创公司\" funding financing investment raises 融资 投资",
-          "addresses": [
-            "missing-official",
-            "missing-second-independent-source"
-          ],
-          "allowedBy": "company-profile"
-        }
-      ],
-      "candidateEvidence": [],
-      "attemptCount": 1,
-      "createdAt": "2026-09-10T07:25:31.865Z",
-      "lastAttemptAt": "2026-09-10T07:25:31.865Z",
-      "nextAttemptAt": "2026-09-11T07:25:31.865Z",
       "errors": [],
       "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
@@ -13707,14 +13594,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-12f271437e239179fe85",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-6634e7ca0c2391a93057",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b1e9b022ab0713d389bf",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8ad9f2a792e869390328",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-8fb905e129b169368fec",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-7592be47eacc877c8ff4",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"融资650万美元的初创公司押注VR头显操控机器人副业 这家刚\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-31b0e17d13bdeb039f9e",
@@ -13728,14 +13691,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-5931827b105a86f46f01",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-ea29a5222f0d0055e239",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-f3b7595fc73e3ea68a71",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-75523cfe75ce861413de",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-0c4baba3672e0434784a",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-d1f5c1343d112889fa80",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"中国为第二届世界人形机器人运动会提高标准 China\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-03f33c56bd4bf7ffb227",
@@ -13749,14 +13788,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-f2b918abcb0126a0b608",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-f7abc043d520ef01197a",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-5c6e6a6fd07ca1c0aafc",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-d8da3157f910f0cf1f68",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-d0e59b0e511528917f1f",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-9bb0d973efd34a83f794",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"橡木果机器人发布Natus具身本能模型\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-6d4d91719d64e3411828",
@@ -13770,14 +13885,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-4471b803d86d0d4c817a",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-0ecdeae4e054884bc029",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-24afb01d5d3c0c8d863d",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-622615701a6e467e9ba9",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-869a11316f9d00f9dde1",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-51af05d07dba0917f7a7",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"苏州深海机器人公司\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-9251829d0218601cccfc",
@@ -13791,14 +13982,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-27762bf125edf32fe348",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-385a193bae8b0bd8bfa2",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-885a1f32bd24d57590f2",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-7b171947175a34460509",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-64fc205c780b5ebbe34d",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4171f136c2a39cee102b",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"高盛研判AI投资主线将切换到人形机器人 - 搜狐网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-b8fd1ba7c509356d95a0",
@@ -13812,14 +14079,185 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-1fd3bd5506fce8a74853",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-dcc1c54f56d36ba56818",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-98080959e77f95bf3601",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-96c73187fb325ae81a69",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-125a5069f6384bd71837",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-fc917e65dc470dde643d",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"扒了 1155 位具身智能创业者，我们发现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
+    },
+    {
+      "id": "plan-be2dc18b98310b0812de",
+      "recordId": "verify-99af39bb286a5d",
+      "companyName": "Humanoid",
+      "eventKind": "投融资",
+      "fingerprint": "d650d911a7daa32de9c8",
+      "gaps": [
+        "missing-official",
+        "missing-second-independent-source"
+      ],
+      "priority": 70,
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-4c6c7bb674f042538821",
+          "domain": "export.arxiv.org",
+          "sourceId": "academic-arxiv-robotics",
+          "sourceLabel": "arXiv · Robotics",
+          "sourceClass": "company-official",
+          "query": "site:export.arxiv.org \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-528dbc4053e95ac8854e",
+          "domain": "thehumanoid.ai",
+          "sourceLabel": "Humanoid 官网",
+          "sourceClass": "company-official",
+          "query": "site:thehumanoid.ai \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-db7bc0a93de97e9c474d",
+          "domain": "github.com",
+          "sourceId": "oss-genesis-releases",
+          "sourceLabel": "Genesis Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-6d171b784319106da4fb",
+          "domain": "github.com",
+          "sourceId": "oss-maniskill-releases",
+          "sourceLabel": "ManiSkill Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1fd076f6c0b3dd3989b5",
+          "domain": "github.com",
+          "sourceId": "oss-openvla-releases",
+          "sourceLabel": "OpenVLA Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-1025fc7cc7ab59d51445",
+          "domain": "github.com",
+          "sourceId": "oss-robomimic-releases",
+          "sourceLabel": "robomimic Releases",
+          "sourceClass": "other",
+          "query": "site:github.com \"Humanoid\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        }
+      ],
+      "candidateEvidence": [],
+      "attemptCount": 1,
+      "createdAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
+      "errors": [],
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-c4e2fdd5a41684c44c06",
@@ -13833,14 +14271,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-85fcfa3b0c50e0145fa4",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-a261b208dcddf0f5ba4c",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-1fd766deb293d8c0caeb",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8c9f360e41f5a62da24e",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-566c784499bfac747d6b",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-19ce52a76ea66f0d82a2",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"蚂蚁灵波拟\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-1e953ce2ea4355fb20d7",
@@ -13854,14 +14368,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-d23bc46366c7e200df46",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-cf2b545dfe3b8b9cc5de",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-58595877ba7c7a46b9b3",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2fab309a00f086786b55",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-5e77f9c12dff44db6d00",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0f0d7e5b9e6b3439374c",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Kraken Robotics\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-ddb7d80bc28838366f05",
@@ -13875,14 +14465,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-81449dc7ea754a42b3f0",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-189901c3e6317b83cdd4",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0721b96dbc72644c171f",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-f8873959f440b8f3ef6d",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-7af80cd74ad7ae6efdec",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-cc0179df29a9f3143eed",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"机器人赛道投资图表设计优化|张麻字|红杉资本|顺为资本|设计图_新浪新闻 - 新浪网\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-e684332299ea8ee98093",
@@ -13896,14 +14562,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-9bdb5493436cb51b33b1",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-552bef314c4a694a7808",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-c173b4d04be00bf09ca7",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-5cfbfb26b92c71c38b7b",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-56f665801cfc0c91e970",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-94f90aa05280a918232b",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"人形机器人，真的要进厂打工了？\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-d078b8487ad3c120e444",
@@ -13917,14 +14659,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-ab52b85f7a590970bd9c",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-be358c39c4eba25023e3",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-70dbeba0bff0b85312bb",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-bc24b411eb1cf98eadc4",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-af39839a836d8dae6724",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-e3e637b5854abc05b1d3",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"机器人公司融资600万美元用于开发新型血管成像平台 Robotics company\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-4d1f250940d9430a92a9",
@@ -13938,14 +14756,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-2ba05a4aa68417928bec",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-8bef2237e0f0c597ef44",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4a1190284a7c657533da",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-b90eccf8d6aadedad585",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b1bde41b9fbb2c42f318",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-8e674a6b024ba6907c25",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"京津冀新能源汽车与机器人投融资创新沙龙在北京经开区举办\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-f27c54fcca8a15c7f1f9",
@@ -13959,14 +14853,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-83c6baf3d21732bf3375",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-e38492542df49bd0633d",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-2c8e91fcc1e8e23bd902",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-97a1679844e3bee3430f",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-b64d09ab3595f0e38d2c",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-37f3151cae50e4d3afaa",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"Endiya Partners leads $2.5 Mn seed round in physical AI startup WATER - Entrackr\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-ae2602a788c8e0d7d0ad",
@@ -13980,14 +14950,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-76a6442298b923d4ad96",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-26f8f571041aa4a6297a",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-4eb8055920351adffec6",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-d0e9de19d5dde580d5df",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-4185be14c33edfe23554",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-638696346aa80d45520d",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"地瓜机器人举办机器人DemoDay，40多家投资机构与10支创业团队参与\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-718c8c32996dd75820ba",
@@ -14001,14 +15047,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-83022befa8f7d0b8a30f",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-10742dfe3b2af706e3b2",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-e71481786d9f33ee9721",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-6a284ebf49eadc1a74c7",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-f87cbd344101999205fd",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-35ddf5ab95357a0ce419",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"2026世界机器人大会在京圆满闭幕 - 投资界\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-afe20f60b8539893795e",
@@ -14022,14 +15144,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-94ee47bb828452f73bc7",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-cd31637c47de7fc87653",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-00e3099b4b7014d197b7",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-0f21b0046e4d609246f2",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-8d5516ef4cb8a75f9953",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-11731fdf796f7023e80f",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"OpenAI称将研发人形机器人 机器人行业投资逻辑转向业绩兑现\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T02:29:11.960Z",
-      "nextAttemptAt": "2026-09-07T02:29:11.960Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-de0d854e382cf6c149c6",
@@ -14043,14 +15241,90 @@
         "missing-second-independent-source"
       ],
       "priority": 70,
-      "status": "deferred",
-      "probes": [],
+      "status": "scheduled",
+      "probes": [
+        {
+          "id": "probe-3585cfafcea913fe5020",
+          "domain": "1x.tech",
+          "sourceId": "official-1x-discover",
+          "sourceLabel": "1X Discover",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-3c5cd9944f4c6d043465",
+          "domain": "1x.tech",
+          "sourceLabel": "1X 官网",
+          "sourceClass": "company-official",
+          "query": "site:1x.tech \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-da9f3485ff3f8eb9fe52",
+          "domain": "agibot.com.cn",
+          "sourceLabel": "智元机器人 官网",
+          "sourceClass": "company-official",
+          "query": "site:agibot.com.cn \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-6ae1abb81883ff56c3d4",
+          "domain": "agilityrobotics.com",
+          "sourceId": "official-agility-press",
+          "sourceLabel": "Agility Robotics Press",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "source-registry"
+        },
+        {
+          "id": "probe-cf33fd704c1a28aa18fa",
+          "domain": "agilityrobotics.com",
+          "sourceLabel": "Agility Robotics 官网",
+          "sourceClass": "company-official",
+          "query": "site:agilityrobotics.com \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        },
+        {
+          "id": "probe-17134672ef38a18050f9",
+          "domain": "ai.meta.com",
+          "sourceLabel": "Meta 官网",
+          "sourceClass": "company-official",
+          "query": "site:ai.meta.com \"卧安机器人\" funding financing investment raises 融资 投资",
+          "addresses": [
+            "missing-official",
+            "missing-second-independent-source"
+          ],
+          "allowedBy": "company-profile"
+        }
+      ],
       "candidateEvidence": [],
-      "attemptCount": 0,
+      "attemptCount": 1,
       "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
+      "lastAttemptAt": "2026-09-10T08:24:02.983Z",
+      "nextAttemptAt": "2026-09-11T08:24:02.983Z",
       "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
+      "auditNote": "本计划只描述白名单域名内的定向取证；不会自动公开记录或提升任何事实等级。"
     },
     {
       "id": "plan-cde0a0755dd203a01b42",
@@ -15471,26 +16745,6 @@
       "fingerprint": "372a7cefb6c83e55caf7",
       "gaps": [
         "missing-subject",
-        "missing-official",
-        "missing-second-independent-source"
-      ],
-      "priority": 52,
-      "status": "deferred",
-      "probes": [],
-      "candidateEvidence": [],
-      "attemptCount": 0,
-      "createdAt": "2026-09-07T01:56:22.000Z",
-      "nextAttemptAt": "2026-09-07T01:56:22.000Z",
-      "errors": [],
-      "auditNote": "本轮预算不足；没有执行探针，也没有改变候选事实状态。"
-    },
-    {
-      "id": "plan-be2dc18b98310b0812de",
-      "recordId": "verify-99af39bb286a5d",
-      "companyName": "Humanoid",
-      "eventKind": "公司商业",
-      "fingerprint": "d650d911a7daa32de9c8",
-      "gaps": [
         "missing-official",
         "missing-second-independent-source"
       ],
