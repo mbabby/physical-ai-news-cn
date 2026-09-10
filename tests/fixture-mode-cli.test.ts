@@ -199,6 +199,18 @@ test("fixture runner rejects an unrecognized root before creating publication pa
   }
 });
 
+for (const brand of ["物理 AI 进展解读", "Physical AI Explained", "物理 AI 公司竞争情报", "物理 AI 产业情报库"]) test(`fixture root recognizes approved or archived brand ${brand}`, async () => {
+  const root = await mkdtemp(join(tmpdir(), "physical-ai-fixture-brand-"));
+  try {
+    await fixtureCopy(root);
+    const path = join(root, "README.md");
+    const readme = await readFile(path, "utf8");
+    await writeFile(path, readme.replace(/物理 AI (?:公司竞争情报|产业情报库)|Physical AI 进展观察|物理 AI 进展解读|Physical AI Explained/g, brand));
+    await runFixtureGeneration(root);
+    assert.equal(JSON.parse(await readFile(join(root, "site/data/progress-explainers.json"), "utf8")).schemaVersion, 1);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test("fixture CLI rejects an unrecognized output root before acquiring a lock", async () => {
   const parent = await mkdtemp(join(tmpdir(), "physical-ai-unsafe-cli-root-"));
   const root = join(parent, "unrecognized");

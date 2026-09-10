@@ -655,6 +655,17 @@ test("complete daily Watchlist group preserves LKG bytes across the Stage 4 faul
       await writeFile(join(root, "site/data/progress-explainers.json"), "{not-json\n");
       return async () => runFixedGeneration(root);
     }, { status: "failed", code: "corrupt-progress-explainers" });
+    for (const value of [null, false, 0, ""]) {
+      await fault(`falsey-progress-explainers-${JSON.stringify(value)}`, async (root) => {
+        const path = join(root, "site/data/progress-explainers.json");
+        const bytes = JSON.stringify(value);
+        await writeFile(path, bytes);
+        return async () => {
+          try { return await runFixedGeneration(root); }
+          finally { assert.equal(await readFile(path, "utf8"), bytes, "corrupt prior artifact must not be overwritten"); }
+        };
+      }, { status: "failed", code: "corrupt-progress-explainers" });
+    }
     await fault("explainer-withdrawal-swap-failure", async (root) => {
       // This prior source no longer exists in the current canonical fixture.
       const path = join(root, "site/data/progress-explainers.json");

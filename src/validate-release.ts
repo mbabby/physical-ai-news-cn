@@ -478,8 +478,8 @@ export async function validateRelease(root = defaultRoot): Promise<void> {
     article: { ...record.article, publishedAt: new Date(record.article.publishedAt), fetchedAt: new Date(record.article.fetchedAt) },
   }));
   const progressExplainers = await readJsonStrict(join(root, "site/data/progress-explainers.json"), { optional: true, label: "进展解释器" });
-  if (progressExplainers || manifest.services.some((service) => service.component === "ProgressExplainers") || readme.includes("<!-- PROGRESS_EXPLAINERS:") || readme.includes("Physical AI 进展观察")) {
-    if (!progressExplainers) throw new Error("进展解释器公开工件缺失");
+  if (progressExplainers !== undefined || manifest.services.some((service) => service.component === "ProgressExplainers") || readme.includes("<!-- PROGRESS_EXPLAINERS:") || /物理 AI 进展解读|Physical AI Explained/.test(readme)) {
+    if (progressExplainers === undefined) throw new Error("进展解释器公开工件缺失");
     const sources = buildExplainerSources({ events: events.events, companies, researchRecords: hydratedResearch, researchDecisionCards: rankResearchDecisionCards(hydratedResearch, { now: new Date(manifest.startedAt) }), benchmarkResultLedger });
     validateProgressExplainersPublication({ artifact: progressExplainers, readme, sources, expectedGeneratedAt: manifest.startedAt });
   }

@@ -818,7 +818,7 @@ async function generateDaily(options: GenerateOptions): Promise<RunManifest> {
   let previousExplainers: ProgressExplainersArtifact | undefined;
   try {
     previousExplainers = await readJsonStrict<ProgressExplainersArtifact>(join(outputRoot, "site/data/progress-explainers.json"), { optional: true });
-    if (previousExplainers) validateProgressExplainersArtifact(previousExplainers);
+    if (previousExplainers !== undefined) validateProgressExplainersArtifact(previousExplainers);
   } catch (error) {
     throw new DailyGenerationError("corrupt-progress-explainers", "进展解释器历史状态损坏；已停止发布并保留上一版。", { cause: error });
   }
@@ -1648,7 +1648,7 @@ async function assertFixtureRoot(outputRoot: string): Promise<void> {
       readJsonStrict<unknown>(join(outputRoot, "events", "companies.json")),
       readJsonStrict<unknown>(join(outputRoot, "metrics", "community.json")),
     ]);
-    if (!/物理 AI (?:公司竞争情报|产业情报库)|Physical AI 进展观察/.test(readme) || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
+    if (!/物理 AI (?:公司竞争情报|产业情报库|进展解读)|Physical AI Explained/.test(readme) || !Array.isArray(companies) || !isObject(metrics)) throw new Error("unrecognized fixture root");
   } catch (error) {
     throw new Error(`fixture root is not a recognized Physical AI publication checkout: ${outputRoot}`, { cause: error });
   }

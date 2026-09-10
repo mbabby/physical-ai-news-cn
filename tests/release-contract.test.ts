@@ -71,6 +71,36 @@ test("new homepage requires matching explainer artifact and run clock", async ()
   } finally { await rm(target, { recursive: true, force: true }); }
 });
 
+test("legacy receipts cannot hide falsey explainer JSON or an approved new brand", async (t) => {
+  const target = await mkdtemp(join(tmpdir(), "explainer-legacy-guard-"));
+  try {
+    for (const path of [...FIXTURE_PATHS, "config"]) await cp(join(root, path), join(target, path), { recursive: true });
+    const artifactPath = join(target, "site/data/progress-explainers.json");
+    const readmePath = join(target, "README.md");
+    const originalReadme = (await readFile(readmePath, "utf8"))
+      .replace(/<!-- PROGRESS_EXPLAINERS:START -->[\s\S]*?<!-- PROGRESS_EXPLAINERS:END -->/, "")
+      .replace(/物理 AI 进展解读|Physical AI Explained/g, "物理 AI 公司竞争情报");
+    await writeFile(readmePath, originalReadme);
+    await rm(artifactPath, { force: true });
+    const manifestBytes = await readFile(join(target, "review/run-manifest.json"), "utf8");
+    assert.ok(!JSON.parse(manifestBytes).services.some((service: { component: string }) => service.component === "ProgressExplainers"), "legacy regression requires a pre-explainer receipt");
+    await validateRelease(target);
+    for (const value of [null, false, 0, ""]) await t.test(`rejects parsed ${JSON.stringify(value)}`, async () => {
+      const bytes = JSON.stringify(value);
+      await writeFile(artifactPath, bytes);
+      await assert.rejects(validateRelease(target), /explainer|解释器/);
+      assert.equal(await readFile(artifactPath, "utf8"), bytes);
+      assert.equal(await readFile(readmePath, "utf8"), originalReadme);
+      assert.equal(await readFile(join(target, "review/run-manifest.json"), "utf8"), manifestBytes);
+    });
+    await rm(artifactPath);
+    for (const brand of ["物理 AI 进展解读", "Physical AI Explained"]) await t.test(`requires artifact for ${brand}`, async () => {
+      await writeFile(readmePath, `# ${brand}\n${originalReadme}`);
+      await assert.rejects(validateRelease(target), /explainer|解释器/);
+    });
+  } finally { await rm(target, { recursive: true, force: true }); }
+});
+
 function decisionArtifact(): DecisionProductArtifact {
   const signal = (eventId: string, titleZh: string): DecisionProductArtifact["topSignals"][number] => ({
     signalId: stableDecisionId("signal", eventId), eventId, entityId: "company-alpha", entityName: "Alpha Robotics",
