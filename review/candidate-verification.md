@@ -158,7 +158,7 @@
 ## Lyte AI · 投融资 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 89
-- 尝试：2；下次复核 2026-09-10
+- 尝试：3；下次复核 2026-09-17
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：1.65亿美元（single-source） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/lyte-raises-165m-help-robots-better-sense-their-surroundings/)
@@ -536,7 +536,7 @@
 ## ON Semiconductor 拟 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 88
-- 尝试：2；下次复核 2026-09-10
+- 尝试：3；下次复核 2026-09-17
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMilAFBVV95cUxOSTZGaEVhaHhhTEtIdjFfcXdPcEhoT3dLcVVJd3F4WVVVMzltUFp3TDRESkhtYVE2X2ZNWURPbVc4YXFib09OS0drdlhpeFdqdm1uYjNQSk5BbUlZcHphNlV1VTFPQk9kS216dWpxUFJ5M2ZiZDJMMHRUS3dtY0hUMGFvejZndGl0Y0hPUEpscFpFOTdm?oc=5)
@@ -711,6 +711,15 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMiZkFVX3lxTE43TFo1NkJXWTV2ZVFETHBtQnVDdVZzNzlFY1UtUDdvbDJIY3hPMzVaVHpfd1lzdy1CX2p5RVd3dXJaM3FpT0xZOUVvWm9fX21YcUM1cnVJaHctdUQ3elJUc21UTjJyUQ?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
+## 人工智能初创公司 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 80
+- 尝试：1；下次复核 2026-09-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiqwFBVV95cUxPd0N3TjdvYWkwSnRQaXgzekZIZFk4cnVnMUJwN1E4QUhyLW5ZUG1lTW5neVYzZW1OYjJsWHJJMDFhRzlfREhZc1VOa3J1N0FCSzJacHBzVEVkcGtLLVFPWlpxdHNtT0ZjSlBoMWFmaFpSMFFPclNEbm1ybkd4TGJQdjF0WGl5ZHJjeFdEQVFjVGsySXRJZGFGbW9MTHdvZ29aMVFDa0wxUVdZNXM?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
 ## 星灿智能机器人 · 投融资 · 等待重试
@@ -959,8 +968,8 @@
 ## Humanoid · 投融资 · 等待重试
 
 - 公开等级：developing · 可信分 30 · 影响分 70
-- 尝试：2；下次复核 2026-09-10
-- 主动补证：发现新证据
+- 尝试：3；下次复核 2026-09-17
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMivwFBVV95cUxPc3NYcVd5VUJta29pcm5rZ1p1LWJ5LWp2RGFyNW52VllzTkRrMnBLRk5MT1hBc24xdjBKN0tCWnVndndyUXZQWE1ZOC1tYXFGTUcwR0RsU01TczE2cHZVdkxIWGFBb0o0Y2EyVE5FNkNpejBSUlY0LUlmaWhxLVF1Q1c1Q2x4THVuR0w5aVl5WHEtLWM5WjNMMTlCdnBiSG9aMFNVaGpaZGJ1bnNNU3lQSVhWSTlia1RNOU9PZGU0d9IBxAFBVV95cUxQclh3UFl4NzBJVGRyX1ZNa2tMX3h0Q1BSa3NhVGVOdTEtVm5XZzQtdWZ6LW1XOFdvdkI2UFZETlFHYkpMUXpnVVZYMWxBckU1cEZ1cmltUFEzd2ozejhlYzRIdkhLUnM1cFBDa2dvLTVvOC1jLXo5OEc0dHctellKTGcyUzJCY3RPTTFYY0tFQjZUTGRyTGU2WFg5ZjMtQmI5MVphelVNUUZ5RGd3blYybm9Xb0t5Z3NoN0xnT1lITHFLbmlT?oc=5) · [B · The Robot Report · 30分](https://www.therobotreport.com/unichem-acquires-loomia-accelerate-entry-humanoid-skin-market/)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源
@@ -1370,6 +1379,15 @@
 - 证据：[线索 · Google News · 中国具身融资 · 0分](https://news.google.com/rss/articles/CBMickFVX3lxTE1uMGk1MC15NDN3b1Zqa1NGSWRwSEpJeEV0cFhhck9sTzNHWGJNQjVXd09mUzZGektqSi0wejVQWnhjeHdZUGctb2U0VjlUclFtSEpEQ3NRVVBQTnlHblFwaDFMTXR0Mm5TQWZLTlVjVkhodw?oc=5)
 - 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
 
+## 沃尔瑟姆机器人公司 · 投融资 · 等待重试
+
+- 公开等级：candidate · 可信分 0 · 影响分 70
+- 尝试：1；下次复核 2026-09-11
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMipgFBVV95cUxNc2R1aHNWaV8tb3hzUXVJZFpwNHVvbkZRUHhoR1JldlFDOTZJbkt6VXFuczJwc3J4WGJPZmRuM3Z4ZDZIRFlvRktWbnlFVUdhNVZwQnJYUDhPTVQ3dHlhUWd3NnhEdHEtNTlwaTFrVFEybEp3WmpMMGJIV3lVTGN0bjZpX2dLUExEdlBCS0tKYzBiZEFnaGZxZFRTZ2pTZWNqcF9VcE9n?oc=5)
+- 结论：尚缺一条 A 级一手证据，或两个独立 B 级来源；现有材料全部来自线索发现层，不能作为公开证据
+
 ## 卧安机器人 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
@@ -1418,7 +1436,7 @@
 ## 优必选 · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：2；下次复核 2026-09-10
+- 尝试：3；下次复核 2026-09-17
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMilwFBVV95cUxOSWdtVWVYNHBaUUQwZXZteU51NHZYUGhTSHk5X1V1a2JwSWJIVDYyY19tUnFrVlRrVmpOSE4tQnhOSEdtdjUzcktaSHFDcjJxa0xKSTlBVjh2ajZkU29WSHJCRVNVRTU2ZUw3dkkwQzlFLU52LTAxX05xNFZnQ3ZhRFFwQVJJcDVsZWR6cl9IemdqSzdJYno0?oc=5)
@@ -1481,7 +1499,7 @@
 ## Kraken Robotics · 投融资 · 等待重试
 
 - 公开等级：candidate · 可信分 0 · 影响分 70
-- 尝试：2；下次复核 2026-09-10
+- 尝试：3；下次复核 2026-09-17
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[线索 · Google News · Robotics Capital · 0分](https://news.google.com/rss/articles/CBMiowFBVV95cUxPdWVCc2dmVllINWRWQzFVMEExZGZQX2lBSTZqTFh4S2plN1ctLVp5Wl92RFEzVURLdkphR0lhNnBhN05nSlBlUU1Ua05jQmNjN3pobEI3eTBVT1N0bEcxc05QTXBvTmRiYjN3UG9kVDUyQ2JzdmRoTVA1bU9SN1p5RjUzN21yNlVGd3MzalpyWmdDSU4ySmJFQWFLU3JCRERRd1lB?oc=5)
@@ -1683,6 +1701,15 @@
 - 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
 - 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
 - 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/inbolt-ceo-to-discuss-physical-ais-deployment-problem-at-robobusiness/)
+- 结论：无法唯一识别公司主体
+
+## 待识别公司 · 部署案例 · 已拒绝
+
+- 公开等级：candidate · 可信分 0 · 影响分 59
+- 尝试：1
+- 主动补证：未发现新证据（本轮已扫描补证目标，但未发现同主体、同事件且时间相近的新证据）
+- 事实：金额待确认（unknown） · 轮次待确认（unknown） · 日期待确认（unknown）
+- 证据：[B · The Robot Report · 30分](https://www.therobotreport.com/vention-opens-physical-ai-lab-manufacturing-montreal/)
 - 结论：无法唯一识别公司主体
 
 ## Serve Robotics 与 Grubhub 合作 · 部署案例 · 等待重试

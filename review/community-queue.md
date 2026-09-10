@@ -15,7 +15,6 @@
 
 ## 待补事件证据
 
-- [Analog Devices 再次成为 MassRobotics 战略赞助商以支持初创企业](https://www.therobotreport.com/analog-devices-returns-strategic-sponsor-aid-massrobotics-startups/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Hadrian融资13.7亿美元，加速美国国防与航空航天制造](https://www.therobotreport.com/hadrian-raises-1-37b-accelerate-u-s-manufacturing/) · 待公司主体确认：公司主体未确认；融资缺少一手或独立媒体交叉证据 · [提交补充证据](../../issues/new/choose)
 - [RoboStore 成立 Robo Inc.，助力美国机构部署机器人](https://www.therobotreport.com/robostore-launches-robo-inc-to-help-u-s-organizations-deploy-robots/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [Tate 在多个工厂部署 58 台 Hirebotics 协作焊接机器人](https://www.therobotreport.com/tate-deploys-58-hirebotics-cobot-welders-across-multiple-facilities/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
@@ -23,15 +22,16 @@
 - [PlusAI 在自动驾驶卡车发布前达成关键里程碑](https://www.therobotreport.com/plusai-reaches-key-milestones-ahead-launch-autonomous-trucks/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [网络研讨会探讨仓库机器人车队的安全与规模化部署](https://www.therobotreport.com/webinar-to-discuss-safety-scaling-robot-fleets-warehouse/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 - [从Agility的SPAC交易看机器人公司上市的多元路径](https://www.therobotreport.com/robots-on-wall-street-non-traditional-paths-public-markets-robotics-companies/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
+- [Protolabs 如何在 24 小时内将 CAD 文件制成零件](https://www.therobotreport.com/how-protolabs-turns-cad-files-into-parts-under-24-hours/) · 待公司主体确认：公司主体未确认 · [提交补充证据](../../issues/new/choose)
 
 ## 待评估信源
 
 - **github.com** · 连续成功 22 次 · 样例：[X402-trinity – kills the cloud server back end for local AI and robotics](https://github.com/devmster/x402-trinity) · [提交信源建议](../../issues/new/choose)
-- **beambots.dev** · 连续成功 3 次 · 样例：[Beam Bots – Resilient Robotics with Elixir](https://beambots.dev) · [提交信源建议](../../issues/new/choose)
-- **theverge.com** · 连续成功 8 次 · 样例：[GoPro acquired, getting into 'defense, government, robotics and aerospace'](https://www.theverge.com/news/987494/gopro-starman-holding-merger-aquisition) · [提交信源建议](../../issues/new/choose)
-- **secondthoughts.ai** · 连续成功 5 次 · 样例：[Reasons robotics is hard](https://secondthoughts.ai/p/14-reasons-robotics-is-hard) · [提交信源建议](../../issues/new/choose)
-- **spectrum.ieee.org** · 连续成功 5 次 · 样例：[NASA's Cargo-Moving Robotic Arm Named 300th IEEE Milestone](https://spectrum.ieee.org/canadarm-ieee-300th-milestone) · [提交信源建议](../../issues/new/choose)
-- **understandingai.org** · 连续成功 5 次 · 样例：[Why humanoid robots won't catch up to human workers any time soon](https://www.understandingai.org/p/why-humanoid-robots-wont-catch-up) · [提交信源建议](../../issues/new/choose)
+- **notesfrompoland.com** · 连续成功 2 次 · 样例：[Robots "protest" in Warsaw to demand regulation of AI and automation](https://notesfrompoland.com/2026/09/08/robots-protest-in-warsaw-to-demand-regulation-of-ai-and-automation/) · [提交信源建议](../../issues/new/choose)
+- **beambots.dev** · 连续成功 4 次 · 样例：[Beam Bots – Resilient Robotics with Elixir](https://beambots.dev) · [提交信源建议](../../issues/new/choose)
+- **theverge.com** · 连续成功 9 次 · 样例：[GoPro acquired, getting into 'defense, government, robotics and aerospace'](https://www.theverge.com/news/987494/gopro-starman-holding-merger-aquisition) · [提交信源建议](../../issues/new/choose)
+- **secondthoughts.ai** · 连续成功 6 次 · 样例：[Reasons robotics is hard](https://secondthoughts.ai/p/14-reasons-robotics-is-hard) · [提交信源建议](../../issues/new/choose)
+- **spectrum.ieee.org** · 连续成功 6 次 · 样例：[NASA's Cargo-Moving Robotic Arm Named 300th IEEE Milestone](https://spectrum.ieee.org/canadarm-ieee-300th-milestone) · [提交信源建议](../../issues/new/choose)
 
 ## 如何贡献
 

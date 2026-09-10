@@ -1,16 +1,16 @@
-# 运行状态 · 2026-09-09
+# 运行状态 · 2026-09-10
 
 本文件用于排错，不是公开资讯内容。不会记录密钥、请求正文或模型供应商凭据。
 
 ## 信源
 
-- 成功 · 本轮已启用信源均完成抓取。
+- 失败 · arXiv · Robotics：HTTP 429（请求频率受限）
 
 ## 服务
 
-- LLM · **部分降级** · 请求 8，成功 3，失败 5。有效完成 3；无效模型输出 0；提供方失败 5；缓存命中 1；industry、research 通道已熔断。
+- LLM · **部分降级** · 请求 12，成功 8，失败 2。有效完成 8；无效模型输出 2；提供方失败 2；缓存命中 2；research 通道已熔断。
 - OpenAlex · **部分降级** · 请求 36，成功 35，失败 1。部分论文元数据未能刷新，已保留原始来源数据。
-- Watchlist · **部分降级** · 请求 2，成功 0，失败 2。生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 2，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 2，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。
+- Watchlist · **部分降级** · 请求 2，成功 0，失败 2。生成 0 张新判断卡；保留 2 张上一有效版本；排除 2 家。 失败原因：validation:unsupported-sentence-claim@falsifiers.1 1，validation:unsupported-sentence-claim@falsifiers.2 2，validation:unsupported-sentence-claim@nextValidationPoints.0 1，validation:unsupported-sentence-claim@nextValidationPoints.1 1，validation:unsupported-sentence-claim@nextValidationPoints.2 1，validation:unsupported-sentence-claim@routeAndDependencies 2，validation:unsupported-sentence-claim@whyNow 1。
 - GitHub · **成功** · 请求 1，成功 1，失败 0。社区证据 Issue 快照已刷新并通过严格校验。
 - EvidenceRevalidation · **成功** · 请求 0，成功 0，失败 0。已采纳证据已完成受限复核；只有当前五项检查全部通过且匹配规范公开字段的记录可晋升。
 
