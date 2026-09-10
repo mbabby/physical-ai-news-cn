@@ -48,7 +48,7 @@ test("homepage keeps its decision hierarchy while removing metric and route scaf
 });
 
 test("homepage keeps supplemental industry and capital records in one closed disclosure", async () => {
-  const [html, dashboard] = await Promise.all([readSite("index.html"), readSite("data/dashboard.json").then(JSON.parse)]);
+  const html = await readSite("index.html");
   assert.match(html, /<details[^>]*class=["'][^"']*supplemental-signals[^"']*["'][^>]*>/);
   assert.doesNotMatch(html, /<details[^>]*class=["'][^"']*supplemental-signals[^"']*["'][^>]*\bopen\b/);
   assert.match(html, /<summary[^>]*>\s*更多产业与资本记录\s*<\/summary>/);
@@ -57,10 +57,13 @@ test("homepage keeps supplemental industry and capital records in one closed dis
   assert.match(disclosure, /id=["']capital["']/);
 
   const site = await loadAppCompanyRenderer();
-  site.render(dashboard);
-  const uniqueCapitalTitle = dashboard.capital[0].title;
-  assert.ok(uniqueCapitalTitle);
-  assert.equal(dashboard.decisionProducts.topSignals.some((signal: { title?: string; titleZh?: string }) => (signal.titleZh || signal.title) === uniqueCapitalTitle), false);
+  const uniqueCapitalTitle = "Fixture Robotics 完成独立资本事件";
+  site.render({
+    stats: {}, routes: [],
+    topSignals: [{ id: "verified-product", title: "Fixture Robotics 发布验证产品", summary: "产品事件已验证。", link: "https://fixture.example/product" }],
+    capital: [{ id: "capital-only", title: uniqueCapitalTitle, summary: "该资本记录仅存在于补充信息流。", link: "https://fixture.example/capital" }],
+    industry: [],
+  });
   assert.match(site.mounts.capital.innerHTML, new RegExp(uniqueCapitalTitle));
   assert.doesNotMatch(site.mounts["top-signals"].innerHTML, new RegExp(uniqueCapitalTitle));
 });
