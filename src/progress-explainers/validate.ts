@@ -1,4 +1,5 @@
 import type { ExplainerDraft, ExplainerSource, ProgressExplainersArtifact } from "./contracts.js";
+import { explainerReasonLabels } from "./contracts.js";
 import { narrativeKeys } from "./draft.js";
 
 const ID = /^[a-z0-9][a-z0-9:._-]*$/i;
@@ -64,8 +65,10 @@ export function reviewApproved(value: unknown, draft: ExplainerDraft): boolean {
 }
 
 export function validateProgressExplainersArtifact(value: unknown): asserts value is ProgressExplainersArtifact {
-  if (!exact(value, ["schemaVersion", "generatedAt", "lastContentUpdatedAt", "checkedAt", "status", "cards"])) throw new Error("explainer artifact schema");
+  const hasReason = value !== null && typeof value === "object" && Object.hasOwn(value, "reason");
+  if (!exact(value, ["schemaVersion", "generatedAt", "lastContentUpdatedAt", "checkedAt", "status", "cards", ...(hasReason ? ["reason"] : [])])) throw new Error("explainer artifact schema");
   const artifact = value as ProgressExplainersArtifact;
+  if (hasReason && (typeof artifact.reason !== "string" || !Object.hasOwn(explainerReasonLabels, artifact.reason))) throw new Error("explainer reason schema");
   if (artifact.schemaVersion !== 1 || !operationalDate(artifact.generatedAt) || !operationalDate(artifact.checkedAt) || (artifact.lastContentUpdatedAt !== null && !operationalDate(artifact.lastContentUpdatedAt)) || !STATUS.has(artifact.status) || !Array.isArray(artifact.cards) || artifact.cards.length > 3) throw new Error("explainer artifact schema");
   const ids = new Set<string>();
   const canonicalIds = new Set<string>();

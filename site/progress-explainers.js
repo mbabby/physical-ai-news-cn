@@ -1,6 +1,7 @@
 // Presentation only: identity, order and copy come from the published artifact.
 const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const labels = { updated: "有新解读", "no-new-content": "本轮无新内容", constrained: "本轮受限", unavailable: "暂不可用" };
+const reasons = { timeout: "生成请求超时", auth: "生成服务鉴权失败", quota: "生成服务配额受限", provider: "生成服务请求失败", validation: "草稿未通过内容校验", "no-recent-sources": "没有符合时间范围的可用材料", "model-not-configured": "解读生成服务未配置", upstream: "上游服务或证据受限" };
 const plain = (v) => typeof v === "string" && v.trim().length > 0;
 const chinese = (v) => plain(v) && /[\u3400-\u9fff]/u.test(v);
 const array = (v, predicate) => Array.isArray(v) && v.every(predicate);
@@ -38,7 +39,9 @@ function validCard(card, checkedAt) {
 }
 
 function validArtifact(a) {
-  return exact(a, ["schemaVersion", "generatedAt", "lastContentUpdatedAt", "checkedAt", "status", "cards"])
+  const hasReason = a != null && typeof a === "object" && Object.hasOwn(a, "reason");
+  return exact(a, ["schemaVersion", "generatedAt", "lastContentUpdatedAt", "checkedAt", "status", "cards", ...(hasReason ? ["reason"] : [])])
+    && (!hasReason || typeof a.reason === "string" && Object.hasOwn(reasons, a.reason))
     && a.schemaVersion === 1 && Object.hasOwn(labels, a.status) && clock(a.checkedAt) && a.generatedAt === a.checkedAt
     && (a.lastContentUpdatedAt === null || (clock(a.lastContentUpdatedAt) && Date.parse(a.lastContentUpdatedAt) <= Date.parse(a.checkedAt)))
     && array(a.cards, (c) => validCard(c, a.checkedAt)) && a.cards.length <= 3
@@ -66,6 +69,7 @@ function cardHtml(card) {
 export function renderProgressExplainers(artifact) {
   if (!validArtifact(artifact)) return '<p class="explainer-status" data-status="unavailable">解读暂不可用：加载失败或数据未通过校验；检查时间未知。</p>';
   const explanations = { updated: "本轮发布了新的解读。", "no-new-content": "本轮没有可发布的新内容；已有解读保留原有时间。", constrained: "本轮生成或上游证据受限；仅展示仍然有效的已发布解读。", unavailable: "当前无法提供新的合格解读，不以新闻候选补位。" };
+  if (artifact.reason) explanations[artifact.status] = `${reasons[artifact.reason]}；仅展示通过校验的内容。`;
   return `<p class="explainer-status" data-status="${artifact.status}">${labels[artifact.status]}：${explanations[artifact.status]} 内容更新：${artifact.lastContentUpdatedAt ? time(artifact.lastContentUpdatedAt) : "尚未生成"}；<span class="explainer-check">最近检查：${time(artifact.checkedAt)}</span></p>${artifact.cards.map(cardHtml).join("")}`;
 }
 

@@ -1,8 +1,25 @@
 import { createHash } from "node:crypto";
 import { HttpRequestError } from "../runtime/http.js";
-import type { ExplainerModel, ExplainerRunReport, ExplainerSource, ProgressExplainerCard, ProgressExplainersArtifact } from "./contracts.js";
+import type { ExplainerModel, ExplainerReason, ExplainerRunReport, ExplainerSource, ProgressExplainerCard, ProgressExplainersArtifact } from "./contracts.js";
 import { requestDraft, reviewDraft } from "./draft.js";
 import { reviewApproved, validateDraft, validateProgressExplainersArtifact } from "./validate.js";
+import { explainerReasonLabels } from "./contracts.js";
+import type { RuntimeStatus } from "../types.js";
+
+export function reportExplainerStatus(result: { artifact: ProgressExplainersArtifact; report: ExplainerRunReport }): RuntimeStatus {
+  const { artifact, report: run } = result;
+  const failed = run.failed + run.timedOut;
+  const rejected = run.structureRejected + run.evidenceRejected + run.semanticRejected;
+  const detail = `${!artifact.cards.length && (failed || rejected) ? "核心解读不可用；" : ""}状态：${artifact.status}；公开 ${artifact.cards.length} 张；保留 ${run.retained} 张；移除 ${run.removed} 张；校验拒绝 ${rejected} 张；超时 ${run.timedOut} 次${artifact.reason ? `；原因：${explainerReasonLabels[artifact.reason]}` : ""}。`;
+  return { component: "ProgressExplainers", status: ["constrained", "unavailable"].includes(artifact.status) || failed || rejected ? "部分降级" : "成功", attempted: run.requestsSucceeded + failed, succeeded: run.requestsSucceeded, failed, detail };
+}
+
+export function warnExplainerStatus(status: RuntimeStatus | undefined, warn: (message: string) => void = console.warn): void {
+  if (status?.component === "ProgressExplainers" && status.status !== "成功") {
+    const safeDetail = status.detail.replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
+    warn(`::warning title=ProgressExplainers::${safeDetail}`);
+  }
+}
 
 const DAY_MS = 86_400_000;
 const MAX_CARDS = 3;
@@ -50,12 +67,14 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
   const retainedCards = retainable.map((source) => ({ ...previous.get(source.canonicalId)!, checkedAt, historical: !inLookback(source, input.now) }));
   const reviewedCards: ProgressExplainerCard[] = [];
   let circuitOpen = false;
+  let reason: ExplainerReason | undefined;
 
   for (const source of selected) {
     if (circuitOpen) break;
     if (!input.model) {
       run.failed += 1;
-      continue;
+      reason = "model-not-configured";
+      break;
     }
     try {
       const raw = await requestDraft(input.model, source);
@@ -76,7 +95,11 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
     } catch (error) {
       if (timeout(error)) run.timedOut += 1;
       else run.failed += 1;
-      circuitOpen = true;
+      const transport = error instanceof HttpRequestError ? error : error instanceof Error && error.cause instanceof HttpRequestError ? error.cause : undefined;
+      reason = transport?.kind === "timeout" ? "timeout" : transport?.kind === "auth" ? "auth" : transport?.kind === "payment_required" ? "quota" : "provider";
+      // The adapter already retries each transport request once. Do not
+      // multiply that retry loop here; allow one other candidate to recover.
+      circuitOpen = !transport?.retryable || run.failed + run.timedOut >= 2;
     }
   }
 
@@ -91,7 +114,8 @@ export async function buildProgressExplainers(input: { sources: ExplainerSource[
   else if (!cards.length && (!input.sources.length || run.failed || run.timedOut)) status = "unavailable";
   else if (input.upstreamConstrained || run.failed || run.timedOut) status = "constrained";
   else status = "no-new-content";
-  const artifact: ProgressExplainersArtifact = { schemaVersion: 1, generatedAt: checkedAt, lastContentUpdatedAt: changed ? checkedAt : input.previous?.lastContentUpdatedAt ?? null, checkedAt, status, cards };
+  reason ??= run.structureRejected + run.evidenceRejected + run.semanticRejected > 0 ? "validation" : input.upstreamConstrained ? "upstream" : !cards.length && !selected.length ? "no-recent-sources" : undefined;
+  const artifact: ProgressExplainersArtifact = { schemaVersion: 1, generatedAt: checkedAt, lastContentUpdatedAt: changed ? checkedAt : input.previous?.lastContentUpdatedAt ?? null, checkedAt, status, ...(reason ? { reason } : {}), cards };
   validateProgressExplainersArtifact(artifact);
   return { artifact, report: run };
 }
